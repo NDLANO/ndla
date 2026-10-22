@@ -6,10 +6,10 @@
  *
  */
 
+import { matchLeaf, toRouteObjects } from "@ndla/shared/routes/testUtils";
 import { matchPath } from "react-router";
 import { authenticatedRoutes, flattenedRoutes, flattenRoutes, privateRoutes } from "../routePaths";
 import routeConfig from "../routes";
-import { matchLeaf, toRouteObjects } from "./routeTestUtils";
 
 const routes = toRouteObjects(routeConfig);
 

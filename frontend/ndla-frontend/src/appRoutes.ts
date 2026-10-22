@@ -6,15 +6,13 @@
  *
  */
 
+import type { AppRoute as BaseAppRoute } from "@ndla/shared/routes";
+
 /**
  * A route in the main app. `routes.ts` turns this tree into the React Router route config, and
  * `routePaths.ts` flattens it into the path patterns the server uses for caching and auth.
  */
-export interface AppRoute {
-  path?: string;
-  index?: boolean;
-  /** Route module, relative to `src`. A route without one only prefixes its children with `path`. */
-  file?: string;
+export interface AppRoute extends BaseAppRoute {
   /** Never cache the response. Inherited by all children. */
   private?: boolean;
   /** Redirect to login without an active session. Inherited by all children, and implies `private`. */

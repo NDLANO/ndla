@@ -6,10 +6,11 @@
  *
  */
 
-import { type AppRoute, routes as appRoutes } from "../appRoutes";
+import type { AppRoute } from "@ndla/shared/routes";
+import { leafOf, toRouteObjects } from "@ndla/shared/routes/testUtils";
+import { routes as appRoutes } from "../appRoutes";
 import { LocaleValues } from "../localeRoutes";
 import routeConfig from "../routes";
-import { leafOf, toRouteObjects } from "./routeTestUtils";
 
 /** The route tree without locale prefixes, which every locale branch is generated from. */
 const unprefixedRoutes = toRouteObjects(appRoutes);
