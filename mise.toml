@@ -1,6 +1,6 @@
 [tools]
 java = "temurin-25"
-node = "24.21"
+node = "24.22"
 pnpm = "12.11.2"
 
 [tasks.dev]
