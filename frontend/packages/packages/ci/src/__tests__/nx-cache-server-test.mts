@@ -195,7 +195,7 @@ console.log("building app");
     const githubEnv = join(dir, "github-env");
     const log = join(dir, "nx-cache-server.log");
     await run(process.execPath, [script, "start"], {
-      env: { ...withoutNx(), NX_CACHE_STORE: store, GITHUB_ENV: githubEnv, RUNNER_TEMP: dir },
+      env: { ...withoutNx(), NX_CACHE_STORE: store, GITHUB_ENV: githubEnv, GITHUB_STEP_SUMMARY: "", RUNNER_TEMP: dir },
     });
     pids.push(Number(/\(pid (\d+)\)/.exec(await readFile(log, "utf8"))?.[1]));
     const exported = Object.fromEntries(
