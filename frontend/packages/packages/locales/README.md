@@ -11,9 +11,9 @@ pnpm add @ndla/locales
 ## Usage
 
 ```ts
+import { translationsEN, translationsNB, translationsNN, translationsSE } from "@ndla/ui";
 import { createInstance } from "i18next";
 import { initReactI18next } from "react-i18next";
-import { translationsEN, translationsNB, translationsNN, translationsSE } from "@ndla/ui";
 
 const i18nInstanceWithTranslations = createInstance().use(initReactI18next);
 
