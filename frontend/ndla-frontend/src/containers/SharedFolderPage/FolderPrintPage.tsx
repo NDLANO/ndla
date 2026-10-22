@@ -221,7 +221,7 @@ const FolderPrint = ({ folder }: FolderPrintProps) => {
   const emailTemplate = useMemo(
     () =>
       `mailto:hjelp@ndla.no?subject=${t("folderPrintPage.emailSubject")}&body=${t("folderPrintPage.emailBody", { url: location.toString(), description: subtitle, interpolation: { escapeValue: false } })}`,
-    [t, location, subtitle],
+    [t, subtitle],
   );
 
   return (
