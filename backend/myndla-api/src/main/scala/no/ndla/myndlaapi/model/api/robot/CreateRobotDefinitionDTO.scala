@@ -14,7 +14,7 @@ import no.ndla.myndlaapi.model.domain.RobotStatus
 import sttp.tapir.Schema.annotations.description
 
 @description("DTO for creating a new robot definition")
-case class CreateRobotDefinitionDTO(status: RobotStatus, configuration: RobotConfigurationDTO)
+case class CreateRobotDefinitionDTO(status: Option[RobotStatus], configuration: RobotConfigurationDTO)
 
 object CreateRobotDefinitionDTO {
   implicit val encoder: Encoder[CreateRobotDefinitionDTO] = deriveEncoder[CreateRobotDefinitionDTO]

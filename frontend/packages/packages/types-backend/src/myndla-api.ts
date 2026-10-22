@@ -731,11 +731,7 @@ export type paths = {
          * @description Get single robot definition
          */
         get: operations["getMyndla-apiV1RobotsRobot-id"];
-        /**
-         * Update a robot definition
-         * @description Update a robot definition
-         */
-        put: operations["putMyndla-apiV1RobotsRobot-id"];
+        put?: never;
         post?: never;
         /**
          * Delete a robot definition
@@ -744,7 +740,11 @@ export type paths = {
         delete: operations["deleteMyndla-apiV1RobotsRobot-id"];
         options?: never;
         head?: never;
-        patch?: never;
+        /**
+         * Update a robot definition
+         * @description Update a robot definition
+         */
+        patch: operations["patchMyndla-apiV1RobotsRobot-id"];
         trace?: never;
     };
     "/myndla-api/v1/robots/{robot-id}/{robot-status}": {
@@ -1075,7 +1075,7 @@ export type components = {
          * @description DTO for creating a new robot definition
          */
         CreateRobotDefinitionDTO: {
-            status: components["schemas"]["RobotStatus"];
+            status?: components["schemas"]["RobotStatus"];
             /** @description DTO for robot configuration */
             configuration: components["schemas"]["RobotConfigurationDTO"];
         };
@@ -4760,7 +4760,7 @@ export interface operations {
             };
         };
     };
-    "putMyndla-apiV1RobotsRobot-id": {
+    "deleteMyndla-apiV1RobotsRobot-id": {
         parameters: {
             query?: never;
             header?: never;
@@ -4769,19 +4769,13 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateRobotDefinitionDTO"];
-            };
-        };
+        requestBody?: never;
         responses: {
-            200: {
+            204: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content: {
-                    "application/json": components["schemas"]["RobotDefinitionDTO"];
-                };
+                content?: never;
             };
             400: {
                 headers: {
@@ -4825,7 +4819,7 @@ export interface operations {
             };
         };
     };
-    "deleteMyndla-apiV1RobotsRobot-id": {
+    "patchMyndla-apiV1RobotsRobot-id": {
         parameters: {
             query?: never;
             header?: never;
@@ -4834,13 +4828,19 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateRobotDefinitionDTO"];
+            };
+        };
         responses: {
-            204: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["RobotDefinitionDTO"];
+                };
             };
             400: {
                 headers: {
