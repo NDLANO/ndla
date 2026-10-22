@@ -12,8 +12,3 @@ export const LocaleValues = ["nb", "nn", "en"] as const;
 
 /** The app is registered once without a locale prefix, and once below each supported locale. */
 export const localePrefixes: PathLocale[] = ["", ...LocaleValues];
-
-export const prefixPath = (lang: PathLocale, path: string | undefined): string | undefined => {
-  if (!lang) return path;
-  return path && path !== "/" ? `/${lang}/${path.replace(/^\//, "")}` : `/${lang}`;
-};

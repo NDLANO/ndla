@@ -24,6 +24,13 @@
     "./instrumentation": {
       "ndla-source": "./src/instrumentation.ts"
     },
+    "./routes": {
+      "ndla-source": "./src/routes/index.ts",
+      "default": "./src/routes/index.ts"
+    },
+    "./routes/testUtils": {
+      "ndla-source": "./src/routes/testUtils.ts"
+    },
     "./sentry": {
       "ndla-source": "./src/sentry.ts"
     },
@@ -39,15 +46,18 @@
     "@opentelemetry/exporter-trace-otlp-proto": "catalog:",
     "@opentelemetry/sdk-node": "catalog:",
     "@prometheus-io/client": "^0.16.1",
+    "@react-router/dev": "catalog:",
     "@sentry/react": "catalog:",
     "express": "catalog:",
     "openapi-fetch": "catalog:",
     "openapi-typescript-helpers": "catalog:",
     "openid-client": "catalog:",
-    "path-to-regexp": "^8.4.2"
+    "path-to-regexp": "^8.4.2",
+    "react-router": "catalog:"
   },
   "devDependencies": {
     "@types/express": "catalog:",
+    "typescript": "catalog:",
     "vite": "catalog:",
     "vite-node": "catalog:",
     "vitest": "catalog:"

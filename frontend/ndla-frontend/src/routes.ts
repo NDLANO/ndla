@@ -6,43 +6,9 @@
  *
  */
 
-import { index, prefix, route, type RouteConfig, type RouteConfigEntry } from "@react-router/dev/routes";
-import { type AppRoute, routes as appRoutes, standaloneRoutes } from "./appRoutes";
-import { localePrefixes, prefixPath } from "./localeRoutes";
+import { createRouteConfig } from "@ndla/shared/routes";
+import type { RouteConfig } from "@react-router/dev/routes";
+import { routes, standaloneRoutes } from "./appRoutes";
+import { LocaleValues } from "./constants";
 
-const usedIds = new Set<string>();
-
-/**
- * Route ids must be unique, but every locale branch registers the same files, and some files are
- * registered more than once within a branch. The full path tells those apart.
- */
-const createRouteId = (lang: string, file: string, fullPath: string) => {
-  const id = `${lang ? `${lang}:` : ""}${file.replace(/\.tsx?$/, "")}`;
-  const uniqueId = usedIds.has(id) ? `${id}@${fullPath}` : id;
-  usedIds.add(uniqueId);
-  return uniqueId;
-};
-
-const joinPath = (parent: string, child: string | undefined) =>
-  child ? `${parent.replace(/\/$/, "")}/${child.replace(/^\//, "")}` : parent;
-
-const toRouteConfig = (routes: AppRoute[], lang: string, parentPath = ""): RouteConfigEntry[] =>
-  routes.flatMap((appRoute) => {
-    const fullPath = joinPath(parentPath, appRoute.path);
-    const children = appRoute.children ? toRouteConfig(appRoute.children, lang, fullPath) : undefined;
-    if (!appRoute.file) {
-      return prefix(appRoute.path ?? "", children ?? []);
-    }
-    const id = createRouteId(lang, appRoute.file, fullPath);
-    return appRoute.index ? index(appRoute.file, { id }) : route(appRoute.path, appRoute.file, { id }, children);
-  });
-
-/** The locale prefix is matched case-sensitively, since the rest of the app only recognizes it in lowercase. */
-const localeRoutes = localePrefixes.flatMap((lang) =>
-  toRouteConfig(
-    appRoutes.map((appRoute) => ({ ...appRoute, path: prefixPath(lang, appRoute.path) })),
-    lang,
-  ).map((entry): RouteConfigEntry => ({ ...entry, caseSensitive: !!lang })),
-);
-
-export default [...localeRoutes, ...toRouteConfig(standaloneRoutes, "")] satisfies RouteConfig;
+export default createRouteConfig({ locales: LocaleValues, routes, standaloneRoutes }) satisfies RouteConfig;
