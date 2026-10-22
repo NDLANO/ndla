@@ -35,7 +35,6 @@ import { unsupportedPlugin } from "../../components/SlateEditor/plugins/unsuppor
 import RichTextEditor from "../../components/SlateEditor/RichTextEditor";
 
 interface Props {
-  maxLength?: number;
   name?: string;
   type?: string;
   hideToolbar?: boolean;
@@ -85,7 +84,7 @@ const configuredToolbarPlugin = toolbarPlugin.configure({
   options: { options: toolbarOptions },
 });
 
-const TitleField = ({ maxLength = 256, name = "title", hideToolbar }: Props) => {
+const TitleField = ({ name = "title", hideToolbar }: Props) => {
   const { t } = useTranslation();
   const plugins = useMemo(() => {
     if (hideToolbar) return basePlugins;
@@ -107,7 +106,6 @@ const TitleField = ({ maxLength = 256, name = "title", hideToolbar }: Props) => 
             data-testid="learning-resource-title"
             plugins={plugins}
             onChange={helpers.setValue}
-            maxLength={maxLength}
             hideToolbar={hideToolbar}
             renderInvalidElement={(props) => <UnsupportedElement {...props} />}
           />

@@ -114,11 +114,11 @@ catalog:
   react-router: ^8.4.0
   serialize-javascript: ^7.1.2
   sirv: ^3.0.2
-  slate: ^0.126.2
-  slate-dom: ^0.126.0
-  slate-history: ^0.113.1
-  slate-hyperscript: ^0.127.0
-  slate-react: ^0.127.1
+  slate: ^0.146.0
+  slate-dom: ^0.146.1
+  slate-history: ^0.144.0
+  slate-hyperscript: ^0.138.3
+  slate-react: ^0.146.1
   storybook: ^10.6.2
   svgo: ^4.1.0
   tsdown: ^0.23.1

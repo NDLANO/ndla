@@ -189,7 +189,6 @@ const CampaignBlockForm = ({ initialData, onSave }: Props) => {
                 </ContentEditableFieldLabel>
                 <InlineField
                   {...field}
-                  maxLength={250}
                   placeholder={t("form.name.description")}
                   submitted={isSubmitting}
                   onChange={helpers.setValue}
