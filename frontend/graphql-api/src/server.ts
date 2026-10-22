@@ -32,6 +32,7 @@ import { getContextOrThrow } from "./utils/context/contextStore";
 import { gracefulShutdown } from "./utils/gracefulShutdown";
 import { getLogLevelFromStatusCode, getLogger, logError } from "./utils/logger";
 import loggerMiddleware from "./utils/loggerMiddleware";
+import { operationSpanPlugin } from "./utils/operationSpanPlugin";
 
 const GRAPHQL_PORT = port;
 
@@ -92,7 +93,7 @@ async function startApolloServer(): Promise<void> {
     allowBatchedHttpRequests: true,
     includeStacktraceInErrorResponses: true,
     stopOnTerminationSignals: false,
-    plugins: [ApolloServerPluginDrainHttpServer({ httpServer, stopGracePeriodMillis })],
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer, stopGracePeriodMillis }), operationSpanPlugin],
     formatError(err, originalError) {
       const cause = unwrapResolverError(originalError);
       const apiExtensions = getExtensions(cause);
