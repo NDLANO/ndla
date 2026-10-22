@@ -7,6 +7,7 @@
  */
 
 import { CheckboxIndicator } from "@ark-ui/react/checkbox";
+import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { CheckLine } from "@ndla/icons";
 import {
   Button,
@@ -37,7 +38,6 @@ import InlineImageSearch from "../../../../containers/ConceptPage/components/Inl
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { isFormikFormDirty } from "../../../../util/formHelper";
-import { ContentEditableFieldLabel } from "../../../Form/ContentEditableFieldLabel";
 import { FormRemainingCharacters } from "../../../Form/FormRemainingCharacters";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";

@@ -6,6 +6,7 @@
  *
  */
 
+import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import {
   Button,
   FieldInput,
@@ -28,7 +29,6 @@ import { inlineContentToEditorValue } from "../../../../util/articleContentConve
 import { isFormikFormDirty } from "../../../../util/formHelper";
 import { addBrightCoveTimeStampVideoid, getBrightCoveStartTime } from "../../../../util/videoUtil";
 import { DialogCloseButton } from "../../../DialogCloseButton";
-import { ContentEditableFieldLabel } from "../../../Form/ContentEditableFieldLabel";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { type RulesType } from "../../../formikValidationSchema";
