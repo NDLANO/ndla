@@ -1,6 +1,6 @@
 # NDLA frontend packages
 
-Packages used to build UIs at NDLA.
+Packages used to build UIs at NDLA. Their Storybook lives in [`design-manual`](../design-manual).
 
 ## Publishing
 

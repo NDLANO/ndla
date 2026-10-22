@@ -17,14 +17,12 @@
   "scripts": {
     "lint:oxlint": "oxlint --deny-warnings -c ../oxlint.config.ts .",
     "lint:es": "eslint --max-warnings=0 --no-inline-config --no-error-on-unmatched-pattern .",
-    "build": "pnpm exec storybook build",
     "type-check": "tsc --noEmit",
     "watch:types": "tsc --noEmit -w --preserveWatchOutput",
     "test": "vitest --run",
     "clean": "rm -rf ./packages/*/dist ./packages/*/es ./packages/*/lib",
     "publish": "pnpm run clean && pnpm run packages-only -t build build:types build:panda --skip-nx-cache && lerna publish",
     "packages-only": "nx run-many --exclude=ndla-frontend,editorial-frontend,graphql-api",
-    "dev": "storybook dev -p 6006 --no-open",
     "check-translations": "vitest --run packages/locales/src/__tests__/",
     "generate:icons": "node ./scripts/createTsIconComponents.mts"
   },
@@ -50,12 +48,7 @@
     "@ndla/ui": "workspace:^",
     "@ndla/util": "workspace:^",
     "@ndla/video-search": "workspace:^",
-    "@pandacss/dev": "catalog:",
-    "@storybook/addon-a11y": "catalog:",
-    "@storybook/addon-docs": "catalog:",
-    "@storybook/addon-links": "catalog:",
     "@storybook/react": "catalog:",
-    "@storybook/react-vite": "catalog:",
     "@testing-library/dom": "catalog:",
     "@testing-library/react": "catalog:",
     "@types/react": "catalog:",
@@ -73,7 +66,6 @@
     "react-dom": "catalog:",
     "react-i18next": "catalog:",
     "react-router": "catalog:",
-    "storybook": "catalog:",
     "svgo": "catalog:",
     "tsdown": "catalog:",
     "typescript": "catalog:",
@@ -95,12 +87,7 @@
       ]
     },
     "targets": {
-      "lint": {},
-      "build": {
-        "outputs": [
-          "{projectRoot}/storybook-static"
-        ]
-      }
+      "lint": {}
     }
   }
 }

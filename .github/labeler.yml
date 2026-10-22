@@ -105,3 +105,7 @@ ndla-frontend:
 api-documentation:
   - changed-files:
       - any-glob-to-any-file: "frontend/api-documentation/**"
+
+design-manual:
+  - changed-files:
+      - any-glob-to-any-file: "frontend/design-manual/**"

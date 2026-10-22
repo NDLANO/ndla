@@ -10,7 +10,7 @@ import type { Preview } from "@storybook/react";
 import { I18nextProvider } from "react-i18next";
 import { BrowserRouter } from "react-router";
 import "./styles.css";
-import { i18nInstance } from "../testUtils/i18nTestInstance";
+import { i18nInstance } from "../../packages/testUtils/i18nTestInstance";
 
 const viewports = {
   small: {

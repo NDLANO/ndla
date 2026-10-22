@@ -49,8 +49,9 @@ const nxProjects = (script: string): string[] =>
     .flatMap((pkg) => (pkg.name !== undefined && pkg.scripts?.[script] !== undefined ? [pkg.name] : []))
     .sort();
 
-/** `dev` only runs apps and services, the other tasks handle libraries too */
-export const frontendProjects = (scope: string): string[] => nxProjects(scope === "dev" ? "dev" : "test");
+/** `dev` only runs apps and services, `check` also takes projects without tests, the other tasks handle libraries too */
+export const frontendProjects = (scope: string): string[] =>
+  nxProjects(scope === "dev" ? "dev" : scope === "check" ? "type-check" : "test");
 export const backendProjects = (scope: string): string[] => (scope === "dev" ? services() : testable());
 
 /** Sends `project` to mill or to nx, whichever half of the repo it lives in. */

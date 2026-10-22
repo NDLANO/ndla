@@ -132,7 +132,7 @@ jobs:
             alias: ndla-frontend-master.vercel.app
           - project: editorial-frontend
             alias: editorial-frontend-master.vercel.app
-          - project: frontend-packages
+          - project: design-manual
             alias: designmanual.ndla.no
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7

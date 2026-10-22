@@ -170,7 +170,7 @@
       "{workspaceRoot}/packages/tsconfig.json",
       "{workspaceRoot}/packages/tsconfig.build.json",
       "{workspaceRoot}/packages/tsdown.config.mts",
-      "{workspaceRoot}/packages/panda.config.ts"
+      "{workspaceRoot}/design-manual/panda.config.ts"
     ],
     "workspaceRootScripts": [
       "{workspaceRoot}/*.{ts,mts,cts,tsx,js,mjs,cjs,jsx}",
