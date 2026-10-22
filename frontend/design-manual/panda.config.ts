@@ -7,7 +7,7 @@
  */
 
 import { defineConfig } from "@pandacss/dev";
-import preset from "./packages/preset-panda/src/";
+import preset from "../packages/packages/preset-panda/src/";
 
 export default defineConfig({
   presets: [preset],
@@ -16,10 +16,10 @@ export default defineConfig({
   strictPropertyValues: true,
   shorthands: false,
   outExtension: "js",
-  // Scoped to src/ so the glob cannot descend into packages/*/node_modules, where
+  // Scoped to src/ so the glob cannot descend into packages/packages/*/node_modules, where
   // pnpm symlinks every @ndla sibling -- following those multiplies the file set ~68x.
-  include: ["./packages/*/src/**/*.{js,jsx,ts,tsx}", "./stories/**/*.{js,jsx,ts,tsx}"],
-  exclude: ["./packages/*/src/**/*-test.{js,jsx,ts,tsx}"],
+  include: ["../packages/packages/*/src/**/*.{js,jsx,ts,tsx}", "./stories/**/*.{js,jsx,ts,tsx}"],
+  exclude: ["../packages/packages/*/src/**/*-test.{js,jsx,ts,tsx}"],
   syntax: "object-literal",
   jsxFramework: "react",
 });

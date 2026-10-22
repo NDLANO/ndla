@@ -1,0 +1,4 @@
+storybook-static/
+styled-system/*
+tsconfig.tsbuildinfo
+.vercel

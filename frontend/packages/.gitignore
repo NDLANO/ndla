@@ -5,7 +5,6 @@ node_modules
 es/
 lib/
 dist/
-storybook-static/
 .DS_Store
 *.iml
 tsconfig.build.tsbuildinfo
@@ -17,7 +16,5 @@ packages/*/.vscode
 *.code-workspace
 .cache
 .vscode
-.vercel
-styled-system/*
 .nx/cache
 .nx/workspace-data

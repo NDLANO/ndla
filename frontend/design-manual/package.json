@@ -1,0 +1,88 @@
+{
+  "name": "design-manual",
+  "private": true,
+  "description": "Storybook for the NDLA frontend packages (designmanual.ndla.no)",
+  "homepage": "https://github.com/NDLANO/ndla",
+  "bugs": {
+    "url": "https://github.com/NDLANO/ndla/issues"
+  },
+  "license": "GPL-3.0",
+  "author": "ndla@knowit.no",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NDLANO/ndla.git",
+    "directory": "frontend/design-manual"
+  },
+  "type": "module",
+  "scripts": {
+    "lint:oxlint": "oxlint --deny-warnings -c ../oxlint.config.ts .",
+    "lint:es": "eslint --max-warnings=0 --no-inline-config --no-error-on-unmatched-pattern .",
+    "build": "pnpm exec storybook build",
+    "type-check": "tsc --noEmit",
+    "watch:types": "tsc --noEmit -w --preserveWatchOutput",
+    "dev": "storybook dev -p 6006 --no-open"
+  },
+  "devDependencies": {
+    "@fontsource-variable/source-code-pro": "catalog:",
+    "@fontsource-variable/source-serif-4": "catalog:",
+    "@ndla/licenses": "workspace:^",
+    "@ndla/primitives": "workspace:^",
+    "@ndla/safelink": "workspace:^",
+    "@ndla/styled-system": "workspace:^",
+    "@ndla/ui": "workspace:^",
+    "@pandacss/dev": "catalog:",
+    "@storybook/addon-a11y": "catalog:",
+    "@storybook/addon-docs": "catalog:",
+    "@storybook/addon-links": "catalog:",
+    "@storybook/react": "catalog:",
+    "@storybook/react-vite": "catalog:",
+    "@types/react": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
+    "eslint": "catalog:",
+    "i18next": "catalog:",
+    "oxlint": "catalog:",
+    "oxlint-tsgolint": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "react-i18next": "catalog:",
+    "react-router": "catalog:",
+    "storybook": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "nx": {
+    "implicitDependencies": [
+      "@ndla/*",
+      "frontend-packages"
+    ],
+    "namedInputs": {
+      "default": [
+        "{projectRoot}/**/*",
+        "{workspaceRoot}/packages/**/*",
+        "sharedGlobals"
+      ]
+    },
+    "targets": {
+      "lint": {},
+      "build": {
+        "outputs": [
+          "{projectRoot}/storybook-static"
+        ]
+      },
+      "dev": {
+        "dependsOn": [
+          "...",
+          {
+            "projects": [
+              "frontend-packages"
+            ],
+            "target": "watch:types"
+          }
+        ]
+      }
+    }
+  }
+}

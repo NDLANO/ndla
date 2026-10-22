@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        project: [ndla-frontend, editorial-frontend, frontend-packages]
+        project: [ndla-frontend, editorial-frontend, design-manual]
     steps:
       - name: "Install Vercel CLI"
         run: npm install --global vercel

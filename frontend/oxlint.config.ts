@@ -165,7 +165,7 @@ export default defineConfig({
       rules: { "import/default": "off" },
     },
     {
-      files: ["packages/**/*.stories.tsx"],
+      files: ["packages/**/*.stories.tsx", "design-manual/**/*.stories.tsx"],
       rules: {
         "react/no-unescaped-entities": "off",
         "import-js/no-extraneous-dependencies": "off",
