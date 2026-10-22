@@ -51,19 +51,17 @@ runs:
       uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
       with:
         path: ${{ steps.nx-store.outputs.path }}
-        key: ${{ runner.os }}-nx-store-v1-${{ inputs.cache-scope }}-${{ github.sha }}
+        key: ${{ runner.os }}-nx-store-v1-${{ inputs.cache-scope }}-${{ hashFiles('frontend/pnpm-lock.yaml') }}-${{ github.sha }}
         restore-keys: |
-          ${{ runner.os }}-nx-store-v1-${{ inputs.cache-scope }}-
-          ${{ runner.os }}-nx-store-v1-
+          ${{ runner.os }}-nx-store-v1-${{ inputs.cache-scope }}-${{ hashFiles('frontend/pnpm-lock.yaml') }}-
     - name: "Restore nx cache"
       if: inputs.nx-cache == 'restore'
       uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
       with:
         path: ${{ steps.nx-store.outputs.path }}
-        key: ${{ runner.os }}-nx-store-v1-${{ inputs.cache-scope }}-${{ github.sha }}
+        key: ${{ runner.os }}-nx-store-v1-${{ inputs.cache-scope }}-${{ hashFiles('frontend/pnpm-lock.yaml') }}-${{ github.sha }}
         restore-keys: |
-          ${{ runner.os }}-nx-store-v1-${{ inputs.cache-scope }}-
-          ${{ runner.os }}-nx-store-v1-
+          ${{ runner.os }}-nx-store-v1-${{ inputs.cache-scope }}-${{ hashFiles('frontend/pnpm-lock.yaml') }}-
     - name: "Install"
       shell: bash
       working-directory: frontend
