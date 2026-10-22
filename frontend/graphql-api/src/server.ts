@@ -11,6 +11,7 @@ import { ApolloServer } from "@apollo/server";
 import { unwrapResolverError } from "@apollo/server/errors";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { expressMiddleware } from "@as-integrations/express5";
+import { makeExecutableSchema } from "@graphql-tools/schema";
 import { isApiError } from "@ndla/shared/apiClient";
 import { onBeforeFullReload } from "@ndla/shared/devReload";
 import {
@@ -32,6 +33,7 @@ import { getContextOrThrow } from "./utils/context/contextStore";
 import { gracefulShutdown } from "./utils/gracefulShutdown";
 import { getLogLevelFromStatusCode, getLogger, logError } from "./utils/logger";
 import loggerMiddleware from "./utils/loggerMiddleware";
+import { operationSpanPlugin, withOperationSpans } from "./utils/operationSpans";
 
 const GRAPHQL_PORT = port;
 
@@ -85,14 +87,13 @@ const getExtensions = (cause: unknown) => {
 async function startApolloServer(): Promise<void> {
   const stopGracePeriodMillis = 20_000;
   const httpServer = configureKeepAlive(createServer(app));
-  apolloServer = new ApolloServer({
-    typeDefs,
-    resolvers,
+  apolloServer = new ApolloServer<ContextWithLoaders>({
+    schema: withOperationSpans(makeExecutableSchema({ typeDefs, resolvers })),
     introspection: true,
     allowBatchedHttpRequests: true,
     includeStacktraceInErrorResponses: true,
     stopOnTerminationSignals: false,
-    plugins: [ApolloServerPluginDrainHttpServer({ httpServer, stopGracePeriodMillis })],
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer, stopGracePeriodMillis }), operationSpanPlugin],
     formatError(err, originalError) {
       const cause = unwrapResolverError(originalError);
       const apiExtensions = getExtensions(cause);
