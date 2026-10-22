@@ -43,7 +43,7 @@
     "software.amazon.awssdk:cloudfront": "2.57.2",
     "software.amazon.awssdk:s3": "2.57.2",
     "software.amazon.awssdk:sesv2": "2.57.2",
-    "software.amazon.awssdk:transcribe": "2.57.1",
+    "software.amazon.awssdk:transcribe": "2.57.2",
     "ws.schild:jave-all-deps": "4.2.0",
     "ws.schild:jave-core": "4.2.0"
   },
