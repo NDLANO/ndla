@@ -6,14 +6,7 @@
  *
  */
 
-/** A route in the app. `routes.ts` turns this tree into the React Router route config. */
-export interface AppRoute {
-  path?: string;
-  index?: boolean;
-  /** Route module, relative to `src`. A route without one only prefixes its children with `path`. */
-  file?: string;
-  children?: AppRoute[];
-}
+import type { AppRoute } from "@ndla/shared/routes";
 
 export const routes: AppRoute[] = [
   {

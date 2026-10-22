@@ -7,10 +7,11 @@
  */
 
 import { LinkPathContext } from "@ndla/safelink";
+import { prefixPath } from "@ndla/shared/routes";
 import { findByTestId, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createMemoryRouter, RouterProvider } from "react-router";
-import { localePrefixes, prefixPath } from "../../../localeRoutes";
+import { localePrefixes } from "../../../localeRoutes";
 import IntlWrapper from "../../../util/__tests__/IntlWrapper";
 import { createLocalePathResolver } from "../../../util/localePath";
 import Messages from "../Messages";
