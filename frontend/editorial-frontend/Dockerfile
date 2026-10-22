@@ -1,7 +1,7 @@
 ### Build stage
 # Built from the frontend/ workspace root so the @ndla/* workspace
 # dependencies resolve. Build context is frontend/ (see build.sh).
-FROM node:24.21.0-alpine3.24@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1 AS builder
+FROM node:24.22.1-alpine3.24@sha256:feb76650b7195319268c59cb2d419c732d6c499b13bf5296f16ab59eb1f0a4f3 AS builder
 
 ENV HOME=/home/app
 ARG COMPONENT_VERSION
@@ -21,7 +21,7 @@ RUN --mount=type=secret,id=sentry_token \
   pnpm exec nx build editorial-frontend
 
 ### Run stage
-FROM node:24.21.0-alpine3.24@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1
+FROM node:24.22.1-alpine3.24@sha256:feb76650b7195319268c59cb2d419c732d6c499b13bf5296f16ab59eb1f0a4f3
 
 WORKDIR /home/app/editorial-frontend
 COPY --from=builder /home/app/editorial-frontend/build build
