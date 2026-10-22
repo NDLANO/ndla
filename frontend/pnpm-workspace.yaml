@@ -96,7 +96,7 @@ catalog:
   lodash-es: ^4.18.1
   lru-cache: ^11.5.3
   nock: ^14.0.17
-  nx: 23.2.1
+  nx: 23.3.0
   open-graph-scraper: ^6.12.0
   openapi-fetch: ^0.17.0
   openapi-typescript-helpers: ^0.1.0
