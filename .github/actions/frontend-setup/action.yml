@@ -1,12 +1,12 @@
 name: "Frontend setup"
-description: "Set up mise, restore caches and install frontend dependencies"
+description: "Set up mise, restore caches, install frontend dependencies and start the nx cache server"
 inputs:
   deps-cache:
     description: "'save' writes the dependency cache back, 'restore' reads it, 'none' skips it"
     required: false
     default: "restore"
   nx-cache:
-    description: "'save' writes the nx cache back, 'restore' reads it, 'none' skips it"
+    description: "'save' writes the nx cache store back, 'restore' reads it, 'none' runs nx without a shared cache"
     required: false
     default: "restore"
   cache-scope:
@@ -41,27 +41,34 @@ runs:
         key: ${{ runner.os }}-frontend-pnpm-v1-${{ hashFiles('frontend/pnpm-lock.yaml') }}
         restore-keys: |
           ${{ runner.os }}-frontend-pnpm-v1-
+    - name: "Resolve nx cache store"
+      if: inputs.nx-cache != 'none'
+      id: nx-store
+      shell: bash
+      run: echo "path=$HOME/.cache/nx-cache-store" >> "$GITHUB_OUTPUT"
     - name: "Cache nx"
       if: inputs.nx-cache == 'save'
       uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
       with:
-        path: frontend/.nx/cache
-        key: ${{ runner.os }}-nx-${{ inputs.cache-scope }}-${{ hashFiles('frontend/pnpm-lock.yaml') }}-${{ github.sha }}
+        path: ${{ steps.nx-store.outputs.path }}
+        key: ${{ runner.os }}-nx-store-v1-${{ inputs.cache-scope }}-${{ hashFiles('frontend/pnpm-lock.yaml') }}-${{ github.sha }}
         restore-keys: |
-          ${{ runner.os }}-nx-${{ inputs.cache-scope }}-${{ hashFiles('frontend/pnpm-lock.yaml') }}-
-          ${{ runner.os }}-nx-${{ inputs.cache-scope }}-
-          ${{ runner.os }}-nx-
+          ${{ runner.os }}-nx-store-v1-${{ inputs.cache-scope }}-${{ hashFiles('frontend/pnpm-lock.yaml') }}-
     - name: "Restore nx cache"
       if: inputs.nx-cache == 'restore'
       uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
       with:
-        path: frontend/.nx/cache
-        key: ${{ runner.os }}-nx-${{ inputs.cache-scope }}-${{ hashFiles('frontend/pnpm-lock.yaml') }}-${{ github.sha }}
+        path: ${{ steps.nx-store.outputs.path }}
+        key: ${{ runner.os }}-nx-store-v1-${{ inputs.cache-scope }}-${{ hashFiles('frontend/pnpm-lock.yaml') }}-${{ github.sha }}
         restore-keys: |
-          ${{ runner.os }}-nx-${{ inputs.cache-scope }}-${{ hashFiles('frontend/pnpm-lock.yaml') }}-
-          ${{ runner.os }}-nx-${{ inputs.cache-scope }}-
-          ${{ runner.os }}-nx-
+          ${{ runner.os }}-nx-store-v1-${{ inputs.cache-scope }}-${{ hashFiles('frontend/pnpm-lock.yaml') }}-
     - name: "Install"
       shell: bash
       working-directory: frontend
       run: pnpm install --frozen-lockfile
+    - name: "Start nx cache server"
+      if: inputs.nx-cache != 'none'
+      shell: bash
+      env:
+        NX_CACHE_STORE: ${{ steps.nx-store.outputs.path }}
+      run: node "$GITHUB_WORKSPACE/frontend/packages/packages/ci/src/nx-cache-server.mts" start

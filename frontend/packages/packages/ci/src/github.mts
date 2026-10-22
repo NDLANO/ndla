@@ -38,6 +38,14 @@ export const setOutput = (name: string, value: string): void => {
   else log(`(output) ${name}=${value}`);
 };
 
+/** Exports an environment variable to the job's later steps, or logs it outside Actions. */
+export const setEnv = (name: string, value: string): void => {
+  if (/[\r\n]/.test(value)) throw new Error(`Refusing to write a multi-line value to the '${name}' variable`);
+  const file = env("GITHUB_ENV");
+  if (file) appendFileSync(file, `${name}=${value}\n`);
+  else log(`(env) ${name}=${value}`);
+};
+
 /** Emits `lines` as a notice, to the step log, and as a fenced block in the job summary. */
 export const report = (headline: string, lines: readonly string[]): void => {
   notice(headline);
