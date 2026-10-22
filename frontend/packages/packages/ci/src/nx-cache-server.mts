@@ -117,6 +117,7 @@ const serve = (store: string, token: string): void => {
       else reply(res, req.method === "PUT" ? 403 : 404, "The cache store failed, see the server log");
     });
   });
+  server.keepAliveTimeout = 120_000;
   server.listen(0, "127.0.0.1", () => {
     const address = server.address();
     const port = typeof address === "object" && address ? address.port : 0;
