@@ -37,9 +37,10 @@ const toRouteConfig = (routes: AppRoute[], lang: string, parentPath = ""): Route
     return appRoute.index ? index(appRoute.file, { id }) : route(appRoute.path, appRoute.file, { id }, children);
   });
 
+/** The locale prefix is matched case-sensitively, since the rest of the app only recognizes it in lowercase. */
 export default localePrefixes.flatMap((lang) =>
   toRouteConfig(
     appRoutes.map((appRoute) => ({ ...appRoute, path: prefixPath(lang, appRoute.path) })),
     lang,
-  ),
+  ).map((entry): RouteConfigEntry => ({ ...entry, caseSensitive: !!lang })),
 ) satisfies RouteConfig;

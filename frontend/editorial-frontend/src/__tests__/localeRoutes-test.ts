@@ -117,6 +117,13 @@ describe("locale branches", () => {
     }
   });
 
+  test("only recognizes a lowercase locale prefix", () => {
+    expect(leafOf(localeRoutes, "/NN")).toBe(notFound);
+    expect(leafOf(localeRoutes, "/Nn/structure")).toBe(notFound);
+    expect(leafOf(localeRoutes, "/NN/h5p")).toBe(notFound);
+    expect(leafOf(localeRoutes, "/nn/STRUCTURE")).toBe(leafOf(unprefixedRoutes, "/structure"));
+  });
+
   test("prefixes the routes outside of the main layout", () => {
     const h5p = "components/H5pRedirect.tsx";
     expect(leafOf(localeRoutes, "/h5p")).toBe(h5p);
