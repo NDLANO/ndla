@@ -19,8 +19,8 @@ $ pnpm add @ndla/hooks
 ### useComponentSize
 
 ```js
-import { useRef } from "react";
 import useComponentSize from "@ndla/component-size";
+import { useRef } from "react";
 
 function MyComponent() {
   let ref = useRef(null);
