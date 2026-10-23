@@ -77,6 +77,6 @@
   },
   "toolVersions": {
     "org.jetbrains.kotlin:kotlin-stdlib": "2.4.21",
-    "org.scala-lang:scala3-library_3": "3.9.0"
+    "org.scala-lang:scala3-library_3": "3.10.0"
   }
 }
