@@ -915,10 +915,10 @@ importers:
         specifier: 'catalog:'
         version: 11.8.0(react-router@8.4.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
       '@tanstack/react-query':
-        specifier: ^5.104.4
+        specifier: ^5.104.5
         version: 5.104.5(@types/react@19.3.0)(react@19.3.1)
       '@tanstack/react-query-devtools':
-        specifier: ^5.104.4
+        specifier: ^5.104.5
         version: 5.104.5(@tanstack/react-query@5.104.5(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(csstype@3.2.3)(react@19.3.1)
       cheerio:
         specifier: 'catalog:'
