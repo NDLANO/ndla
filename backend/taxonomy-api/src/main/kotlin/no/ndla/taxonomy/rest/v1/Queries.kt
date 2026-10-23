@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.Parameter
 import jakarta.servlet.http.HttpServletRequest
 import java.net.URI
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 import no.ndla.taxonomy.config.Constants
 import no.ndla.taxonomy.rest.v1.dtos.searchapi.TaxonomyContextDTO
 import no.ndla.taxonomy.rest.v1.redirects.permanentRedirect
@@ -44,7 +45,7 @@ class Queries(private val nodeService: NodeService) {
       @RequestParam(value = "filterVisibles", required = false, defaultValue = "true")
       filterVisibles: Boolean,
   ): List<TaxonomyContextDTO> =
-      nodeService.getSearchableByContentUri(contentURI, filterVisibles, language)
+      nodeService.getSearchableByContentUri(contentURI.getOrNull(), filterVisibles, language)
 
   @GetMapping("/contextId")
   @Operation(
@@ -56,7 +57,7 @@ class Queries(private val nodeService: NodeService) {
       @Parameter(description = "ISO-639-1 language code", example = "nb")
       @RequestParam(value = "language", defaultValue = Constants.DefaultLanguage, required = false)
       language: String,
-  ): List<TaxonomyContextDTO> = nodeService.getContextByContextId(contextId, language)
+  ): List<TaxonomyContextDTO> = nodeService.getContextByContextId(contextId.getOrNull(), language)
 
   @GetMapping("/path")
   @Operation(
@@ -69,7 +70,7 @@ class Queries(private val nodeService: NodeService) {
       @Parameter(description = "ISO-639-1 language code", example = "nb")
       @RequestParam(value = "language", defaultValue = Constants.DefaultLanguage, required = false)
       language: String,
-  ): List<TaxonomyContextDTO> = nodeService.getContextByPath(path, language)
+  ): List<TaxonomyContextDTO> = nodeService.getContextByPath(path.getOrNull(), language)
 
   @GetMapping("/resources")
   @Operation(summary = "DEPRECATED: Use /v1/nodes?nodeType=RESOURCE&contentURI= instead")
