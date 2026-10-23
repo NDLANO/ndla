@@ -349,8 +349,8 @@ catalogs:
       specifier: ^8.3.0
       version: 8.3.0
     html-react-parser:
-      specifier: ^6.1.8
-      version: 6.1.8
+      specifier: ^6.1.9
+      version: 6.1.9
     htmlparser2:
       specifier: ^12.0.0
       version: 12.0.0
@@ -555,7 +555,7 @@ importers:
         version: 7.37.5(eslint@10.13.0(jiti@2.7.0)(supports-color@7.2.0))
       html-react-parser:
         specifier: 'catalog:'
-        version: 6.1.8(@types/react@19.3.0)(react@19.3.1)
+        version: 6.1.9(@types/react@19.3.0)(react@19.3.1)
       htmlparser2:
         specifier: 'catalog:'
         version: 12.0.0
@@ -952,7 +952,7 @@ importers:
         version: 8.3.0
       html-react-parser:
         specifier: 'catalog:'
-        version: 6.1.8(@types/react@19.3.0)(react@19.3.1)
+        version: 6.1.9(@types/react@19.3.0)(react@19.3.1)
       htmldiff-js:
         specifier: ^1.0.5
         version: 1.0.5
@@ -1410,7 +1410,7 @@ importers:
         version: 8.3.0
       html-react-parser:
         specifier: 'catalog:'
-        version: 6.1.8(@types/react@19.3.0)(react@19.3.1)
+        version: 6.1.9(@types/react@19.3.0)(react@19.3.1)
       i18next:
         specifier: 'catalog:'
         version: 26.5.3(typescript@7.0.2)
@@ -1661,7 +1661,7 @@ importers:
         version: 10.13.0(jiti@2.7.0)(supports-color@10.2.2)
       html-react-parser:
         specifier: 'catalog:'
-        version: 6.1.8(@types/react@19.3.0)(react@19.3.1)
+        version: 6.1.9(@types/react@19.3.0)(react@19.3.1)
       htmlparser2:
         specifier: 'catalog:'
         version: 12.0.0
@@ -1721,7 +1721,7 @@ importers:
         version: link:../ui
       html-react-parser:
         specifier: 'catalog:'
-        version: 6.1.8(@types/react@19.3.0)(react@19.3.1)
+        version: 6.1.9(@types/react@19.3.0)(react@19.3.1)
     devDependencies:
       '@ndla/types-backend':
         specifier: workspace:^
@@ -2229,7 +2229,7 @@ importers:
         version: link:../util
       html-react-parser:
         specifier: 'catalog:'
-        version: 6.1.8(@types/react@19.3.0)(react@19.3.1)
+        version: 6.1.9(@types/react@19.3.0)(react@19.3.1)
     devDependencies:
       '@ndla/preset-panda':
         specifier: workspace:^
@@ -8701,8 +8701,8 @@ packages:
   html-parse-stringify@4.0.1:
     resolution: {integrity: sha512-0zHsZJrK7S3K2aucXWL6ycoYJ/iNtIcFHC/nYQgFklPtrv5LpJctIiSCroWZWeuoXvuyFdzp6KzjJQ+OT5MfFw==}
 
-  html-react-parser@6.1.8:
-    resolution: {integrity: sha512-tlLNVnvtAhGabZTyboRJ/5/ZTD1iZzN5oAQZkW37gUvpcR/XkVNUvcB25Vpo+/tosbJNyfHbx/8H30k3Ug638Q==}
+  html-react-parser@6.1.9:
+    resolution: {integrity: sha512-5lQzzUQXrFe1+OR7GOGkATsm/2h3UIIWQvPkl+84+A9vYG6zbGxhZJjrCDlGvmQs7qPMbffO3XYizVrHekLZbA==}
     peerDependencies:
       '@types/react': 0.14 || 15 || 16 || 17 || 18 || 19
       react: 0.14 || 15 || 16 || 17 || 18 || 19
@@ -20190,7 +20190,7 @@ snapshots:
 
   html-parse-stringify@4.0.1: {}
 
-  html-react-parser@6.1.8(@types/react@19.3.0)(react@19.3.1):
+  html-react-parser@6.1.9(@types/react@19.3.0)(react@19.3.1):
     dependencies:
       domhandler: 6.0.1
       html-dom-parser: 8.0.2
