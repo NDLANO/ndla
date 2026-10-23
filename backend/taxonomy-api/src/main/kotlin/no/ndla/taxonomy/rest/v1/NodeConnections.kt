@@ -114,7 +114,7 @@ class NodeConnections(
             child,
             relevance,
             rank,
-            command.primary,
+            command.primary.getOrNull(),
             connectionType,
         )
 
@@ -157,7 +157,8 @@ class NodeConnections(
       throw PrimaryParentRequiredException()
     }
 
-    connectionService.updateParentChild(connection, relevance, command.rank, command.primary)
+    connectionService.updateParentChild(
+        connection, relevance, command.rank.getOrNull(), command.primary.getOrNull())
   }
 
   @GetMapping("/{id}/metadata")

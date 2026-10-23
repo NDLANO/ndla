@@ -220,7 +220,7 @@ public class NodeService {
                     "node",
                     "node",
                     treeElement.getId(),
-                    treeElement.getParentId().orElse(URI.create("")),
+                    Optional.ofNullable(treeElement.getParentId()).orElse(URI.create("")),
                     treeElement.getRank())));
 
             topicIdsToSearchFor = nodeList.stream()
@@ -287,7 +287,7 @@ public class NodeService {
 
         // Sort the list, extract all the topicResource objects in between topics and return list of documents
         return treeSorter.sortList(sortableListToAddTo).stream()
-                .map(ResourceTreeSortable::getResourceConnection)
+                .map(s -> Optional.ofNullable(s.getResourceConnection()))
                 .filter(src -> {
                     if (src.isEmpty()) return false;
                     var connection = (NodeConnection) src.get();
@@ -320,8 +320,7 @@ public class NodeService {
         }
 
         node.getResourceChildren()
-                .forEach(cc -> connectionService.updateParentChild(
-                        cc, cc.getRelevance(), Optional.of(cc.getRank()), Optional.of(true)));
+                .forEach(cc -> connectionService.updateParentChild(cc, cc.getRelevance(), cc.getRank(), true));
 
         return node.getResourceChildren().stream().allMatch(resourceConnection -> resourceConnection.isPrimary());
     }

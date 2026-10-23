@@ -14,7 +14,6 @@ import static org.mockito.Mockito.mock;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -241,8 +240,7 @@ class QualityEvaluationServiceConcurrencyTest extends AbstractIntegrationTest {
             Node child = nodeRepository.getByPublicId(childId);
             loadedParent.countDown();
             await(startConnections);
-            connectionService.connectParentChild(
-                    parent, child, Relevance.CORE, null, Optional.empty(), NodeConnectionType.BRANCH);
+            connectionService.connectParentChild(parent, child, Relevance.CORE, null, null, NodeConnectionType.BRANCH);
         });
     }
 
