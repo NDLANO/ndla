@@ -20,6 +20,14 @@ export const formatDate = (date: string, locale: LocaleType) => {
   }).format(new Date(date));
 };
 
+export const formatTime = (date: string, locale: LocaleType) => {
+  return new Intl.DateTimeFormat(toIntlLanguage(locale), {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone,
+  }).format(new Date(date));
+};
+
 export const getNdlaRobotDateFormat = (date: Date) => {
   return new Intl.DateTimeFormat("en-CA", {
     year: "numeric",

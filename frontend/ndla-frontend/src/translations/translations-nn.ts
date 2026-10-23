@@ -754,6 +754,7 @@ const translations = {
           shareLink: "Kopier lenke",
           saveLink: "Lagre lenka til mappa",
           unSaveLink: "Fjern lenke til delt mappe",
+          print: "Eksporter til PDF",
         },
         save: {
           warning:
@@ -1281,6 +1282,18 @@ const translations = {
     changelogFor: "Endringslogg for læringsressursen",
     currentRevision: "Noverande versjon",
     previousRevisions: "Tidlegare versjonar",
+  },
+  folderPrintPage: {
+    subtitle: "Eksportert frå ndla.no {{date}} kl {{time}}",
+    disclaimer:
+      "Merk: Artiklane på <safelink>Nasjonal digital læringsarena - NDLA</safelink> kan ha blitt oppdaterte etter at denne PDF-en vart generert. Sjekk gjerne den originale artikkelen viss du oppdagar feil. Vil du melde frå om ein feil i PDF-en, send ein e-post til <a>hjelp@ndla.no</a>.",
+    description:
+      "Denne PDF-en inneheld kanskje artiklar med innebygde filmer, simuleringar og andre interaktive elementer. Slikt innhold lar seg ikkje vise i ein PDF, og er difor ikkje med. Du kan finne innhaldet på ndla.no",
+    content: "Innhald",
+    contentSubtitle: "{{number}} læringsressursar frå mappa {{folder}}",
+    printOrExport: "Skriv ut eller lagre som PDF",
+    emailSubject: "Tilbakemelding frå PDF-eksport",
+    emailBody: "Mappeurl:[{{url}}] Omtale:[{{description}}]",
   },
 } satisfies typeof canonical;
 
