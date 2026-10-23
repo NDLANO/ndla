@@ -253,7 +253,7 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
       });
     }
     finalSubjects.push({ id: NO_SUBJECT_ID, name: t("searchForm.noSubjects") });
-    finalSubjects.push(...regularSubjects);
+    finalSubjects.push(...regularSubjects.map((s) => ({ ...s, name: s.name ?? "" })));
 
     conceptSubjects.forEach((s) => {
       finalSubjects.push({

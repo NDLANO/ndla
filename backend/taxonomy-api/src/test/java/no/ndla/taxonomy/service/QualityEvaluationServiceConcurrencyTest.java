@@ -268,7 +268,7 @@ class QualityEvaluationServiceConcurrencyTest extends AbstractIntegrationTest {
         var template = new TransactionTemplate(transactionManager);
         template.executeWithoutResult(status -> {
             var command = new NodePostPut();
-            command.qualityEvaluation = new UpdateOrDelete.Update<>(new QualityEvaluationDTO(grade, null));
+            command.setQualityEvaluation(new UpdateOrDelete.Update<>(new QualityEvaluationDTO(grade, null)));
 
             if (readyForLock != null) {
                 readyForLock.countDown();

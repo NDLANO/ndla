@@ -56,8 +56,8 @@ public class NodesTest extends RestTest {
         final var node = testUtils.getObject(NodeDTO.class, response);
 
         assertEquals("trigonometry", node.getName());
-        assertEquals("Optional[urn:article:1]", node.getContentUri().toString());
-        assertEquals("/subject:1/topic:1", node.getPath().get());
+        assertEquals("urn:article:1", node.getContentUri().toString());
+        assertEquals("/subject:1/topic:1", node.getPath());
         assertEquals(List.of("maths", "trigonometry"), node.getBreadcrumbs());
 
         assertNotNull(node.getMetadata());
@@ -98,42 +98,42 @@ public class NodesTest extends RestTest {
             final var node = testUtils.getObject(NodeDTO.class, response);
             assertEquals("Resource", node.getName());
             assertEquals(5, node.getContexts().size());
-            assertEquals(2, node.getContext().get().parents().size());
-            assertEquals("/subject:1/topic:1/resource:1", node.getPath().get());
+            assertEquals(2, node.getContext().parents().size());
+            assertEquals("/subject:1/topic:1/resource:1", node.getPath());
         }
         {
             var response = testUtils.getResource("/v1/nodes/urn:resource:1?parentId=urn:topic:1");
             final var node = testUtils.getObject(NodeDTO.class, response);
             assertEquals("Resource", node.getName());
-            assertEquals(2, node.getContext().get().parents().size());
-            assertEquals("/subject:1/topic:1/resource:1", node.getPath().get());
+            assertEquals(2, node.getContext().parents().size());
+            assertEquals("/subject:1/topic:1/resource:1", node.getPath());
         }
         {
             var response = testUtils.getResource("/v1/nodes/urn:resource:1?rootId=urn:subject:2");
             final var node = testUtils.getObject(NodeDTO.class, response);
             assertEquals("Resource", node.getName());
-            assertEquals(2, node.getContext().get().parents().size());
-            assertEquals("/subject:2/topic:2/resource:1", node.getPath().get());
+            assertEquals(2, node.getContext().parents().size());
+            assertEquals("/subject:2/topic:2/resource:1", node.getPath());
         }
         {
             var response = testUtils.getResource("/v1/nodes/urn:resource:1?rootId=urn:topic:2");
             final var node = testUtils.getObject(NodeDTO.class, response);
             assertEquals("Resource", node.getName());
-            assertEquals(1, node.getContext().get().parents().size());
-            assertEquals("/topic:2/resource:1", node.getPath().get());
+            assertEquals(1, node.getContext().parents().size());
+            assertEquals("/topic:2/resource:1", node.getPath());
         }
         {
             var response = testUtils.getResource("/v1/nodes/urn:resource:1?rootId=urn:topic:2&parentId=urn:topic:3");
             final var node = testUtils.getObject(NodeDTO.class, response);
             assertEquals("Resource", node.getName());
-            assertEquals("/topic:2/topic:3/resource:1", node.getPath().get());
+            assertEquals("/topic:2/topic:3/resource:1", node.getPath());
         }
         {
             var response = testUtils.getResource("/v1/nodes/urn:resource:1?rootId=urn:subject:2&parentId=urn:topic:3");
             final var node = testUtils.getObject(NodeDTO.class, response);
             assertEquals("Resource", node.getName());
-            assertEquals(3, node.getContext().get().parents().size());
-            assertEquals("/subject:2/topic:2/topic:3/resource:1", node.getPath().get());
+            assertEquals(3, node.getContext().parents().size());
+            assertEquals("/subject:2/topic:2/topic:3/resource:1", node.getPath());
         }
     }
 
@@ -144,7 +144,7 @@ public class NodesTest extends RestTest {
         var response = testUtils.getResource("/v1/nodes/urn:node:1");
         final var node = testUtils.getObject(NodeDTO.class, response);
 
-        assertTrue(node.getPath().isEmpty());
+        assertNull(node.getPath());
     }
 
     @Test
@@ -154,7 +154,7 @@ public class NodesTest extends RestTest {
         var response = testUtils.getResource("/v1/nodes/urn:node:1");
         final var node = testUtils.getObject(NodeDTO.class, response);
 
-        assertEquals("/node:1", node.getPath().get());
+        assertEquals("/node:1", node.getPath());
     }
 
     @Test
@@ -219,8 +219,8 @@ public class NodesTest extends RestTest {
             final var nodes = testUtils.getObject(NodeDTO[].class, response);
             assertEquals(1, nodes.length);
             assertEquals("Resource", nodes[0].getName());
-            assertTrue(nodes[0].getUrl().get().endsWith(String.format("resource/%s", context.contextId())));
-            assertEquals(context.path(), nodes[0].getPath().get());
+            assertTrue(nodes[0].getUrl().endsWith(String.format("resource/%s", context.contextId())));
+            assertEquals(context.path(), nodes[0].getPath());
             assertTrue(
                     nodes[0].getBreadcrumbs().containsAll(context.breadcrumbs().fromLanguage("nb")));
         }
@@ -277,7 +277,7 @@ public class NodesTest extends RestTest {
         assertEquals(1, nodes.length);
         assertEquals("Resource", nodes[0].getName());
         // Should not be the old contextid
-        assertFalse(nodes[0].getUrl().get().endsWith(String.format("resource/%s", contextId)));
+        assertFalse(nodes[0].getUrl().endsWith(String.format("resource/%s", contextId)));
     }
 
     @Test
@@ -347,7 +347,7 @@ public class NodesTest extends RestTest {
         assertAnyTrue(nodes, t -> "photo synthesis".equals(t.getName()));
         assertAnyTrue(nodes, t -> "trigonometry".equals(t.getName()));
         assertAllTrue(nodes, t -> isValidId(t.getId()));
-        assertAllTrue(nodes, t -> t.getPath().get().contains("subject"));
+        assertAllTrue(nodes, t -> t.getPath().contains("subject"));
 
         assertAllTrue(nodes, t -> t.getMetadata() != null);
         assertAllTrue(nodes, t -> t.getMetadata().getVisible());
@@ -437,7 +437,7 @@ public class NodesTest extends RestTest {
             assertAnyTrue(nodes, t -> "Basic science".equals(t.getName()));
             assertAnyTrue(nodes, t -> "Maths".equals(t.getName()));
             assertAnyTrue(nodes, t -> "Random node".equals(t.getName()));
-            assertAnyTrue(nodes, t -> t.getPath().get().contains("subject"));
+            assertAnyTrue(nodes, t -> t.getPath().contains("subject"));
             assertAllTrue(nodes, t -> isValidId(t.getId()));
 
             assertAllTrue(nodes, t -> t.getMetadata() != null);
@@ -469,7 +469,7 @@ public class NodesTest extends RestTest {
             assertAnyTrue(nodes, t -> "angles".equals(t.getName()));
             assertAnyTrue(nodes, t -> "Random node".equals(t.getName()));
             assertAnyTrue(nodes, t -> "Subnode".equals(t.getName()));
-            assertAnyTrue(nodes, t -> t.getPath().get().contains("subject"));
+            assertAnyTrue(nodes, t -> t.getPath().contains("subject"));
             assertAllTrue(nodes, t -> isValidId(t.getId()));
 
             assertAllTrue(nodes, t -> t.getMetadata() != null);
@@ -487,7 +487,7 @@ public class NodesTest extends RestTest {
             assertAnyTrue(nodes, t -> "trigonometry".equals(t.getName()));
             assertAnyTrue(nodes, t -> "angles".equals(t.getName()));
             assertAnyTrue(nodes, t -> "Random node".equals(t.getName()));
-            assertAnyTrue(nodes, t -> t.getPath().get().contains("subject"));
+            assertAnyTrue(nodes, t -> t.getPath().contains("subject"));
             assertAllTrue(nodes, t -> isValidId(t.getId()));
 
             assertAllTrue(nodes, t -> t.getMetadata() != null);
@@ -503,7 +503,7 @@ public class NodesTest extends RestTest {
             assertAnyTrue(nodes, t -> "photo synthesis".equals(t.getName()));
             assertAnyTrue(nodes, t -> "trigonometry".equals(t.getName()));
             assertAnyTrue(nodes, t -> "Random node".equals(t.getName()));
-            assertAnyTrue(nodes, t -> t.getPath().get().contains("subject"));
+            assertAnyTrue(nodes, t -> t.getPath().contains("subject"));
             assertAllTrue(nodes, t -> isValidId(t.getId()));
 
             assertAllTrue(nodes, t -> t.getMetadata() != null);
@@ -539,7 +539,7 @@ public class NodesTest extends RestTest {
             final var nodes = testUtils.getObject(NodeDTO[].class, response);
             assertEquals(1, nodes.length);
             assertAnyTrue(nodes, t -> "Subnode".equals(t.getName()));
-            assertAnyTrue(nodes, t -> t.getPath().get().contains("node"));
+            assertAnyTrue(nodes, t -> t.getPath().contains("node"));
             assertAllTrue(nodes, t -> isValidId(t.getId()));
         }
         {
@@ -619,7 +619,7 @@ public class NodesTest extends RestTest {
                     testUtils.getResource("/v1/nodes/urn:subject:1/nodes?nodeType=TOPIC,RESOURCE&recursive=true");
             final var nodes = testUtils.getObject(NodeChildDTO[].class, response);
             assertEquals(2, nodes.length);
-            assertAllTrue(nodes, t -> t.getPath().get().contains("/subject:1/topic:1"));
+            assertAllTrue(nodes, t -> t.getPath().contains("/subject:1/topic:1"));
         }
         {
             var response = testUtils.getResource("/v1/nodes/urn:topic:1/nodes?nodeType=RESOURCE");
@@ -627,21 +627,21 @@ public class NodesTest extends RestTest {
             assertEquals(1, nodes.length);
             assertEquals("Leaf", nodes[0].getName());
             assertEquals(3, nodes[0].getBreadcrumbs().size());
-            assertEquals("/subject:1/topic:1/resource:1", nodes[0].getPath().get());
+            assertEquals("/subject:1/topic:1/resource:1", nodes[0].getPath());
         }
         {
             var response =
                     testUtils.getResource("/v1/nodes/urn:subject:2/nodes?nodeType=TOPIC,RESOURCE&recursive=true");
             final var nodes = testUtils.getObject(NodeChildDTO[].class, response);
             assertEquals(3, nodes.length);
-            assertAllTrue(nodes, t -> t.getPath().get().contains("/subject:2/topic:2"));
+            assertAllTrue(nodes, t -> t.getPath().contains("/subject:2/topic:2"));
         }
         {
             // Topic2 is context
             var response = testUtils.getResource("/v1/nodes/urn:topic:2/nodes?nodeType=TOPIC,RESOURCE&recursive=true");
             final var nodes = testUtils.getObject(NodeChildDTO[].class, response);
             assertEquals(2, nodes.length);
-            assertAllTrue(nodes, t -> t.getPath().get().contains("/topic:2/topic:3"));
+            assertAllTrue(nodes, t -> t.getPath().contains("/topic:2/topic:3"));
         }
         {
             var response = testUtils.getResource("/v1/nodes/urn:topic:3/nodes?nodeType=RESOURCE");
@@ -670,8 +670,8 @@ public class NodesTest extends RestTest {
         final var node = testUtils.getObject(NodeDTO.class, response);
 
         assertEquals("Maths vg1", node.getName());
-        assertEquals("Optional[urn:frontpage:1]", node.getContentUri().toString());
-        assertEquals("/subject:1/subject:2", node.getPath().get());
+        assertEquals("urn:frontpage:1", node.getContentUri().toString());
+        assertEquals("/subject:1/subject:2", node.getPath());
 
         assertNotNull(node.getMetadata());
         assertTrue(node.getMetadata().getVisible());
@@ -699,14 +699,14 @@ public class NodesTest extends RestTest {
             final var children = testUtils.getObject(NodeChildDTO[].class, response);
             assertEquals(1, children.length);
             assertEquals(URI.create("urn:topic:1"), children[0].getId());
-            assertEquals(Optional.of("/subject:1/topic:1"), children[0].getPath());
+            assertEquals("/subject:1/topic:1", children[0].getPath());
         }
         {
             var response = testUtils.getResource("/v1/nodes/urn:subject:2/nodes");
             final var children = testUtils.getObject(NodeChildDTO[].class, response);
             assertEquals(1, children.length);
             assertEquals(URI.create("urn:topic:2"), children[0].getId());
-            assertEquals(Optional.of("/subject:2/topic:2"), children[0].getPath());
+            assertEquals("/subject:2/topic:2", children[0].getPath());
         }
         {
             var response =
@@ -714,7 +714,7 @@ public class NodesTest extends RestTest {
             final var links = testUtils.getObject(NodeChildDTO[].class, response);
             assertEquals(1, links.length);
             assertEquals(URI.create("urn:topic:1"), links[0].getId());
-            assertEquals(Optional.of("/subject:1/topic:1"), links[0].getPath()); // Links points to default path
+            assertEquals("/subject:1/topic:1", links[0].getPath()); // Links points to default path
             assertEquals(1, links[0].getContexts().size());
         }
     }
@@ -790,14 +790,11 @@ public class NodesTest extends RestTest {
 
     @Test
     public void can_create_node() throws Exception {
-        final var createNodeCommand = new NodePostPut() {
-            {
-                nodeType = NodeType.NODE;
-                name = Optional.of("node");
-                contentUri = Optional.of(URI.create("urn:article:1"));
-                context = Optional.of(Boolean.TRUE);
-            }
-        };
+        final var createNodeCommand = new NodePostPut();
+        createNodeCommand.setNodeType(NodeType.NODE);
+        createNodeCommand.setName("node");
+        createNodeCommand.setContentUri(URI.create("urn:article:1"));
+        createNodeCommand.setContext(Boolean.TRUE);
 
         var response = testUtils.createResource("/v1/nodes", createNodeCommand);
         URI id = getId(response);
@@ -813,15 +810,12 @@ public class NodesTest extends RestTest {
 
     @Test
     public void can_create_invisible_node() throws Exception {
-        final var createNodeCommand = new NodePostPut() {
-            {
-                nodeType = NodeType.NODE;
-                name = Optional.of("node");
-                contentUri = Optional.of(URI.create("urn:article:1"));
-                context = Optional.of(Boolean.TRUE);
-                visible = Optional.of(Boolean.FALSE);
-            }
-        };
+        final var createNodeCommand = new NodePostPut();
+        createNodeCommand.setNodeType(NodeType.NODE);
+        createNodeCommand.setName("node");
+        createNodeCommand.setContentUri(URI.create("urn:article:1"));
+        createNodeCommand.setContext(Boolean.TRUE);
+        createNodeCommand.setVisible(Boolean.FALSE);
 
         var response = testUtils.createResource("/v1/nodes", createNodeCommand);
         URI id = getId(response);
@@ -836,13 +830,10 @@ public class NodesTest extends RestTest {
 
     @Test
     public void can_create_topic() throws Exception {
-        final var createNodeCommand = new NodePostPut() {
-            {
-                nodeType = NodeType.TOPIC;
-                name = Optional.of("trigonometry");
-                contentUri = Optional.of(URI.create("urn:article:1"));
-            }
-        };
+        final var createNodeCommand = new NodePostPut();
+        createNodeCommand.setNodeType(NodeType.TOPIC);
+        createNodeCommand.setName("trigonometry");
+        createNodeCommand.setContentUri(URI.create("urn:article:1"));
 
         var response = testUtils.createResource("/v1/nodes", createNodeCommand);
         URI id = getId(response);
@@ -855,13 +846,10 @@ public class NodesTest extends RestTest {
 
     @Test
     public void can_create_subject() throws Exception {
-        final var createNodeCommand = new NodePostPut() {
-            {
-                nodeType = NodeType.SUBJECT;
-                name = Optional.of("Maths");
-                contentUri = Optional.of(URI.create("urn:frontpage:1"));
-            }
-        };
+        final var createNodeCommand = new NodePostPut();
+        createNodeCommand.setNodeType(NodeType.SUBJECT);
+        createNodeCommand.setName("Maths");
+        createNodeCommand.setContentUri(URI.create("urn:frontpage:1"));
 
         var response = testUtils.createResource("/v1/nodes", createNodeCommand);
         URI id = getId(response);
@@ -874,13 +862,10 @@ public class NodesTest extends RestTest {
 
     @Test
     public void can_create_topic_with_id() throws Exception {
-        final var createNodeCommand = new NodePostPut() {
-            {
-                nodeType = NodeType.TOPIC;
-                nodeId = Optional.of("1");
-                name = Optional.of("trigonometry");
-            }
-        };
+        final var createNodeCommand = new NodePostPut();
+        createNodeCommand.setNodeType(NodeType.TOPIC);
+        createNodeCommand.setNodeId("1");
+        createNodeCommand.setName("trigonometry");
 
         testUtils.createResource("/v1/nodes", createNodeCommand);
 
@@ -890,20 +875,14 @@ public class NodesTest extends RestTest {
 
     @Test
     void creating_node_with_content_uri_is_handled_correct() throws Exception {
-        final var createTopic = new NodePostPut() {
-            {
-                nodeType = NodeType.TOPIC;
-                name = Optional.of("topic");
-                contentUri = Optional.of(URI.create("urn:article:1"));
-            }
-        };
-        final var createResource = new NodePostPut() {
-            {
-                nodeType = NodeType.RESOURCE;
-                name = Optional.of("resource");
-                contentUri = Optional.of(URI.create("urn:article:2"));
-            }
-        };
+        final var createTopic = new NodePostPut();
+        createTopic.setNodeType(NodeType.TOPIC);
+        createTopic.setName("topic");
+        createTopic.setContentUri(URI.create("urn:article:1"));
+        final var createResource = new NodePostPut();
+        createResource.setNodeType(NodeType.RESOURCE);
+        createResource.setName("resource");
+        createResource.setContentUri(URI.create("urn:article:2"));
 
         testUtils.createResource("/v1/nodes", createTopic, status().isCreated());
         testUtils.createResource("/v1/nodes", createTopic, status().isCreated());
@@ -913,13 +892,10 @@ public class NodesTest extends RestTest {
 
     @Test
     public void duplicate_ids_not_allowed() throws Exception {
-        final var command = new NodePostPut() {
-            {
-                nodeType = NodeType.TOPIC;
-                nodeId = Optional.of("1");
-                name = Optional.of("name");
-            }
-        };
+        final var command = new NodePostPut();
+        command.setNodeType(NodeType.TOPIC);
+        command.setNodeId("1");
+        command.setName("name");
 
         testUtils.createResource("/v1/nodes", command, status().isCreated());
         testUtils.createResource("/v1/nodes", command, status().isConflict());
@@ -929,15 +905,12 @@ public class NodesTest extends RestTest {
     public void can_create_node_with_resourcetype() throws Exception {
         var resourceType = ResourceType.SUBJECT_MATERIAL;
         {
-            final var createNodeCommand = new NodePostPut() {
-                {
-                    nodeType = NodeType.RESOURCE;
-                    name = Optional.of("Resource");
-                    contentUri = Optional.of(URI.create("urn:article:1"));
-                    context = Optional.of(Boolean.TRUE);
-                    resourceTypes = Optional.of(List.of(ResourceType.SUBJECT_MATERIAL.getPublicId()));
-                }
-            };
+            final var createNodeCommand = new NodePostPut();
+            createNodeCommand.setNodeType(NodeType.RESOURCE);
+            createNodeCommand.setName("Resource");
+            createNodeCommand.setContentUri(URI.create("urn:article:1"));
+            createNodeCommand.setContext(Boolean.TRUE);
+            createNodeCommand.setResourceTypes(List.of(ResourceType.SUBJECT_MATERIAL.getPublicId()));
 
             var response = testUtils.createResource("/v1/nodes", createNodeCommand);
             URI id = getId(response);
@@ -953,15 +926,12 @@ public class NodesTest extends RestTest {
         }
         {
             // Setting resourcetypes only works for resource
-            final var createNodeCommand = new NodePostPut() {
-                {
-                    nodeType = NodeType.NODE;
-                    name = Optional.of("Node");
-                    contentUri = Optional.of(URI.create("urn:article:1"));
-                    context = Optional.of(Boolean.TRUE);
-                    resourceTypes = Optional.of(List.of(resourceType.getPublicId()));
-                }
-            };
+            final var createNodeCommand = new NodePostPut();
+            createNodeCommand.setNodeType(NodeType.NODE);
+            createNodeCommand.setName("Node");
+            createNodeCommand.setContentUri(URI.create("urn:article:1"));
+            createNodeCommand.setContext(Boolean.TRUE);
+            createNodeCommand.setResourceTypes(List.of(resourceType.getPublicId()));
 
             var response = testUtils.createResource("/v1/nodes", createNodeCommand);
             URI id = getId(response);
@@ -981,14 +951,12 @@ public class NodesTest extends RestTest {
     public void can_update_node() throws Exception {
         Node n = builder.node();
 
-        testUtils.updateResource("/v1/nodes/" + n.getPublicId(), new NodePostPut() {
-            {
-                nodeType = n.getNodeType();
-                nodeId = Optional.of(n.getIdent());
-                name = Optional.of("trigonometry");
-                contentUri = Optional.of(URI.create("urn:article:1"));
-            }
-        });
+        var command = new NodePostPut();
+        command.setNodeType(n.getNodeType());
+        command.setNodeId(n.getIdent());
+        command.setName("trigonometry");
+        command.setContentUri(URI.create("urn:article:1"));
+        testUtils.updateResource("/v1/nodes/" + n.getPublicId(), command);
 
         Node node = nodeRepository.getByPublicId(n.getPublicId());
         assertEquals("trigonometry", node.getName());
@@ -999,12 +967,9 @@ public class NodesTest extends RestTest {
     public void can_update_node_with_new_translations() throws Exception {
         Node n = builder.node();
 
-        testUtils.updateResource("/v1/nodes/" + n.getPublicId(), new NodePostPut() {
-            {
-                translations =
-                        Optional.of(List.of(new TranslationDTO("nb", "tester"), new TranslationDTO("nn", "testar")));
-            }
-        });
+        var command = new NodePostPut();
+        command.setTranslations(List.of(new TranslationDTO("nb", "tester"), new TranslationDTO("nn", "testar")));
+        testUtils.updateResource("/v1/nodes/" + n.getPublicId(), command);
         Node node = nodeRepository.getByPublicId(n.getPublicId());
         assertEquals("tester", node.getTranslatedName("nb"));
         assertEquals("testar", node.getTranslatedName("nn"));
@@ -1015,14 +980,12 @@ public class NodesTest extends RestTest {
         URI publicId = builder.node(NodeType.TOPIC).getPublicId();
         URI randomId = URI.create("urn:topic:random");
 
-        testUtils.updateResource("/v1/nodes/" + publicId, new NodePostPut() {
-            {
-                nodeType = NodeType.TOPIC;
-                nodeId = Optional.of("random");
-                name = Optional.of("trigonometry");
-                contentUri = Optional.of(URI.create("urn:article:1"));
-            }
-        });
+        var command = new NodePostPut();
+        command.setNodeType(NodeType.TOPIC);
+        command.setNodeId("random");
+        command.setName("trigonometry");
+        command.setContentUri(URI.create("urn:article:1"));
+        testUtils.updateResource("/v1/nodes/" + publicId, command);
 
         Node node = nodeRepository.getByPublicId(randomId);
         assertEquals("trigonometry", node.getName());
@@ -1034,14 +997,11 @@ public class NodesTest extends RestTest {
         Node n = builder.node(); // NODE
         String ident = n.getIdent();
 
-        var command = new NodePostPut() {
-            {
-                nodeType = NodeType.SUBJECT;
-                nodeId = Optional.of(ident);
-                name = Optional.of("trigonometry");
-                contentUri = Optional.of(URI.create("urn:article:1"));
-            }
-        };
+        var command = new NodePostPut();
+        command.setNodeType(NodeType.SUBJECT);
+        command.setNodeId(ident);
+        command.setName("trigonometry");
+        command.setContentUri(URI.create("urn:article:1"));
 
         testUtils.updateResource("/v1/nodes/" + n.getPublicId(), command);
 
@@ -1056,13 +1016,10 @@ public class NodesTest extends RestTest {
     public void can_update_node_without_changing_metadata() throws Exception {
         Node n = builder.node(s -> s.isVisible(false).grepCode("KM123").customField("key", "value"));
 
-        final var command = new NodePostPut() {
-            {
-                nodeType = NodeType.TOPIC;
-                name = Optional.of("physics");
-                contentUri = Optional.of(URI.create("urn:article:1"));
-            }
-        };
+        final var command = new NodePostPut();
+        command.setNodeType(NodeType.TOPIC);
+        command.setName("physics");
+        command.setContentUri(URI.create("urn:article:1"));
 
         testUtils.updateResource("/v1/nodes/" + n.getPublicId(), command);
 
@@ -1232,11 +1189,8 @@ public class NodesTest extends RestTest {
                                 .contentUri("urn:article:1"))
                 .getPublicId();
 
-        final var command = new NodePostPut() {
-            {
-                contentUri = Optional.of(URI.create("urn:article:2"));
-            }
-        };
+        final var command = new NodePostPut();
+        command.setContentUri(URI.create("urn:article:2"));
         URI id = getId(testUtils.createResource("/v1/nodes/" + publicId + "/clone", command));
         assertNotNull(id);
 
@@ -1399,16 +1353,16 @@ public class NodesTest extends RestTest {
 
         { // Connect cloned resources to urn:topic:2
             var connectBody1 = new NodeConnectionPOST();
-            connectBody1.parentId = URI.create("urn:topic:2");
-            connectBody1.childId = cloned1Id;
+            connectBody1.setParentId(URI.create("urn:topic:2"));
+            connectBody1.setChildId(cloned1Id);
 
             var connectBody2 = new NodeConnectionPOST();
-            connectBody2.parentId = URI.create("urn:topic:2");
-            connectBody2.childId = cloned2Id;
+            connectBody2.setParentId(URI.create("urn:topic:2"));
+            connectBody2.setChildId(cloned2Id);
 
             var connectBody3 = new NodeConnectionPOST();
-            connectBody3.parentId = URI.create("urn:topic:2");
-            connectBody3.childId = cloned3Id;
+            connectBody3.setParentId(URI.create("urn:topic:2"));
+            connectBody3.setChildId(cloned3Id);
 
             testUtils.createResource("/v1/node-connections/", connectBody1);
             testUtils.createResource("/v1/node-connections/", connectBody2);
@@ -1486,8 +1440,8 @@ public class NodesTest extends RestTest {
         testUtils.deleteResource("/v1/node-connections/" + connectionId);
 
         var connectBody = new NodeConnectionPOST();
-        connectBody.parentId = URI.create("urn:subject:2");
-        connectBody.childId = URI.create("urn:topic:1");
+        connectBody.setParentId(URI.create("urn:subject:2"));
+        connectBody.setChildId(URI.create("urn:topic:1"));
 
         testUtils.createResource("/v1/node-connections/", connectBody);
 
@@ -1508,16 +1462,16 @@ public class NodesTest extends RestTest {
 
     public void connect(Node parent, Node child) throws Exception {
         var connectBody = new NodeConnectionPOST();
-        connectBody.parentId = parent.getPublicId();
-        connectBody.childId = child.getPublicId();
+        connectBody.setParentId(parent.getPublicId());
+        connectBody.setChildId(child.getPublicId());
 
         testUtils.createResource("/v1/node-connections/", connectBody);
     }
 
     public void connectId(URI parentId, URI childId) throws Exception {
         var connectBody = new NodeConnectionPOST();
-        connectBody.parentId = parentId;
-        connectBody.childId = childId;
+        connectBody.setParentId(parentId);
+        connectBody.setChildId(childId);
 
         testUtils.createResource("/v1/node-connections/", connectBody);
     }
@@ -1661,7 +1615,7 @@ public class NodesTest extends RestTest {
         testQualityEvaluationAverage(t1, 1, 3.0);
 
         var updateBody = new NodePostPut();
-        updateBody.name = Optional.of("Resource 1");
+        updateBody.setName("Resource 1");
         testUtils.updateResource("/v1/nodes/" + r1.getPublicId(), updateBody);
 
         testQualityEvaluationAverage(s1, 1, 3.0);
@@ -1670,12 +1624,12 @@ public class NodesTest extends RestTest {
 
     public URI createNode(String name, NodeType nodeType, Optional<Integer> qualityEvaluation) {
         var n = new NodePostPut();
-        n.name = Optional.of(name);
-        n.nodeType = nodeType;
+        n.setName(name);
+        n.setNodeType(nodeType);
         qualityEvaluation.ifPresent(x -> {
             var comment = "La til karakter " + x + " her da...";
             var qe = new QualityEvaluationDTO(Grade.Companion.fromInt(x), comment);
-            n.qualityEvaluation = new UpdateOrDelete.Update<>(qe);
+            n.setQualityEvaluation(new UpdateOrDelete.Update<>(qe));
         });
 
         try {
@@ -1800,7 +1754,7 @@ public class NodesTest extends RestTest {
 
         // Update all quality evaluations
         var updateBody = new NodePostPut();
-        updateBody.qualityEvaluation = new UpdateOrDelete.Update<>(getRandomGrade());
+        updateBody.setQualityEvaluation(new UpdateOrDelete.Update<>(getRandomGrade()));
         for (var id : allIds) {
             testUtils.updateResource("/v1/nodes/" + id, updateBody);
         }
@@ -1982,7 +1936,7 @@ public class NodesTest extends RestTest {
         {
             var updater12 = new NodePostPut();
             var qe12 = new QualityEvaluationDTO(Grade.Companion.fromInt(5), "Hei");
-            updater12.qualityEvaluation = new UpdateOrDelete.Update<>(qe12);
+            updater12.setQualityEvaluation(new UpdateOrDelete.Update<>(qe12));
             testUtils.updateResource("/v1/nodes/" + r12.getPublicId(), updater12);
         }
 
@@ -2011,23 +1965,17 @@ public class NodesTest extends RestTest {
 
     @Test
     public void that_updating_requires_technical_evaluation_to_false_removes_comment() throws Exception {
-        var command = new NodePostPut() {
-            {
-                nodeType = NodeType.TOPIC;
-                technicalEvaluation = new UpdateOrDelete.Update<>(new TechnicalEvaluationDTO(true, "Needs review"));
-            }
-        };
+        var command = new NodePostPut();
+        command.setNodeType(NodeType.TOPIC);
+        command.setTechnicalEvaluation(new UpdateOrDelete.Update<>(new TechnicalEvaluationDTO(true, "Needs review")));
         var id = getId(testUtils.createResource("/v1/nodes", command));
 
         var found = nodeRepository.getByPublicId(id);
         assertTrue(found.getRequiresTechnicalEvaluation());
         assertEquals("Needs review", found.getTechnicalEvaluationComment());
 
-        var command2 = new NodePostPut() {
-            {
-                technicalEvaluation = new UpdateOrDelete.Update<>(new TechnicalEvaluationDTO(false, "Needs review"));
-            }
-        };
+        var command2 = new NodePostPut();
+        command2.setTechnicalEvaluation(new UpdateOrDelete.Update<>(new TechnicalEvaluationDTO(false, "Needs review")));
         testUtils.updateResource("/v1/nodes/" + id, command2);
         var found2 = nodeRepository.getByPublicId(id);
         assertFalse(found2.getRequiresTechnicalEvaluation());
@@ -2036,23 +1984,17 @@ public class NodesTest extends RestTest {
 
     @Test
     public void that_technical_evluation_comment_can_be_updated() throws Exception {
-        var command = new NodePostPut() {
-            {
-                nodeType = NodeType.TOPIC;
-                technicalEvaluation = new UpdateOrDelete.Update<>(new TechnicalEvaluationDTO(true, null));
-            }
-        };
+        var command = new NodePostPut();
+        command.setNodeType(NodeType.TOPIC);
+        command.setTechnicalEvaluation(new UpdateOrDelete.Update<>(new TechnicalEvaluationDTO(true, null)));
         var id = getId(testUtils.createResource("/v1/nodes", command));
 
         var found = nodeRepository.getByPublicId(id);
         assertTrue(found.getRequiresTechnicalEvaluation());
         assertNull(found.getTechnicalEvaluationComment());
 
-        var command2 = new NodePostPut() {
-            {
-                technicalEvaluation = new UpdateOrDelete.Update<>(new TechnicalEvaluationDTO(true, "Needs review"));
-            }
-        };
+        var command2 = new NodePostPut();
+        command2.setTechnicalEvaluation(new UpdateOrDelete.Update<>(new TechnicalEvaluationDTO(true, "Needs review")));
         testUtils.updateResource("/v1/nodes/" + id, command2);
 
         var found2 = nodeRepository.getByPublicId(id);
@@ -2062,12 +2004,9 @@ public class NodesTest extends RestTest {
 
     @Test
     public void that_comment_cannot_be_set_without_requiring_technical_evaluation() throws Exception {
-        var command = new NodePostPut() {
-            {
-                nodeType = NodeType.TOPIC;
-                technicalEvaluation = new UpdateOrDelete.Update<>(new TechnicalEvaluationDTO(false, "Needs review"));
-            }
-        };
+        var command = new NodePostPut();
+        command.setNodeType(NodeType.TOPIC);
+        command.setTechnicalEvaluation(new UpdateOrDelete.Update<>(new TechnicalEvaluationDTO(false, "Needs review")));
         var id = getId(testUtils.createResource("/v1/nodes", command));
 
         var found = nodeRepository.getByPublicId(id);
@@ -2077,18 +2016,15 @@ public class NodesTest extends RestTest {
 
     @Test
     public void that_technical_evaluation_is_included_in_node_response() throws Exception {
-        var command = new NodePostPut() {
-            {
-                nodeType = NodeType.TOPIC;
-                technicalEvaluation = new UpdateOrDelete.Update<>(new TechnicalEvaluationDTO(true, "Needs review"));
-            }
-        };
+        var command = new NodePostPut();
+        command.setNodeType(NodeType.TOPIC);
+        command.setTechnicalEvaluation(new UpdateOrDelete.Update<>(new TechnicalEvaluationDTO(true, "Needs review")));
         var id = getId(testUtils.createResource("/v1/nodes", command));
 
         var response = testUtils.getResource("/v1/nodes/" + id);
 
         var nodeDTO = testUtils.getObject(NodeDTO.class, response);
-        var te = nodeDTO.getTechnicalEvaluation().orElseThrow();
+        var te = nodeDTO.getTechnicalEvaluation();
         assertTrue(te.getRequiresEvaluation());
         assertEquals("Needs review", te.getComment());
     }

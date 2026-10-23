@@ -283,12 +283,12 @@ class Nodes(
     val contents =
         results.map { node ->
           NodeDTO(
-              Optional.empty(),
-              Optional.empty(),
+              null,
+              null,
               node,
               NodeConnectionType.BRANCH,
               language,
-              Optional.empty(),
+              null,
               includeContexts,
               filterProgrammes,
               isVisible,
@@ -346,7 +346,7 @@ class Nodes(
       command: NodePostPut,
   ): ResponseEntity<Unit> {
     try {
-      val entity = Node(command.nodeType)
+      val entity = Node(command.nodeType ?: throw NullPointerException("nodeType must not be null"))
       val locked = qualityEvaluationService.lockQualityEvaluationIfNeeded(command)
       validateAndAssignId(entity, command)
       val oldGrade = entity.qualityEvaluationGrade
@@ -471,7 +471,7 @@ class Nodes(
     val returnList =
         children.map { nodeConnection ->
           NodeChildDTO(
-              Optional.of(node),
+              node,
               nodeConnection,
               language,
               includeContexts,
@@ -600,7 +600,7 @@ class Nodes(
       @RequestBody
       command: NodePostPut,
   ): ResponseEntity<Unit> {
-    val entity = nodeService.cloneNode(publicId, command.contentUri)
+    val entity = nodeService.cloneNode(publicId, Optional.ofNullable(command.contentUri))
     val locationUri = URI.create("$location/${entity.publicId}")
     return ResponseEntity.created(locationUri).build()
   }

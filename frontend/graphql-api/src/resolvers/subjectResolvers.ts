@@ -58,7 +58,7 @@ export const Query = {
         value: language,
         nodeType: "SUBJECT",
       })
-      .then((s) => s.sort((a, b) => (a.name < b.name ? -1 : 1)));
+      .then((s) => s.sort((a, b) => ((a.name ?? "") < (b.name ?? "") ? -1 : 1)));
   },
 };
 

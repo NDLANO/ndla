@@ -192,7 +192,7 @@ const TopicResourceBanner = ({
       <TopRow data-show-quality={showQuality}>
         {!!showQuality && (
           <ContentWrapper>
-            <AverageQualityEvaluation gradeAverage={currentNode.gradeAverage} nodeType="TOPIC" />
+            <AverageQualityEvaluation gradeAverage={currentNode.gradeAverage ?? undefined} nodeType="TOPIC" />
             <QualityEvaluation articleType="topic-article" taxonomy={[currentNode]} />
           </ContentWrapper>
         )}
@@ -292,7 +292,7 @@ const TopicResourceBanner = ({
             )}
             <GrepCodesDialog
               codes={currentContentMeta?.grepCodes ?? []}
-              contentUri={currentNode.contentUri}
+              contentUri={currentNode.contentUri ?? undefined}
               revision={currentContentMeta?.revision}
               currentNodeId={currentNode.id}
             />

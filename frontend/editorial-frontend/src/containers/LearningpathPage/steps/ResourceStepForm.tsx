@@ -131,11 +131,11 @@ export const ResourceStepForm = ({ onlyPublishedResources, language, step }: Pro
         if (!articleId) return;
         setSelectedResource({
           articleId,
-          title: node.name,
+          title: node.name ?? "",
           articleType: articleType,
           breadcrumbs: node.breadcrumbs,
           resourceTypes: node.resourceTypes,
-          relevanceId: node.relevanceId,
+          relevanceId: node.relevanceId ?? undefined,
         });
       } else if (values.articleId && !selectedResource) {
         const nodes = await fetchNodes({ contentURI: `urn:article:${values.articleId}`, language, taxonomyVersion });
@@ -145,10 +145,10 @@ export const ResourceStepForm = ({ onlyPublishedResources, language, step }: Pro
           setSelectedResource({
             articleId: values.articleId,
             articleType: articleType,
-            title: node.name,
+            title: node.name ?? "",
             breadcrumbs: node.breadcrumbs,
             resourceTypes: node.resourceTypes,
-            relevanceId: node.relevanceId,
+            relevanceId: node.relevanceId ?? undefined,
           });
         }
       }

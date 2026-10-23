@@ -57,7 +57,7 @@ export const LinkConnections = ({ nodes }: Props) => {
     return connections.reduce<string[]>((acc, query) => {
       if (query.isSuccess) {
         const filtered = query.data.filter((conn) => conn.type === "referrer");
-        return acc.concat(filtered.map((conn) => conn.targetId));
+        return acc.concat(filtered.map((conn) => conn.targetId!));
       }
       return acc;
     }, []);
@@ -93,7 +93,7 @@ export const LinkConnections = ({ nodes }: Props) => {
           <StyledUl>
             {nodesQuery.data?.results.map((node) => (
               <li key={node.id}>
-                <SafeLink to={toStructure(node.path)}>{node.name}</SafeLink>
+                <SafeLink to={toStructure(node.path ?? undefined)}>{node.name}</SafeLink>
               </li>
             ))}
           </StyledUl>

@@ -62,7 +62,7 @@ export const PopularArticleCard = ({ node, contentMeta, numHits }: Props) => {
   const badges = useBadges({
     traits: contentMeta?.traits,
     resourceTypes: node.resourceTypes,
-    relevanceId: node.context?.relevanceId ?? node.relevanceId,
+    relevanceId: node.context?.relevanceId ?? node.relevanceId ?? undefined,
     resourceType: node.url?.startsWith("/e/") ? "topic" : undefined,
   });
 

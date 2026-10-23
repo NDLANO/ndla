@@ -68,7 +68,7 @@ const ActiveTopicConnection = ({ removeConnection, type, node, updateConnection 
           onClick={() => {
             if (node.isPrimary) return;
             updateConnection?.(
-              { id: node.connectionId, relevanceId: node.relevanceId, primary: true },
+              { id: node.connectionId, relevanceId: node.relevanceId ?? undefined, primary: true },
               { showPrimaryWarning: true },
             );
           }}
@@ -81,7 +81,7 @@ const ActiveTopicConnection = ({ removeConnection, type, node, updateConnection 
           </ListItemHeading>
           <StyledWrapper>
             <RelevanceOptionSwitch
-              relevanceId={node.relevanceId}
+              relevanceId={node.relevanceId ?? undefined}
               onChange={(relevanceId) =>
                 updateConnection?.({ id: node.connectionId, relevanceId, primary: node.isPrimary })
               }

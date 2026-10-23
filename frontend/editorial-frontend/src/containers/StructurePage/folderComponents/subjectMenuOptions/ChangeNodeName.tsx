@@ -130,7 +130,7 @@ const ChangeNodeName = ({ node }: Props) => {
 
   const initialValues = {
     translations: nodeWithoutTranslationsQuery.data.translations?.slice() ?? [],
-    name: nodeWithoutTranslationsQuery.data.baseName,
+    name: nodeWithoutTranslationsQuery.data.baseName ?? "",
   };
 
   return (
@@ -219,7 +219,7 @@ const ChangeNodeName = ({ node }: Props) => {
                       </FormField>
                     ))}
                     <AddNodeTranslation
-                      defaultName={baseName}
+                      defaultName={baseName ?? ""}
                       onAddTranslation={push}
                       availableLanguages={availableLanguages}
                     />

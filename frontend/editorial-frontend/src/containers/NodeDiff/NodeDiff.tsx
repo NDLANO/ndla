@@ -95,10 +95,10 @@ const NodeDiff = ({ node, isRoot }: Props) => {
         {!!isRoot && <Badge colorTheme="brand1">{t("diff.isRoot")}</Badge>}
         <NodeIconType node={node} />
       </NodeInfoContainer>
-      <FieldDiff fieldName="name" result={node.name} toDisplayValue={(v) => v} />
+      <FieldDiff fieldName="name" result={node.name} toDisplayValue={(v) => v ?? ""} />
       {!!filteredNode.id && <FieldDiff fieldName="id" result={filteredNode.id} toDisplayValue={(v) => v} />}
       {!!filteredNode.contentUri && (
-        <FieldDiff fieldName="contentUri" result={filteredNode.contentUri} toDisplayValue={(v) => v} />
+        <FieldDiff fieldName="contentUri" result={filteredNode.contentUri} toDisplayValue={(v) => v ?? ""} />
       )}
       {!!filteredNode.translations && <TranslationsDiff translations={filteredNode.translations} />}
       {!!filteredNode.supportedLanguages && (
@@ -109,7 +109,7 @@ const NodeDiff = ({ node, isRoot }: Props) => {
         />
       )}
       {!!filteredNode.relevanceId && (
-        <FieldDiff fieldName="relevance" result={filteredNode.relevanceId} toDisplayValue={(v) => v} />
+        <FieldDiff fieldName="relevance" result={filteredNode.relevanceId} toDisplayValue={(v) => v ?? ""} />
       )}
       {"connectionId" in filteredNode && !!filteredNode.connectionId && (
         <FieldDiff fieldName="connectionId" result={filteredNode.connectionId} toDisplayValue={(v) => v} />
@@ -125,7 +125,7 @@ const NodeDiff = ({ node, isRoot }: Props) => {
         <FieldDiff fieldName="rank" result={filteredNode.rank} toDisplayValue={(v) => v.toString()} />
       )}
       {"parentId" in filteredNode && !!filteredNode.parentId && (
-        <FieldDiff fieldName="parentId" result={filteredNode.parentId} toDisplayValue={(v) => v} />
+        <FieldDiff fieldName="parentId" result={filteredNode.parentId} toDisplayValue={(v) => v ?? ""} />
       )}
       {!!metadata && (
         <>
@@ -233,10 +233,12 @@ const ResourceDiff = ({ resource, fieldView }: ResourceDiffProps) => {
         {!!res.connectionId && (
           <FieldDiff fieldName="connectionId" result={res.connectionId} toDisplayValue={(v) => v} />
         )}
-        {!!res.contentUri && <FieldDiff fieldName="contentUri" result={res.contentUri} toDisplayValue={(v) => v} />}
+        {!!res.contentUri && (
+          <FieldDiff fieldName="contentUri" result={res.contentUri} toDisplayValue={(v) => v ?? ""} />
+        )}
         {!!res.id && <FieldDiff fieldName="id" result={res.id} toDisplayValue={(v) => v} />}
-        {!!res.name && <FieldDiff fieldName="name" result={res.name} toDisplayValue={(v) => v} />}
-        {!!res.parentId && <FieldDiff fieldName="parentId" result={res.parentId} toDisplayValue={(v) => v} />}
+        {!!res.name && <FieldDiff fieldName="name" result={res.name} toDisplayValue={(v) => v ?? ""} />}
+        {!!res.parentId && <FieldDiff fieldName="parentId" result={res.parentId} toDisplayValue={(v) => v ?? ""} />}
         {!!res.isPrimary && (
           <FieldDiff
             fieldName="isPrimary"
@@ -245,7 +247,9 @@ const ResourceDiff = ({ resource, fieldView }: ResourceDiffProps) => {
           />
         )}
         {!!res.rank && <FieldDiff fieldName="rank" result={res.rank} toDisplayValue={(v) => v.toString()} />}
-        {!!res.relevanceId && <FieldDiff fieldName="relevance" result={res.relevanceId} toDisplayValue={(v) => v} />}
+        {!!res.relevanceId && (
+          <FieldDiff fieldName="relevance" result={res.relevanceId} toDisplayValue={(v) => v ?? ""} />
+        )}
         {!!res.translations && <TranslationsDiff translations={res.translations} />}
         {!!res.supportedLanguages && (
           <ArrayDiffField fieldName="supportedLanguages" result={res.supportedLanguages} toDisplayValue={(v) => v} />

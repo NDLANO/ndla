@@ -109,7 +109,7 @@ const SubjectBanner = ({ subjectNode, users }: Props) => {
           <ContentWrapper>
             {!!showQuality && (
               <>
-                <AverageQualityEvaluation gradeAverage={subjectNode.gradeAverage} nodeType="SUBJECT" />
+                <AverageQualityEvaluation gradeAverage={subjectNode.gradeAverage ?? undefined} nodeType="SUBJECT" />
                 <QualityEvaluation articleType="subject" taxonomy={[subjectNode]} />
               </>
             )}

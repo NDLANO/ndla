@@ -101,7 +101,7 @@ const HeaderInformation = ({
   const badges = useBadges({
     resourceTypes: node?.resourceTypes,
     traits: traits,
-    relevanceId: node?.relevanceId,
+    relevanceId: node?.relevanceId ?? undefined,
     resourceType: contentType,
   });
 

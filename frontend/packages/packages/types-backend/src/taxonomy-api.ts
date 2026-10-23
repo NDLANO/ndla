@@ -1735,7 +1735,7 @@ export type components = {
              * @description The id of the connected subject or topic
              * @example urn:subject:1
              */
-            targetId: string;
+            targetId: string | null;
             /** @description The type of connection (parent, child, referrer or target */
             type: string;
         };
@@ -1786,7 +1786,7 @@ export type components = {
              * @description The stored name of the node
              * @example Trigonometry
              */
-            baseName: string;
+            baseName: string | null;
             /** @description List of names in the path */
             breadcrumbs: string[];
             /**
@@ -1794,21 +1794,21 @@ export type components = {
              * @description ID of content introducing this node. Must be a valid URI, but preferably not a URL.
              * @example urn:article:1
              */
-            contentUri?: string;
+            contentUri?: string | null;
             /** @description The context object selected when fetching node */
-            context?: components["schemas"]["TaxonomyContext"];
+            context?: components["schemas"]["TaxonomyContext"] | null;
             /** @description An id unique for this context. */
-            contextId?: string;
+            contextId?: string | null;
             /** @description A list of all contextids this node has ever had */
             contextids: string[];
             /** @description A list of all contexts this node is part of */
             contexts: components["schemas"]["TaxonomyContext"][];
             /** @description A pretty url based on the name and context in the default language. */
-            defaultUrl?: string;
+            defaultUrl?: string | null;
             /** @description Url safe name for the node in the default language. */
-            defaultUrlName?: string;
+            defaultUrlName?: string | null;
             /** @description A number representing the average grade of all children nodes recursively. */
-            gradeAverage?: components["schemas"]["GradeAverage"];
+            gradeAverage?: components["schemas"]["GradeAverage"] | null;
             /**
              * Format: uri
              * @description Node id
@@ -1826,7 +1826,7 @@ export type components = {
              * @description The possibly translated name of the node
              * @example Trigonometry
              */
-            name: string;
+            name: string | null;
             /**
              * @description The type of node
              * @example resource
@@ -1836,17 +1836,17 @@ export type components = {
              * @description The primary path for this node. Can be empty if no context
              * @example /subject:1/topic:1
              */
-            path?: string;
+            path?: string | null;
             /** @description List of all paths to this node */
             paths: string[];
             /** @description Quality evaluation of the article */
-            qualityEvaluation?: components["schemas"]["QualityEvaluationDTO"];
+            qualityEvaluation?: components["schemas"]["QualityEvaluationDTO"] | null;
             /**
              * Format: uri
              * @description Relevance id
              * @example urn:relevance:core
              */
-            relevanceId?: string;
+            relevanceId?: string | null;
             /**
              * @description Resource type(s)
              * @example [
@@ -1860,16 +1860,16 @@ export type components = {
             /** @description List of language codes supported by translations */
             supportedLanguages: string[];
             /** @description The technical evaluation of the node. */
-            technicalEvaluation?: components["schemas"]["TechnicalEvaluationDTO"];
+            technicalEvaluation?: components["schemas"]["TechnicalEvaluationDTO"] | null;
             /** @description All translations of this node */
             translations: components["schemas"]["Translation"][];
             /**
              * Format: date-time
              * @description When was this last updated.
              */
-            updatedAt: string;
+            updatedAt: string | null;
             /** @description A pretty url based on name and context. Empty if no context. */
-            url?: string;
+            url?: string | null;
             /** @description Url safe names for the node. */
             urlName?: string[];
         };
@@ -1878,7 +1878,7 @@ export type components = {
              * @description The stored name of the node
              * @example Trigonometry
              */
-            baseName: string;
+            baseName: string | null;
             /** @description List of names in the path */
             breadcrumbs: string[];
             /**
@@ -1897,21 +1897,21 @@ export type components = {
              * @description ID of content introducing this node. Must be a valid URI, but preferably not a URL.
              * @example urn:article:1
              */
-            contentUri?: string;
+            contentUri?: string | null;
             /** @description The context object selected when fetching node */
-            context?: components["schemas"]["TaxonomyContext"];
+            context?: components["schemas"]["TaxonomyContext"] | null;
             /** @description An id unique for this context. */
-            contextId?: string;
+            contextId?: string | null;
             /** @description A list of all contextids this node has ever had */
             contextids: string[];
             /** @description A list of all contexts this node is part of */
             contexts: components["schemas"]["TaxonomyContext"][];
             /** @description A pretty url based on the name and context in the default language. */
-            defaultUrl?: string;
+            defaultUrl?: string | null;
             /** @description Url safe name for the node in the default language. */
-            defaultUrlName?: string;
+            defaultUrlName?: string | null;
             /** @description A number representing the average grade of all children nodes recursively. */
-            gradeAverage?: components["schemas"]["GradeAverage"];
+            gradeAverage?: components["schemas"]["GradeAverage"] | null;
             /**
              * Format: uri
              * @description Node id
@@ -1930,7 +1930,7 @@ export type components = {
              * @description The possibly translated name of the node
              * @example Trigonometry
              */
-            name: string;
+            name: string | null;
             /**
              * @description The type of node
              * @example resource
@@ -1940,16 +1940,16 @@ export type components = {
              * Format: uri
              * @description Parent id in the current context, null if none exists
              */
-            parentId: string;
+            parentId: string | null;
             /**
              * @description The primary path for this node. Can be empty if no context
              * @example /subject:1/topic:1
              */
-            path?: string;
+            path?: string | null;
             /** @description List of all paths to this node */
             paths: string[];
             /** @description Quality evaluation of the article */
-            qualityEvaluation?: components["schemas"]["QualityEvaluationDTO"];
+            qualityEvaluation?: components["schemas"]["QualityEvaluationDTO"] | null;
             /**
              * Format: int32
              * @description The order in which to sort the node within it's level.
@@ -1961,7 +1961,7 @@ export type components = {
              * @description Relevance id
              * @example urn:relevance:core
              */
-            relevanceId?: string;
+            relevanceId?: string | null;
             /**
              * @description Resource type(s)
              * @example [
@@ -1975,16 +1975,16 @@ export type components = {
             /** @description List of language codes supported by translations */
             supportedLanguages: string[];
             /** @description The technical evaluation of the node. */
-            technicalEvaluation?: components["schemas"]["TechnicalEvaluationDTO"];
+            technicalEvaluation?: components["schemas"]["TechnicalEvaluationDTO"] | null;
             /** @description All translations of this node */
             translations: components["schemas"]["Translation"][];
             /**
              * Format: date-time
              * @description When was this last updated.
              */
-            updatedAt: string;
+            updatedAt: string | null;
             /** @description A pretty url based on name and context. Empty if no context. */
-            url?: string;
+            url?: string | null;
             /** @description Url safe names for the node. */
             urlName?: string[];
         };
@@ -1994,7 +1994,7 @@ export type components = {
              * @description Child id
              * @example urn:topic:234
              */
-            childId: string;
+            childId: string | null;
             /** @description Connection type */
             connectionType: components["schemas"]["NodeConnectionType"];
             /**
@@ -2010,7 +2010,7 @@ export type components = {
              * @description Parent id
              * @example urn:topic:234
              */
-            parentId: string;
+            parentId: string | null;
             /**
              * @description Is this connection primary
              * @example true
@@ -2027,7 +2027,7 @@ export type components = {
              * @description Relevance id
              * @example urn:relevance:core
              */
-            relevanceId?: string;
+            relevanceId?: string | null;
         };
         /** @description The new connection */
         NodeConnectionPOST: {
@@ -2036,36 +2036,35 @@ export type components = {
              * @description Child id
              * @example urn:topic:234
              */
-            childId: string;
+            childId: string | null;
             /**
              * @description Connection type
-             * @default BRANCH
              * @example BRANCH
              */
-            connectionType?: components["schemas"]["NodeConnectionType"];
+            connectionType?: components["schemas"]["NodeConnectionType"] | null;
             /**
              * Parent id
              * Format: uri
              * @example urn:topic:234
              */
-            parentId: string;
+            parentId: string | null;
             /**
              * @description If this connection is primary.
              * @example true
              */
-            primary?: boolean;
+            primary?: boolean | null;
             /**
              * Format: int32
              * @description Order in which to sort the child for the parent
              * @example 1
              */
-            rank?: number;
+            rank?: number | null;
             /**
              * Format: uri
              * @description Relevance id
              * @example urn:relevance:core
              */
-            relevanceId?: string;
+            relevanceId?: string | null;
         };
         /** @description The updated connection */
         NodeConnectionPUT: {
@@ -2073,19 +2072,19 @@ export type components = {
              * @description If this connection is primary.
              * @example true
              */
-            primary?: boolean;
+            primary?: boolean | null;
             /**
              * Format: int32
              * @description Order in which subtopic is sorted for the topic
              * @example 1
              */
-            rank?: number;
+            rank?: number | null;
             /**
              * Format: uri
              * @description Relevance id
              * @example urn:relevance:core
              */
-            relevanceId?: string;
+            relevanceId?: string | null;
         };
         /** @enum {string} */
         NodeConnectionType: "BRANCH" | "LINK";
@@ -2096,41 +2095,41 @@ export type components = {
              * @description ID of content introducing this node. Must be a valid URI, but preferably not a URL.
              * @example urn:article:1
              */
-            contentUri?: string;
+            contentUri?: string | null;
             /** @description The node is the root in a context. Default is false. Only used if present. */
-            context?: boolean;
+            context?: boolean | null;
             /**
              * @description The language used at create time. Used to set default translation.
              * @example nb
              */
-            language?: string;
+            language?: string | null;
             /**
              * @description The name of the node. Required on create.
              * @example Trigonometry
              */
-            name?: string;
+            name?: string | null;
             /** @description If specified, set the node_id to this value. If omitted, an uuid will be assigned automatically. */
-            nodeId?: string;
+            nodeId?: string | null;
             /**
              * @description Type of node.
              * @example topic
              */
-            nodeType?: components["schemas"]["NodeType"];
+            nodeType?: components["schemas"]["NodeType"] | null;
             /** @description The quality evaluation of the node. Consist of a score from 1 to 5 and a comment. Can be null to remove existing evaluation. */
             qualityEvaluation?: components["schemas"]["QualityEvaluationDTO"];
             /** @description ResourceType public ids to assign to the node. Only works for nodes of type RESOURCE */
-            resourceTypes?: string[];
+            resourceTypes?: string[] | null;
             /**
              * @deprecated
              * @description The node is a root node. Default is false. Only used if present.
              */
-            root?: boolean;
+            root?: boolean | null;
             /** @description The technical evaluation of the node. Contains a flag and an optional comment. Can be null to remove existing evaluation. */
             technicalEvaluation?: components["schemas"]["TechnicalEvaluationDTO"];
             /** @description The translations for the node. Contains an array of translations in different languages */
-            translations?: components["schemas"]["Translation"][];
+            translations?: components["schemas"]["Translation"][] | null;
             /** @description The node is visible. Default is true. */
-            visible?: boolean;
+            visible?: boolean | null;
         };
         NodeSearchBody: {
             /** @description ContentURIs to fetch for query */
@@ -2182,7 +2181,7 @@ export type components = {
              * @description The stored name of the node
              * @example Trigonometry
              */
-            baseName?: string;
+            baseName?: string | null;
             /** @description List of names in the path */
             breadcrumbs?: string[];
             /**
@@ -2190,21 +2189,21 @@ export type components = {
              * @description ID of content introducing this node. Must be a valid URI, but preferably not a URL.
              * @example urn:article:1
              */
-            contentUri?: string;
+            contentUri?: string | null;
             /** @description The context object selected when fetching node */
-            context?: components["schemas"]["TaxonomyContext"];
+            context?: components["schemas"]["TaxonomyContext"] | null;
             /** @description An id unique for this context. */
-            contextId?: string;
+            contextId?: string | null;
             /** @description A list of all contextids this node has ever had */
             contextids?: string[];
             /** @description A list of all contexts this node is part of */
             contexts?: components["schemas"]["TaxonomyContext"][];
             /** @description A pretty url based on the name and context in the default language. */
-            defaultUrl?: string;
+            defaultUrl?: string | null;
             /** @description Url safe name for the node in the default language. */
-            defaultUrlName?: string;
+            defaultUrlName?: string | null;
             /** @description A number representing the average grade of all children nodes recursively. */
-            gradeAverage?: components["schemas"]["GradeAverage"];
+            gradeAverage?: components["schemas"]["GradeAverage"] | null;
             /**
              * Format: uri
              * @description Node id
@@ -2222,7 +2221,7 @@ export type components = {
              * @description The possibly translated name of the node
              * @example Trigonometry
              */
-            name?: string;
+            name?: string | null;
             /**
              * @description The type of node
              * @example resource
@@ -2245,17 +2244,17 @@ export type components = {
              * @description The primary path for this node. Can be empty if no context
              * @example /subject:1/topic:1
              */
-            path?: string;
+            path?: string | null;
             /** @description List of all paths to this node */
             paths?: string[];
             /** @description Quality evaluation of the article */
-            qualityEvaluation?: components["schemas"]["QualityEvaluationDTO"];
+            qualityEvaluation?: components["schemas"]["QualityEvaluationDTO"] | null;
             /**
              * Format: uri
              * @description Relevance id
              * @example urn:relevance:core
              */
-            relevanceId?: string;
+            relevanceId?: string | null;
             /**
              * @description Resource type(s)
              * @example [
@@ -2269,16 +2268,16 @@ export type components = {
             /** @description List of language codes supported by translations */
             supportedLanguages?: string[];
             /** @description The technical evaluation of the node. */
-            technicalEvaluation?: components["schemas"]["TechnicalEvaluationDTO"];
+            technicalEvaluation?: components["schemas"]["TechnicalEvaluationDTO"] | null;
             /** @description All translations of this node */
             translations?: components["schemas"]["Translation"][];
             /**
              * Format: date-time
              * @description When was this last updated.
              */
-            updatedAt?: string;
+            updatedAt?: string | null;
             /** @description A pretty url based on name and context. Empty if no context. */
-            url?: string;
+            url?: string | null;
             /** @description Url safe names for the node. */
             urlName?: string[];
         };
@@ -2470,11 +2469,11 @@ export type components = {
                 [key: string]: string[];
             };
             /** @description The id of the parent connection object */
-            connectionId: string;
+            connectionId: string | null;
             /** @description Unique id of context based on root + parent connection */
             contextId: string;
             /** @description Whether a 'standard'-article, 'topic-article'-article or a 'learningpath' */
-            contextType?: string;
+            contextType?: string | null;
             /** @description Pretty-url of this particular context in the default language */
             defaultUrl: string;
             /**

@@ -99,7 +99,7 @@ export const TaxonomyConnectionErrors = ({ nodes, type }: Props) => {
           return (
             <li key={taxonomyElement.id}>
               <Text>{title}</Text>
-              <SafeLinkWrapper visible={visibility} path={taxonomyElement.path}>
+              <SafeLinkWrapper visible={visibility} path={taxonomyElement.path ?? undefined}>
                 {`${taxonomyElement.id} (${taxonomyElement.name})`}
               </SafeLinkWrapper>
             </li>

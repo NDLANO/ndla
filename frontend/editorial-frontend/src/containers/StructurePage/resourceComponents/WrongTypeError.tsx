@@ -44,7 +44,8 @@ const WrongTypeError = ({ resource, articleType }: Props) => {
   if (expectedArticleType === articleType) return null;
 
   const errorText: string = (() => {
-    if (!articleType) return t("taxonomy.info.missingArticleType", { id: getContentUriInfo(resource.contentUri)?.id });
+    if (!articleType)
+      return t("taxonomy.info.missingArticleType", { id: getContentUriInfo(resource.contentUri ?? undefined)?.id });
     if (!expectedArticleType) return t("taxonomy.info.noExpectedArticleType");
     return t("taxonomy.info.wrongArticleType", {
       placedAs: t(`articleType.${expectedArticleType}`),

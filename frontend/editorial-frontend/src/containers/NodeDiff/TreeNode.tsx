@@ -92,7 +92,7 @@ interface Props {
 
 export const TreeNode = ({ node, onNodeSelected, selectedNode, nodes, level = 0 }: Props) => {
   const { t } = useTranslation();
-  const path = nodePathToUrnPath(node.path?.other ?? node.path?.original);
+  const path = nodePathToUrnPath(node.path?.other ?? node.path?.original ?? undefined);
   const isActive = (selectedNode?.id.other ?? selectedNode?.id.original) === (node.id.other ?? node.id.original);
   const hasChildNodes = nodes && nodes.length > 0;
   const isVisible = node.metadata?.visible.other ?? node.metadata?.visible.original;
