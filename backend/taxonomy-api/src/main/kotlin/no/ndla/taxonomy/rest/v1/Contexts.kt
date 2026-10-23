@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import java.net.URI
-import kotlin.jvm.optionals.getOrNull
 import no.ndla.taxonomy.config.Constants
 import no.ndla.taxonomy.repositories.NodeRepository
 import no.ndla.taxonomy.rest.v1.dtos.ContextDTO
@@ -49,9 +48,7 @@ class Contexts(
   ): List<ContextDTO> =
       nodeRepository
           .findAllByContextIncludingCachedUrlsAndTranslations(true)
-          .map {
-            ContextDTO(it.publicId, it.primaryPath.getOrNull(), it.getTranslatedName(language))
-          }
+          .map { ContextDTO(it.publicId, it.primaryPath, it.getTranslatedName(language) ?: "") }
           .sortedBy { it.id }
 
   @PostMapping

@@ -108,8 +108,8 @@ public class NodeConnectionService {
                 throw new DuplicateConnectionException();
 
             var alreadyConnected = parent.getChildConnections().stream()
-                    .anyMatch(connection -> connection.getChild().orElse(null) == child
-                            && connection.getConnectionType() == connectionType);
+                    .anyMatch(connection ->
+                            connection.getChild() == child && connection.getConnectionType() == connectionType);
 
             if (alreadyConnected) {
                 throw new DuplicateConnectionException();
@@ -130,8 +130,7 @@ public class NodeConnectionService {
             parentConnected = parentConnected.getParentConnections().stream()
                     .findFirst()
                     .orElseThrow()
-                    .getParent()
-                    .orElseThrow();
+                    .getParent();
 
             if (ttl-- < 0) {
                 throw new InvalidArgumentServiceException("Too many levels to get top level object");
@@ -160,12 +159,12 @@ public class NodeConnectionService {
     public void disconnectParentChild(Node parent, Node child) {
         new HashSet<>(parent.getChildConnections())
                 .stream()
-                        .filter(connection -> connection.getChild().orElse(null) == child)
+                        .filter(connection -> connection.getChild() == child)
                         .forEach(this::disconnectParentChildConnection); // (It will never be more than one record)
     }
 
     public void disconnectParentChildConnection(NodeConnection nodeConnection) {
-        final var child = nodeConnection.getChild();
+        final var child = Optional.ofNullable(nodeConnection.getChild());
 
         qualityEvaluationService.removeQualityEvaluationOfDeletedConnection(nodeConnection);
         if (shouldUpdateDraftNotes(nodeConnection)) {
@@ -178,7 +177,7 @@ public class NodeConnectionService {
         child.ifPresent(childToDisconnect -> {
             if (childToDisconnect.getNodeType() == NodeType.RESOURCE) {
                 // Set next connection to primary if disconnecting the primary connection
-                var isPrimaryConnection = nodeConnection.isPrimary().orElse(false);
+                var isPrimaryConnection = nodeConnection.isPrimary();
                 if (isPrimaryConnection) {
                     childToDisconnect.getParentConnections().stream()
                             .filter(c -> c.getConnectionType() == nodeConnection.getConnectionType())
@@ -186,7 +185,8 @@ public class NodeConnectionService {
                             .ifPresent(nextConnection -> {
                                 nextConnection.setPrimary(true);
                                 nodeConnectionRepository.saveAndFlush(nextConnection);
-                                nextConnection.getResource().ifPresent(contextUpdaterService::updateContexts);
+                                Optional.ofNullable(nextConnection.getResource())
+                                        .ifPresent(contextUpdaterService::updateContexts);
                             });
                 }
             }
@@ -207,14 +207,14 @@ public class NodeConnectionService {
 
         // Updates all other nodes connected to this parent
         final var foundNewPrimary = new AtomicBoolean(false);
-        connectable.getChild().ifPresent(node -> {
+        Optional.ofNullable(connectable.getChild()).ifPresent(node -> {
             var theOthers = node.getParentConnections().stream()
                     .filter(c -> connectable.getConnectionType() == c.getConnectionType())
                     .filter(c -> c != connectable)
                     .toList();
             var hasPrimary = !theOthers.stream()
                     .filter(c -> connectable.getConnectionType() == c.getConnectionType())
-                    .filter(c -> c.isPrimary().orElse(false))
+                    .filter(c -> c.isPrimary())
                     .toList()
                     .isEmpty();
             foundNewPrimary.set(hasPrimary);
@@ -238,8 +238,8 @@ public class NodeConnectionService {
 
         saveConnections(updatedConnectables);
 
-        updatedConnectables.forEach(
-                updatedConnectable -> updatedConnectable.getChild().ifPresent(contextUpdaterService::updateContexts));
+        updatedConnectables.forEach(updatedConnectable ->
+                Optional.ofNullable(updatedConnectable.getChild()).ifPresent(contextUpdaterService::updateContexts));
 
         if (!setPrimaryTo && !foundNewPrimary.get()) {
             throw new InvalidArgumentServiceException(
@@ -249,7 +249,7 @@ public class NodeConnectionService {
 
     private void updateRank(NodeConnection rankable, int newRank) {
         final var updatedConnections = RankableConnectionUpdater.INSTANCE.rank(
-                new ArrayList<>(rankable.getParent()
+                new ArrayList<>(Optional.ofNullable(rankable.getParent())
                         .orElseThrow(() -> new IllegalStateException("Rankable parent not found"))
                         .getChildConnections()),
                 rankable,
@@ -277,26 +277,24 @@ public class NodeConnectionService {
         updateRelevance(nodeConnection, newRelevance);
 
         if (shouldUpdateContexts(nodeConnection, newRelevance, isPrimary))
-            nodeConnection.getChild().ifPresent(contextUpdaterService::updateContexts);
+            Optional.ofNullable(nodeConnection.getChild()).ifPresent(contextUpdaterService::updateContexts);
     }
 
     private boolean shouldUpdateContexts(
             NodeConnection nodeConnection, Relevance newRelevance, Optional<Boolean> isPrimary) {
-        return isPrimary.isPresent()
-                || !Objects.equals(nodeConnection.getRelevance().orElse(null), newRelevance);
+        return isPrimary.isPresent() || !Objects.equals(nodeConnection.getRelevance(), newRelevance);
     }
 
     private boolean shouldUpdateDraftNotes(NodeConnection nodeConnection) {
-        return nodeConnection
-                .getChild()
-                .flatMap(Node::getContextType)
+        return Optional.ofNullable(nodeConnection.getChild())
+                .map(Node::getContextType)
                 .filter("learningpath"::equals)
                 .isEmpty();
     }
 
     public void replacePrimaryConnectionsFor(Node entity) {
         entity.getChildConnections().stream()
-                .filter(connection -> connection.isPrimary().orElse(false))
+                .filter(connection -> connection.isPrimary())
                 .forEach(connection -> {
                     try {
                         updatePrimaryConnection(connection, false);

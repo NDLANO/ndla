@@ -86,8 +86,8 @@ class SearchService(val nodeRepository: NodeRepository) {
 
     val fetched = nodeRepository.findAll(spec, pageRequest)
 
-    val rootNode = rootId?.let(nodeRepository::findFirstByPublicId) ?: Optional.empty()
-    val parentNode = parentId?.let(nodeRepository::findFirstByPublicId) ?: Optional.empty()
+    val rootNode = Optional.ofNullable(rootId?.let(nodeRepository::findFirstByPublicId))
+    val parentNode = Optional.ofNullable(parentId?.let(nodeRepository::findFirstByPublicId))
 
     val dtos =
         fetched.content.map { r ->

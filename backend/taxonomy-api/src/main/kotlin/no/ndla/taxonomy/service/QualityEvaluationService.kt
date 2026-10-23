@@ -9,7 +9,6 @@ package no.ndla.taxonomy.service
 
 import jakarta.persistence.EntityManager
 import java.net.URI
-import kotlin.jvm.optionals.getOrNull
 import no.ndla.taxonomy.domain.Grade
 import no.ndla.taxonomy.domain.GradeAverage
 import no.ndla.taxonomy.domain.Node
@@ -92,8 +91,8 @@ class QualityEvaluationService(
   fun updateQualityEvaluationOfNewConnection(connection: NodeConnection) {
     if (connection.connectionType == NodeConnectionType.LINK) return
 
-    val parent = connection.parent.getOrNull() ?: return
-    val child = connection.child.getOrNull() ?: return
+    val parent = connection.parent ?: return
+    val child = connection.child ?: return
 
     acquireQualityEvaluationAdvisoryLock()
     entityManager.flush()
@@ -122,8 +121,8 @@ class QualityEvaluationService(
   @Transactional(propagation = Propagation.MANDATORY)
   fun removeQualityEvaluationOfDeletedConnection(connectionToDelete: NodeConnection) {
     if (connectionToDelete.connectionType == NodeConnectionType.LINK) return
-    val child = connectionToDelete.child.getOrNull() ?: return
-    val parent = connectionToDelete.parent.getOrNull() ?: return
+    val child = connectionToDelete.child ?: return
+    val parent = connectionToDelete.parent ?: return
 
     acquireQualityEvaluationAdvisoryLock()
     entityManager.flush()
@@ -239,9 +238,8 @@ class QualityEvaluationService(
   fun updateEntireAverageTreeForNode(publicId: URI) {
     acquireQualityEvaluationAdvisoryLock()
     val node =
-        nodeRepository.findFirstByPublicId(publicId).orElseThrow {
-          NotFoundServiceException("Node was not found")
-        }
+        nodeRepository.findFirstByPublicId(publicId)
+            ?: throw NotFoundServiceException("Node was not found")
 
     node.updateEntireAverageTree()
     nodeRepository.save(node)
@@ -257,7 +255,7 @@ class QualityEvaluationService(
             node.nodeType,
             node.parentNodesForQualityEvaluation,
             null,
-            node.qualityEvaluationGrade.getOrNull(),
+            node.qualityEvaluationGrade,
         )
       }
     }

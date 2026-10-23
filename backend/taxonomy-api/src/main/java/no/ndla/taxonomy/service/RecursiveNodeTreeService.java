@@ -43,8 +43,8 @@ public class RecursiveNodeTreeService {
         nodeConnectionRepository
                 .findAllByNodeIdInIncludingTopicAndSubtopic(ids, nodeTypes)
                 .forEach(nodeConnection -> {
-                    var child = nodeConnection.getChild();
-                    var parent = nodeConnection.getParent();
+                    var child = Optional.ofNullable(nodeConnection.getChild());
+                    var parent = Optional.ofNullable(nodeConnection.getParent());
                     if (child.isEmpty() || parent.isEmpty()) return;
 
                     if (nodeConnection.getConnectionType() != NodeConnectionType.BRANCH) return;

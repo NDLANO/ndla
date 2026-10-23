@@ -8,7 +8,6 @@
 package no.ndla.taxonomy.service.dtos
 
 import io.swagger.v3.oas.annotations.media.Schema
-import kotlin.jvm.optionals.getOrNull
 import no.ndla.taxonomy.domain.Grade
 import no.ndla.taxonomy.domain.Node
 
@@ -19,8 +18,6 @@ data class QualityEvaluationDTO(
 ) {
   companion object {
     fun fromNode(node: Node): QualityEvaluationDTO? =
-        node.qualityEvaluationGrade.getOrNull()?.let {
-          QualityEvaluationDTO(it, node.qualityEvaluationNote.getOrNull())
-        }
+        node.qualityEvaluationGrade?.let { QualityEvaluationDTO(it, node.qualityEvaluationNote) }
   }
 }
