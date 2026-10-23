@@ -52,9 +52,9 @@ catalog:
   "@pandacss/token-dictionary": ^1.12.1
   "@pandacss/types": ^1.12.1
   "@playwright/test": ^1.64.1
-  "@react-router/dev": ^8.4.0
-  "@react-router/express": ^8.4.0
-  "@react-router/node": ^8.4.0
+  "@react-router/dev": ^8.5.0
+  "@react-router/express": ^8.5.0
+  "@react-router/node": ^8.5.0
   "@sentry/react": ^11.8.0
   "@sentry/vite-plugin": ^5.4.1
   "@storybook/addon-a11y": ^10.6.2
@@ -112,7 +112,7 @@ catalog:
   react: ^19.3.1
   react-dom: ^19.3.1
   react-i18next: ^17.1.0
-  react-router: ^8.4.0
+  react-router: ^8.5.0
   serialize-javascript: ^7.1.2
   sirv: ^3.0.2
   slate: ^0.146.0
