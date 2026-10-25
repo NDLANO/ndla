@@ -58,7 +58,7 @@
     "@types/cors": "catalog:",
     "@types/express": "catalog:",
     "@types/he": "catalog:",
-    "@types/lodash": "^4.17.26",
+    "@types/lodash": "^4.17.27",
     "@types/node": "catalog:",
     "@types/prismjs": "catalog:",
     "@types/sanitize-html": "^2.16.2",
