@@ -370,7 +370,7 @@ catalogs:
       specifier: ^11.5.3
       version: 11.5.3
     nock:
-      specifier: ^15.0.4
+      specifier: ^15.0.5
       version: 15.0.5
     nx:
       specifier: 23.3.0
