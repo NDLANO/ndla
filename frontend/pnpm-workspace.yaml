@@ -27,7 +27,7 @@ catalog:
   "@graphql-eslint/eslint-plugin": ^4.4.2
   "@internationalized/date": 3.12.4
   "@opentelemetry/api": ^1.9.1
-  "@opentelemetry/auto-instrumentations-node": ^0.81.2
+  "@opentelemetry/auto-instrumentations-node": ^0.82.0
   "@opentelemetry/core": ^2.12.0
   "@opentelemetry/exporter-trace-otlp-proto": ^0.223.0
   "@opentelemetry/sdk-node": ^0.223.0
