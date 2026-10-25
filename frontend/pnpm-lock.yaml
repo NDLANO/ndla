@@ -250,19 +250,19 @@ catalogs:
       specifier: ^5.4.1
       version: 5.4.1
     '@storybook/addon-a11y':
-      specifier: ^10.6.2
+      specifier: ^10.6.3
       version: 10.6.3
     '@storybook/addon-docs':
-      specifier: ^10.6.2
+      specifier: ^10.6.3
       version: 10.6.3
     '@storybook/addon-links':
-      specifier: ^10.6.2
+      specifier: ^10.6.3
       version: 10.6.3
     '@storybook/react':
-      specifier: ^10.6.2
+      specifier: ^10.6.3
       version: 10.6.3
     '@storybook/react-vite':
-      specifier: ^10.6.2
+      specifier: ^10.6.3
       version: 10.6.3
     '@testing-library/dom':
       specifier: ^10.4.2
@@ -442,7 +442,7 @@ catalogs:
       specifier: ^0.146.1
       version: 0.146.1
     storybook:
-      specifier: ^10.6.2
+      specifier: ^10.6.3
       version: 10.6.3
     svgo:
       specifier: ^4.1.0
