@@ -193,8 +193,8 @@ catalogs:
       specifier: ^5.3.1
       version: 5.3.1
     '@googleapis/youtube':
-      specifier: ^40.0.1
-      version: 40.0.1
+      specifier: ^40.0.2
+      version: 40.0.2
     '@graphql-codegen/cli':
       specifier: ^7.4.6
       version: 7.4.6
@@ -835,7 +835,7 @@ importers:
         version: 5.3.1
       '@googleapis/youtube':
         specifier: 'catalog:'
-        version: 40.0.1(supports-color@10.2.2)
+        version: 40.0.2(supports-color@10.2.2)
       '@internationalized/date':
         specifier: 'catalog:'
         version: 3.12.4
@@ -1160,7 +1160,7 @@ importers:
         version: 1.1.2(@apollo/server@5.5.1(graphql@17.0.2)(supports-color@10.2.2))(express@5.3.0(supports-color@10.2.2))
       '@googleapis/youtube':
         specifier: 'catalog:'
-        version: 40.0.1(supports-color@10.2.2)
+        version: 40.0.2(supports-color@10.2.2)
       '@graphql-tools/schema':
         specifier: ^10.1.5
         version: 10.1.5(graphql@17.0.2)
@@ -3485,8 +3485,8 @@ packages:
     resolution: {integrity: sha512-GmzA9ckNokPypTg10pgpeHNQe7ph+iIKKmhKu3Ob9ANkswreCx7R3cKmY781K8QK3AqVL3xVh9A42JvIAbkkSA==}
     engines: {node: ^20.17.0 || >=22.9.0}
 
-  '@googleapis/youtube@40.0.1':
-    resolution: {integrity: sha512-PUdZI/Hb1AXQ97xGFM68DyclCpwmWvkk72wlRPpgO+ukQFgXvkW0OBjXwfyo/cFTvyeXq7h3lBMe4bLm9LTiKg==}
+  '@googleapis/youtube@40.0.2':
+    resolution: {integrity: sha512-kbm+3uRcezP5skGBIBAaQKDRzla+LQWh9rRXbTyzpuXxBmJQKKLHkZMBwvYwkWQ5+RiVgEvLBvPPgs3FTiu3PA==}
     engines: {node: '>=22.0.0'}
 
   '@graphql-codegen/add@7.1.1':
@@ -13424,7 +13424,7 @@ snapshots:
 
   '@gar/promise-retry@1.0.3': {}
 
-  '@googleapis/youtube@40.0.1(supports-color@10.2.2)':
+  '@googleapis/youtube@40.0.2(supports-color@10.2.2)':
     dependencies:
       googleapis-common: 9.1.0(supports-color@10.2.2)
     transitivePeerDependencies:
