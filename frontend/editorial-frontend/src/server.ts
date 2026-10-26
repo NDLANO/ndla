@@ -8,8 +8,6 @@
 
 // This is the entry point of the application.
 
-// NOTE: Must be first so OpenTelemetry can instrument `http` and `fetch` before they are loaded/used.
-import "./instrumentation";
 import { configureKeepAlive } from "@ndla/shared/server";
 import type { Express } from "express";
 import type { ServerBuild } from "react-router";

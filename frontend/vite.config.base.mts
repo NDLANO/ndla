@@ -50,21 +50,17 @@ const ndlaConfig = ({ command }: ConfigEnv, { outputLayout = true }: NdlaConfigO
       build: {
         target: "node24",
         sourcemap: true,
-        rolldownOptions: {
-          output: {
-            // Otherwise, chunks imported by the entry run before the entry's own modules, like `instrumentation.ts`
-            strictExecutionOrder: true,
-            ...(outputLayout && {
-              format: "es",
-              entryFileNames: "[name].mjs",
-              codeSplitting: false,
-            }),
-          },
-        },
         ...(outputLayout && {
           outDir: "build",
           emptyOutDir: false,
           copyPublicDir: false,
+          rolldownOptions: {
+            output: {
+              format: "es",
+              entryFileNames: "[name].mjs",
+              codeSplitting: false,
+            },
+          },
         }),
       },
     },

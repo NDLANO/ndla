@@ -8,7 +8,6 @@
 
 import type { Server } from "node:http";
 import { waitForActiveRequests } from "@ndla/shared/server";
-import { sdk } from "../instrumentation";
 import log from "./logger";
 
 export const gracefulShutdown = async (server: Server): Promise<void> => {
@@ -18,6 +17,5 @@ export const gracefulShutdown = async (server: Server): Promise<void> => {
     info: log.info.bind(log),
     warn: log.warn.bind(log),
   });
-  await sdk?.shutdown().catch(() => {});
   process.exit(0);
 };

@@ -8,7 +8,6 @@
 
 import type { Server } from "http";
 import { waitForActiveRequests } from "@ndla/shared/server";
-import { sdk } from "../../instrumentation";
 import { log } from "../../util/logger/logger";
 
 export async function gracefulShutdown(server: Server) {
@@ -18,6 +17,5 @@ export async function gracefulShutdown(server: Server) {
     info: log.info.bind(log),
     warn: log.warn.bind(log),
   });
-  await sdk?.shutdown().catch(() => {});
   process.exit(0);
 }
