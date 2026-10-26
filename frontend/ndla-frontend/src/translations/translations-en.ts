@@ -755,6 +755,7 @@ const translations = {
           shareLink: "Copy link",
           saveLink: "Save the link to the folder",
           unSaveLink: "Remove link to shared folder",
+          print: "Export to PDF",
         },
         save: {
           warning:
@@ -1285,6 +1286,18 @@ const translations = {
     changelogFor: "Changelog for the learning resource",
     currentRevision: "Current version",
     previousRevisions: "Previous versions",
+  },
+  folderPrintPage: {
+    subtitle: "Exported from ndla.no {{date}} at {{time}}",
+    disclaimer:
+      "Note: The articles at <safelink>Norwegian digital learning arena - NDLA</safelink> might have been updated after this PDF was generated. Please check the original article if you find errors. If you want to report an error in the PDF, send an email to <a>hjelp@ndla.no</a>.",
+    description:
+      "This PDF might contain articles with embedded films, simulations and other interactive elements. This kind of content is not printable in a PDF, and is therefore not present. You can find the original content on ndla.no",
+    content: "Content",
+    contentSubtitle: "{{number}} learning resources from the folder {{folder}}",
+    printOrExport: "Print or save as PDF",
+    emailSubject: "Feedback from PDF export",
+    emailBody: "Folder url:[{{url}}] Description:[{{description}}]",
   },
 } satisfies typeof canonical;
 

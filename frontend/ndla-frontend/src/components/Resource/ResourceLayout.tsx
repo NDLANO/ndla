@@ -42,7 +42,7 @@ export const ResourceContentContainer = styled(
     base: {
       display: "flex",
       flexDirection: "column",
-      gap: "xlarge",
+      gap: "xxlarge",
       width: "full",
       // without this, wide tables overflow within articles
       minWidth: "0",
