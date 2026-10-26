@@ -21,6 +21,7 @@ import { useToast } from "../../components/ToastContext";
 import type { GQLCheckQuizMutation } from "../../graphqlTypes";
 import { useCheckQuizMutation } from "../../mutations/quiz/quizMutations";
 import { quizQuery } from "../../mutations/quiz/quizQueries";
+import { FavoritesHeart } from "../MyNdla/components/FavoritesHeart";
 import { buildQuizSession } from "../MyNdla/Quiz/utils";
 import { QuizQuestionScreen } from "./components/QuizQuestionScreen";
 import { QuizResultScreen } from "./components/QuizResultScreen";
@@ -28,7 +29,7 @@ import { QuizStartScreen } from "./components/QuizStartScreen";
 
 const StyledLayout = styled(PageLayout, {
   base: {
-    backgroundColor: "surface.brand.1.subtle",
+    backgroundColor: "background.strong",
   },
 });
 
@@ -125,7 +126,8 @@ const PlainQuizPageContent = () => {
 
   return (
     <StyledLayout>
-      <PageContainer variant="content" asChild consumeCss>
+      <FavoritesHeart position="top" desktopOnly />
+      <PageContainer variant="content" asChild consumeCss css={{ position: "relative", zIndex: "[1]" }}>
         <main>
           <PageTitle title={quiz.title} useLocationForCustomPath={true} />
           <SocialMediaMetadata
@@ -167,6 +169,7 @@ const PlainQuizPageContent = () => {
           )}
         </main>
       </PageContainer>
+      <FavoritesHeart position="bottom" desktopOnly />
     </StyledLayout>
   );
 };
