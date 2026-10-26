@@ -28,7 +28,7 @@ interface Props {
   onQuestionTypeChange: (multiChoice: boolean) => void;
   onMoveUp?: () => void;
   onMoveDown?: () => void;
-  autoFocus?: boolean;
+  focusOnMount?: boolean;
 }
 
 export const QuestionCardHeader = ({
@@ -37,15 +37,14 @@ export const QuestionCardHeader = ({
   onQuestionTypeChange,
   onMoveUp,
   onMoveDown,
-  autoFocus,
+  focusOnMount,
 }: Props) => {
   const { t } = useTranslation();
   const multipleAnswersRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (autoFocus) multipleAnswersRef.current?.focus();
-    // Only on mount
-  }, []);
+    if (focusOnMount) multipleAnswersRef.current?.focus();
+  }, [focusOnMount]);
 
   return (
     <HStack justify="space-between" gap="xsmall">

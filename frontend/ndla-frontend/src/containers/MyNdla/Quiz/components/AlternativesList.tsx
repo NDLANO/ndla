@@ -133,7 +133,7 @@ export const AlternativesList = ({
       onTextChange={onTextChange}
       onCorrectChange={onCorrectChange}
       onRemove={onRemove}
-      autoFocus={alt.id === focusAlternativeId}
+      focusOnMount={alt.id === focusAlternativeId}
     />
   ));
 
@@ -162,7 +162,7 @@ interface AlternativeRowProps {
   onTextChange: (id: string, text: string) => void;
   onCorrectChange: (id: string, isCorrect: boolean) => void;
   onRemove: (id: string) => void;
-  autoFocus: boolean;
+  focusOnMount: boolean;
 }
 
 const AlternativeRow = ({
@@ -174,7 +174,7 @@ const AlternativeRow = ({
   onTextChange,
   onCorrectChange,
   onRemove,
-  autoFocus,
+  focusOnMount,
 }: AlternativeRowProps) => {
   const { t } = useTranslation();
   const [initialText] = useState(() => deserializeToSimpleRichText(alt.text));
@@ -209,7 +209,7 @@ const AlternativeRow = ({
               <RichTextEditor
                 variant="simple"
                 initialValue={initialText}
-                autoFocus={autoFocus}
+                focusOnMount={focusOnMount}
                 onChange={(value) => onTextChange(alt.id, serializeFromSimpleRichText(value))}
                 placeholder={t("myNdla.quiz.form.alternativePlaceholder")}
               />

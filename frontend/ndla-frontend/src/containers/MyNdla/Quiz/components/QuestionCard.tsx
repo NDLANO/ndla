@@ -19,7 +19,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { RichTextEditor } from "../../../../components/RichTextEditor/RichTextEditor";
 import {
@@ -55,7 +55,7 @@ interface Props {
   onMoveDown?: () => void;
   onDelete: () => void;
   error?: string;
-  autoFocus?: boolean;
+  focusOnMount?: boolean;
 }
 
 const Card = styled("div", {
@@ -85,15 +85,11 @@ export const QuestionCard = ({
   onMoveDown,
   onDelete,
   error,
-  autoFocus,
+  focusOnMount,
 }: Props) => {
   const { t } = useTranslation();
   const [initialTitle] = useState(() => deserializeToSimpleRichText(question.title));
   const [focusAlternativeId, setFocusAlternativeId] = useState<string>();
-
-  useEffect(() => {
-    if (focusAlternativeId) setFocusAlternativeId(undefined);
-  }, [focusAlternativeId]);
 
   const setAlternatives = (alternatives: AlternativeFormValues[]) => onChange({ ...question, alternatives });
 
@@ -125,6 +121,7 @@ export const QuestionCard = ({
   };
 
   const onQuestionTypeChange = (multiChoice: boolean) => {
+    setFocusAlternativeId(undefined);
     onChange({
       ...question,
       questionType: multiChoice ? "MULTI_CHOICE" : "SINGLE_CHOICE",
@@ -143,7 +140,7 @@ export const QuestionCard = ({
         onQuestionTypeChange={onQuestionTypeChange}
         onMoveUp={onMoveUp}
         onMoveDown={onMoveDown}
-        autoFocus={autoFocus}
+        focusOnMount={focusOnMount}
       />
       <FieldRoot css={{ gap: "xsmall" }}>
         <ContentEditableFieldLabel>{t("myNdla.quiz.form.questionTitle")}</ContentEditableFieldLabel>

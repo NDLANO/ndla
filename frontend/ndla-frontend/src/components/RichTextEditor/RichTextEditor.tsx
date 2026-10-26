@@ -50,6 +50,7 @@ interface Props extends Omit<TextareaHTMLAttributes<HTMLDivElement>, "onChange" 
    * simple: A single paragraph with bold, italic, language and line breaks. Looks like a regular input until focused.
    */
   variant?: RichTextEditorVariant;
+  focusOnMount?: boolean;
 }
 
 export const simpleRichTextPlugins = [
@@ -152,7 +153,7 @@ export const RichTextEditor = ({
   initialValue,
   onChange,
   variant = "full",
-  autoFocus,
+  focusOnMount,
   ...rest
 }: Props) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -196,10 +197,10 @@ export const RichTextEditor = ({
   };
 
   useEffect(() => {
-    if (!autoFocus) return;
+    if (!focusOnMount) return;
     ReactEditor.focus(editor);
     Transforms.select(editor, Editor.start(editor, []));
-  }, []);
+  }, [focusOnMount, editor]);
 
   const showToolbar = variant === "full" || isFocused;
 

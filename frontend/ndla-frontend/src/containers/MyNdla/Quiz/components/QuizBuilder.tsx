@@ -287,7 +287,7 @@ export const QuizBuilder = ({
                   <li key={question.id} id={`question-${question.id}`}>
                     <QuestionCard
                       question={question}
-                      autoFocus={question.id === focusQuestionId}
+                      focusOnMount={question.id === focusQuestionId}
                       index={index}
                       onChange={(q) => onQuestionChange(question.id, q)}
                       onMoveUp={index > 0 ? () => onMoveQuestion(index, -1) : undefined}
