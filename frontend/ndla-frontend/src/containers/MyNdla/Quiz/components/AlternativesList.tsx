@@ -50,9 +50,6 @@ const RadioToggle = styled(RadioGroupItem, {
     flex: "1",
     alignItems: "flex-start",
     gap: "xsmall",
-    "&:has(input:focus-visible)": {
-      outline: "none!",
-    },
   },
 });
 
@@ -80,6 +77,8 @@ const AlignedWithInput = styled("div", {
   },
 });
 
+const noop = () => {};
+
 const stopPropagation = (e: SyntheticEvent) => e.stopPropagation();
 
 const preventLabelActivation = (e: MouseEvent<HTMLDivElement>) => {
@@ -97,6 +96,7 @@ interface Props {
   onTextChange: (id: string, text: string) => void;
   onCorrectChange: (id: string, isCorrect: boolean) => void;
   onRemove: (id: string) => void;
+  focusAlternativeId?: string;
 }
 
 export const AlternativesList = ({
@@ -107,6 +107,7 @@ export const AlternativesList = ({
   onTextChange,
   onCorrectChange,
   onRemove,
+  focusAlternativeId,
 }: Props) => {
   const { i18n } = useTranslation();
 
@@ -132,6 +133,7 @@ export const AlternativesList = ({
       onTextChange={onTextChange}
       onCorrectChange={onCorrectChange}
       onRemove={onRemove}
+      autoFocus={alt.id === focusAlternativeId}
     />
   ));
 
@@ -160,6 +162,7 @@ interface AlternativeRowProps {
   onTextChange: (id: string, text: string) => void;
   onCorrectChange: (id: string, isCorrect: boolean) => void;
   onRemove: (id: string) => void;
+  autoFocus: boolean;
 }
 
 const AlternativeRow = ({
@@ -171,6 +174,7 @@ const AlternativeRow = ({
   onTextChange,
   onCorrectChange,
   onRemove,
+  autoFocus,
 }: AlternativeRowProps) => {
   const { t } = useTranslation();
   const [initialText] = useState(() => deserializeToSimpleRichText(alt.text));
@@ -205,6 +209,7 @@ const AlternativeRow = ({
               <RichTextEditor
                 variant="simple"
                 initialValue={initialText}
+                autoFocus={autoFocus}
                 onChange={(value) => onTextChange(alt.id, serializeFromSimpleRichText(value))}
                 placeholder={t("myNdla.quiz.form.alternativePlaceholder")}
               />
@@ -245,7 +250,7 @@ const CorrectAnswerToggle = ({ alt, questionType, onCorrectChange, children }: C
     return (
       <RadioToggle value={alt.id} title={t("myNdla.quiz.correctAnswer")}>
         {children}
-        <RadioGroupItemHiddenInput />
+        <RadioGroupItemHiddenInput name={alt.id} checked={alt.isCorrect} onChange={noop} />
       </RadioToggle>
     );
   }

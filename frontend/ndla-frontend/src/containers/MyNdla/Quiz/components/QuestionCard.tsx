@@ -19,7 +19,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { RichTextEditor } from "../../../../components/RichTextEditor/RichTextEditor";
 import {
@@ -55,6 +55,7 @@ interface Props {
   onMoveDown?: () => void;
   onDelete: () => void;
   error?: string;
+  autoFocus?: boolean;
 }
 
 const Card = styled("div", {
@@ -76,14 +77,30 @@ const Card = styled("div", {
   },
 });
 
-export const QuestionCard = ({ question, index, onChange, onMoveUp, onMoveDown, onDelete, error }: Props) => {
+export const QuestionCard = ({
+  question,
+  index,
+  onChange,
+  onMoveUp,
+  onMoveDown,
+  onDelete,
+  error,
+  autoFocus,
+}: Props) => {
   const { t } = useTranslation();
   const [initialTitle] = useState(() => deserializeToSimpleRichText(question.title));
+  const [focusAlternativeId, setFocusAlternativeId] = useState<string>();
+
+  useEffect(() => {
+    if (focusAlternativeId) setFocusAlternativeId(undefined);
+  }, [focusAlternativeId]);
 
   const setAlternatives = (alternatives: AlternativeFormValues[]) => onChange({ ...question, alternatives });
 
   const onAddAlternative = () => {
-    setAlternatives([...question.alternatives, { id: crypto.randomUUID(), text: "", isCorrect: false }]);
+    const id = crypto.randomUUID();
+    setFocusAlternativeId(id);
+    setAlternatives([...question.alternatives, { id, text: "", isCorrect: false }]);
   };
 
   const onRemoveAlternative = (id: string) => {
@@ -126,6 +143,7 @@ export const QuestionCard = ({ question, index, onChange, onMoveUp, onMoveDown, 
         onQuestionTypeChange={onQuestionTypeChange}
         onMoveUp={onMoveUp}
         onMoveDown={onMoveDown}
+        autoFocus={autoFocus}
       />
       <FieldRoot css={{ gap: "xsmall" }}>
         <ContentEditableFieldLabel>{t("myNdla.quiz.form.questionTitle")}</ContentEditableFieldLabel>
@@ -156,6 +174,7 @@ export const QuestionCard = ({ question, index, onChange, onMoveUp, onMoveDown, 
         onTextChange={onAlternativeTextChange}
         onCorrectChange={onAlternativeCorrectChange}
         onRemove={onRemoveAlternative}
+        focusAlternativeId={focusAlternativeId}
       />
       {!!error && (
         <Text textStyle="label.small" color="text.error">
