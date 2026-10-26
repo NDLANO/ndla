@@ -25,6 +25,7 @@ import { buildQuizSession } from "../MyNdla/Quiz/utils";
 import { QuizQuestionScreen } from "./components/QuizQuestionScreen";
 import { QuizResultScreen } from "./components/QuizResultScreen";
 import { QuizStartScreen } from "./components/QuizStartScreen";
+import { MyNdlaPageWrapper } from "../MyNdla/components/MyNdlaPageWrapper";
 
 const StyledLayout = styled(PageLayout, {
   base: {
@@ -124,8 +125,8 @@ const PlainQuizPageContent = () => {
   };
 
   return (
-    <StyledLayout>
-      <PageContainer asChild consumeCss>
+    <MyNdlaPageWrapper>
+      <PageContainer variant="content" asChild consumeCss>
         <main>
           <PageTitle title={quiz.title} useLocationForCustomPath={true} />
           <SocialMediaMetadata
@@ -167,7 +168,7 @@ const PlainQuizPageContent = () => {
           )}
         </main>
       </PageContainer>
-    </StyledLayout>
+    </MyNdlaPageWrapper>
   );
 };
 
