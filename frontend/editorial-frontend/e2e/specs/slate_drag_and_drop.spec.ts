@@ -36,8 +36,22 @@ test("can move a block down with the keyboard", async ({ page }) => {
   await pickUp(page, "Blokk A");
   await page.keyboard.press("ArrowDown");
   await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("ArrowDown");
   await page.keyboard.press("Space");
   await expect.poll(() => paragraphs(page)).toEqual(["Blokk B", "Blokk C", "Blokk A"]);
+});
+
+test("can move a block back to where it was with the keyboard", async ({ page }) => {
+  await pickUp(page, "Blokk A");
+  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("ArrowUp");
+  await page.keyboard.press("ArrowUp");
+  // Dropping the block where it was changes nothing to wait for, so it is moved down again from there
+  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("Space");
+  await expect.poll(() => paragraphs(page)).toEqual(["Blokk B", "Blokk A", "Blokk C"]);
 });
 
 test("can move a block up with the keyboard", async ({ page }) => {

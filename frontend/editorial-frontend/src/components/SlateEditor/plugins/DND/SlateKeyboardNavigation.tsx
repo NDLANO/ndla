@@ -28,7 +28,7 @@ export const SlateKeyboardNavigation = () => {
           (droppable) =>
             !droppable.disabled &&
             droppable.id !== target?.id &&
-            droppable.data.element?.id !== source.id &&
+            (droppable.data.element?.id === source.id || !source.element?.contains(droppable.element ?? null)) &&
             droppable.accepts(source),
         )
         .flatMap((droppable) => {
