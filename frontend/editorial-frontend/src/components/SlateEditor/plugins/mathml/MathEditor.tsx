@@ -23,7 +23,7 @@ import {
   PopoverTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import he from "he";
+import { encode } from "he";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Node, Transforms } from "slate";
@@ -38,7 +38,7 @@ import type { MathmlElement } from "./mathTypes";
 
 const getInfoFromNode = (node: MathmlElement) => {
   const data = node.data ? node.data : {};
-  const innerHTML = data.innerHTML || `<mn>${he.encode(Node.string(node))}</mn>`;
+  const innerHTML = data.innerHTML || `<mn>${encode(Node.string(node))}</mn>`;
   return {
     model: {
       innerHTML: innerHTML.startsWith("<math")

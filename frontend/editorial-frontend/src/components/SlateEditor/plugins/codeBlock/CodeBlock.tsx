@@ -22,7 +22,7 @@ import {
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import type { CodeEmbedData } from "@ndla/types-embed";
 import { CodeBlock as UICodeBlock } from "@ndla/ui";
-import he from "he";
+import { decode, encode } from "he";
 import * as Prism from "prismjs";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -66,7 +66,7 @@ const highlightCode = (code: string, language: string): string => {
 const getInfoFromNode = (data: CodeEmbedData): CodeEmbedData => {
   return {
     resource: "code-block",
-    codeContent: he.decode(data.codeContent || "") as string,
+    codeContent: decode(data.codeContent || "") as string,
     title: data.title || "",
     codeFormat: data.codeFormat || "text",
   };
@@ -98,7 +98,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
         resource: "code-block",
         codeFormat: codeBlock.format,
         title: codeBlock.title,
-        codeContent: he.encode(codeBlock.code),
+        codeContent: encode(codeBlock.code),
       },
     });
   };

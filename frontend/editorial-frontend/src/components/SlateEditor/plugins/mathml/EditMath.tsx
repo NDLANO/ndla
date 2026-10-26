@@ -8,7 +8,7 @@
 
 import { Button, Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import he from "he";
+import { decode } from "he";
 import { type Ref, useEffect, useEffectEvent, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import handleError from "../../../../util/handleError";
@@ -122,7 +122,7 @@ const EditMath = ({ model: { innerHTML }, onRemove, onSave, setShouldShowWarning
   }, [i18n.language, wirisInitialized]);
 
   useEffect(() => {
-    setShouldShowWarning(he.decode(innerHTML ?? "") !== he.decode(mathMl));
+    setShouldShowWarning(decode(innerHTML ?? "") !== decode(mathMl));
   }, [innerHTML, mathMl, setShouldShowWarning]);
 
   return (

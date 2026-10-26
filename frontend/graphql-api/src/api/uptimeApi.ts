@@ -6,7 +6,7 @@
  *
  */
 
-import he from "he";
+import { decode } from "he";
 import { apiUrl, ndlaEnvironment, uptimeOwner, uptimeRepo, uptimeToken } from "../config";
 import { resolveJson } from "../utils/apiHelpers";
 import { externalFetch } from "../utils/fetch";
@@ -43,7 +43,7 @@ export async function fetchUptimeIssues(context: ContextWithLoaders): Promise<Up
       closable: !issue.labels.find((label) => label.name === "permanent"),
       body: issue.body?.length
         ? parseMarkdown({
-            markdown: he.decode(issue.body).replace(/<[^>]*>?/gm, ""),
+            markdown: decode(issue.body).replace(/<[^>]*>?/gm, ""),
           })
         : "",
     };
