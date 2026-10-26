@@ -143,10 +143,10 @@ const tabsRecipe = sva({
         content: {
           zIndex: "[1]",
           _horizontal: {
-            paddingBlockStart: "xsmall",
+            paddingBlockStart: "xlarge",
           },
           _vertical: {
-            paddingInlineStart: "xsmall",
+            paddingInlineStart: "xlarge",
           },
           _focusVisible: {
             outline: "none",
