@@ -59,6 +59,7 @@
     { matchPackageNames: ["ndlano/**", "eclipse-temurin"], pinDigests: false },
     // Grouped dependencies that should be updated in a single PR
 
+    { matchPackageNames: ["@opentelemetry/**"], groupName: "opentelemetry-js" },
     { matchPackageNames: ["@pandacss/*"], groupName: "pandacss" },
     { matchPackageNames: ["@dnd-kit/*"], groupName: "dnd-kit" },
     { matchPackageNames: ["react-router", "@react-router/*"], groupName: "react-router" },

@@ -68,6 +68,7 @@
     "@opentelemetry/core": "catalog:",
     "@opentelemetry/exporter-trace-otlp-proto": "catalog:",
     "@opentelemetry/sdk-node": "catalog:",
+    "@opentelemetry/sdk-trace": "catalog:",
     "@react-router/express": "catalog:",
     "@react-router/node": "catalog:",
     "@sentry/react": "catalog:",
