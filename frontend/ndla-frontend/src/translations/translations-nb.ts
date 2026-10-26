@@ -1132,13 +1132,44 @@ const translations = {
   tagSelector: {
     placeholder: "Skriv inn emneknagg",
   },
+  errorNotice: {
+    title: "Offisiell melding",
+    reasonLabel: "Årsak",
+    actionLabel: "Tiltak",
+    searchSubjects: "Søk etter fag",
+  },
   notFoundPage: {
-    title: "Siden finnes ikke",
-    errorDescription: "Beklager, finner ikke siden du prøvde å komme til.",
+    eyebrow: "404 / Siden skulker",
+    title: "Fravær uten gyldig grunn",
+    description: "Vi har ført siden som «ikke møtt». Heldigvis påvirker det ikke vitnemålet ditt.",
+    notice: {
+      stampLarge: "Ikke",
+      stampSmall: "godkjent",
+      reason: "Ukjent. Mulig kollektivforsinkelse.",
+      action: "Prøv en side som faktisk finnes.",
+    },
+  },
+  errorPage: {
+    eyebrow: "500 / Hunden spiste siden",
+    title: "Ikke levert",
+    description: "Vi vet ikke helt hva som har skjedd, men det kan godt være at hunden har spist denne siden.",
+    notice: {
+      stampLarge: "Ikke",
+      stampSmall: "levert",
+      reason: "Ukjent. Mulig hunderelatert.",
+      action: "Prøv en side som faktisk finnes.",
+    },
   },
   unpublishedResourcePage: {
-    title: "Ressursen er avpublisert",
-    errorDescription: "Beklager, ressursen du prøvde å komme til er avpublisert.",
+    eyebrow: "410 / Friminutt?",
+    title: "Timen er over",
+    description: "Du kom for sent til timen, og denne siden er dessverre arkivert.",
+    notice: {
+      stampLarge: "Etter",
+      stampSmall: "tidsfrist",
+      reason: "Kom for sent til timen.",
+      action: "Prøv en side som faktisk finnes.",
+    },
   },
   messageBoxInfo: {
     noContent: "Vi har dessverre ikke noen programfag ennå.",

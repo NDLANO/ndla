@@ -1137,13 +1137,44 @@ const translations = {
   tagSelector: {
     placeholder: "Enter tag name",
   },
+  errorNotice: {
+    title: "Official notice",
+    reasonLabel: "Reason",
+    actionLabel: "Action",
+    searchSubjects: "Search for subjects",
+  },
   notFoundPage: {
-    title: "Page not found",
-    errorDescription: "We can't seem to find the page you are looking for.",
+    eyebrow: "404 / Page is skipping class",
+    title: "Unexcused absence",
+    description: "We've marked the page as “absent”. Luckily, it won't affect your diploma.",
+    notice: {
+      stampLarge: "Not",
+      stampSmall: "approved",
+      reason: "Unknown. Possible public transport delay.",
+      action: "Try a page that actually exists.",
+    },
+  },
+  errorPage: {
+    eyebrow: "500 / The dog ate the page",
+    title: "Not handed in",
+    description: "We're not quite sure what happened, but the dog may well have eaten this page.",
+    notice: {
+      stampLarge: "Not",
+      stampSmall: "handed in",
+      reason: "Unknown. Possibly dog-related.",
+      action: "Try a page that actually exists.",
+    },
   },
   unpublishedResourcePage: {
-    title: "Resource is unpublished",
-    errorDescription: "The resource you are looking for has been unpublished.",
+    eyebrow: "410 / Recess?",
+    title: "Class is over",
+    description: "You were late for class, and this page has unfortunately been archived.",
+    notice: {
+      stampLarge: "Past",
+      stampSmall: "deadline",
+      reason: "Late for class.",
+      action: "Try a page that actually exists.",
+    },
   },
   messageBoxInfo: {
     noContent: "We are sorry, but we do not yet offer any program courses.",

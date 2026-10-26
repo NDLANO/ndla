@@ -6,19 +6,11 @@
  *
  */
 
-import {
-  ErrorMessageDescription,
-  ErrorMessageRoot,
-  ErrorMessageTitle,
-  ErrorMessageContent,
-  ErrorMessageActions,
-} from "@ndla/primitives";
-import { SafeLink } from "@ndla/safelink";
 import { useTranslation } from "react-i18next";
-import { PageContainer } from "../../components/Layout/PageContainer";
+import { ErrorNotice, ErrorNoticeMain } from "../../components/ErrorNotice";
 import { PageTitle } from "../../components/PageTitle";
 import { Status } from "../../components/Status";
-import { SKIP_TO_CONTENT_ID } from "../../constants";
+import { NOT_FOUND } from "../../statusCodes";
 
 interface NotFoundProps {
   applySkipToContentId?: boolean;
@@ -27,31 +19,18 @@ interface NotFoundProps {
 export const NotFound = ({ applySkipToContentId }: NotFoundProps) => {
   const { t } = useTranslation();
   return (
-    <Status code={404}>
-      <ErrorMessageRoot>
-        <PageTitle title={t("htmlTitles.notFound")} useLocationForCustomPath={true} />
-        <img src={"/static/not-exist.gif"} alt={t("errorMessage.title")} />
-        <ErrorMessageContent>
-          <ErrorMessageTitle id={applySkipToContentId ? SKIP_TO_CONTENT_ID : undefined}>
-            {t("notFoundPage.title")}
-          </ErrorMessageTitle>
-          <ErrorMessageDescription>{t("notFoundPage.errorDescription")}</ErrorMessageDescription>
-        </ErrorMessageContent>
-        <ErrorMessageActions>
-          <SafeLink to="/">{t("errorMessage.goToFrontPage")}</SafeLink>
-        </ErrorMessageActions>
-      </ErrorMessageRoot>
+    <Status code={NOT_FOUND}>
+      <PageTitle title={t("htmlTitles.notFound")} useLocationForCustomPath={true} />
+      <ErrorNotice statusCode={NOT_FOUND} applySkipToContentId={applySkipToContentId} />
     </Status>
   );
 };
 
 export const NotFoundPage = () => {
   return (
-    <PageContainer asChild consumeCss>
-      <main>
-        <NotFound applySkipToContentId={true} />
-      </main>
-    </PageContainer>
+    <ErrorNoticeMain>
+      <NotFound applySkipToContentId={true} />
+    </ErrorNoticeMain>
   );
 };
 

@@ -8,7 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { Outlet } from "react-router";
-import { DefaultErrorMessage } from "../components/DefaultErrorMessage";
+import { InternalServerError } from "../components/DefaultErrorMessage";
 import { Status } from "../components/Status";
 import { ErrorElement } from "../RouteErrorElement";
 import { INTERNAL_SERVER_ERROR } from "../statusCodes";
@@ -21,7 +21,7 @@ export const ErrorBoundary = () => {
         <title>{t("htmlTitles.errorPage")}</title>
         <meta name="description" content={t("meta.description")} />
         <main>
-          <DefaultErrorMessage applySkipToContentId />
+          <InternalServerError applySkipToContentId />
         </main>
       </Status>
     </ErrorElement>
