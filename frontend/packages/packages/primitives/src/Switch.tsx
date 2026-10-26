@@ -21,7 +21,7 @@ const switchRecipe = sva({
       alignItems: "center",
       position: "relative",
       gap: "xxsmall",
-      _focus: {
+      _focusVisible: {
         outline: "2px solid",
         outlineOffset: "4xsmall",
         outlineColor: "stroke.default",
