@@ -189,6 +189,7 @@ const AlternativeRow = styled(CheckboxRoot, {
     border: "1px solid",
     borderColor: "stroke.subtle",
     backgroundColor: "background.default",
+    pointerEvents: "none",
   },
 });
 
