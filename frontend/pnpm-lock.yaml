@@ -343,8 +343,8 @@ catalogs:
       specifier: ^2.12.7
       version: 2.12.7
     he:
-      specifier: ^1.2.0
-      version: 1.2.0
+      specifier: ^2.0.0
+      version: 2.0.0
     helmet:
       specifier: ^8.3.0
       version: 8.3.0
@@ -946,7 +946,7 @@ importers:
         version: 7.4.0(graphql@17.0.2)
       he:
         specifier: 'catalog:'
-        version: 1.2.0
+        version: 2.0.0
       helmet:
         specifier: 'catalog:'
         version: 8.3.0
@@ -1199,7 +1199,7 @@ importers:
         version: 2.12.7(graphql@17.0.2)
       he:
         specifier: 'catalog:'
-        version: 1.2.0
+        version: 2.0.0
       lodash:
         specifier: ^4.18.1
         version: 4.18.1
@@ -1819,7 +1819,7 @@ importers:
         version: 1.0.3
       he:
         specifier: 'catalog:'
-        version: 1.2.0
+        version: 2.0.0
       is-hotkey:
         specifier: 'catalog:'
         version: 0.2.0
@@ -8727,8 +8727,9 @@ packages:
   hastscript@9.0.1:
     resolution: {integrity: sha512-g7df9rMFX/SPi34tyGCyUBREQoKkapwdY/T04Qn9TDWfHhAYt4/I0gMVirzK5wEzeUqIjEB+LXC/ypb7Aqno5w==}
 
-  he@1.2.0:
-    resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
+  he@2.0.0:
+    resolution: {integrity: sha512-0jE+JPv08nhXWmI1dULybzqNt34RbkH6Ul6V4cmDONpjYx1SfyObKF38FJLaJ1K7WWD93LWL9lewzk4E1Ria4A==}
+    engines: {node: '>=22'}
     hasBin: true
 
   helmet@8.3.0:
@@ -20144,7 +20145,7 @@ snapshots:
       property-information: 7.2.0
       space-separated-tokens: 2.0.2
 
-  he@1.2.0: {}
+  he@2.0.0: {}
 
   helmet@8.3.0: {}
 

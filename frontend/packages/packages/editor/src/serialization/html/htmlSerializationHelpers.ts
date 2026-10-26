@@ -6,7 +6,7 @@
  *
  */
 
-import he from "he";
+import { encode } from "he";
 import type { ComponentProps, ElementType } from "react";
 
 const reduceRegexp = /(-|_)[a-z]/g;
@@ -52,7 +52,7 @@ export const createDataAttributes = <T extends object>(data?: EmbedProps<T>): Re
       if (key === "resourceId") {
         acc["data-resource_id"] = value.toString();
       } else {
-        acc[`data-${newKey}`] = he.encode(value.toString());
+        acc[`data-${newKey}`] = encode(value.toString());
       }
     }
     return acc;

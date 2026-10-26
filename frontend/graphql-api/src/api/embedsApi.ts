@@ -32,7 +32,7 @@ import type {
   ConceptData,
 } from "@ndla/types-embed";
 import { load } from "cheerio";
-import he from "he";
+import { decode } from "he";
 import { ndlaUrl } from "../config";
 import { getBrightcoveCopyright } from "../utils/brightcoveUtils";
 import { type CheerioEmbed, getEmbedsFromContent } from "../utils/getEmbedsFromContent";
@@ -138,7 +138,7 @@ const h5pMeta: Fetch<H5pMetaData> = async ({ embedData, context, opts }) => {
 };
 
 const codeMeta: Fetch<CodeMetaData> = async ({ embedData }) => {
-  const decodedContent = he.decode(embedData.codeContent);
+  const decodedContent = decode(embedData.codeContent);
   const highlighted = highlightCode(decodedContent, embedData.codeFormat);
   return { decodedContent, highlightedCode: highlighted };
 };
