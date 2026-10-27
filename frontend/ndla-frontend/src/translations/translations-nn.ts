@@ -1286,7 +1286,7 @@ const translations = {
   folderPrintPage: {
     subtitle: "Eksportert frå ndla.no {{date}} kl {{time}}",
     disclaimer:
-      "Merk: Artiklane på <safelink>Nasjonal digital læringsarena - NDLA</safelink> kan ha blitt oppdaterte etter at denne PDF-en vart generert. Sjekk gjerne den originale artikkelen viss du oppdagar feil. Vil du melde frå om ein feil i PDF-en, send ein e-post til <a>hjelp@ndla.no</a>.",
+      "Merk: Artiklane på <safelink>Nasjonal digital læringsarena - NDLA</safelink> kan ha blitt oppdaterte etter at denne PDF-en vart generert. Dersom du oppdagar feil i PDF-en, kan du sjekke den originale artikkelen på NDLA.no. Vil du melde frå om ein feil i artikkelen, send ein e-post til <a>hjelp@ndla.no</a>.",
     description:
       "Denne PDF-en inneheld kanskje artiklar med innebygde filmer, simuleringar og andre interaktive elementer. Slikt innhold lar seg ikkje vise i ein PDF, og er difor ikkje med. Du kan finne innhaldet på ndla.no",
     content: "Innhald",
