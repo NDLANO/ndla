@@ -1290,7 +1290,7 @@ const translations = {
   folderPrintPage: {
     subtitle: "Exported from ndla.no {{date}} at {{time}}",
     disclaimer:
-      "Note: The articles at <safelink>Norwegian digital learning arena - NDLA</safelink> might have been updated after this PDF was generated. Please check the original article if you find errors. If you want to report an error in the PDF, send an email to <a>hjelp@ndla.no</a>.",
+      "Note: The articles at <safelink>Norwegian digital learning arena - NDLA</safelink> might have been updated after this PDF was generated. Please check the original article if you find errors. If you want to report an error in the article, send an email to <a>hjelp@ndla.no</a>.",
     description:
       "This PDF might contain articles with embedded films, simulations and other interactive elements. This kind of content is not printable in a PDF, and is therefore not present. You can find the original content on ndla.no",
     content: "Content",
