@@ -51,11 +51,17 @@ beforeEach(() => {
   vi.mocked(handleError).mockClear();
 });
 
-test("a request method the route can't handle keeps its 405 status and isn't reported", async () => {
+test("a request method the route can't handle keeps its 405 status and is logged as info", async () => {
   const status = await renderRequest(new Request("http://localhost/", { method: "PUT" }));
 
   expect(status).toBe(405);
-  expect(handleError).not.toHaveBeenCalled();
+  expect(handleError).toHaveBeenCalledWith(
+    expect.objectContaining({
+      message: expect.stringContaining('You made a PUT request to "/"'),
+      status: 405,
+      logLevel: "info",
+    }),
+  );
 });
 
 test("an error thrown by a loader is reported and returns 500", async () => {

@@ -33,8 +33,9 @@ export const ErrorElement = ({ children }: Props) => {
     );
   }
 
-  // Client errors, like a POST to a route without an action, keep their status and aren't reported as app failures
+  // Client errors, like a POST to a route without an action, keep their status instead of becoming a 500
   if (isRouteErrorResponse(error) && error.status >= 400 && error.status < 500) {
+    if (config.runtimeType === "production") handleError(ensureError(error));
     return children ?? <ErrorPage statusCode={error.status} />;
   }
 
