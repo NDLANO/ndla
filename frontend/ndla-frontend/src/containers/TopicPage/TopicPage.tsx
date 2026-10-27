@@ -8,17 +8,17 @@
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
 import { skipToken, useSuspenseQuery } from "@apollo/client/react";
-import { Suspense } from "react";
+import { Suspense, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
-import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
+import { RedirectContext } from "../../components/RedirectContext";
 import { RedirectExternal } from "../../components/RedirectExternal";
 import { MULTIDISCIPLINARY_SUBJECT_ID } from "../../constants";
 import type { GQLTopicPageQuery, GQLTopicPageQueryVariables } from "../../graphqlTypes";
 import { getSubjectType } from "../../routeHelpers";
 import { findAccessDeniedErrors, hasNotFoundStatus } from "../../util/handleError";
-import { useRawLocation } from "../../util/localePath";
+import { LocaleNavigate, useLocalePath, useRawLocation } from "../../util/localePath";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { ForbiddenPage } from "../ErrorPage/ForbiddenPage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
@@ -90,6 +90,8 @@ const TopicPageContent = () => {
   const { contextId } = useParams();
   const location = useRawLocation();
   const { i18n } = useTranslation();
+  const setRedirect = useContext(RedirectContext);
+  const resolveLocalePath = useLocalePath();
   const query = useSuspenseQuery(
     topicPageQuery,
     !isValidContextId(contextId)
@@ -120,14 +122,22 @@ const TopicPageContent = () => {
     if (hasNotFoundStatus(query.error)) return <NotFoundPage />;
   }
 
-  if (!query.data?.node?.article) {
+  const node = query.data?.node;
+
+  if (node && node.nodeType !== "TOPIC" && node.nodeType !== "CASE") {
+    const url = node.context?.url;
+    if (!url) return <NotFoundPage />;
+    if (setRedirect) {
+      setRedirect({ status: 301, url: resolveLocalePath(url) });
+      return null;
+    }
+    return <LocaleNavigate to={url} replace />;
+  }
+
+  if (!node?.article) {
     return <NotFoundPage />;
   }
 
-  const { node } = query.data;
-  if (node.nodeType !== "TOPIC" && node.nodeType !== "CASE") {
-    return <DefaultErrorMessagePage />;
-  }
   if (i18n.language === "se" && !node.supportedLanguages?.includes("se")) {
     return <RedirectExternal to={constructNewPath(location.pathname, "nb")} />;
   }
