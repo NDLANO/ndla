@@ -13,6 +13,7 @@ import { useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import type { GQLPlainLearningpathPageQuery, GQLPlainLearningpathPageQueryVariables } from "../../graphqlTypes";
+import { hasNotFoundStatus } from "../../util/handleError";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { PlainLearningpathContainer, plainLearningpathContainerFragments } from "./PlainLearningpathContainer";
 
@@ -50,10 +51,14 @@ export const PlainLearningpathPage = () => {
 const PlainLearningpathPageContent = () => {
   const { learningpathId, stepId } = useParams();
 
-  const { data } = useSuspenseQuery(
+  const { data, error } = useSuspenseQuery(
     plainLearningpathPageQuery,
     !learningpathId ? skipToken : { variables: { pathId: learningpathId } },
   );
+
+  if (hasNotFoundStatus(error)) {
+    return <NotFoundPage />;
+  }
 
   if (!data?.learningpath) {
     return <DefaultErrorMessagePage />;
