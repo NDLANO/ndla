@@ -182,7 +182,7 @@ export const PrintResource = ({ resource, typesetElement }: PrintArticleProps) =
       </Suspense>
       <Text>
         {`${t("source")}: `}
-        <SafeLink to={sourceUrl}>{sourceUrl}</SafeLink>
+        <SafeLink to={`${sourceUrl}?mtm_source=pdf-eksport`}>{sourceUrl}</SafeLink>
       </Text>
     </PrintSection>
   );
