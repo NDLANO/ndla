@@ -9,8 +9,7 @@ package no.ndla.taxonomy.rest.v1
 
 import java.net.URI
 import java.util.Optional
-import no.ndla.taxonomy.TestUtils.assertAllTrue
-import no.ndla.taxonomy.TestUtils.getId
+import no.ndla.taxonomy.TestUtils
 import no.ndla.taxonomy.domain.VersionType
 import no.ndla.taxonomy.rest.v1.commands.VersionPost
 import no.ndla.taxonomy.rest.v1.commands.VersionPut
@@ -86,15 +85,15 @@ class VersionsTest : RestTest() {
     val response = testUtils.getResource("/v1/versions?type=BETA")
     val versions = testUtils.getObject(Array<VersionDTO>::class.java, response)
     assertEquals(1, versions.size)
-    assertAllTrue(versions) { v -> v.versionType == VersionType.BETA }
-    assertAllTrue(versions) { v -> v.id == version.publicId }
+    TestUtils.assertAllTrue(versions) { v -> v.versionType == VersionType.BETA }
+    TestUtils.assertAllTrue(versions) { v -> v.id == version.publicId }
 
     val version2 = builder.version { v -> v.type(VersionType.PUBLISHED) }
     val response2 = testUtils.getResource("/v1/versions?type=PUBLISHED")
     val versions2 = testUtils.getObject(Array<VersionDTO>::class.java, response2)
     assertEquals(1, versions2.size)
-    assertAllTrue(versions2) { v -> v.versionType == VersionType.PUBLISHED }
-    assertAllTrue(versions2) { v -> v.id == version2.publicId }
+    TestUtils.assertAllTrue(versions2) { v -> v.versionType == VersionType.PUBLISHED }
+    TestUtils.assertAllTrue(versions2) { v -> v.id == version2.publicId }
   }
 
   @Test
@@ -102,7 +101,7 @@ class VersionsTest : RestTest() {
     val createVersionCommand = VersionPost(id = URI.create("urn:version:1"), name = "Beta")
 
     val response = testUtils.createResource("/v1/versions", createVersionCommand)
-    val id = getId(response)
+    val id = TestUtils.getId(response)
 
     val version = versionRepository.getByPublicId(id)
     assertEquals(createVersionCommand.id, version.publicId)
@@ -119,7 +118,7 @@ class VersionsTest : RestTest() {
             "/v1/versions?sourceId=${published.publicId}",
             createVersionCommand,
         )
-    val id = getId(response)
+    val id = TestUtils.getId(response)
     val version = versionRepository.getByPublicId(id)
     assertEquals(createVersionCommand.id, version.publicId)
     assertEquals(VersionType.BETA, version.versionType)
