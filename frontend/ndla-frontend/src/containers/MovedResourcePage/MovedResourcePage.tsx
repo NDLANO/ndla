@@ -38,7 +38,6 @@ const StyledMain = styled("main", {
     display: "flex",
     gap: "xxlarge",
     flexDirection: "column",
-    alignItems: "center",
   },
 });
 
@@ -48,10 +47,18 @@ const StyledHeading = styled(Heading, {
   },
 });
 
+const StyledText = styled(Text, {
+  base: {
+    textAlign: "center",
+  },
+});
+
 const StyledCardRoot = styled(CardRoot, {
   base: {
+    alignSelf: "center",
     height: "full",
-    width: "[360px]",
+    width: "full",
+    maxWidth: "[360px]",
   },
 });
 
@@ -80,9 +87,12 @@ const MovedResourcePageContent = ({ resource }: Props) => {
     variables: { resourceId: resource.id },
   });
 
+  const isTopic = resource.nodeType === "TOPIC";
+
   const traits = useListItemTraits({
     resourceTypes: resource.resourceTypes,
     traits: resource.article?.traits,
+    resourceType: isTopic ? "topic" : undefined,
   });
 
   if (error) {
@@ -98,12 +108,14 @@ const MovedResourcePageContent = ({ resource }: Props) => {
   });
 
   return (
-    <PageContainer>
+    <PageContainer padding="large">
       <PageTitle title={t("htmlTitles.movedResourcePage")} useLocationForCustomPath={true} />
       <meta name="robots" content="noindex" />
       <StyledMain>
-        <StyledHeading id={SKIP_TO_CONTENT_ID} textStyle="heading.large">
-          {resourceId ? t("movedResourcePage.title") : t("searchPage.searchResultListMessages.noResultHeading")}
+        <StyledHeading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
+          {resourceId
+            ? t(isTopic ? "movedResourcePage.topicTitle" : "movedResourcePage.title")
+            : t("searchPage.searchResultListMessages.noResultHeading")}
         </StyledHeading>
         {resourceId ? (
           <StyledCardRoot>
@@ -118,6 +130,15 @@ const MovedResourcePageContent = ({ resource }: Props) => {
               />
             )}
             <CardContent>
+              {!!traits.length && (
+                <BadgesContainer>
+                  {traits.map((trait) => (
+                    <Badge size="small" key={trait}>
+                      {trait}
+                    </Badge>
+                  ))}
+                </BadgesContainer>
+              )}
               <CardHeading asChild consumeCss>
                 <SafeLink to={resource.url ?? ""} css={linkOverlay.raw()}>
                   {resource.name}
@@ -129,19 +150,15 @@ const MovedResourcePageContent = ({ resource }: Props) => {
                   {resource.breadcrumbs.join(" › ")}
                 </Text>
               )}
-              <BadgesContainer>
-                {traits.map((trait) => (
-                  <Badge size="small" key={trait}>
-                    {trait}
-                  </Badge>
-                ))}
-              </BadgesContainer>
             </CardContent>
           </StyledCardRoot>
         ) : (
-          <Text>{t("searchPage.searchResultListMessages.noResultDescription")}</Text>
+          <StyledText>{t("searchPage.searchResultListMessages.noResultDescription")}</StyledText>
         )}
-        <NavigationBox heading={t("movedResourcePage.openInSubject")} items={navigationBoxItems} />
+        <NavigationBox
+          heading={t(isTopic ? "movedResourcePage.openTopicInSubject" : "movedResourcePage.openInSubject")}
+          items={navigationBoxItems}
+        />
       </StyledMain>
     </PageContainer>
   );
