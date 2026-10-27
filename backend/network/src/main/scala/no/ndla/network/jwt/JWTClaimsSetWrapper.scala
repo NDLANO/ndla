@@ -20,10 +20,13 @@ object JWTClaimsSetWrapper {
   def apply(claims: JWTClaimsSet): JWTClaimsSetWrapper = claims
 
   extension (claims: JWTClaimsSetWrapper) {
-    def stringListClaim(name: String): Either[ForbiddenException, List[String]] =
-      doSafe(name)(_.getStringArrayClaim.andThen(_.toList))
+    def stringListClaim(name: String): Either[ForbiddenException, List[String]] = doSafe(name)(_.getStringArrayClaim)
+      .map(_.toList)
     def stringClaim(name: String): Either[ForbiddenException, String] = doSafe(name)(_.getStringClaim)
     def longClaim(name: String): Either[ForbiddenException, Long]     = doSafe(name)(_.getLongClaim)
+
+    def stringListOptClaim(name: String): Either[ClaimParseException, Option[List[String]]] =
+      doSafeOpt(name)(_.getStringArrayClaim).map(arrOpt => arrOpt.map(_.toList))
 
     def issueTime: Either[ForbiddenException, Long] = Option(claims.getIssueTime)
       .map(_.toInstant.getEpochSecond)
@@ -38,11 +41,15 @@ object JWTClaimsSetWrapper {
       case l   => Right(l)
     }
 
-    private def doSafe[A](name: String)(f: JWTClaimsSet => String => A): Either[ForbiddenException, A] =
+    private def doSafe[A](name: String)(f: JWTClaimsSet => String => A): Either[ForbiddenException, A] = {
       Try(Option(f(claims)(name))) match {
         case Success(Some(a)) => Right(a)
         case Success(None)    => Left(MissingClaimException(name))
         case Failure(ex)      => Left(ClaimParseException(name, ex))
       }
+    }
+
+    private def doSafeOpt[A](name: String)(f: JWTClaimsSet => String => A): Either[ClaimParseException, Option[A]] =
+      Try(Option(f(claims)(name))).toEither.left.map(ex => ClaimParseException(name, ex))
   }
 }
