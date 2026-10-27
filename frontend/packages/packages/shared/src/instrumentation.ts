@@ -8,8 +8,10 @@
 
 // NOTE: This module MUST be imported before anything else (especially http/express) so the OpenTelemetry
 // instrumentations can patch Node's built-in `http` and `undici` (global `fetch`) before they are first
-// used. See the first import in `index.ts`. The operator-injected auto-instrumentation cannot patch this
-// ESM app (it relies on a CommonJS `--require` hook), so we run the SDK in-process instead.
+// used. See the first import in each app's `server.ts`. It is listed in `sideEffects` in `package.json` so that
+// bare import is not tree-shaken. The SDK runs in-process (the OTel operator only injects `OTEL_*` config
+// via `inject-sdk`) so it shares one `@opentelemetry/api` with the app. If the app's API were newer than the SDK's,
+// API calls like `trace.getActiveSpan()` would silently no-op.
 
 import { getNodeAutoInstrumentations } from "@opentelemetry/auto-instrumentations-node";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";

@@ -11,13 +11,18 @@
     "directory": "frontend/packages/packages/shared"
   },
   "type": "module",
-  "sideEffects": false,
+  "sideEffects": [
+    "./src/instrumentation.ts"
+  ],
   "exports": {
     "./apiClient": {
       "ndla-source": "./src/apiClient/index.ts"
     },
     "./devReload": {
       "ndla-source": "./src/devReload.ts"
+    },
+    "./instrumentation": {
+      "ndla-source": "./src/instrumentation.ts"
     },
     "./sentry": {
       "ndla-source": "./src/sentry.ts"
@@ -29,6 +34,10 @@
   "dependencies": {
     "@ndla/types-backend": "workspace:*",
     "@opentelemetry/api": "catalog:",
+    "@opentelemetry/auto-instrumentations-node": "catalog:",
+    "@opentelemetry/core": "catalog:",
+    "@opentelemetry/exporter-trace-otlp-proto": "catalog:",
+    "@opentelemetry/sdk-node": "catalog:",
     "@prometheus-io/client": "^0.16.1",
     "@sentry/react": "catalog:",
     "express": "catalog:",

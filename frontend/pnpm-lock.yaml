@@ -893,18 +893,6 @@ importers:
       '@opentelemetry/api':
         specifier: 'catalog:'
         version: 1.9.1
-      '@opentelemetry/auto-instrumentations-node':
-        specifier: 'catalog:'
-        version: 0.81.2(@opentelemetry/api@1.9.1)(@opentelemetry/core@2.12.0(@opentelemetry/api@1.9.1))(supports-color@10.2.2)
-      '@opentelemetry/core':
-        specifier: 'catalog:'
-        version: 2.12.0(@opentelemetry/api@1.9.1)
-      '@opentelemetry/exporter-trace-otlp-proto':
-        specifier: 'catalog:'
-        version: 0.223.0(@opentelemetry/api@1.9.1)
-      '@opentelemetry/sdk-node':
-        specifier: 'catalog:'
-        version: 0.223.0(@opentelemetry/api@1.9.1)(supports-color@10.2.2)
       '@react-router/express':
         specifier: 'catalog:'
         version: 8.5.0(express@5.3.0(supports-color@10.2.2))(react-router@8.5.0(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(typescript@7.0.2)
@@ -1375,18 +1363,6 @@ importers:
       '@opentelemetry/api':
         specifier: 'catalog:'
         version: 1.9.1
-      '@opentelemetry/auto-instrumentations-node':
-        specifier: 'catalog:'
-        version: 0.81.2(@opentelemetry/api@1.9.1)(@opentelemetry/core@2.12.0(@opentelemetry/api@1.9.1))(supports-color@10.2.2)
-      '@opentelemetry/core':
-        specifier: 'catalog:'
-        version: 2.12.0(@opentelemetry/api@1.9.1)
-      '@opentelemetry/exporter-trace-otlp-proto':
-        specifier: 'catalog:'
-        version: 0.223.0(@opentelemetry/api@1.9.1)
-      '@opentelemetry/sdk-node':
-        specifier: 'catalog:'
-        version: 0.223.0(@opentelemetry/api@1.9.1)(supports-color@10.2.2)
       '@react-router/express':
         specifier: 'catalog:'
         version: 8.5.0(express@5.3.0(supports-color@10.2.2))(react-router@8.5.0(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(typescript@7.0.2)
@@ -2111,6 +2087,18 @@ importers:
       '@opentelemetry/api':
         specifier: 'catalog:'
         version: 1.9.1
+      '@opentelemetry/auto-instrumentations-node':
+        specifier: 'catalog:'
+        version: 0.81.2(@opentelemetry/api@1.9.1)(@opentelemetry/core@2.12.0(@opentelemetry/api@1.9.1))(supports-color@10.2.2)
+      '@opentelemetry/core':
+        specifier: 'catalog:'
+        version: 2.12.0(@opentelemetry/api@1.9.1)
+      '@opentelemetry/exporter-trace-otlp-proto':
+        specifier: 'catalog:'
+        version: 0.223.0(@opentelemetry/api@1.9.1)
+      '@opentelemetry/sdk-node':
+        specifier: 'catalog:'
+        version: 0.223.0(@opentelemetry/api@1.9.1)(supports-color@10.2.2)
       '@prometheus-io/client':
         specifier: ^0.16.1
         version: 0.16.1

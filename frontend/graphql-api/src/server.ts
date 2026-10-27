@@ -6,6 +6,8 @@
  *
  */
 
+// NOTE: Must be first so OpenTelemetry can instrument `http` and `fetch` before they are loaded/used.
+import "@ndla/shared/instrumentation";
 import { createServer } from "http";
 import { ApolloServer } from "@apollo/server";
 import { unwrapResolverError } from "@apollo/server/errors";

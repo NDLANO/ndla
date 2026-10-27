@@ -52,7 +52,7 @@ const ndlaConfig = ({ command }: ConfigEnv, { outputLayout = true }: NdlaConfigO
         sourcemap: true,
         rolldownOptions: {
           output: {
-            // Otherwise, chunks imported by the entry run before the entry's own modules, like `instrumentation.ts`
+            // Otherwise, chunks imported by the entry run before the entry's own modules, like `@ndla/shared/instrumentation`
             strictExecutionOrder: true,
             ...(outputLayout && {
               format: "es",
