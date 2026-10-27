@@ -18,7 +18,7 @@ case class FeideIdToken(
     sub: String,
     iat: Long,
     exp: Long,
-    email: String,
+    email: Option[List[String]],
     name: String,
     userid_sec: List[String],
     eduPersonPrincipalName: String,

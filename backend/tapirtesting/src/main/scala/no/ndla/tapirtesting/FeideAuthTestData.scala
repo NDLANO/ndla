@@ -65,7 +65,7 @@ object FeideAuthTestData {
       sub = UUID.randomUUID().toString,
       iat = 0L,
       exp = 0L,
-      email = email,
+      email = Some(List(email)),
       name = name,
       userid_sec = List(s"feide:$principalName"),
       eduPersonPrincipalName = principalName,
@@ -76,7 +76,7 @@ object FeideAuthTestData {
       id = id,
       feideId = idToken.sub,
       username = idToken.eduPersonPrincipalName,
-      email = idToken.email,
+      email = idToken.email.flatMap(_.headOption).getOrElse(idToken.eduPersonPrincipalName),
       displayName = idToken.name,
       favoriteSubjects = Seq.empty,
       userRole = role,
@@ -101,7 +101,7 @@ object FeideAuthTestData {
       .audience(idToken.aud.asJava)
       .subject(idToken.sub)
       .jwtID(idToken.jti)
-      .claim("email", idToken.email)
+      .claim("email", idToken.email.map(_.asJava).orNull)
       .claim("name", idToken.name)
       .claim("https://n.feide.no/claims/userid_sec", idToken.userid_sec.asJava)
       .claim("https://n.feide.no/claims/eduPersonPrincipalName", idToken.eduPersonPrincipalName)

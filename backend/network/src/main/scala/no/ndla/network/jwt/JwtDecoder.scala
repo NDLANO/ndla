@@ -32,7 +32,7 @@ object JwtDecoder {
       sub                    <- claims.stringClaim("sub")
       iat                    <- claims.issueTime
       exp                    <- claims.expirationTime
-      email                  <- claims.stringClaim("email")
+      email                  <- claims.stringListOptClaim("email")
       name                   <- claims.stringClaim("name")
       userid_sec             <- claims.stringListClaim("https://n.feide.no/claims/userid_sec")
       eduPersonPrincipalName <- claims.stringClaim("https://n.feide.no/claims/eduPersonPrincipalName")
