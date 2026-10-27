@@ -12,7 +12,7 @@ tsconfig.tsbuildinfo
 /.idea
 *.iml
 *.log.1
-packages/*/.vscode
+*/.vscode
 *.code-workspace
 .cache
 .vscode

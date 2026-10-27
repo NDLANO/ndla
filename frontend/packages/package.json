@@ -20,10 +20,10 @@
     "type-check": "tsc --noEmit",
     "watch:types": "tsc --noEmit -w --preserveWatchOutput",
     "test": "vitest --run",
-    "clean": "rm -rf ./packages/*/dist ./packages/*/es ./packages/*/lib",
+    "clean": "rm -rf ./*/dist ./*/es ./*/lib",
     "publish": "pnpm run clean && pnpm run packages-only -t build build:types build:panda --skip-nx-cache && lerna publish",
     "packages-only": "nx run-many --exclude=ndla-frontend,editorial-frontend,graphql-api",
-    "check-translations": "vitest --run packages/locales/src/__tests__/",
+    "check-translations": "vitest --run locales/src/__tests__/",
     "generate:icons": "node ./scripts/createTsIconComponents.mts"
   },
   "devDependencies": {
@@ -82,7 +82,7 @@
     "namedInputs": {
       "default": [
         "{projectRoot}/**/*",
-        "{workspaceRoot}/packages/packages/**/*",
+        "{workspaceRoot}/packages/**/*",
         "sharedGlobals"
       ]
     },

@@ -42,7 +42,7 @@ on:
       - mise.toml
       - .github/workflows/backend_ci.yaml
       - .github/actions/backend-affected/**
-      - frontend/packages/packages/ci/**
+      - frontend/packages/ci/**
   pull_request:
   merge_group:
 concurrency:
@@ -57,7 +57,7 @@ jobs:
         mise.toml
         .github/workflows/backend_ci.yaml
         .github/actions/backend-affected
-        frontend/packages/packages/ci
+        frontend/packages/ci
 
   select:
     name: Select affected modules

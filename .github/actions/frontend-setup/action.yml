@@ -71,4 +71,4 @@ runs:
       shell: bash
       env:
         NX_CACHE_STORE: ${{ steps.nx-store.outputs.path }}
-      run: node "$GITHUB_WORKSPACE/frontend/packages/packages/ci/src/nx-cache-server.mts" start
+      run: node "$GITHUB_WORKSPACE/frontend/packages/ci/src/nx-cache-server.mts" start

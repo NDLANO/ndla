@@ -8,10 +8,10 @@
     "types": []
   },
   "exclude": [
-    "./packages/*/dist",
-    "./packages/*/es",
-    "./packages/*/lib",
-    "./packages/**/__tests__",
+    "./*/dist",
+    "./*/es",
+    "./*/lib",
+    "./**/__tests__",
     "**/*-test.*",
     "./**/*.stories.tsx",
     "./**/*.stories.jsx",

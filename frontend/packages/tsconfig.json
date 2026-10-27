@@ -9,14 +9,15 @@
     "emitDeclarationOnly": true,
     "types": ["vitest/globals", "vite/client", "node"]
   },
-  "include": ["./types/**/*", "./packages/**/*", "./dummydata/**/*"],
+  "include": ["./*/**/*"],
   "exclude": [
     "**/node_modules",
-    "./packages/*/lib",
-    "./packages/*/dist",
-    "./packages/*/es",
-    "./packages/*/tsdown.config.mts",
-    "./packages/ci",
-    "./packages/tasks"
+    "./*/lib",
+    "./*/dist",
+    "./*/es",
+    "./*/tsdown.config.mts",
+    "./ci",
+    "./tasks",
+    "./scripts"
   ]
 }

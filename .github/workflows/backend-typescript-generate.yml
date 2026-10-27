@@ -7,7 +7,7 @@ on:
       - main
     paths:
       - backend/**
-      - frontend/packages/packages/types-backend/scripts/**
+      - frontend/packages/types-backend/scripts/**
       - .github/workflows/backend-typescript-generate.yml
   pull_request:
   merge_group:
@@ -32,7 +32,7 @@ jobs:
     with:
       paths: |
         backend
-        frontend/packages/packages/types-backend/scripts
+        frontend/packages/types-backend/scripts
         .github/workflows/backend-typescript-generate.yml
   verify_typescript:
     name: Verify typescript types
@@ -52,7 +52,7 @@ jobs:
       - name: Check generated types are committed
         working-directory: .
         env:
-          TYPES_DIR: frontend/packages/packages/types-backend/src
+          TYPES_DIR: frontend/packages/types-backend/src
         run: |
           if [ -n "$(git status --porcelain "$TYPES_DIR")" ]; then
             echo "::error::Generated backend types are out of date. Run './mill -i <module>.generateTypescript' in backend/ and commit $TYPES_DIR."

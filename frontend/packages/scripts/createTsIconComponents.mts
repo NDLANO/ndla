@@ -15,7 +15,7 @@ import { format } from "oxfmt";
 import { optimize, type Config } from "svgo";
 
 const __dirname = dirname(new URL(import.meta.url).pathname);
-const rootDir = join(__dirname, "..", "packages", "icons");
+const rootDir = join(__dirname, "..", "icons");
 const svgDir = join(rootDir, "svg");
 const today = new Date(new Date().setHours(0, 0, 0, 0));
 const shouldGenerateAll = process.argv.includes("--all");

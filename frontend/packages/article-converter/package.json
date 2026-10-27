@@ -1,0 +1,59 @@
+{
+  "name": "@ndla/article-converter",
+  "version": "10.0.199-alpha.0",
+  "gitHead": "ebeb8a1d86cba369e1156719ebaecb58a6e2cdfc",
+  "description": "Transforms NDLA articles into extended html versions",
+  "keywords": [
+    "ndla"
+  ],
+  "license": "GPL-3.0",
+  "author": "ndla@knowit.no",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NDLANO/ndla.git",
+    "directory": "frontend/packages/article-converter"
+  },
+  "files": [
+    "lib",
+    "es"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    "ndla-source": "./src/index.ts",
+    "types": "./lib/index.d.ts",
+    "import": "./es/index.mjs",
+    "require": "./lib/index.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "build:types": "tsc -p tsconfig.build.json"
+  },
+  "dependencies": {
+    "@ndla/primitives": "workspace:^",
+    "@ndla/safelink": "workspace:^",
+    "@ndla/ui": "workspace:^",
+    "html-react-parser": "catalog:"
+  },
+  "devDependencies": {
+    "@ndla/types-backend": "workspace:^",
+    "@ndla/types-embed": "workspace:^",
+    "i18next": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "react-i18next": "catalog:",
+    "react-router": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "i18next": "catalog:peers",
+    "react": "catalog:peers",
+    "react-dom": "catalog:peers",
+    "react-i18next": "catalog:peers",
+    "react-router": "catalog:peers"
+  }
+}
