@@ -7,6 +7,7 @@
  */
 
 import type { ApolloServer } from "@apollo/server";
+import { sdk } from "@ndla/shared/instrumentation";
 import getLogger from "./logger";
 
 export async function gracefulShutdown(apolloServer: ApolloServer<ContextWithLoaders>) {
@@ -14,5 +15,6 @@ export async function gracefulShutdown(apolloServer: ApolloServer<ContextWithLoa
   logger.info("Received shutdown signal, shutting down gracefully...");
   if (apolloServer) await apolloServer.stop();
   logger.info("Http server drained, exiting.");
+  await sdk?.shutdown().catch(() => {});
   process.exit(0);
 }

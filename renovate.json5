@@ -61,6 +61,8 @@
 
     { matchPackageNames: ["@pandacss/*"], groupName: "pandacss" },
     { matchPackageNames: ["@dnd-kit/*"], groupName: "dnd-kit" },
+    // A second @opentelemetry/api copy in the lockfile breaks context propagation between the SDK and instrumentations
+    { matchPackageNames: ["@opentelemetry/*"], groupName: "opentelemetry-js" },
     { matchPackageNames: ["react-router", "@react-router/*"], groupName: "react-router" },
     { matchPackageNames: ["pnpm"], groupName: "pnpm" },
     { matchPackageNames: ["node"], groupName: "node" },

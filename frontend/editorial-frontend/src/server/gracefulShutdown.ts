@@ -7,8 +7,8 @@
  */
 
 import type { Server } from "node:http";
+import { sdk } from "@ndla/shared/instrumentation";
 import { waitForActiveRequests } from "@ndla/shared/server";
-import { sdk } from "../instrumentation";
 import log from "./logger";
 
 export const gracefulShutdown = async (server: Server): Promise<void> => {
