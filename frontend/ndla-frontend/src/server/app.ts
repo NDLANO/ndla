@@ -182,7 +182,7 @@ export const createApp = ({ build, vite }: AppOptions) => {
     res.locals.ltiData = launch.ltiData;
     renderAsGet(req, res, next);
   });
-  app.post("/*splat", (_req, res) => {
+  app.post(["/", "/*splat"], (_req, res) => {
     res.redirect(NOT_FOUND_PAGE_PATH);
   });
 

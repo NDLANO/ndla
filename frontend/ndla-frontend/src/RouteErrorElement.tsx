@@ -12,7 +12,7 @@ import config from "./config";
 import { ErrorPage, ErrorPageLayout } from "./containers/ErrorPage/ErrorPage";
 import { NotFound } from "./containers/NotFoundPage/NotFoundPage";
 import { NOT_FOUND } from "./statusCodes";
-import { handleError } from "./util/handleError";
+import { ensureError, handleError } from "./util/handleError";
 import { hadChunkReloadAttempt, isChunkLoadError, triggerCrashReload } from "./util/skewDetection";
 
 interface Props {
@@ -33,15 +33,20 @@ export const ErrorElement = ({ children }: Props) => {
     );
   }
 
+  // Client errors, like a POST to a route without an action, keep their status and aren't reported as app failures
+  if (isRouteErrorResponse(error) && error.status >= 400 && error.status < 500) {
+    return children ?? <ErrorPage statusCode={error.status} />;
+  }
+
   if (isChunk) {
     if (hadAttempt) {
-      if (config.runtimeType === "production") handleError(error as Error);
+      if (config.runtimeType === "production") handleError(ensureError(error));
     } else {
       triggerCrashReload();
       return null;
     }
   } else if (config.runtimeType === "production") {
-    handleError(error as Error);
+    handleError(ensureError(error));
   }
 
   return children ?? <ErrorPage />;
