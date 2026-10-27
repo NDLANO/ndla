@@ -42,6 +42,7 @@ export const LinkToolbarButton = ({ shortcut, ...rest }: Props) => {
       <DialogTrigger
         asChild
         onMouseDown={(e) => e.preventDefault()}
+        disabled={!editor.selection}
         onClick={() => setInitialValue(toInitialLinkFormValues(match?.[0], editor))}
       >
         <IconButton
