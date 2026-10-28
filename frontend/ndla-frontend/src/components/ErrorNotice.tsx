@@ -29,17 +29,16 @@ const Content = styled("div", {
   base: {
     display: "grid",
     alignItems: "center",
-    gap: "4xlarge",
+    gap: "xxlarge",
     maxWidth: "surface.wideMax",
     marginInline: "auto",
     paddingBlock: "xxlarge",
     paddingInline: "small",
     "@/tablet": {
-      paddingInline: "xxlarge",
+      paddingInline: "medium",
     },
     "@/desktop": {
       gridTemplateColumns: "1fr 1fr",
-      gap: "xxlarge",
     },
     "@/wide": {
       paddingInline: "4xlarge",
@@ -69,7 +68,6 @@ const Title = styled("h1", {
     fontWeight: "semibold",
     lineHeight: "[1.05]",
     textWrap: "balance",
-    marginBlockStart: "small",
   },
 });
 
@@ -77,8 +75,13 @@ const Actions = styled("div", {
   base: {
     display: "flex",
     flexWrap: "wrap",
-    gap: "xsmall",
-    marginBlockStart: "small",
+    gap: "3xsmall",
+    flexDirection: "column",
+    alignSelf: "stretch",
+    "@/tablet": {
+      flexDirection: "row",
+      alignSelf: "flex-start",
+    },
   },
 });
 
@@ -93,7 +96,7 @@ const NoticeCard = styled("div", {
     background: "background.default",
     border: "3px solid",
     borderRadius: "small",
-    transform: "rotate(2deg)",
+    transform: "rotate(3deg)",
     "@/tablet": {
       padding: "xxlarge",
     },
@@ -126,7 +129,7 @@ const Stamp = styled("div", {
     border: "3px dotted",
     // Draws the inner ring
     outline: "2px solid",
-    outlineOffset: "[-9px]",
+    outlineOffset: "-xxsmall",
     borderRadius: "full",
     color: "text.error",
     fontSize: "xxsmall",
@@ -173,8 +176,14 @@ export const ErrorNoticeMain = styled("main", {
   },
 });
 
+const StyledPen = styled(PenNibLine, {
+  base: {
+    transform: "rotate(90deg)",
+  },
+});
+
 const notices = {
-  [NOT_FOUND]: { translationKey: "notFoundPage", Icon: PenNibLine },
+  [NOT_FOUND]: { translationKey: "notFoundPage", Icon: StyledPen },
   [GONE]: { translationKey: "unpublishedResourcePage", Icon: TimeLine },
   [INTERNAL_SERVER_ERROR]: { translationKey: "errorPage", Icon: DeleteBinLine },
 } as const;
@@ -194,9 +203,7 @@ export const ErrorNotice = ({ statusCode, applySkipToContentId }: Props) => {
     <Wrapper>
       <Content>
         <TextContent>
-          <UppercaseText textStyle="title.large" fontWeight="semibold">
-            {t(`${translationKey}.eyebrow`, { statusCode })}
-          </UppercaseText>
+          <UppercaseText textStyle="title.medium">{t(`${translationKey}.eyebrow`, { statusCode })}</UppercaseText>
           <Title id={applySkipToContentId ? SKIP_TO_CONTENT_ID : undefined}>{t(`${translationKey}.title`)}</Title>
           <Text textStyle="body.xlarge">{t(`${translationKey}.description`)}</Text>
           <Actions>
@@ -227,7 +234,7 @@ export const ErrorNotice = ({ statusCode, applySkipToContentId }: Props) => {
               <dd>{t(`${translationKey}.notice.action`)}</dd>
             </NoticeRow>
           </dl>
-          <Icon css={{ width: "4xlarge", height: "4xlarge", marginBlockStart: "medium" }} />
+          <Icon css={{ width: "5xlarge", height: "5xlarge", marginBlockStart: "medium" }} />
         </NoticeCard>
       </Content>
     </Wrapper>
