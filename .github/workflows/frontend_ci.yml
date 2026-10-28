@@ -200,13 +200,34 @@ jobs:
         id: alias
         if: contains(fromJson(steps.affected.outputs.projects), matrix.project)
         run: |
+          set -euo pipefail
           if [ "${{ github.ref }}" == 'refs/heads/master' ] || [ "${{ github.ref }}" == 'refs/heads/main' ]; then
             ALIAS="${{ matrix.alias }}"
+            # Remember which deployment currently holds the master alias so it can be removed afterwards
+            TEAM_ID="$(jq -r '.orgId' .vercel/project.json)"
+            HTTP_STATUS="$(curl -sS -o alias.json -w '%{http_code}' \
+              -H "Authorization: Bearer $VERCEL_TOKEN" \
+              "https://api.vercel.com/v4/aliases/$ALIAS?teamId=$TEAM_ID")"
+            if [ "$HTTP_STATUS" == '200' ]; then
+              PREVIOUS_DEPLOYMENT_ID="$(jq -r '.deploymentId // empty' alias.json)"
+              echo "PREVIOUS_DEPLOYMENT_ID=$PREVIOUS_DEPLOYMENT_ID" >> "$GITHUB_OUTPUT"
+            else
+              echo "No previous deployment found for $ALIAS (HTTP $HTTP_STATUS)"
+            fi
+            rm -f alias.json
           else
             ALIAS="${{ matrix.project }}-${{ github.event.number }}.vercel.app"
           fi
           vercel alias --token=${{ secrets.VERCEL_TOKEN }} ${{ steps.deploy.outputs.DEPLOYMENT_URL }} $ALIAS
           echo "ALIAS=$ALIAS" >> "$GITHUB_OUTPUT"
+      - name: "Remove previous master deployment"
+        if: steps.alias.outputs.PREVIOUS_DEPLOYMENT_ID != ''
+        run: |
+          set -euo pipefail
+          PREVIOUS_DEPLOYMENT_ID="${{ steps.alias.outputs.PREVIOUS_DEPLOYMENT_ID }}"
+          if ! vercel rm "$PREVIOUS_DEPLOYMENT_ID" --yes --token=${{ secrets.VERCEL_TOKEN }}; then
+            echo "::warning::Failed to remove previous deployment $PREVIOUS_DEPLOYMENT_ID for ${{ steps.alias.outputs.ALIAS }}"
+          fi
       - name: "Update deploy status"
         if: contains(fromJson(steps.affected.outputs.projects), matrix.project)
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
