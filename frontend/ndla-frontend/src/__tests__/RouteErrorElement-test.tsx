@@ -6,7 +6,7 @@
  *
  */
 
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { I18nextProvider } from "react-i18next";
 import { createStaticHandler, createStaticRouter, type LoaderFunction, StaticRouterProvider } from "react-router";
 import { type RedirectInfo, RedirectContext } from "../components/RedirectContext";
@@ -55,6 +55,8 @@ test("a request method the route can't handle keeps its 405 status and is logged
   const status = await renderRequest(new Request("http://localhost/", { method: "PUT" }));
 
   expect(status).toBe(405);
+  expect(screen.getByText("405 / Hunden spiste siden")).toBeTruthy();
+  expect(screen.getByText("405")).toBeTruthy();
   expect(handleError).toHaveBeenCalledWith(
     expect.objectContaining({
       message: expect.stringContaining('You made a PUT request to "/"'),

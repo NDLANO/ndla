@@ -47,7 +47,7 @@ export const ErrorPage = ({ statusCode = INTERNAL_SERVER_ERROR }: ErrorPageProps
       <PageTitle title={t("htmlTitles.errorPage")} useLocationForCustomPath={true} />
       <meta name="description" content={t("meta.description")} />
       <ErrorPageLayout>
-        <ErrorNotice statusCode={INTERNAL_SERVER_ERROR} applySkipToContentId />
+        <ErrorNotice statusCode={statusCode} applySkipToContentId />
       </ErrorPageLayout>
     </Status>
   );

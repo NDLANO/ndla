@@ -1140,7 +1140,7 @@ const translations = {
     searchSubjects: "Søk etter fag",
   },
   notFoundPage: {
-    eyebrow: "404 / Sida skulkar",
+    eyebrow: "{{statusCode}} / Sida skulkar",
     title: "Fråvær utan gyldig grunn",
     description: "Vi har ført sida som «ikkje møtt». Heldigvis påverkar det ikkje vitnemålet ditt.",
     notice: {
@@ -1151,7 +1151,7 @@ const translations = {
     },
   },
   errorPage: {
-    eyebrow: "500 / Hunden åt sida",
+    eyebrow: "{{statusCode}} / Hunden åt sida",
     title: "Ikkje levert",
     description: "Vi veit ikkje heilt kva som har skjedd, men det kan godt vere at hunden har ete denne sida.",
     notice: {
@@ -1162,7 +1162,7 @@ const translations = {
     },
   },
   unpublishedResourcePage: {
-    eyebrow: "410 / Friminutt?",
+    eyebrow: "{{statusCode}} / Friminutt?",
     title: "Timen er over",
     description: "Du kom for seint til timen, og denne sida er dessverre arkivert.",
     notice: {

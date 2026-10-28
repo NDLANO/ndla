@@ -1144,7 +1144,7 @@ const translations = {
     searchSubjects: "Search for subjects",
   },
   notFoundPage: {
-    eyebrow: "404 / Page is skipping class",
+    eyebrow: "{{statusCode}} / Page is skipping class",
     title: "Unexcused absence",
     description: "We've marked the page as “absent”. Luckily, it won't affect your diploma.",
     notice: {
@@ -1155,7 +1155,7 @@ const translations = {
     },
   },
   errorPage: {
-    eyebrow: "500 / The dog ate the page",
+    eyebrow: "{{statusCode}} / The dog ate the page",
     title: "Not handed in",
     description: "We're not quite sure what happened, but the dog may well have eaten this page.",
     notice: {
@@ -1166,7 +1166,7 @@ const translations = {
     },
   },
   unpublishedResourcePage: {
-    eyebrow: "410 / Recess?",
+    eyebrow: "{{statusCode}} / Recess?",
     title: "Class is over",
     description: "You were late for class, and this page has unfortunately been archived.",
     notice: {

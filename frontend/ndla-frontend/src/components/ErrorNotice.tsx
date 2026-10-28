@@ -179,20 +179,23 @@ const notices = {
   [INTERNAL_SERVER_ERROR]: { translationKey: "errorPage", Icon: DeleteBinLine },
 } as const;
 
+const getNotice = (statusCode: number) =>
+  statusCode in notices ? notices[statusCode as keyof typeof notices] : notices[INTERNAL_SERVER_ERROR];
+
 interface Props {
-  statusCode: keyof typeof notices;
+  statusCode: number;
   applySkipToContentId?: boolean;
 }
 
 export const ErrorNotice = ({ statusCode, applySkipToContentId }: Props) => {
   const { t } = useTranslation();
-  const { translationKey, Icon } = notices[statusCode];
+  const { translationKey, Icon } = getNotice(statusCode);
   return (
     <Wrapper>
       <Content>
         <TextContent>
           <UppercaseText textStyle="title.large" fontWeight="semibold">
-            {t(`${translationKey}.eyebrow`)}
+            {t(`${translationKey}.eyebrow`, { statusCode })}
           </UppercaseText>
           <Title id={applySkipToContentId ? SKIP_TO_CONTENT_ID : undefined}>{t(`${translationKey}.title`)}</Title>
           <Text textStyle="body.xlarge">{t(`${translationKey}.description`)}</Text>
