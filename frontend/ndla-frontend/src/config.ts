@@ -56,7 +56,7 @@ const ndlaKiDomain = (ndlaEnvironment: string): string => {
   switch (ndlaEnvironment) {
     case "local":
     case "test":
-      return "http://dev.ndla-ki.no";
+      return "https://dev.ndla-ki.no";
     case "prod":
       return "https://ndla-ki.no";
     default:
