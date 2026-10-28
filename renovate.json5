@@ -55,7 +55,8 @@
 
   packageRules: [
     { matchManagers: ["npm"], rangeStrategy: "bump" },
-    { matchDepTypes: ["pnpm.catalog.peers", "engines"], enabled: false },
+    { matchDepTypes: ["pnpm.catalog.peers"], enabled: false },
+    { matchDepTypes: ["engines"], matchUpdateTypes: ["minor", "patch"], enabled: false },
     { matchPackageNames: ["ndlano/**", "eclipse-temurin"], pinDigests: false },
     // Grouped dependencies that should be updated in a single PR
 
@@ -65,7 +66,7 @@
     { matchPackageNames: ["@opentelemetry/*"], groupName: "opentelemetry-js" },
     { matchPackageNames: ["react-router", "@react-router/*"], groupName: "react-router" },
     { matchPackageNames: ["pnpm"], groupName: "pnpm" },
-    { matchPackageNames: ["node"], groupName: "node" },
+    { matchPackageNames: ["node", "@types/node"], groupName: "node" },
     { matchPackageNames: ["mcr.microsoft.com/playwright"], enabled: false },
     { matchPackageNames: ["slate", "slate-dom", "slate-history", "slate-hyperscript", "slate-react"], groupName: "slate" },
     { matchPackageNames: ["swagger-ui-dist", "swagger-ui-react"], groupName: "swagger-ui" },
