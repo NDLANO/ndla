@@ -61,18 +61,18 @@ exports[`ErrorPage renderers correctly 1`] = `
       class="cq-t_inline-size min-h_[inherit] ov_hidden bg_surface.brand.1.subtle"
     >
       <div
-        class="d_grid ai_center gap_4xlarge max-w_surface.wideMax mx_auto py_xxlarge px_small @/tablet:px_xxlarge @/desktop:grid-tc_1fr_1fr @/desktop:gap_xxlarge @/wide:px_4xlarge"
+        class="d_grid ai_center gap_xxlarge max-w_surface.wideMax mx_auto py_xxlarge px_small @/tablet:px_medium @/desktop:grid-tc_1fr_1fr @/wide:px_4xlarge"
       >
         <div
           class="d_flex flex-d_column ai_flex-start gap_medium max-w_surface.contentMax"
         >
           <p
-            class="textStyle_title.large fw_semibold tt_uppercase"
+            class="textStyle_title.medium tt_uppercase"
           >
             500 / Hunden spiste siden
           </p>
           <h1
-            class="fs_[clamp(token(fontSizes.4xlarge),_6cqi,_5.5rem)] fw_semibold lh_[1.05] tw_balance mbs_small"
+            class="fs_[clamp(token(fontSizes.4xlarge),_6cqi,_5.5rem)] fw_semibold lh_[1.05] tw_balance"
             id="SkipToContentId"
           >
             Ikke levert
@@ -83,7 +83,7 @@ exports[`ErrorPage renderers correctly 1`] = `
             Vi vet ikke helt hva som har skjedd, men det kan godt være at hunden har spist denne siden.
           </p>
           <div
-            class="d_flex flex-wrap_wrap gap_xsmall mbs_small"
+            class="d_flex flex-wrap_wrap gap_3xsmall flex-d_column as_stretch @/tablet:flex-d_row @/tablet:as_flex-start"
           >
             <a
               class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer text-decoration_none fw_bold trs-prop_[all] trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_[inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color),_inset_0px_0px_0px_calc(var(--shadow-width,_3px)_*_2)_currentcolor] motionReduce:trs_[none] motionReduce:trs-dur_[0s] c_text.onAction bg_surface.action hover:c_text.onAction hover:bg_surface.action.hover active:c_text.onAction active:bg_surface.action.active on:bg_surface.action.selected textStyle_label.medium px_small py_xxsmall min-h_24 [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium"
@@ -104,7 +104,7 @@ exports[`ErrorPage renderers correctly 1`] = `
           </div>
         </div>
         <div
-          class="cq-t_inline-size justify-self_center w_full max-w_surface.medium p_medium bg_background.default bd_3px_solid bdr_small trf_rotate(2deg) @/tablet:p_xxlarge @/desktop:max-w_surface.large"
+          class="cq-t_inline-size justify-self_center w_full max-w_surface.medium p_medium bg_background.default bd_3px_solid bdr_small trf_rotate(3deg) @/tablet:p_xxlarge @/desktop:max-w_surface.large"
         >
           <div
             class="d_flex ai_center jc_space-between gap_small pbe_medium bd-be_3px_solid"
@@ -115,7 +115,7 @@ exports[`ErrorPage renderers correctly 1`] = `
               Offisiell melding
             </p>
             <div
-              class="d_flex flex-d_column ai_center jc_center flex-sh_0 w_4xlarge h_4xlarge bd_3px_dotted ring_2px_solid ring-o_[-9px] bdr_full c_text.error fs_xxsmall lh_[1] tt_uppercase"
+              class="d_flex flex-d_column ai_center jc_center flex-sh_0 w_4xlarge h_4xlarge bd_3px_dotted ring_2px_solid ring-o_-xxsmall bdr_full c_text.error fs_xxsmall lh_[1] tt_uppercase"
             >
               <span
                 class="fs_large"
@@ -154,7 +154,7 @@ exports[`ErrorPage renderers correctly 1`] = `
           </dl>
           <svg
             aria-hidden="true"
-            class="d_inline-block fill_current va_middle lh_[1em] flex-sh_0 w_4xlarge h_4xlarge mbs_medium"
+            class="d_inline-block fill_current va_middle lh_[1em] flex-sh_0 w_5xlarge h_5xlarge mbs_medium"
             data-icon=""
             fill="currentColor"
             preserveAspectRatio="xMidYMid meet"
