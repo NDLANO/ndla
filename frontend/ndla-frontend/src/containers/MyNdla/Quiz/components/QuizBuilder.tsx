@@ -17,6 +17,7 @@ import {
   FieldRoot,
   MessageBox,
   TabsContent,
+  TabsIndicator,
   TabsList,
   TabsRoot,
   TabsTrigger,
@@ -270,6 +271,7 @@ export const QuizBuilder = ({
             <TabsList>
               <TabsTrigger value="questions">{t("myNdla.quiz.form.tabs.questions")}</TabsTrigger>
               <TabsTrigger value="settings">{t("myNdla.quiz.form.settings.title")}</TabsTrigger>
+              <TabsIndicator />
             </TabsList>
             <ButtonRow>
               <Button variant="secondary" onClick={onSaveClick} loading={saving} disabled={sharing}>
