@@ -8,8 +8,6 @@
 package no.ndla.taxonomy.service
 
 import java.net.URI
-import kotlin.jvm.optionals.getOrElse
-import kotlin.jvm.optionals.getOrNull
 import no.ndla.taxonomy.config.Constants
 import no.ndla.taxonomy.domain.LanguageField
 import no.ndla.taxonomy.domain.Node
@@ -48,14 +46,14 @@ class ContextUpdaterService(private val nodeConnectionRepository: NodeConnection
         parentContext.rootName,
         parentContext.path + node.pathPart,
         breadcrumbs,
-        node.contextType.getOrNull(),
+        node.contextType,
         parentIds,
         parentContextIds,
         parentContext.isVisible && node.isVisible(),
         parentContext.isActive && activeContext,
-        parentConnection.isPrimary.getOrElse { false },
+        parentConnection.isPrimary,
         parentContext.isArchived,
-        parentConnection.relevance.getOrElse { Relevance.CORE }.id.toString(),
+        (parentConnection.relevance ?: Relevance.CORE).id.toString(),
         contextId,
         parentConnection.rank,
         parentConnection.publicId.toString(),
@@ -93,7 +91,7 @@ class ContextUpdaterService(private val nodeConnectionRepository: NodeConnection
                 LanguageField.fromNode(node),
                 node.pathPart,
                 LanguageField(),
-                node.contextType.getOrNull(),
+                node.contextType,
                 mutableListOf(),
                 mutableListOf(),
                 node.isVisible(),
@@ -108,7 +106,7 @@ class ContextUpdaterService(private val nodeConnectionRepository: NodeConnection
             ))
       }
       branchParentsByChild[node.publicId].orEmpty().forEach { pc ->
-        val parent = pc.parent.getOrNull() ?: return@forEach
+        val parent = pc.parent ?: return@forEach
         val parentContexts = cache[parent.publicId].orEmpty()
         parentContexts.mapTo(this) { createContext(node, it, parent, pc, activeContext) }
       }
@@ -130,7 +128,7 @@ class ContextUpdaterService(private val nodeConnectionRepository: NodeConnection
           nodeConnectionRepository.findAllByParentPublicIdIn(frontier.map { it.publicId })
       val nextFrontier = mutableListOf<Node>()
       connections.forEach { connection ->
-        val child = connection.child.getOrNull() ?: return@forEach
+        val child = connection.child ?: return@forEach
         if (descendants.putIfAbsent(child.publicId, child) == null) {
           nextFrontier.add(child)
         }
@@ -161,8 +159,8 @@ class ContextUpdaterService(private val nodeConnectionRepository: NodeConnection
               frontier.map { it.publicId }, NodeConnectionType.BRANCH)
       val nextFrontier = mutableListOf<Node>()
       connections.forEach { connection ->
-        val child = connection.child.getOrNull() ?: return@forEach
-        val parent = connection.parent.getOrNull() ?: return@forEach
+        val child = connection.child ?: return@forEach
+        val parent = connection.parent ?: return@forEach
         branchParentsByChild.getOrPut(child.publicId) { mutableListOf() }.add(connection)
         if (allNodes.putIfAbsent(parent.publicId, parent) == null) {
           nextFrontier.add(parent)
@@ -191,7 +189,7 @@ class ContextUpdaterService(private val nodeConnectionRepository: NodeConnection
       val parentIds =
           branchParentsByChild[node.publicId]
               .orEmpty()
-              .mapNotNull { it.parent.getOrNull()?.publicId }
+              .mapNotNull { it.parent?.publicId }
               .filter { byId.containsKey(it) }
               .distinct()
       remainingInDegree[node.publicId] = parentIds.size

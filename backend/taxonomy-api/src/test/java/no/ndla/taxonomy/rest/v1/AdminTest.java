@@ -8,8 +8,9 @@
 package no.ndla.taxonomy.rest.v1;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.util.Optional;
 import no.ndla.taxonomy.domain.Grade;
 import no.ndla.taxonomy.domain.Node;
 import no.ndla.taxonomy.domain.NodeType;
@@ -41,16 +42,18 @@ public class AdminTest extends RestTest {
     }
 
     public void testQualityEvaluationAverage(Node inputNode, int expectedCount, double expectedAverage) {
-        var node = nodeRepository.findFirstByPublicId(inputNode.getPublicId()).orElseThrow();
-        var qe = node.getChildQualityEvaluationAverage().orElseThrow();
+        var node = Optional.ofNullable(nodeRepository.findFirstByPublicId(inputNode.getPublicId()))
+                .orElseThrow();
+        var qe = node.getChildQualityEvaluationAverage();
         assertEquals(expectedCount, qe.getCount());
         assertEquals(expectedAverage, qe.getAverageValue());
     }
 
     public void assertMissingQualityEvaluation(Node inputNode) {
-        var node = nodeRepository.findFirstByPublicId(inputNode.getPublicId()).orElseThrow();
+        var node = Optional.ofNullable(nodeRepository.findFirstByPublicId(inputNode.getPublicId()))
+                .orElseThrow();
         var qe = node.getChildQualityEvaluationAverage();
-        assertTrue(qe.isEmpty());
+        assertNull(qe);
     }
 
     @Test

@@ -8,7 +8,6 @@
 package no.ndla.taxonomy.service
 
 import java.net.URI
-import java.util.Optional
 import no.ndla.taxonomy.domain.Node
 import no.ndla.taxonomy.domain.NodeConnectionType
 import no.ndla.taxonomy.domain.UrlMapping
@@ -59,7 +58,7 @@ class UrlResolverService(
 
   private fun getPrimaryPath(publicId: URI): String? =
       try {
-        getEntityFromPublicId(publicId)?.primaryPath?.orElse(null)
+        getEntityFromPublicId(publicId)?.primaryPath
       } catch (_: InvalidArgumentServiceException) {
         null
       }
@@ -117,19 +116,11 @@ class UrlResolverService(
         val resolvedPathComponents = resolveEntitiesFromPath(path)
         val normalizedPath = resolvedPathComponents.joinToString("") { n -> n.pathPart }
         val leafNode = resolvedPathComponents.last()
-        val context = leafNode.contexts.firstOrNull { it.path() == normalizedPath }
+        val context = leafNode.contexts.firstOrNull { it.path == normalizedPath }
 
         val ctx =
             context
-                ?: leafNode
-                    .pickContext(
-                        Optional.empty(),
-                        Optional.empty(),
-                        Optional.empty(),
-                        NodeConnectionType.BRANCH,
-                        setOf(),
-                    )
-                    .orElse(null)
+                ?: leafNode.pickContext(null, null, null, NodeConnectionType.BRANCH, setOf())
                 ?: throw NotFoundServiceException("No context found for path")
 
         val prettyUrl =
@@ -146,9 +137,9 @@ class UrlResolverService(
             contentUri = leafNode.contentUri,
             id = URI.create(ctx.publicId),
             parents = ctx.parentIds.map(URI::create).reversed(),
-            name = ctx.name.fromLanguage(language),
+            name = ctx.name.fromLanguage(language)!!,
             path = ctx.path,
-            url = prettyUrl ?: ctx.path ?: "",
+            url = prettyUrl ?: ctx.path,
         )
       } catch (_: Exception) {
         null
@@ -171,6 +162,6 @@ class UrlResolverService(
     if (publicId.scheme != "urn") {
       throw InvalidArgumentServiceException("No valid URN provided")
     }
-    return nodeRepository.findFirstByPublicId(publicId).orElse(null)
+    return nodeRepository.findFirstByPublicId(publicId)
   }
 }

@@ -63,8 +63,7 @@ public class NodeService {
 
     @Transactional
     public void delete(URI publicId) {
-        final var nodeToDelete = nodeRepository
-                .findFirstByPublicId(publicId)
+        final var nodeToDelete = Optional.ofNullable(nodeRepository.findFirstByPublicId(publicId))
                 .orElseThrow(() -> new NotFoundServiceException("Node was not found"));
 
         connectionService.disconnectAllParents(nodeToDelete);
@@ -97,13 +96,13 @@ public class NodeService {
             ids = nodeRepository.findIdsByContextIds(input);
         } else {
             ids = nodeRepository.findIdsFiltered(
-                    nodeType,
-                    publicIds,
-                    Optional.ofNullable(metadataFilters.getKey()),
-                    Optional.ofNullable(metadataFilters.getLikeQueryValue()),
-                    contentUri,
-                    isRoot,
-                    isContext);
+                    nodeType.orElse(null),
+                    publicIds.orElse(null),
+                    metadataFilters.getKey(),
+                    metadataFilters.getLikeQueryValue(),
+                    contentUri.orElse(null),
+                    isRoot.orElse(null),
+                    isContext.orElse(null));
         }
         final var counter = new AtomicInteger();
         var root = rootId.map(this::getNode);
@@ -152,8 +151,7 @@ public class NodeService {
     }
 
     public List<ConnectionDTO> getAllConnections(URI nodePublicId) {
-        final var node = nodeRepository
-                .findFirstByPublicId(nodePublicId)
+        final var node = Optional.ofNullable(nodeRepository.findFirstByPublicId(nodePublicId))
                 .orElseThrow(() -> new NotFoundServiceException("Node was not found"));
 
         return Stream.concat(
@@ -188,7 +186,7 @@ public class NodeService {
     }
 
     public Optional<Node> getMaybeNode(URI publicId) {
-        return nodeRepository.findFirstByPublicId(publicId);
+        return Optional.ofNullable(nodeRepository.findFirstByPublicId(publicId));
     }
 
     public Node getNode(URI publicId) {
@@ -271,11 +269,11 @@ public class NodeService {
             nodeResourcesStream = nodeResourcesStream.filter(nodeResource -> {
                 if (nodeResource.getConnectionType() != NodeConnectionType.BRANCH) return false;
 
-                final var resource = nodeResource.getChild().orElse(null);
+                final var resource = nodeResource.getChild();
                 if (resource == null) {
                     return false;
                 }
-                final var rel = nodeResource.getRelevance().orElse(null);
+                final var rel = nodeResource.getRelevance();
                 if (rel != null) {
                     return rel.getId().equals(relevanceId.get());
                 } else {
@@ -293,7 +291,8 @@ public class NodeService {
                 .filter(src -> {
                     if (src.isEmpty()) return false;
                     var connection = (NodeConnection) src.get();
-                    var childIsResource = connection.getChild().map(c -> c.getNodeType() == NodeType.RESOURCE);
+                    var childIsResource =
+                            Optional.ofNullable(connection.getChild()).map(c -> c.getNodeType() == NodeType.RESOURCE);
                     return childIsResource.orElse(false);
                 })
                 .map(wrappedNodeResource -> {
@@ -311,22 +310,20 @@ public class NodeService {
 
     @Transactional
     public boolean makeAllResourcesPrimary(URI nodePublicId, boolean recursive) {
-        final var node = nodeRepository
-                .findFirstByPublicId(nodePublicId)
+        final var node = Optional.ofNullable(nodeRepository.findFirstByPublicId(nodePublicId))
                 .orElseThrow(() -> new NotFoundServiceException("Node was not found"));
         if (recursive) {
             node.getChildConnections()
-                    .forEach(nc -> nc.getChild()
+                    .forEach(nc -> Optional.ofNullable(nc.getChild())
                             .filter(n -> n.getNodeType() != NodeType.RESOURCE)
                             .map(n -> makeAllResourcesPrimary(n.getPublicId(), true)));
         }
 
         node.getResourceChildren()
                 .forEach(cc -> connectionService.updateParentChild(
-                        cc, cc.getRelevance().orElse(null), Optional.of(cc.getRank()), Optional.of(true)));
+                        cc, cc.getRelevance(), Optional.of(cc.getRank()), Optional.of(true)));
 
-        return node.getResourceChildren().stream()
-                .allMatch(resourceConnection -> resourceConnection.isPrimary().orElse(false));
+        return node.getResourceChildren().stream().allMatch(resourceConnection -> resourceConnection.isPrimary());
     }
 
     public Node cloneNode(URI publicId, Optional<URI> contentUri) {
@@ -338,7 +335,7 @@ public class NodeService {
 
     public List<TaxonomyContextDTO> getSearchableByContentUri(
             Optional<URI> contentURI, boolean filterVisibles, String language) {
-        var nodes = nodeRepository.findByContentUri(contentURI);
+        var nodes = nodeRepository.findByContentUri(contentURI.orElse(null));
         var contextDtos = nodesToContexts(nodes, filterVisibles, language);
 
         return contextDtos.stream()
@@ -456,7 +453,7 @@ public class NodeService {
         if (contextId.isEmpty()) {
             return List.of();
         }
-        List<Integer> ids = nodeRepository.findIdsByContextId(contextId);
+        List<Integer> ids = nodeRepository.findIdsByContextId(contextId.orElse(null));
         var nodes = nodeRepository.findByIds(ids);
         var contexts = nodesToContexts(nodes, false, language);
         return contexts.stream()

@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.net.URI;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import no.ndla.taxonomy.TestSeeder;
 import no.ndla.taxonomy.domain.*;
@@ -50,8 +51,8 @@ class RecursiveNodeTreeServiceTest extends AbstractIntegrationTest {
 
     @Test
     void getRecursiveTopics_by_subject() {
-        final var subject =
-                nodeRepository.findFirstByPublicId(URI.create("urn:subject:1")).orElseThrow();
+        final var subject = Optional.ofNullable(nodeRepository.findFirstByPublicId(URI.create("urn:subject:1")))
+                .orElseThrow();
         final var recursiveNodes = service.getRecursiveNodes(subject);
 
         final var nodesToFind = new HashSet<>(Set.of(
@@ -65,16 +66,16 @@ class RecursiveNodeTreeServiceTest extends AbstractIntegrationTest {
                 "urn:topic:7",
                 "urn:topic:8"));
 
-        final var topic1 =
-                nodeRepository.findFirstByPublicId(URI.create("urn:topic:1")).orElseThrow();
-        final var topic3 =
-                nodeRepository.findFirstByPublicId(URI.create("urn:topic:3")).orElseThrow();
-        final var topic5 =
-                nodeRepository.findFirstByPublicId(URI.create("urn:topic:5")).orElseThrow();
+        final var topic1 = Optional.ofNullable(nodeRepository.findFirstByPublicId(URI.create("urn:topic:1")))
+                .orElseThrow();
+        final var topic3 = Optional.ofNullable(nodeRepository.findFirstByPublicId(URI.create("urn:topic:3")))
+                .orElseThrow();
+        final var topic5 = Optional.ofNullable(nodeRepository.findFirstByPublicId(URI.create("urn:topic:5")))
+                .orElseThrow();
 
         recursiveNodes.forEach(topicTreeElement -> {
-            final var node =
-                    nodeRepository.findFirstByPublicId(topicTreeElement.getId()).orElseThrow();
+            final var node = Optional.ofNullable(nodeRepository.findFirstByPublicId(topicTreeElement.getId()))
+                    .orElseThrow();
 
             if (!nodesToFind.contains(node.getPublicId().toString())) {
                 fail("Topic found is unknown or duplicated " + node.getPublicId());
@@ -158,12 +159,12 @@ class RecursiveNodeTreeServiceTest extends AbstractIntegrationTest {
     @Test
     void getRecursiveTopics_by_topic() {
 
-        final var topic1 =
-                nodeRepository.findFirstByPublicId(URI.create("urn:topic:1")).orElseThrow();
-        final var topic3 =
-                nodeRepository.findFirstByPublicId(URI.create("urn:topic:3")).orElseThrow();
-        final var topic5 =
-                nodeRepository.findFirstByPublicId(URI.create("urn:topic:5")).orElseThrow();
+        final var topic1 = Optional.ofNullable(nodeRepository.findFirstByPublicId(URI.create("urn:topic:1")))
+                .orElseThrow();
+        final var topic3 = Optional.ofNullable(nodeRepository.findFirstByPublicId(URI.create("urn:topic:3")))
+                .orElseThrow();
+        final var topic5 = Optional.ofNullable(nodeRepository.findFirstByPublicId(URI.create("urn:topic:5")))
+                .orElseThrow();
 
         // Search for subtopics of topic1
         {
@@ -171,8 +172,7 @@ class RecursiveNodeTreeServiceTest extends AbstractIntegrationTest {
             final var topicsToFind = new HashSet<>(Set.of("urn:topic:1", "urn:topic:2"));
 
             topicElements.forEach(topicTreeElement -> {
-                final var topic = nodeRepository
-                        .findFirstByPublicId(topicTreeElement.getId())
+                final var topic = Optional.ofNullable(nodeRepository.findFirstByPublicId(topicTreeElement.getId()))
                         .orElseThrow();
 
                 if (!topicsToFind.contains(topic.getPublicId().toString())) {
@@ -207,8 +207,7 @@ class RecursiveNodeTreeServiceTest extends AbstractIntegrationTest {
             final var topicsToFind = new HashSet<>(Set.of("urn:topic:3", "urn:topic:4"));
 
             topicElements.forEach(topicTreeElement -> {
-                final var topic = nodeRepository
-                        .findFirstByPublicId(topicTreeElement.getId())
+                final var topic = Optional.ofNullable(nodeRepository.findFirstByPublicId(topicTreeElement.getId()))
                         .orElseThrow();
 
                 if (!topicsToFind.contains(topic.getPublicId().toString())) {
@@ -243,8 +242,7 @@ class RecursiveNodeTreeServiceTest extends AbstractIntegrationTest {
             final var topicsToFind = new HashSet<>(Set.of("urn:topic:5", "urn:topic:6", "urn:topic:7", "urn:topic:8"));
 
             topicElements.forEach(topicTreeElement -> {
-                final var topic = nodeRepository
-                        .findFirstByPublicId(topicTreeElement.getId())
+                final var topic = Optional.ofNullable(nodeRepository.findFirstByPublicId(topicTreeElement.getId()))
                         .orElseThrow();
 
                 if (!topicsToFind.contains(topic.getPublicId().toString())) {

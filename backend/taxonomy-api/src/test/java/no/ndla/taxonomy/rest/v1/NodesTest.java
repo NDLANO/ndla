@@ -206,10 +206,10 @@ public class NodesTest extends RestTest {
                     t.contentUri(URI.create("urn:test:2")).resource(resource).resource(resource2);
                 }));
 
-        Optional<Node> fromDB = nodeRepository.findFirstByPublicId(resource.getPublicId());
+        Optional<Node> fromDB = Optional.ofNullable(nodeRepository.findFirstByPublicId(resource.getPublicId()));
         assertTrue(fromDB.isPresent());
         assertEquals(2, fromDB.get().getContexts().size());
-        Optional<Node> fromDB2 = nodeRepository.findFirstByPublicId(resource2.getPublicId());
+        Optional<Node> fromDB2 = Optional.ofNullable(nodeRepository.findFirstByPublicId(resource2.getPublicId()));
         assertTrue(fromDB2.isPresent());
         assertEquals(1, fromDB2.get().getContexts().size());
 
@@ -222,7 +222,7 @@ public class NodesTest extends RestTest {
             assertTrue(nodes[0].getUrl().get().endsWith(String.format("resource/%s", context.contextId())));
             assertEquals(context.path(), nodes[0].getPath().get());
             assertTrue(
-                    nodes[0].getBreadcrumbs().containsAll(context.breadcrumbs().get("nb")));
+                    nodes[0].getBreadcrumbs().containsAll(context.breadcrumbs().fromLanguage("nb")));
         }
 
         // Check fetching by contextids. This does not guarantee url and breadcrumbs
@@ -253,7 +253,7 @@ public class NodesTest extends RestTest {
                     t.contentUri(URI.create("urn:test:1")).resource(resource);
                 }));
 
-        Optional<Node> fromDB = nodeRepository.findFirstByPublicId(resource.getPublicId());
+        Optional<Node> fromDB = Optional.ofNullable(nodeRepository.findFirstByPublicId(resource.getPublicId()));
         assertTrue(fromDB.isPresent());
         var node = fromDB.get();
         assertEquals(1, node.getContexts().size());
@@ -1073,7 +1073,7 @@ public class NodesTest extends RestTest {
 
         assertFalse(node.getMetadata().isVisible());
         assertTrue(node.getMetadata().getGrepCodes().stream()
-                .map(JsonGrepCode::getCode)
+                .map(JsonGrepCode::code)
                 .collect(Collectors.toSet())
                 .contains("KM123"));
         assertTrue(node.getCustomFields().containsValue("value"));
@@ -1177,18 +1177,14 @@ public class NodesTest extends RestTest {
                     "/v1/nodes/" + node1.getPublicId() + "/makeResourcesPrimary", null, status().isOk());
             assertEquals(200, response.getStatus());
             var updated1 = nodeRepository.getByPublicId(node1.getPublicId());
-            assertTrue(updated1.getResourceChildren().stream()
-                    .allMatch(nr -> nr.isPrimary().orElse(false)));
+            assertTrue(updated1.getResourceChildren().stream().allMatch(nr -> nr.isPrimary()));
             var updated2 = nodeRepository.getByPublicId(node2.getPublicId());
-            assertFalse(updated2.getResourceChildren().stream()
-                    .allMatch(nr -> nr.isPrimary().orElse(false)));
+            assertFalse(updated2.getResourceChildren().stream().allMatch(nr -> nr.isPrimary()));
             // Following should be unchanged
             var updated3 = nodeRepository.getByPublicId(URI.create("urn:topic:1"));
-            assertFalse(updated3.getResourceChildren().stream()
-                    .allMatch(nr -> nr.isPrimary().orElse(false)));
+            assertFalse(updated3.getResourceChildren().stream().allMatch(nr -> nr.isPrimary()));
             var updated4 = nodeRepository.getByPublicId(URI.create("urn:topic:2"));
-            assertTrue(updated4.getResourceChildren().stream()
-                    .allMatch(nr -> nr.isPrimary().orElse(false)));
+            assertTrue(updated4.getResourceChildren().stream().allMatch(nr -> nr.isPrimary()));
         }
         {
             // Recursive flag updates all levels
@@ -1196,18 +1192,14 @@ public class NodesTest extends RestTest {
                     "/v1/nodes/" + node1.getPublicId() + "/makeResourcesPrimary?recursive=true", null, status().isOk());
             assertEquals(200, response.getStatus());
             var updated1 = nodeRepository.getByPublicId(node1.getPublicId());
-            assertTrue(updated1.getResourceChildren().stream()
-                    .allMatch(nr -> nr.isPrimary().orElse(false)));
+            assertTrue(updated1.getResourceChildren().stream().allMatch(nr -> nr.isPrimary()));
             var updated2 = nodeRepository.getByPublicId(node2.getPublicId());
-            assertFalse(updated2.getResourceChildren().stream()
-                    .allMatch(nr -> nr.isPrimary().orElse(false)));
+            assertFalse(updated2.getResourceChildren().stream().allMatch(nr -> nr.isPrimary()));
             // Switched order from previous block
             var updated3 = nodeRepository.getByPublicId(URI.create("urn:topic:1"));
-            assertTrue(updated3.getResourceChildren().stream()
-                    .allMatch(nr -> nr.isPrimary().orElse(false)));
+            assertTrue(updated3.getResourceChildren().stream().allMatch(nr -> nr.isPrimary()));
             var updated4 = nodeRepository.getByPublicId(URI.create("urn:topic:2"));
-            assertFalse(updated4.getResourceChildren().stream()
-                    .allMatch(nr -> nr.isPrimary().orElse(false)));
+            assertFalse(updated4.getResourceChildren().stream().allMatch(nr -> nr.isPrimary()));
         }
     }
 
@@ -1275,19 +1267,19 @@ public class NodesTest extends RestTest {
                 "/v1/nodes/" + publicId,
                 "{\"nodeType\":\"TOPIC\",\"name\":\"some-name\",\"contentUri\":\"urn:article:1\",\"qualityEvaluation\": {\"grade\": 5}}");
         var found = nodeRepository.getByPublicId(publicId);
-        assertEquals(found.getQualityEvaluationGrade(), Optional.of(Grade.Five));
+        assertEquals(found.getQualityEvaluationGrade(), Grade.Five);
 
         testUtils.updateResourceRawInput(
                 "/v1/nodes/" + publicId,
                 "{\"nodeType\":\"TOPIC\",\"name\":\"some-name\",\"contentUri\":\"urn:article:1\"}");
         var found2 = nodeRepository.getByPublicId(publicId);
-        assertEquals(found2.getQualityEvaluationGrade(), Optional.of(Grade.Five));
+        assertEquals(found2.getQualityEvaluationGrade(), Grade.Five);
 
         testUtils.updateResourceRawInput(
                 "/v1/nodes/" + publicId,
                 "{\"nodeType\":\"TOPIC\",\"name\":\"some-name\",\"contentUri\":\"urn:article:1\",\"qualityEvaluation\": null}");
         var found3 = nodeRepository.getByPublicId(publicId);
-        assertEquals(found3.getQualityEvaluationGrade(), Optional.empty());
+        assertNull(found3.getQualityEvaluationGrade());
     }
 
     @Test
@@ -1312,8 +1304,8 @@ public class NodesTest extends RestTest {
             var dbResource = nodeRepository.getByPublicId(URI.create(resourceId));
             var dbTopic = nodeRepository.getByPublicId(URI.create(topicId));
             var dbSuject = nodeRepository.getByPublicId(URI.create(subjectId));
-            assertEquals(dbResource.getQualityEvaluationGrade(), Optional.of(Grade.Five));
-            var expectedFive = Optional.of(new GradeAverage(5, 1));
+            assertEquals(dbResource.getQualityEvaluationGrade(), Grade.Five);
+            var expectedFive = new GradeAverage(5, 1);
             assertEquals(dbSuject.getChildQualityEvaluationAverage(), expectedFive);
             assertEquals(dbTopic.getChildQualityEvaluationAverage(), expectedFive);
         }
@@ -1323,11 +1315,11 @@ public class NodesTest extends RestTest {
             var dbResource = nodeRepository.getByPublicId(URI.create(resourceId));
             var dbTopic = nodeRepository.getByPublicId(URI.create(topicId));
             var dbSuject = nodeRepository.getByPublicId(URI.create(subjectId));
-            assertEquals(dbResource.getQualityEvaluationGrade(), Optional.empty());
+            assertNull(dbResource.getQualityEvaluationGrade());
             var actualSubject = dbSuject.getChildQualityEvaluationAverage();
-            assertEquals(actualSubject, Optional.empty());
+            assertNull(actualSubject);
             var actualTopic = dbTopic.getChildQualityEvaluationAverage();
-            assertEquals(actualTopic, Optional.empty());
+            assertNull(actualTopic);
         }
     }
 
@@ -1351,15 +1343,15 @@ public class NodesTest extends RestTest {
         testUtils.updateResourceRawInput("/v1/nodes/" + resourceId, "{\"qualityEvaluation\": {\"grade\": 2}}");
         var dbTopic = nodeRepository.getByPublicId(URI.create(topicId));
         var dbSubject = nodeRepository.getByPublicId(URI.create(subjectId));
-        assertTrue(dbTopic.getChildQualityEvaluationAverage().isPresent());
-        assertTrue(dbSubject.getChildQualityEvaluationAverage().isPresent());
+        assertNotNull(dbTopic.getChildQualityEvaluationAverage());
+        assertNotNull(dbSubject.getChildQualityEvaluationAverage());
 
         testUtils.deleteResource("/v1/nodes/" + resourceId);
 
         var dbTopicAfter = nodeRepository.getByPublicId(URI.create(topicId));
         var dbSubjectAfter = nodeRepository.getByPublicId(URI.create(subjectId));
-        assertTrue(dbTopicAfter.getChildQualityEvaluationAverage().isEmpty());
-        assertTrue(dbSubjectAfter.getChildQualityEvaluationAverage().isEmpty());
+        assertNull(dbTopicAfter.getChildQualityEvaluationAverage());
+        assertNull(dbSubjectAfter.getChildQualityEvaluationAverage());
     }
 
     @Test
@@ -1401,9 +1393,9 @@ public class NodesTest extends RestTest {
         var cloned1 = nodeRepository.getByPublicId(cloned1Id);
         var cloned2 = nodeRepository.getByPublicId(cloned2Id);
         var cloned3 = nodeRepository.getByPublicId(cloned3Id);
-        assertEquals(Optional.of(Grade.Five), cloned1.getQualityEvaluationGrade());
-        assertEquals(Optional.of(Grade.Four), cloned2.getQualityEvaluationGrade());
-        assertEquals(Optional.of(Grade.One), cloned3.getQualityEvaluationGrade());
+        assertEquals(Grade.Five, cloned1.getQualityEvaluationGrade());
+        assertEquals(Grade.Four, cloned2.getQualityEvaluationGrade());
+        assertEquals(Grade.One, cloned3.getQualityEvaluationGrade());
 
         { // Connect cloned resources to urn:topic:2
             var connectBody1 = new NodeConnectionPOST();
@@ -1425,18 +1417,16 @@ public class NodesTest extends RestTest {
 
         var topic2 = nodeRepository.getByPublicId(URI.create("urn:topic:2"));
         assertEquals(3, topic2.getChildNodes().size());
-        assertTrue(topic2.getChildQualityEvaluationAverage().isPresent());
-        assertEquals(3, topic2.getChildQualityEvaluationAverage().get().getCount());
+        assertNotNull(topic2.getChildQualityEvaluationAverage());
+        assertEquals(3, topic2.getChildQualityEvaluationAverage().getCount());
         assertEquals(
-                3.3333333333333335,
-                topic2.getChildQualityEvaluationAverage().get().getAverageValue());
+                3.3333333333333335, topic2.getChildQualityEvaluationAverage().getAverageValue());
 
         var subject1 = nodeRepository.getByPublicId(URI.create("urn:subject:1"));
-        assertTrue(subject1.getChildQualityEvaluationAverage().isPresent());
-        assertEquals(6, subject1.getChildQualityEvaluationAverage().get().getCount());
+        assertNotNull(subject1.getChildQualityEvaluationAverage());
+        assertEquals(6, subject1.getChildQualityEvaluationAverage().getCount());
         assertEquals(
-                3.3333333333333335,
-                subject1.getChildQualityEvaluationAverage().get().getAverageValue());
+                3.3333333333333335, subject1.getChildQualityEvaluationAverage().getAverageValue());
     }
 
     @Test
@@ -1473,21 +1463,19 @@ public class NodesTest extends RestTest {
         assertEquals(3, topic1.getChildNodes().size());
         topic1.updateEntireAverageTree();
 
-        assertTrue(topic1.getChildQualityEvaluationAverage().isPresent());
-        assertEquals(3, topic1.getChildQualityEvaluationAverage().get().getCount());
+        assertNotNull(topic1.getChildQualityEvaluationAverage());
+        assertEquals(3, topic1.getChildQualityEvaluationAverage().getCount());
         assertEquals(
-                3.3333333333333335,
-                topic1.getChildQualityEvaluationAverage().get().getAverageValue());
+                3.3333333333333335, topic1.getChildQualityEvaluationAverage().getAverageValue());
 
         var subject1 = nodeRepository.getByPublicId(URI.create("urn:subject:1"));
-        assertTrue(subject1.getChildQualityEvaluationAverage().isPresent());
-        assertEquals(3, subject1.getChildQualityEvaluationAverage().get().getCount());
+        assertNotNull(subject1.getChildQualityEvaluationAverage());
+        assertEquals(3, subject1.getChildQualityEvaluationAverage().getCount());
         assertEquals(
-                3.3333333333333335,
-                subject1.getChildQualityEvaluationAverage().get().getAverageValue());
+                3.3333333333333335, subject1.getChildQualityEvaluationAverage().getAverageValue());
 
         var subject2 = nodeRepository.getByPublicId(URI.create("urn:subject:2"));
-        assertFalse(subject2.getChildQualityEvaluationAverage().isPresent());
+        assertNull(subject2.getChildQualityEvaluationAverage());
 
         var topic = nodeRepository.getByPublicId(URI.create("urn:topic:1"));
         assertEquals(1, topic.getParentConnections().size());
@@ -1504,20 +1492,18 @@ public class NodesTest extends RestTest {
         testUtils.createResource("/v1/node-connections/", connectBody);
 
         assertEquals(3, topic1.getChildNodes().size());
-        assertTrue(topic1.getChildQualityEvaluationAverage().isPresent());
-        assertEquals(3, topic1.getChildQualityEvaluationAverage().get().getCount());
+        assertNotNull(topic1.getChildQualityEvaluationAverage());
+        assertEquals(3, topic1.getChildQualityEvaluationAverage().getCount());
         assertEquals(
-                3.3333333333333335,
-                topic1.getChildQualityEvaluationAverage().get().getAverageValue());
+                3.3333333333333335, topic1.getChildQualityEvaluationAverage().getAverageValue());
 
         var s1 = nodeRepository.getByPublicId(URI.create("urn:subject:1"));
-        assertFalse(s1.getChildQualityEvaluationAverage().isPresent());
+        assertNull(s1.getChildQualityEvaluationAverage());
 
         var s2 = nodeRepository.getByPublicId(URI.create("urn:subject:2"));
-        assertTrue(s2.getChildQualityEvaluationAverage().isPresent());
-        assertEquals(3, s2.getChildQualityEvaluationAverage().get().getCount());
-        assertEquals(
-                3.3333333333333335, s2.getChildQualityEvaluationAverage().get().getAverageValue());
+        assertNotNull(s2.getChildQualityEvaluationAverage());
+        assertEquals(3, s2.getChildQualityEvaluationAverage().getCount());
+        assertEquals(3.3333333333333335, s2.getChildQualityEvaluationAverage().getAverageValue());
     }
 
     public void connect(Node parent, Node child) throws Exception {
@@ -1638,9 +1624,9 @@ public class NodesTest extends RestTest {
         disconnect(t1, t2);
 
         {
-            var node = nodeRepository.findFirstByPublicId(t2.getPublicId());
+            var node = Optional.ofNullable(nodeRepository.findFirstByPublicId(t2.getPublicId()));
             var qe = node.get().getChildQualityEvaluationAverage();
-            assertFalse(qe.isPresent());
+            assertNull(qe);
         }
 
         connect(t2, r5);
@@ -1704,17 +1690,13 @@ public class NodesTest extends RestTest {
                 .map(id -> nodeRepository
                         .getByPublicId(id)
                         .getQualityEvaluationGrade()
-                        .orElseThrow()
                         .toInt())
                 .toList();
     }
 
     public List<GradeAverage> getQEAverageGradesOf(List<URI> ids) {
         return ids.stream()
-                .map(id -> nodeRepository
-                        .getByPublicId(id)
-                        .getChildQualityEvaluationAverage()
-                        .orElse(null))
+                .map(id -> nodeRepository.getByPublicId(id).getChildQualityEvaluationAverage())
                 .toList();
     }
 
@@ -2023,8 +2005,8 @@ public class NodesTest extends RestTest {
         var id = node.getPublicId();
 
         var found = nodeRepository.getByPublicId(id);
-        assertTrue(found.requiresTechnicalEvaluation().isEmpty());
-        assertTrue(found.getTechnicalEvaluationComment().isEmpty());
+        assertNull(found.getRequiresTechnicalEvaluation());
+        assertNull(found.getTechnicalEvaluationComment());
     }
 
     @Test
@@ -2038,8 +2020,8 @@ public class NodesTest extends RestTest {
         var id = getId(testUtils.createResource("/v1/nodes", command));
 
         var found = nodeRepository.getByPublicId(id);
-        assertTrue(found.requiresTechnicalEvaluation().orElseThrow());
-        assertEquals("Needs review", found.getTechnicalEvaluationComment().orElseThrow());
+        assertTrue(found.getRequiresTechnicalEvaluation());
+        assertEquals("Needs review", found.getTechnicalEvaluationComment());
 
         var command2 = new NodePostPut() {
             {
@@ -2048,8 +2030,8 @@ public class NodesTest extends RestTest {
         };
         testUtils.updateResource("/v1/nodes/" + id, command2);
         var found2 = nodeRepository.getByPublicId(id);
-        assertFalse(found2.requiresTechnicalEvaluation().orElseThrow());
-        assertTrue(found2.getTechnicalEvaluationComment().isEmpty());
+        assertFalse(found2.getRequiresTechnicalEvaluation());
+        assertNull(found2.getTechnicalEvaluationComment());
     }
 
     @Test
@@ -2063,8 +2045,8 @@ public class NodesTest extends RestTest {
         var id = getId(testUtils.createResource("/v1/nodes", command));
 
         var found = nodeRepository.getByPublicId(id);
-        assertTrue(found.requiresTechnicalEvaluation().orElseThrow());
-        assertTrue(found.getTechnicalEvaluationComment().isEmpty());
+        assertTrue(found.getRequiresTechnicalEvaluation());
+        assertNull(found.getTechnicalEvaluationComment());
 
         var command2 = new NodePostPut() {
             {
@@ -2074,8 +2056,8 @@ public class NodesTest extends RestTest {
         testUtils.updateResource("/v1/nodes/" + id, command2);
 
         var found2 = nodeRepository.getByPublicId(id);
-        assertTrue(found2.requiresTechnicalEvaluation().orElseThrow());
-        assertEquals("Needs review", found2.getTechnicalEvaluationComment().orElseThrow());
+        assertTrue(found2.getRequiresTechnicalEvaluation());
+        assertEquals("Needs review", found2.getTechnicalEvaluationComment());
     }
 
     @Test
@@ -2089,8 +2071,8 @@ public class NodesTest extends RestTest {
         var id = getId(testUtils.createResource("/v1/nodes", command));
 
         var found = nodeRepository.getByPublicId(id);
-        assertFalse(found.requiresTechnicalEvaluation().orElseThrow());
-        assertTrue(found.getTechnicalEvaluationComment().isEmpty());
+        assertFalse(found.getRequiresTechnicalEvaluation());
+        assertNull(found.getTechnicalEvaluationComment());
     }
 
     @Test
@@ -2112,8 +2094,9 @@ public class NodesTest extends RestTest {
     }
 
     public void testQualityEvaluationAverage(Node inputNode, int expectedCount, double expectedAverage) {
-        var node = nodeRepository.findFirstByPublicId(inputNode.getPublicId()).orElseThrow();
-        var qe = node.getChildQualityEvaluationAverage().orElseThrow();
+        var node = Optional.ofNullable(nodeRepository.findFirstByPublicId(inputNode.getPublicId()))
+                .orElseThrow();
+        var qe = node.getChildQualityEvaluationAverage();
         assertEquals(expectedCount, qe.getCount());
         assertEquals(expectedAverage, qe.getAverageValue());
     }

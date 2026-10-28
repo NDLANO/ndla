@@ -8,7 +8,6 @@
 package no.ndla.taxonomy.service.dtos
 
 import io.swagger.v3.oas.annotations.media.Schema
-import kotlin.jvm.optionals.getOrNull
 import kotlin.math.roundToLong
 import no.ndla.taxonomy.domain.Node
 
@@ -18,7 +17,7 @@ data class GradeAverageDTO(val averageValue: Double, val count: Int) {
     fun roundToSingleDecimal(value: Double): Double = (value * 10).roundToLong() / 10.0
 
     fun fromNode(node: Node): GradeAverageDTO? =
-        node.childQualityEvaluationAverage.getOrNull()?.let {
+        node.childQualityEvaluationAverage?.let {
           GradeAverageDTO(roundToSingleDecimal(it.averageValue), it.count)
         }
   }

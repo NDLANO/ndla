@@ -8,7 +8,6 @@
 package no.ndla.taxonomy.service.dtos
 
 import io.swagger.v3.oas.annotations.media.Schema
-import kotlin.jvm.optionals.getOrNull
 import no.ndla.taxonomy.domain.Node
 
 @Schema
@@ -20,8 +19,8 @@ data class TechnicalEvaluationDTO(
 ) {
   companion object {
     fun fromNode(node: Node) =
-        node.requiresTechnicalEvaluation().getOrNull()?.let {
-          TechnicalEvaluationDTO(it, node.technicalEvaluationComment.getOrNull())
+        node.requiresTechnicalEvaluation?.let {
+          TechnicalEvaluationDTO(it, node.technicalEvaluationComment)
         }
   }
 }

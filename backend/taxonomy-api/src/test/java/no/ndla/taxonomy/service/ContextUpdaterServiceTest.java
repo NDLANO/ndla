@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.net.URI;
+import java.util.Optional;
 import java.util.Set;
 import no.ndla.taxonomy.domain.*;
 import no.ndla.taxonomy.repositories.NodeConnectionRepository;
@@ -62,7 +63,7 @@ class ContextUpdaterServiceTest extends AbstractIntegrationTest {
             assertEquals(0, context.breadcrumbs().size());
             assertTrue(context.isPrimary());
 
-            var node = nodeRepository.findFirstByPublicId(URI.create("urn:subject:1"));
+            var node = Optional.ofNullable(nodeRepository.findFirstByPublicId(URI.create("urn:subject:1")));
             assertEquals(1, node.get().getContexts().size());
         }
 
@@ -83,7 +84,7 @@ class ContextUpdaterServiceTest extends AbstractIntegrationTest {
             assertEquals(0, context.breadcrumbs().size());
             assertTrue(context.isPrimary());
 
-            var node = nodeRepository.findFirstByPublicId(URI.create("urn:topic:1"));
+            var node = Optional.ofNullable(nodeRepository.findFirstByPublicId(URI.create("urn:topic:1")));
             assertEquals(1, node.get().getContexts().size());
         }
 
@@ -94,8 +95,7 @@ class ContextUpdaterServiceTest extends AbstractIntegrationTest {
         service.updateContexts(topic1);
 
         {
-            var node = nodeRepository
-                    .findFirstByPublicId(URI.create("urn:topic:1"))
+            var node = Optional.ofNullable(nodeRepository.findFirstByPublicId(URI.create("urn:topic:1")))
                     .get();
             assertEquals(2, node.getContexts().size());
             assertTrue(node.getContexts().stream()
@@ -109,8 +109,7 @@ class ContextUpdaterServiceTest extends AbstractIntegrationTest {
         service.updateContexts(topic1);
 
         {
-            var node = nodeRepository
-                    .findFirstByPublicId(URI.create("urn:topic:1"))
+            var node = Optional.ofNullable(nodeRepository.findFirstByPublicId(URI.create("urn:topic:1")))
                     .get();
             assertEquals(1, node.getContexts().size());
             assertTrue(node.getContexts().stream()
@@ -127,8 +126,7 @@ class ContextUpdaterServiceTest extends AbstractIntegrationTest {
         service.updateContexts(topic1);
 
         {
-            var node = nodeRepository
-                    .findFirstByPublicId(URI.create("urn:topic:2"))
+            var node = Optional.ofNullable(nodeRepository.findFirstByPublicId(URI.create("urn:topic:2")))
                     .get();
             assertEquals(0, node.getContexts().size());
         }
@@ -140,8 +138,7 @@ class ContextUpdaterServiceTest extends AbstractIntegrationTest {
         service.updateContexts(topic1);
 
         {
-            var node = nodeRepository
-                    .findFirstByPublicId(URI.create("urn:topic:2"))
+            var node = Optional.ofNullable(nodeRepository.findFirstByPublicId(URI.create("urn:topic:2")))
                     .get();
             assertEquals(1, node.getContexts().size());
             assertTrue(node.getContexts().stream()
@@ -155,8 +152,7 @@ class ContextUpdaterServiceTest extends AbstractIntegrationTest {
         service.updateContexts(topic1);
 
         {
-            var node = nodeRepository
-                    .findFirstByPublicId(URI.create("urn:topic:2"))
+            var node = Optional.ofNullable(nodeRepository.findFirstByPublicId(URI.create("urn:topic:2")))
                     .get();
             assertEquals(2, node.getContexts().size());
             assertTrue(node.getContexts().stream()
@@ -172,8 +168,7 @@ class ContextUpdaterServiceTest extends AbstractIntegrationTest {
         service.updateContexts(resource1);
 
         {
-            var node = nodeRepository
-                    .findFirstByPublicId(URI.create("urn:resource:1"))
+            var node = Optional.ofNullable(nodeRepository.findFirstByPublicId(URI.create("urn:resource:1")))
                     .get();
             assertEquals(0, node.getContexts().size());
         }
@@ -185,8 +180,7 @@ class ContextUpdaterServiceTest extends AbstractIntegrationTest {
         service.updateContexts(resource1);
 
         {
-            var node = nodeRepository
-                    .findFirstByPublicId(URI.create("urn:resource:1"))
+            var node = Optional.ofNullable(nodeRepository.findFirstByPublicId(URI.create("urn:resource:1")))
                     .get();
             assertEquals(2, node.getContexts().size());
             assertTrue(node.getContexts().stream()
@@ -202,8 +196,7 @@ class ContextUpdaterServiceTest extends AbstractIntegrationTest {
         service.updateContexts(resource1);
 
         {
-            var node = nodeRepository
-                    .findFirstByPublicId(URI.create("urn:resource:1"))
+            var node = Optional.ofNullable(nodeRepository.findFirstByPublicId(URI.create("urn:resource:1")))
                     .get();
             assertEquals(4, node.getContexts().size());
             assertTrue(node.getContexts().stream()
@@ -219,7 +212,7 @@ class ContextUpdaterServiceTest extends AbstractIntegrationTest {
         nodeRepository.delete(resource1);
 
         {
-            var node = nodeRepository.findFirstByPublicId(URI.create("urn:resource:1"));
+            var node = Optional.ofNullable(nodeRepository.findFirstByPublicId(URI.create("urn:resource:1")));
             assertTrue(node.isEmpty());
         }
     }

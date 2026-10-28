@@ -13,7 +13,6 @@ import static org.mockito.Mockito.when;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Optional;
 import no.ndla.taxonomy.domain.Node;
 import no.ndla.taxonomy.domain.NodeConnection;
 import org.junit.jupiter.api.Test;
@@ -55,8 +54,8 @@ public class ResourceTreeSortableTest {
         when(node.getId()).thenReturn(101);
         when(resource.getId()).thenReturn(102);
 
-        when(nodeResource.getParent()).thenReturn(Optional.of(node));
-        when(nodeResource.getResource()).thenReturn(Optional.of(resource));
+        when(nodeResource.getParent()).thenReturn(node);
+        when(nodeResource.getResource()).thenReturn(resource);
 
         when(nodeResource.getRank()).thenReturn(200 - 10000);
 
@@ -73,8 +72,8 @@ public class ResourceTreeSortableTest {
         when(node.getPublicId()).thenReturn(URI.create("101"));
         when(resource.getPublicId()).thenReturn(URI.create("102"));
 
-        when(nodeResource.getParent()).thenReturn(Optional.of(node));
-        when(nodeResource.getResource()).thenReturn(Optional.of(resource));
+        when(nodeResource.getParent()).thenReturn(node);
+        when(nodeResource.getResource()).thenReturn(resource);
 
         when(nodeResource.getRank()).thenReturn(200);
 
