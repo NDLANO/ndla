@@ -77,8 +77,6 @@ const AlignedWithInput = styled("div", {
   },
 });
 
-const noop = () => {};
-
 const stopPropagation = (e: SyntheticEvent) => e.stopPropagation();
 
 const preventLabelActivation = (e: MouseEvent<HTMLDivElement>) => {
@@ -250,7 +248,7 @@ const CorrectAnswerToggle = ({ alt, questionType, onCorrectChange, children }: C
     return (
       <RadioToggle value={alt.id} title={t("myNdla.quiz.correctAnswer")}>
         {children}
-        <RadioGroupItemHiddenInput name={alt.id} checked={alt.isCorrect} onChange={noop} />
+        <RadioGroupItemHiddenInput />
       </RadioToggle>
     );
   }
