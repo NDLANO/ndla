@@ -118,7 +118,6 @@ export type ConfigType = {
   autologinCookieEnabled: boolean;
   loginHint: string | undefined;
   githubIconEnabled: boolean;
-  disableKiToken: boolean;
   enableDialogApi: boolean;
   enableQuiz: boolean;
 };
@@ -159,7 +158,6 @@ const getServerSideConfig = (): ConfigType => {
     autologinCookieEnabled: getEnvironmentVariable("AUTOLOGIN_COOKIE_ENABLED", false),
     loginHint: loginHint(ndlaEnvironment, getEnvironmentVariable("AUTOLOGIN_COOKIE_ENABLED", false)),
     githubIconEnabled: getEnvironmentVariable("GITHUB_ICON_ENABLED", false),
-    disableKiToken: getEnvironmentVariable("DISABLE_KI_TOKEN", false),
     enableDialogApi: getEnvironmentVariable("ENABLE_DIALOG_API", true),
     enableQuiz: getEnvironmentVariable("ENABLE_QUIZ", false),
   };

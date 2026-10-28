@@ -48,10 +48,9 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { PageLayout } from "../../components/Layout/PageContainer";
 import config from "../../config";
-import { AUTOLOGIN_COOKIE, FILM_PAGE_URL } from "../../constants";
+import { AUTOLOGIN_COOKIE, FILM_PAGE_URL, NDLA_KI_URL } from "../../constants";
 import type { GQLMyNdlaPersonalDataFragmentFragment } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
-import { getChatRobotUrl } from "../../util/chatRobotHelpers";
 import { useLocaleHref, useRawLocation } from "../../util/localePath";
 import { toHref } from "../../util/urlHelper";
 import { MenuContainer, type MenuLink, MenuList, MenuListItem } from "./components/MenuContainer";
@@ -312,7 +311,7 @@ const menuLinks = (
   },
   {
     id: "robot",
-    to: `${getChatRobotUrl(user)}`,
+    to: NDLA_KI_URL,
     name: t("welcomePage.quickLinks.chatRobot.title"),
     shortName: t("welcomePage.quickLinks.chatRobot.title"),
     icon: <RobotFill />,

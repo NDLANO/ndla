@@ -32,7 +32,13 @@ import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { LanguageSelector } from "../../components/LanguageSelector/LanguageSelector";
 import config from "../../config";
-import { FILM_PAGE_URL, MULTIDISCIPLINARY_URL, TOOLBOX_STUDENT_URL, TOOLBOX_TEACHER_URL } from "../../constants";
+import {
+  FILM_PAGE_URL,
+  MULTIDISCIPLINARY_URL,
+  TOOLBOX_STUDENT_URL,
+  TOOLBOX_TEACHER_URL,
+  NDLA_KI_URL,
+} from "../../constants";
 import type {
   GQLDynamicMenuQuery,
   GQLDynamicMenuQueryVariables,
@@ -40,7 +46,6 @@ import type {
   GQLMastheadFavoriteSubjectsQueryVariables,
 } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
-import { getChatRobotUrl } from "../../util/chatRobotHelpers";
 import { useRawLocation } from "../../util/localePath";
 import { toHref } from "../../util/urlHelper";
 import { MastheadPopoverBackdrop, MastheadPopoverContent } from "./MastheadPopover";
@@ -433,10 +438,6 @@ const MyNdlaPart = () => {
   const { t } = useTranslation();
   const location = useRawLocation();
 
-  const chatRobotUrl = useMemo(() => {
-    return getChatRobotUrl(user);
-  }, [user]);
-
   return (
     <MyNdlaWrapper>
       {!!authenticated && !!user && (
@@ -472,7 +473,7 @@ const MyNdlaPart = () => {
           {t("welcomePage.quickLinks.arena.title")}
           <ExternalLinkLine />
         </MyNdlaSafeLinkButton>
-        <MyNdlaSafeLinkButton to={chatRobotUrl} target="_blank" rel="noopener noreferrer" variant="secondary">
+        <MyNdlaSafeLinkButton to={NDLA_KI_URL} target="_blank" rel="noopener noreferrer" variant="secondary">
           <RobotFill />
           {t("welcomePage.quickLinks.chatRobot.title")}
           <ExternalLinkLine />
