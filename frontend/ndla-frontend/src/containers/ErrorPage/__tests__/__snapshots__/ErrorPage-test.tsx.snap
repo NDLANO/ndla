@@ -148,7 +148,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                 Tiltak
               </dt>
               <dd>
-                Prøv en side som faktisk finnes.
+                Prøv et søk, eller gå til forsiden
               </dd>
             </div>
           </dl>

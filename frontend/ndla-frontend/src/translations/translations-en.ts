@@ -1151,7 +1151,7 @@ const translations = {
       stampLarge: "Not",
       stampSmall: "approved",
       reason: "Unknown. Possible public transport delay.",
-      action: "Try a page that actually exists.",
+      action: "Try a search, or go to the front page",
     },
   },
   errorPage: {
@@ -1162,7 +1162,7 @@ const translations = {
       stampLarge: "Not",
       stampSmall: "handed in",
       reason: "Unknown. Possibly dog-related.",
-      action: "Try a page that actually exists.",
+      action: "Try a search, or go to the front page",
     },
   },
   unpublishedResourcePage: {
@@ -1173,7 +1173,7 @@ const translations = {
       stampLarge: "Past",
       stampSmall: "deadline",
       reason: "Late for class.",
-      action: "Try a page that actually exists.",
+      action: "Try a search, or go to the front page",
     },
   },
   messageBoxInfo: {
