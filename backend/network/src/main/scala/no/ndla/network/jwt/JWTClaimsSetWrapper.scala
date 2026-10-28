@@ -27,6 +27,7 @@ object JWTClaimsSetWrapper {
 
     def stringListOptClaim(name: String): Either[ClaimParseException, Option[List[String]]] =
       doSafeOpt(name)(_.getStringArrayClaim).map(arrOpt => arrOpt.map(_.toList))
+    def stringOptClaim(name: String): Either[ClaimParseException, Option[String]] = doSafeOpt(name)(_.getStringClaim)
 
     def issueTime: Either[ForbiddenException, Long] = Option(claims.getIssueTime)
       .map(_.toInstant.getEpochSecond)
