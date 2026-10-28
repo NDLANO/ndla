@@ -135,6 +135,10 @@ const Stamp = styled("div", {
     fontSize: "xxsmall",
     lineHeight: "[1]",
     textTransform: "uppercase",
+    animation: "var(--animations-error-notice-stamp)",
+    _motionReduce: {
+      animation: "[none]",
+    },
   },
 });
 

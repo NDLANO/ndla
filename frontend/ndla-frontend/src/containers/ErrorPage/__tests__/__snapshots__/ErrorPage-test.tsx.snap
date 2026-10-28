@@ -115,7 +115,7 @@ exports[`ErrorPage renderers correctly 1`] = `
               Offisiell melding
             </p>
             <div
-              class="d_flex flex-d_column ai_center jc_center flex-sh_0 w_4xlarge h_4xlarge bd_3px_dotted ring_2px_solid ring-o_-xxsmall bdr_full c_text.error fs_xxsmall lh_[1] tt_uppercase"
+              class="d_flex flex-d_column ai_center jc_center flex-sh_0 w_4xlarge h_4xlarge bd_3px_dotted ring_2px_solid ring-o_-xxsmall bdr_full c_text.error fs_xxsmall lh_[1] tt_uppercase anim_var(--animations-error-notice-stamp) motionReduce:anim_[none]"
             >
               <span
                 class="fs_large"
