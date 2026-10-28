@@ -14,9 +14,8 @@ import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ArticleWrapper, ArticleContent } from "@ndla/ui";
-import { Suspense, useContext, useMemo } from "react";
+import { Suspense, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { AuthContext } from "../../components/AuthenticationContext";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { PageTitle } from "../../components/PageTitle";
@@ -223,17 +222,14 @@ export const WelcomePage = () => (
 
 const WelcomePageContent = () => {
   const { t, i18n } = useTranslation();
-  const { user } = useContext(AuthContext);
   const siteTheme = useSiteTheme();
 
-  const quickLinks = useMemo(() => {
-    return [
-      { type: "myNdla", icon: HeartLine, url: routes.myNdla.root, external: false },
-      { type: "chatRobot", icon: RobotFill, url: config.ndlaKiDomain, external: true },
-      { type: "arena", icon: ChatHeartLine, url: `https://${config.arenaDomain}`, external: true },
-      { type: "film", icon: MovieLine, url: FILM_PAGE_URL, external: false },
-    ] as const;
-  }, [user]);
+  const quickLinks = [
+    { type: "myNdla", icon: HeartLine, url: routes.myNdla.root, external: false },
+    { type: "chatRobot", icon: RobotFill, url: config.ndlaKiDomain, external: true },
+    { type: "arena", icon: ChatHeartLine, url: `https://${config.arenaDomain}`, external: true },
+    { type: "film", icon: MovieLine, url: FILM_PAGE_URL, external: false },
+  ] as const;
 
   const fpQuery = useSuspenseQuery(frontpageQuery);
 
