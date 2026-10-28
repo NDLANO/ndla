@@ -1147,7 +1147,7 @@ const translations = {
       stampLarge: "Ikkje",
       stampSmall: "godkjent",
       reason: "Ukjent. Mogleg kollektivforseinking.",
-      action: "Prøv eit søk, eller gå til framsida",
+      action: "Prøv eit søk, eller gå til framsida.",
     },
   },
   errorPage: {
@@ -1158,7 +1158,7 @@ const translations = {
       stampLarge: "Ikkje",
       stampSmall: "levert",
       reason: "Ukjent. Mogleg hunderelatert.",
-      action: "Prøv eit søk, eller gå til framsida",
+      action: "Prøv eit søk, eller gå til framsida.",
     },
   },
   unpublishedResourcePage: {
@@ -1169,7 +1169,7 @@ const translations = {
       stampLarge: "Etter",
       stampSmall: "tidsfrist",
       reason: "Kom for seint til timen.",
-      action: "Prøv eit søk, eller gå til framsida",
+      action: "Prøv eit søk, eller gå til framsida.",
     },
   },
   messageBoxInfo: {
