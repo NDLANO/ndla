@@ -32,13 +32,7 @@ import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { LanguageSelector } from "../../components/LanguageSelector/LanguageSelector";
 import config from "../../config";
-import {
-  FILM_PAGE_URL,
-  MULTIDISCIPLINARY_URL,
-  TOOLBOX_STUDENT_URL,
-  TOOLBOX_TEACHER_URL,
-  NDLA_KI_URL,
-} from "../../constants";
+import { FILM_PAGE_URL, MULTIDISCIPLINARY_URL, TOOLBOX_STUDENT_URL, TOOLBOX_TEACHER_URL } from "../../constants";
 import type {
   GQLDynamicMenuQuery,
   GQLDynamicMenuQueryVariables,
@@ -473,7 +467,7 @@ const MyNdlaPart = () => {
           {t("welcomePage.quickLinks.arena.title")}
           <ExternalLinkLine />
         </MyNdlaSafeLinkButton>
-        <MyNdlaSafeLinkButton to={NDLA_KI_URL} target="_blank" rel="noopener noreferrer" variant="secondary">
+        <MyNdlaSafeLinkButton to={config.ndlaKiDomain} target="_blank" rel="noopener noreferrer" variant="secondary">
           <RobotFill />
           {t("welcomePage.quickLinks.chatRobot.title")}
           <ExternalLinkLine />

@@ -49,7 +49,6 @@ export const SKIP_TO_CONTENT_ID = "SkipToContentId";
 export const SUPPORTED_LANGUAGES = ["nb", "nn", "en", "se"];
 
 export const ABOUT_PATH = "/om";
-export const NDLA_KI_URL = "https://ndla-ki.no/";
 
 export const PODCAST_SERIES_PAGE_PATH = "/podkast/:id";
 export const PODCAST_SERIES_LIST_PAGE_PATH = "/podkast";

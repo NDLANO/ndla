@@ -48,7 +48,7 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { PageLayout } from "../../components/Layout/PageContainer";
 import config from "../../config";
-import { AUTOLOGIN_COOKIE, FILM_PAGE_URL, NDLA_KI_URL } from "../../constants";
+import { AUTOLOGIN_COOKIE, FILM_PAGE_URL } from "../../constants";
 import type { GQLMyNdlaPersonalDataFragmentFragment } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import { useLocaleHref, useRawLocation } from "../../util/localePath";
@@ -311,14 +311,14 @@ const menuLinks = (
   },
   {
     id: "robot",
-    to: NDLA_KI_URL,
+    to: config.ndlaKiDomain,
     name: t("welcomePage.quickLinks.chatRobot.title"),
     shortName: t("welcomePage.quickLinks.chatRobot.title"),
     icon: <RobotFill />,
   },
   {
     id: "film",
-    to: `${FILM_PAGE_URL}`,
+    to: FILM_PAGE_URL,
     name: t("welcomePage.quickLinks.film.title"),
     shortName: t("welcomePage.quickLinks.film.title"),
     icon: <MovieLine />,

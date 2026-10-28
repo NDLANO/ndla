@@ -51,6 +51,19 @@ const ndlaFrontendDomain = (ndlaEnvironment: string): string => {
   }
 };
 
+const ndlaKiDomain = (ndlaEnvironment: string): string => {
+  const ndlaEnvironmentHostname = ndlaEnvironment.replace("_", "-");
+  switch (ndlaEnvironment) {
+    case "local":
+    case "test":
+      return "http://dev.ndla-ki.no";
+    case "prod":
+      return "https://ndla-ki.no";
+    default:
+      return `https://${ndlaEnvironmentHostname}.ndla-ki.no`;
+  }
+};
+
 export const arenaDomain = (ndlaEnvironment: string): string => {
   const ndlaEnvironmentHostname = ndlaEnvironment.replace("_", "-");
   switch (ndlaEnvironment) {
@@ -102,6 +115,7 @@ export type ConfigType = {
   ndlaApiUrl: string;
   graphqlApiHost: string | undefined;
   ndlaFrontendDomain: string;
+  ndlaKiDomain: string;
   zendeskWidgetKey: string | undefined;
   localGraphQLApi: boolean;
   feideDomain: string;
@@ -139,6 +153,7 @@ const getServerSideConfig = (): ConfigType => {
     ndlaApiUrl: getEnvironmentVariable("NDLA_API_URL", apiDomain(ndlaEnvironment)),
     graphqlApiHost: getEnvironmentVariable("GRAPHQL_API_HOST"),
     ndlaFrontendDomain: getEnvironmentVariable("FRONTEND_DOMAIN", ndlaFrontendDomain(ndlaEnvironment)),
+    ndlaKiDomain: ndlaKiDomain(ndlaEnvironment),
     zendeskWidgetKey: getEnvironmentVariable("NDLA_ZENDESK_WIDGET_KEY"),
     localGraphQLApi: getEnvironmentVariable("LOCAL_GRAPHQL_API", false),
     feideDomain: getEnvironmentVariable("FEIDE_DOMAIN", feideDomain(ndlaEnvironment)),

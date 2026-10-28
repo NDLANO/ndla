@@ -24,7 +24,7 @@ import { RestrictedContent } from "../../components/RestrictedBlock";
 import { useSiteTheme } from "../../components/SiteThemeContext";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
-import { FILM_PAGE_URL, SKIP_TO_CONTENT_ID, NDLA_KI_URL } from "../../constants";
+import { FILM_PAGE_URL, SKIP_TO_CONTENT_ID } from "../../constants";
 import type { GQLFrontpageDataQuery, GQLFrontpageDataQueryVariables } from "../../graphqlTypes";
 import { routes, toProgramme } from "../../routeHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
@@ -229,7 +229,7 @@ const WelcomePageContent = () => {
   const quickLinks = useMemo(() => {
     return [
       { type: "myNdla", icon: HeartLine, url: routes.myNdla.root, external: false },
-      { type: "chatRobot", icon: RobotFill, url: NDLA_KI_URL, external: true },
+      { type: "chatRobot", icon: RobotFill, url: config.ndlaKiDomain, external: true },
       { type: "arena", icon: ChatHeartLine, url: `https://${config.arenaDomain}`, external: true },
       { type: "film", icon: MovieLine, url: FILM_PAGE_URL, external: false },
     ] as const;
