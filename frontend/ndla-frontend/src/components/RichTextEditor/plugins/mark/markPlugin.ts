@@ -10,23 +10,25 @@ import { markPlugin as baseMarkPlugin, marks, toggleMark } from "@ndla/editor";
 import { isKeyHotkey } from "is-hotkey";
 import { BOLD_SHORTCUT, ITALIC_SHORTCUT } from "./markShortcuts";
 
-export const markPlugin = baseMarkPlugin.configure({
-  shortcuts: {
-    toggleBold: {
-      keyCondition: isKeyHotkey(BOLD_SHORTCUT),
-      handler: (editor, event) => {
-        event.preventDefault();
-        toggleMark(editor, marks.strong);
-        return false;
-      },
-    },
-    toggleItalic: {
-      keyCondition: isKeyHotkey(ITALIC_SHORTCUT),
-      handler: (editor, event) => {
-        event.preventDefault();
-        toggleMark(editor, marks.em);
-        return false;
-      },
-    },
+type MarkShortcut = NonNullable<Parameters<typeof baseMarkPlugin.configure>[0]["shortcuts"]>[string];
+
+const createToggleShortcut = (shortcut: string, mark: typeof marks.strong | typeof marks.em): MarkShortcut => ({
+  keyCondition: isKeyHotkey(shortcut),
+  handler: (editor, event) => {
+    event.preventDefault();
+    toggleMark(editor, mark);
+    return false;
   },
+});
+
+const shortcuts = {
+  toggleBold: createToggleShortcut(BOLD_SHORTCUT, marks.strong),
+  toggleItalic: createToggleShortcut(ITALIC_SHORTCUT, marks.em),
+};
+
+export const markPlugin = baseMarkPlugin.configure({ shortcuts });
+
+export const simpleMarkPlugin = baseMarkPlugin.configure({
+  shortcuts,
+  options: { supportedMarks: { value: ["bold", "italic"], override: true } },
 });
