@@ -21,8 +21,8 @@ import ResponsibleSelect from "../../containers/FormikForm/components/Responsibl
 import StatusSelect from "../../containers/FormikForm/components/StatusSelect";
 import { useSession } from "../../containers/Session/SessionProvider";
 import { putLearningpathStatusMutationOptions } from "../../modules/learningpath/learningpathMutations";
-import { useBasePathname, useRawLocation } from "../../util/localePath";
 import { nodesQueryOptions } from "../../modules/nodes/nodeQueries";
+import { useBasePathname, useRawLocation } from "../../util/localePath";
 import { type NewlyCreatedLocationState, routes, toPreviewDraft } from "../../util/routeHelpers";
 import type { StatusActionKey } from "../../util/translationKeys";
 import { FormField } from "../FormField";
