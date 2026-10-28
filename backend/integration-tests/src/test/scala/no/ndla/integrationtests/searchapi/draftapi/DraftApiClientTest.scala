@@ -59,7 +59,7 @@ class DraftApiClientTest
     override def DraftSearchIndex: String          = "test-draft"
   }
 
-  var draftApi: draftapi.MainClass = null
+  var draftApi: draftapi.MainClass = scala.compiletime.uninitialized
   val draftApiBaseUrl: String      = s"http://localhost:$draftApiPort"
 
   override def beforeAll(): Unit = {

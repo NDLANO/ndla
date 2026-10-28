@@ -9,23 +9,23 @@
 package no.ndla.network.jwt
 
 import com.nimbusds.jose.jwk.source.JWKSourceBuilder
-import com.nimbusds.jose.proc.JWSVerificationKeySelector
+import com.nimbusds.jose.proc.{JWSVerificationKeySelector, SecurityContext}
 import com.nimbusds.oauth2.sdk.id.Issuer
 import com.nimbusds.openid.connect.sdk.op.OIDCProviderMetadata
 
 trait JwsKeySelectorFactory {
-  def fromIssuer(issuerUrl: String): JWSVerificationKeySelector[Null]
+  def fromIssuer(issuerUrl: String): JWSVerificationKeySelector[SecurityContext]
 }
 
 case object DefaultJwsKeySelectorFactory extends JwsKeySelectorFactory {
   private val cacheTimeToLive     = 24 * 60 * 60 * 1000L // 1 day
   private val cacheRefreshTimeout = 15 * 1000L           // 15 seconds
 
-  override def fromIssuer(issuerUrl: String): JWSVerificationKeySelector[Null] = {
+  override def fromIssuer(issuerUrl: String): JWSVerificationKeySelector[SecurityContext] = {
     val issuer    = new Issuer(issuerUrl)
     val metadata  = OIDCProviderMetadata.resolve(issuer)
     val jwkSource = JWKSourceBuilder
-      .create[Null](metadata.getJWKSetURI.toURL)
+      .create[SecurityContext](metadata.getJWKSetURI.toURL)
       .retrying(true)
       .cache(cacheTimeToLive, cacheRefreshTimeout)
       .refreshAheadCache(true)

@@ -8,7 +8,7 @@
 
 package no.ndla.network.jwt
 
-import com.nimbusds.jose.proc.{BadJOSEException, BadJWSException}
+import com.nimbusds.jose.proc.{BadJOSEException, BadJWSException, SecurityContext}
 import com.nimbusds.jwt.proc.{DefaultJWTProcessor, ExpiredJWTException as NimbusExpiredJWTException}
 import no.ndla.network.model.*
 
@@ -22,7 +22,7 @@ case class JwtVerifier(
     extraIssuers: Set[String],
 ) {
   @volatile
-  private var processor: Option[DefaultJWTProcessor[Null]] = None
+  private var processor: Option[DefaultJWTProcessor[SecurityContext]] = None
   // Try to create processor eagerly at startup instead of on first (auth) request
   val _ = getProcessor
 
@@ -44,14 +44,14 @@ case class JwtVerifier(
     res  <- Try(JWTClaimsSetWrapper(proc.process(token, null)))
   } yield res
 
-  private def getProcessor: Try[DefaultJWTProcessor[Null]] = processor match {
+  private def getProcessor: Try[DefaultJWTProcessor[SecurityContext]] = processor match {
     case Some(p) => Success(p)
     case None    => synchronized {
         processor match {
           case Some(p) => Success(p)
           case None    => Try {
               val jwsKeySelector = jwsKeySelectorFactory.fromIssuer(issuer)
-              val proc           = new DefaultJWTProcessor[Null]()
+              val proc           = new DefaultJWTProcessor[SecurityContext]()
               proc.setJWSKeySelector(jwsKeySelector)
               proc.setJWTClaimsSetVerifier(MultiIssuerClaimsVerifier(audience, extraIssuers + issuer))
               processor = Some(proc)

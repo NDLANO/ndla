@@ -81,8 +81,8 @@ class ArticleApiMyndlaIntegrationTest extends DatabaseIntegrationSuite, RedisInt
   override lazy val props: ArticleApiProperties = new ArticleApiProperties
   given ArticleApiProperties                    = articleApiProperties
 
-  var articleApi: articleapi.MainClass = null
-  var myndlaApi: myndlaapi.MainClass   = null
+  var articleApi: articleapi.MainClass = scala.compiletime.uninitialized
+  var myndlaApi: myndlaapi.MainClass   = scala.compiletime.uninitialized
   val articleApiBaseUrl: String        = s"http://localhost:${articleApiProperties.ApplicationPort}"
   val myndlaApiBaseUrl: String         = s"http://localhost:${myndlaApiProperties.ApplicationPort}"
 

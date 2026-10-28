@@ -43,10 +43,9 @@ class V55__AddArticleId extends TableMigration[DocumentRow] {
     val embedUrl                    = oldDocument.hcursor.downField("embedUrl").as[Seq[EmbedUrl]].toTry.get
     val oldArticle                  = oldDocument.hcursor.downField("articleId").as[Option[Long]].toTry.getOrElse(None)
     val (newArticles, newEmbedUrls) = embedUrl.foldLeft((Set.empty[Long], Seq.empty[EmbedUrl]))((acc, url) =>
-      articleIdRegex.findFirstMatchIn(url.url) match {
-        case Some(matched) if matched.group(1) != null && matched.group(1).toLongOption.isDefined =>
-          (acc._1 + matched.group(1).toLong, acc._2)
-        case _ => (acc._1, acc._2 :+ url)
+      articleIdRegex.findFirstMatchIn(url.url).flatMap(m => Option(m.group(1))).flatMap(_.toLongOption) match {
+        case Some(articleId) => (acc._1 + articleId, acc._2)
+        case None            => (acc._1, acc._2 :+ url)
       }
     )
 
