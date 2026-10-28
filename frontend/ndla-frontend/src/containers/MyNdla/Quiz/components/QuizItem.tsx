@@ -23,6 +23,7 @@ const IconWrapper = styled("div", {
     alignItems: "center",
     justifyContent: "center",
     flexShrink: "0",
+    marginInlineStart: "xxsmall",
     width: "xxlarge",
     height: "xxlarge",
     borderRadius: "xsmall",
