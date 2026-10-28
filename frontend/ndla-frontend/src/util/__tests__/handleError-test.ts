@@ -6,7 +6,23 @@
  *
  */
 
-import { getErrorLog } from "../handleError";
+import { UNSAFE_ErrorResponseImpl as ErrorResponseImpl } from "react-router";
+import { StatusError } from "../error/StatusError";
+import { ensureError, getErrorLog } from "../handleError";
+
+test("ensureError keeps the message and status of a route error response instead of '[object Object]'", () => {
+  const message = 'You made a POST request to "/" but did not provide an `action` for route "root"';
+  const error = ensureError(new ErrorResponseImpl(405, "Method Not Allowed", new Error(message), true));
+
+  expect(error).toBeInstanceOf(StatusError);
+  expect(error).toMatchObject({ message, status: 405, logLevel: "info" });
+});
+
+test("ensureError logs a 5xx route error response as an error", () => {
+  const error = ensureError(new ErrorResponseImpl(503, "Service Unavailable", "Down for maintenance"));
+
+  expect(error).toMatchObject({ message: "Down for maintenance", status: 503, logLevel: "error" });
+});
 
 test("getErrorLog serialises the undici cause chain hidden behind 'fetch failed'", () => {
   const cause = Object.assign(new Error("getaddrinfo ENOTFOUND api.local.ndla.no"), {

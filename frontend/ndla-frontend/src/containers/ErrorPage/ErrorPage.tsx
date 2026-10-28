@@ -43,14 +43,18 @@ export const ErrorPageLayout = ({ children }: ErrorPageLayoutProps) => (
   </>
 );
 
-export const ErrorPage = () => {
+interface ErrorPageProps {
+  statusCode?: number;
+}
+
+export const ErrorPage = ({ statusCode = INTERNAL_SERVER_ERROR }: ErrorPageProps) => {
   const { t } = useTranslation();
   return (
-    <Status code={INTERNAL_SERVER_ERROR}>
+    <Status code={statusCode}>
       <PageTitle title={t("htmlTitles.errorPage")} useLocationForCustomPath={true} />
       <meta name="description" content={t("meta.description")} />
       <ErrorPageLayout>
-        <DefaultErrorMessage applySkipToContentId />
+        <DefaultErrorMessage applySkipToContentId statusCode={statusCode} />
       </ErrorPageLayout>
     </Status>
   );

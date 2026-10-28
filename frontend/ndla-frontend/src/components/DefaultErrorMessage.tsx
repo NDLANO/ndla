@@ -22,13 +22,14 @@ import { PageTitle } from "./PageTitle";
 
 interface MessageRootProps {
   applySkipToContentId?: boolean;
+  statusCode?: number;
 }
 
-export const DefaultErrorMessage = ({ applySkipToContentId }: MessageRootProps) => {
+export const DefaultErrorMessage = ({ applySkipToContentId, statusCode = 500 }: MessageRootProps) => {
   const { t } = useTranslation();
 
   return (
-    <Status code={500}>
+    <Status code={statusCode}>
       <ErrorMessageRoot>
         <img src={"/static/oops.gif"} alt={t("errorMessage.title")} />
         <ErrorMessageContent>

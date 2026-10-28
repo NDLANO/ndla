@@ -11,6 +11,7 @@ import { isApiError } from "@ndla/shared/apiClient";
 import type { LoggerContext } from "@ndla/shared/server";
 import { captureException, setContext } from "@sentry/react";
 import type { GraphQLFormattedError } from "graphql";
+import { type ErrorResponse, isRouteErrorResponse } from "react-router";
 import config from "../config";
 import type { LogLevel } from "../interfaces";
 import { FORBIDDEN, GONE, NOT_FOUND, UNAUTHORIZED } from "../statusCodes";
@@ -258,8 +259,21 @@ const sendToSentry = (
   captureException(error);
 };
 
+const fromRouteErrorResponse = (response: ErrorResponse): StatusError => {
+  const internalError = "error" in response && response.error instanceof Error ? response.error : undefined;
+  const message =
+    internalError?.message ||
+    (typeof response.data === "string" && response.data) ||
+    `${response.status} ${response.statusText}`;
+  const error = new StatusError(message, response.status);
+  // A 4xx route error response is caused by the request itself (e.g. a POST to a route without an action)
+  error.logLevel = response.status < 500 ? "info" : "error";
+  return error;
+};
+
 export const ensureError = (unknownError: ErrorLike | unknown): ErrorLike => {
   if (unknownError instanceof Error) return unknownError;
+  if (isRouteErrorResponse(unknownError)) return fromRouteErrorResponse(unknownError);
   return new NDLAError(String(unknownError));
 };
 
