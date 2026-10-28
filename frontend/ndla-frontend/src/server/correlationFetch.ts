@@ -20,8 +20,12 @@ const getRequestMethod = (input: RequestInfo | URL, init?: RequestInit): string 
   return "GET";
 };
 
+// The app is evaluated again when it changes in dev, so always wrap the original `fetch` rather than a previous wrapper.
+const originalFetchKey = Symbol.for("ndla.originalFetch");
+
 export const installCorrelationIdFetch = (): void => {
-  const originalFetch = globalThis.fetch;
+  const fetchHolder = globalThis as { [originalFetchKey]?: typeof fetch };
+  const originalFetch = (fetchHolder[originalFetchKey] ??= globalThis.fetch);
 
   globalThis.fetch = async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
     const correlationID = getLoggerContextStore()?.correlationID;

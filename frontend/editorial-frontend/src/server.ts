@@ -10,15 +10,16 @@
 
 // NOTE: Must be first so OpenTelemetry can instrument `http` and `fetch` before they are loaded/used.
 import "@ndla/shared/instrumentation";
+import { createServer, type RequestListener, type Server } from "node:http";
+import { createReloadingListener } from "@ndla/shared/devReload";
 import { configureKeepAlive } from "@ndla/shared/server";
-import type { Express } from "express";
 import type { ServerBuild } from "react-router";
 import config from "./config";
 import type * as AppModule from "./server/app";
 import { gracefulShutdown } from "./server/gracefulShutdown";
 import log from "./server/logger";
 
-const createApp = async (): Promise<Express> => {
+const createApp = async (server: Server): Promise<RequestListener> => {
   if (import.meta.env.PROD) {
     const [{ createApp }, build] = await Promise.all([
       import("./server/app"),
@@ -27,24 +28,25 @@ const createApp = async (): Promise<Express> => {
     return createApp({ build });
   } else {
     // The app and the React Router build are loaded through Vite, so they share one module graph and pick up changes.
-    const { createServer } = await import("vite"); // oxlint-disable-line import-js/no-extraneous-dependencies
-    const vite = await createServer({ server: { middlewareMode: true }, appType: "custom" });
-    const { createApp } = (await vite.ssrLoadModule("./src/server/app.ts")) as typeof AppModule;
-    return createApp({
-      vite,
-      build: () => vite.ssrLoadModule("virtual:react-router/server-build") as Promise<ServerBuild>,
-    });
+    const { createServer: createViteServer } = await import("vite"); // oxlint-disable-line import-js/no-extraneous-dependencies
+    const vite = await createViteServer({ server: { middlewareMode: true, ws: { server } }, appType: "custom" });
+    return createReloadingListener<typeof AppModule>(vite, "./src/server/app.ts", ({ createApp }) =>
+      createApp({
+        vite,
+        build: () => vite.ssrLoadModule("virtual:react-router/server-build") as Promise<ServerBuild>,
+      }),
+    );
   }
 };
 
-const app = await createApp();
+const server = configureKeepAlive(createServer());
+const app = await createApp(server);
 
 if (!config.isVercel) {
-  const server = configureKeepAlive(
-    app.listen(config.port, () => {
-      log.info(`Server started at http://localhost:${config.port}`);
-    }),
-  );
+  server.on("request", app);
+  server.listen(config.port, () => {
+    log.info(`Server started at http://localhost:${config.port}`);
+  });
 
   process.on("SIGTERM", () => gracefulShutdown(server));
 }
