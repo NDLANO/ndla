@@ -126,13 +126,13 @@ exports[`ErrorPage renderers correctly 1`] = `
             </div>
           </div>
           <p
-            class="fs_[min(10rem,_45cqi)] fw_[900] lh_[1]"
+            class="fs_[min(10rem,_45cqi)] fw_[900] lh_[1] pbs_small"
           >
             500
           </p>
           <dl>
             <div
-              class="d_grid grid-tc_1fr_2fr cg_medium py_small textStyle_label.large fw_semibold [&_+_&]:bd-bs_1px_solid [&_+_&]:bd-c_stroke.discrete [&_dt]:tt_uppercase"
+              class="d_grid grid-tc_1fr_2fr cg_medium py_small textStyle_label.large fw_semibold [&_+_&]:bd-bs_1px_solid [&_+_&]:bd-c_stroke.subtle [&_dt]:tt_uppercase"
             >
               <dt>
                 Årsak
@@ -142,7 +142,7 @@ exports[`ErrorPage renderers correctly 1`] = `
               </dd>
             </div>
             <div
-              class="d_grid grid-tc_1fr_2fr cg_medium py_small textStyle_label.large fw_semibold [&_+_&]:bd-bs_1px_solid [&_+_&]:bd-c_stroke.discrete [&_dt]:tt_uppercase"
+              class="d_grid grid-tc_1fr_2fr cg_medium py_small textStyle_label.large fw_semibold [&_+_&]:bd-bs_1px_solid [&_+_&]:bd-c_stroke.subtle [&_dt]:tt_uppercase"
             >
               <dt>
                 Tiltak

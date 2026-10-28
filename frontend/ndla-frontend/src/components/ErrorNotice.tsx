@@ -149,6 +149,7 @@ const StatusCode = styled("p", {
     fontSize: "[min(10rem, 45cqi)]",
     fontWeight: "[900]",
     lineHeight: "[1]",
+    paddingBlockStart: "small",
   },
 });
 
@@ -162,7 +163,7 @@ const NoticeRow = styled("div", {
     fontWeight: "semibold",
     "& + &": {
       borderBlockStart: "1px solid",
-      borderColor: "stroke.discrete",
+      borderColor: "stroke.subtle",
     },
     "& dt": {
       textTransform: "uppercase",
