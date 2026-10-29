@@ -1,8 +1,8 @@
-import { getPatternStyles, patternFns } from '../helpers.js';
-import { css } from '../css/index.js';
+import { getPatternStyles, patternFns } from './runtime';
+import { memo } from '../helpers';
+import { css } from '../css/index';
 
-const flexConfig = {
-transform(props) {
+const flexConfig = { transform(props) {
   const { direction, align, justify, wrap: wrap2, basis, grow, shrink, ...rest } = props;
   return {
     display: "flex",
@@ -15,12 +15,13 @@ transform(props) {
     flexShrink: shrink,
     ...rest
   };
-}}
+} }
 
-export const getFlexStyle = (styles = {}) => {
-  const _styles = getPatternStyles(flexConfig, styles)
-  return flexConfig.transform(_styles, patternFns)
+export function flexRaw(styles) {
+  const s = getPatternStyles(flexConfig, styles || {})
+  return flexConfig.transform(s, patternFns)
 }
 
-export const flex = (styles) => css(getFlexStyle(styles))
-flex.raw = getFlexStyle
+export const flex = /* @__PURE__ */ Object.assign(/* @__PURE__ */ memo(function flex(styles = {}) {
+  return css(flexRaw(styles))
+}), { raw: flexRaw, propKeys: ["align","basis","direction","grow","justify","shrink","wrap"] })

@@ -1,8 +1,8 @@
-import { getPatternStyles, patternFns } from '../helpers.js';
-import { css } from '../css/index.js';
+import { getPatternStyles, patternFns } from './runtime';
+import { memo } from '../helpers';
+import { css } from '../css/index';
 
-const gridItemConfig = {
-transform(props, { map }) {
+const gridItemConfig = { transform(props, { map }) {
   const { colSpan, rowSpan, colStart, rowStart, colEnd, rowEnd, ...rest } = props;
   const spanFn = (v) => v === "auto" ? v : `span ${v}`;
   return {
@@ -14,12 +14,13 @@ transform(props, { map }) {
     gridRowEnd: rowEnd,
     ...rest
   };
-}}
+} }
 
-export const getGridItemStyle = (styles = {}) => {
-  const _styles = getPatternStyles(gridItemConfig, styles)
-  return gridItemConfig.transform(_styles, patternFns)
+export function gridItemRaw(styles) {
+  const s = getPatternStyles(gridItemConfig, styles || {})
+  return gridItemConfig.transform(s, patternFns)
 }
 
-export const gridItem = (styles) => css(getGridItemStyle(styles))
-gridItem.raw = getGridItemStyle
+export const gridItem = /* @__PURE__ */ Object.assign(/* @__PURE__ */ memo(function gridItem(styles = {}) {
+  return css(gridItemRaw(styles))
+}), { raw: gridItemRaw, propKeys: ["colEnd","colSpan","colStart","rowEnd","rowSpan","rowStart"] })

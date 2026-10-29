@@ -1,8 +1,8 @@
-import { getPatternStyles, patternFns } from '../helpers.js';
-import { css } from '../css/index.js';
+import { getPatternStyles, patternFns } from './runtime';
+import { memo } from '../helpers';
+import { css } from '../css/index';
 
-const wrapConfig = {
-transform(props) {
+const wrapConfig = { transform(props) {
   const { columnGap, rowGap, gap = columnGap || rowGap ? void 0 : "8px", align, justify, ...rest } = props;
   return {
     display: "flex",
@@ -14,12 +14,13 @@ transform(props) {
     rowGap,
     ...rest
   };
-}}
+} }
 
-export const getWrapStyle = (styles = {}) => {
-  const _styles = getPatternStyles(wrapConfig, styles)
-  return wrapConfig.transform(_styles, patternFns)
+export function wrapRaw(styles) {
+  const s = getPatternStyles(wrapConfig, styles || {})
+  return wrapConfig.transform(s, patternFns)
 }
 
-export const wrap = (styles) => css(getWrapStyle(styles))
-wrap.raw = getWrapStyle
+export const wrap = /* @__PURE__ */ Object.assign(/* @__PURE__ */ memo(function wrap(styles = {}) {
+  return css(wrapRaw(styles))
+}), { raw: wrapRaw, propKeys: ["align","columnGap","gap","justify","rowGap"] })

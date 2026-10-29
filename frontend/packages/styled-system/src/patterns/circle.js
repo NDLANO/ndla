@@ -1,8 +1,8 @@
-import { getPatternStyles, patternFns } from '../helpers.js';
-import { css } from '../css/index.js';
+import { getPatternStyles, patternFns } from './runtime';
+import { memo } from '../helpers';
+import { css } from '../css/index';
 
-const circleConfig = {
-transform(props) {
+const circleConfig = { transform(props) {
   const { size, ...rest } = props;
   return {
     display: "flex",
@@ -14,12 +14,13 @@ transform(props) {
     borderRadius: "9999px",
     ...rest
   };
-}}
+} }
 
-export const getCircleStyle = (styles = {}) => {
-  const _styles = getPatternStyles(circleConfig, styles)
-  return circleConfig.transform(_styles, patternFns)
+export function circleRaw(styles) {
+  const s = getPatternStyles(circleConfig, styles || {})
+  return circleConfig.transform(s, patternFns)
 }
 
-export const circle = (styles) => css(getCircleStyle(styles))
-circle.raw = getCircleStyle
+export const circle = /* @__PURE__ */ Object.assign(/* @__PURE__ */ memo(function circle(styles = {}) {
+  return css(circleRaw(styles))
+}), { raw: circleRaw, propKeys: ["size"] })

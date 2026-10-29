@@ -1,15 +1,12 @@
-import { createElement, forwardRef } from 'react'
-import { mergeCss } from '../css/css.js';
-import { splitProps } from '../helpers.js';
-import { getDividerStyle } from '../patterns/divider.js';
-import { styled } from './factory.js';
+import { createElement, forwardRef } from 'react';
+import { divider } from '../patterns/divider';
+import { splitProps } from '../helpers';
+import { styled } from './factory';
+import { mergeCss } from '../css/css';
 
 export const Divider = /* @__PURE__ */ forwardRef(function Divider(props, ref) {
-  const [patternProps, restProps] = splitProps(props, ["orientation","thickness","color"])
-
-const styleProps = getDividerStyle(patternProps)
-const cssProps = { css: mergeCss(styleProps, props.css) }
-const mergedProps = { ref, ...restProps, ...cssProps }
-
-return createElement(styled.div, mergedProps)
-  })
+  const [patternProps, restProps] = splitProps(props, divider.propKeys)
+  const styleProps = divider.raw(patternProps)
+  const mergedProps = { ref, ...restProps, css: mergeCss(styleProps, props.css) }
+  return createElement(styled["div"], mergedProps)
+})

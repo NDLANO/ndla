@@ -1,8 +1,8 @@
-import { getPatternStyles, patternFns } from '../helpers.js';
-import { css } from '../css/index.js';
+import { getPatternStyles, patternFns } from './runtime';
+import { memo } from '../helpers';
+import { css } from '../css/index';
 
-const squareConfig = {
-transform(props) {
+const squareConfig = { transform(props) {
   const { size, ...rest } = props;
   return {
     display: "flex",
@@ -13,12 +13,13 @@ transform(props) {
     height: size,
     ...rest
   };
-}}
+} }
 
-export const getSquareStyle = (styles = {}) => {
-  const _styles = getPatternStyles(squareConfig, styles)
-  return squareConfig.transform(_styles, patternFns)
+export function squareRaw(styles) {
+  const s = getPatternStyles(squareConfig, styles || {})
+  return squareConfig.transform(s, patternFns)
 }
 
-export const square = (styles) => css(getSquareStyle(styles))
-square.raw = getSquareStyle
+export const square = /* @__PURE__ */ Object.assign(/* @__PURE__ */ memo(function square(styles = {}) {
+  return css(squareRaw(styles))
+}), { raw: squareRaw, propKeys: ["size"] })
