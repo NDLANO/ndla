@@ -2,15 +2,10 @@ name: "Backend: Verify typescript types"
 on:
   workflow_dispatch:
     inputs: {}
-  push:
-    branches:
-      - main
-    paths:
-      - backend/**
-      - frontend/packages/types-backend/scripts/**
-      - .github/workflows/backend-typescript-generate.yml
   pull_request:
   merge_group:
+  schedule:
+    - cron: "17 2 * * *"
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
@@ -29,6 +24,9 @@ defaults:
 jobs:
   changes:
     uses: ./.github/workflows/changed_paths.yml
+    permissions:
+      contents: read
+      actions: read
     with:
       paths: |
         backend

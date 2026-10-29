@@ -34,23 +34,19 @@ on:
         description: "Ignore selective execution and test everything"
         type: boolean
         default: false
-  push:
-    branches:
-      - main
-    paths:
-      - backend/**
-      - mise.toml
-      - .github/workflows/backend_ci.yaml
-      - .github/actions/backend-affected/**
-      - frontend/packages/ci/**
   pull_request:
   merge_group:
+  schedule:
+    - cron: "17 2 * * *"
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
   changes:
     uses: ./.github/workflows/changed_paths.yml
+    permissions:
+      contents: read
+      actions: read
     with:
       paths: |
         backend
@@ -80,6 +76,7 @@ jobs:
           selector: __.test
           only: ${{ inputs.module != '(affected)' && inputs.module || '' }}
           all: ${{ inputs.run_all }}
+          base: ${{ needs.changes.outputs.base }}
 
   test:
     name: Test

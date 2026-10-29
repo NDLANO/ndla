@@ -18,6 +18,9 @@ inputs:
   all:
     description: "Bypass selection and emit every module matching 'selector'."
     default: "false"
+  base:
+    description: "Commit to compare against on scheduled runs, e.g. the head of the last successful scheduled run."
+    default: ""
 
 outputs:
   modules:
@@ -37,4 +40,5 @@ runs:
         ALL: ${{ inputs.all }}
         PUSH_BEFORE: ${{ github.event.before }}
         MERGE_GROUP_BASE: ${{ github.event.merge_group.base_sha }}
+        SCHEDULE_BASE: ${{ inputs.base }}
       run: node "$GITHUB_WORKSPACE/frontend/packages/ci/src/backend-affected.mts"

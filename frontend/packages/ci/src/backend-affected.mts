@@ -49,6 +49,7 @@ const baseCandidate = (): string => {
   if (event === "pull_request") return tryGit(["rev-parse", "HEAD^1"], "ignore")?.trim() ?? "";
   if (event === "merge_group") return fetchCommit(env("MERGE_GROUP_BASE"));
   if (event === "push") return fetchCommit(env("PUSH_BEFORE"));
+  if (event === "schedule") return fetchCommit(env("SCHEDULE_BASE"));
   return "";
 };
 

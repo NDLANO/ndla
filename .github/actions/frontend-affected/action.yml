@@ -28,6 +28,8 @@ runs:
       run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
     - name: "Derive affected SHAs"
       uses: nrwl/nx-set-shas@e602fada7ad5987b0f7b1905e7a99ea1c661514c # v5
+      with:
+        last-successful-event: ${{ github.event_name == 'schedule' && 'schedule' || 'push' }}
     - name: "Resolve affected projects"
       id: resolve
       shell: bash

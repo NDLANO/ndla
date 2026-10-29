@@ -2,13 +2,10 @@ name: "Backend: Linting & Formatting"
 on:
   workflow_dispatch:
     inputs: {}
-  push:
-    branches:
-      - main
-    paths:
-      - backend/**
   pull_request:
   merge_group:
+  schedule:
+    - cron: "17 2 * * *"
 env:
   CI_RELEASE_ROLE: ${{ secrets.CI_RELEASE_ROLE }}
   CI_GITHUB_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
@@ -18,6 +15,9 @@ defaults:
 jobs:
   changes:
     uses: ./.github/workflows/changed_paths.yml
+    permissions:
+      contents: read
+      actions: read
     with:
       paths: backend
   formatting:
