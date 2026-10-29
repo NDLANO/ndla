@@ -50,7 +50,6 @@ import config from "../../config";
 import { AUTOLOGIN_COOKIE, FILM_PAGE_URL } from "../../constants";
 import type { GQLMyNdlaPersonalDataFragmentFragment } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
-import { getChatRobotUrl } from "../../util/chatRobotHelpers";
 import { useLocaleHref, useRawLocation } from "../../util/localePath";
 import { toHref } from "../../util/urlHelper";
 import { FavoritesHeart } from "./components/FavoritesHeart";
@@ -274,14 +273,14 @@ const menuLinks = (
   },
   {
     id: "robot",
-    to: `${getChatRobotUrl(user)}`,
+    to: config.ndlaKiDomain,
     name: t("welcomePage.quickLinks.chatRobot.title"),
     shortName: t("welcomePage.quickLinks.chatRobot.title"),
     icon: <RobotFill />,
   },
   {
     id: "film",
-    to: `${FILM_PAGE_URL}`,
+    to: FILM_PAGE_URL,
     name: t("welcomePage.quickLinks.film.title"),
     shortName: t("welcomePage.quickLinks.film.title"),
     icon: <MovieLine />,

@@ -51,6 +51,19 @@ const ndlaFrontendDomain = (ndlaEnvironment: string): string => {
   }
 };
 
+const ndlaKiDomain = (ndlaEnvironment: string): string => {
+  const ndlaEnvironmentHostname = ndlaEnvironment.replace("_", "-");
+  switch (ndlaEnvironment) {
+    case "local":
+    case "test":
+      return "https://dev.ndla-ki.no";
+    case "prod":
+      return "https://ndla-ki.no";
+    default:
+      return `https://${ndlaEnvironmentHostname}.ndla-ki.no`;
+  }
+};
+
 export const arenaDomain = (ndlaEnvironment: string): string => {
   const ndlaEnvironmentHostname = ndlaEnvironment.replace("_", "-");
   switch (ndlaEnvironment) {
@@ -102,6 +115,7 @@ export type ConfigType = {
   ndlaApiUrl: string;
   graphqlApiHost: string | undefined;
   ndlaFrontendDomain: string;
+  ndlaKiDomain: string;
   zendeskWidgetKey: string | undefined;
   localGraphQLApi: boolean;
   feideDomain: string;
@@ -118,7 +132,6 @@ export type ConfigType = {
   autologinCookieEnabled: boolean;
   loginHint: string | undefined;
   githubIconEnabled: boolean;
-  disableKiToken: boolean;
   enableDialogApi: boolean;
   enableQuiz: boolean;
 };
@@ -140,6 +153,7 @@ const getServerSideConfig = (): ConfigType => {
     ndlaApiUrl: getEnvironmentVariable("NDLA_API_URL", apiDomain(ndlaEnvironment)),
     graphqlApiHost: getEnvironmentVariable("GRAPHQL_API_HOST"),
     ndlaFrontendDomain: getEnvironmentVariable("FRONTEND_DOMAIN", ndlaFrontendDomain(ndlaEnvironment)),
+    ndlaKiDomain: ndlaKiDomain(ndlaEnvironment),
     zendeskWidgetKey: getEnvironmentVariable("NDLA_ZENDESK_WIDGET_KEY"),
     localGraphQLApi: getEnvironmentVariable("LOCAL_GRAPHQL_API", false),
     feideDomain: getEnvironmentVariable("FEIDE_DOMAIN", feideDomain(ndlaEnvironment)),
@@ -159,7 +173,6 @@ const getServerSideConfig = (): ConfigType => {
     autologinCookieEnabled: getEnvironmentVariable("AUTOLOGIN_COOKIE_ENABLED", false),
     loginHint: loginHint(ndlaEnvironment, getEnvironmentVariable("AUTOLOGIN_COOKIE_ENABLED", false)),
     githubIconEnabled: getEnvironmentVariable("GITHUB_ICON_ENABLED", false),
-    disableKiToken: getEnvironmentVariable("DISABLE_KI_TOKEN", false),
     enableDialogApi: getEnvironmentVariable("ENABLE_DIALOG_API", true),
     enableQuiz: getEnvironmentVariable("ENABLE_QUIZ", false),
   };
