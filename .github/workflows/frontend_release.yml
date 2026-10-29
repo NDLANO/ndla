@@ -22,6 +22,7 @@ on:
     paths:
       - frontend/**
       - mise.toml
+      - .dockerignore
       - .github/workflows/frontend_release.yml
       - .github/actions/frontend-affected/**
       - .github/actions/frontend-setup/**
