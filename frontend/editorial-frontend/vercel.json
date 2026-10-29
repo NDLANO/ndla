@@ -2,12 +2,8 @@
   "regions": ["dub1"],
   "installCommand": "",
   "buildCommand": "",
-  "outputDirectory": "build",
-  "rewrites": [
-    { "source": "/assets/(.*)", "destination": "/client/assets/$1" },
-    { "source": "/static/(.*)", "destination": "/client/static/$1" },
-    { "source": "/(.*)", "destination": "/api" }
-  ],
+  "outputDirectory": "build/client",
+  "rewrites": [{ "source": "/(.*)", "destination": "/api" }],
   "headers": [
     {
       "source": "/assets/(.*)",
