@@ -19,6 +19,6 @@ export default defineConfig({
   // Scoped to src/ so the glob cannot descend into packages/*/node_modules, where
   // pnpm symlinks every @ndla sibling -- following those multiplies the file set ~68x.
   include: ["../packages/*/src/**/*.{js,jsx,ts,tsx}", "./stories/**/*.{js,jsx,ts,tsx}"],
-  exclude: ["../packages/*/src/**/*-test.{js,jsx,ts,tsx}"],
+  exclude: ["../packages/styled-system/**", "../packages/*/src/**/*-test.{js,jsx,ts,tsx}"],
   jsxFramework: "react",
 });
