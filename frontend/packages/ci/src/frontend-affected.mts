@@ -8,14 +8,21 @@
 
 import { join } from "node:path";
 import { env, flag, repoRoot, report, setOutput } from "./github.mts";
-import { asStringArray, runJson } from "./shell.mts";
+import { asStringArray, runJson, runLines } from "./shell.mts";
 
-const frontend = join(repoRoot(), "frontend");
+const root = repoRoot();
+const frontend = join(root, "frontend");
 
 const showProjects = (...args: string[]): string[] => {
   const argv = ["exec", "nx", "show", "projects", "--json", ...args];
   return asStringArray(runJson("pnpm", argv, { cwd: frontend }), `pnpm ${argv.join(" ")}`);
 };
+
+/** The images install node and pnpm from mise.toml, which sits outside the nx workspace and is invisible to `--affected`. */
+const toolVersionsChanged = (): boolean =>
+  runLines("git", ["diff", "-U0", env("NX_BASE"), "HEAD", "--", "mise.toml"], { cwd: root }).some((line) =>
+    /^[+-](node|pnpm)\s*=/.test(line),
+  );
 
 const only = env("ONLY");
 const all = flag("ALL");
@@ -28,6 +35,11 @@ const resolve = (): { projects: string[]; why: string } => {
       why: "every project explicitly requested",
     };
   try {
+    if (toolVersionsChanged())
+      return {
+        projects: showProjects(),
+        why: `node/pnpm version changed in mise.toml since ${env("NX_BASE")}`,
+      };
     return {
       projects: showProjects("--affected"),
       why: `comparing ${env("NX_BASE")} against HEAD`,

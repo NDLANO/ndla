@@ -20,5 +20,5 @@ $BUILD_CMD \
   --secret id=sentry_token,env=SENTRY_AUTH_TOKEN \
   $BUILD_TAG_ARGS \
   -f Dockerfile \
-  ..
+  ../..
 echo "BUILT $PROJECT:$VERSION"
