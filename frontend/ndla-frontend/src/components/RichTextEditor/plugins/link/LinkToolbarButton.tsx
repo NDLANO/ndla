@@ -13,7 +13,7 @@ import { LinkMedium } from "@ndla/icons";
 import { DialogRoot, DialogTrigger, IconButton, type IconButtonProps } from "@ndla/primitives";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSlate, useSlateSelection } from "slate-react";
+import { useSlate } from "slate-react";
 import { LinkDialogContent, type LinkFormValues, toInitialLinkFormValues } from "./LinkDialogContent";
 import { LINK_TOOLBAR_BUTTON_ID } from "./linkUtils";
 
@@ -25,7 +25,6 @@ export const LinkToolbarButton = ({ shortcut, ...rest }: Props) => {
   const { t } = useTranslation();
   const [initialValue, setInitialValue] = useState<LinkFormValues | undefined>(undefined);
   const editor = useSlate();
-  const selection = useSlateSelection();
 
   const [match] = editor.nodes({ match: isLinkElement });
 
@@ -43,7 +42,7 @@ export const LinkToolbarButton = ({ shortcut, ...rest }: Props) => {
       <DialogTrigger
         asChild
         onMouseDown={(e) => e.preventDefault()}
-        disabled={!selection}
+        disabled={!editor.selection}
         onClick={() => setInitialValue(toInitialLinkFormValues(match?.[0], editor))}
       >
         <IconButton

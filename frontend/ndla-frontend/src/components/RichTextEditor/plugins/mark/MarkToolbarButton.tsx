@@ -10,7 +10,6 @@ import { platformSpecificTooltip, useMarkToolbarButton, useMarkToolbarButtonStat
 import { IconButton, type IconButtonProps } from "@ndla/primitives";
 import { useTranslation } from "react-i18next";
 import type { EditorMarks } from "slate";
-import { useSlateSelection } from "slate-react";
 
 interface MarkToolbarButtonProps extends IconButtonProps {
   mark: keyof EditorMarks;
@@ -20,7 +19,6 @@ interface MarkToolbarButtonProps extends IconButtonProps {
 export const MarkToolbarButton = ({ mark, shortcut, title, ...rest }: MarkToolbarButtonProps) => {
   const { t } = useTranslation();
   const state = useMarkToolbarButtonState({ type: mark });
-  const selection = useSlateSelection();
   const toolbarButton = useMarkToolbarButton(state);
   const tooltip = shortcut
     ? t(`richTextEditor.tooltip.${mark}`, { shortcut: platformSpecificTooltip(shortcut) })
@@ -30,7 +28,6 @@ export const MarkToolbarButton = ({ mark, shortcut, title, ...rest }: MarkToolba
       {...rest}
       size="small"
       variant="tertiary"
-      disabled={!selection}
       title={title ?? tooltip}
       aria-label={rest["aria-label"] ?? tooltip}
       {...toolbarButton.props}

@@ -138,6 +138,10 @@ const selectableAlternativeStyle = css.raw({
     backgroundColor: "surface.brand.1.moderate",
     borderColor: "surface.brand.1.strong",
   },
+  _active: {
+    backgroundColor: "surface.brand.1.moderate",
+    borderColor: "surface.brand.1.strong",
+  },
   "&:has(input:focus-visible)": {
     outline: "2px solid",
     outlineOffset: "[2px]",

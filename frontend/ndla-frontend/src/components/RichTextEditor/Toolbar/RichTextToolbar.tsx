@@ -34,7 +34,6 @@ const ToolbarContainer = styled("div", {
         borderBottom: "none",
         backgroundColor: "surface.actionSubtle.hover",
       },
-      // Only visible while the editor is focused.
       simple: {
         margin: "[2px 2px 0]",
         borderTopRadius: "[calc(token(radii.xsmall) - 2px)]",
@@ -53,7 +52,6 @@ const Separator = styled("span", {
   },
 });
 
-// Keep focus in the editor when clicking the toolbar background, so the simple variant does not hide the toolbar
 const onMouseDown = (e: MouseEvent<HTMLDivElement>) => {
   if (e.target === e.currentTarget) e.preventDefault();
 };

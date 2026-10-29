@@ -30,7 +30,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { FontWeightToken } from "@ndla/styled-system/tokens";
 import { type ElementType, type ReactNode, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Element, Transforms, Range } from "slate";
+import { Editor, Element, Transforms } from "slate";
 import { ReactEditor, useSlate, useSlateSelection, useSlateSelector } from "slate-react";
 import type { TextType } from "./headingTypes";
 import { getHotKey } from "./headingUtils";
@@ -147,7 +147,7 @@ export const HeadingToolbarSelect = () => {
     >
       <SelectControl>
         <SelectLabel srOnly>{t("richTextEditor.plugin.heading.label")}</SelectLabel>
-        <StyledSelectTrigger disabled={!selection || Range.isCollapsed(selection)} asChild>
+        <StyledSelectTrigger asChild>
           <Button size="small" variant="tertiary" title={t("richTextEditor.plugin.heading.label")}>
             {!!TriggerIcon && <TriggerIcon fontWeight="semibold" />}
             <SelectValueText placeholder={t(`richTextEditor.plugin.heading.${currentTextValue}`)} />

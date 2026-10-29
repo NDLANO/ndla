@@ -27,7 +27,6 @@ import {
   KvissFill,
 } from "@ndla/icons";
 import {
-  BleedPageContent,
   DialogBody,
   DialogContent,
   DialogHeader,
@@ -54,6 +53,7 @@ import { routes } from "../../routeHelpers";
 import { getChatRobotUrl } from "../../util/chatRobotHelpers";
 import { useLocaleHref, useRawLocation } from "../../util/localePath";
 import { toHref } from "../../util/urlHelper";
+import { FavoritesHeart } from "./components/FavoritesHeart";
 import { MenuContainer, type MenuLink, MenuList, MenuListItem } from "./components/MenuContainer";
 
 const StyledIconButton = styled(IconButton, {
@@ -62,13 +62,6 @@ const StyledIconButton = styled(IconButton, {
     tablet: {
       display: "none",
     },
-  },
-});
-
-const StyledBleedPageContent = styled(BleedPageContent, {
-  base: {
-    position: "relative",
-    overflowX: "clip",
   },
 });
 
@@ -132,33 +125,6 @@ interface MyFavoritesHeartProps {
   position: "top" | "bottom";
 }
 
-const StyledHeartFill = styled(HeartFill, {
-  base: {
-    position: "absolute",
-    width: "surface.medium",
-    height: "surface.medium",
-    color: "surface.brand.1.subtle",
-  },
-
-  variants: {
-    position: {
-      top: {
-        top: "surface.3xsmall",
-        left: "[min(calc(100% - token(sizes.surface.medium)), token(sizes.surface.wideMax) - token(sizes.surface.medium) - token(sizes.medium))]",
-        transform: "rotate(16deg)",
-        desktop: {
-          top: "3xlarge",
-        },
-      },
-      bottom: {
-        transform: "rotate(-19deg)",
-        bottom: "0",
-        left: "medium",
-      },
-    },
-  },
-});
-
 const MyFavoritesHeart = ({ position }: MyFavoritesHeartProps) => {
   const { pathname } = useRawLocation();
 
@@ -166,11 +132,7 @@ const MyFavoritesHeart = ({ position }: MyFavoritesHeartProps) => {
     return null;
   }
 
-  return (
-    <StyledBleedPageContent>
-      <StyledHeartFill position={position} />
-    </StyledBleedPageContent>
-  );
+  return <FavoritesHeart position={position} />;
 };
 
 export const MyNdlaLayout = () => {

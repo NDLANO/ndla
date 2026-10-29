@@ -26,6 +26,7 @@ export const MyNdlaPageContent = styled(MyNdlaPageSection, {
     quiz: {
       true: {
         maxWidth: "surface.pageMax",
+        gap: "xlarge",
       },
     },
   },

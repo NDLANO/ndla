@@ -34,7 +34,7 @@ import { linkPlugin } from "./plugins/link/linkPlugin";
 import { ListElement } from "./plugins/list/ListElement";
 import { listPlugin } from "./plugins/list/listPlugin";
 import { MarkLeaf } from "./plugins/mark/MarkLeaf";
-import { markPlugin } from "./plugins/mark/markPlugin";
+import { markPlugin, simpleMarkPlugin } from "./plugins/mark/markPlugin";
 import { ParagraphElement } from "./plugins/paragraph/ParagraphElement";
 import { SectionElement } from "./plugins/section/SectionElement";
 import { SpanElement } from "./plugins/span/SpanElement";
@@ -56,7 +56,7 @@ export const simpleRichTextPlugins = [
   inlineNavigationPlugin,
   noopPlugin,
   paragraphPlugin.configure({ options: { nonSerializableParents: [NOOP_ELEMENT_TYPE] } }),
-  markPlugin.configure({ options: { supportedMarks: { value: ["bold", "italic"], override: true } } }),
+  simpleMarkPlugin,
   softBreakPlugin.configure({
     options: { pasteNewlinesAsSoftBreaks: true },
     shortcuts: {

@@ -30,6 +30,7 @@ import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Range, Transforms } from "slate";
 import { ReactEditor, useSlate, useSlateSelection, useSlateSelector } from "slate-react";
+import { useToast } from "../../../ToastContext";
 import { defaultSpanBlock, languages } from "./utils";
 
 interface LanguageItem {
@@ -58,6 +59,7 @@ const getCurrentLanguage = (editor: Editor) => {
 export const LanguageToolbarSelect = () => {
   const { t } = useTranslation();
   const editor = useSlate();
+  const toast = useToast();
   const selection = useSlateSelection();
   const currentLanguage = useSlateSelector(getCurrentLanguage);
 
@@ -82,6 +84,10 @@ export const LanguageToolbarSelect = () => {
       if (!selection) return;
 
       const wrappedInSpan = hasNodeOfType(editor, SPAN_ELEMENT_TYPE);
+      if (!wrappedInSpan && Range.isCollapsed(selection)) {
+        toast.create({ title: t("richTextEditor.plugin.span.selectTextFirst") });
+        return;
+      }
       const language = details.value[0];
       if (wrappedInSpan && language === undefined) {
         Transforms.unwrapNodes(editor, {
@@ -99,7 +105,7 @@ export const LanguageToolbarSelect = () => {
 
       ReactEditor.focus(editor);
     },
-    [editor, selection],
+    [editor, selection, toast, t],
   );
 
   return (
@@ -109,7 +115,7 @@ export const LanguageToolbarSelect = () => {
       value={currentLanguage ? [currentLanguage] : []}
     >
       <SelectControl>
-        <StyledSelectTrigger disabled={!selection || Range.isCollapsed(selection)} asChild>
+        <StyledSelectTrigger asChild>
           <Button size="small" variant="tertiary" data-state={match ? "on" : "off"} aria-label={label} title={label}>
             <SelectValueText placeholder={label} />
             <SelectIndicator>
