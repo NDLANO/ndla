@@ -104,7 +104,7 @@ exports[`ErrorPage renderers correctly 1`] = `
           </div>
         </div>
         <div
-          class="cq-t_inline-size justify-self_center w_full max-w_surface.medium p_medium bg_background.default bd_3px_solid bdr_small trf_rotate(3deg) @/tablet:p_xxlarge @/desktop:max-w_surface.large"
+          class="cq-t_inline-size justify-self_center w_[calc(100%_-_token(spacing.xxsmall)_*_2)] max-w_surface.medium p_medium bg_background.default bd_3px_solid bdr_small trf_rotate(3deg) @/tablet:p_xxlarge @/desktop:max-w_surface.large"
         >
           <div
             class="d_flex ai_center jc_space-between gap_small pbe_medium bd-be_3px_solid"

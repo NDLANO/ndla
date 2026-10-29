@@ -90,7 +90,7 @@ const NoticeCard = styled("div", {
     // Lets the status code scale with the card's width
     containerType: "inline-size",
     justifySelf: "center",
-    width: "full",
+    width: "[calc(100% - token(spacing.xxsmall) * 2)]",
     maxWidth: "surface.medium",
     padding: "medium",
     background: "background.default",
