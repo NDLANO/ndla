@@ -1,0 +1,16 @@
+# Frontend images build from the repository root so mise.toml (node + pnpm versions)
+# is in the context (see each app's build.sh). Only frontend/ and mise.toml are sent;
+# installed deps and build output are regenerated inside the image.
+*
+!mise.toml
+!frontend
+frontend/**/node_modules
+frontend/**/build
+frontend/**/dist
+frontend/**/es
+frontend/**/lib
+frontend/**/.nx
+frontend/**/storybook-static
+frontend/**/.vercel
+frontend/**/coverage
+frontend/**/*.tsbuildinfo
