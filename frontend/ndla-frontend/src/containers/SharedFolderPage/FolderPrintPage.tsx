@@ -43,7 +43,6 @@ const StyledMain = styled("main", {
     display: "flex",
     flexDirection: "column",
     gap: "medium",
-    paddingTop: "3xlarge",
     _print: {
       display: "block",
       paddingBlock: "10",
@@ -79,6 +78,7 @@ const MetaImage = styled("img", {
   base: {
     width: "full",
     objectFit: "contain",
+    paddingBottom: "xxlarge",
   },
 });
 
@@ -235,10 +235,10 @@ const FolderPrint = ({ folder }: FolderPrintProps) => {
           </Heading>
           <Text textStyle="label.medium">{subtitle}</Text>
         </PrintHeader>
-        {metaImageUrl ? <MetaImage src={metaImageUrl} alt="" /> : undefined}
       </PageContent>
       <PageContent variant="content" asChild consumeCss>
         <StyledMain>
+          {metaImageUrl ? <MetaImage src={metaImageUrl} alt="" /> : undefined}
           <StyledMessageBox variant="warning">
             <Text>
               <Trans
