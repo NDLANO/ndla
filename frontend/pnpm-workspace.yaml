@@ -26,11 +26,11 @@ catalog:
   "@graphql-codegen/typescript-operations": ^6.1.10
   "@graphql-eslint/eslint-plugin": ^4.4.2
   "@internationalized/date": 3.12.4
-  "@opentelemetry/api": ^1.9.1
-  "@opentelemetry/auto-instrumentations-node": ^0.81.2
+  "@opentelemetry/api": ^1.10.0
+  "@opentelemetry/auto-instrumentations-node": ^0.82.0
   "@opentelemetry/core": ^2.12.0
-  "@opentelemetry/exporter-trace-otlp-proto": ^0.223.0
-  "@opentelemetry/sdk-node": ^0.223.0
+  "@opentelemetry/exporter-trace-otlp-proto": ^0.300.0
+  "@opentelemetry/sdk-node": ^0.300.0
   "@pandacss/config": ^1.12.1
   "@pandacss/core": ^1.12.1
   "@pandacss/dev": ^1.12.1
