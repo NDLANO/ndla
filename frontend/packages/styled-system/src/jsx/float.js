@@ -1,15 +1,12 @@
-import { createElement, forwardRef } from 'react'
-import { mergeCss } from '../css/css.js';
-import { splitProps } from '../helpers.js';
-import { getFloatStyle } from '../patterns/float.js';
-import { styled } from './factory.js';
+import { createElement, forwardRef } from 'react';
+import { float } from '../patterns/float';
+import { splitProps } from '../helpers';
+import { styled } from './factory';
+import { mergeCss } from '../css/css';
 
 export const Float = /* @__PURE__ */ forwardRef(function Float(props, ref) {
-  const [patternProps, restProps] = splitProps(props, ["offsetX","offsetY","offset","placement"])
-
-const styleProps = getFloatStyle(patternProps)
-const cssProps = { css: mergeCss(styleProps, props.css) }
-const mergedProps = { ref, ...restProps, ...cssProps }
-
-return createElement(styled.div, mergedProps)
-  })
+  const [patternProps, restProps] = splitProps(props, float.propKeys)
+  const styleProps = float.raw(patternProps)
+  const mergedProps = { ref, ...restProps, css: mergeCss(styleProps, props.css) }
+  return createElement(styled["div"], mergedProps)
+})

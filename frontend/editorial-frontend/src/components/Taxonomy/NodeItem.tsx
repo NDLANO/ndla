@@ -10,7 +10,7 @@ import { ark, type HTMLArkProps } from "@ark-ui/react/factory";
 import { ArrowRightShortLine } from "@ndla/icons";
 import { Heading, type TextProps } from "@ndla/primitives";
 import { cva, sva } from "@ndla/styled-system/css";
-import { createStyleContext, type StyledProps } from "@ndla/styled-system/jsx";
+import { createSlotRecipeContext, type StyledProps } from "@ndla/styled-system/jsx";
 import type { Ref } from "react";
 
 const nodeItemRecipe = sva({
@@ -79,7 +79,7 @@ const nodeItemRecipe = sva({
   },
 });
 
-const { withProvider, withContext } = createStyleContext(nodeItemRecipe);
+const { withProvider, withContext } = createSlotRecipeContext(nodeItemRecipe);
 
 export const NodeItemRoot = withProvider(ark.div, "root", { baseComponent: true });
 

@@ -1,15 +1,12 @@
-import { createElement, forwardRef } from 'react'
-import { mergeCss } from '../css/css.js';
-import { splitProps } from '../helpers.js';
-import { getFlexStyle } from '../patterns/flex.js';
-import { styled } from './factory.js';
+import { createElement, forwardRef } from 'react';
+import { flex } from '../patterns/flex';
+import { splitProps } from '../helpers';
+import { styled } from './factory';
+import { mergeCss } from '../css/css';
 
 export const Flex = /* @__PURE__ */ forwardRef(function Flex(props, ref) {
-  const [patternProps, restProps] = splitProps(props, ["align","justify","direction","wrap","basis","grow","shrink"])
-
-const styleProps = getFlexStyle(patternProps)
-const cssProps = { css: mergeCss(styleProps, props.css) }
-const mergedProps = { ref, ...restProps, ...cssProps }
-
-return createElement(styled.div, mergedProps)
-  })
+  const [patternProps, restProps] = splitProps(props, flex.propKeys)
+  const styleProps = flex.raw(patternProps)
+  const mergedProps = { ref, ...restProps, css: mergeCss(styleProps, props.css) }
+  return createElement(styled["div"], mergedProps)
+})

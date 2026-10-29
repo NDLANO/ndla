@@ -9,7 +9,7 @@
 import { ark } from "@ark-ui/react/factory";
 import { SafeLink, type SafeLinkProps } from "@ndla/safelink";
 import { sva } from "@ndla/styled-system/css";
-import { createStyleContext, styled } from "@ndla/styled-system/jsx";
+import { createSlotRecipeContext, styled } from "@ndla/styled-system/jsx";
 import type { ReactNode } from "react";
 
 const stepperRecipe = sva({
@@ -123,7 +123,7 @@ const stepperRecipe = sva({
   },
 });
 
-const { withContext, withProvider } = createStyleContext(stepperRecipe);
+const { withContext, withProvider } = createSlotRecipeContext(stepperRecipe);
 
 export const StepperRoot = withProvider(ark.nav, "root", { baseComponent: true });
 export const StepperTrack = withContext(ark.div, "track", { baseComponent: true });

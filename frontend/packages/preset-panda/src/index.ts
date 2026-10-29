@@ -8,6 +8,7 @@
 
 import { breakpoints } from "@ndla/core";
 import { definePreset } from "@pandacss/dev";
+import presetBase from "@pandacss/preset-base";
 import { animations, durations, easings, keyframes } from "./animations";
 import { boxShadows } from "./boxShadows";
 import { colors } from "./colors";
@@ -22,6 +23,7 @@ import { zIndex } from "./zIndex";
 
 const preset = definePreset({
   name: "ndla/panda",
+  presets: [presetBase],
   globalCss: globalCss,
   conditions: conditions,
   utilities: utilities,
@@ -45,7 +47,7 @@ const preset = definePreset({
       zIndex: zIndex,
     },
     semanticTokens: semanticTokens,
-    containerSizes: breakpoints,
+    containers: breakpoints,
   },
 });
 

@@ -8,7 +8,7 @@
 
 import { TagsInput, tagsInputAnatomy } from "@ark-ui/react/tags-input";
 import { sva } from "@ndla/styled-system/css";
-import { createStyleContext } from "@ndla/styled-system/jsx";
+import { createSlotRecipeContext } from "@ndla/styled-system/jsx";
 import type { StyledProps } from "@ndla/styled-system/types";
 import { forwardRef, type RefAttributes } from "react";
 import { Label } from "./Label";
@@ -100,7 +100,7 @@ const tagsInputRecipe = sva({
     },
   },
 });
-const { withProvider, withContext } = createStyleContext(tagsInputRecipe);
+const { withProvider, withContext } = createSlotRecipeContext(tagsInputRecipe);
 
 export interface TagsInputRootProps extends TagsInput.RootProps, StyledProps {
   translations: TagsInput.RootProps["translations"];

@@ -8,7 +8,7 @@
 
 import { Select, selectAnatomy } from "@ark-ui/react/select";
 import { sva } from "@ndla/styled-system/css";
-import { createStyleContext } from "@ndla/styled-system/jsx";
+import { createSlotRecipeContext } from "@ndla/styled-system/jsx";
 import type { StyledProps } from "@ndla/styled-system/types";
 import { forwardRef, type ElementType, type RefAttributes } from "react";
 import { Label } from "./Label";
@@ -144,7 +144,7 @@ const selectRecipe = sva({
   },
 });
 
-const { withProvider, withContext } = createStyleContext(selectRecipe);
+const { withProvider, withContext } = createSlotRecipeContext(selectRecipe);
 
 export interface SelectRootProps<T extends Select.CollectionItem>
   extends Select.RootProps<T>, StyledProps, RefAttributes<HTMLDivElement> {}

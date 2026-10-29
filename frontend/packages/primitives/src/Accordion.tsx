@@ -8,7 +8,7 @@
 
 import { Accordion, accordionAnatomy } from "@ark-ui/react/accordion";
 import { sva } from "@ndla/styled-system/css";
-import { createStyleContext } from "@ndla/styled-system/jsx";
+import { createSlotRecipeContext } from "@ndla/styled-system/jsx";
 import type { RecipeVariantProps, StyledProps } from "@ndla/styled-system/types";
 import type { RefAttributes } from "react";
 
@@ -123,7 +123,7 @@ const accordionRecipe = sva({
   },
 });
 
-const { withProvider, withContext } = createStyleContext(accordionRecipe);
+const { withProvider, withContext } = createSlotRecipeContext(accordionRecipe);
 
 export type AccordionVariantProps = NonNullable<RecipeVariantProps<typeof accordionRecipe>>;
 

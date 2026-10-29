@@ -8,7 +8,7 @@
 
 import { Toast, toastAnatomy } from "@ark-ui/react/toast";
 import { sva } from "@ndla/styled-system/css";
-import { createStyleContext } from "@ndla/styled-system/jsx";
+import { createSlotRecipeContext } from "@ndla/styled-system/jsx";
 import type { StyledProps, RecipeVariantProps } from "@ndla/styled-system/types";
 import type { RefAttributes } from "react";
 import { Text, type TextProps } from "./Text";
@@ -71,7 +71,7 @@ const toastRecipe = sva({
   },
 });
 
-const { withProvider, withContext } = createStyleContext(toastRecipe);
+const { withProvider, withContext } = createSlotRecipeContext(toastRecipe);
 
 export type ToastRootVariantProps = NonNullable<RecipeVariantProps<typeof toastRecipe>>;
 

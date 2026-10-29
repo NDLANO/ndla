@@ -1,11 +1,11 @@
-import { getPatternStyles, patternFns } from '../helpers.js';
-import { css } from '../css/index.js';
+import { getPatternStyles, patternFns } from './runtime';
+import { memo } from '../helpers';
+import { css } from '../css/index';
 
-const linkOverlayConfig = {
-transform(props) {
+const linkOverlayConfig = { transform(props) {
   return {
     _before: {
-      content: '""',
+      content: "\"\"",
       position: "absolute",
       inset: "0",
       zIndex: "0",
@@ -13,12 +13,13 @@ transform(props) {
     },
     ...props
   };
-}}
+} }
 
-export const getLinkOverlayStyle = (styles = {}) => {
-  const _styles = getPatternStyles(linkOverlayConfig, styles)
-  return linkOverlayConfig.transform(_styles, patternFns)
+export function linkOverlayRaw(styles) {
+  const s = getPatternStyles(linkOverlayConfig, styles || {})
+  return linkOverlayConfig.transform(s, patternFns)
 }
 
-export const linkOverlay = (styles) => css(getLinkOverlayStyle(styles))
-linkOverlay.raw = getLinkOverlayStyle
+export const linkOverlay = /* @__PURE__ */ Object.assign(/* @__PURE__ */ memo(function linkOverlay(styles = {}) {
+  return css(linkOverlayRaw(styles))
+}), { raw: linkOverlayRaw, propKeys: [] })

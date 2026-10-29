@@ -8,7 +8,7 @@
 
 import { Tooltip, tooltipAnatomy } from "@ark-ui/react/tooltip";
 import { sva } from "@ndla/styled-system/css";
-import { createStyleContext } from "@ndla/styled-system/jsx";
+import { createSlotRecipeContext } from "@ndla/styled-system/jsx";
 import type { StyledProps } from "@ndla/styled-system/types";
 import { forwardRef } from "react";
 
@@ -39,7 +39,7 @@ const tooltipRecipe = sva({
   },
 });
 
-const { withRootProvider, withContext } = createStyleContext(tooltipRecipe);
+const { withRootProvider, withContext } = createSlotRecipeContext(tooltipRecipe);
 
 export type TooltipRootProps = Tooltip.RootProps;
 export const TooltipRoot = withRootProvider(Tooltip.Root);

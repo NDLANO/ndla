@@ -52,7 +52,7 @@ This package also provides a special plugin that alters the styled system that p
 ```tsx
 import { forwardCssPropPlugin } from "@ndla/preset-panda";
 export default defineConfig({
-  plugins: [forwardCssPropPlugin],
+  plugins: [forwardCssPropPlugin()],
 });
 ```
 

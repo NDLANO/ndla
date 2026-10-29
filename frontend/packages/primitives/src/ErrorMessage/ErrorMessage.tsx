@@ -8,7 +8,7 @@
 
 import { type HTMLArkProps, ark } from "@ark-ui/react/factory";
 import { sva } from "@ndla/styled-system/css";
-import { createStyleContext } from "@ndla/styled-system/jsx";
+import { createSlotRecipeContext } from "@ndla/styled-system/jsx";
 import type { StyledProps } from "@ndla/styled-system/types";
 import { forwardRef } from "react";
 import { Heading, Text, type TextProps } from "../Text";
@@ -43,7 +43,7 @@ const errorMessageRecipe = sva({
   },
 });
 
-const { withProvider, withContext } = createStyleContext(errorMessageRecipe);
+const { withProvider, withContext } = createSlotRecipeContext(errorMessageRecipe);
 
 export const ErrorMessageRoot = withProvider(ark.article, "root", { baseComponent: true });
 

@@ -1,8 +1,8 @@
-import { getPatternStyles, patternFns } from '../helpers.js';
-import { css } from '../css/index.js';
+import { getPatternStyles, patternFns } from './runtime';
+import { memo } from '../helpers';
+import { css } from '../css/index';
 
-const aspectRatioConfig = {
-transform(props, { map }) {
+const aspectRatioConfig = { transform(props, { map }) {
   const { ratio = 4 / 3, ...rest } = props;
   return {
     position: "relative",
@@ -22,17 +22,16 @@ transform(props, { map }) {
       width: "100%",
       height: "100%"
     },
-    "&>img, &>video": {
-      objectFit: "cover"
-    },
+    "&>img, &>video": { objectFit: "cover" },
     ...rest
   };
-}}
+} }
 
-export const getAspectRatioStyle = (styles = {}) => {
-  const _styles = getPatternStyles(aspectRatioConfig, styles)
-  return aspectRatioConfig.transform(_styles, patternFns)
+export function aspectRatioRaw(styles) {
+  const s = getPatternStyles(aspectRatioConfig, styles || {})
+  return aspectRatioConfig.transform(s, patternFns)
 }
 
-export const aspectRatio = (styles) => css(getAspectRatioStyle(styles))
-aspectRatio.raw = getAspectRatioStyle
+export const aspectRatio = /* @__PURE__ */ Object.assign(/* @__PURE__ */ memo(function aspectRatio(styles = {}) {
+  return css(aspectRatioRaw(styles))
+}), { raw: aspectRatioRaw, propKeys: ["ratio"] })

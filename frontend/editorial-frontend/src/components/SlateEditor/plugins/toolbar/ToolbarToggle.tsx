@@ -33,7 +33,7 @@ import {
 import { tDynamic } from "@ndla/locales";
 import { IconButton, Text, ToggleGroupItem, ToggleGroupRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import type { FontWeightToken } from "@ndla/styled-system/tokens";
+import type { FontWeightToken } from "@ndla/styled-system/types";
 import type { i18n, TFunction } from "i18next";
 import { type ElementType, type ReactNode, type Ref, useMemo } from "react";
 import { useTranslation } from "react-i18next";

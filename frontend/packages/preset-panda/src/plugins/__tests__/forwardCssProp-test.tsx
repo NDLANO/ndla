@@ -11,7 +11,7 @@ import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import type { StyledProps } from "@ndla/styled-system/types";
 import { render } from "@testing-library/react";
-import { forwardRef } from "react";
+import { type ComponentProps, forwardRef } from "react";
 
 describe("CSS prop forwarding", () => {
   test("Should have a sane default", () => {
@@ -500,6 +500,47 @@ describe("CSS prop forwarding", () => {
       >
         Hello
       </span>
+    `);
+  });
+
+  test("explicitly passing undefined clears a prop set by a wrapped component", () => {
+    const Svg = (props: ComponentProps<"svg"> & StyledProps) => <styled.svg width={126} {...props} />;
+
+    const StyledSvg = styled(Svg, {
+      base: {
+        display: "block",
+      },
+    });
+
+    const { container } = render(<StyledSvg width={undefined} />);
+
+    expect(container.firstChild).toMatchInlineSnapshot(`
+      <svg
+        class="d_block"
+      />
+    `);
+  });
+
+  test("explicitly passing undefined clears a default prop", () => {
+    const StyledButton = styled(
+      ark.button,
+      { base: { display: "flex" } },
+      { baseComponent: true, defaultProps: { type: "button" } },
+    );
+
+    const { container } = render(
+      <StyledButton asChild consumeCss type={undefined}>
+        <a href="/">Hello</a>
+      </StyledButton>,
+    );
+
+    expect(container.firstChild).toMatchInlineSnapshot(`
+      <a
+        class="d_flex"
+        href="/"
+      >
+        Hello
+      </a>
     `);
   });
 });
