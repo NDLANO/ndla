@@ -42,14 +42,7 @@
       {
         "filter": { "projects": ["tag:releasable"] },
         "dependsOn": ["^build:panda", "type-check"],
-        "inputs": [
-          "production",
-          "^production",
-          {
-            "dependentTasksOutputFiles": "**/panda.buildinfo.json",
-            "transitive": false
-          }
-        ],
+        "inputs": ["production", "^production"],
         "outputs": ["{projectRoot}/build/**"]
       }
     ],
@@ -133,11 +126,6 @@
       "cache": false,
       "continuous": true
     },
-    "watch:panda": {
-      "dependsOn": ["build:panda", "^watch:panda"],
-      "cache": false,
-      "continuous": true
-    },
     "watch:js": {
       "dependsOn": ["build", "^watch:js"],
       "cache": false,
@@ -149,7 +137,7 @@
       "continuous": true
     },
     "dev": {
-      "dependsOn": ["watch:types", "^watch:panda", "^watch:js", "^watch:codegen"],
+      "dependsOn": ["watch:types", "^watch:js", "^watch:codegen"],
       "cache": false,
       "continuous": true
     }

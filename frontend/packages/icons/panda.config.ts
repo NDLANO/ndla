@@ -21,5 +21,4 @@ export default defineConfig({
   outdir: "../styled-system/src",
   importMap: "@ndla/styled-system",
   jsxFramework: "react",
-  syntax: "object-literal",
 });

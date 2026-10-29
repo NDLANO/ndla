@@ -15,9 +15,15 @@ Add the plugin to your panda config and regenerate the styled-system
 ```tsx
 import { forwardCssPropPlugin } from "@ndla/preset-panda";
 export default defineConfig({
-  plugins: [forwardCssPropPlugin],
+  plugins: [forwardCssPropPlugin()],
 });
 ```
+
+## Implementation
+
+The plugin patches the `jsx/factory.js` that Panda generates through a series of string replacements, and adds the `baseComponent` option, the `consumeCss` prop and the `StyledProps` type to the generated types the same way. Panda's own `createSlotRecipeContext` and pattern components use the generated factory, so they pick up this behavior as well.
+
+Every replacement has to match exactly once. If a Panda upgrade changes the generated code so that a replacement no longer matches, or a file the plugin modifies can no longer be found, codegen fails with an error showing what the plugin was looking for.
 
 ## How PandaCSS works
 

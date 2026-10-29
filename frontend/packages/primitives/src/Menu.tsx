@@ -8,7 +8,7 @@
 
 import { Menu, menuAnatomy } from "@ark-ui/react/menu";
 import { css, cva, sva } from "@ndla/styled-system/css";
-import { createStyleContext } from "@ndla/styled-system/jsx";
+import { createSlotRecipeContext } from "@ndla/styled-system/jsx";
 import type { RecipeVariantProps, StyledProps, SystemStyleObject } from "@ndla/styled-system/types";
 import { forwardRef, type RefAttributes } from "react";
 import { Text, type TextProps } from "./Text";
@@ -135,7 +135,7 @@ const menuRecipe = sva({
   },
 });
 
-const { withRootProvider, withContext } = createStyleContext(menuRecipe);
+const { withRootProvider, withContext } = createSlotRecipeContext(menuRecipe);
 
 export type MenuRootProps = Menu.RootProps;
 

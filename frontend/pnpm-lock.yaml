@@ -231,6 +231,9 @@ catalogs:
     '@pandacss/dev':
       specifier: ^2.4.0
       version: 2.4.0
+    '@pandacss/preset-base':
+      specifier: ^2.4.0
+      version: 2.4.0
     '@pandacss/types':
       specifier: ^2.4.0
       version: 2.4.0
@@ -2003,6 +2006,9 @@ importers:
       '@pandacss/dev':
         specifier: 'catalog:'
         version: 2.4.0(@emnapi/core@1.11.0)(@emnapi/runtime@1.11.0)(postcss@8.5.31)
+      '@pandacss/preset-base':
+        specifier: 'catalog:'
+        version: 2.4.0
     devDependencies:
       '@ark-ui/react':
         specifier: 'catalog:'
@@ -2013,6 +2019,9 @@ importers:
       '@pandacss/types':
         specifier: 'catalog:'
         version: 2.4.0
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.6.5
       tsdown:
         specifier: 'catalog:'
         version: 0.23.2(oxc-resolver@11.21.2)(tsx@4.23.15)(typescript@7.0.2)
@@ -5421,6 +5430,10 @@ packages:
     engines: {node: '>=22'}
     peerDependencies:
       postcss: '>=8'
+
+  '@pandacss/preset-base@2.4.0':
+    resolution: {integrity: sha512-0tQx1ltwgD1WawROrYQMK7BnWJu8U9nnuJJxmwVq86hD+6A3uhWp9O55WiHL8YJZGC1j1dSRORYpFjYg2KVfZA==}
+    engines: {node: '>=22'}
 
   '@pandacss/types@2.4.0':
     resolution: {integrity: sha512-W2ELCg6MjSyHXOa5/Z9pQ+S39jKcYWRQIC0bu3Ycg6NPDh/qOz8cc9Kr5LMO9Iskd3F8a2MdBl3BuUR+PvR6oQ==}
@@ -15560,6 +15573,10 @@ snapshots:
     transitivePeerDependencies:
       - '@emnapi/core'
       - '@emnapi/runtime'
+
+  '@pandacss/preset-base@2.4.0':
+    dependencies:
+      '@pandacss/types': 2.4.0
 
   '@pandacss/types@2.4.0': {}
 

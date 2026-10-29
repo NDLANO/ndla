@@ -8,7 +8,7 @@
 
 import { Combobox, comboboxAnatomy } from "@ark-ui/react/combobox";
 import { sva } from "@ndla/styled-system/css";
-import { createStyleContext } from "@ndla/styled-system/jsx";
+import { createSlotRecipeContext } from "@ndla/styled-system/jsx";
 import type { RecipeVariantProps, StyledProps } from "@ndla/styled-system/types";
 import { forwardRef, type ElementType, type RefAttributes } from "react";
 import { Label } from "./Label";
@@ -143,7 +143,7 @@ const comboboxRecipe = sva({
   },
 });
 
-const { withProvider, withContext } = createStyleContext(comboboxRecipe);
+const { withProvider, withContext } = createSlotRecipeContext(comboboxRecipe);
 
 export type ComboboxVariantProps = NonNullable<RecipeVariantProps<typeof comboboxRecipe>>;
 

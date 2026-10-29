@@ -40,12 +40,14 @@
   },
   "dependencies": {
     "@ndla/core": "workspace:^",
-    "@pandacss/dev": "catalog:"
+    "@pandacss/dev": "catalog:",
+    "@pandacss/preset-base": "catalog:"
   },
   "devDependencies": {
     "@ark-ui/react": "catalog:",
     "@ndla/styled-system": "workspace:^",
     "@pandacss/types": "catalog:",
+    "@types/node": "catalog:",
     "tsdown": "catalog:",
     "typescript": "catalog:"
   }

@@ -9,7 +9,7 @@
 import { ark } from "@ark-ui/react/factory";
 import { RadioGroup, radioGroupAnatomy } from "@ark-ui/react/radio-group";
 import { sva } from "@ndla/styled-system/css";
-import { createStyleContext, styled } from "@ndla/styled-system/jsx";
+import { createSlotRecipeContext, styled } from "@ndla/styled-system/jsx";
 import type { StyledProps } from "@ndla/styled-system/types";
 import { forwardRef, type RefAttributes } from "react";
 import { Text, type TextProps } from "./Text";
@@ -93,7 +93,7 @@ const radioGroupRecipe = sva({
   },
 });
 
-const { withProvider, withContext } = createStyleContext(radioGroupRecipe);
+const { withProvider, withContext } = createSlotRecipeContext(radioGroupRecipe);
 
 export interface RadioGroupRootProps extends RadioGroup.RootProps, StyledProps {}
 

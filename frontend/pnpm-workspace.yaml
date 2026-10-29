@@ -33,24 +33,11 @@ catalog:
   "@opentelemetry/sdk-node": ^0.300.0
   "@opentelemetry/sdk-trace": ^3.0.0
   "@pandacss/config": ^2.4.0
-  "@pandacss/core": ^1.12.1
   "@pandacss/dev": ^2.4.0
-  "@pandacss/extractor": ^1.12.1
-  "@pandacss/generator": ^1.12.1
-  "@pandacss/is-valid-prop": ^1.12.1
-  "@pandacss/logger": ^1.12.1
   "@pandacss/mcp": ^2.4.0
-  "@pandacss/node": ^1.12.1
-  "@pandacss/parser": ^1.12.1
-  "@pandacss/plugin-lightningcss": ^1.12.1
-  "@pandacss/plugin-svelte": ^1.12.1
-  "@pandacss/plugin-vue": ^1.12.1
   "@pandacss/postcss": ^2.4.0
   "@pandacss/preset-base": ^2.4.0
   "@pandacss/preset-panda": ^2.4.0
-  "@pandacss/reporter": ^1.12.1
-  "@pandacss/shared": ^1.12.1
-  "@pandacss/token-dictionary": ^1.12.1
   "@pandacss/types": ^2.4.0
   "@playwright/test": ^1.64.1
   "@react-router/dev": ^8.5.0
@@ -166,6 +153,9 @@ peerDependencyRules:
 
 allowBuilds:
   "@apollo/protobufjs": true
+  # Pulled in by @pandacss/cli. Its binaries ship as prebuilt optional dependencies; the install
+  # script only compiles when building from source.
+  "@parcel/watcher": false
   "@scarf/scarf": false
   "@sentry/cli": true
   # swagger-ui-react pulls these in for apidom's node-only parsers. We only bundle it for the

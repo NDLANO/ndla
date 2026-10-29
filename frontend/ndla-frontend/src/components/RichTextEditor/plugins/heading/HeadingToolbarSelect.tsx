@@ -27,7 +27,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import type { FontWeightToken } from "@ndla/styled-system/tokens";
+import type { FontWeightToken } from "@ndla/styled-system/types";
 import { type ElementType, type ReactNode, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms } from "slate";
