@@ -45,6 +45,7 @@
     "@opentelemetry/core": "catalog:",
     "@opentelemetry/exporter-trace-otlp-proto": "catalog:",
     "@opentelemetry/sdk-node": "catalog:",
+    "@opentelemetry/sdk-trace": "catalog:",
     "@prometheus-io/client": "^0.16.1",
     "@react-router/dev": "catalog:",
     "@sentry/react": "catalog:",

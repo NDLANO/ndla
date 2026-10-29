@@ -15,7 +15,8 @@
 
 import { getNodeAutoInstrumentations } from "@opentelemetry/auto-instrumentations-node";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
-import { NodeSDK, tracing } from "@opentelemetry/sdk-node";
+import { NodeSDK } from "@opentelemetry/sdk-node";
+import { ConsoleSpanExporter } from "@opentelemetry/sdk-trace";
 
 const otlpEndpoint = process.env.OTEL_EXPORTER_OTLP_ENDPOINT;
 const tracesExporter = process.env.OTEL_TRACES_EXPORTER;
@@ -24,7 +25,7 @@ const enabled = Boolean(otlpEndpoint || tracesExporter);
 let sdk: NodeSDK | undefined;
 
 if (enabled) {
-  const traceExporter = tracesExporter === "console" ? new tracing.ConsoleSpanExporter() : new OTLPTraceExporter();
+  const traceExporter = tracesExporter === "console" ? new ConsoleSpanExporter() : new OTLPTraceExporter();
 
   sdk = new NodeSDK({
     traceExporter,
