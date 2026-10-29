@@ -24,7 +24,6 @@
       {
         "dependsOn": [
           "^build",
-          "^build:panda",
           {
             "projects": ["@ndla/preset-panda"],
             "target": "codegen"
@@ -41,7 +40,13 @@
       },
       {
         "filter": { "projects": ["tag:releasable"] },
-        "dependsOn": ["^build:panda", "type-check"],
+        "dependsOn": [
+          "type-check",
+          {
+            "projects": ["@ndla/preset-panda"],
+            "target": "build"
+          }
+        ],
         "inputs": ["production", "^production"],
         "outputs": ["{projectRoot}/build/**"]
       }
