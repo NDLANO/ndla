@@ -11,16 +11,24 @@ target "_frontend" {
   args    = { COMPONENT_VERSION = COMPONENT_VERSION }
 }
 
+target "frontend-base" {
+  inherits   = ["_frontend"]
+  dockerfile = "frontend/docker/base.Dockerfile"
+}
+
 target "frontend-builder" {
   inherits   = ["_frontend"]
-  dockerfile = "frontend/Dockerfile"
-  target     = "builder"
+  dockerfile = "frontend/docker/builder.Dockerfile"
+  contexts   = { frontend-base = "target:frontend-base" }
 }
 
 target "frontend-runtime" {
   inherits   = ["_frontend"]
-  dockerfile = "frontend/Dockerfile"
-  target     = "runtime"
+  dockerfile = "frontend/docker/runtime.Dockerfile"
+  contexts = {
+    frontend-base    = "target:frontend-base"
+    frontend-builder = "target:frontend-builder"
+  }
 }
 
 target "frontend" {
