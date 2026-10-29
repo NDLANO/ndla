@@ -12,7 +12,7 @@ import no.ndla.common.Clock
 import no.ndla.imageapi.{TestEnvironment, UnitSuite}
 import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
 import no.ndla.tapirtesting.TapirControllerTest
-import org.mockito.Mockito.{reset, when}
+import no.ndla.testbase.NullSafeMockito.{reset, when}
 
 class ImageControllerV3Test extends UnitSuite with TestEnvironment with TapirControllerTest {
   override implicit lazy val clock: Clock                    = mock[Clock]

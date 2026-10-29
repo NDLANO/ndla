@@ -40,7 +40,7 @@ class V49__RemoveConceptListEmbeds extends BaseJavaMigration {
     sql"update contentdata set document = $dataObject where id = $id".update()
   }
 
-  override def migrate(context: Context): Unit = DB(context.getConnection)
+  override def migrate(context: Context | Null): Unit = DB(context.nn.getConnection.nn)
     .autoClose(false)
     .withinTx { session =>
       migrateRows(using session)
@@ -61,13 +61,13 @@ class V49__RemoveConceptListEmbeds extends BaseJavaMigration {
   }
 
   private def stringToJsoupDocument(htmlString: String): Element = {
-    val document = Jsoup.parseBodyFragment(htmlString)
-    document.outputSettings().escapeMode(EscapeMode.xhtml).prettyPrint(false)
-    document.select("body").first()
+    val document = Jsoup.parseBodyFragment(htmlString).nn
+    document.outputSettings().nn.escapeMode(EscapeMode.xhtml).nn.prettyPrint(false)
+    document.select("body").nn.first().nn
   }
 
   private def jsoupDocumentToString(element: Element): String = {
-    element.select("body").html()
+    element.select("body").nn.html().nn
   }
 
   def convertContent(c: ArticleContent): ArticleContent = {
@@ -75,10 +75,11 @@ class V49__RemoveConceptListEmbeds extends BaseJavaMigration {
 
     doc
       .select("ndlaembed")
+      .nn
       .forEach(embed => {
-        val dataResource = embed.attr("data-resource")
+        val dataResource = embed.nn.attr("data-resource")
         if (dataResource == "concept-list") {
-          embed.remove()
+          embed.nn.remove()
         }
       })
     c.copy(content = jsoupDocumentToString(doc))

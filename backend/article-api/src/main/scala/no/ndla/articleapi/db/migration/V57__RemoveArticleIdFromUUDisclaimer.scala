@@ -16,10 +16,11 @@ class V57__RemoveArticleIdFromUUDisclaimer extends HtmlMigration {
   override def convertHtml(doc: Element, language: String): Element = {
     doc
       .select("ndlaembed[data-resource='uu-disclaimer']")
+      .nn
       .forEach(embed => {
-        val hasArticleId = embed.hasAttr("data-article-id")
+        val hasArticleId = embed.nn.hasAttr("data-article-id")
         if (hasArticleId) {
-          embed.removeAttr("data-article-id"): Unit
+          embed.nn.removeAttr("data-article-id"): Unit
         }
       })
     doc

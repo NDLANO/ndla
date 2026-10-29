@@ -9,6 +9,7 @@
 package no.ndla.learningpathapi.controller
 
 import cats.implicits.catsSyntaxEitherId
+import no.ndla.common.implicits.toOption
 import no.ndla.common.model.api.learningpath as commonApi
 import no.ndla.common.model.domain.learningpath as commonDomain
 import no.ndla.learningpathapi.Props
@@ -77,8 +78,8 @@ class InternController(using
           logger.info(result)
           result.asRight
         case Failure(f) =>
-          logger.warn(f.getMessage, f)
-          f.getMessage.asLeft
+          logger.warn(s"Failed to index learningpaths: ${f.getMessage}", f)
+          f.getMessage.toOption.getOrElse("Failed to index learningpaths").asLeft
       }
     }
 
@@ -99,7 +100,7 @@ class InternController(using
             searchIndexService.deleteIndexWithName(Option(index))
           })
         }) match {
-        case Failure(ex)            => ex.getMessage.asLeft
+        case Failure(ex)            => ex.getMessage.toOption.getOrElse("Failed to find indexes").asLeft
         case Success(deleteResults) =>
           val (errors, successes) = deleteResults.partition(_.isFailure)
           if (errors.nonEmpty) {

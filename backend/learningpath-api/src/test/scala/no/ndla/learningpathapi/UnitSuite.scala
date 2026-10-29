@@ -18,7 +18,7 @@ trait UnitSuite extends UnitTestSuite {
   setPropEnv("SEARCH_REGION", "some-region")
   setPropEnv("RUN_WITH_SIGNED_SEARCH_REQUESTS", "false")
 
-  setPropEnv("SEARCH_INDEX_NAME", s"learning-integration-test-index-${ProcessHandle.current().pid()}")
+  setPropEnv("SEARCH_INDEX_NAME", s"learning-integration-test-index-${ProcessHandle.current().nn.pid()}")
 
   setPropEnv(PropertyKeys.MetaUserNameKey, "postgres")
   setPropEnv(PropertyKeys.MetaPasswordKey, "hemmelig")

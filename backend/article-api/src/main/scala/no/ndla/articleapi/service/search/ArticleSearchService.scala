@@ -39,7 +39,7 @@ class ArticleSearchService(using
 
   override val searchIndex: String = props.ArticleSearchIndex
 
-  override def hitToApiModel(hit: String, language: String): api.ArticleSummaryV2DTO = {
+  override def hitToApiModel(hit: String, language: String): Try[api.ArticleSummaryV2DTO] = {
     converterService.hitAsArticleSummaryV2(hit, language)
   }
 
@@ -123,13 +123,13 @@ class ArticleSearchService(using
         }
 
       elastic4sClient.execute(searchWithScroll) match {
-        case Success(response) => Success(
+        case Success(response) => getHits(response.result, settings.language).map(hits =>
             SearchResult[ArticleSummaryV2DTO](
               response.result.totalHits,
               Some(settings.page),
               numResults,
               settings.language,
-              getHits(response.result, settings.language),
+              hits,
               response.result.scrollId,
             )
           )
@@ -149,7 +149,7 @@ class ArticleSearchService(using
     f.foreach {
       case Success(reindexResult) =>
         logger.info(s"Completed indexing of ${reindexResult.totalIndexed} documents in ${reindexResult.millisUsed} ms.")
-      case Failure(ex) => logger.warn(ex.getMessage, ex)
+      case Failure(ex) => logger.warn(s"Unable to index documents: ${ex.getMessage}", ex)
     }
   }
 }

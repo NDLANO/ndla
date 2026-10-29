@@ -9,6 +9,7 @@
 package no.ndla.search
 
 import no.ndla.common.configuration.Constants.EmbedTagName
+import no.ndla.common.implicits.toOption
 import no.ndla.common.model.{EmbedType, TagAttribute}
 import no.ndla.search.model.domain.EmbedValues
 import org.jsoup.Jsoup
@@ -18,24 +19,32 @@ import org.jsoup.nodes.Entities.EscapeMode
 import scala.jdk.CollectionConverters.CollectionHasAsScala
 
 object SearchConverter {
-  private def parseHtml(html: String) = {
-    val document = Jsoup.parseBodyFragment(html)
-    document.outputSettings().escapeMode(EscapeMode.xhtml).prettyPrint(false)
-    document.body()
+  private def parseHtml(html: String): Option[Element] = {
+    Jsoup
+      .parseBodyFragment(html)
+      .toOption
+      .flatMap { document =>
+        document
+          .outputSettings()
+          .toOption
+          .flatMap(_.escapeMode(EscapeMode.xhtml).toOption)
+          .foreach(_.prettyPrint(false))
+        document.body().toOption
+      }
   }
 
   def getEmbedValues(html: String, language: String): List[EmbedValues] = {
-    parseHtml(html).select(EmbedTagName).asScala.map(embed => getEmbedValuesFromEmbed(embed, language)).toList
+    parseHtml(html)
+      .flatMap(_.select(EmbedTagName).toOption)
+      .map(_.asScala.flatMap(_.toOption).map(embed => getEmbedValuesFromEmbed(embed, language)).toList)
+      .getOrElse(List.empty)
   }
 
   private def getEmbedValuesFromEmbed(embed: Element, language: String): EmbedValues =
     EmbedValues(resource = getEmbedResource(embed), id = getEmbedIds(embed), language = language)
 
   private def getEmbedResource(embed: Element): Option[EmbedType] = {
-    embed.attr(TagAttribute.DataResource.toString) match {
-      case "" => None
-      case a  => EmbedType.valueOf(a)
-    }
+    embed.attr(TagAttribute.DataResource.toString).toOption.filter(_.nonEmpty).flatMap(EmbedType.valueOf)
   }
 
   private val AttributesToKeep = List(
@@ -56,7 +65,7 @@ object SearchConverter {
   // If the string contains an '=' character, return the substring after the last '=';
   private def substringAfterEquals(str: String): String = {
     val idx = str.lastIndexOf('=')
-    if (idx >= 0 && idx < str.length - 1) str.substring(idx + 1)
+    if (idx >= 0 && idx < str.length - 1) str.drop(idx + 1)
     else str
   }
 
@@ -80,9 +89,9 @@ object SearchConverter {
 
   private def getEmbedIds(embed: Element): List[String] = {
     AttributesToKeep.flatMap(attr =>
-      embed.attr(attr.toString) match {
-        case ""    => None
-        case value => attr match {
+      embed.attr(attr.toString).toOption match {
+        case None | Some("") => None
+        case Some(value)     => attr match {
             case TagAttribute.DataArticleId   => addTypeDiscriminator(embed, value)
             case TagAttribute.DataContentId   => addTypeDiscriminator(embed, value)
             case TagAttribute.DataImageId     => List(value)

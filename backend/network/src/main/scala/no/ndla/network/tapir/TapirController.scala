@@ -11,6 +11,7 @@ package no.ndla.network.tapir
 import com.typesafe.scalalogging.StrictLogging
 import io.circe.{Decoder, Encoder}
 import no.ndla.common.SchemaImplicits
+import no.ndla.common.implicits.toOption
 import no.ndla.network.tapir.NoNullJsonPrinter.jsonBody
 import sttp.model.StatusCode
 import sttp.shared.Identity
@@ -23,7 +24,7 @@ abstract class TapirController(using errorHandling: ErrorHandling)
       SchemaImplicits {
   type Eff[A] = Identity[A]
   val enableSwagger: Boolean = true
-  val serviceName: String    = this.getClass.getSimpleName
+  val serviceName: String    = this.getClass.getSimpleName.toOption.getOrElse("")
   protected val prefix: EndpointInput[Unit]
   val endpoints: List[ServerEndpoint[Any, Eff]]
 

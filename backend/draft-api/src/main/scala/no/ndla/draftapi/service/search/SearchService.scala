@@ -8,6 +8,7 @@
 
 package no.ndla.draftapi.service.search
 
+import cats.implicits.*
 import com.sksamuel.elastic4s.ElasticDsl._
 import com.sksamuel.elastic4s.RequestFailure
 import com.sksamuel.elastic4s.requests.searches.SearchResponse
@@ -32,17 +33,18 @@ trait SearchService[T](using
     .execute {
       searchScroll(scrollId, props.ElasticSearchScrollKeepAlive)
     }
-    .map(response => {
-      val hits = getHits(response.result, language)
-      SearchResult[T](
-        totalCount = response.result.totalHits,
-        page = None,
-        pageSize = response.result.hits.hits.length,
-        language = language,
-        results = hits,
-        scrollId = response.result.scrollId,
+    .flatMap(response =>
+      getHits(response.result, language).map(hits =>
+        SearchResult[T](
+          totalCount = response.result.totalHits,
+          page = None,
+          pageSize = response.result.hits.hits.length,
+          language = language,
+          results = hits,
+          scrollId = response.result.scrollId,
+        )
       )
-    })
+    )
 
   /** Returns hit as summary
     *
@@ -53,14 +55,14 @@ trait SearchService[T](using
     * @return
     *   api-model summary of hit
     */
-  def hitToApiModel(hit: String, language: String): T
+  def hitToApiModel(hit: String, language: String): Try[T]
 
-  def getHits(response: SearchResponse, language: String): Seq[T] = {
+  def getHits(response: SearchResponse, language: String): Try[Seq[T]] = {
     response.totalHits match {
       case count if count > 0 =>
         val resultArray = response.hits.hits.toList
 
-        resultArray.map(result => {
+        resultArray.traverse(result => {
           val matchedLanguage = language match {
             case Language.AllLanguages => searchConverterService.getLanguageFromHit(result).getOrElse(language)
             case _                     => language
@@ -68,7 +70,7 @@ trait SearchService[T](using
 
           hitToApiModel(result.sourceAsString, matchedLanguage)
         })
-      case _ => Seq()
+      case _ => Success(Seq())
     }
   }
 
@@ -123,7 +125,7 @@ trait SearchService[T](using
         scheduleIndexDocuments()
         Failure(IndexNotFoundException(s"Index $searchIndex not found. Scheduling a reindex"))
       case e: NdlaSearchException[?] =>
-        logger.error(e.getMessage)
+        logger.error(s"Unable to execute search in $searchIndex: ${e.getMessage}")
         Failure(NdlaSearchException(s"Unable to execute search in $searchIndex", e))
       case t: Throwable => Failure(t)
     }

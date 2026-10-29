@@ -23,8 +23,7 @@ import no.ndla.imageapi.model.api.bulk.{
 import no.ndla.imageapi.{TestEnvironment, UnitSuite}
 import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
 import no.ndla.tapirtesting.{NdlaAuthTestTokens, TapirControllerTest}
-import org.mockito.ArgumentMatchers.{any, eq as eqTo}
-import org.mockito.Mockito.{reset, when}
+import no.ndla.testbase.NullSafeMockito.{any, eqTo, reset, when}
 import ox.flow.Flow
 import sttp.client4.quick.*
 
@@ -156,7 +155,7 @@ class BulkControllerTest extends UnitSuite with TestEnvironment with TapirContro
   }
 
   test("That GET /status/<id> returns 404 when the upload id is unknown") {
-    val uploadId = UUID.randomUUID()
+    val uploadId = UUID.randomUUID().nn
     when(readService.getStatusStreamOfBulkUpload(eqTo(uploadId))).thenReturn(
       Failure(NotFoundException(s"No bulk upload with id $uploadId"))
     )
@@ -166,7 +165,7 @@ class BulkControllerTest extends UnitSuite with TestEnvironment with TapirContro
   }
 
   test("That GET /status/<id> streams every state from the flow as an SSE event with content-type text/event-stream") {
-    val uploadId = UUID.randomUUID()
+    val uploadId = UUID.randomUUID().nn
     val running  = runningState()
     val complete = running.copy(
       status = BulkUploadStatus.Complete,
@@ -193,7 +192,7 @@ class BulkControllerTest extends UnitSuite with TestEnvironment with TapirContro
   }
 
   test("That GET /status/<id> emits the Failed event type when the terminal state is Failed") {
-    val uploadId = UUID.randomUUID()
+    val uploadId = UUID.randomUUID().nn
     val failed   = runningState().copy(
       status = BulkUploadStatus.Failed,
       failed = 1,
@@ -211,7 +210,7 @@ class BulkControllerTest extends UnitSuite with TestEnvironment with TapirContro
   }
 
   test("That GET /status/<id> returns 200 with no events when the flow is empty") {
-    val uploadId = UUID.randomUUID()
+    val uploadId = UUID.randomUUID().nn
     when(readService.getStatusStreamOfBulkUpload(eqTo(uploadId))).thenReturn(Success(Flow.empty[BulkUploadStateDTO]))
 
     val res = quickRequest.get(uri"$baseUrl/status/$uploadId").header("Authorization", authHeaderWithBatchRole).send()
@@ -226,16 +225,18 @@ class BulkControllerTest extends UnitSuite with TestEnvironment with TapirContro
   private def parseSseEvents(body: String): List[SseEvent] = {
     body
       .split("\r?\n\r?\n")
+      .nn
       .toList
-      .filter(_.trim.nonEmpty)
+      .map(_.nn)
+      .filter(_.trim.nn.nonEmpty)
       .map { block =>
         val lines     = block.linesIterator.toList
         val eventType = lines.collectFirst {
-          case l if l.startsWith("event:") => l.stripPrefix("event:").trim
+          case l if l.startsWith("event:") => l.stripPrefix("event:").trim.nn
         }
         val data = lines
           .collect {
-            case l if l.startsWith("data:") => l.stripPrefix("data:").trim
+            case l if l.startsWith("data:") => l.stripPrefix("data:").trim.nn
           }
           .mkString("\n")
         SseEvent(eventType, data)

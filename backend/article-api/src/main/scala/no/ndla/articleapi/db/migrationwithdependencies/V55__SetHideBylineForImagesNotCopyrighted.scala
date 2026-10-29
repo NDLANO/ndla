@@ -11,6 +11,7 @@ package no.ndla.articleapi.db.migrationwithdependencies
 import no.ndla.articleapi.ArticleApiProperties
 import no.ndla.articleapi.db.HtmlMigration
 import no.ndla.articleapi.integration.ImageApiClient
+import no.ndla.common.implicits.toOption
 import org.jsoup.nodes.Element
 
 class V55__SetHideBylineForImagesNotCopyrighted(properties: ArticleApiProperties)(using imageApiClient: ImageApiClient)
@@ -25,26 +26,38 @@ class V55__SetHideBylineForImagesNotCopyrighted(properties: ArticleApiProperties
     val ids = List.newBuilder[String]
     doc
       .select("ndlaembed[data-resource='image']")
-      .forEach(embed => {
-        ids += embed.attr("data-resource_id")
-      })
+      .toOption
+      .foreach(
+        _.forEach(
+          _.toOption
+            .foreach(embed => {
+              ids ++= embed.attr("data-resource_id").toOption
+            })
+        )
+      )
     if (ids.result().isEmpty) {
       return doc
     }
     val images = imageApiClient.getImagesWithIds(ids.result()).getOrElse(List.empty)
     doc
       .select("ndlaembed[data-resource='image']")
-      .forEach(embed => {
-        val noHideByline = !embed.hasAttr("data-hide-byline")
-        if (noHideByline) {
-          val imageId = embed.attr("data-resource_id")
-          val image   = images.find(i => i.id == imageId)
-          embed.attr(
-            "data-hide-byline",
-            s"${image.exists(i => !i.copyright.license.license.equals("COPYRIGHTED"))}",
-          ): Unit
-        }
-      })
+      .toOption
+      .foreach(
+        _.forEach(
+          _.toOption
+            .foreach(embed => {
+              val noHideByline = !embed.hasAttr("data-hide-byline")
+              if (noHideByline) {
+                val imageId = embed.attr("data-resource_id")
+                val image   = images.find(i => i.id == imageId)
+                embed.attr(
+                  "data-hide-byline",
+                  s"${image.exists(i => !i.copyright.license.license.equals("COPYRIGHTED"))}",
+                ): Unit
+              }
+            })
+        )
+      )
     doc
   }
 }

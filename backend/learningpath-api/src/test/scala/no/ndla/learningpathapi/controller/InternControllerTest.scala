@@ -13,8 +13,7 @@ import no.ndla.common.model.api.learningpath.LearningPathStatsDTO
 import no.ndla.learningpathapi.{TestEnvironment, UnitSuite}
 import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
 import no.ndla.tapirtesting.TapirControllerTest
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.{doReturn, never, reset, verify, verifyNoMoreInteractions, when}
+import no.ndla.testbase.NullSafeMockito.{any, doReturn, never, reset, verify, verifyNoMoreInteractions, when}
 import scalikejdbc.DBSession
 import sttp.client4.quick.*
 

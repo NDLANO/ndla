@@ -13,7 +13,7 @@ import no.ndla.database.{DBMigrator, DBUtility, DataSource}
 import no.ndla.myndlaapi.model.domain.{RobotConfiguration, RobotDefinition, RobotSettings, RobotStatus}
 import no.ndla.myndlaapi.{TestEnvironment, UnitSuite}
 import no.ndla.scalatestsuite.DatabaseIntegrationSuite
-import org.mockito.Mockito.when
+import no.ndla.testbase.NullSafeMockito.when
 import scalikejdbc.*
 
 import java.net.Socket
@@ -21,7 +21,7 @@ import java.util.UUID
 import scala.util.{Success, Try}
 
 class RobotRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with TestEnvironment {
-  override lazy val schemaName: String                      = s"robotrepotest_${ProcessHandle.current().pid()}"
+  override lazy val schemaName: String                      = s"robotrepotest_${ProcessHandle.current().nn.pid()}"
   override implicit lazy val dataSource: DataSource         = testDataSource.get
   override implicit lazy val migrator: DBMigrator           = new DBMigrator
   override implicit lazy val DBUtil: DBUtility              = new DBUtility
@@ -70,7 +70,7 @@ class RobotRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with T
     when(clock.now()).thenReturn(created)
 
     val toInsert = RobotDefinition(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       feideId = feideId,
       created = created,
       updated = created,
@@ -105,7 +105,7 @@ class RobotRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with T
     when(clock.now()).thenReturn(created)
 
     val toInsert = RobotDefinition(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       feideId = feideId,
       created = created,
       updated = created,

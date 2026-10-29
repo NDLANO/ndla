@@ -23,8 +23,7 @@ import no.ndla.common.model.domain.{Author, ContributorType, Title}
 import no.ndla.learningpathapi.{TestData, UnitSuite, UnitTestEnvironment}
 import no.ndla.mapping.License
 import no.ndla.network.tapir.auth.TokenUser
-import org.mockito.ArgumentMatchers.{any, eq as eqTo}
-import org.mockito.Mockito.when
+import no.ndla.testbase.NullSafeMockito.{any, eqTo, when}
 import scalikejdbc.DBSession
 
 import scala.util.Failure

@@ -11,7 +11,10 @@ package no.ndla.common
 import java.util.UUID
 
 class UUIDUtil {
-  def randomUUID(): UUID = {
-    UUID.randomUUID()
-  }
+  def randomUUID(): UUID = UUIDUtil.randomUUID()
+}
+
+object UUIDUtil {
+  def randomUUID(): UUID              = UUID.randomUUID().nn
+  def fromString(value: String): UUID = UUID.fromString(value).nn
 }

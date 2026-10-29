@@ -22,9 +22,7 @@ import no.ndla.myndlaapi.{TestData, TestEnvironment}
 import no.ndla.network.model.FeideUserWrapper
 import no.ndla.scalatestsuite.UnitTestSuite
 import no.ndla.tapirtesting.FeideAuthTestData
-import org.mockito.ArgumentMatchers.{any, eq as eqTo}
-import org.mockito.Mockito.*
-import org.mockito.invocation.InvocationOnMock
+import no.ndla.testbase.NullSafeMockito.*
 import scalikejdbc.DBSession
 
 import java.util.UUID
@@ -52,7 +50,7 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
   }
 
   test("that a user without access cannot delete a folder") {
-    val id                 = UUID.randomUUID()
+    val id                 = UUID.randomUUID().nn
     val folderWithChildren = emptyDomainFolder.copy(
       id = id,
       feideId = "FEIDE",
@@ -75,10 +73,10 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
   }
 
   test("that a user with access can delete a folder") {
-    val mainFolderId = UUID.randomUUID()
-    val subFolder1Id = UUID.randomUUID()
-    val subFolder2Id = UUID.randomUUID()
-    val resourceId   = UUID.randomUUID()
+    val mainFolderId = UUID.randomUUID().nn
+    val subFolder1Id = UUID.randomUUID().nn
+    val subFolder2Id = UUID.randomUUID().nn
+    val resourceId   = UUID.randomUUID().nn
     val folder       =
       emptyDomainFolder.copy(id = mainFolderId, feideId = "FEIDE", resources = List.empty, subfolders = List.empty)
     val folderWithChildren = folder.copy(
@@ -87,8 +85,8 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
     )
     val correctFeideId = "FEIDE"
 
-    when(folderRepository.withTx(any[DBSession => Try[Unit]]())).thenAnswer((i: InvocationOnMock) => {
-      val func = i.getArgument[DBSession => Try[Unit]](0)
+    when(folderRepository.withTx(any[DBSession => Try[Unit]])).thenAnswer(i => {
+      val func = i.nn.getArgument[DBSession => Try[Unit]](0).nn
       func(mock[DBSession])
     })
     when(folderRepository.foldersWithFeideAndParentID(any, any)(using any)).thenReturn(Success(List.empty))
@@ -127,10 +125,10 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
   }
 
   test("that resource is not deleted if resourceConnectionCount() returns 0") {
-    val mainFolderId = UUID.randomUUID()
-    val subFolder1Id = UUID.randomUUID()
-    val subFolder2Id = UUID.randomUUID()
-    val resourceId   = UUID.randomUUID()
+    val mainFolderId = UUID.randomUUID().nn
+    val subFolder1Id = UUID.randomUUID().nn
+    val subFolder2Id = UUID.randomUUID().nn
+    val resourceId   = UUID.randomUUID().nn
     val folder       =
       emptyDomainFolder.copy(id = mainFolderId, feideId = "FEIDE", resources = List.empty, subfolders = List.empty)
     val folderWithChildren = folder.copy(
@@ -139,8 +137,8 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
     )
     val correctFeideId = "FEIDE"
 
-    when(folderRepository.withTx(any[DBSession => Try[Unit]]())).thenAnswer((i: InvocationOnMock) => {
-      val func = i.getArgument[DBSession => Try[Unit]](0)
+    when(folderRepository.withTx(any[DBSession => Try[Unit]])).thenAnswer(i => {
+      val func = i.nn.getArgument[DBSession => Try[Unit]](0).nn
       func(mock[DBSession])
     })
     when(folderRepository.foldersWithFeideAndParentID(any, any)(using any)).thenReturn(Success(List.empty))
@@ -178,8 +176,8 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
   }
 
   test("that deleteConnection only deletes connection when there are several references to a resource") {
-    val folderId       = UUID.randomUUID()
-    val resourceId     = UUID.randomUUID()
+    val folderId       = UUID.randomUUID().nn
+    val resourceId     = UUID.randomUUID().nn
     val correctFeideId = "FEIDE"
     val folder         = emptyDomainFolder.copy(id = folderId, feideId = "FEIDE")
     val resource       = emptyDomainResource.copy(id = resourceId, feideId = "FEIDE")
@@ -188,8 +186,8 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
     when(folderRepository.folderWithId(eqTo(folderId))(using any)).thenReturn(Success(folder))
     when(folderRepository.resourceWithId(eqTo(resourceId))(using any)).thenReturn(Success(resource))
     when(folderRepository.resourceConnectionCount(eqTo(resourceId))(using any)).thenReturn(Success(2L))
-    when(folderRepository.withTx(any[DBSession => Try[Unit]]())).thenAnswer((i: InvocationOnMock) => {
-      val func = i.getArgument[DBSession => Try[Unit]](0)
+    when(folderRepository.withTx(any[DBSession => Try[Unit]])).thenAnswer(i => {
+      val func = i.nn.getArgument[DBSession => Try[Unit]](0).nn
       func(mock[DBSession])
     })
     when(folderRepository.foldersWithFeideAndParentID(any, any)(using any)).thenReturn(Success(List.empty))
@@ -212,8 +210,8 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
   }
 
   test("that deleteConnection deletes the resource if there is only 1 references to a resource") {
-    val folderId       = UUID.randomUUID()
-    val resourceId     = UUID.randomUUID()
+    val folderId       = UUID.randomUUID().nn
+    val resourceId     = UUID.randomUUID().nn
     val correctFeideId = "FEIDE"
     val folder         = emptyDomainFolder.copy(id = folderId, feideId = "FEIDE")
     val resource       = emptyDomainResource.copy(id = resourceId, feideId = "FEIDE")
@@ -226,8 +224,8 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
       Success(resourceId)
     )
     when(folderRepository.deleteResource(eqTo(resourceId))(using any)).thenReturn(Success(resourceId))
-    when(folderRepository.withTx(any[DBSession => Try[Unit]]())).thenAnswer((i: InvocationOnMock) => {
-      val func = i.getArgument[DBSession => Try[Unit]](0)
+    when(folderRepository.withTx(any[DBSession => Try[Unit]])).thenAnswer(i => {
+      val func = i.nn.getArgument[DBSession => Try[Unit]](0).nn
       func(mock[DBSession])
     })
     when(folderRepository.folderWithFeideId(eqTo(folderId), any)(using any)).thenReturn(Success(folder))
@@ -248,8 +246,8 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
   }
 
   test("that deleteConnection exits early if user is not the folder owner") {
-    val folderId       = UUID.randomUUID()
-    val resourceId     = UUID.randomUUID()
+    val folderId       = UUID.randomUUID().nn
+    val resourceId     = UUID.randomUUID().nn
     val correctFeideId = "FEIDE"
     val folder         = emptyDomainFolder.copy(id = folderId, feideId = "asd")
 
@@ -267,8 +265,8 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
   }
 
   test("that deleteConnection exits early if user is not the resource owner") {
-    val folderId       = UUID.randomUUID()
-    val resourceId     = UUID.randomUUID()
+    val folderId       = UUID.randomUUID().nn
+    val resourceId     = UUID.randomUUID().nn
     val correctFeideId = "FEIDE"
     val folder         = emptyDomainFolder.copy(id = folderId, feideId = "FEIDE")
     val resource       = emptyDomainResource.copy(id = resourceId, feideId = "asd")
@@ -294,8 +292,8 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
     when(clock.now()).thenReturn(created)
 
     val feideId      = "FEIDE"
-    val folderId     = UUID.randomUUID()
-    val resourceId   = UUID.randomUUID()
+    val folderId     = UUID.randomUUID().nn
+    val resourceId   = UUID.randomUUID().nn
     val resourcePath = "/subject/1/topic/2/resource/3"
     val newResource  =
       NewResourceDTO(resourceType = ResourceType.Article, path = resourcePath, tags = None, resourceId = "1")
@@ -312,12 +310,12 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
 
     when(folderRepository.resourceWithPathAndTypeAndFeideId(any, any, any)(using any)).thenReturn(Success(None))
     when(folderRepository.insertResource(any, any, any, any, any)(using any)).thenReturn(Success(resource))
-    when(folderRepository.createResourceConnection(any, any, any, any)(using any)).thenAnswer((i: InvocationOnMock) => {
+    when(folderRepository.createResourceConnection(any, any, any, any)(using any)).thenAnswer(i => {
       Success(
         ResourceConnection(
-          folderId = i.getArgument(0),
-          resourceId = i.getArgument(1),
-          rank = i.getArgument(2),
+          folderId = i.nn.getArgument[Option[UUID]](0).nn,
+          resourceId = i.nn.getArgument[UUID](1).nn,
+          rank = i.nn.getArgument[Int](2).nn,
           favoritedDate = created,
         )
       )
@@ -359,8 +357,8 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
     when(clock.now()).thenReturn(created)
 
     val feideId      = "FEIDE"
-    val folderId     = UUID.randomUUID()
-    val resourceId   = UUID.randomUUID()
+    val folderId     = UUID.randomUUID().nn
+    val resourceId   = UUID.randomUUID().nn
     val resourcePath = "/subject/1/topic/2/resource/3"
     val newResource  =
       NewResourceDTO(resourceType = ResourceType.Article, path = resourcePath, tags = None, resourceId = "1")
@@ -380,13 +378,13 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
       Success(Some(resource))
     )
     when(folderRepository.updateResource(eqTo(resource))(using any)).thenReturn(Success(resource))
-    when(folderRepository.createResourceConnection(any, any, any, any)(using any)).thenAnswer((i: InvocationOnMock) => {
+    when(folderRepository.createResourceConnection(any, any, any, any)(using any)).thenAnswer(i => {
       Success(
         ResourceConnection(
-          folderId = i.getArgument(0),
-          resourceId = i.getArgument(1),
-          rank = i.getArgument(2),
-          favoritedDate = i.getArgument(3),
+          folderId = i.nn.getArgument[Option[UUID]](0).nn,
+          resourceId = i.nn.getArgument[UUID](1).nn,
+          rank = i.nn.getArgument[Int](2).nn,
+          favoritedDate = i.nn.getArgument[NDLADate](3).nn,
         )
       )
     })
@@ -415,12 +413,12 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
   }
 
   test("that deleteFolder deletes correct number of folder-resource-connections and resources") {
-    val folder1Id   = UUID.randomUUID()
-    val folder2Id   = UUID.randomUUID()
-    val folder3Id   = UUID.randomUUID()
-    val resource1Id = UUID.randomUUID()
-    val resource2Id = UUID.randomUUID()
-    val resource3Id = UUID.randomUUID()
+    val folder1Id   = UUID.randomUUID().nn
+    val folder2Id   = UUID.randomUUID().nn
+    val folder3Id   = UUID.randomUUID().nn
+    val resource1Id = UUID.randomUUID().nn
+    val resource2Id = UUID.randomUUID().nn
+    val resource3Id = UUID.randomUUID().nn
     val resource1   = emptyDomainResource.copy(id = resource1Id, feideId = "FEIDEF")
     val resource2   = emptyDomainResource.copy(id = resource2Id, feideId = "FEIDEF")
     val resource3   = emptyDomainResource.copy(id = resource3Id, feideId = "FEIDEF")
@@ -474,8 +472,8 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
     when(folderRepository.deleteFolderUserConnection(eqTo(Some(folder1Id)), eqTo(None))(using any)).thenReturn(
       Success(0)
     )
-    when(folderRepository.withTx(any[DBSession => Try[Unit]]())).thenAnswer((i: InvocationOnMock) => {
-      val func = i.getArgument[DBSession => Try[Unit]](0)
+    when(folderRepository.withTx(any[DBSession => Try[Unit]])).thenAnswer(i => {
+      val func = i.nn.getArgument[DBSession => Try[Unit]](0).nn
       func(mock[DBSession])
     })
     when(folderRepository.foldersWithFeideAndParentID(any, any)(using any)).thenReturn(Success(List.empty))
@@ -510,7 +508,7 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
 
   test("that folder is not created if depth limit is reached") {
     val feideId   = "FEIDE"
-    val parentId  = UUID.randomUUID()
+    val parentId  = UUID.randomUUID().nn
     val newFolder = NewFolderDTO(name = "asd", parentId = Some(parentId.toString), status = None, description = None)
 
     doReturn(Success(parentId))
@@ -535,8 +533,8 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
   test("that folder is created if depth count is below the limit") {
     val created      = clock.now()
     val feideId      = "FEIDE"
-    val folderId     = UUID.randomUUID()
-    val parentId     = UUID.randomUUID()
+    val folderId     = UUID.randomUUID().nn
+    val parentId     = UUID.randomUUID().nn
     val newFolder    = NewFolderDTO(name = "asd", parentId = Some(parentId.toString), status = None, description = None)
     val domainFolder = domain.Folder(
       id = folderId,
@@ -594,8 +592,8 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
   test("that folder is not created if name already exists as a sibling") {
     val created      = clock.now()
     val feideId      = "FEIDE"
-    val folderId     = UUID.randomUUID()
-    val parentId     = UUID.randomUUID()
+    val folderId     = UUID.randomUUID().nn
+    val parentId     = UUID.randomUUID().nn
     val newFolder    = NewFolderDTO(name = "asd", parentId = Some(parentId.toString), status = None, description = None)
     val domainFolder = domain.Folder(
       id = folderId,
@@ -613,7 +611,7 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
       user = None,
     )
     val siblingFolder = domain.Folder(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       feideId = feideId,
       parentId = Some(parentId),
       name = "aSd",
@@ -652,8 +650,8 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
   test("that folder is not updated if name already exists as a sibling") {
     val created      = clock.now()
     val feideId      = "FEIDE"
-    val folderId     = UUID.randomUUID()
-    val parentId     = UUID.randomUUID()
+    val folderId     = UUID.randomUUID().nn
+    val parentId     = UUID.randomUUID().nn
     val updateFolder = api.UpdatedFolderDTO(parentId = Missing, name = Some("asd"), status = None, description = None)
 
     val existingFolder = domain.Folder(
@@ -672,7 +670,7 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
       user = None,
     )
     val siblingFolder = domain.Folder(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       feideId = feideId,
       parentId = Some(parentId),
       name = "aSd",
@@ -712,8 +710,8 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
   test("that folder status is updated even when name is not changed") {
     val created      = clock.now()
     val feideId      = "FEIDE"
-    val folderId     = UUID.randomUUID()
-    val parentId     = UUID.randomUUID()
+    val folderId     = UUID.randomUUID().nn
+    val parentId     = UUID.randomUUID().nn
     val updateFolder =
       api.UpdatedFolderDTO(parentId = Missing, name = None, status = Some("shared"), description = None)
 
@@ -734,7 +732,7 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
     )
     val mergedFolder  = existingFolder.copy(status = FolderStatus.SHARED)
     val siblingFolder = domain.Folder(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       feideId = feideId,
       parentId = Some(parentId),
       name = "aSd",
@@ -781,8 +779,8 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
     when(folderRepository.folderWithId(eqTo(folderId))(using any)).thenReturn(Success(existingFolder))
     when(folderRepository.updateFolder(any, any, any)(using any)).thenReturn(Success(mergedFolder))
     when(folderRepository.setFolderRank(any[UUID], any[Int], any)(using any)).thenReturn(Success(()))
-    when(folderRepository.withTx(any[DBSession => Try[Unit]]())).thenAnswer((i: InvocationOnMock) => {
-      val func = i.getArgument[DBSession => Try[Unit]](0)
+    when(folderRepository.withTx(any[DBSession => Try[Unit]])).thenAnswer(i => {
+      val func = i.nn.getArgument[DBSession => Try[Unit]](0).nn
       func(mock[DBSession])
     })
     when(userRepository.userWithFeideId(any)(using any[DBSession])).thenReturn(Success(None))
@@ -796,12 +794,12 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
   test("that updating parentId of a folder sorts siblings with unique ranks") {
     val created     = clock.now()
     val feideId     = "FEIDE"
-    val folderId    = UUID.randomUUID()
-    val oldParentId = UUID.randomUUID()
-    val newParentId = UUID.randomUUID()
+    val folderId    = UUID.randomUUID().nn
+    val oldParentId = UUID.randomUUID().nn
+    val newParentId = UUID.randomUUID().nn
 
-    val sibling1Id = UUID.randomUUID()
-    val sibling2Id = UUID.randomUUID()
+    val sibling1Id = UUID.randomUUID().nn
+    val sibling2Id = UUID.randomUUID().nn
 
     val updateFolder = api.UpdatedFolderDTO(
       parentId = UpdateWith[String](newParentId.toString),
@@ -879,8 +877,8 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
     when(folderRepository.getConnections(any)(using any)).thenReturn(Success(List.empty))
     when(userRepository.userWithFeideId(any)(using any)).thenReturn(Success(None))
     when(folderRepository.setFolderRank(any, any, any)(using any)).thenReturn(Success(()))
-    when(folderRepository.withTx(any[DBSession => Try[Unit]]())).thenAnswer((i: InvocationOnMock) => {
-      val func = i.getArgument[DBSession => Try[Unit]](0)
+    when(folderRepository.withTx(any[DBSession => Try[Unit]])).thenAnswer(i => {
+      val func = i.nn.getArgument[DBSession => Try[Unit]](0).nn
       func(mock[DBSession])
     })
 
@@ -896,12 +894,12 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
   test("that updating parentId of a folder fails if sibling with same name exists") {
     val created     = clock.now()
     val feideId     = "FEIDE"
-    val folderId    = UUID.randomUUID()
-    val oldParentId = UUID.randomUUID()
-    val newParentId = UUID.randomUUID()
+    val folderId    = UUID.randomUUID().nn
+    val oldParentId = UUID.randomUUID().nn
+    val newParentId = UUID.randomUUID().nn
 
-    val sibling1Id = UUID.randomUUID()
-    val sibling2Id = UUID.randomUUID()
+    val sibling1Id = UUID.randomUUID().nn
+    val sibling2Id = UUID.randomUUID().nn
 
     val updateFolder = api.UpdatedFolderDTO(
       parentId = UpdateWith[String](newParentId.toString),
@@ -994,15 +992,15 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
   test("That sorting endpoint calls ranking correctly :^)") {
     val feideId = "FEIDE"
 
-    val parent = TestData.emptyDomainFolder.copy(id = UUID.randomUUID(), feideId = feideId)
-    val child1 = TestData.emptyDomainFolder.copy(id = UUID.randomUUID(), feideId = feideId)
-    val child2 = TestData.emptyDomainFolder.copy(id = UUID.randomUUID(), feideId = feideId)
-    val child3 = TestData.emptyDomainFolder.copy(id = UUID.randomUUID(), feideId = feideId)
+    val parent = TestData.emptyDomainFolder.copy(id = UUID.randomUUID().nn, feideId = feideId)
+    val child1 = TestData.emptyDomainFolder.copy(id = UUID.randomUUID().nn, feideId = feideId)
+    val child2 = TestData.emptyDomainFolder.copy(id = UUID.randomUUID().nn, feideId = feideId)
+    val child3 = TestData.emptyDomainFolder.copy(id = UUID.randomUUID().nn, feideId = feideId)
 
     val sortRequest = FolderSortRequestDTO(sortedIds = List(child1.id, child3.id, child2.id))
 
-    when(folderRepository.withTx(any[DBSession => Try[Unit]]())).thenAnswer((i: InvocationOnMock) => {
-      val func = i.getArgument[DBSession => Try[Unit]](0)
+    when(folderRepository.withTx(any[DBSession => Try[Unit]])).thenAnswer(i => {
+      val func = i.nn.getArgument[DBSession => Try[Unit]](0).nn
       func(mock[DBSession])
     })
     when(folderRepository.setFolderRank(any, any, any)(using any)).thenReturn(Success(()))
@@ -1025,9 +1023,9 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
 
   test("That calling root sorting endpoint calls ranking correctly") {
     val created     = clock.now()
-    val resource1Id = UUID.randomUUID()
-    val resource2Id = UUID.randomUUID()
-    val resource3Id = UUID.randomUUID()
+    val resource1Id = UUID.randomUUID().nn
+    val resource2Id = UUID.randomUUID().nn
+    val resource3Id = UUID.randomUUID().nn
     val resource1   = TestData
       .emptyDomainResource
       .copy(id = resource1Id, connection = Some(domain.ResourceConnection(None, resource1Id, 1, created)))
@@ -1040,8 +1038,8 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
 
     val sortRequest = FolderSortRequestDTO(sortedIds = List(resource1.id, resource3.id, resource2.id))
 
-    when(folderRepository.withTx(any[DBSession => Try[Unit]]())).thenAnswer((i: InvocationOnMock) => {
-      val func = i.getArgument[DBSession => Try[Unit]](0)
+    when(folderRepository.withTx(any[DBSession => Try[Unit]])).thenAnswer(i => {
+      val func = i.nn.getArgument[DBSession => Try[Unit]](0).nn
       func(mock[DBSession])
     })
 
@@ -1064,7 +1062,7 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
       description = None,
     )
     val parentFolder = domain.Folder(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       feideId = "feide",
       parentId = None,
       name = "parent",
@@ -1097,7 +1095,7 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
       description = None,
     )
     val parentFolder = domain.Folder(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       feideId = "feide",
       parentId = None,
       name = "parent",
@@ -1204,7 +1202,7 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
   }
 
   test("that can create connection between folder and user") {
-    val folderId = UUID.randomUUID()
+    val folderId = UUID.randomUUID().nn
     val feideId  = "feideId"
     val folder   = emptyDomainFolder.copy(id = folderId, status = FolderStatus.SHARED)
 
@@ -1222,8 +1220,8 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
 
   test("that folder user connections are deleted when shared folder is unshared") {
     val feideId       = "feideId"
-    val folderId      = UUID.randomUUID()
-    val folderIdChild = UUID.randomUUID()
+    val folderId      = UUID.randomUUID().nn
+    val folderIdChild = UUID.randomUUID().nn
     val folder        = emptyDomainFolder.copy(id = folderId, feideId = feideId, status = FolderStatus.SHARED)
 
     when(configService.isMyNDLAWriteRestricted).thenReturn(Success(true))
@@ -1248,8 +1246,8 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
       Failure(ValidationException("toFolderId", "fromFolderId and toFolderId has to point to two different folders"))
     }
 
-    val folder1Id = UUID.randomUUID()
-    val folder2Id = UUID.randomUUID()
+    val folder1Id = UUID.randomUUID().nn
+    val folder2Id = UUID.randomUUID().nn
 
     service.getMoveFolderIds(NullValue, NullValue) should be(expectedFailure)
     service.getMoveFolderIds(Value(folder1Id), Value(folder1Id)) should be(expectedFailure)
@@ -1258,10 +1256,10 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
   }
 
   test("that a move operation fails if the source folder does not contain all requested resources") {
-    val resource1Id = UUID.randomUUID()
-    val resource2Id = UUID.randomUUID()
-    val resource3Id = UUID.randomUUID()
-    val resource4Id = UUID.randomUUID()
+    val resource1Id = UUID.randomUUID().nn
+    val resource2Id = UUID.randomUUID().nn
+    val resource3Id = UUID.randomUUID().nn
+    val resource4Id = UUID.randomUUID().nn
     val resource1   = emptyDomainResource.copy(id = resource1Id)
     val resource2   = emptyDomainResource.copy(id = resource2Id)
     val resource3   = emptyDomainResource.copy(id = resource3Id)
@@ -1276,11 +1274,11 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
   }
 
   test("That partitioning resources to move and remove works as intended") {
-    val resource1Id = UUID.randomUUID()
-    val resource2Id = UUID.randomUUID()
-    val resource3Id = UUID.randomUUID()
-    val resource4Id = UUID.randomUUID()
-    val resource5Id = UUID.randomUUID()
+    val resource1Id = UUID.randomUUID().nn
+    val resource2Id = UUID.randomUUID().nn
+    val resource3Id = UUID.randomUUID().nn
+    val resource4Id = UUID.randomUUID().nn
+    val resource5Id = UUID.randomUUID().nn
     val resource1   = emptyDomainResource.copy(id = resource1Id)
     val resource2   = emptyDomainResource.copy(id = resource2Id)
     val resource3   = emptyDomainResource.copy(id = resource3Id)
@@ -1295,15 +1293,15 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
 
   test("that copying resources only copies resources not in the target folder") {
     val feideId        = "feideId"
-    val targetFolderId = UUID.randomUUID()
+    val targetFolderId = UUID.randomUUID().nn
 
     val favoritedDate = NDLADate.now()
 
-    val resource1Id = UUID.randomUUID()
-    val resource2Id = UUID.randomUUID()
-    val resource3Id = UUID.randomUUID()
-    val resource4Id = UUID.randomUUID()
-    val resource5Id = UUID.randomUUID()
+    val resource1Id = UUID.randomUUID().nn
+    val resource2Id = UUID.randomUUID().nn
+    val resource3Id = UUID.randomUUID().nn
+    val resource4Id = UUID.randomUUID().nn
+    val resource5Id = UUID.randomUUID().nn
 
     val resource1 = emptyDomainResource.copy(id = resource1Id, feideId = feideId)
     val resource2 = emptyDomainResource.copy(id = resource2Id, feideId = feideId)
@@ -1347,16 +1345,16 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
     "that moving resources only moves resources not in the target folder, and deletes the ones that already exist in the target folder"
   ) {
     val feideId        = "feideId"
-    val sourceFolderId = UUID.randomUUID()
-    val targetFolderId = UUID.randomUUID()
+    val sourceFolderId = UUID.randomUUID().nn
+    val targetFolderId = UUID.randomUUID().nn
 
     val favoritedDate = NDLADate.now()
 
-    val resource1Id = UUID.randomUUID()
-    val resource2Id = UUID.randomUUID()
-    val resource3Id = UUID.randomUUID()
-    val resource4Id = UUID.randomUUID()
-    val resource5Id = UUID.randomUUID()
+    val resource1Id = UUID.randomUUID().nn
+    val resource2Id = UUID.randomUUID().nn
+    val resource3Id = UUID.randomUUID().nn
+    val resource4Id = UUID.randomUUID().nn
+    val resource5Id = UUID.randomUUID().nn
 
     val resource1 = emptyDomainResource.copy(id = resource1Id, feideId = feideId)
     val resource2 = emptyDomainResource.copy(id = resource2Id, feideId = feideId)
@@ -1407,8 +1405,8 @@ class FolderWriteServiceTest extends UnitTestSuite with TestEnvironment {
       )(using any)
     ).thenReturn(Success(resource5Id))
 
-    when(folderRepository.withTx(any[DBSession => Try[Unit]]())).thenAnswer((i: InvocationOnMock) => {
-      val func = i.getArgument[DBSession => Try[Unit]](0)
+    when(folderRepository.withTx(any[DBSession => Try[Unit]])).thenAnswer(i => {
+      val func = i.nn.getArgument[DBSession => Try[Unit]](0).nn
       func(mock[DBSession])
     })
 

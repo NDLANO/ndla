@@ -9,11 +9,11 @@
 package no.ndla.validation
 
 import no.ndla.common.configuration.Constants.EmbedTagName
+import no.ndla.common.implicits.toOption
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.Entities.EscapeMode
 
-import scala.io.Source
 import scala.jdk.CollectionConverters.*
 
 object HtmlTagRules {
@@ -21,23 +21,23 @@ object HtmlTagRules {
   private[validation] lazy val attributeRules: Map[String, TagRules.TagAttributeRules] = tagRulesToJson
 
   private def tagRulesToJson: Map[String, TagRules.TagAttributeRules] = {
-    val classLoader = getClass.getClassLoader
-    val jsonStr     = Source.fromResource("html-rules.json", classLoader).mkString
-    val attrs       = TagRules.convertJsonStrToAttributeRules(jsonStr)
+    val attrs = ValidationRules.readResource("html-rules.json").map(TagRules.convertJsonStrToAttributeRules).get
 
     attrs.map { case (tagType, attrRules) =>
       tagType -> attrRules
     }
   }
 
-  def stringToJsoupDocument(htmlString: String): Element = {
-    val document = Jsoup.parseBodyFragment(htmlString)
-    document.outputSettings().escapeMode(EscapeMode.xhtml).prettyPrint(false)
-    document.select("body").first()
-  }
+  def stringToJsoupDocument(htmlString: String): Option[Element] = Jsoup
+    .parseBodyFragment(htmlString)
+    .toOption
+    .flatMap { document =>
+      document.outputSettings().toOption.flatMap(_.escapeMode(EscapeMode.xhtml).toOption).foreach(_.prettyPrint(false))
+      document.select("body").toOption.flatMap(_.first().toOption)
+    }
 
   def jsoupDocumentToString(element: Element): String = {
-    element.select("body").html()
+    element.select("body").toOption.flatMap(_.html().toOption).getOrElse("")
   }
 
   object PermittedHTML {
@@ -94,11 +94,12 @@ object HtmlTagRules {
 
   def removeIllegalAttributes(el: Element, legalAttributes: Set[String]): Seq[String] = {
     el.attributes()
-      .asScala
+      .toOption
       .toList
-      .filter(attr => !legalAttributes.contains(attr.getKey))
-      .map(illegalAttribute => {
-        val keyName = illegalAttribute.getKey
+      .flatMap(_.asScala)
+      .flatMap(_.getKey.toOption)
+      .filter(key => !legalAttributes.contains(key))
+      .map(keyName => {
         el.removeAttr(keyName)
         keyName
       })

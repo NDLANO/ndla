@@ -10,6 +10,7 @@ package no.ndla.imageapi.model.api.bulk
 
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
+import no.ndla.common.implicits.toOption
 import no.ndla.imageapi.model.api.ImageMetaInformationV3DTO
 
 case class BulkUploadItemDTO(
@@ -22,7 +23,7 @@ case class BulkUploadItemDTO(
     this.copy(status = BulkUploadItemStatus.Done, image = Some(image))
   def setUploading(): BulkUploadItemDTO           = this.copy(status = BulkUploadItemStatus.Uploading)
   def setFailed(ex: Throwable): BulkUploadItemDTO =
-    this.copy(status = BulkUploadItemStatus.Failed, error = Some(ex.getMessage))
+    this.copy(status = BulkUploadItemStatus.Failed, error = ex.getMessage.toOption)
 }
 
 object BulkUploadItemDTO {

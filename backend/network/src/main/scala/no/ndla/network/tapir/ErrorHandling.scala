@@ -11,15 +11,16 @@ package no.ndla.network.tapir
 import cats.implicits.catsSyntaxEitherId
 import com.typesafe.scalalogging.StrictLogging
 import no.ndla.common.TryUtil
+import no.ndla.common.implicits.toOption
 
 trait ErrorHandling(using errorHelpers: ErrorHelpers) extends StrictLogging {
 
   private def handleUnknownError(e: Throwable): ErrorBody = {
-    if (Thread.currentThread().isInterrupted || TryUtil.containsInterruptedException(e)) {
+    if (Thread.currentThread().toOption.exists(_.isInterrupted) || TryUtil.containsInterruptedException(e)) {
       logger.info("Thread was interrupted", e)
       errorHelpers.clientClosed
     } else {
-      logger.error(e.getMessage, e)
+      logger.error(s"Unhandled exception: ${e.getMessage}", e)
       errorHelpers.generic
     }
   }

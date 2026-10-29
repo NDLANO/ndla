@@ -14,5 +14,5 @@ import org.flywaydb.core.api.migration.{BaseJavaMigration, Context}
   * code in a migration that will never be ran again
   */
 class FinishedMigration extends BaseJavaMigration {
-  override def migrate(context: Context): Unit = {}
+  override def migrate(context: Context | Null): Unit = {}
 }

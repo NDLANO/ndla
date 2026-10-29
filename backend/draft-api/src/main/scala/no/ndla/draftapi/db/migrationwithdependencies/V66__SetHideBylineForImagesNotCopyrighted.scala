@@ -13,6 +13,8 @@ import no.ndla.draftapi.integration.ImageApiClient
 import org.jsoup.nodes.Element
 import scalikejdbc.{SQLSyntax, scalikejdbcSQLInterpolationImplicitDef}
 
+import scala.jdk.CollectionConverters.*
+
 class V66__SetHideBylineForImagesNotCopyrighted(using imageApiClient: => ImageApiClient) extends HtmlMigration {
   override val tableName: String            = "articledata a"
   override val columnName: String           = "document"
@@ -26,8 +28,10 @@ class V66__SetHideBylineForImagesNotCopyrighted(using imageApiClient: => ImageAp
     val ids = List.newBuilder[String]
     doc
       .select("ndlaembed[data-resource='image']")
-      .forEach(embed => {
-        ids += embed.attr("data-resource_id")
+      .nn
+      .asScala
+      .foreach(embed => {
+        ids += embed.attr("data-resource_id").nn
       })
     if (ids.result().isEmpty) {
       return doc
@@ -35,7 +39,9 @@ class V66__SetHideBylineForImagesNotCopyrighted(using imageApiClient: => ImageAp
     val images = imageApiClient.getImagesWithIds(ids.result()).getOrElse(List.empty)
     doc
       .select("ndlaembed[data-resource='image']")
-      .forEach(embed => {
+      .nn
+      .asScala
+      .foreach(embed => {
         val noHideByline = !embed.hasAttr("data-hide-byline")
         if (noHideByline) {
           val imageId = embed.attr("data-resource_id")

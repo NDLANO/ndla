@@ -9,6 +9,7 @@
 package no.ndla.imageapi.controller
 
 import cats.implicits.*
+import no.ndla.common.implicits.toOption
 import no.ndla.common.model.api.CommaSeparatedList.*
 import no.ndla.common.model.api.LanguageCode
 import no.ndla.common.model.domain.AiGenerated
@@ -106,7 +107,7 @@ class ImageControllerV2(using
   ) = {
     val settings = query match {
       case Some(searchString) => SearchSettings(
-          query = Some(searchString.trim),
+          query = searchString.trim.toOption,
           queryFields = queryFields,
           minimumSize = minimumSize,
           language = language,
@@ -339,7 +340,10 @@ class ImageControllerV2(using
     .post
     .summary("Upload a new image with meta information.")
     .description("Upload a new image file with meta data.")
-    .in(multipartBody[MetaDataAndFileForm](using implicitly))
+    .in {
+      import scala.language.unsafeNulls
+      multipartBody[MetaDataAndFileForm]
+    }
     .errorOut(errorOutputsFor(400, 401, 403, 413))
     .out(jsonBody[ImageMetaInformationV2DTO])
     .requirePermission(IMAGE_API_WRITE)
@@ -391,7 +395,10 @@ class ImageControllerV2(using
     .summary("Update an existing image with meta information.")
     .description("Updates an existing image with meta data.")
     .in(pathImageId)
-    .in(multipartBody[UpdateMetaDataAndFileForm])
+    .in {
+      import scala.language.unsafeNulls
+      multipartBody[UpdateMetaDataAndFileForm]
+    }
     .errorOut(errorOutputsFor(400, 401, 403))
     .out(jsonBody[ImageMetaInformationV2DTO])
     .requirePermission(IMAGE_API_WRITE)

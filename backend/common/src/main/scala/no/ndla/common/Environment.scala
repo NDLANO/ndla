@@ -10,7 +10,6 @@ package no.ndla.common
 
 import no.ndla.common.configuration.EnvironmentNotFoundException
 
-import scala.jdk.CollectionConverters.MapHasAsScala
 import scala.util.Properties.{propOrElse, propIsSet, propOrNone}
 
 /** Contains some helpers to setup and fetch props from the SystemProperties */
@@ -24,10 +23,11 @@ object Environment {
   }
 
   def setPropsFromEnv(): Unit = {
-    val envMap = System.getenv().asScala
-    envMap.foreach {
-      case (key, value) if !propIsSet(key) => System.setProperty(key, value)
-      case _                               =>
-    }
+    sys
+      .env
+      .foreach {
+        case (key, value) if !propIsSet(key) => System.setProperty(key, value)
+        case _                               =>
+      }
   }
 }

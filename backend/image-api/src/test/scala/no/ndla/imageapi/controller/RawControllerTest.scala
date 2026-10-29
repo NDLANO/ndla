@@ -13,8 +13,7 @@ import no.ndla.imageapi.model.ImageNotFoundException
 import no.ndla.imageapi.{TestEnvironment, UnitSuite}
 import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
 import no.ndla.tapirtesting.TapirControllerTest
-import org.mockito.ArgumentMatchers.{any, eq as eqTo}
-import org.mockito.Mockito.{reset, when}
+import no.ndla.testbase.NullSafeMockito.{any, eqTo, reset, when}
 import sttp.client4.PartialRequest
 import sttp.client4.quick.*
 
@@ -51,7 +50,7 @@ class RawControllerTest extends UnitSuite with TestEnvironment with TapirControl
     val res = req.get(uri"http://localhost:$serverPort/image-api/raw/$imageName").send()
     res.code.code should be(200)
 
-    val image = ImageIO.read(new ByteArrayInputStream(res.body))
+    val image = ImageIO.read(new ByteArrayInputStream(res.body)).nn
     image.getWidth should equal(189)
     image.getHeight should equal(60)
   }
@@ -66,7 +65,7 @@ class RawControllerTest extends UnitSuite with TestEnvironment with TapirControl
     when(imageStorage.get(any[String])).thenReturn(Success(TestData.ndlaLogoImageStream))
     val res = req.get(uri"http://localhost:$serverPort/image-api/raw/$imageName?width=100").send()
     res.code.code should be(200)
-    val image = ImageIO.read(new ByteArrayInputStream(res.body))
+    val image = ImageIO.read(new ByteArrayInputStream(res.body)).nn
     image.getWidth should equal(100)
   }
 
@@ -74,7 +73,7 @@ class RawControllerTest extends UnitSuite with TestEnvironment with TapirControl
     when(imageStorage.get(any[String])).thenReturn(Success(TestData.ndlaLogoImageStream))
     val res = req.get(uri"http://localhost:$serverPort/image-api/raw/$imageName?height=40").send()
     res.code.code should be(200)
-    val image = ImageIO.read(new ByteArrayInputStream(res.body))
+    val image = ImageIO.read(new ByteArrayInputStream(res.body)).nn
     image.getHeight should equal(40)
   }
 
@@ -89,7 +88,7 @@ class RawControllerTest extends UnitSuite with TestEnvironment with TapirControl
       .get(uri"http://localhost:$serverPort/image-api/raw/$imageName?cropStartX=0&cropStartY=0&cropEndX=50&cropEndY=50")
       .send()
     res.code.code should be(200)
-    val image = ImageIO.read(new ByteArrayInputStream(res.body))
+    val image = ImageIO.read(new ByteArrayInputStream(res.body)).nn
     image.getWidth should equal(94)
     image.getHeight should equal(30)
   }
@@ -102,7 +101,7 @@ class RawControllerTest extends UnitSuite with TestEnvironment with TapirControl
       )
       .send()
     res.code.code should be(200)
-    val image = ImageIO.read(new ByteArrayInputStream(res.body))
+    val image = ImageIO.read(new ByteArrayInputStream(res.body)).nn
     image.getWidth should equal(50)
     image.getHeight should equal(15)
   }
@@ -111,7 +110,7 @@ class RawControllerTest extends UnitSuite with TestEnvironment with TapirControl
     when(imageStorage.getRaw(any[String])).thenReturn(Success(TestData.ndlaLogoImageS3Object))
     val res = req.get(uri"http://localhost:$serverPort/image-api/raw/id/$id").send()
     res.code.code should be(200)
-    val image = ImageIO.read(new ByteArrayInputStream(res.body))
+    val image = ImageIO.read(new ByteArrayInputStream(res.body)).nn
     image.getWidth should equal(189)
     image.getHeight should equal(60)
   }
@@ -126,7 +125,7 @@ class RawControllerTest extends UnitSuite with TestEnvironment with TapirControl
     when(imageStorage.get(any[String])).thenReturn(Success(TestData.ndlaLogoImageStream))
     val res = req.get(uri"http://localhost:$serverPort/image-api/raw/id/$id?width=100").send()
     res.code.code should be(200)
-    val image = ImageIO.read(new ByteArrayInputStream(res.body))
+    val image = ImageIO.read(new ByteArrayInputStream(res.body)).nn
     image.getWidth should equal(100)
   }
 
@@ -134,7 +133,7 @@ class RawControllerTest extends UnitSuite with TestEnvironment with TapirControl
     when(imageStorage.get(any[String])).thenReturn(Success(TestData.ndlaLogoImageStream))
     val res = req.get(uri"http://localhost:$serverPort/image-api/raw/id/$id?height=40").send()
     res.code.code should be(200)
-    val image = ImageIO.read(new ByteArrayInputStream(res.body))
+    val image = ImageIO.read(new ByteArrayInputStream(res.body)).nn
     image.getHeight should equal(40)
   }
 
@@ -149,7 +148,7 @@ class RawControllerTest extends UnitSuite with TestEnvironment with TapirControl
       .get(uri"http://localhost:$serverPort/image-api/raw/id/$id?cropStartX=0&cropStartY=0&cropEndX=50&cropEndY=50")
       .send()
     res.code.code should be(200)
-    val image = ImageIO.read(new ByteArrayInputStream(res.body))
+    val image = ImageIO.read(new ByteArrayInputStream(res.body)).nn
     image.getWidth should equal(94)
     image.getHeight should equal(30)
   }
@@ -162,7 +161,7 @@ class RawControllerTest extends UnitSuite with TestEnvironment with TapirControl
       )
       .send()
     res.code.code should equal(200)
-    val image = ImageIO.read(new ByteArrayInputStream(res.body))
+    val image = ImageIO.read(new ByteArrayInputStream(res.body)).nn
     image.getWidth should equal(50)
     image.getHeight should equal(15)
   }
@@ -171,7 +170,7 @@ class RawControllerTest extends UnitSuite with TestEnvironment with TapirControl
     when(imageStorage.get(any[String])).thenReturn(Success(TestData.ndlaLogoGifImageStream))
     val res = req.get(uri"http://localhost:$serverPort/image-api/raw/$imageGifName?width=100").send()
     res.code.code should be(200)
-    val image = ImageIO.read(new ByteArrayInputStream(res.body))
+    val image = ImageIO.read(new ByteArrayInputStream(res.body)).nn
     image.getWidth should equal(189)
     image.getHeight should equal(60)
   }
@@ -180,7 +179,7 @@ class RawControllerTest extends UnitSuite with TestEnvironment with TapirControl
     when(imageStorage.get(any[String])).thenReturn(Success(TestData.ndlaLogoGifImageStream))
     val res = req.get(uri"http://localhost:$serverPort/image-api/raw/$imageGifName?height=40").send()
     res.code.code should be(200)
-    val image = ImageIO.read(new ByteArrayInputStream(res.body))
+    val image = ImageIO.read(new ByteArrayInputStream(res.body)).nn
     image.getWidth should equal(189)
     image.getHeight should equal(60)
   }
@@ -194,7 +193,7 @@ class RawControllerTest extends UnitSuite with TestEnvironment with TapirControl
       .send()
     res.code.code should equal(200)
 
-    val image = ImageIO.read(new ByteArrayInputStream(res.body))
+    val image = ImageIO.read(new ByteArrayInputStream(res.body)).nn
     image.getWidth should equal(189)
     image.getHeight should equal(60)
   }
@@ -208,7 +207,7 @@ class RawControllerTest extends UnitSuite with TestEnvironment with TapirControl
       .send()
     res.code.code should be(200)
 
-    val image = ImageIO.read(new ByteArrayInputStream(res.body))
+    val image = ImageIO.read(new ByteArrayInputStream(res.body)).nn
     image.getWidth should equal(189)
     image.getHeight should equal(60)
   }
@@ -228,7 +227,7 @@ class RawControllerTest extends UnitSuite with TestEnvironment with TapirControl
     when(imageStorage.get(any[String])).thenReturn(Success(TestData.ndlaLogoGifImageStream))
     val res = req.get(uri"http://localhost:$serverPort/image-api/raw/id/$idGif?width=100").send()
     res.code.code should equal(200)
-    val image = ImageIO.read(new ByteArrayInputStream(res.body))
+    val image = ImageIO.read(new ByteArrayInputStream(res.body)).nn
     image.getWidth should equal(189)
     image.getHeight should equal(60)
   }
@@ -237,7 +236,7 @@ class RawControllerTest extends UnitSuite with TestEnvironment with TapirControl
     when(imageStorage.get(any[String])).thenReturn(Success(TestData.ndlaLogoGifImageStream))
     val res = req.get(uri"http://localhost:$serverPort/image-api/raw/id/$idGif?height=40").send()
     res.code.code should equal(200)
-    val image = ImageIO.read(new ByteArrayInputStream(res.body))
+    val image = ImageIO.read(new ByteArrayInputStream(res.body)).nn
     image.getWidth should equal(189)
     image.getHeight should equal(60)
   }
@@ -249,7 +248,7 @@ class RawControllerTest extends UnitSuite with TestEnvironment with TapirControl
       .send()
 
     res.code.code should be(200)
-    val image = ImageIO.read(new ByteArrayInputStream(res.body))
+    val image = ImageIO.read(new ByteArrayInputStream(res.body)).nn
     image.getWidth should equal(189)
     image.getHeight should equal(60)
   }
@@ -263,7 +262,7 @@ class RawControllerTest extends UnitSuite with TestEnvironment with TapirControl
       .send()
     res.code.code should be(200)
 
-    val image = ImageIO.read(new ByteArrayInputStream(res.body))
+    val image = ImageIO.read(new ByteArrayInputStream(res.body)).nn
     image.getWidth should equal(189)
     image.getHeight should equal(60)
   }

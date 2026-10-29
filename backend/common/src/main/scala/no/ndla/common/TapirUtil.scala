@@ -8,6 +8,7 @@
 
 package no.ndla.common
 
+import no.ndla.common.implicits.toOption
 import sttp.tapir.Schema.SName
 import sttp.tapir.{FieldName, Schema, SchemaAnnotations, SchemaType, Validator}
 
@@ -16,13 +17,18 @@ import scala.reflect.ClassTag
 object TapirUtil {
   def withDiscriminator[T](schema: Schema[T])(implicit ct: ClassTag[T]): Schema[T] = {
     val schemaType: SchemaType[T] = schema.schemaType match {
-      case st: SchemaType.SProduct[T] =>
-        val newField = SchemaType.SProductField[T, String](
-          FieldName("typename"),
-          stringLiteralSchema(ct.runtimeClass.getSimpleName),
-          _ => throwNewError(schema),
-        )
-        st.copy(fields = st.fields :+ newField)
+      case st: SchemaType.SProduct[T] => ct
+          .runtimeClass
+          .getSimpleName
+          .toOption
+          .fold(st) { simpleName =>
+            val newField = SchemaType.SProductField[T, String](
+              FieldName("typename"),
+              stringLiteralSchema(simpleName),
+              _ => throwNewError(schema),
+            )
+            st.copy(fields = st.fields :+ newField)
+          }
       case x => x
     }
     schema.copy(schemaType = schemaType)

@@ -40,7 +40,7 @@ class V48__ConvertSizeVariantToHideByline extends BaseJavaMigration {
     sql"update contentdata set document = $dataObject where id = $id".update()
   }
 
-  override def migrate(context: Context): Unit = DB(context.getConnection)
+  override def migrate(context: Context | Null): Unit = DB(context.nn.getConnection.nn)
     .autoClose(false)
     .withinTx { session =>
       migrateRows(using session)
@@ -61,13 +61,13 @@ class V48__ConvertSizeVariantToHideByline extends BaseJavaMigration {
   }
 
   private def stringToJsoupDocument(htmlString: String): Element = {
-    val document = Jsoup.parseBodyFragment(htmlString)
-    document.outputSettings().escapeMode(EscapeMode.xhtml).prettyPrint(false)
-    document.select("body").first()
+    val document = Jsoup.parseBodyFragment(htmlString).nn
+    document.outputSettings().nn.escapeMode(EscapeMode.xhtml).nn.prettyPrint(false)
+    document.select("body").nn.first().nn
   }
 
   private def jsoupDocumentToString(element: Element): String = {
-    element.select("body").html()
+    element.select("body").nn.html().nn
   }
 
   def convertContent(c: ArticleContent): ArticleContent = {
@@ -75,14 +75,15 @@ class V48__ConvertSizeVariantToHideByline extends BaseJavaMigration {
 
     doc
       .select("ndlaembed")
+      .nn
       .forEach(embed => {
-        val dataResource = embed.attr("data-resource")
-        val hasSize      = embed.hasAttr("data-size")
+        val dataResource = embed.nn.attr("data-resource")
+        val hasSize      = embed.nn.hasAttr("data-size")
         if (dataResource == "image" && hasSize) {
-          val size = embed.attr("data-size")
+          val size = embed.nn.attr("data-size").nn
           if (size.endsWith("--hide-byline")) {
-            embed.attr("data-hide-byline", "true"): Unit
-            embed.attr("data-hide-caption", "true"): Unit
+            embed.nn.attr("data-hide-byline", "true"): Unit
+            embed.nn.attr("data-hide-caption", "true"): Unit
           }
         }
       })

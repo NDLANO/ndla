@@ -8,6 +8,7 @@
 
 package no.ndla.network.model
 
+import no.ndla.common.implicits.toOption
 import sttp.tapir.model.ServerRequest
 
 case class NdlaHttpRequest(
@@ -18,7 +19,7 @@ case class NdlaHttpRequest(
     servletPath: String,
 ) {
   def getHeader(name: String): Option[String] = getHeaderFunc(name)
-  def getToken: Option[String]                = getHeader("Authorization").map(_.replace("Bearer ", ""))
+  def getToken: Option[String]                = getHeader("Authorization").flatMap(_.replace("Bearer ", "").toOption)
 }
 
 object NdlaHttpRequest {

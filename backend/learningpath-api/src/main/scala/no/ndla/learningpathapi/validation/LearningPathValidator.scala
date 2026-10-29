@@ -10,6 +10,7 @@ package no.ndla.learningpathapi.validation
 
 import io.lemonlabs.uri.Url
 import no.ndla.common.errors.{ValidationException, ValidationMessage}
+import no.ndla.common.implicits.toOption
 import no.ndla.common.model.domain.{Author, Tag}
 import no.ndla.common.model.domain.learningpath.{Description, LearningPath, LearningpathCopyright}
 import no.ndla.learningpathapi.Props
@@ -93,7 +94,12 @@ class LearningPathValidator(descriptionRequired: Boolean = false)(using
 
   def validateIntroductionRoot(field: String, html: String): Option[ValidationMessage] = {
     val legalTopLevelTag = "section"
-    val topLevelTags     = stringToJsoupDocument(html).children().asScala.map(_.tagName()).filter(_ == legalTopLevelTag)
+    val topLevelTags     = stringToJsoupDocument(html)
+      .flatMap(_.children().toOption)
+      .toSeq
+      .flatMap(_.asScala)
+      .map(_.tagName())
+      .filter(_ == legalTopLevelTag)
     topLevelTags.size match {
       case 1 => None
       case _ => Some(

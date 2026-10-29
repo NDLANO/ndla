@@ -17,7 +17,7 @@ import no.ndla.draftapi.*
 import no.ndla.draftapi.model.domain.*
 import no.ndla.network.tapir.auth.TokenUser
 import no.ndla.scalatestsuite.DatabaseIntegrationSuite
-import org.mockito.Mockito.when
+import no.ndla.testbase.NullSafeMockito.when
 import scalikejdbc.*
 
 import java.net.Socket
@@ -409,7 +409,7 @@ class DraftRepositoryTest extends DatabaseIntegrationSuite with TestEnvironment 
 
   test("Comments are kept on publishing topic-articles") {
     val now      = NDLADate.now().withNano(0)
-    val comments = Seq(Comment(UUID.randomUUID(), now, now, "hei", isOpen = false, solved = true))
+    val comments = Seq(Comment(UUID.randomUUID().nn, now, now, "hei", isOpen = false, solved = true))
     val article  = TestData
       .sampleDomainArticle
       .copy(revision = Some(1), status = Status(DraftStatus.IN_PROGRESS, Set.empty), comments = comments)

@@ -11,5 +11,5 @@ package no.ndla.articleapi.db.migration
 import org.flywaydb.core.api.migration.{BaseJavaMigration, Context}
 
 class V43__AddProcessedCopyrightField extends BaseJavaMigration {
-  override def migrate(context: Context): Unit = {}
+  override def migrate(context: Context | Null): Unit = {}
 }

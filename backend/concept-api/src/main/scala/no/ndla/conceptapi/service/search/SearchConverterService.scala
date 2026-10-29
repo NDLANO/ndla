@@ -11,6 +11,7 @@ package no.ndla.conceptapi.service.search
 import com.sksamuel.elastic4s.requests.searches.SearchHit
 import com.typesafe.scalalogging.StrictLogging
 import no.ndla.common.CirceUtil
+import no.ndla.common.implicits.toOption
 import no.ndla.common.model.domain.draft.DraftCopyright
 import no.ndla.common.model.domain.{Tag, Title, concept}
 import no.ndla.common.model.api as commonApi
@@ -54,7 +55,14 @@ class SearchConverterService(using converterService: ConverterService) extends S
   def asSearchableConcept(c: Concept): SearchableConcept = {
     val title   = SearchableLanguageValues(c.title.map(title => LanguageValue(title.language, title.title)))
     val content = SearchableLanguageValues(
-      c.content.map(content => LanguageValue(content.language, Jsoup.parseBodyFragment(content.content).text()))
+      c.content
+        .flatMap(content =>
+          Jsoup
+            .parseBodyFragment(content.content)
+            .toOption
+            .flatMap(_.text().toOption)
+            .map(text => LanguageValue(content.language, text))
+        )
     )
     val tags          = SearchableLanguageList(c.tags.map(tag => LanguageValue(tag.language, tag.tags)))
     val visualElement =
@@ -106,10 +114,10 @@ class SearchConverterService(using converterService: ConverterService) extends S
     val supportedLanguages = getSupportedLanguages(titles, contents)
 
     val title = findByLanguageOrBestEffort(titles, language)
-      .map(converterService.toApiConceptTitle)
+      .flatMap(converterService.toApiConceptTitle)
       .getOrElse(api.ConceptTitleDTO("", "", UnknownLanguage.toString()))
     val content = findByLanguageOrBestEffort(contents, language)
-      .map(converterService.toApiConceptContent)
+      .flatMap(converterService.toApiConceptContent)
       .getOrElse(api.ConceptContent("", "", UnknownLanguage.toString()))
     val tag           = findByLanguageOrBestEffort(tags, language).map(converterService.toApiTags)
     val visualElement = findByLanguageOrBestEffort(visualElements, language).map(converterService.toApiVisualElement)

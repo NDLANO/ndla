@@ -16,8 +16,7 @@ import no.ndla.network.model.FeideUserWrapper
 import no.ndla.network.tapir.{ErrorHelpers, Routes, TapirController}
 import no.ndla.scalatestsuite.UnitTestSuite
 import no.ndla.tapirtesting.{FeideAuthTestData, TapirControllerTest}
-import org.mockito.ArgumentMatchers.{any, eq as eqTo}
-import org.mockito.Mockito.{times, verify, when}
+import no.ndla.testbase.NullSafeMockito.{any, eqTo, times, verify, when}
 import sttp.client4.quick.*
 
 import java.util.UUID
@@ -68,7 +67,7 @@ class FolderControllerTest extends UnitTestSuite with TestEnvironment with Tapir
   }
 
   test("That fetching single folder works with id") {
-    val someId = UUID.randomUUID()
+    val someId = UUID.randomUUID().nn
     when(folderReadService.getSingleFolder(eqTo(someId), any, any, any[FeideUserWrapper])).thenReturn(
       Success(
         FolderDTO(

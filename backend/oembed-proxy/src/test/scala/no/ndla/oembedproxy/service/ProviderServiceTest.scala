@@ -11,8 +11,7 @@ package no.ndla.oembedproxy.service
 import no.ndla.network.model.{HttpRequestException, NdlaRequest}
 import no.ndla.oembedproxy.model.*
 import no.ndla.oembedproxy.{TestEnvironment, UnitSuite}
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.when
+import no.ndla.testbase.NullSafeMockito.{any, when}
 import sttp.client4.quick.*
 import sttp.client4.testing.ResponseStub
 import sttp.model.StatusCode

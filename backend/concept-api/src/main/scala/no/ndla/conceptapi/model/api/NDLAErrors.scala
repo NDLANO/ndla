@@ -11,7 +11,7 @@ package no.ndla.conceptapi.model.api
 import no.ndla.conceptapi.Props
 import no.ndla.network.tapir.ErrorHelpers
 
-class ResultWindowTooLargeException(message: String) extends RuntimeException(message)
+class ResultWindowTooLargeException(val message: String) extends RuntimeException(message)
 object ResultWindowTooLargeException {
   def WINDOW_TOO_LARGE_DESCRIPTION(using props: Props): String =
     s"The result window is too large. Fetching pages above ${props.ElasticSearchIndexMaxResultWindow} results requires scrolling, see query-parameter 'search-context'."

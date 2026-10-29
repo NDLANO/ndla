@@ -30,7 +30,6 @@ import no.ndla.network.tapir.auth.TokenUser
 import no.ndla.validation.*
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
-import org.jsoup.nodes.Entities.EscapeMode
 
 import scala.jdk.CollectionConverters.*
 import scala.util.{Failure, Success, Try}
@@ -211,18 +210,18 @@ class ConverterService(using
   }
 
   def getEmbeddedConceptIds(article: Draft): Seq[Long] = {
-    val htmlElements  = article.content.map(content => HtmlTagRules.stringToJsoupDocument(content.content))
+    val htmlElements  = article.content.flatMap(content => HtmlTagRules.stringToJsoupDocument(content.content))
     val conceptEmbeds = htmlElements.flatMap(elem => {
       val conceptSelector = s"$EmbedTagName[${TagAttribute.DataResource}=${EmbedType.Concept}]"
-      elem.select(conceptSelector).asScala.toSeq
+      elem.select(conceptSelector).toOption.toList.flatMap(_.asScala)
     })
 
     val conceptIds = conceptEmbeds.flatMap(embed => {
-      Try(embed.attr(TagAttribute.DataContentId.toString).toLong) match {
+      Try(embed.attr(TagAttribute.DataContentId.toString).toOption.map(_.toLong)) match {
         case Failure(ex) =>
           logger.error(s"Could not derive concept id from embed: '${embed.toString}'", ex)
           None
-        case Success(id) => Some(id)
+        case Success(id) => id
       }
     })
     conceptIds
@@ -232,24 +231,24 @@ class ConverterService(using
     val getH5PEmbeds = (htmlElements: Seq[Element]) => {
       htmlElements.flatMap(elem => {
         val h5pSelector = s"$EmbedTagName[${TagAttribute.DataResource}=${EmbedType.H5P}]"
-        elem.select(h5pSelector).asScala.toSeq
+        elem.select(h5pSelector).toOption.toList.flatMap(_.asScala)
       })
     }
 
-    val htmlElements   = article.content.map(content => HtmlTagRules.stringToJsoupDocument(content.content))
-    val visualElements = article.visualElement.map(ve => HtmlTagRules.stringToJsoupDocument(ve.resource))
+    val htmlElements   = article.content.flatMap(content => HtmlTagRules.stringToJsoupDocument(content.content))
+    val visualElements = article.visualElement.flatMap(ve => HtmlTagRules.stringToJsoupDocument(ve.resource))
 
     val h5pEmbeds = getH5PEmbeds(htmlElements) ++ getH5PEmbeds(visualElements)
 
     h5pEmbeds.flatMap(embed => {
-      Try(embed.attr(TagAttribute.DataPath.toString)) match {
-        case Success(path) if path.isEmpty =>
+      Try(embed.attr(TagAttribute.DataPath.toString).toOption) match {
+        case Success(Some(path)) if path.isEmpty =>
           logger.error(s"Could not derive h5p path (empty string) from embed: '${embed.toString}'")
           None
         case Failure(ex) =>
           logger.error(s"Could not derive h5p path from embed: '${embed.toString}'", ex)
           None
-        case Success(path) => Some(path)
+        case Success(path) => path
       }
     })
   }
@@ -258,20 +257,25 @@ class ConverterService(using
     common.RequiredLibrary(requiredLibs.mediaType, requiredLibs.name, requiredLibs.url)
   }
 
-  private def removeUnknownEmbedTagAttribute(html: String): String = {
-    val document = HtmlTagRules.stringToJsoupDocument(html)
-    document
-      .select(EmbedTagName)
-      .asScala
-      .foreach(el => {
-        EmbedType
-          .withNameOption(el.attr(TagAttribute.DataResource.toString))
-          .map(EmbedTagRules.attributesForResourceType)
-          .map(knownAttributes => HtmlTagRules.removeIllegalAttributes(el, knownAttributes.all.map(_.toString)))
-      })
+  private def removeUnknownEmbedTagAttribute(html: String): String = HtmlTagRules
+    .stringToJsoupDocument(html)
+    .map { document =>
+      document
+        .select(EmbedTagName)
+        .toOption
+        .toList
+        .flatMap(_.asScala)
+        .foreach(el => {
+          el.attr(TagAttribute.DataResource.toString)
+            .toOption
+            .flatMap(EmbedType.withNameOption)
+            .map(EmbedTagRules.attributesForResourceType)
+            .map(knownAttributes => HtmlTagRules.removeIllegalAttributes(el, knownAttributes.all.map(_.toString)))
+        })
 
-    HtmlTagRules.jsoupDocumentToString(document)
-  }
+      HtmlTagRules.jsoupDocumentToString(document)
+    }
+    .getOrElse(html)
 
   private def toApiResponsible(responsible: Responsible): ResponsibleDTO =
     ResponsibleDTO(responsibleId = responsible.responsibleId, lastUpdated = responsible.lastUpdated)
@@ -358,8 +362,11 @@ class ConverterService(using
 
   private def toApiStatus(status: common.Status): api.StatusDTO = api.StatusDTO(status.current, status.other.toSeq)
 
-  def toApiArticleTitle(title: common.Title): api.ArticleTitleDTO =
-    api.ArticleTitleDTO(Jsoup.parseBodyFragment(title.title).body().text(), title.title, title.language)
+  def toApiArticleTitle(title: common.Title): api.ArticleTitleDTO = api.ArticleTitleDTO(
+    Jsoup.parseBodyFragment(title.title).toOption.flatMap(_.body().toOption).flatMap(_.text().toOption).getOrElse(""),
+    title.title,
+    title.language,
+  )
 
   private def toApiArticleContent(content: common.ArticleContent): api.ArticleContentDTO =
     api.ArticleContentDTO(content.content, content.language)
@@ -417,7 +424,12 @@ class ConverterService(using
 
   def toApiArticleIntroduction(intro: common.Introduction): api.ArticleIntroductionDTO = {
     api.ArticleIntroductionDTO(
-      Jsoup.parseBodyFragment(intro.introduction).body().text(),
+      Jsoup
+        .parseBodyFragment(intro.introduction)
+        .toOption
+        .flatMap(_.body().toOption)
+        .flatMap(_.text().toOption)
+        .getOrElse(""),
       intro.introduction,
       intro.language,
     )
@@ -471,18 +483,21 @@ class ConverterService(using
     }
   }
 
-  def filterComments(content: Seq[ArticleContent]): Seq[ArticleContent] = {
-    val contents = content.map(cont => {
-      val document = Jsoup.parseBodyFragment(cont.content)
-      document.outputSettings().escapeMode(EscapeMode.xhtml).prettyPrint(false).indentAmount(0)
+  def filterComments(content: Seq[ArticleContent]): Try[Seq[ArticleContent]] = {
+    content
+      .toList
+      .traverse(cont =>
+        HtmlTagRules
+          .stringToJsoupDocument(cont.content)
+          .toTry(ValidationException("content", "Unable to parse the content as HTML."))
+          .map { body =>
+            val commentEmbeds = body.select("[data-resource='comment']")
+            commentEmbeds.toOption.foreach(_.unwrap())
 
-      val commentEmbeds = document.select("[data-resource='comment']")
-      commentEmbeds.unwrap()
-
-      val newContentString = document.select("body").first().html()
-      cont.copy(content = newContentString)
-    })
-    contents
+            val newContentString = HtmlTagRules.jsoupDocumentToString(body)
+            cont.copy(content = newContentString)
+          }
+      )
   }
 
   def toArticleApiArticle(draft: Draft, validate: Boolean): Try[common.article.Article] = {
@@ -495,6 +510,7 @@ class ConverterService(using
         case None if validate => Success(clock.now())
         case _                => Failure(ValidationException("published", "Published must be present when publishing an article"))
       }
+      content <- filterComments(draft.content)
     } yield common
       .article
       .Article(
@@ -502,7 +518,7 @@ class ConverterService(using
         revision = draft.revision,
         externalIds = draft.externalIds,
         title = draft.title,
-        content = filterComments(draft.content),
+        content = content,
         copyright = toArticleApiCopyright(copyright),
         tags = draft.tags,
         requiredLibraries = draft.requiredLibraries,
@@ -547,22 +563,32 @@ class ConverterService(using
   }
 
   private def getExistingPaths(content: String): Seq[String] = {
-    val doc        = HtmlTagRules.stringToJsoupDocument(content)
-    val fileEmbeds = doc.select(s"$EmbedTagName[${TagAttribute.DataResource}='${EmbedType.File}']").asScala.toSeq
+    val fileEmbeds = HtmlTagRules
+      .stringToJsoupDocument(content)
+      .flatMap(_.select(s"$EmbedTagName[${TagAttribute.DataResource}='${EmbedType.File}']").toOption)
+      .toList
+      .flatMap(_.asScala)
     fileEmbeds.flatMap(e => Option(e.attr(TagAttribute.DataPath.toString)))
   }
 
-  private def cloneFilesIfExists(existingContent: Seq[String], newContent: String): Try[String] = {
+  private def cloneFilesIfExists(existingContent: Seq[String], newContent: String): Try[String] = permitTry {
     val existingFiles = existingContent.flatMap(getExistingPaths)
 
-    val doc        = HtmlTagRules.stringToJsoupDocument(newContent)
-    val fileEmbeds = doc.select(s"$EmbedTagName[${TagAttribute.DataResource}='${EmbedType.File}']").asScala
+    val doc = HtmlTagRules
+      .stringToJsoupDocument(newContent)
+      .toTry(ValidationException("content", "Unable to parse the content as HTML."))
+      .?
+    val fileEmbeds = doc
+      .select(s"$EmbedTagName[${TagAttribute.DataResource}='${EmbedType.File}']")
+      .toOption
+      .toList
+      .flatMap(_.asScala)
 
     val embedsToCloneFile = fileEmbeds.filter(embed => {
       Option(embed.attr(TagAttribute.DataPath.toString)).exists(dataPath => existingFiles.contains(dataPath))
     })
 
-    val cloned = embedsToCloneFile.toList.map(writeService.cloneEmbedAndUpdateElement).sequence
+    val cloned = embedsToCloneFile.map(writeService.cloneEmbedAndUpdateElement).sequence
 
     cloned match {
       case Failure(ex) => Failure(ex)

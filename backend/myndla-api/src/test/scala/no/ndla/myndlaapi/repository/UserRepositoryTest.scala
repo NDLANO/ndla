@@ -20,7 +20,7 @@ import java.util.UUID
 import scala.util.{Success, Try}
 
 class UserRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with TestEnvironment {
-  override lazy val schemaName: String              = s"userrepotest_${ProcessHandle.current().pid()}"
+  override lazy val schemaName: String              = s"userrepotest_${ProcessHandle.current().nn.pid()}"
   override implicit lazy val dataSource: DataSource = testDataSource.get
   override implicit lazy val migrator: DBMigrator   = new DBMigrator
   override implicit lazy val DBUtil: DBUtility      = new DBUtility
@@ -170,7 +170,7 @@ class UserRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with Te
 
     insertUser(feideId, userDocument("Alice", "alice", UserRole.STUDENT))
     insertUser("feide-other", userDocument("Bob", "bob", UserRole.STUDENT))
-    val quizId = UUID.randomUUID()
+    val quizId = UUID.randomUUID().nn
     sql"insert into quizzes (id, owner_id, document) values ($quizId, 'quiz-owner', '{}'::jsonb)".update()
     sql"insert into saved_quizzes (quiz_id, feide_id) values ($quizId, $feideId)".update()
     sql"insert into saved_quizzes (quiz_id, feide_id) values ($quizId, 'feide-other')".update()

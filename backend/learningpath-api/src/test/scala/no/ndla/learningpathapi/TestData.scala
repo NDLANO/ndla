@@ -66,7 +66,7 @@ object TestData {
   )
 
   val revisionMetaSeq = Seq(
-    RevisionMeta(id = UUID.randomUUID(), today.plusYears(5), RevisionMeta.defaultNote, RevisionStatus.NeedsRevision)
+    RevisionMeta(id = UUID.randomUUID().nn, today.plusYears(5), RevisionMeta.defaultNote, RevisionStatus.NeedsRevision)
   )
 
   val sampleDomainLearningPath: LearningPath = LearningPath(

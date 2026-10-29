@@ -12,7 +12,6 @@ import no.ndla.common.model.api.{CommentDTO, NewCommentDTO, UpdatedCommentDTO}
 import no.ndla.common.model.domain.Comment
 import no.ndla.common.{Clock, UUIDUtil}
 import no.ndla.common.model.api.RevisionMetaDTO
-import java.util.UUID
 import no.ndla.common.model.domain.RevisionMeta
 import no.ndla.common.model.domain.RevisionStatus
 
@@ -68,7 +67,7 @@ class CommonConverter(using clock: Clock, uuidUtil: UUIDUtil) {
 
   def revisionMetaApiToDomain(revisionMeta: RevisionMetaDTO): RevisionMeta = {
     RevisionMeta(
-      id = revisionMeta.id.map(UUID.fromString).getOrElse(uuidUtil.randomUUID()),
+      id = revisionMeta.id.map(UUIDUtil.fromString).getOrElse(uuidUtil.randomUUID()),
       revisionDate = revisionMeta.revisionDate,
       note = revisionMeta.note,
       status = RevisionStatus.fromStringDefault(revisionMeta.status),

@@ -18,7 +18,7 @@ import scala.util.{Failure, Success}
 
 class V11__frontpage_hide_level_flag extends BaseJavaMigration {
 
-  override def migrate(context: Context): Unit = DB(context.getConnection)
+  override def migrate(context: Context | Null): Unit = DB(context.nn.getConnection.nn)
     .autoClose(false)
     .withinTx { implicit session =>
       frontPageData.map(convertFrontpage).foreach(update)

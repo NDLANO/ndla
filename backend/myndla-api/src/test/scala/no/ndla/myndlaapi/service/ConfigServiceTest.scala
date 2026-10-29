@@ -15,8 +15,7 @@ import no.ndla.myndlaapi.{TestData, TestEnvironment}
 import no.ndla.common.auth.Permission.{LEARNINGPATH_API_ADMIN, LEARNINGPATH_API_PUBLISH}
 import no.ndla.network.tapir.auth.TokenUser
 import no.ndla.scalatestsuite.UnitTestSuite
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.when
+import no.ndla.testbase.NullSafeMockito.{any, when}
 import scalikejdbc.DBSession
 
 import scala.util.{Failure, Success}

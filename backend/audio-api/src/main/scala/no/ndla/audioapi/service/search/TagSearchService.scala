@@ -109,7 +109,7 @@ class TagSearchService(using
       case Success(reindexResult) => logger.info(
           s"Completed indexing of tags of ${reindexResult.totalIndexed} articles in ${reindexResult.millisUsed} ms."
         )
-      case Failure(ex) => logger.warn(ex.getMessage, ex)
+      case Failure(ex) => logger.warn(s"Unable to index documents: ${ex.getMessage}", ex)
     }
   }
 

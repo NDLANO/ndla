@@ -19,8 +19,8 @@ class ControllerErrorHandling(using clock: Clock, errorHelpers: ErrorHelpers) ex
   private val statusCodesToPassAlong = List(401, 403, 404, 410)
 
   override def handleErrors: PartialFunction[Throwable, AllErrors] = {
-    case ivu: InvalidUrlException                       => ErrorBody(INVALID_URL, ivu.getMessage, clock.now(), 400)
-    case pnse: ProviderNotSupportedException            => ErrorBody(PROVIDER_NOT_SUPPORTED, pnse.getMessage, clock.now(), 422)
+    case ivu: InvalidUrlException                       => ErrorBody(INVALID_URL, ivu.message, clock.now(), 400)
+    case pnse: ProviderNotSupportedException            => ErrorBody(PROVIDER_NOT_SUPPORTED, pnse.message, clock.now(), 422)
     case ex @ HttpRequestException(exMessage, response) =>
       val statusCode = response.code.code
       val msg        = s"'$exMessage': Received '${response.code}' '${response.statusText}'. Body was '${response.body}'"

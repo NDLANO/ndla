@@ -17,8 +17,11 @@ import scala.collection.mutable.ListBuffer
 object Layout {
   lazy val prebuiltLayout: PatternLayout = PatternLayout
     .newBuilder()
+    .nn
     .setPattern("[%level] (%X{correlationID}) %C.%M#%L: %msg%n")
+    .nn
     .build()
+    .nn
 }
 
 class BufferedLogAppender
@@ -32,8 +35,15 @@ class BufferedLogAppender
     toReturn
   }
 
-  override def append(event: LogEvent): Unit = {
-    val logString = getLayout.toSerializable(event).toString
+  override def append(event: LogEvent | Null): Unit = {
+    // Calling `toSerializable` through the generic `Layout` is erased to a non-existent `Object`-returning method
+    // under -Yno-flexible-types, so it must go through the concrete `PatternLayout`.
+    val layout = getLayout match {
+      case patternLayout: PatternLayout => patternLayout
+      case other                        =>
+        throw new IllegalStateException(s"Appender '$getName' needs a PatternLayout to format log events, got: $other")
+    }
+    val logString = layout.toSerializable(event).toString
     logQueue.append(logString)
   }
 }

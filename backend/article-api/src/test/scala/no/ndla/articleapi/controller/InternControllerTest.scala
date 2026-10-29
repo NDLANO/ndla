@@ -15,9 +15,7 @@ import no.ndla.common.model.domain.article.Article
 import no.ndla.common.model.domain.{Author, ContributorType}
 import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
 import no.ndla.tapirtesting.{NdlaAuthTestTokens, TapirControllerTest}
-import org.mockito.ArgumentMatchers.{any, eq as eqTo}
-import org.mockito.Mockito.*
-import org.mockito.invocation.InvocationOnMock
+import no.ndla.testbase.NullSafeMockito.*
 import sttp.client4.quick.*
 
 import scala.util.{Failure, Success, Try}
@@ -112,9 +110,7 @@ class InternControllerTest extends UnitSuite with TestEnvironment with TapirCont
 
   test("that update article arguments are parsed correctly") {
     reset(writeService)
-    when(writeService.updateArticle(any, any, any, any)(any)).thenAnswer((i: InvocationOnMock) =>
-      Success(i.getArgument[Article](0))
-    )
+    when(writeService.updateArticle(any, any, any, any)(any)).thenAnswer(i => Success(i.nn.getArgument[Article](0)))
     val authHeaderWithWriteRole = s"Bearer ${NdlaAuthTestTokens.ArticleWrite}"
 
     import io.circe.syntax.*

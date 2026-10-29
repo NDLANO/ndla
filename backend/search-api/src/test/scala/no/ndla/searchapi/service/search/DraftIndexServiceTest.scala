@@ -20,8 +20,7 @@ import no.ndla.search.TestUtility.{getFields, getMappingFields}
 import no.ndla.searchapi.model.domain.IndexingBundle
 import no.ndla.searchapi.service.ConverterService
 import no.ndla.searchapi.{TestData, TestEnvironment, UnitSuite}
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.when
+import no.ndla.testbase.NullSafeMockito.{any, when}
 
 import java.util.UUID
 import scala.util.Success
@@ -75,7 +74,7 @@ class DraftIndexServiceTest extends ElasticsearchIntegrationSuite with UnitSuite
         notes = Seq(EditorNote("hei", "test", Status(DraftStatus.PLANNED, Set(DraftStatus.IMPORTED)), now)),
         previousVersionsNotes =
           Seq(EditorNote("hei", "test", Status(DraftStatus.PLANNED, Set(DraftStatus.IMPORTED)), now)),
-        revisionMeta = Seq(RevisionMeta(UUID.randomUUID(), now, "hei", RevisionStatus.NeedsRevision)),
+        revisionMeta = Seq(RevisionMeta(UUID.randomUUID().nn, now, "hei", RevisionStatus.NeedsRevision)),
         responsible = Some(Responsible("yolo", now)),
         traits = List(ArticleTrait.Interactive),
       )

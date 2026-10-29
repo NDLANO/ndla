@@ -144,23 +144,35 @@ class WriteService(using
   }
 
   def contentWithClonedFiles(contents: List[common.ArticleContent]): Try[List[common.ArticleContent]] = {
-    contents.traverse(content => {
-      val doc    = HtmlTagRules.stringToJsoupDocument(content.content)
-      val embeds = doc.select(s"$EmbedTagName[${TagAttribute.DataResource}='${EmbedType.File}']").asScala
+    contents.traverse(content =>
+      permitTry {
+        val doc = HtmlTagRules
+          .stringToJsoupDocument(content.content)
+          .toTry(ValidationException("content", "Unable to parse the content as HTML."))
+          .?
+        val embeds = doc
+          .select(s"$EmbedTagName[${TagAttribute.DataResource}='${EmbedType.File}']")
+          .toOption
+          .toList
+          .flatMap(_.asScala)
 
-      embeds.toList.traverse(cloneEmbedAndUpdateElement) match {
-        case Failure(ex) => Failure(ex)
-        case Success(_)  => Success(content.copy(HtmlTagRules.jsoupDocumentToString(doc)))
+        embeds.traverse(cloneEmbedAndUpdateElement) match {
+          case Failure(ex) => Failure(ex)
+          case Success(_)  => Success(content.copy(HtmlTagRules.jsoupDocumentToString(doc)))
+        }
       }
-    })
+    )
   }
 
   /** MUTATES fileEmbed by cloning file and updating data-path */
   def cloneEmbedAndUpdateElement(fileEmbed: Element): Try[Element] = {
     Option(fileEmbed.attr(TagAttribute.DataPath.toString)) match {
-      case Some(existingPath) => cloneFileAndGetNewPath(existingPath).map(newPath => {
+      case Some(existingPath) => cloneFileAndGetNewPath(existingPath).flatMap(newPath => {
           // Jsoup is mutable and we use it here to update the embeds data-path with the cloned file
-          fileEmbed.attr(TagAttribute.DataPath.toString, newPath)
+          fileEmbed
+            .attr(TagAttribute.DataPath.toString, newPath)
+            .toOption
+            .toTry(api.CloneFileException(s"Could not update ${TagAttribute.DataPath} of file embed '$fileEmbed'."))
         })
       case None =>
         Failure(api.CloneFileException(s"Could not get ${TagAttribute.DataPath} of file embed '$fileEmbed'."))
@@ -625,7 +637,7 @@ class WriteService(using
 
     fileName.lastIndexOf(".") match {
       case index: Int if index > -1 =>
-        props.supportedUploadExtensions.find(_ == fileName.substring(index).toLowerCase) match {
+        props.supportedUploadExtensions.find(_ == fileName.drop(index).toLowerCase) match {
           case Some(e) => Success(e)
           case _       => Failure(badExtensionError)
         }
@@ -844,7 +856,7 @@ class WriteService(using
         }
         val failures = res.collect { case (id, Failure(ex)) =>
           logger.error(s"Partial publishing $id failed with ${ex.getMessage}", ex)
-          api.PartialPublishFailureDTO(id, ex.getMessage)
+          api.PartialPublishFailureDTO(id, ex.getMessage.toOption.getOrElse(s"Partial publishing $id failed"))
         }
 
         Success(api.MultiPartialPublishResultDTO(successes = successes, failures = failures))

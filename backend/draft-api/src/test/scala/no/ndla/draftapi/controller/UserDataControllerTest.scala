@@ -14,8 +14,7 @@ import no.ndla.draftapi.{TestData, TestEnvironment, UnitSuite}
 import no.ndla.network.tapir.auth.TokenUser
 import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
 import no.ndla.tapirtesting.TapirControllerTest
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.{reset, when}
+import no.ndla.testbase.NullSafeMockito.{any, reset, when}
 import org.postgresql.util.{PSQLException, PSQLState}
 import sttp.client4.quick.*
 

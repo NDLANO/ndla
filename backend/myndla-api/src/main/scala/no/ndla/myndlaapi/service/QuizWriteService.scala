@@ -8,7 +8,7 @@
 
 package no.ndla.myndlaapi.service
 
-import no.ndla.common.Clock
+import no.ndla.common.{Clock, UUIDUtil}
 import no.ndla.common.model.domain.Title
 import no.ndla.database.DBUtility
 import no.ndla.myndlaapi.model.api.*
@@ -83,7 +83,7 @@ class QuizWriteService(using
           else Failure(QuizErrors.notOwner(id))
         now    = clock.now()
         cloned = existing.copy(
-          id = UUID.randomUUID(),
+          id = UUIDUtil.randomUUID(),
           ownerId = user.id,
           revision = None,
           created = now,
@@ -96,8 +96,8 @@ class QuizWriteService(using
             .questions
             .map(question =>
               question.copy(
-                id = UUID.randomUUID(),
-                alternatives = question.alternatives.map(_.copy(id = UUID.randomUUID())),
+                id = UUIDUtil.randomUUID(),
+                alternatives = question.alternatives.map(_.copy(id = UUIDUtil.randomUUID())),
                 created = now,
                 updated = now,
               )

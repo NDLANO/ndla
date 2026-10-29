@@ -17,8 +17,7 @@ import no.ndla.network.tapir.{ErrorHelpers, Routes, TapirController}
 import no.ndla.network.tapir.auth.TokenUser
 import no.ndla.scalatestsuite.UnitTestSuite
 import no.ndla.tapirtesting.{NdlaAuthTestTokens, TapirControllerTest}
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.when
+import no.ndla.testbase.NullSafeMockito.{any, when}
 import sttp.client4.quick.*
 
 import scala.util.Success

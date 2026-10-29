@@ -35,7 +35,7 @@ class ArticleSearchService(using
 
   override val searchIndex: String = props.DraftSearchIndex
 
-  override def hitToApiModel(hit: String, language: String): api.ArticleSummaryDTO = searchConverterService
+  override def hitToApiModel(hit: String, language: String): Try[api.ArticleSummaryDTO] = searchConverterService
     .hitAsArticleSummary(hit, language)
 
   def matchingQuery(settings: SearchSettings): Try[SearchResult[api.ArticleSummaryDTO]] = {
@@ -115,13 +115,13 @@ class ArticleSearchService(using
         }
 
       e4sClient.execute(searchWithScroll) match {
-        case Success(response) => Success(
+        case Success(response) => getHits(response.result, settings.searchLanguage).map(hits =>
             SearchResult(
               response.result.totalHits,
               Some(settings.page),
               numResults,
               searchLanguage,
-              getHits(response.result, settings.searchLanguage),
+              hits,
               response.result.scrollId,
             )
           )
@@ -141,7 +141,7 @@ class ArticleSearchService(using
     f.foreach {
       case Success(reindexResult) =>
         logger.info(s"Completed indexing of ${reindexResult.totalIndexed} articles in ${reindexResult.millisUsed} ms.")
-      case Failure(ex) => logger.warn(ex.getMessage, ex)
+      case Failure(ex) => logger.warn(s"Unable to index articles: ${ex.getMessage}", ex)
     }
   }
 

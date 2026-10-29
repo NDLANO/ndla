@@ -34,7 +34,7 @@ class TagSearchService(using
     with StrictLogging {
   override val searchIndex: String = props.DraftTagSearchIndex
 
-  override def hitToApiModel(hit: String, language: String): String = {
+  override def hitToApiModel(hit: String, language: String): Try[String] = Success {
     decode[SearchableTag](hit) match {
       case Right(searchableTag) => searchableTag.tag
       case Left(_)              => hit // fallback to raw hit if parsing fails
@@ -87,14 +87,14 @@ class TagSearchService(using
         }
 
       e4sClient.execute(searchWithScroll) match {
-        case Success(response) => Success(
+        case Success(response) => getHits(response.result, language).map(hits =>
             SearchResult(
               response.result.totalHits,
               Some(page),
               numResults,
               if (language == "*") Language.AllLanguages
               else language,
-              getHits(response.result, language),
+              hits,
               response.result.scrollId,
             )
           )
@@ -115,7 +115,7 @@ class TagSearchService(using
       case Success(reindexResult) => logger.info(
           s"Completed indexing of tags of ${reindexResult.totalIndexed} articles in ${reindexResult.millisUsed} ms."
         )
-      case Failure(ex) => logger.warn(ex.getMessage, ex)
+      case Failure(ex) => logger.warn(s"Unable to index tags: ${ex.getMessage}", ex)
     }
   }
 

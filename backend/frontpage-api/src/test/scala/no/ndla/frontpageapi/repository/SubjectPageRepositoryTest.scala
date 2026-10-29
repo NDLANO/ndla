@@ -13,8 +13,7 @@ import no.ndla.database.{DBMigrator, DBUtility, DataSource}
 import no.ndla.frontpageapi.model.domain.DBSubjectPage
 import no.ndla.frontpageapi.{TestData, TestEnvironment}
 import no.ndla.scalatestsuite.DatabaseIntegrationSuite
-import org.mockito.Mockito.{spy, times, verify}
-import org.mockito.ArgumentMatchers.any
+import no.ndla.testbase.NullSafeMockito.{any, spy, times, verify}
 import scalikejdbc.*
 
 import java.net.Socket

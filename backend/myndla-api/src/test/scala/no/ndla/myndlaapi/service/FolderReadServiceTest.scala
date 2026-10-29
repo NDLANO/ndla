@@ -19,8 +19,7 @@ import no.ndla.myndlaapi.model.domain.Resource
 import no.ndla.myndlaapi.{TestData, TestEnvironment}
 import no.ndla.network.model.{FeideIdToken, FeideUserWrapper}
 import no.ndla.scalatestsuite.UnitTestSuite
-import org.mockito.ArgumentMatchers.{any, eq as eqTo}
-import org.mockito.Mockito.{times, verify, when}
+import no.ndla.testbase.NullSafeMockito.{any, eqTo, spy, times, verify, when}
 import scalikejdbc.DBSession
 
 import java.util.UUID
@@ -28,11 +27,8 @@ import scala.util.{Failure, Success, Try}
 
 class FolderReadServiceTest extends UnitTestSuite with TestEnvironment {
 
-  override implicit lazy val folderConverterService: FolderConverterService = org
-    .mockito
-    .Mockito
-    .spy(new FolderConverterService)
-  val service = new FolderReadService
+  override implicit lazy val folderConverterService: FolderConverterService = spy(new FolderConverterService)
+  val service                                                               = new FolderReadService
 
   override def beforeEach(): Unit = {
     super.beforeEach()
@@ -47,10 +43,10 @@ class FolderReadServiceTest extends UnitTestSuite with TestEnvironment {
   test("That getSingleFolder returns folder and its data when user is the owner") {
     val created        = clock.now()
     val feideId        = "FEIDE"
-    val mainFolderUUID = UUID.randomUUID()
-    val subFolder1UUID = UUID.randomUUID()
-    val subFolder2UUID = UUID.randomUUID()
-    val resource1UUID  = UUID.randomUUID()
+    val mainFolderUUID = UUID.randomUUID().nn
+    val subFolder1UUID = UUID.randomUUID().nn
+    val subFolder2UUID = UUID.randomUUID().nn
+    val resource1UUID  = UUID.randomUUID().nn
 
     val mainFolder = domain.Folder(
       id = mainFolderUUID,
@@ -200,7 +196,7 @@ class FolderReadServiceTest extends UnitTestSuite with TestEnvironment {
   }
 
   test("That getSingleFolder fails if user does not own the folder") {
-    val mainFolderUUID = UUID.randomUUID()
+    val mainFolderUUID = UUID.randomUUID().nn
 
     when(folderRepository.folderWithId(eqTo(mainFolderUUID))(using any)).thenReturn(Success(emptyDomainFolder))
     when(folderRepository.getFolderAndChildrenSubfolders(any)(using any)).thenReturn(Success(Some(emptyDomainFolder)))
@@ -219,7 +215,7 @@ class FolderReadServiceTest extends UnitTestSuite with TestEnvironment {
   test("that getFolders includes folders saved from other users") {
     val feideId            = "feide1"
     val user               = emptyMyNDLAUser.copy(id = 1996, displayName = "hallois")
-    val folderId           = UUID.randomUUID()
+    val folderId           = UUID.randomUUID().nn
     val sharedFolderDomain = emptyDomainFolder.copy(id = folderId, name = "SharedFolder", status = FolderStatus.SHARED)
     val savedFolderDomain  =
       emptyDomainFolder.copy(id = folderId, name = "SharedFolder", status = FolderStatus.SHARED, user = Some(user))
@@ -259,8 +255,8 @@ class FolderReadServiceTest extends UnitTestSuite with TestEnvironment {
     when(clock.now()).thenReturn(created)
 
     val feideId        = "yee boiii"
-    val resourceId     = UUID.randomUUID()
-    val folderId       = UUID.randomUUID()
+    val resourceId     = UUID.randomUUID().nn
+    val folderId       = UUID.randomUUID().nn
     val folderWithId   = emptyDomainFolder.copy(id = folderId)
     val domainResource = emptyDomainResource.copy(id = resourceId, created = created)
 
@@ -291,7 +287,7 @@ class FolderReadServiceTest extends UnitTestSuite with TestEnvironment {
   }
 
   test("That getSharedFolder returns a folder if the status is shared") {
-    val folderUUID   = UUID.randomUUID()
+    val folderUUID   = UUID.randomUUID().nn
     val folderWithId = emptyDomainFolder.copy(id = folderUUID, status = FolderStatus.SHARED)
     val apiFolder    = emptyApiFolder.copy(
       id = folderUUID,
@@ -328,7 +324,7 @@ class FolderReadServiceTest extends UnitTestSuite with TestEnvironment {
       lastSeen = now,
     )
 
-    val folderUUID   = UUID.randomUUID()
+    val folderUUID   = UUID.randomUUID().nn
     val folderWithId = emptyDomainFolder.copy(id = folderUUID, status = FolderStatus.SHARED)
     val apiFolder    = emptyApiFolder.copy(
       id = folderUUID,
@@ -349,7 +345,7 @@ class FolderReadServiceTest extends UnitTestSuite with TestEnvironment {
   }
 
   test("That getSharedFolder returns a Failure Not Found if the status is not shared") {
-    val folderUUID   = UUID.randomUUID()
+    val folderUUID   = UUID.randomUUID().nn
     val folderWithId = emptyDomainFolder.copy(id = folderUUID, status = FolderStatus.PRIVATE)
 
     when(
@@ -399,8 +395,8 @@ class FolderReadServiceTest extends UnitTestSuite with TestEnvironment {
     when(clock.now()).thenReturn(TestData.today)
     val now          = clock.now()
     val ownerId      = "ownerId"
-    val folderUUID   = UUID.randomUUID()
-    val resourceUUID = UUID.randomUUID()
+    val folderUUID   = UUID.randomUUID().nn
+    val resourceUUID = UUID.randomUUID().nn
     val resource     = emptyDomainResource.copy(
       id = resourceUUID,
       feideId = ownerId,
@@ -472,7 +468,7 @@ class FolderReadServiceTest extends UnitTestSuite with TestEnvironment {
     val created  = clock.now()
     val path     = "/subject/1/topic/1/resource/4"
     val resource = Resource(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       feideId = ownerId,
       resourceType = ResourceType.Article,
       path = path,

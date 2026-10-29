@@ -10,7 +10,7 @@ package no.ndla.myndlaapi.service
 
 import cats.implicits.*
 import com.typesafe.scalalogging.StrictLogging
-import no.ndla.common.Clock
+import no.ndla.common.{Clock, UUIDUtil}
 import no.ndla.common.errors.{AccessDeniedException, NotFoundException, ValidationException}
 import no.ndla.common.implicits.*
 import no.ndla.common.model.NDLADate
@@ -126,7 +126,7 @@ class FolderWriteService(using
       .zipWithIndex
       .foldLeft(toInsert) { case (acc, cur) =>
         val (curResource, idx) = cur
-        val newResourceId      = UUID.randomUUID()
+        val newResourceId      = UUIDUtil.randomUUID()
         acc
           .addResource(
             domain.Resource(
@@ -155,7 +155,7 @@ class FolderWriteService(using
       .subfolders
       .foldLeft(withResources) { case (acc, cur) =>
         val newFolder = domain.Folder(
-          id = UUID.randomUUID(),
+          id = UUIDUtil.randomUUID(),
           feideId = feideId,
           parentId = destination.id.some,
           name = cur.name,

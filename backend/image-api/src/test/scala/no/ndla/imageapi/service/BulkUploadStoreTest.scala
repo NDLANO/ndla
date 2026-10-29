@@ -12,8 +12,7 @@ import no.ndla.common.CirceUtil
 import no.ndla.imageapi.{TestEnvironment, UnitSuite}
 import no.ndla.imageapi.model.api.bulk.{BulkUploadItemDTO, BulkUploadItemStatus, BulkUploadStateDTO, BulkUploadStatus}
 import no.ndla.network.clients.rediscache.{RedisStoredType, ScalaJedis}
-import org.mockito.ArgumentMatchers.{any, eq as eqTo}
-import org.mockito.Mockito.{reset, verify, when}
+import no.ndla.testbase.NullSafeMockito.{any, eqTo, reset, verify, when}
 
 import java.util.UUID
 import java.util.concurrent.atomic.AtomicReference
@@ -38,7 +37,7 @@ class BulkUploadStoreTest extends UnitSuite with TestEnvironment {
   )
 
   test("get returns Success(None) when redis has no entry for the upload-id") {
-    val uploadId = UUID.randomUUID()
+    val uploadId = UUID.randomUUID().nn
     when(jedis.hget(eqTo(BulkUploadType), eqTo(uploadId.toString), eqTo(BulkUploadType.stateField))).thenReturn(
       Success(None)
     )
@@ -47,7 +46,7 @@ class BulkUploadStoreTest extends UnitSuite with TestEnvironment {
   }
 
   test("get returns Failure when the cached JSON cannot be parsed") {
-    val uploadId = UUID.randomUUID()
+    val uploadId = UUID.randomUUID().nn
     when(jedis.hget(eqTo(BulkUploadType), eqTo(uploadId.toString), eqTo(BulkUploadType.stateField))).thenReturn(
       Success(Some("not-json"))
     )
@@ -56,7 +55,7 @@ class BulkUploadStoreTest extends UnitSuite with TestEnvironment {
   }
 
   test("get propagates a redis read failure as Failure") {
-    val uploadId = UUID.randomUUID()
+    val uploadId = UUID.randomUUID().nn
     val ex       = new RuntimeException("redis down")
     when(jedis.hget(eqTo(BulkUploadType), eqTo(uploadId.toString), eqTo(BulkUploadType.stateField))).thenReturn(
       Failure(ex)
@@ -66,7 +65,7 @@ class BulkUploadStoreTest extends UnitSuite with TestEnvironment {
   }
 
   test("set writes the encoded state and refreshes the TTL using BulkUploadType.cacheTime") {
-    val uploadId    = UUID.randomUUID()
+    val uploadId    = UUID.randomUUID().nn
     val expectedTtl = BulkUploadType.cacheTime.toSeconds
     when(jedis.getFieldNewTtl(eqTo(BulkUploadType), eqTo(uploadId.toString), eqTo(BulkUploadType.stateField)))
       .thenReturn(Success(expectedTtl))
@@ -93,13 +92,13 @@ class BulkUploadStoreTest extends UnitSuite with TestEnvironment {
   }
 
   test("set followed by get round-trips a state through the cache without losing fields") {
-    val uploadId     = UUID.randomUUID()
+    val uploadId     = UUID.randomUUID().nn
     val capturedJson = new AtomicReference[String]()
     when(jedis.getFieldNewTtl(eqTo(BulkUploadType), eqTo(uploadId.toString), eqTo(BulkUploadType.stateField)))
       .thenReturn(Success(1L))
     when(jedis.hset(eqTo(BulkUploadType), eqTo(uploadId.toString), eqTo(BulkUploadType.stateField), any[String]))
       .thenAnswer { i =>
-        capturedJson.set(i.getArgument[String](3))
+        capturedJson.set(i.nn.getArgument[String](3))
         Success(1L)
       }
     when(jedis.hexpire(any[RedisStoredType], any[String], eqTo(BulkUploadType.stateField), any[Long])).thenReturn(

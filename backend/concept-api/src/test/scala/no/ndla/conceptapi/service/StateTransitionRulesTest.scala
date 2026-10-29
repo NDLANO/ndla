@@ -13,9 +13,7 @@ import no.ndla.common.model.domain.draft.DraftCopyright
 import no.ndla.common.model.domain.{Author, ContributorType, Responsible, Tag, Title}
 import no.ndla.conceptapi.{TestData, TestEnvironment, UnitSuite}
 import no.ndla.conceptapi.model.domain.StateTransition
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.when
-import org.mockito.invocation.InvocationOnMock
+import no.ndla.testbase.NullSafeMockito.{any, when}
 
 import scala.util.Success
 
@@ -53,8 +51,8 @@ class StateTransitionRulesTest extends UnitSuite with TestEnvironment {
     )
     val status            = Status(ConceptStatus.IN_PROGRESS, Set.empty)
     val transitionsToTest = stateTransitionRules.StateTransitions.filter(_.to == ConceptStatus.PUBLISHED)
-    when(writeService.publishConcept(any)).thenAnswer((i: InvocationOnMock) => Success(i.getArgument[Concept](0)))
-    when(writeService.unpublishConcept(any)).thenAnswer((i: InvocationOnMock) => Success(i.getArgument[Concept](0)))
+    when(writeService.publishConcept(any)).thenAnswer(i => Success(i.nn.getArgument[Concept](0)))
+    when(writeService.unpublishConcept(any)).thenAnswer(i => Success(i.nn.getArgument[Concept](0)))
     for (t <- transitionsToTest) {
       val fromDraft = concept.copy(status = status.copy(current = t.from), responsible = Some(beforeResponsible))
       val result    =
@@ -98,8 +96,8 @@ class StateTransitionRulesTest extends UnitSuite with TestEnvironment {
     )
     val status            = Status(ConceptStatus.IN_PROGRESS, Set.empty)
     val transitionsToTest = stateTransitionRules.StateTransitions.filter(_.to == ConceptStatus.ARCHIVED)
-    when(writeService.publishConcept(any)).thenAnswer((i: InvocationOnMock) => Success(i.getArgument[Concept](0)))
-    when(writeService.unpublishConcept(any)).thenAnswer((i: InvocationOnMock) => Success(i.getArgument[Concept](0)))
+    when(writeService.publishConcept(any)).thenAnswer(i => Success(i.nn.getArgument[Concept](0)))
+    when(writeService.unpublishConcept(any)).thenAnswer(i => Success(i.nn.getArgument[Concept](0)))
     for (t <- transitionsToTest) {
       val fromDraft = concept.copy(status = status.copy(current = t.from), responsible = Some(beforeResponsible))
       val result    =
@@ -143,8 +141,8 @@ class StateTransitionRulesTest extends UnitSuite with TestEnvironment {
     )
     val status            = Status(ConceptStatus.IN_PROGRESS, Set.empty)
     val transitionsToTest = stateTransitionRules.StateTransitions.filter(_.to == ConceptStatus.UNPUBLISHED)
-    when(writeService.publishConcept(any)).thenAnswer((i: InvocationOnMock) => Success(i.getArgument[Concept](0)))
-    when(writeService.unpublishConcept(any)).thenAnswer((i: InvocationOnMock) => Success(i.getArgument[Concept](0)))
+    when(writeService.publishConcept(any)).thenAnswer(i => Success(i.nn.getArgument[Concept](0)))
+    when(writeService.unpublishConcept(any)).thenAnswer(i => Success(i.nn.getArgument[Concept](0)))
     for (t <- transitionsToTest) {
       val fromDraft = concept.copy(status = status.copy(current = t.from), responsible = Some(beforeResponsible))
       val result    =
@@ -188,8 +186,8 @@ class StateTransitionRulesTest extends UnitSuite with TestEnvironment {
     val status                            = Status(ConceptStatus.PUBLISHED, Set.empty)
     val transitionToTest: StateTransition = ConceptStatus.PUBLISHED -> ConceptStatus.IN_PROGRESS
     val expected                          = TestData.userWithWriteAndPublishAccess.id
-    when(writeService.publishConcept(any)).thenAnswer((i: InvocationOnMock) => Success(i.getArgument[Concept](0)))
-    when(writeService.unpublishConcept(any)).thenAnswer((i: InvocationOnMock) => Success(i.getArgument[Concept](0)))
+    when(writeService.publishConcept(any)).thenAnswer(i => Success(i.nn.getArgument[Concept](0)))
+    when(writeService.unpublishConcept(any)).thenAnswer(i => Success(i.nn.getArgument[Concept](0)))
 
     val fromConcept = concept.copy(status = status.copy(current = transitionToTest.from))
     val result      =

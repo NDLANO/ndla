@@ -19,8 +19,9 @@ class DraftErrorHelpers(using props: Props, errorHelpers: ErrorHelpers) {
   val fileTooBigDescription: String =
     s"The file is too big. Max file size is ${props.multipartFileSizeThresholdBytes / 1024 / 1024} MiB"
 
-  class OptimisticLockException(message: String = RESOURCE_OUTDATED_DESCRIPTION)      extends RuntimeException(message)
-  class ResultWindowTooLargeException(message: String = WINDOW_TOO_LARGE_DESCRIPTION) extends RuntimeException(message)
+  class OptimisticLockException(val message: String = RESOURCE_OUTDATED_DESCRIPTION) extends RuntimeException(message)
+  class ResultWindowTooLargeException(val message: String = WINDOW_TOO_LARGE_DESCRIPTION)
+      extends RuntimeException(message)
 }
 
 case class IllegalStatusStateTransition(message: String) extends RuntimeException(message)
@@ -29,7 +30,7 @@ case class NotFoundException(message: String, supportedLanguages: Seq[String] = 
 case class ArticlePublishException(message: String)    extends RuntimeException(message)
 case class ArticleVersioningException(message: String) extends RuntimeException(message)
 
-class ArticleStatusException(message: String)   extends RuntimeException(message)
-case class CloneFileException(message: String)  extends RuntimeException(message)
-case class H5PException(message: String)        extends RuntimeException(message)
-case class GenerateIDException(message: String) extends RuntimeException(message)
+class ArticleStatusException(val message: String) extends RuntimeException(message)
+case class CloneFileException(message: String)    extends RuntimeException(message)
+case class H5PException(message: String)          extends RuntimeException(message)
+case class GenerateIDException(message: String)   extends RuntimeException(message)

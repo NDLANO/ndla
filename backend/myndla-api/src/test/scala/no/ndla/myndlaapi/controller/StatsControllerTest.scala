@@ -16,8 +16,7 @@ import no.ndla.myndlaapi.TestEnvironment
 import no.ndla.network.tapir.{ErrorHelpers, Routes, TapirController}
 import no.ndla.scalatestsuite.UnitTestSuite
 import no.ndla.tapirtesting.TapirControllerTest
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.{times, verify, when}
+import no.ndla.testbase.NullSafeMockito.{any, times, verify, when}
 import sttp.client4.quick.*
 
 import scala.util.Success

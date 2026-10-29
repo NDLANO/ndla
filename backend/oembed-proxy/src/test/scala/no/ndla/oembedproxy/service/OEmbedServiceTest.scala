@@ -12,8 +12,7 @@ import no.ndla.network.model.{HttpRequestException, NdlaRequest}
 import no.ndla.common.caching.Memoize
 import no.ndla.oembedproxy.model.*
 import no.ndla.oembedproxy.{TestEnvironment, UnitSuite}
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.when
+import no.ndla.testbase.NullSafeMockito.{any, when}
 import org.scalatest.TryValues.*
 import sttp.client4.testing.ResponseStub
 import sttp.model.StatusCode

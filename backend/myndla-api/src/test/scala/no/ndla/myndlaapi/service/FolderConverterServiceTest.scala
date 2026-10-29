@@ -18,7 +18,7 @@ import no.ndla.myndlaapi.model.{api, domain}
 import no.ndla.myndlaapi.model.domain.{NewFolderData, Resource, ResourceDocument}
 import no.ndla.myndlaapi.{TestData, TestEnvironment}
 import no.ndla.scalatestsuite.UnitTestSuite
-import org.mockito.Mockito.when
+import no.ndla.testbase.NullSafeMockito.when
 
 import java.util.UUID
 import scala.util.Success
@@ -31,7 +31,7 @@ class FolderConverterServiceTest extends UnitTestSuite with TestEnvironment {
     val shared = NDLADate.now()
     when(clock.now()).thenReturn(shared)
 
-    val folderUUID = UUID.randomUUID()
+    val folderUUID = UUID.randomUUID().nn
     val newFolder1 =
       NewFolderDTO(name = "kenkaku", parentId = Some(folderUUID.toString), status = Some("private"), description = None)
     val newFolder2 = NewFolderDTO(
@@ -65,11 +65,11 @@ class FolderConverterServiceTest extends UnitTestSuite with TestEnvironment {
   test("toApiFolder transforms correctly when data isn't corrupted") {
     val created = NDLADate.now()
     when(clock.now()).thenReturn(created)
-    val mainFolderUUID = UUID.randomUUID()
-    val subFolder1UUID = UUID.randomUUID()
-    val subFolder2UUID = UUID.randomUUID()
-    val subFolder3UUID = UUID.randomUUID()
-    val resourceUUID   = UUID.randomUUID()
+    val mainFolderUUID = UUID.randomUUID().nn
+    val subFolder1UUID = UUID.randomUUID().nn
+    val subFolder2UUID = UUID.randomUUID().nn
+    val subFolder3UUID = UUID.randomUUID().nn
+    val resourceUUID   = UUID.randomUUID().nn
 
     val resource = Resource(
       id = resourceUUID,
@@ -234,8 +234,8 @@ class FolderConverterServiceTest extends UnitTestSuite with TestEnvironment {
     val shared = NDLADate.now()
     when(clock.now()).thenReturn(shared)
 
-    val folderUUID = UUID.randomUUID()
-    val parentUUID = UUID.randomUUID()
+    val folderUUID = UUID.randomUUID().nn
+    val parentUUID = UUID.randomUUID().nn
 
     val existing = domain.Folder(
       id = folderUUID,
@@ -265,7 +265,7 @@ class FolderConverterServiceTest extends UnitTestSuite with TestEnvironment {
       status = Some("det å joike er noe kult"),
       description = Some("jog ska visa deg garbage jog"),
     )
-    val newParentUUID        = UUID.randomUUID()
+    val newParentUUID        = UUID.randomUUID().nn
     val updatedWithNewParent = UpdatedFolderDTO(
       parentId = UpdateWith[String](newParentUUID.toString),
       name = None,
@@ -304,9 +304,9 @@ class FolderConverterServiceTest extends UnitTestSuite with TestEnvironment {
     when(clock.now()).thenReturn(sharedNow)
 
     val existingBase = domain.Folder(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       feideId = "u",
-      parentId = Some(UUID.randomUUID()),
+      parentId = Some(UUID.randomUUID().nn),
       name = "folderData1",
       status = FolderStatus.SHARED,
       subfolders = List.empty,
@@ -340,7 +340,7 @@ class FolderConverterServiceTest extends UnitTestSuite with TestEnvironment {
   test("that toApiResource converts correctly") {
     val created = NDLADate.now()
     when(clock.now()).thenReturn(created)
-    val folderUUID = UUID.randomUUID()
+    val folderUUID = UUID.randomUUID().nn
 
     val existing = Resource(
       id = folderUUID,
@@ -388,9 +388,9 @@ class FolderConverterServiceTest extends UnitTestSuite with TestEnvironment {
   }
 
   test("That domainToApimodel transforms Folder from domain to api model correctly") {
-    val folder1UUID = UUID.randomUUID()
-    val folder2UUID = UUID.randomUUID()
-    val folder3UUID = UUID.randomUUID()
+    val folder1UUID = UUID.randomUUID().nn
+    val folder2UUID = UUID.randomUUID().nn
+    val folder3UUID = UUID.randomUUID().nn
 
     val folderDomainList = List(
       TestData.emptyDomainFolder.copy(id = folder1UUID),

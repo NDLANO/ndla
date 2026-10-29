@@ -73,7 +73,7 @@ class SearchApiProperties extends BaseProps with StrictLogging {
     "concept-api"      -> s"$Domain/concept-api/v1/drafts",
     "draft-api"        -> s"$Domain/draft-api/v1/drafts",
     "learningpath-api" -> s"$Domain/learningpath-api/v2/learningpaths",
-    "raw-image"        -> propOrElse("IMAGE_API_CLOUDFRONT_DOMAIN", s"$Domain/image-api/raw").concat("/id"),
+    "raw-image"        -> s"${propOrElse("IMAGE_API_CLOUDFRONT_DOMAIN", s"$Domain/image-api/raw")}/id",
   )
 
   override val ndlaAuth0Scopes: Seq[Permission] = Seq(Permission.DRAFT_API_WRITE)

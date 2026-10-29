@@ -14,8 +14,7 @@ import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirControll
 import no.ndla.oembedproxy.model.OEmbedDTO
 import no.ndla.oembedproxy.{TestEnvironment, UnitSuite}
 import no.ndla.tapirtesting.TapirControllerTest
-import org.mockito.ArgumentMatchers.{any, anyString}
-import org.mockito.Mockito.when
+import no.ndla.testbase.NullSafeMockito.{any, anyString, when}
 import sttp.client4.quick.*
 import sttp.client4.testing.ResponseStub
 import sttp.model.StatusCode

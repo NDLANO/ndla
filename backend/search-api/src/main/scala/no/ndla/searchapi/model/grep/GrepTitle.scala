@@ -11,6 +11,7 @@ package no.ndla.searchapi.model.grep
 import com.typesafe.scalalogging.StrictLogging
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
+import no.ndla.common.implicits.toOption
 import no.ndla.common.model.api.search.LanguageValue
 import no.ndla.mapping.ISO639
 
@@ -23,7 +24,8 @@ object GrepTitle extends StrictLogging {
   def convertTitles(titles: Seq[GrepTitle]): Seq[LanguageValue[String]] = {
     titles.flatMap(gt => {
       ISO639.get6391CodeFor6392Code(gt.spraak) match {
-        case Some(convertedLanguage)        => Some(LanguageValue(language = convertedLanguage, value = gt.verdi.trim))
+        case Some(convertedLanguage) =>
+          gt.verdi.trim.toOption.map(value => LanguageValue(language = convertedLanguage, value = value))
         case None if gt.spraak == "default" => None
         case None                           =>
           logger.warn(s"Could not convert language code '${gt.spraak}'")

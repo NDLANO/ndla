@@ -1044,7 +1044,7 @@ object TestData {
   val invisibleMetadata: Option[Metadata] = Some(Metadata(Seq.empty, visible = false, Map.empty))
 
   val revisionMetaSeq: Seq[RevisionMeta] = Seq(
-    RevisionMeta(id = UUID.randomUUID(), today.plusYears(5), RevisionMeta.defaultNote, RevisionStatus.NeedsRevision)
+    RevisionMeta(id = UUID.randomUUID().nn, today.plusYears(5), RevisionMeta.defaultNote, RevisionStatus.NeedsRevision)
   )
 
   val DefaultLearningPath: LearningPath = LearningPath(
@@ -1206,7 +1206,7 @@ object TestData {
     parent
       .contexts
       .map(context => {
-        val path = s"${context.path}/${URI.create(node.id).getSchemeSpecificPart}"
+        val path = s"${context.path}/${URI.create(node.id).nn.getSchemeSpecificPart}"
         TaxonomyContext(
           publicId = node.id,
           rootId = root.id,
@@ -1973,13 +1973,13 @@ object TestData {
 
   val searchableRevisionMeta: List[RevisionMeta] = List(
     RevisionMeta(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       revisionDate = today,
       note = "some note",
       status = RevisionStatus.NeedsRevision,
     ),
     RevisionMeta(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       revisionDate = olddate,
       note = "some other note",
       status = RevisionStatus.NeedsRevision,

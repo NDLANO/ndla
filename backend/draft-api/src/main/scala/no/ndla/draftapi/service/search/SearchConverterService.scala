@@ -11,6 +11,7 @@ package no.ndla.draftapi.service.search
 import com.sksamuel.elastic4s.requests.searches.SearchHit
 import com.typesafe.scalalogging.StrictLogging
 import no.ndla.common.CirceUtil
+import no.ndla.common.implicits.{toOption, toTry}
 import no.ndla.common.model.api.search.{LanguageValue, SearchableLanguageList, SearchableLanguageValues}
 import no.ndla.common.model.domain.draft.Draft
 import no.ndla.common.model.domain as common
@@ -29,6 +30,8 @@ import no.ndla.language.Language.{
 import no.ndla.network.ApplicationUrl
 import org.jsoup.Jsoup
 
+import scala.util.Try
+
 class SearchConverterService(using converterService: ConverterService) extends StrictLogging {
   def asSearchableArticle(ai: Draft): SearchableArticle = {
     val defaultTitle = getDefault(ai.title)
@@ -41,7 +44,14 @@ class SearchConverterService(using converterService: ConverterService) extends S
       introduction =
         SearchableLanguageValues(ai.introduction.map(intro => LanguageValue(intro.language, intro.introduction))),
       content = SearchableLanguageValues(
-        ai.content.map(article => LanguageValue(article.language, Jsoup.parseBodyFragment(article.content).text()))
+        ai.content
+          .flatMap(article =>
+            Jsoup
+              .parseBodyFragment(article.content)
+              .toOption
+              .flatMap(_.text().toOption)
+              .map(text => LanguageValue(article.language, text))
+          )
       ),
       tags = SearchableLanguageList(ai.tags.map(tag => LanguageValue(tag.language, tag.tags))),
       lastUpdated = ai.updated,
@@ -64,7 +74,7 @@ class SearchConverterService(using converterService: ConverterService) extends S
     )
   }
 
-  def hitAsArticleSummary(hitString: String, language: String): api.ArticleSummaryDTO = {
+  def hitAsArticleSummary(hitString: String, language: String): Try[api.ArticleSummaryDTO] = {
     val searchableArticle = CirceUtil.unsafeParseAs[SearchableArticle](hitString)
 
     val titles        = searchableArticle.title.languageValues.map(lv => common.Title(lv.value, lv.language))
@@ -91,23 +101,28 @@ class SearchConverterService(using converterService: ConverterService) extends S
     val tag    = findByLanguageOrBestEffort(tags, language).map(converterService.toApiArticleTag)
     val status = api.StatusDTO(searchableArticle.status.current, searchableArticle.status.other.toSeq)
 
-    api.ArticleSummaryDTO(
-      id = searchableArticle.id,
-      title = title,
-      visualElement = visualElement,
-      introduction = introduction,
-      url = ApplicationUrl.get + searchableArticle.id,
-      license = searchableArticle.license.getOrElse(""),
-      articleType = searchableArticle.articleType,
-      supportedLanguages = supportedLanguages,
-      tags = tag,
-      notes = notes,
-      users = users,
-      grepCodes = searchableArticle.grepCodes,
-      status = status,
-      updated = searchableArticle.lastUpdated,
-      traits = searchableArticle.traits,
-    )
+    ApplicationUrl
+      .get
+      .toTry(IllegalStateException("Application url is not set"))
+      .map(applicationUrl =>
+        api.ArticleSummaryDTO(
+          id = searchableArticle.id,
+          title = title,
+          visualElement = visualElement,
+          introduction = introduction,
+          url = applicationUrl + searchableArticle.id,
+          license = searchableArticle.license.getOrElse(""),
+          articleType = searchableArticle.articleType,
+          supportedLanguages = supportedLanguages,
+          tags = tag,
+          notes = notes,
+          users = users,
+          grepCodes = searchableArticle.grepCodes,
+          status = status,
+          updated = searchableArticle.lastUpdated,
+          traits = searchableArticle.traits,
+        )
+      )
   }
 
   /** Attempts to extract language that hit from highlights in elasticsearch response.

@@ -13,7 +13,7 @@ import no.ndla.common.model.NDLADate
 import no.ndla.common.model.api.{NewCommentDTO, UpdatedCommentDTO}
 import no.ndla.common.model.domain.Comment
 import no.ndla.testbase.UnitTestSuiteBase
-import org.mockito.Mockito.when
+import no.ndla.testbase.NullSafeMockito.when
 
 import java.util.UUID
 
@@ -22,7 +22,7 @@ class CommonConverterTest extends UnitTestSuiteBase {
   given uuidUtil: UUIDUtil = mock[UUIDUtil]
   val commonConverter      = new CommonConverter
   test("that mergeUpdatedCommentsWithExisting creates and updates comments correctly") {
-    val uuid = UUID.randomUUID()
+    val uuid = UUID.randomUUID().nn
     val now  = NDLADate.now()
     when(clock.now()).thenReturn(now)
     when(uuidUtil.randomUUID()).thenReturn(uuid)
@@ -41,9 +41,9 @@ class CommonConverterTest extends UnitTestSuiteBase {
   }
 
   test("that mergeUpdatedCommentsWithExisting only keeps updatedComments and deletes rest") {
-    val uuid  = UUID.randomUUID()
-    val uuid2 = UUID.randomUUID()
-    val uuid3 = UUID.randomUUID()
+    val uuid  = UUID.randomUUID().nn
+    val uuid2 = UUID.randomUUID().nn
+    val uuid3 = UUID.randomUUID().nn
     val now   = NDLADate.now()
     when(clock.now()).thenReturn(now)
 
@@ -62,13 +62,14 @@ class CommonConverterTest extends UnitTestSuiteBase {
   }
 
   test("that newCommentApiToDomain creates comments correctly") {
-    val uuid = UUID.randomUUID()
+    val uuid = UUID.randomUUID().nn
     val now  = NDLADate.now()
     when(clock.now()).thenReturn(now)
+    when(uuidUtil.randomUUID()).thenReturn(uuid)
 
     val newComments     = NewCommentDTO(content = "hei", isOpen = None)
     val expectedComment =
       Comment(id = uuid, created = now, updated = now, content = "hei", isOpen = true, solved = false)
-    commonConverter.newCommentApiToDomain(newComments).copy(id = uuid) should be(expectedComment)
+    commonConverter.newCommentApiToDomain(newComments) should be(expectedComment)
   }
 }

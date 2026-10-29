@@ -127,7 +127,7 @@ trait BaseProps extends StrictLogging {
   def disableWarmup: Boolean     = booleanPropOrElse("DISABLE_WARMUP", default = false)
 
   def SupportedLanguages: List[String] = propOrElse("SUPPORTED_LANGUAGES", "nb,nn,en,sma,se,de,es,zh,ukr")
-    .split(",")
+    .split(',')
     .toList
 
   def ndlaFrontendUrl: String = Environment match {

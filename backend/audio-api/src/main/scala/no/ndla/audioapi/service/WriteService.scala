@@ -18,6 +18,7 @@ import no.ndla.audioapi.repository.{AudioRepository, SeriesRepository}
 import no.ndla.audioapi.service.search.{AudioIndexService, SeriesIndexService, TagIndexService}
 import no.ndla.common.Clock
 import no.ndla.common.errors.{MissingIdException, NotFoundException, ValidationException}
+import no.ndla.common.implicits.{toOption, toTry}
 import no.ndla.common.model.domain.UploadedFile
 import no.ndla.common.model.domain as common
 import no.ndla.language.Language.findByLanguageOrBestEffort
@@ -397,7 +398,7 @@ class WriteService(using
 
   private[service] def getFileExtension(fileName: String): Option[String] = {
     fileName.lastIndexOf(".") match {
-      case index: Int if index > -1 => Some(fileName.replace("\"", "").substring(index))
+      case index: Int if index > -1 => fileName.filterNot(_ == '"').substring(index).toOption
       case _                        => None
     }
   }
@@ -407,9 +408,17 @@ class WriteService(using
     val fileName      = LazyList.continually(randomFileName(fileExtension)).dropWhile(s3Client.objectExists).head
 
     for {
-      _    <- s3Client.putObject(fileName, file)
-      head <- s3Client.headObject(fileName)
-    } yield Audio(fileName, head.contentType(), head.contentLength(), language)
+      _           <- s3Client.putObject(fileName, file)
+      head        <- s3Client.headObject(fileName)
+      contentType <- head
+        .contentType()
+        .toOption
+        .toTry(new AudioStorageException(s"Missing content type for '$fileName'"))
+      contentLength <- head
+        .contentLength()
+        .toOption
+        .toTry(new AudioStorageException(s"Missing content length for '$fileName'"))
+    } yield Audio(fileName, contentType, contentLength, language)
   }
 
   private[service] def randomFileName(extension: String, length: Int = 12): String = {

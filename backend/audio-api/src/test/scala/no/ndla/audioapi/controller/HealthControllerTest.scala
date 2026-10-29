@@ -18,9 +18,7 @@ import no.ndla.common.model.domain.{Author, ContributorType, Tag, Title}
 import no.ndla.mapping.License
 import no.ndla.network.tapir.{ErrorHelpers, Routes, TapirController}
 import no.ndla.tapirtesting.TapirControllerTest
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito
-import org.mockito.Mockito.when
+import no.ndla.testbase.NullSafeMockito.{any, reset, when}
 import sttp.client4.quick.*
 
 import scala.util.{Failure, Success}
@@ -35,7 +33,7 @@ class HealthControllerTest extends UnitSuite with TestEnvironment with TapirCont
   controller.setRunning()
 
   override def beforeEach(): Unit = {
-    Mockito.reset(audioRepository, s3Client)
+    reset(audioRepository, s3Client)
   }
 
   val updated: NDLADate = NDLADate.of(2017, 4, 1, 12, 15, 32)

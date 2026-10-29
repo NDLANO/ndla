@@ -9,8 +9,10 @@
 package no.ndla.database
 
 import com.typesafe.scalalogging.StrictLogging
+import no.ndla.common.implicits.toOption
 import no.ndla.common.logging.logTaskTime
 import org.flywaydb.core.Flyway
+import org.flywaydb.core.api.configuration.ClassicConfiguration
 import org.flywaydb.core.api.migration.JavaMigration
 import org.flywaydb.core.api.output.MigrateResult
 
@@ -20,13 +22,15 @@ case class DBMigrator(migrations: JavaMigration*)(using dataSource: DataSource, 
     extends StrictLogging {
   private def logMigrationResult(result: MigrateResult): Unit = {
     logger.info(s"Num database migrations executed: ${result.migrationsExecuted}")
-    val warnings = result.warnings.asScala
+    val warnings = result.warnings.toOption.map(_.asScala).getOrElse(Nil)
     if (warnings.nonEmpty) {
       logger.info(s"With warnings: \n${warnings.mkString("\n")}")
     }
     result
       .migrations
-      .asScala
+      .toOption
+      .toList
+      .flatMap(_.asScala)
       .foreach { mo =>
         logger.info(
           s"Executed ${mo.`type`} migration: ${mo.category} ${mo.version} '${mo.description}' in ${mo.executionTime} ms"
@@ -37,21 +41,16 @@ case class DBMigrator(migrations: JavaMigration*)(using dataSource: DataSource, 
   def migrate(): Unit = logTaskTime("database migration", logTaskStart = true) {
     dataSource.connectToDatabase()
 
-    val config = Flyway
-      .configure()
-      .javaMigrations(migrations*)
-      .locations(props.MetaMigrationLocation)
-      .dataSource(dataSource)
-      .schemas(props.MetaSchema)
+    val config = new ClassicConfiguration()
+    config.setJavaMigrations(migrations*)
+    config.setLocationsAsStrings(props.MetaMigrationLocation)
+    config.setDataSource(dataSource)
+    config.setSchemas(Array(props.MetaSchema))
+    props.MetaMigrationTable.foreach(config.setTable)
 
-    val withTable = props.MetaMigrationTable match {
-      case Some(table) => config.table(table)
-      case None        => config
-    }
-
-    val flyway = withTable.load()
+    val flyway = new Flyway(config)
 
     val migrateResult = flyway.migrate()
-    logMigrationResult(migrateResult)
+    migrateResult.toOption.foreach(logMigrationResult)
   }
 }

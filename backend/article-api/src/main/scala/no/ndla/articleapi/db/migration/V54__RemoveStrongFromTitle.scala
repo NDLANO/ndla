@@ -40,7 +40,7 @@ class V54__RemoveStrongFromTitle extends BaseJavaMigration {
     sql"update contentdata set document = $dataObject where id = $id".update()
   }
 
-  override def migrate(context: Context): Unit = DB(context.getConnection)
+  override def migrate(context: Context | Null): Unit = DB(context.nn.getConnection.nn)
     .autoClose(false)
     .withinTx { session =>
       migrateRows(using session)
@@ -61,13 +61,13 @@ class V54__RemoveStrongFromTitle extends BaseJavaMigration {
   }
 
   private def stringToJsoupDocument(htmlString: String): Element = {
-    val document = Jsoup.parseBodyFragment(htmlString)
-    document.outputSettings().escapeMode(EscapeMode.xhtml).prettyPrint(false)
-    document.select("body").first()
+    val document = Jsoup.parseBodyFragment(htmlString).nn
+    document.outputSettings().nn.escapeMode(EscapeMode.xhtml).nn.prettyPrint(false)
+    document.select("body").nn.first().nn
   }
 
   private def jsoupDocumentToString(element: Element): String = {
-    element.select("body").html()
+    element.select("body").nn.html().nn
   }
 
   def convertTitle(t: Title): Title = {
@@ -75,8 +75,9 @@ class V54__RemoveStrongFromTitle extends BaseJavaMigration {
 
     doc
       .select("strong")
+      .nn
       .forEach(strong => {
-        strong.unwrap(): Unit
+        strong.nn.unwrap(): Unit
       })
     t.copy(title = jsoupDocumentToString(doc))
   }
@@ -86,8 +87,9 @@ class V54__RemoveStrongFromTitle extends BaseJavaMigration {
 
     doc
       .select("h2, h3, h4")
+      .nn
       .forEach(header => {
-        header.select("strong").forEach(strong => strong.unwrap(): Unit)
+        header.nn.select("strong").nn.forEach(strong => strong.nn.unwrap(): Unit)
       })
     c.copy(content = jsoupDocumentToString(doc))
   }

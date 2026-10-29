@@ -26,7 +26,6 @@ import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, ExecutionContext, ExecutionContextExecutorService, Future}
 import scala.util.{Failure, Success, Try}
 import scala.util.Properties.propOrElse
-import java.time.Instant
 
 /** This part of search-api is used for indexing in a separate instance. If enabled, this will also send a slack message
   * if the indexing fails for any reason.
@@ -57,8 +56,12 @@ class StandaloneIndexing(props: SearchApiProperties, componentRegistry: Componen
     val errorTitle = s"search-api ${props.Environment}"
     val errorBody  = s"Standalone indexing failed with:\n${errors.mkString("\n")}"
 
-    val errorAttachment =
-      SlackAttachment(color = "#ff0000", ts = Instant.now.getEpochSecond.toString, title = errorTitle, text = errorBody)
+    val errorAttachment = SlackAttachment(
+      color = "#ff0000",
+      ts = (System.currentTimeMillis() / 1000).toString,
+      title = errorTitle,
+      text = errorBody,
+    )
 
     val payload = SlackPayload(
       channel = propOrElse("SLACK_CHANNEL", "ndla-indexing-errors"),
@@ -97,7 +100,7 @@ class StandaloneIndexing(props: SearchApiProperties, componentRegistry: Componen
             case Success(Success(reindexResult: ReindexResult)) => logger.info(
                 s"Completed indexing of ${reindexResult.totalIndexed} $indexName in ${reindexResult.millisUsed} ms."
               )
-            case Success(Failure(ex)) => logger.warn(ex.getMessage, ex)
+            case Success(Failure(ex)) => logger.warn(s"Failed to index '$indexName': ${ex.getMessage}", ex)
             case Failure(ex)          => logger.warn(s"Unable to create index '$indexName': " + ex.getMessage, ex)
           }
           future
@@ -137,7 +140,7 @@ class StandaloneIndexing(props: SearchApiProperties, componentRegistry: Componen
         s"Indexing of '$name' finished indexing with $numErrors errors ($totalIndexed/$totalDocuments)"
       case Failure(ex) =>
         logger.error("Indexing failed...", ex)
-        ex.getMessage
+        s"Indexing failed: ${ex.getMessage}"
     }
 
     if (errors.nonEmpty) {

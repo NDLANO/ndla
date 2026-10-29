@@ -24,7 +24,7 @@ import no.ndla.myndlaapi.model.domain.{
 }
 import no.ndla.myndlaapi.{TestData, TestEnvironment, UnitSuite}
 import no.ndla.scalatestsuite.DatabaseIntegrationSuite
-import org.mockito.Mockito.when
+import no.ndla.testbase.NullSafeMockito.when
 import scalikejdbc.*
 
 import java.net.Socket
@@ -32,7 +32,7 @@ import java.util.UUID
 import scala.util.{Success, Try}
 
 class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with TestEnvironment {
-  override lazy val schemaName: String                      = s"folderrepotest_${ProcessHandle.current().pid()}"
+  override lazy val schemaName: String                      = s"folderrepotest_${ProcessHandle.current().nn.pid()}"
   override implicit lazy val dataSource: DataSource         = testDataSource.get
   override implicit lazy val migrator: DBMigrator           = new DBMigrator
   var repository: FolderRepository                          = scala.compiletime.uninitialized
@@ -203,7 +203,7 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
     val folderData =
       NewFolderData(parentId = None, name = "new", status = FolderStatus.PRIVATE, rank = 1, description = Some("old"))
     val updatedFolder = Folder(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       feideId = feideId,
       parentId = None,
       name = "updated",
@@ -415,7 +415,7 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
 
   test("Building tree-structure of folders works as expected") {
     val base = Folder(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       feideId = feideId,
       parentId = None,
       name = "name",
@@ -430,13 +430,13 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
       user = None,
     )
 
-    val mainParent = base.copy(id = UUID.randomUUID(), parentId = None)
+    val mainParent = base.copy(id = UUID.randomUUID().nn, parentId = None)
 
-    val child1 = base.copy(id = UUID.randomUUID(), parentId = mainParent.id.some)
+    val child1 = base.copy(id = UUID.randomUUID().nn, parentId = mainParent.id.some)
 
-    val child2 = base.copy(id = UUID.randomUUID(), parentId = mainParent.id.some)
+    val child2 = base.copy(id = UUID.randomUUID().nn, parentId = mainParent.id.some)
 
-    val nestedChild1 = base.copy(id = UUID.randomUUID(), parentId = child1.id.some)
+    val nestedChild1 = base.copy(id = UUID.randomUUID().nn, parentId = child1.id.some)
 
     val expectedResult = mainParent.copy(subfolders =
       List(child1.copy(subfolders = List(nestedChild1)), child2.copy()).sortBy(_.rank.toString)
@@ -456,7 +456,7 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
     when(clock.now()).thenReturn(created)
 
     val base = Folder(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       feideId = feideId,
       parentId = None,
       name = "name",
@@ -558,7 +558,7 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
     when(clock.now()).thenReturn(created)
 
     val base = Folder(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       feideId = feideId,
       parentId = None,
       name = "name",
@@ -748,8 +748,8 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
     userRepository.reserveFeideIdIfNotExists("feide1")
 
     val now     = NDLADate.now().withNano(0)
-    val id1     = UUID.randomUUID()
-    val id2     = UUID.randomUUID()
+    val id1     = UUID.randomUUID().nn
+    val id2     = UUID.randomUUID().nn
     val folder1 = Folder(
       id = id1,
       feideId = "feide1",
@@ -783,7 +783,7 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
     )
 
     val resource1 = Resource(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       feideId = "feide1",
       created = now,
       path = "/r/norsk-sf-vg2/an-be-het-else-ord/140d6a7263",
@@ -794,7 +794,7 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
     )
 
     val resource2 = Resource(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       feideId = "feide1",
       created = now,
       path = "/r/norsk-sf-vg2/hvordan-skrive-kortsvar-om-grammatikk/c44c43b139",
@@ -804,7 +804,7 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
       connection = None,
     )
 
-    val resource3 = resource2.copy(id = UUID.randomUUID())
+    val resource3 = resource2.copy(id = UUID.randomUUID().nn)
 
     val folderResource1 =
       ResourceConnection(folderId = Some(folder1.id), resourceId = resource1.id, rank = 1, favoritedDate = now)
@@ -850,8 +850,8 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
     userRepository.reserveFeideIdIfNotExists(feideId2)
 
     val now = NDLADate.now().withNano(0)
-    val id1 = UUID.randomUUID()
-    val id2 = UUID.randomUUID()
+    val id1 = UUID.randomUUID().nn
+    val id2 = UUID.randomUUID().nn
 
     val folder1 = Folder(
       id = id1,
@@ -886,7 +886,7 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
     )
 
     val resource1 = Resource(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       feideId = feideId,
       created = now,
       path = "/r/norsk-sf-vg2/an-be-het-else-ord/140d6a7263",
@@ -897,7 +897,7 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
     )
 
     val resource2 = Resource(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       feideId = feideId,
       created = now,
       path = "/r/norsk-sf-vg2/hvordan-skrive-kortsvar-om-grammatikk/c44c43b139",
@@ -907,7 +907,7 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
       connection = None,
     )
 
-    val resource3 = resource2.copy(id = UUID.randomUUID(), feideId = feideId2)
+    val resource3 = resource2.copy(id = UUID.randomUUID().nn, feideId = feideId2)
 
     val conn1 =
       ResourceConnection(folderId = Some(folder1.id), resourceId = resource1.id, rank = 1, favoritedDate = now)
@@ -946,7 +946,7 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
     val now                         = NDLADate.now().withNano(0)
     userRepository.reserveFeideIdIfNotExists(feideId)
 
-    val id1 = UUID.randomUUID()
+    val id1 = UUID.randomUUID().nn
 
     val folder1 = Folder(
       id = id1,
@@ -965,7 +965,7 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
     )
 
     val resource1 = Resource(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       feideId = feideId,
       created = now,
       path = "/r/norsk-sf-vg2/an-be-het-else-ord/140d6a7263",
@@ -976,7 +976,7 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
     )
 
     val resource2 = Resource(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       feideId = feideId,
       created = now,
       path = "/r/norsk-sf-vg2/hvordan-skrive-kortsvar-om-grammatikk/c44c43b139",
@@ -1015,8 +1015,8 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
     userRepository.reserveFeideIdIfNotExists(feideId)
 
     val now = NDLADate.now().withNano(0)
-    val id1 = UUID.randomUUID()
-    val id2 = UUID.randomUUID()
+    val id1 = UUID.randomUUID().nn
+    val id2 = UUID.randomUUID().nn
 
     val folder1 = Folder(
       id = id1,
@@ -1051,7 +1051,7 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
     )
 
     val resource1 = Resource(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       feideId = feideId,
       created = now,
       path = "/r/norsk-sf-vg2/an-be-het-else-ord/140d6a7263",
@@ -1062,7 +1062,7 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
     )
 
     val resource2 = Resource(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       feideId = feideId,
       created = now,
       path = "/r/norsk-sf-vg2/hvordan-skrive-kortsvar-om-grammatikk/c44c43b139",
@@ -1110,7 +1110,7 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
     userRepository.reserveFeideIdIfNotExists(feideId)
 
     val now = NDLADate.now().withNano(0)
-    val id1 = UUID.randomUUID()
+    val id1 = UUID.randomUUID().nn
 
     val folder1 = Folder(
       id = id1,
@@ -1129,7 +1129,7 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
     )
 
     val resource1 = Resource(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       feideId = feideId,
       created = now,
       path = "/r/norsk-sf-vg2/an-be-het-else-ord/140d6a7263",
@@ -1148,7 +1148,7 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
     repository.insertResourcesInBulk(bulkInserts).get
     repository.insertResourceConnectionInBulk(bulkInserts).get
 
-    repository.moveResourceConnection(resource1.id, Some(folder1.id), Some(UUID.randomUUID()), 1).isFailure should
+    repository.moveResourceConnection(resource1.id, Some(folder1.id), Some(UUID.randomUUID().nn), 1).isFailure should
       be(true)
 
   }
@@ -1158,7 +1158,7 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
     userRepository.reserveFeideIdIfNotExists(feideId)
 
     val now = NDLADate.now().withNano(0)
-    val id1 = UUID.randomUUID()
+    val id1 = UUID.randomUUID().nn
 
     val folder1 = Folder(
       id = id1,
@@ -1177,7 +1177,7 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
     )
 
     val resource1 = Resource(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       feideId = feideId,
       created = now,
       path = "/r/norsk-sf-vg2/an-be-het-else-ord/140d6a7263",
@@ -1196,7 +1196,7 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
     repository.insertResourcesInBulk(bulkInserts).get
     repository.insertResourceConnectionInBulk(bulkInserts).get
 
-    repository.moveResourceConnection(resource1.id, Some(UUID.randomUUID()), None, 1).isFailure should be(true)
+    repository.moveResourceConnection(resource1.id, Some(UUID.randomUUID().nn), None, 1).isFailure should be(true)
 
   }
 
@@ -1206,8 +1206,8 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
     userRepository.reserveFeideIdIfNotExists(feideId)
 
     val now = NDLADate.now().withNano(0)
-    val id1 = UUID.randomUUID()
-    val id2 = UUID.randomUUID()
+    val id1 = UUID.randomUUID().nn
+    val id2 = UUID.randomUUID().nn
 
     val folder1 = Folder(
       id = id1,
@@ -1242,7 +1242,7 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
     )
 
     val resource1 = Resource(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       feideId = feideId,
       created = now,
       path = "/r/norsk-sf-vg2/an-be-het-else-ord/140d6a7263",

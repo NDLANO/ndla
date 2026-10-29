@@ -10,6 +10,7 @@ package no.ndla.imageapi.controller
 
 import cats.implicits.*
 import com.typesafe.scalalogging.StrictLogging
+import no.ndla.common.implicits.toOption
 import no.ndla.imageapi.model.api.{ImageMetaDomainDumpDTO, ImageMetaInformationV2DTO}
 import no.ndla.imageapi.model.domain.ImageMetaInformation
 import no.ndla.imageapi.repository.ImageRepository
@@ -86,11 +87,11 @@ class InternController(using
           logger.info(result)
           result.asRight
         case (Failure(imageFail), _) =>
-          logger.warn(imageFail.getMessage, imageFail)
-          imageFail.getMessage.asLeft
+          logger.warn(s"Failed to index images: ${imageFail.getMessage}", imageFail)
+          imageFail.getMessage.toOption.getOrElse("Failed to index images").asLeft
         case (_, Failure(tagFail)) =>
-          logger.warn(tagFail.getMessage, tagFail)
-          tagFail.getMessage.asLeft
+          logger.warn(s"Failed to index tags: ${tagFail.getMessage}", tagFail)
+          tagFail.getMessage.toOption.getOrElse("Failed to index tags").asLeft
       }
     }
 
@@ -105,7 +106,7 @@ class InternController(using
     .errorOut(stringInternalServerError)
     .serverLogicPure { _ =>
       imageIndexService.findAllIndexes(props.SearchIndex) match {
-        case Failure(f)       => f.getMessage.asLeft
+        case Failure(f)       => f.getMessage.toOption.getOrElse("Failed to find indexes").asLeft
         case Success(indexes) =>
           val deleteResults = indexes.map(index => {
             logger.info(s"Deleting index $index")
@@ -194,14 +195,12 @@ class InternController(using
     .serverLogicPure { _ =>
       logger.info("Starting EXIF data extraction for all existing images...")
 
-      Thread
-        .ofVirtual()
-        .start(() => {
-          writeService.extractAndStoreExifDataForExistingImages() match {
-            case Success(_)  => logger.info("Successfully finished EXIF data extraction for all existing images")
-            case Failure(ex) => logger.error("Failed to extract EXIF data for existing images", ex)
-          }
-        })
+      Thread.startVirtualThread(() => {
+        writeService.extractAndStoreExifDataForExistingImages() match {
+          case Success(_)  => logger.info("Successfully finished EXIF data extraction for all existing images")
+          case Failure(ex) => logger.error("Failed to extract EXIF data for existing images", ex)
+        }
+      })
 
       "Started EXIF data extraction for all existing images".asRight
     }

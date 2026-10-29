@@ -766,25 +766,25 @@ class EmbedTagValidatorTest extends UnitSuite {
   test("That getNumEqualSiblings returns number of direct equal siblings") {
     {
       val content = s"""<section><p><$EmbedTagName type="a" data-resource="file" /></p></section>"""
-      val embed   = HtmlTagRules.stringToJsoupDocument(content).select(EmbedTagName).first()
+      val embed   = HtmlTagRules.stringToJsoupDocument(content).value.select(EmbedTagName).nn.first().nn
       TagValidator.numDirectEqualSiblings(embed) should be(1)
     }
     {
       val content =
         s"""<section><p><$EmbedTagName type="a" data-resource="file"></$EmbedTagName><$EmbedTagName type="b" data-resource="file"></$EmbedTagName><$EmbedTagName type="c" data-resource="file"></$EmbedTagName><$EmbedTagName type="d" data-resource="file"></$EmbedTagName></p></section>"""
-      val embed = HtmlTagRules.stringToJsoupDocument(content).select(s"$EmbedTagName[type=b]").first()
+      val embed = HtmlTagRules.stringToJsoupDocument(content).value.select(s"$EmbedTagName[type=b]").nn.first().nn
       TagValidator.numDirectEqualSiblings(embed) should be(4)
     }
     {
       val content =
         s"""<section><p><$EmbedTagName type="a" data-resource="file"></$EmbedTagName>, <$EmbedTagName type="b" data-resource="file"></$EmbedTagName>, <$EmbedTagName type="c" data-resource="file"></$EmbedTagName>, <$EmbedTagName type="d" data-resource="file"></$EmbedTagName></p></section>"""
-      val embed = HtmlTagRules.stringToJsoupDocument(content).select(s"$EmbedTagName[type=d]").first()
+      val embed = HtmlTagRules.stringToJsoupDocument(content).value.select(s"$EmbedTagName[type=d]").nn.first().nn
       TagValidator.numDirectEqualSiblings(embed) should be(1)
     }
     {
       val content =
         s"""<section><p><$EmbedTagName type="a" data-resource="file"></$EmbedTagName>, <$EmbedTagName type="b" data-resource="file"></$EmbedTagName>, <$EmbedTagName type="c" data-resource="file"></$EmbedTagName><$EmbedTagName type="d" data-resource="file"></$EmbedTagName></p></section>"""
-      val embed = HtmlTagRules.stringToJsoupDocument(content).select(s"$EmbedTagName[type=c]").first()
+      val embed = HtmlTagRules.stringToJsoupDocument(content).value.select(s"$EmbedTagName[type=c]").nn.first().nn
       TagValidator.numDirectEqualSiblings(embed) should be(2)
     }
   }
@@ -804,7 +804,7 @@ class EmbedTagValidatorTest extends UnitSuite {
           |<$EmbedTagName type="d" data-resource="file"></$EmbedTagName>
           |</p>
           |</section>""".stripMargin
-    val embed = HtmlTagRules.stringToJsoupDocument(content).select(s"$EmbedTagName[type=c]").first()
+    val embed = HtmlTagRules.stringToJsoupDocument(content).value.select(s"$EmbedTagName[type=c]").nn.first().nn
     TagValidator.numDirectEqualSiblings(embed) should be(3)
   }
 

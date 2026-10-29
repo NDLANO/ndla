@@ -26,8 +26,8 @@ trait DatabaseIntegrationSuite extends UnitTestSuite {
   val PostgresqlVersion: String = "17.9"
 
   lazy val schemaName: String = {
-    val suffix = getClass.getSimpleName.filter(_.isLetterOrDigit).toLowerCase
-    s"testschema_${ProcessHandle.current().pid()}_$suffix"
+    val suffix = getClass.getSimpleName.nn.filter(_.isLetterOrDigit).toLowerCase
+    s"testschema_${ProcessHandle.current().nn.pid()}_$suffix"
   }
 
   private val defaultUsername: String     = "postgres"
@@ -43,11 +43,11 @@ trait DatabaseIntegrationSuite extends UnitTestSuite {
       PgContainer(PostgresqlVersion, defaultUsername, defaultPassword, defaultDatabaseName)
 
     override protected def fromContainer(c: PgContainer): PgConnectionInfo = PgConnectionInfo(
-      host = c.getHost,
-      port = c.getMappedPort(5432).intValue(),
-      username = c.getUsername,
-      password = c.getPassword,
-      databaseName = c.getDatabaseName,
+      host = c.getHost.nn,
+      port = c.getMappedPort(5432).nn.intValue(),
+      username = c.getUsername.nn,
+      password = c.getPassword.nn,
+      databaseName = c.getDatabaseName.nn,
     )
 
     override protected def fromEnv(): PgConnectionInfo = PgConnectionInfo(
@@ -60,7 +60,7 @@ trait DatabaseIntegrationSuite extends UnitTestSuite {
 
     override protected def healthCheck(info: PgConnectionInfo): Boolean = Try {
       val url  = s"jdbc:postgresql://${info.host}:${info.port}/${info.databaseName}"
-      val conn = DriverManager.getConnection(url, info.username, info.password)
+      val conn = DriverManager.getConnection(url, info.username, info.password).nn
       conn.close()
     }.isSuccess
   }

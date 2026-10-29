@@ -21,7 +21,7 @@ class V16__MigrateResourcePaths(using taxonomyApiClient: TaxonomyApiClient) exte
   override val tableIdType: TableIdType                = TableIdType.UUID
 
   override def extractRowData(rs: WrappedResultSet): ResourceRow =
-    ResourceRow(UUID.fromString(rs.string("id")), rs.string("resource_type"), rs.string("path"))
+    ResourceRow(UUID.fromString(rs.string("id")).nn, rs.string("resource_type"), rs.string("path"))
   override def updateRow(rowData: ResourceRow)(implicit session: DBSession): Int = {
     rowData.resourceType match {
       case "article" | "learningpath" | "multidisciplinary" | "topic" => taxonomyApiClient

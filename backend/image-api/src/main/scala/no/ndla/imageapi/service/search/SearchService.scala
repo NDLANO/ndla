@@ -116,7 +116,7 @@ abstract class SearchService[T](using
             scheduleIndexDocuments()
             Failure(IndexNotFoundException(s"Index ${props.SearchIndex} not found. Scheduling a reindex"))
           case _ =>
-            logger.error(e.getMessage)
+            logger.error(e.message)
             Failure(NdlaSearchException(s"Unable to execute search in ${props.SearchIndex}", e))
         }
       case t => Failure(t)
@@ -131,7 +131,7 @@ abstract class SearchService[T](using
       case Success(reindexResult) => logger.info(
           s"Completed indexing of ${reindexResult.totalIndexed} documents ($searchIndex) in ${reindexResult.millisUsed} ms."
         )
-      case Failure(ex) => logger.warn(ex.getMessage, ex)
+      case Failure(ex) => logger.warn(s"Unable to index documents: ${ex.getMessage}", ex)
     }
   }
 }
