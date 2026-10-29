@@ -22,8 +22,8 @@ import {
 import { Input, InputContainer, useFieldContext } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { isHotkey } from "is-hotkey";
-import { type FocusEvent, type TextareaHTMLAttributes, useMemo, useState } from "react";
-import { type Descendant, Transforms } from "slate";
+import { type FocusEvent, type TextareaHTMLAttributes, useMemo, useRef, useState } from "react";
+import { type Descendant, Editor, Transforms } from "slate";
 import { Editable, Slate } from "slate-react";
 import type { EditableProps } from "slate-react/dist/components/editable";
 import { BreakElement } from "./plugins/break/BreakElement";
@@ -150,6 +150,7 @@ const StyledEditable = styled(
 
 export const RichTextEditor = ({ initialValue, onChange, variant = "full", ...rest }: Props) => {
   const [isFocused, setIsFocused] = useState(false);
+  const isPointerDown = useRef(false);
   const [editor] = useState(() =>
     createSlate({
       value: initialValue,
@@ -163,6 +164,24 @@ export const RichTextEditor = ({ initialValue, onChange, variant = "full", ...re
 
   const field = useFieldContext();
   const fieldProps = useMemo(() => (field?.getTextareaProps() as EditableProps | undefined) ?? {}, [field]);
+
+  const onFocus = () => {
+    if (isPointerDown.current) return;
+    if (!editor.selection) Transforms.select(editor, Editor.end(editor, []));
+    setIsFocused(true);
+  };
+
+  const onMouseDown = () => {
+    isPointerDown.current = true;
+    document.addEventListener(
+      "mouseup",
+      () => {
+        isPointerDown.current = false;
+        setIsFocused(true);
+      },
+      { once: true },
+    );
+  };
 
   const onBlur = (e: FocusEvent<HTMLDivElement>) => {
     if (!e.currentTarget.contains(e.relatedTarget)) {
@@ -196,7 +215,8 @@ export const RichTextEditor = ({ initialValue, onChange, variant = "full", ...re
       <InputContainer
         aria-invalid={field?.invalid || undefined}
         css={{ flexDirection: "column", alignItems: "stretch", paddingInline: "0!" }}
-        onFocus={() => setIsFocused(true)}
+        onFocus={onFocus}
+        onMouseDown={onMouseDown}
         onBlur={onBlur}
       >
         {editable}
@@ -205,7 +225,7 @@ export const RichTextEditor = ({ initialValue, onChange, variant = "full", ...re
   }
 
   return (
-    <EditorWrapper className="ndla-article" onFocus={() => setIsFocused(true)} onBlur={onBlur}>
+    <EditorWrapper className="ndla-article" onFocus={onFocus} onMouseDown={onMouseDown} onBlur={onBlur}>
       {editable}
     </EditorWrapper>
   );
