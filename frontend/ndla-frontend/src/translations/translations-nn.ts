@@ -1320,7 +1320,7 @@ const translations = {
     disclaimer:
       "Merk: Læringsressursane på <safelink>Nasjonal digital læringsarena - NDLA</safelink> kan ha blitt oppdaterte etter at denne PDF-en vart generert. Dersom du oppdagar feil i PDF-en, kan du sjekke den originale læringsressursen på NDLA.no. Vil du melde frå om ein feil i læringsressursen, send ein e-post til <a>hjelp@ndla.no</a>.",
     description:
-      "Denne PDF-en inneheld kanskje artiklar med innebygde filmer, simuleringar og andre interaktive elementer. Slikt innhold lar seg ikkje vise i ein PDF, og er difor ikkje med. Du kan finne innhaldet på ndla.no",
+      "Denne PDF-en inneheld kanskje læringsressursar med innebygde filmer, simuleringar og andre interaktive elementer. Slikt innhold lar seg ikkje vise i ein PDF, og er difor ikkje med. Du kan finne innhaldet på ndla.no",
     content: "Innhald",
     contentSubtitle: "{{number}} læringsressursar frå mappa {{folder}}",
     printOrExport: "Skriv ut eller lagre som PDF",
