@@ -15,8 +15,8 @@
       ],
       "inputs": ["production", "^production"],
       "outputs": [
-        "{workspaceRoot}/packages/packages/styled-system/src/**/*",
-        "{workspaceRoot}/packages/packages/styled-system/lib/**/*.d.ts"
+        "{workspaceRoot}/packages/styled-system/src/**/*",
+        "{workspaceRoot}/packages/styled-system/lib/**/*.d.ts"
       ],
       "cache": true
     },

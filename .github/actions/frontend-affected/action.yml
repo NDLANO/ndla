@@ -34,4 +34,4 @@ runs:
       env:
         ONLY: ${{ inputs.only }}
         ALL: ${{ inputs.all }}
-      run: node "$GITHUB_WORKSPACE/frontend/packages/packages/ci/src/frontend-affected.mts"
+      run: node "$GITHUB_WORKSPACE/frontend/packages/ci/src/frontend-affected.mts"

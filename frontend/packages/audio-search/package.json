@@ -1,0 +1,57 @@
+{
+  "name": "@ndla/audio-search",
+  "version": "7.0.156-alpha.0",
+  "gitHead": "c2e2628a2dddfcca03f25548474243ffcd13595e",
+  "description": "A simple library for searching for audio files from NDLA",
+  "keywords": [
+    "ndla"
+  ],
+  "license": "GPL-3.0",
+  "author": "ndla@knowit.no",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NDLANO/ndla.git",
+    "directory": "frontend/packages/audio-search"
+  },
+  "files": [
+    "dist",
+    "lib",
+    "es",
+    "types"
+  ],
+  "type": "module",
+  "exports": {
+    "ndla-source": "./src/index.ts",
+    "types": "./lib/index.d.ts",
+    "import": "./es/index.mjs",
+    "require": "./lib/index.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "watch:panda": "panda ship -w --outfile dist/panda.buildinfo.json",
+    "build:types": "tsc -p tsconfig.build.json",
+    "build:panda": "mkdir -p dist && panda cssgen --minimal --outfile dist/styles.css && panda ship --outfile dist/panda.buildinfo.json"
+  },
+  "dependencies": {
+    "@ndla/icons": "workspace:^",
+    "@ndla/licenses": "workspace:^",
+    "@ndla/primitives": "workspace:^",
+    "@ndla/styled-system": "workspace:^"
+  },
+  "devDependencies": {
+    "@ndla/preset-panda": "workspace:^",
+    "@ndla/types-backend": "workspace:^",
+    "@pandacss/dev": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "react": "catalog:peers",
+    "react-dom": "catalog:peers"
+  }
+}

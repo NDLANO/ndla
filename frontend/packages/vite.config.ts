@@ -14,7 +14,7 @@ export default defineConfig({
   resolve: { conditions: ndlaClientConditions },
   plugins: [react()],
   test: ndlaJsdomTest({
-    include: ["packages/**/src/**/__tests__/*-test.(js|jsx|ts|tsx)"],
+    include: ["*/src/**/__tests__/*-test.(js|jsx|ts|tsx)"],
     setupFiles: "./vitest.setup.ts",
     env: { NODE_ENV: "unittest" },
   }),
