@@ -268,7 +268,7 @@ const translations = {
       learningpathUnsupported:
         "Læringsstiar og tverrfaglege caser kan ikkje visast direkte i delte mapper. Dersom du trykker på lenka i navigasjonsmenyen til venstre, blir stien opna i ei ny fane.",
       description:
-        "I denne delte mappa finn du fagstoff og oppgåver frå NDLA. Artiklane er samla og delt av ein lærar.",
+        "I denne delte mappa finn du fagstoff og oppgåver frå NDLA. Læringsressursane er samla og delt av ein lærar.",
       willOpenInNewTab: "Blir opna i ny fane.",
     },
     goToMyNdla: "Gå til Min NDLA",
@@ -315,8 +315,8 @@ const translations = {
         content: {
           title: "Legg til innhald",
           resource: {
-            label: "Artikkel frå NDLA",
-            labelHelper: "Søk etter artikkel",
+            label: "Læringsressurs frå NDLA",
+            labelHelper: "Søk etter læringsressurs",
           },
           text: {
             title: {
@@ -1048,7 +1048,7 @@ const translations = {
   },
   movedResourcePage: {
     title: "Sida har flytta, men du finn ho her:",
-    openInSubject: "Opne artikkelen i eit fag:",
+    openInSubject: "Opne læringsressursen i eit fag:",
   },
   forbiddenPage: {
     title: "Tilgang nekta",
@@ -1178,7 +1178,7 @@ const translations = {
     resources: "Dette er ikkje eit komplett læremiddel, men ei ressurssamling som vi håper kan vere nyttig for deg.",
     subjectOutdated: "Dette faget følgjer ein utgått læreplan.",
     contentType: {
-      article: "Denne artikkelen",
+      article: "Denne læringsressursen",
       learningpath: "Denne læringsstien",
       topic: "Dette emnet",
     },
@@ -1301,7 +1301,7 @@ const translations = {
   },
   revision: {
     revisionNo: "Versjon {{revision}}",
-    backToArticle: "Tilbake til artikkel",
+    backToArticle: "Tilbake til læringsressurs",
     backToRevisions: "Tilbake til endringslogg",
     viewPreviousRevisions: "Sjå tidlegare versjonar",
     currentRevision: "Nyaste versjon av læringsressursen.",
@@ -1318,9 +1318,9 @@ const translations = {
   folderPrintPage: {
     subtitle: "Eksportert frå ndla.no {{date}} kl {{time}}",
     disclaimer:
-      "Merk: Artiklane på <safelink>Nasjonal digital læringsarena - NDLA</safelink> kan ha blitt oppdaterte etter at denne PDF-en vart generert. Dersom du oppdagar feil i PDF-en, kan du sjekke den originale artikkelen på NDLA.no. Vil du melde frå om ein feil i artikkelen, send ein e-post til <a>hjelp@ndla.no</a>.",
+      "Merk: Læringsressursane på <safelink>Nasjonal digital læringsarena - NDLA</safelink> kan ha blitt oppdaterte etter at denne PDF-en vart generert. Dersom du oppdagar feil i PDF-en, kan du sjekke den originale læringsressursen på NDLA.no. Vil du melde frå om ein feil i læringsressursen, send ein e-post til <a>hjelp@ndla.no</a>.",
     description:
-      "Denne PDF-en inneheld kanskje artiklar med innebygde filmer, simuleringar og andre interaktive elementer. Slikt innhold lar seg ikkje vise i ein PDF, og er difor ikkje med. Du kan finne innhaldet på ndla.no",
+      "Denne PDF-en inneheld kanskje læringsressursar med innebygde filmer, simuleringar og andre interaktive elementer. Slikt innhold lar seg ikkje vise i ein PDF, og er difor ikkje med. Du kan finne innhaldet på ndla.no",
     content: "Innhald",
     contentSubtitle: "{{number}} læringsressursar frå mappa {{folder}}",
     printOrExport: "Skriv ut eller lagre som PDF",

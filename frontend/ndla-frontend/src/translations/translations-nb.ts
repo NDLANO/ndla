@@ -266,7 +266,7 @@ const translations = {
       drawerButton: "Vis mapper og ressurser",
       drawerTitle: "Mapper og ressurser",
       description:
-        "I denne delte mappa finner du fagstoff og oppgaver fra NDLA. Artiklene er samlet og delt av en lærer.",
+        "I denne delte mappa finner du fagstoff og oppgaver fra NDLA. Læringsressursene er samlet og delt av en lærer.",
       willOpenInNewTab: "Åpnes i ny fane.",
     },
     goToMyNdla: "Gå til Min NDLA",
@@ -313,8 +313,8 @@ const translations = {
         content: {
           title: "Legg til innhold",
           resource: {
-            label: "Artikkel fra NDLA",
-            labelHelper: "Søk etter artikkel",
+            label: "Læringsressurs fra NDLA",
+            labelHelper: "Søk etter læringsressurs",
           },
           text: {
             title: {
@@ -1047,7 +1047,7 @@ const translations = {
   },
   movedResourcePage: {
     title: "Siden har flyttet, men du finner den her:",
-    openInSubject: "Åpne artikkelen i et fag:",
+    openInSubject: "Åpne læringsressursen i et fag:",
   },
   forbiddenPage: {
     title: "Tilgang nektet",
@@ -1177,7 +1177,7 @@ const translations = {
     resources: "Dette er ikke et komplett læremiddel, men ei ressurssamling som vi håper kan være nyttig for deg.",
     subjectOutdated: "Dette faget følger en utgått læreplan.",
     contentType: {
-      article: "Denne artikkelen",
+      article: "Denne læringsressursen",
       learningpath: "Denne læringsstien",
       topic: "Dette emnet",
     },
@@ -1300,7 +1300,7 @@ const translations = {
   },
   revision: {
     revisionNo: "Versjon {{revision}}",
-    backToArticle: "Tilbake til artikkel",
+    backToArticle: "Tilbake til læringsressurs",
     backToRevisions: "Tilbake til endringslogg",
     viewPreviousRevisions: "Se tidligere versjoner",
     currentRevision: "Nyeste versjon av læringsressursen.",
@@ -1317,9 +1317,9 @@ const translations = {
   folderPrintPage: {
     subtitle: "Eksportert fra ndla.no {{date}} kl {{time}}",
     disclaimer:
-      "Merk: Artiklene på <safelink>Nasjonal digital læringsarena - NDLA</safelink> kan ha blitt oppdatert etter at denne PDF-en ble generert. Dersom du oppdager feil i PDF-en, kan du sjekke den originale artikkelen på NDLA.no. Vil du melde fra om en feil i artikkelen, send en e-post til <a>hjelp@ndla.no</a>.",
+      "Merk: Læringsressursene på <safelink>Nasjonal digital læringsarena - NDLA</safelink> kan ha blitt oppdatert etter at denne PDF-en ble generert. Dersom du oppdager feil i PDF-en, kan du sjekke den originale læringsressursen på NDLA.no. Vil du melde fra om en feil i læringsressursen, send en e-post til <a>hjelp@ndla.no</a>.",
     description:
-      "Denne PDF-en inneholder kanskje artikler med innebygde filmer, simuleringer og andre interaktive elementer. Slikt innhold lar seg ikke vise i en PDF, og er derfor ikke med. Du kan finne innholdet på ndla.no",
+      "Denne PDF-en inneholder kanskje læringsressurser med innebygde filmer, simuleringer og andre interaktive elementer. Slikt innhold lar seg ikke vise i en PDF, og er derfor ikke med. Du kan finne innholdet på ndla.no",
     content: "Innhold",
     contentSubtitle: "{{number}} læringsressurser fra mappen {{folder}}",
     printOrExport: "Skriv ut eller lagre som PDF",
