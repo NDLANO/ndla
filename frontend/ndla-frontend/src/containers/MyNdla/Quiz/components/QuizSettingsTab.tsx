@@ -126,23 +126,24 @@ export const QuizSettingsTab = ({
           ))}
         </RadioGroupRoot>
       </SettingRow>
-      <SettingRow>
-        <RadioGroupRoot
-          orientation="vertical"
-          value={String(questionCount)}
-          onValueChange={(details) => onQuestionCountChange(Number(details.value) as QuestionCountOption)}
-          disabled={!randomSubset}
-        >
-          <StyledRadioGroupLabel>{t("myNdla.quiz.form.settingsTab.questionCount")}</StyledRadioGroupLabel>
-          {QUESTION_COUNT_OPTIONS.map((count) => (
-            <RadioGroupItem value={String(count)} key={count}>
-              <RadioGroupItemControl />
-              <StyledRadioGroupItemText>{count}</StyledRadioGroupItemText>
-              <RadioGroupItemHiddenInput />
-            </RadioGroupItem>
-          ))}
-        </RadioGroupRoot>
-      </SettingRow>
+      {!!randomSubset && (
+        <SettingRow>
+          <RadioGroupRoot
+            orientation="vertical"
+            value={String(questionCount)}
+            onValueChange={(details) => onQuestionCountChange(Number(details.value) as QuestionCountOption)}
+          >
+            <StyledRadioGroupLabel>{t("myNdla.quiz.form.settingsTab.questionCount")}</StyledRadioGroupLabel>
+            {QUESTION_COUNT_OPTIONS.map((count) => (
+              <RadioGroupItem value={String(count)} key={count}>
+                <RadioGroupItemControl />
+                <StyledRadioGroupItemText>{count}</StyledRadioGroupItemText>
+                <RadioGroupItemHiddenInput />
+              </RadioGroupItem>
+            ))}
+          </RadioGroupRoot>
+        </SettingRow>
+      )}
     </Panel>
   );
 };
