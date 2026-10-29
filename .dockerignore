@@ -14,3 +14,5 @@ frontend/**/storybook-static
 frontend/**/.vercel
 frontend/**/coverage
 frontend/**/*.tsbuildinfo
+frontend/**/Dockerfile
+frontend/docker
