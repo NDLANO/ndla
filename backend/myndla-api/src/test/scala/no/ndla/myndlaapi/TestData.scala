@@ -37,7 +37,7 @@ object TestData {
   val today: NDLADate = NDLADate.now()
 
   val emptyDomainResource: Resource = Resource(
-    id = UUID.randomUUID(),
+    id = UUID.randomUUID().nn,
     feideId = "",
     resourceType = ResourceType.Article,
     path = "",
@@ -48,7 +48,7 @@ object TestData {
   )
 
   val emptyDomainFolder: domain.Folder = domain.Folder(
-    id = UUID.randomUUID(),
+    id = UUID.randomUUID().nn,
     feideId = "",
     parentId = None,
     name = "",
@@ -69,7 +69,7 @@ object TestData {
   val baseResourceDocument: ResourceDocument = ResourceDocument(tags = List.empty, resourceId = "1")
 
   val emptyApiFolder: api.FolderDTO = api.FolderDTO(
-    id = UUID.randomUUID(),
+    id = UUID.randomUUID().nn,
     name = "",
     status = "",
     subfolders = List.empty,
@@ -101,11 +101,11 @@ object TestData {
 
   val emptyMyNdlaUserDto: MyNDLAUserDTO = folderConverterService.toApiUserData(emptyMyNDLAUser)
 
-  val quizId: UUID = UUID.randomUUID()
+  val quizId: UUID = UUID.randomUUID().nn
 
-  val q1: UUID             = UUID.randomUUID()
-  val a1: UUID             = UUID.randomUUID()
-  val a2: UUID             = UUID.randomUUID()
+  val q1: UUID             = UUID.randomUUID().nn
+  val a1: UUID             = UUID.randomUUID().nn
+  val a2: UUID             = UUID.randomUUID().nn
   val singleChoiceQuestion = Question(
     id = q1,
     questionType = QuestionType.SINGLE_CHOICE,
@@ -120,10 +120,10 @@ object TestData {
     updated = today,
   )
 
-  val q2: UUID            = UUID.randomUUID()
-  val b1: UUID            = UUID.randomUUID()
-  val b2: UUID            = UUID.randomUUID()
-  val b3: UUID            = UUID.randomUUID()
+  val q2: UUID            = UUID.randomUUID().nn
+  val b1: UUID            = UUID.randomUUID().nn
+  val b2: UUID            = UUID.randomUUID().nn
+  val b3: UUID            = UUID.randomUUID().nn
   val multiChoiceQuestion = Question(
     id = q2,
     questionType = QuestionType.MULTI_CHOICE,
@@ -139,7 +139,7 @@ object TestData {
     updated = today,
   )
 
-  val q3: UUID         = UUID.randomUUID()
+  val q3: UUID         = UUID.randomUUID().nn
   val matchingQuestion = Question(
     id = q3,
     questionType = QuestionType.MATCHING,

@@ -22,11 +22,11 @@ class ControllerErrorHandling(using clock: Clock, dataSource: => DataSource, err
   import errorHelpers.*
 
   override def handleErrors: PartialFunction[Throwable, AllErrors] = {
-    case nfe: NotFoundException                     => ErrorBody(NOT_FOUND, nfe.getMessage, clock.now(), 404)
-    case a: AccessDeniedException if a.unauthorized => ErrorBody(ACCESS_DENIED, a.getMessage, clock.now(), 401)
-    case a: AccessDeniedException                   => ErrorBody(ACCESS_DENIED, a.getMessage, clock.now(), 403)
-    case ise: InvalidStateException                 => ErrorBody(CONFLICT, ise.getMessage, clock.now(), 409)
-    case mse: InvalidStatusException                => ErrorBody(MISSING_STATUS, mse.getMessage, clock.now(), 400)
+    case nfe: NotFoundException                     => ErrorBody(NOT_FOUND, nfe.message, clock.now(), 404)
+    case a: AccessDeniedException if a.unauthorized => ErrorBody(ACCESS_DENIED, a.message, clock.now(), 401)
+    case a: AccessDeniedException                   => ErrorBody(ACCESS_DENIED, a.message, clock.now(), 403)
+    case ise: InvalidStateException                 => ErrorBody(CONFLICT, ise.message, clock.now(), 409)
+    case mse: InvalidStatusException                => ErrorBody(MISSING_STATUS, mse.message, clock.now(), 400)
     case _: PSQLException                           =>
       dataSource.connectToDatabase()
       generic

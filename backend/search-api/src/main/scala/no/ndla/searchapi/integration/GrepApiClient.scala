@@ -17,6 +17,7 @@ import no.ndla.common.implicits.*
 import no.ndla.common.logging.logTaskTime
 import no.ndla.common.model.NDLADate
 import no.ndla.searchapi.Props
+import no.ndla.searchapi.model.api.GrepException
 import no.ndla.searchapi.model.api.grep.GrepStatusEncoderConfiguration
 import no.ndla.searchapi.model.grep.*
 import sttp.client4.quick.*
@@ -39,15 +40,20 @@ class GrepApiClient(using props: Props) extends StrictLogging {
   implicit val statusEncoderConfig: GrepStatusEncoderConfiguration = GrepStatusEncoderConfiguration(encodeToUrl = true)
 
   private def readGrepJsonFiles[T](dump: File, path: String)(implicit d: Decoder[T]): Try[List[T]] = {
-    val folder    = new File(dump, path)
-    val jsonFiles = folder.list()
-    jsonFiles
-      .toList
-      .traverse { f =>
-        for {
-          jsonStr <- readFile(new File(folder, f))
-          parsed  <- CirceUtil.tryParseAs[T](jsonStr)
-        } yield parsed
+    val folder = new File(dump, path)
+    folder
+      .list()
+      .toOption
+      .toTry(GrepException(s"Could not list files in '${folder.getPath}'"))
+      .flatMap { jsonFiles =>
+        jsonFiles
+          .toList
+          .traverse { f =>
+            for {
+              jsonStr <- readFile(new File(folder, f))
+              parsed  <- CirceUtil.tryParseAs[T](jsonStr)
+            } yield parsed
+          }
       }
   }
 
@@ -89,7 +95,11 @@ class GrepApiClient(using props: Props) extends StrictLogging {
   implicit object FileIsReleasable extends Releasable[File] {
     private def deleteDirectory(f: File): Unit = {
       if (f.isDirectory) {
-        f.listFiles().foreach(deleteDirectory)
+        for {
+          files <- f.listFiles().toOption
+          file  <- files
+          child <- file.toOption
+        } deleteDirectory(child)
       }
       f.delete(): Unit
     }
@@ -101,7 +111,12 @@ class GrepApiClient(using props: Props) extends StrictLogging {
     permitTry {
       val date        = NDLADate.now().toUTCEpochSecond
       val tempDirPath = Try(Files.createTempDirectory(s"grep-dump-$date")).?
-      Using(tempDirPath.toFile) { tempDir =>
+      val tempDirFile = tempDirPath
+        .toOption
+        .flatMap(_.toFile.toOption)
+        .toTry(GrepException("Could not create temporary directory for grep dump"))
+        .?
+      Using(tempDirFile) { tempDir =>
         val zippedDump   = fetchDump(tempDir).?
         val unzippedDump = ZipUtil.unzip(zippedDump, tempDir, deleteArchive = true).?
         getBundleFromDump(unzippedDump).?

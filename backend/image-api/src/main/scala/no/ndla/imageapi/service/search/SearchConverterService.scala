@@ -21,6 +21,7 @@ import no.ndla.language.Language
 import no.ndla.language.Language.{findByLanguageOrBestEffort, getDefault, sortLanguagesByPriority}
 import no.ndla.network.ApplicationUrl
 import cats.implicits.*
+import no.ndla.common.implicits.toTry
 import no.ndla.common.model.api.search.{SearchableLanguageList, SearchableLanguageValues}
 import no.ndla.common.auth.Permission.IMAGE_API_WRITE
 import no.ndla.network.tapir.auth.TokenUser
@@ -124,15 +125,18 @@ class SearchConverterService(using converterService: ConverterService, props: Pr
 
     val contributors = searchableImage.creators ++ searchableImage.processors ++ searchableImage.rightsholders
 
-    getSearchableImageFileFromSearchableImage(searchableImage, language.some).map(imageFile => {
+    for {
+      applicationUrl <- ApplicationUrl.get.toTry(IllegalStateException("Application url is not set"))
+      imageFile      <- getSearchableImageFileFromSearchableImage(searchableImage, language.some)
+    } yield {
       ImageMetaSummaryDTO(
         id = searchableImage.id.toString,
         title = title,
         contributors = contributors,
         altText = altText,
         caption = caption,
-        previewUrl = apiToRawRegex.replaceFirstIn(ApplicationUrl.get, "/raw") + imageFile.previewUrl,
-        metaUrl = ApplicationUrl.get + searchableImage.id,
+        previewUrl = apiToRawRegex.replaceFirstIn(applicationUrl, "/raw") + imageFile.previewUrl,
+        metaUrl = applicationUrl + searchableImage.id,
         license = searchableImage.license,
         supportedLanguages = supportedLanguages,
         modelRelease = searchableImage.modelReleased,
@@ -148,7 +152,7 @@ class SearchConverterService(using converterService: ConverterService, props: Pr
           },
         inactive = searchableImage.inactive,
       )
-    })
+    }
   }
 
   def getLanguageFromHit(result: SearchHit): Option[String] = {

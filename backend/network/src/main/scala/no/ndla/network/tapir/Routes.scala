@@ -14,6 +14,7 @@ import io.opentelemetry.api.trace.Span
 import no.ndla.common.configuration.BaseProps
 import no.ndla.common.{CorrelationID, RequestLogger}
 import no.ndla.common.configuration.Constants
+import no.ndla.common.implicits.toOption
 import no.ndla.network.TaxonomyData
 import no.ndla.network.model.*
 import no.ndla.network.tapir.NoNullJsonPrinter.*
@@ -97,7 +98,7 @@ class Routes(using
 
   private case class NdlaExceptionHandler[T[_]]() extends ExceptionHandler[T] {
     override def apply(ctx: ExceptionContext)(implicit monad: MonadError[T]): T[Option[ValuedEndpointOutput[?]]] = {
-      val _             = Span.current().recordException(ctx.e)
+      Span.current().toOption.foreach(_.recordException(ctx.e))
       val errorToReturn = errorHandling.returnError(ctx.e)
       val sc            = StatusCode(errorToReturn.statusCode)
       val resp          = ValuedEndpointOutput(jsonBody[AllErrors], errorToReturn)
@@ -263,7 +264,7 @@ class Routes(using
   def startServerAndWait(name: String, port: Int)(onStartup: NettySyncServerBinding => Unit): Unit = {
     val prometheusMetrics = NdlaPrometheusRegistry.tapirPrometheusMetrics
 
-    val options = NettySyncServerOptions
+    val interceptors = NettySyncServerOptions
       .customiseInterceptors
       .defaultHandlers(err => failureResponse(err, None))
       .rejectHandler(NdlaRejectHandler[Identity]())
@@ -273,8 +274,7 @@ class Routes(using
       .metricsInterceptor(prometheusMetrics.metricsInterceptor())
       .prependInterceptor(TapirMiddleware.before)
       .prependInterceptor(RequestInterceptor.transformResultEffect(new TapirMiddleware.after))
-      .prependInterceptor(NdlaTracing.tracingInterceptor)
-      .options
+    val options = NdlaTracing.tracingInterceptor.fold(interceptors)(interceptors.prependInterceptor).options
 
     val gracefulShutdownTimeout = 30.seconds
 

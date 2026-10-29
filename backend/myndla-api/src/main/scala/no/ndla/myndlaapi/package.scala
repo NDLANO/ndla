@@ -8,6 +8,7 @@
 
 package no.ndla
 
+import no.ndla.common.implicits.{toOption, toTry}
 import no.ndla.myndlaapi.model.domain.NDLASQLException
 import scalikejdbc.{Binders, ParameterBinderFactory}
 import sttp.shared.Identity
@@ -17,6 +18,11 @@ import scala.util.{Failure, Success, Try}
 
 package object myndlaapi {
   type Eff[A] = Identity[A]
+
+  def randomUUID(): Try[UUID] = UUID
+    .randomUUID()
+    .toOption
+    .toTry(new IllegalStateException("Could not generate a random UUID"))
 
   // Binders used for UUID binding of scalikejdbc results
   implicit val uuidBinder: Binders[Try[UUID]] = Binders.of[Try[UUID]] {

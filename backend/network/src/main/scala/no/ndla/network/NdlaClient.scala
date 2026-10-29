@@ -117,7 +117,8 @@ class NdlaClient extends StrictLogging {
           else response.body
 
         val newEx = HttpRequestException(s"Could not parse response with body: $errBody", response)
-        Failure(newEx.initCause(err))
+        val _     = newEx.initCause(err)
+        Failure(newEx)
     }
   }
 

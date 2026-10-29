@@ -17,7 +17,7 @@ import no.ndla.common.model.domain.myndla.{FolderStatus, MyNDLAUser}
 import no.ndla.common.{CirceUtil, Clock}
 import no.ndla.database.DBUtility
 import no.ndla.database.implicits.*
-import no.ndla.myndlaapi.{maybeUuidBinder, uuidBinder, uuidParameterFactory}
+import no.ndla.myndlaapi.{maybeUuidBinder, randomUUID, uuidBinder, uuidParameterFactory}
 import no.ndla.myndlaapi.model.domain.{
   BulkInserts,
   DBMyNDLAUser,
@@ -59,43 +59,44 @@ class FolderRepository(using
 
   def insertFolder(feideId: FeideID, folderData: NewFolderData)(implicit
       session: DBSession = dbUtility.autoSession
-  ): Try[Folder] = Try {
-    val newId   = UUID.randomUUID()
-    val created = clock.now()
-    val updated = created
-    val shared  =
-      if (folderData.status == FolderStatus.SHARED) Some(created)
-      else None
+  ): Try[Folder] = randomUUID().flatMap { newId =>
+    Try {
+      val created = clock.now()
+      val updated = created
+      val shared  =
+        if (folderData.status == FolderStatus.SHARED) Some(created)
+        else None
 
-    val column = dbFolder.column.c
-    val _      = withSQL {
-      insert
-        .into(dbFolder)
-        .namedValues(
-          column("id")          -> newId,
-          column("parent_id")   -> folderData.parentId,
-          column("feide_id")    -> feideId,
-          column("name")        -> folderData.name,
-          column("status")      -> folderData.status.toString,
-          column("rank")        -> folderData.rank,
-          column("created")     -> created,
-          column("updated")     -> updated,
-          column("shared")      -> shared,
-          column("description") -> folderData.description,
-        )
-    }.update()
+      val column = dbFolder.column.c
+      val _      = withSQL {
+        insert
+          .into(dbFolder)
+          .namedValues(
+            column("id")          -> newId,
+            column("parent_id")   -> folderData.parentId,
+            column("feide_id")    -> feideId,
+            column("name")        -> folderData.name,
+            column("status")      -> folderData.status.toString,
+            column("rank")        -> folderData.rank,
+            column("created")     -> created,
+            column("updated")     -> updated,
+            column("shared")      -> shared,
+            column("description") -> folderData.description,
+          )
+      }.update()
 
-    logger.info(s"Inserted new folder with id: $newId")
-    folderData.toFullFolder(
-      id = newId,
-      feideId = feideId,
-      resources = List.empty,
-      subfolders = List.empty,
-      created = created,
-      updated = updated,
-      shared = shared,
-      user = None,
-    )
+      logger.info(s"Inserted new folder with id: $newId")
+      folderData.toFullFolder(
+        id = newId,
+        feideId = feideId,
+        resources = List.empty,
+        subfolders = List.empty,
+        created = created,
+        updated = updated,
+        shared = shared,
+        user = None,
+      )
+    }
   }
 
   def insertResource(
@@ -104,25 +105,26 @@ class FolderRepository(using
       resourceType: ResourceType,
       created: NDLADate,
       document: ResourceDocument,
-  )(implicit session: DBSession = dbUtility.autoSession): Try[Resource] = Try {
-    val newId  = UUID.randomUUID()
-    val column = dbResource.column.c
+  )(implicit session: DBSession = dbUtility.autoSession): Try[Resource] = randomUUID().flatMap { newId =>
+    Try {
+      val column = dbResource.column.c
 
-    val _ = withSQL {
-      insert
-        .into(dbResource)
-        .namedValues(
-          column("id")            -> newId,
-          column("feide_id")      -> feideId,
-          column("path")          -> path,
-          column("resource_type") -> resourceType.entryName,
-          column("created")       -> created,
-          column("document")      -> dbUtility.asJsonb(document),
-        )
-    }.update()
+      val _ = withSQL {
+        insert
+          .into(dbResource)
+          .namedValues(
+            column("id")            -> newId,
+            column("feide_id")      -> feideId,
+            column("path")          -> path,
+            column("resource_type") -> resourceType.entryName,
+            column("created")       -> created,
+            column("document")      -> dbUtility.asJsonb(document),
+          )
+      }.update()
 
-    logger.info(s"Inserted new resource with id: $newId")
-    document.toFullResource(newId, path, resourceType, feideId, created, None)
+      logger.info(s"Inserted new resource with id: $newId")
+      document.toFullResource(newId, path, resourceType, feideId, created, None)
+    }
   }
 
   def createResourceConnection(folderId: Option[UUID], resourceId: UUID, rank: Int, favoritedDate: NDLADate)(implicit

@@ -20,9 +20,8 @@ import no.ndla.draftapi.model.domain.StateTransition
 import no.ndla.draftapi.{TestData, TestEnvironment, UnitSuite}
 import no.ndla.mapping.License.CC_BY
 import org.mockito.ArgumentCaptor
-import org.mockito.ArgumentMatchers.{any, eq as eqTo}
-import org.mockito.Mockito.{reset, times, verify, when}
-import org.mockito.invocation.InvocationOnMock
+import no.ndla.testbase.NullSafeMockito
+import no.ndla.testbase.NullSafeMockito.{any, eqTo, reset, times, verify, when}
 import scalikejdbc.DBSession
 
 import scala.util.{Failure, Success}
@@ -154,11 +153,16 @@ class StateTransitionRulesTest extends UnitSuite with TestEnvironment {
     ): @unchecked
     sideEffect.map(sf => sf.run(res, TestData.userWithAdminAccess).get.status should equal(expectedStatus))
 
-    val captor = ArgumentCaptor.forClass(classOf[Draft])
-    verify(articleApiClient, times(1)).updateArticle(eqTo(InProcessArticle.id.get), captor.capture(), eqTo(true), any)
+    val captor = ArgumentCaptor.forClass(classOf[Draft]).nn
+    verify(articleApiClient, times(1)).updateArticle(
+      eqTo(InProcessArticle.id.get),
+      NullSafeMockito.capture(captor),
+      eqTo(true),
+      any,
+    )
     verify(taxonomyApiClient, times(1)).updateTaxonomyIfExists(eqTo(InProcessArticle.id.get), any, any)
 
-    val argumentArticle: Draft   = captor.getValue
+    val argumentArticle: Draft   = captor.getValue.nn
     val argumentArticleWithNotes = argumentArticle.copy(notes = editorNotes)
     argumentArticleWithNotes should equal(expectedArticle)
   }
@@ -180,11 +184,11 @@ class StateTransitionRulesTest extends UnitSuite with TestEnvironment {
     ): @unchecked
     sideEffect.map(sf => sf.run(res, TestData.userWithAdminAccess).get.status should equal(expectedStatus))
 
-    val captor = ArgumentCaptor.forClass(classOf[Draft])
+    val captor = ArgumentCaptor.forClass(classOf[Draft]).nn
 
-    verify(articleApiClient, times(1)).unpublishArticle(captor.capture(), any)
+    verify(articleApiClient, times(1)).unpublishArticle(NullSafeMockito.capture(captor), any)
 
-    val argumentArticle: Draft   = captor.getValue
+    val argumentArticle: Draft   = captor.getValue.nn
     val argumentArticleWithNotes = argumentArticle.copy(notes = editorNotes)
     argumentArticleWithNotes should equal(expectedArticle)
   }
@@ -440,13 +444,18 @@ class StateTransitionRulesTest extends UnitSuite with TestEnvironment {
     ): @unchecked
     sideEffect.map(sf => sf.run(res, TestData.userWithAdminAccess).get.status should equal(expectedStatus))
 
-    val captor = ArgumentCaptor.forClass(classOf[Draft])
-    verify(articleApiClient, times(1)).updateArticle(eqTo(InProcessArticle.id.get), captor.capture(), eqTo(true), any)
+    val captor = ArgumentCaptor.forClass(classOf[Draft]).nn
+    verify(articleApiClient, times(1)).updateArticle(
+      eqTo(InProcessArticle.id.get),
+      NullSafeMockito.capture(captor),
+      eqTo(true),
+      any,
+    )
 
     verify(h5pApiClient, times(1)).publishH5Ps(eqTo(h5pPaths), any)
     verify(taxonomyApiClient, times(1)).updateTaxonomyIfExists(eqTo(InProcessArticle.id.get), any, any)
 
-    val argumentArticle: Draft   = captor.getValue
+    val argumentArticle: Draft   = captor.getValue.nn
     val argumentArticleWithNotes = argumentArticle.copy(notes = editorNotes)
     argumentArticleWithNotes should equal(expectedArticle)
   }
@@ -496,9 +505,9 @@ class StateTransitionRulesTest extends UnitSuite with TestEnvironment {
     )
     val status            = common.Status(PLANNED, Set.empty)
     val transitionsToTest = stateTransitionRules.StateTransitions.filter(_.to == PUBLISHED)
-    when(taxonomyApiClient.updateTaxonomyIfExists(any, any, any)).thenAnswer(i => Success(i.getArgument(0)))
-    when(articleApiClient.updateArticle(any, any, any, any)).thenAnswer((i: InvocationOnMock) => {
-      val x = i.getArgument[Draft](1)
+    when(taxonomyApiClient.updateTaxonomyIfExists(any, any, any)).thenAnswer(i => Success(i.nn.getArgument(0)))
+    when(articleApiClient.updateArticle(any, any, any, any)).thenAnswer(i => {
+      val x = i.nn.getArgument[Draft](1)
       Success(x)
     })
     when(h5pApiClient.publishH5Ps(any, any)).thenReturn(Success(()))
@@ -558,14 +567,12 @@ class StateTransitionRulesTest extends UnitSuite with TestEnvironment {
     )
     val status            = common.Status(PLANNED, Set.empty)
     val transitionsToTest = stateTransitionRules.StateTransitions.filter(_.to == ARCHIVED)
-    when(articleApiClient.updateArticle(any, any, any, any)).thenAnswer((i: InvocationOnMock) => {
-      val x = i.getArgument[Draft](1)
+    when(articleApiClient.updateArticle(any, any, any, any)).thenAnswer(i => {
+      val x = i.nn.getArgument[Draft](1)
       Success(x)
     })
     when(taxonomyApiClient.queryNodes(100L)).thenReturn(Success(List()))
-    when(articleApiClient.unpublishArticle(any, any)).thenAnswer((i: InvocationOnMock) =>
-      Success(i.getArgument[Draft](0))
-    )
+    when(articleApiClient.unpublishArticle(any, any)).thenAnswer(i => Success(i.nn.getArgument[Draft](0)))
     when(searchApiClient.publishedWhereUsed(any, any)).thenReturn(Seq())
     for (t <- transitionsToTest) {
       val fromDraft = draft.copy(status = status.copy(current = t.from), responsible = Some(beforeResponsible))
@@ -622,14 +629,12 @@ class StateTransitionRulesTest extends UnitSuite with TestEnvironment {
     )
     val status            = common.Status(PLANNED, Set.empty)
     val transitionsToTest = stateTransitionRules.StateTransitions.filter(_.to == UNPUBLISHED)
-    when(articleApiClient.updateArticle(any, any, any, any)).thenAnswer((i: InvocationOnMock) => {
-      val x = i.getArgument[Draft](1)
+    when(articleApiClient.updateArticle(any, any, any, any)).thenAnswer(i => {
+      val x = i.nn.getArgument[Draft](1)
       Success(x)
     })
     when(taxonomyApiClient.queryNodes(100L)).thenReturn(Success(List()))
-    when(articleApiClient.unpublishArticle(any, any)).thenAnswer((i: InvocationOnMock) =>
-      Success(i.getArgument[Draft](0))
-    )
+    when(articleApiClient.unpublishArticle(any, any)).thenAnswer(i => Success(i.nn.getArgument[Draft](0)))
     when(searchApiClient.publishedWhereUsed(eqTo(100L), any)).thenReturn(Seq())
 
     for (t <- transitionsToTest) {
@@ -687,14 +692,12 @@ class StateTransitionRulesTest extends UnitSuite with TestEnvironment {
     val status                            = common.Status(PUBLISHED, Set.empty)
     val transitionToTest: StateTransition = PUBLISHED -> IN_PROGRESS
     val expected                          = TestData.userWithAdminAccess.id
-    when(articleApiClient.updateArticle(any, any, any, any)).thenAnswer((i: InvocationOnMock) => {
-      val x = i.getArgument[Draft](1)
+    when(articleApiClient.updateArticle(any, any, any, any)).thenAnswer(i => {
+      val x = i.nn.getArgument[Draft](1)
       Success(x)
     })
     when(taxonomyApiClient.queryNodes(100L)).thenReturn(Success(List()))
-    when(articleApiClient.unpublishArticle(any, any)).thenAnswer((i: InvocationOnMock) =>
-      Success(i.getArgument[Draft](0))
-    )
+    when(articleApiClient.unpublishArticle(any, any)).thenAnswer(i => Success(i.nn.getArgument[Draft](0)))
     when(searchApiClient.publishedWhereUsed(eqTo(100L), any)).thenReturn(Seq())
 
     val fromDraft = draft.copy(status = status.copy(current = transitionToTest.from))

@@ -39,8 +39,7 @@ object DraftStatus extends Enum[DraftStatus] with CirceEnum[DraftStatus] {
   val thatDoesNotRequireResponsible: Seq[DraftStatus] = Seq(PUBLISHED, UNPUBLISHED, ARCHIVED)
   val thatRequiresResponsible: Seq[DraftStatus]       = this.values.filterNot(thatDoesNotRequireResponsible.contains)
 
-  implicit def ordering[A <: DraftStatus]: Ordering[DraftStatus] =
-    (x: DraftStatus, y: DraftStatus) => indexOf(x) - indexOf(y)
+  implicit def ordering[A <: DraftStatus]: Ordering[DraftStatus] = Ordering.by(indexOf)
 
   implicit val schema: Schema[DraftStatus]    = schemaForEnumEntry[DraftStatus]
   implicit val codec: PlainCodec[DraftStatus] = plainCodecEnumEntry[DraftStatus]

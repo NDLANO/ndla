@@ -27,9 +27,9 @@ import no.ndla.learningpathapi.TestData.searchSettings
 import no.ndla.learningpathapi.model.domain.*
 import no.ndla.learningpathapi.{TestData, TestEnvironment, UnitSuite}
 import no.ndla.mapping.License
+import no.ndla.network.ApplicationUrl
 import no.ndla.scalatestsuite.ElasticsearchIntegrationSuite
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.doReturn
+import no.ndla.testbase.NullSafeMockito.{any, doReturn}
 
 import scala.util.Success
 import no.ndla.common.model.domain.Priority
@@ -106,6 +106,7 @@ class SearchServiceTest extends ElasticsearchIntegrationSuite with UnitSuite wit
   override def beforeAll(): Unit = {
     super.beforeAll()
     searchIndexService.createIndexAndAlias().get
+    ApplicationUrl.set("http://localhost/learningpath-api/v2/learningpaths/")
 
     doReturn(commonApi.AuthorDTO(ContributorType.Writer, "En eier"), Nil*)
       .when(converterService)

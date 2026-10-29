@@ -8,9 +8,11 @@
 
 package no.ndla.myndlaapi.service
 
+import cats.implicits.*
 import no.ndla.common.Clock
 import no.ndla.common.model.domain.Title
 import no.ndla.database.DBUtility
+import no.ndla.myndlaapi.randomUUID
 import no.ndla.myndlaapi.model.api.*
 import no.ndla.myndlaapi.model.domain.*
 import no.ndla.myndlaapi.repository.QuizRepository
@@ -32,9 +34,11 @@ class QuizWriteService(using
 
   def newQuiz(dto: NewQuizDTO, user: CombinedUserRequired, language: String): Try[QuizDTO] =
     dbUtil.writeSession { implicit session =>
-      val now  = clock.now()
-      val quiz = quizConverterService.toDomainQuiz(dto, user.id, user.id, now, language)
-      quizRepository.insert(user.id, quiz).map(quizConverterService.toApiQuiz(_, language, isOwner = true))
+      val now = clock.now()
+      quizConverterService
+        .toDomainQuiz(dto, user.id, user.id, now, language)
+        .flatMap(quizRepository.insert(user.id, _))
+        .map(quizConverterService.toApiQuiz(_, language, isOwner = true))
     }
 
   def updateQuiz(id: UUID, dto: UpdatedQuizDTO, user: CombinedUserRequired, language: String): Try[QuizDTO] = dbUtil
@@ -81,9 +85,18 @@ class QuizWriteService(using
         _        <-
           if (quizRepository.canView(existing, user)) Success(())
           else Failure(QuizErrors.notOwner(id))
-        now    = clock.now()
+        now        = clock.now()
+        newId     <- randomUUID()
+        questions <- existing
+          .questions
+          .traverse(question =>
+            for {
+              questionId   <- randomUUID()
+              alternatives <- question.alternatives.traverse(alt => randomUUID().map(id => alt.copy(id = id)))
+            } yield question.copy(id = questionId, alternatives = alternatives, created = now, updated = now)
+          )
         cloned = existing.copy(
-          id = UUID.randomUUID(),
+          id = newId,
           ownerId = user.id,
           revision = None,
           created = now,
@@ -92,16 +105,7 @@ class QuizWriteService(using
           published = None,
           status = QuizStatus.PRIVATE,
           title = existing.title.map(t => Title(s"${t.title} (Kopi)", t.language)),
-          questions = existing
-            .questions
-            .map(question =>
-              question.copy(
-                id = UUID.randomUUID(),
-                alternatives = question.alternatives.map(_.copy(id = UUID.randomUUID())),
-                created = now,
-                updated = now,
-              )
-            ),
+          questions = questions,
         )
         inserted <- quizRepository.insert(user.id, cloned)
       } yield quizConverterService.toApiQuiz(inserted, language, isOwner = true)
@@ -123,9 +127,9 @@ class QuizWriteService(using
 
   def newQuestion(quizId: UUID, dto: NewQuestionDTO, user: CombinedUserRequired, language: String): Try[QuizDTO] =
     dbUtil.rollbackOnFailure { implicit session =>
-      val now      = clock.now()
-      val question = quizConverterService.toDomainQuestion(dto, now, language)
+      val now = clock.now()
       for {
+        question <- quizConverterService.toDomainQuestion(dto, now, language)
         existing <- quizRepository.withIdOrError(quizId)
         _        <- requireOwner(existing, user)
         updated  <- quizRepository.update(
@@ -149,7 +153,7 @@ class QuizWriteService(using
         case Some(q) => Success(q)
         case None    => Failure(QuizErrors.questionNotFound(questionId, quizId))
       }
-      newQ     = quizConverterService.mergeQuestion(oldQ, dto, now)
+      newQ    <- quizConverterService.mergeQuestion(oldQ, dto, now)
       updated <- quizRepository.update(
         existing.copy(
           questions = existing

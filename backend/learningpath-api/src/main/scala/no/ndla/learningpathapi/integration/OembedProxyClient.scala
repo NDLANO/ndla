@@ -11,6 +11,7 @@ package no.ndla.learningpathapi.integration
 import com.typesafe.scalalogging.StrictLogging
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
+import no.ndla.common.implicits.toOption
 import no.ndla.learningpathapi.Props
 import no.ndla.learningpathapi.model.domain.*
 import no.ndla.network.NdlaClient
@@ -34,9 +35,13 @@ class OembedProxyClient(using ndlaClient: NdlaClient, props: Props) extends Stri
     getOembed(url) match {
       case Failure(ex)     => Failure(ex)
       case Success(oembed) =>
-        val soup = Jsoup.parse(oembed.html)
-        val elem = Option(soup.selectFirst("iframe"))
-        Option(elem.map(_.attr("src")).filterNot(_.isEmpty)).flatten match {
+        val src = Jsoup
+          .parse(oembed.html)
+          .toOption
+          .flatMap(_.selectFirst("iframe").toOption)
+          .flatMap(_.attr("src").toOption)
+          .filterNot(_.isEmpty)
+        src match {
           case Some(url) => Success(url)
           case None      => Failure(InvalidOembedResponse(s"Could not parse url in html from oembed-response for '$url'"))
         }

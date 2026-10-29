@@ -13,8 +13,8 @@ import org.jsoup.nodes.Element
 
 class V71__EnsureWrappingSection extends HtmlMigration {
   override def convertHtml(doc: Element, language: String): Element = {
-    if (doc.select("body > section").isEmpty) {
-      val body    = doc.select("body").first()
+    if (doc.select("body > section").nn.isEmpty) {
+      val body    = doc.select("body").nn.first().nn
       val section = new Element("section").appendChildren(body.children())
       body.appendChild(section)
       doc

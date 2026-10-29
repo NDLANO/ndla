@@ -18,8 +18,7 @@ import no.ndla.common.model.domain as common
 import no.ndla.mapping.License
 import no.ndla.network.tapir.{ErrorHelpers, Routes, TapirController}
 import no.ndla.tapirtesting.TapirControllerTest
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.{doReturn, never, reset, verify, verifyNoMoreInteractions, when}
+import no.ndla.testbase.NullSafeMockito.{any, doReturn, never, reset, verify, verifyNoMoreInteractions, when}
 import sttp.client4.quick.*
 
 import scala.util.{Failure, Success}

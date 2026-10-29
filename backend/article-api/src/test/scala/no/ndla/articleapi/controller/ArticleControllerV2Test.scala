@@ -14,8 +14,7 @@ import no.ndla.articleapi.{TestEnvironment, UnitSuite, model}
 import no.ndla.common.Clock
 import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
 import no.ndla.tapirtesting.TapirControllerTest
-import org.mockito.ArgumentMatchers.{eq as eqTo, *}
-import org.mockito.Mockito.{never, reset, times, verify, when}
+import no.ndla.testbase.NullSafeMockito.*
 import sttp.client4.quick.*
 
 import scala.util.{Failure, Success}

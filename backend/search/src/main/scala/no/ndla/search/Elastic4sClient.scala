@@ -13,6 +13,7 @@ import com.sksamuel.elastic4s.*
 import com.sksamuel.elastic4s.http.JavaClient
 import io.lemonlabs.uri.typesafe.dsl.*
 import no.ndla.common.configuration.BaseProps
+import no.ndla.common.implicits.toOption
 import no.ndla.search.model.domain.DocumentConflictException
 import org.apache.http.client.config.RequestConfig
 import org.elasticsearch.client.RestClientBuilder.RequestConfigCallback
@@ -82,11 +83,14 @@ object Elastic4sClientFactory {
   }
 
   private class RequestConfigCallbackWithTimeout extends RequestConfigCallback {
-    override def customizeRequestConfig(requestConfigBuilder: RequestConfig.Builder): RequestConfig.Builder = {
+    override def customizeRequestConfig(requestConfigBuilder: RequestConfig.Builder | Null): RequestConfig.Builder |
+      Null = {
       requestConfigBuilder
-        .setConnectionRequestTimeout(requestTimeoutMs)
-        .setSocketTimeout(requestTimeoutMs)
-        .setConnectTimeout(requestTimeoutMs)
+        .toOption
+        .flatMap(_.setConnectionRequestTimeout(requestTimeoutMs).toOption)
+        .flatMap(_.setSocketTimeout(requestTimeoutMs).toOption)
+        .flatMap(_.setConnectTimeout(requestTimeoutMs).toOption)
+        .orNull
     }
   }
 

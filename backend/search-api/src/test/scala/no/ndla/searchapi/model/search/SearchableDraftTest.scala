@@ -66,13 +66,13 @@ class SearchableDraftTest extends UnitSuite with TestEnvironment {
 
     val revisionMeta = List(
       RevisionMeta(
-        id = UUID.randomUUID(),
+        id = UUID.randomUUID().nn,
         revisionDate = today,
         note = "some note",
         status = RevisionStatus.NeedsRevision,
       ),
       RevisionMeta(
-        id = UUID.randomUUID(),
+        id = UUID.randomUUID().nn,
         revisionDate = olddate,
         note = "some other note",
         status = RevisionStatus.NeedsRevision,

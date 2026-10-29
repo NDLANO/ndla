@@ -16,7 +16,7 @@ import scalikejdbc.*
 import scala.util.Failure
 
 class TrySqlTest extends DatabaseIntegrationSuite, UnitTestSuite, TestEnvironment {
-  override lazy val schemaName: String = s"trysqltest_${ProcessHandle.current().pid()}"
+  override lazy val schemaName: String = s"trysqltest_${ProcessHandle.current().nn.pid()}"
   val dataSource: DataSource           = testDataSource.get
 
   override def beforeAll(): Unit = {

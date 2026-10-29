@@ -16,8 +16,7 @@ import no.ndla.conceptapi.service.ConverterService
 import no.ndla.conceptapi.{TestData, TestEnvironment, UnitSuite}
 import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
 import no.ndla.tapirtesting.TapirControllerTest
-import org.mockito.ArgumentMatchers.{any, eq as eqTo}
-import org.mockito.Mockito.{reset, times, verify, when}
+import no.ndla.testbase.NullSafeMockito.{any, eqTo, reset, times, verify, when}
 import sttp.client4.quick.*
 
 import scala.util.{Failure, Success}

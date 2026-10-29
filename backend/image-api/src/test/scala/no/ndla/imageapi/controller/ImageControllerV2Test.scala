@@ -26,8 +26,7 @@ import no.ndla.mapping.License
 import no.ndla.mapping.License.CC_BY
 import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
 import no.ndla.tapirtesting.{NdlaAuthTestTokens, TapirControllerTest}
-import org.mockito.ArgumentMatchers.{eq as eqTo, *}
-import org.mockito.Mockito.{reset, times, verify, when, withSettings}
+import no.ndla.testbase.NullSafeMockito.*
 import org.mockito.quality.Strictness
 import sttp.client4.quick.*
 
@@ -301,7 +300,7 @@ class ImageControllerV2Test extends UnitSuite with TestEnvironment with TapirCon
 
   test("That POST / returns 500 if an unexpected error occurs") {
     reset(writeService)
-    val exceptionMock = mock[RuntimeException](withSettings.strictness(Strictness.LENIENT))
+    val exceptionMock = mock[RuntimeException](withSettings.strictness(Strictness.LENIENT).nn)
     when(writeService.storeNewImage(any[NewImageMetaInformationV2DTO], any, any)).thenReturn(Failure(exceptionMock))
 
     val res = quickRequest

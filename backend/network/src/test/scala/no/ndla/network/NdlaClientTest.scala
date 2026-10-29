@@ -13,9 +13,9 @@ import no.ndla.common.CorrelationID
 import no.ndla.network.model.NdlaRequest
 import no.ndla.network.tapir.NdlaPrometheusRegistry
 import no.ndla.network.tapir.auth.TokenUser
+import no.ndla.testbase.NullSafeMockito
+import no.ndla.testbase.NullSafeMockito.{any, reset, verify, when}
 import org.mockito.ArgumentCaptor
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.{reset, verify, when}
 import org.scalatest.TryValues.*
 import sttp.client4.{Response, UriContext, WebSocketSyncBackend, basicRequest}
 import sttp.model.{Method, RequestMetadata, StatusCode}
@@ -45,9 +45,9 @@ class NdlaClientTest extends UnitSuite {
 
   private def newRequest: NdlaRequest    = basicRequest.get(uri"someUrl").response(sttp.client4.asStringAlways)
   private def captureSent(): NdlaRequest = {
-    val captor = ArgumentCaptor.forClass(classOf[NdlaRequest])
-    verify(httpClientMock).send(captor.capture())
-    captor.getValue
+    val captor = ArgumentCaptor.forClass(classOf[NdlaRequest]).nn
+    verify(httpClientMock).send(NullSafeMockito.capture(captor))
+    captor.getValue.nn
   }
 
   test("That a HttpRequestException is returned when receiving an http-error") {
@@ -142,7 +142,7 @@ class NdlaClientTest extends UnitSuite {
 
     val sent       = captureSent()
     val authHeader = sent.headers.find(_.is("Authorization")).map(_.value)
-    val expected   = "Basic " + java.util.Base64.getEncoder.encodeToString(s"$user:$password".getBytes("UTF-8"))
+    val expected   = "Basic " + java.util.Base64.getEncoder.nn.encodeToString(s"$user:$password".getBytes("UTF-8"))
     authHeader should equal(Some(expected))
   }
 
@@ -171,16 +171,19 @@ class NdlaClientTest extends UnitSuite {
   private def clientRequestCount(host: String, method: String, status: String): Double = NdlaPrometheusRegistry
     .registry
     .scrape()
+    .nn
     .iterator()
+    .nn
     .asScala
     .collectFirst {
-      case cs: CounterSnapshot if cs.getMetadata.getPrometheusName.startsWith("ndla_http_client_requests") => cs
+      case cs: CounterSnapshot if cs.getMetadata.nn.getPrometheusName.nn.startsWith("ndla_http_client_requests") => cs
     }
     .flatMap { cs =>
       cs.getDataPoints
+        .nn
         .asScala
         .find { dp =>
-          val l = dp.getLabels
+          val l = dp.getLabels.nn
           l.get("host") == host && l.get("method") == method && l.get("status") == status
         }
     }

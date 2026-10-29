@@ -60,10 +60,12 @@ class RoutesTest extends UnitTestSuite, TapirControllerTest {
   private def getTapirRequestCounterDataPoints: Seq[CounterDataPointSnapshot] = NdlaPrometheusRegistry
     .registry
     .scrape()
+    .nn
     .iterator()
+    .nn
     .asScala
-    .find(_.getMetadata.getPrometheusName == "tapir_request") match {
-    case Some(cs: CounterSnapshot) => cs.getDataPoints.asScala.toSeq
+    .find(_.getMetadata.nn.getPrometheusName == "tapir_request") match {
+    case Some(cs: CounterSnapshot) => cs.getDataPoints.nn.asScala.toSeq
     case _                         => fail("Could not find tapir_request counter in Prometheus registry")
   }
 
@@ -75,7 +77,7 @@ class RoutesTest extends UnitTestSuite, TapirControllerTest {
     blockUntil(() => getTapirRequestCounterDataPoints.nonEmpty)
 
     inside(getTapirRequestCounterDataPoints) { case Seq(dataPoint) =>
-      dataPoint.getLabels.get("status") should be("499")
+      dataPoint.getLabels.nn.get("status") should be("499")
       dataPoint.getValue should be(1.0d)
     }
   }

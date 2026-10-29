@@ -12,7 +12,7 @@ import io.netty.buffer.ByteBuf
 import no.ndla.network.tapir.RequestBodyCapture.{DefaultInitialSize, MaxSize}
 
 import java.io.ByteArrayOutputStream
-import java.nio.charset.StandardCharsets
+import scala.io.Codec
 
 object RequestBodyCapture {
   private val DefaultInitialSize = 8L * 1024L         // 8 KiB
@@ -35,7 +35,7 @@ class RequestBodyCapture(contentLength: Option[Long]) {
   }
 
   def asString: String = synchronized {
-    val body = buffer.toString(StandardCharsets.UTF_8)
+    val body = buffer.toString(Codec.UTF8.charSet)
     if (totalBytes > buffer.size()) s"$body...[truncated, $totalBytes bytes total]"
     else body
   }

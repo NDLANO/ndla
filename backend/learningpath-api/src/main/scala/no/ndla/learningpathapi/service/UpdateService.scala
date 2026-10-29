@@ -116,7 +116,7 @@ class UpdateService(using
     for {
       existing        <- withId(id).flatMap(_.canEditLearningPath(owner))
       validatedUpdate <- learningPathValidator.validate(learningPathToUpdate, existing)
-      mergedPath       = converterService.mergeLearningPaths(existing, validatedUpdate)
+      mergedPath      <- converterService.mergeLearningPaths(existing, validatedUpdate)
       // Imported learningpaths may contain fields with language=unknown.
       // We should still be able to update it, but not add new fields with language=unknown.
       validatedMergedPath <- learningPathValidator.validate(mergedPath, allowUnknownLanguage = true)

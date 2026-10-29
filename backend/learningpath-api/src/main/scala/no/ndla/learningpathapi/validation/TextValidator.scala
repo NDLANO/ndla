@@ -9,6 +9,7 @@
 package no.ndla.learningpathapi.validation
 
 import no.ndla.common.errors.ValidationMessage
+import no.ndla.common.implicits.toOption
 import no.ndla.learningpathapi.Props
 import org.jsoup.Jsoup
 import org.jsoup.safety.Safelist
@@ -32,16 +33,13 @@ class TextValidator(allowHtml: Boolean)(using props: Props) {
     if (text.isEmpty) {
       Some(ValidationMessage(fieldPath, FieldEmpty))
     } else {
-      if (
-        Jsoup.isValid(
-          text,
-          Safelist
-            .basic()
-            .addTags("section", "h2", "h3")
-            .addAttributes("a", "target", "rel")
-            .addAttributes("span", "lang", "dir"),
-        )
-      ) {
+      val safelist = Safelist
+        .basic()
+        .toOption
+        .flatMap(_.addTags("section", "h2", "h3").toOption)
+        .flatMap(_.addAttributes("a", "target", "rel").toOption)
+        .flatMap(_.addAttributes("span", "lang", "dir").toOption)
+      if (safelist.exists(Jsoup.isValid(text, _))) {
         None
       } else {
         Some(ValidationMessage(fieldPath, IllegalContentInBasicText))

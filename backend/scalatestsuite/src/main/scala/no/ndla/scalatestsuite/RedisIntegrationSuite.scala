@@ -17,8 +17,8 @@ trait RedisIntegrationSuite extends UnitTestSuite {
   protected object valkeyContainer extends ContainerIntegrationSuiteBase[ValkeyContainer, Int] {
     override protected val containerName: String              = "valkey"
     override protected def createContainer(): ValkeyContainer =
-      new ValkeyContainer(DockerImageName.parse("valkey/valkey:9.0"))
-    override protected def fromContainer(c: ValkeyContainer): Int = c.getMappedPort(6379).intValue()
+      new ValkeyContainer(DockerImageName.parse("valkey/valkey:9.0").nn)
+    override protected def fromContainer(c: ValkeyContainer): Int = c.getMappedPort(6379).nn.intValue()
     override protected def fromEnv(): Int                         = env.getOrElse("REDIS_PORT", "6379").toInt
     override protected def healthCheck(port: Int): Boolean        = SharedContainer.isReachable("localhost", port)
   }

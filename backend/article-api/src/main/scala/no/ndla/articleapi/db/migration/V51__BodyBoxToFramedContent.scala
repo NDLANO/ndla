@@ -16,9 +16,10 @@ class V51__BodyBoxToFramedContent extends HtmlMigration {
   override def convertHtml(doc: Element, language: String): Element = {
     doc
       .select("div.c-bodybox")
+      .nn
       .forEach(div => {
-        div.removeClass("c-bodybox")
-        div.attr("data-type", "framed-content"): Unit
+        div.nn.removeClass("c-bodybox")
+        div.nn.attr("data-type", "framed-content"): Unit
       })
     doc
   }

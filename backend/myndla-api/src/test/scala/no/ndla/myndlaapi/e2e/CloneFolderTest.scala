@@ -25,8 +25,7 @@ import no.ndla.network.model.FeideUserWrapper
 import no.ndla.network.tapir.auth.FeideAuth
 import no.ndla.scalatestsuite.{DatabaseIntegrationSuite, RedisIntegrationSuite}
 import no.ndla.tapirtesting.{FeideAuthTest, FeideAuthTestData}
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.{reset, spy, times, verify, when, withSettings}
+import no.ndla.testbase.NullSafeMockito.{any, reset, spy, times, verify, when, withSettings}
 import org.mockito.quality.Strictness
 import scalikejdbc.DBSession
 import sttp.client4.quick.*
@@ -65,8 +64,8 @@ class CloneFolderTest extends DatabaseIntegrationSuite with RedisIntegrationSuit
   val myndlaApi: MainClass = new MainClass(myndlaproperties) {
     override val componentRegistry: ComponentRegistry = new ComponentRegistry(myndlaproperties) {
       override implicit lazy val feideApiClient: FeideApiClient =
-        mock[FeideApiClient](withSettings.strictness(Strictness.LENIENT))
-      override implicit lazy val clock: Clock                       = mock[Clock](withSettings.strictness(Strictness.LENIENT))
+        mock[FeideApiClient](withSettings.strictness(Strictness.LENIENT).nn)
+      override implicit lazy val clock: Clock                       = mock[Clock](withSettings.strictness(Strictness.LENIENT).nn)
       override implicit lazy val folderRepository: FolderRepository = spy(new FolderRepository)
       override implicit lazy val userRepository: UserRepository     = spy(new UserRepository)
       override implicit lazy val userService: UserService           = spy(new UserService)
@@ -185,7 +184,7 @@ class CloneFolderTest extends DatabaseIntegrationSuite with RedisIntegrationSuit
     val folderRepository = myndlaApi.componentRegistry.folderRepository
 
     val sourceFolderId = prepareFolderToClone()
-    val customId       = UUID.randomUUID()
+    val customId       = UUID.randomUUID().nn
     val parentId       = Some(customId)
 
     val expectedUser = myndlaApi
@@ -276,7 +275,7 @@ class CloneFolderTest extends DatabaseIntegrationSuite with RedisIntegrationSuit
     val folderRepository = myndlaApi.componentRegistry.folderRepository
 
     val sourceFolderId = prepareFolderToClone()
-    val customId       = UUID.randomUUID()
+    val customId       = UUID.randomUUID().nn
     val parentId       = Some(customId)
 
     val expectedUser = myndlaApi
@@ -391,7 +390,7 @@ class CloneFolderTest extends DatabaseIntegrationSuite with RedisIntegrationSuit
     val folderRepository = myndlaApi.componentRegistry.folderRepository
 
     val sourceFolderId = prepareFolderToClone()
-    val customId       = UUID.randomUUID()
+    val customId       = UUID.randomUUID().nn
     val parentId       = Some(customId)
 
     val expectedUser = myndlaApi
@@ -493,7 +492,7 @@ class CloneFolderTest extends DatabaseIntegrationSuite with RedisIntegrationSuit
 
   test("that cloning a folder with destination fails if destination-folder-id is not found") {
     val sourceFolderId = prepareFolderToClone()
-    val wrongId        = UUID.randomUUID()
+    val wrongId        = UUID.randomUUID().nn
 
     val response = quickRequest
       .post(uri"$myndlaApiFolderUrl/clone/$sourceFolderId".addParam("destination-folder-id", wrongId.toString))
@@ -740,7 +739,7 @@ class CloneFolderTest extends DatabaseIntegrationSuite with RedisIntegrationSuit
     val folderRepository = myndlaApi.componentRegistry.folderRepository
 
     val sourceFolderId = prepareFolderToClone()
-    val customId       = UUID.randomUUID()
+    val customId       = UUID.randomUUID().nn
     val parentId       = Some(customId)
 
     val expectedUser = myndlaApi
@@ -844,8 +843,8 @@ class CloneFolderTest extends DatabaseIntegrationSuite with RedisIntegrationSuit
           .map { case child: FolderDTO =>
             replaceCrumbsRecursively(child, before, after)
           }
-        val updatedCrumbs = f.breadcrumbs.map(b => b.copy(name = b.name.replace(before, after)))
-        f.copy(name = f.name.replace(before, after), breadcrumbs = updatedCrumbs, subfolders = updatedSubfolders)
+        val updatedCrumbs = f.breadcrumbs.map(b => b.copy(name = b.name.replace(before, after).nn))
+        f.copy(name = f.name.replace(before, after).nn, breadcrumbs = updatedCrumbs, subfolders = updatedSubfolders)
       }
 
       val bod2          = response2.body

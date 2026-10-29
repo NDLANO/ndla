@@ -10,6 +10,7 @@ package no.ndla.conceptapi.validation
 
 import no.ndla.common.model.domain.{Author, ContributorType, Title}
 import no.ndla.common.errors.{ValidationException, ValidationMessage}
+import no.ndla.common.implicits.toOption
 import no.ndla.common.model.domain.concept.{Concept, ConceptContent, ConceptStatus, VisualElement}
 import no.ndla.common.model.domain.draft.DraftCopyright
 import no.ndla.conceptapi.Props
@@ -153,10 +154,16 @@ class ContentValidator(using props: Props) {
   }
 
   private def validateMinimumLength(fieldPath: String, content: String, minLength: Int): Option[ValidationMessage] =
-    if (content.trim.length < minLength) Some(
-      ValidationMessage(fieldPath, s"This field does not meet the minimum length requirement of $minLength characters")
-    )
-    else None
+    content
+      .trim
+      .toOption
+      .filter(_.length < minLength)
+      .map(_ =>
+        ValidationMessage(
+          fieldPath,
+          s"This field does not meet the minimum length requirement of $minLength characters",
+        )
+      )
 
   private def languageCodeSupported639(languageCode: String): Boolean = Iso639.get(languageCode).isSuccess
 

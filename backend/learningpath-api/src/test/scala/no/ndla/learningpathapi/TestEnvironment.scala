@@ -23,7 +23,7 @@ import no.ndla.network.clients.{FeideApiClient, MyNDLAApiClient}
 import no.ndla.network.tapir.*
 import no.ndla.scalatestsuite.DBUtilityStub
 import no.ndla.search.{NdlaE4sClient, SearchLanguage}
-import org.mockito.Mockito.{mockingDetails, reset, spy}
+import no.ndla.testbase.NullSafeMockito.{mockingDetails, reset, spy}
 import org.scalatestplus.mockito.MockitoSugar
 
 trait TestEnvironment extends TapirApplication[LearningpathApiProperties] with MockitoSugar {

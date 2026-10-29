@@ -20,8 +20,7 @@ import no.ndla.common.configuration.BaseProps
 import no.ndla.common.implicits.*
 import no.ndla.search.model.domain.{BulkIndexResult, ElasticIndexingException, ReindexResult}
 
-import java.text.SimpleDateFormat
-import java.util.Calendar
+import java.util.Date
 import scala.annotation.tailrec
 import scala.util.boundary
 import scala.util.{Failure, Random, Success, Try}
@@ -378,7 +377,7 @@ abstract class BaseIndexService(using e4sClient: NdlaE4sClient, props: BaseProps
     }
   }
 
-  def getTimestamp: String = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance.getTime)
+  def getTimestamp: String = "%1$tY%1$tm%1$td%1$tH%1$tM%1$tS".format(new Date())
 
   def findAllIndexes(indexName: String): Try[Seq[String]] = {
     val response = e4sClient.execute {

@@ -22,6 +22,7 @@ import no.ndla.common.model.domain.concept.{
   Concept as DomainConcept,
 }
 import no.ndla.common.{Clock, model}
+import no.ndla.common.implicits.toOption
 import no.ndla.common.configuration.Constants.EmbedTagName
 import no.ndla.common.model.api.{Delete, ResponsibleDTO, UpdateWith}
 import no.ndla.common.model.{EmbedType, TagAttribute, api as commonApi, domain as commonDomain}
@@ -52,10 +53,10 @@ class ConverterService(using clock: Clock, props: Props) extends StrictLogging {
       concept.supportedLanguages.size == 1
     if (concept.supportedLanguages.contains(language) || fallback || isLanguageNeutral || language == AllLanguages) {
       val title = findByLanguageOrBestEffort(concept.title, language)
-        .map(toApiConceptTitle)
+        .flatMap(toApiConceptTitle)
         .getOrElse(api.ConceptTitleDTO("", "", UnknownLanguage.toString))
       val content = findByLanguageOrBestEffort(concept.content, language)
-        .map(toApiConceptContent)
+        .flatMap(toApiConceptContent)
         .getOrElse(api.ConceptContent("", "", UnknownLanguage.toString))
 
       val tags = findByLanguageOrBestEffort(concept.tags, language).map(toApiTags)
@@ -157,11 +158,17 @@ class ConverterService(using clock: Clock, props: Props) extends StrictLogging {
   def toApiLicense(shortLicense: String): commonApi.LicenseDTO =
     toMaybeApiLicense(shortLicense).getOrElse(commonApi.LicenseDTO("unknown", None, None))
 
-  def toApiConceptTitle(title: Title): api.ConceptTitleDTO =
-    api.ConceptTitleDTO(Jsoup.parseBodyFragment(title.title).body().text(), title.title, title.language)
+  private def htmlToPlainText(html: String): Option[String] = Jsoup
+    .parseBodyFragment(html)
+    .toOption
+    .flatMap(_.body().toOption)
+    .flatMap(_.text().toOption)
 
-  def toApiConceptContent(content: ConceptContent): api.ConceptContent =
-    api.ConceptContent(Jsoup.parseBodyFragment(content.content).body().text(), content.content, content.language)
+  def toApiConceptTitle(title: Title): Option[api.ConceptTitleDTO] =
+    htmlToPlainText(title.title).map(api.ConceptTitleDTO(_, title.title, title.language))
+
+  def toApiConceptContent(content: ConceptContent): Option[api.ConceptContent] =
+    htmlToPlainText(content.content).map(api.ConceptContent(_, content.content, content.language))
 
   def toApiVisualElement(visualElement: VisualElement): api.VisualElementDTO =
     api.VisualElementDTO(addUrlOnElement(visualElement.visualElement), visualElement.language)
@@ -217,20 +224,25 @@ class ConverterService(using clock: Clock, props: Props) extends StrictLogging {
     )
   }
 
-  private def removeUnknownEmbedTagAttribute(html: String): String = {
-    val document = HtmlTagRules.stringToJsoupDocument(html)
-    document
-      .select(EmbedTagName)
-      .asScala
-      .foreach(el => {
-        EmbedType
-          .withNameOption(el.attr(TagAttribute.DataResource.toString))
-          .map(EmbedTagRules.attributesForResourceType)
-          .map(knownAttributes => HtmlTagRules.removeIllegalAttributes(el, knownAttributes.all.map(_.toString)))
-      })
+  private def removeUnknownEmbedTagAttribute(html: String): String = HtmlTagRules
+    .stringToJsoupDocument(html)
+    .map { document =>
+      document
+        .select(EmbedTagName)
+        .toOption
+        .toList
+        .flatMap(_.asScala)
+        .foreach(el => {
+          el.attr(TagAttribute.DataResource.toString)
+            .toOption
+            .flatMap(EmbedType.withNameOption)
+            .map(EmbedTagRules.attributesForResourceType)
+            .map(knownAttributes => HtmlTagRules.removeIllegalAttributes(el, knownAttributes.all.map(_.toString)))
+        })
 
-    HtmlTagRules.jsoupDocumentToString(document)
-  }
+      HtmlTagRules.jsoupDocumentToString(document)
+    }
+    .getOrElse(html)
 
   private def toDomainVisualElement(visualElement: String, language: String): VisualElement = {
     concept.VisualElement(visualElement = removeUnknownEmbedTagAttribute(visualElement), language = language)
@@ -373,25 +385,27 @@ class ConverterService(using clock: Clock, props: Props) extends StrictLogging {
     concept.copy(visualElement = visualElementWithUrls)
   }
 
-  private[service] def addUrlOnElement(content: String): String = {
-    val doc = stringToJsoupDocument(content)
-
-    val embedTags = doc.select(EmbedTagName).asScala.toList
-    embedTags.foreach(addUrlOnEmbedTag)
-    jsoupDocumentToString(doc)
-  }
+  private[service] def addUrlOnElement(content: String): String = stringToJsoupDocument(content)
+    .map { doc =>
+      val embedTags = doc.select(EmbedTagName).toOption.toList.flatMap(_.asScala)
+      embedTags.foreach(addUrlOnEmbedTag)
+      jsoupDocumentToString(doc)
+    }
+    .getOrElse(content)
 
   private def addUrlOnEmbedTag(embedTag: Element): Unit = {
-    val typeAndPathOption = embedTag.attr(TagAttribute.DataResource.toString) match {
-      case resourceType if resourceType == EmbedType.H5P.toString && embedTag.hasAttr(TagAttribute.DataPath.toString) =>
-        val path = embedTag.attr(TagAttribute.DataPath.toString)
-        Some((resourceType, path))
+    val typeAndPathOption = embedTag
+      .attr(TagAttribute.DataResource.toString)
+      .toOption
+      .flatMap {
+        case resourceType
+            if resourceType == EmbedType.H5P.toString && embedTag.hasAttr(TagAttribute.DataPath.toString) =>
+          embedTag.attr(TagAttribute.DataPath.toString).toOption.map(path => (resourceType, path))
 
-      case resourceType if embedTag.hasAttr(TagAttribute.DataResource_Id.toString) =>
-        val id = embedTag.attr(TagAttribute.DataResource_Id.toString)
-        Some((resourceType, id))
-      case _ => None
-    }
+        case resourceType if embedTag.hasAttr(TagAttribute.DataResource_Id.toString) =>
+          embedTag.attr(TagAttribute.DataResource_Id.toString).toOption.map(id => (resourceType, id))
+        case _ => None
+      }
 
     typeAndPathOption match {
       case Some((resourceType, path)) =>

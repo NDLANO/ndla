@@ -14,8 +14,17 @@ import no.ndla.draftapi.model.api.{ContentIdDTO, NotFoundException}
 import no.ndla.draftapi.model.domain.ImportId
 import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
 import no.ndla.tapirtesting.TapirControllerTest
-import org.mockito.ArgumentMatchers.{any, eq as eqTo}
-import org.mockito.Mockito.{doReturn, never, reset, times, verify, verifyNoMoreInteractions, when}
+import no.ndla.testbase.NullSafeMockito.{
+  any,
+  doReturn,
+  eqTo,
+  never,
+  reset,
+  times,
+  verify,
+  verifyNoMoreInteractions,
+  when,
+}
 import sttp.client4.quick.*
 
 import scala.util.{Failure, Success}

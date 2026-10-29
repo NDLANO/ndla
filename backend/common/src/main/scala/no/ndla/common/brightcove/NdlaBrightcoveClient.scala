@@ -43,7 +43,7 @@ class NdlaBrightcoveClient(using props: BaseProps) {
             Failure(new TokenDecodingException(s"Failed to decode token response: ${error.getMessage}"))
         }
       case Success(Left(error)) => Failure(new TokenRetrievalException(s"Failed to get token: ${error}"))
-      case Failure(exception)   => Failure(new TokenRetrievalException(exception.getMessage))
+      case Failure(exception)   => Failure(new TokenRetrievalException(s"Failed to get token: ${exception.getMessage}"))
     }
   }
 
@@ -64,7 +64,8 @@ class NdlaBrightcoveClient(using props: BaseProps) {
             Failure(new VideoSourceParsingException(s"Failed to parse video source: ${error.getMessage}"))
         }
       case Success(Left(error)) => Failure(new VideoSourceRetrievalException(s"Failed to get video source: ${error}"))
-      case Failure(exception)   => Failure(new VideoSourceRetrievalException(exception.getMessage))
+      case Failure(exception)   =>
+        Failure(new VideoSourceRetrievalException(s"Failed to get video source: ${exception.getMessage}"))
     }
   }
 }

@@ -18,6 +18,7 @@ import no.ndla.common.model.api.NullableOrValue
 import no.ndla.common.model.domain.ResourceType
 import no.ndla.common.model.domain.myndla.{FolderStatus, MyNDLAUser}
 import no.ndla.database.DBUtility
+import no.ndla.myndlaapi.randomUUID
 import no.ndla.myndlaapi.integration.SearchApiClient
 import no.ndla.myndlaapi.model.domain.FolderSortObject.{
   FolderSorting,
@@ -119,59 +120,64 @@ class FolderWriteService(using
       feideId: FeideID,
       now: NDLADate,
       isOwner: Boolean,
-  ): BulkInserts = {
+  ): Try[BulkInserts] = {
     val withResources = source
       .resources
       .sortBy(_.rank)
       .zipWithIndex
-      .foldLeft(toInsert) { case (acc, cur) =>
+      .foldM(toInsert) { (acc, cur) =>
         val (curResource, idx) = cur
-        val newResourceId      = UUID.randomUUID()
-        acc
-          .addResource(
-            domain.Resource(
-              id = newResourceId,
+        randomUUID().map { newResourceId =>
+          acc
+            .addResource(
+              domain.Resource(
+                id = newResourceId,
+                feideId = feideId,
+                created = now,
+                path = curResource.path,
+                resourceType = curResource.resourceType,
+                tags =
+                  if (isOwner) curResource.tags
+                  else List.empty,
+                resourceId = curResource.resourceId,
+                connection = None,
+              )
+            )
+            .addConnection(
+              domain.ResourceConnection(
+                folderId = destination.id.some,
+                resourceId = newResourceId,
+                rank = idx + 1,
+                favoritedDate = now,
+              )
+            )
+        }
+      }
+    withResources.flatMap { inserts =>
+      source
+        .subfolders
+        .foldM(inserts) { (acc, cur) =>
+          randomUUID().flatMap { newFolderId =>
+            val newFolder = domain.Folder(
+              id = newFolderId,
               feideId = feideId,
+              parentId = destination.id.some,
+              name = cur.name,
+              status = FolderStatus.PRIVATE,
+              description = cur.description,
+              rank = cur.rank,
               created = now,
-              path = curResource.path,
-              resourceType = curResource.resourceType,
-              tags =
-                if (isOwner) curResource.tags
-                else List.empty,
-              resourceId = curResource.resourceId,
-              connection = None,
+              updated = now,
+              resources = List.empty,
+              subfolders = List.empty,
+              shared = None,
+              user = None,
             )
-          )
-          .addConnection(
-            domain.ResourceConnection(
-              folderId = destination.id.some,
-              resourceId = newResourceId,
-              rank = idx + 1,
-              favoritedDate = now,
-            )
-          )
-      }
-    source
-      .subfolders
-      .foldLeft(withResources) { case (acc, cur) =>
-        val newFolder = domain.Folder(
-          id = UUID.randomUUID(),
-          feideId = feideId,
-          parentId = destination.id.some,
-          name = cur.name,
-          status = FolderStatus.PRIVATE,
-          description = cur.description,
-          rank = cur.rank,
-          created = now,
-          updated = now,
-          resources = List.empty,
-          subfolders = List.empty,
-          shared = None,
-          user = None,
-        )
-        val wf = acc.addFolder(newFolder)
-        buildInsertList(cur, newFolder, wf, feideId, now, isOwner)
-      }
+            val wf = acc.addFolder(newFolder)
+            buildInsertList(cur, newFolder, wf, feideId, now, isOwner)
+          }
+        }
+    }
   }
 
   private[service] def cloneChildrenRecursively(
@@ -180,12 +186,12 @@ class FolderWriteService(using
       feideId: FeideID,
       isOwner: Boolean,
   )(implicit session: DBSession): Try[Unit] = {
-    val now      = clock.now()
-    val toInsert = buildInsertList(sourceFolder, destinationFolder, BulkInserts.empty, feideId, now, isOwner)
+    val now = clock.now()
     for {
-      _ <- folderRepository.insertFolderInBulk(toInsert)(using session)
-      _ <- folderRepository.insertResourcesInBulk(toInsert)(using session)
-      _ <- folderRepository.insertResourceConnectionInBulk(toInsert)(using session)
+      toInsert <- buildInsertList(sourceFolder, destinationFolder, BulkInserts.empty, feideId, now, isOwner)
+      _        <- folderRepository.insertFolderInBulk(toInsert)(using session)
+      _        <- folderRepository.insertResourcesInBulk(toInsert)(using session)
+      _        <- folderRepository.insertResourceConnectionInBulk(toInsert)(using session)
     } yield ()
   }
 

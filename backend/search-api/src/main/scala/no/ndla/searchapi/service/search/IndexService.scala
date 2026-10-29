@@ -24,7 +24,7 @@ import no.ndla.searchapi.model.domain.IndexingBundle
 
 import java.util.concurrent.{Executors, ForkJoinPool, TimeUnit}
 import scala.concurrent.duration.Duration
-import scala.concurrent.{Await, ExecutionContext, Future}
+import scala.concurrent.{Await, ExecutionContext, ExecutionContextExecutorService, Future}
 import scala.util.{Failure, Success, Try}
 
 /** Shared, CPU-bounded pool used for parallel JSON conversion of documents within a chunk. One pool per JVM, sized to
@@ -32,7 +32,7 @@ import scala.util.{Failure, Success, Try}
   */
 private object IndexConversionPool {
   val executionContext: ExecutionContext =
-    ExecutionContext.fromExecutor(new ForkJoinPool(Math.max(2, Runtime.getRuntime.availableProcessors())))
+    ExecutionContext.fromExecutor(new ForkJoinPool(Math.max(2, sys.runtime.availableProcessors())))
 }
 
 abstract class BulkIndexingService(using props: Props, searchLanguage: SearchLanguage, e4sClient: NdlaE4sClient)
@@ -210,9 +210,9 @@ trait IndexService[D <: Content](using
         logger.error(s"Failed to determine chunk count from api client '${apiClient.name}'", ex)
         Failure(ex)
       case Success(source) =>
-        val parallelism                   = Math.max(1, Math.min(props.IndexPipelineParallelism, Math.max(1, source.numPages)))
-        val executor                      = Executors.newFixedThreadPool(parallelism)
-        implicit val ec: ExecutionContext = ExecutionContext.fromExecutor(executor)
+        val parallelism                                  = Math.max(1, Math.min(props.IndexPipelineParallelism, Math.max(1, source.numPages)))
+        implicit val ec: ExecutionContextExecutorService =
+          ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(parallelism))
 
         try {
           val futures = (1 to source.numPages).map { page =>
@@ -252,7 +252,7 @@ trait IndexService[D <: Content](using
               Success(indexResult)
           }
         } finally {
-          executor.shutdown()
+          ec.shutdown()
         }
     }
   }

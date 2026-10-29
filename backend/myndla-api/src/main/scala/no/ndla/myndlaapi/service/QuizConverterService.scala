@@ -8,14 +8,16 @@
 
 package no.ndla.myndlaapi.service
 
+import cats.implicits.*
 import no.ndla.common.model.NDLADate
 import no.ndla.common.model.domain.{Description, Title}
 import no.ndla.common.model.domain.myndla.MyNDLAUser
+import no.ndla.myndlaapi.randomUUID
 import no.ndla.myndlaapi.model.api.*
 import no.ndla.myndlaapi.model.domain.*
 import no.ndla.network.model.FeideID
 
-import java.util.UUID
+import scala.util.Try
 
 class QuizConverterService {
 
@@ -66,15 +68,18 @@ class QuizConverterService {
     )
   }
 
-  def toDomainAlternative(a: NewAlternativeDTO): Alternative =
-    Alternative(id = UUID.randomUUID(), text = a.text, isCorrect = a.isCorrect)
+  def toDomainAlternative(a: NewAlternativeDTO): Try[Alternative] =
+    randomUUID().map(id => Alternative(id = id, text = a.text, isCorrect = a.isCorrect))
 
-  def toDomainQuestion(dto: NewQuestionDTO, now: NDLADate, language: String): Question = Question(
-    id = UUID.randomUUID(),
+  def toDomainQuestion(dto: NewQuestionDTO, now: NDLADate, language: String): Try[Question] = for {
+    id           <- randomUUID()
+    alternatives <- dto.alternatives.traverse(toDomainAlternative)
+  } yield Question(
+    id = id,
     questionType = dto.questionType,
     language = language,
     title = dto.title,
-    alternatives = dto.alternatives.map(toDomainAlternative),
+    alternatives = alternatives,
     glossaryPairs = dto.glossaryPairs.map(p => GlossaryPair(p.word, p.definition)),
     required = dto.required,
     alternativesRandomOrder = dto.alternativesRandomOrder,
@@ -82,20 +87,23 @@ class QuizConverterService {
     updated = now,
   )
 
-  def toDomainQuiz(dto: NewQuizDTO, ownerId: FeideID, user: String, now: NDLADate, language: String): Quiz = Quiz(
-    id = UUID.randomUUID(),
-    ownerId = ownerId,
-    revision = None,
-    title = Seq(Title(dto.title, language)),
-    description = dto.description.toSeq.map(d => Description(d, language)),
-    questions = Seq.empty,
-    status = QuizStatus.PRIVATE,
-    created = now,
-    updated = now,
-    updatedBy = user,
-    published = None,
-    displaySettings = dto.displaySettings.getOrElse(DisplaySettings.default),
-  )
+  def toDomainQuiz(dto: NewQuizDTO, ownerId: FeideID, user: String, now: NDLADate, language: String): Try[Quiz] =
+    randomUUID().map(id =>
+      Quiz(
+        id = id,
+        ownerId = ownerId,
+        revision = None,
+        title = Seq(Title(dto.title, language)),
+        description = dto.description.toSeq.map(d => Description(d, language)),
+        questions = Seq.empty,
+        status = QuizStatus.PRIVATE,
+        created = now,
+        updated = now,
+        updatedBy = user,
+        published = None,
+        displaySettings = dto.displaySettings.getOrElse(DisplaySettings.default),
+      )
+    )
 
   def mergeQuiz(existing: Quiz, dto: UpdatedQuizDTO, user: String, now: NDLADate, language: String): Quiz = {
     val updatedTitle = dto.title match {
@@ -130,14 +138,19 @@ class QuizConverterService {
     )
   }
 
-  def mergeQuestion(existing: Question, dto: UpdatedQuestionDTO, now: NDLADate): Question = existing.copy(
-    questionType = dto.questionType.getOrElse(existing.questionType),
-    title = dto.title.getOrElse(existing.title),
-    alternatives = dto.alternatives.map(_.map(toDomainAlternative)).getOrElse(existing.alternatives),
-    glossaryPairs =
-      dto.glossaryPairs.map(_.map(p => GlossaryPair(p.word, p.definition))).getOrElse(existing.glossaryPairs),
-    required = dto.required.getOrElse(existing.required),
-    alternativesRandomOrder = dto.alternativesRandomOrder.getOrElse(existing.alternativesRandomOrder),
-    updated = now,
-  )
+  def mergeQuestion(existing: Question, dto: UpdatedQuestionDTO, now: NDLADate): Try[Question] = dto
+    .alternatives
+    .traverse(_.traverse(toDomainAlternative))
+    .map { alternatives =>
+      existing.copy(
+        questionType = dto.questionType.getOrElse(existing.questionType),
+        title = dto.title.getOrElse(existing.title),
+        alternatives = alternatives.getOrElse(existing.alternatives),
+        glossaryPairs =
+          dto.glossaryPairs.map(_.map(p => GlossaryPair(p.word, p.definition))).getOrElse(existing.glossaryPairs),
+        required = dto.required.getOrElse(existing.required),
+        alternativesRandomOrder = dto.alternativesRandomOrder.getOrElse(existing.alternativesRandomOrder),
+        updated = now,
+      )
+    }
 }

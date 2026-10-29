@@ -13,8 +13,7 @@ import no.ndla.common.model.api.FrontPageDTO
 import no.ndla.frontpageapi.{TestEnvironment, UnitSuite}
 import no.ndla.network.tapir.{ErrorHelpers, Routes, TapirController}
 import no.ndla.tapirtesting.{NdlaAuthTestTokens, TapirControllerTest}
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.when
+import no.ndla.testbase.NullSafeMockito.{any, when}
 import sttp.client4.quick.*
 
 import scala.concurrent.duration.Duration

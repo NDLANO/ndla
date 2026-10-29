@@ -14,7 +14,7 @@ import no.ndla.common.errors.ValidationMessage
 import no.ndla.common.model.domain.article.Copyright
 import no.ndla.common.model.domain.{Author, ContributorType, Tag}
 import no.ndla.mapping.License.CC_BY
-import org.mockito.Mockito.{doReturn, reset, spy, when}
+import no.ndla.testbase.NullSafeMockito.{doReturn, reset, spy, when}
 
 import java.awt.image.BufferedImage
 
@@ -38,8 +38,8 @@ class ValidationServiceTest extends UnitSuite with TestEnvironment {
     when(enImageMock.getHeight).thenReturn(1500)
     when(converterService.getPhotoUrl(enCoverPhoto)).thenReturn("http://test.url/1")
     when(converterService.getPhotoUrl(nbCoverPhoto)).thenReturn("http://test.url/2")
-    doReturn(enImageMock).when(validationService).readImage("http://test.url/1")
-    doReturn(nbImageMock).when(validationService).readImage("http://test.url/2")
+    doReturn(Some(enImageMock)).when(validationService).readImage("http://test.url/1")
+    doReturn(Some(nbImageMock)).when(validationService).readImage("http://test.url/2")
     val result = validationService.validatePodcastMeta(audioType, meta, Some("en"))
 
     result should be(Seq.empty)
@@ -54,8 +54,8 @@ class ValidationServiceTest extends UnitSuite with TestEnvironment {
     when(enImageMock.getHeight).thenReturn(1600)
     when(converterService.getPhotoUrl(enCoverPhoto)).thenReturn("http://test.url/1")
     when(converterService.getPhotoUrl(nbCoverPhoto)).thenReturn("http://test.url/2")
-    doReturn(enImageMock).when(validationService).readImage("http://test.url/1")
-    doReturn(nbImageMock).when(validationService).readImage("http://test.url/2")
+    doReturn(Some(enImageMock)).when(validationService).readImage("http://test.url/1")
+    doReturn(Some(nbImageMock)).when(validationService).readImage("http://test.url/2")
     val result = validationService.validatePodcastMeta(audioType, meta, Some("en"))
 
     result.length should be(1)

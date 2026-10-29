@@ -20,6 +20,7 @@ import io.opentelemetry.sdk.trace.data.SpanData
 import io.opentelemetry.sdk.trace.`export`.SimpleSpanProcessor
 import no.ndla.common.auth.Permission
 import no.ndla.common.configuration.{BaseProps, Constants}
+import no.ndla.common.implicits.toOption
 import no.ndla.scalatestsuite.UnitTestSuite
 import no.ndla.tapirtesting.TapirControllerTest
 import org.scalatest.LoneElement
@@ -63,19 +64,27 @@ class NdlaTracingTest extends UnitTestSuite, TapirControllerTest, LoneElement {
       .serverLogicPure(_ => throw new RuntimeException("Expected tracing test failure"))
   }
 
-  private val spanExporter = InMemorySpanExporter.create()
+  private val spanExporter = InMemorySpanExporter.create().nn
   private val route        = AttributeKey.stringKey("http.route")
   private val statusCode   = AttributeKey.longKey("http.response.status_code")
 
   override def beforeAll(): Unit = {
     GlobalOpenTelemetry.resetForTest()
+    val tracerProvider = SdkTracerProvider
+      .builder()
+      .nn
+      .addSpanProcessor(SimpleSpanProcessor.create(spanExporter))
+      .nn
+      .build()
     GlobalOpenTelemetry.set(
       OpenTelemetrySdk
         .builder()
-        .setTracerProvider(
-          SdkTracerProvider.builder().addSpanProcessor(SimpleSpanProcessor.create(spanExporter)).build()
-        )
+        .toOption
+        .value
+        .setTracerProvider(tracerProvider)
+        .nn
         .setPropagators(ContextPropagators.create(W3CTraceContextPropagator.getInstance()))
+        .nn
         .build()
     )
     super.beforeAll()
@@ -88,6 +97,7 @@ class NdlaTracingTest extends UnitTestSuite, TapirControllerTest, LoneElement {
 
   private def serverSpans(): List[SpanData] = spanExporter
     .getFinishedSpanItems
+    .nn
     .asScala
     .toList
     .filter(_.getKind == SpanKind.SERVER)
@@ -102,9 +112,9 @@ class NdlaTracingTest extends UnitTestSuite, TapirControllerTest, LoneElement {
 
     val span = serverSpans().loneElement
     span.getName should be("DELETE /tracing/things/{id}")
-    span.getAttributes.get(route) should be("/tracing/things/{id}")
-    span.getAttributes.get(statusCode) should be(200L)
-    span.getAttributes.get(AttributeKey.stringKey("ndla.correlation_id")) should be("tracing-test")
+    span.getAttributes.nn.get(route) should be("/tracing/things/{id}")
+    span.getAttributes.nn.get(statusCode) should be(200L)
+    span.getAttributes.nn.get(AttributeKey.stringKey("ndla.correlation_id")) should be("tracing-test")
   }
 
   test("that requests not matching any endpoint are traced with the rejection status") {
@@ -113,7 +123,7 @@ class NdlaTracingTest extends UnitTestSuite, TapirControllerTest, LoneElement {
 
     val span = serverSpans().loneElement
     span.getName should be("GET")
-    span.getAttributes.get(statusCode) should be(404L)
+    span.getAttributes.nn.get(statusCode) should be(404L)
   }
 
   test("that exceptions are recorded on the span and mark it as an error") {
@@ -122,9 +132,9 @@ class NdlaTracingTest extends UnitTestSuite, TapirControllerTest, LoneElement {
 
     val span = serverSpans().loneElement
     span.getName should be("GET /tracing/fail")
-    span.getStatus.getStatusCode should be(StatusCode.ERROR)
-    span.getAttributes.get(statusCode) should be(500L)
-    span.getEvents.asScala.map(_.getName) should contain("exception")
+    span.getStatus.nn.getStatusCode should be(StatusCode.ERROR)
+    span.getAttributes.nn.get(statusCode) should be(500L)
+    span.getEvents.nn.asScala.map(_.getName) should contain("exception")
   }
 
   test("that the incoming trace context is used as parent") {

@@ -19,8 +19,6 @@ import sttp.tapir.*
 import sttp.tapir.server.netty.OxServerSentEvents
 import sttp.tapir.server.netty.sync.OxStreams
 
-import java.nio.charset.StandardCharsets
-
 /** Typed Server-Sent-Events bodies for tapir. The wire format is plain SSE, but the value type the endpoint exposes is
   * `Flow[T]` instead of `Flow[ServerSentEvent]` — so the schema flowing into the OpenAPI spec describes `T` directly,
   * and callers handle the typed value rather than poking at SSE strings.
@@ -49,7 +47,7 @@ object StreamingSSE {
       OxStreams,
       Codec.id(CodecFormat.TextEventStream(), schema.as[Flow[Chunk[Byte]]]),
       EndpointIO.Info.empty,
-      Some(StandardCharsets.UTF_8),
+      Some(scala.io.Codec.UTF8.charSet),
       Nil,
     ).map(OxServerSentEvents.parseBytesToSSE.andThen(serverSentEventToT))(
       tToServerSentEvent.andThen(OxServerSentEvents.serializeSSEToBytes)

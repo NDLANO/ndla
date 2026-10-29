@@ -31,6 +31,7 @@ import no.ndla.common.model.domain.article.{
   PartialPublishArticleDTO,
 }
 import no.ndla.mapping.License
+import no.ndla.network.ApplicationUrl
 
 import scala.util.Success
 
@@ -63,10 +64,12 @@ class ConverterServiceTest extends UnitSuite with TestEnvironment {
   test("toApiArticleTitle returns both title and htmlTitle") {
     val title = Title("Title with <span data-language=\"uk\">ukrainian</span> word", "en")
     service.toApiArticleTitle(title) should equal(
-      api.ArticleTitleDTO(
-        "Title with ukrainian word",
-        "Title with <span data-language=\"uk\">ukrainian</span> word",
-        "en",
+      Some(
+        api.ArticleTitleDTO(
+          "Title with ukrainian word",
+          "Title with <span data-language=\"uk\">ukrainian</span> word",
+          "en",
+        )
       )
     )
   }
@@ -74,7 +77,7 @@ class ConverterServiceTest extends UnitSuite with TestEnvironment {
   test("toApiArticleIntroduction returns both introduction and htmlIntroduction") {
     val introduction = Introduction("Introduction with <em>emphasis</em>", "en")
     service.toApiArticleIntroduction(introduction) should
-      equal(api.ArticleIntroductionDTO("Introduction with emphasis", "Introduction with <em>emphasis</em>", "en"))
+      equal(Some(api.ArticleIntroductionDTO("Introduction with emphasis", "Introduction with <em>emphasis</em>", "en")))
   }
 
   test("toApiArticleV2 converts a domain.Article to an api.ArticleV2") {
@@ -154,7 +157,8 @@ class ConverterServiceTest extends UnitSuite with TestEnvironment {
     val hitString          =
       s"""{  "grepCodes": [], "availability": "everyone", "visualElement": {    "en": "$visualElement"  },  "introduction": {    "nb": "$introduction"  }, "metaImage": [{"imageId": "1", "altText": "$metaImageAlt", "language": "nb"}], "tags": {"nb": ["test"]},  "metaDescription": {    "nb": "$metaDescription"  },  "lastUpdated": "2017-12-29T07:18:27Z",  "tags.nb": [    "baldur"  ],  "license": "$license",  "id": $id,  "authors": [],  "content": {    "nb": "Bilde av Baldurs mareritt om Ragnarok."  },  "defaultTitle": "Baldur har mareritt",  "title": {    "nb": "Baldur har mareritt"  },  "articleType": "$articleType", "traits": []}"""
 
-    val result = service.hitAsArticleSummaryV2(hitString, "nb")
+    ApplicationUrl.set("http://localhost/article-api/v2/articles/")
+    val result = service.hitAsArticleSummaryV2(hitString, "nb").get
 
     result.id should equal(id)
     result.title.title should equal(title)

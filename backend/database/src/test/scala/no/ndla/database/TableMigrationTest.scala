@@ -15,7 +15,7 @@ import scalikejdbc.*
 import java.util.UUID
 
 class TableMigrationTest extends DatabaseIntegrationSuite, UnitTestSuite, TestEnvironment {
-  override lazy val schemaName: String = s"tablemigrationtest_${ProcessHandle.current().pid()}"
+  override lazy val schemaName: String = s"tablemigrationtest_${ProcessHandle.current().nn.pid()}"
   val dataSource: DataSource           = testDataSource.get
   val schema: String                   = schemaName
   val schemaSql: SQLSyntax             = SQLSyntax.createUnsafely(schema)
@@ -53,12 +53,19 @@ class TableMigrationTest extends DatabaseIntegrationSuite, UnitTestSuite, TestEn
   private def runMigration[A](migration: TableMigration[A]): Unit = {
     val flyway = Flyway
       .configure()
+      .nn
       .javaMigrations(migration)
+      .nn
       .dataSource(dataSource)
+      .nn
       .schemas(schema)
+      .nn
       .baselineVersion("00")
+      .nn
       .baselineOnMigrate(true)
+      .nn
       .load()
+      .nn
 
     flyway.migrate()
   }
@@ -136,7 +143,7 @@ class TableMigrationTest extends DatabaseIntegrationSuite, UnitTestSuite, TestEn
       override val tableIdType: TableIdType    = TableIdType.UUID
 
       override def extractRowData(rs: WrappedResultSet): (UUID, String) =
-        (UUID.fromString(rs.string("id")), rs.string("data"))
+        (UUID.fromString(rs.string("id")).nn, rs.string("data"))
 
       override def updateRow(rowData: (UUID, String))(implicit session: DBSession): Int = {
         sql"update $uuidTableNameSql set data = ${"updated_row " + rowData._2} where id = ${rowData._1}".update()

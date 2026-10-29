@@ -18,6 +18,7 @@ import no.ndla.draftapi.model.domain.*
 import no.ndla.draftapi.service.ConverterService
 import no.ndla.language.Language
 import no.ndla.mapping.License
+import no.ndla.network.ApplicationUrl
 import no.ndla.scalatestsuite.ElasticsearchIntegrationSuite
 import no.ndla.search.{Elastic4sClientFactory, NdlaE4sClient, SearchLanguage}
 
@@ -251,6 +252,8 @@ class ArticleSearchServiceTest extends UnitSuite with ElasticsearchIntegrationSu
     articleIndexService.indexDocument(article9).get
     articleIndexService.indexDocument(article10).get
     articleIndexService.indexDocument(article11).get
+
+    ApplicationUrl.set("http://localhost/draft-api/v1/drafts/")
 
     blockUntil(() => articleSearchService.countDocuments == 11)
   }

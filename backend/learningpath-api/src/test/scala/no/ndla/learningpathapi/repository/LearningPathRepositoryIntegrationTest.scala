@@ -29,7 +29,7 @@ import no.ndla.learningpathapi.model.domain.*
 import no.ndla.mapping.License
 import no.ndla.database.{DBMigrator, DBUtility, DataSource}
 import no.ndla.scalatestsuite.DatabaseIntegrationSuite
-import org.mockito.Mockito.when
+import no.ndla.testbase.NullSafeMockito.when
 import scalikejdbc.*
 
 import scala.util.Try

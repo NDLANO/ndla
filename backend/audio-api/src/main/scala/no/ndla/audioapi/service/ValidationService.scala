@@ -12,6 +12,7 @@ import cats.implicits.*
 import no.ndla.audioapi.model.domain
 import no.ndla.audioapi.model.domain.*
 import no.ndla.common.errors.{ValidationException, ValidationMessage}
+import no.ndla.common.implicits.toOption
 import no.ndla.common.model.domain.article.Copyright
 import no.ndla.common.model.domain.{Author, ContributorType, Tag, Title, UploadedFile}
 import no.ndla.language.model.Iso639
@@ -85,7 +86,7 @@ class ValidationService(using converterService: ConverterService) {
 
   private def validateFileExtension(audioFile: UploadedFile): Option[ValidationMessage] = {
     val fn             = audioFile.fileName.getOrElse("").stripPrefix("\"").stripSuffix("\"")
-    val isValidFileExt = fn.toLowerCase.endsWith(".mp3")
+    val isValidFileExt = fn.toLowerCase.toOption.exists(_.endsWith(".mp3"))
     Option.when(!isValidFileExt) {
       ValidationMessage("files", s"The file '${audioFile.partName}' does not have a known file extension. Must be .mp3")
     }
@@ -149,14 +150,20 @@ class ValidationService(using converterService: ConverterService) {
     validationTry(series, validationMessages)
   }
 
-  private[service] def readImage(imageUrl: String): BufferedImage = {
+  private[service] def readImage(imageUrl: String): Option[BufferedImage] = {
     val url = new URI(imageUrl).toURL
-    ImageIO.read(url)
+    ImageIO.read(url).toOption
   }
 
   private def validatePodcastCoverPhoto(fieldName: String, coverPhoto: domain.CoverPhoto): Seq[ValidationMessage] = {
-    val imageUrl    = converterService.getPhotoUrl(coverPhoto)
-    val image       = readImage(imageUrl)
+    val imageUrl = converterService.getPhotoUrl(coverPhoto)
+    readImage(imageUrl) match {
+      case Some(image) => validatePodcastCoverPhotoDimensions(fieldName, image)
+      case None        => Seq(ValidationMessage(fieldName, s"Could not read podcast cover image from '$imageUrl'."))
+    }
+  }
+
+  private def validatePodcastCoverPhotoDimensions(fieldName: String, image: BufferedImage): Seq[ValidationMessage] = {
     val imageHeight = image.getHeight
     val imageWidth  = image.getWidth
 
@@ -230,7 +237,7 @@ class ValidationService(using converterService: ConverterService) {
   }
 
   private def validateMinimumLength(fieldPath: String, content: String, minLength: Int): Option[ValidationMessage] =
-    if (content.trim.length < minLength) Some(
+    if (content.trim.toOption.forall(_.length < minLength)) Some(
       ValidationMessage(fieldPath, s"This field does not meet the minimum length requirement of $minLength characters")
     )
     else None

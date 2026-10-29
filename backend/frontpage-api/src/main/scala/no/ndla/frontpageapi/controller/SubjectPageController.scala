@@ -9,6 +9,7 @@
 package no.ndla.frontpageapi.controller
 
 import no.ndla.common.errors.ValidationException
+import no.ndla.common.implicits.toOption
 import no.ndla.common.model.api.CommaSeparatedList.*
 import no.ndla.common.model.api.LanguageCode
 import no.ndla.common.model.api.frontpage.SubjectPageDTO
@@ -114,7 +115,7 @@ class SubjectPageController(using
         writeService
           .newSubjectPage(newSubjectFrontPageData)
           .partialOverride { case ex: ValidationException =>
-            errorHelpers.unprocessableEntity(ex.getMessage)
+            errorHelpers.unprocessableEntity(ex.getMessage.toOption.getOrElse(ex.message))
           }
       }
     }
@@ -134,7 +135,7 @@ class SubjectPageController(using
         writeService
           .updateSubjectPage(id, subjectPage, language.code, fallback)
           .partialOverride { case ex: ValidationException =>
-            errorHelpers.unprocessableEntity(ex.getMessage)
+            errorHelpers.unprocessableEntity(ex.getMessage.toOption.getOrElse(ex.message))
           }
       }
     }

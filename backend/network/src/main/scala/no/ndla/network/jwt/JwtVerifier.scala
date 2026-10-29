@@ -10,6 +10,7 @@ package no.ndla.network.jwt
 
 import com.nimbusds.jose.proc.{BadJOSEException, BadJWSException, SecurityContext}
 import com.nimbusds.jwt.proc.{DefaultJWTProcessor, ExpiredJWTException as NimbusExpiredJWTException}
+import no.ndla.common.implicits.*
 import no.ndla.network.model.*
 
 import java.text.ParseException
@@ -40,23 +41,26 @@ case class JwtVerifier(
   }
 
   private def process(token: String): Try[JWTClaimsSetWrapper] = for {
-    proc <- getProcessor
-    res  <- Try(JWTClaimsSetWrapper(proc.process(token, null)))
-  } yield res
+    proc   <- getProcessor
+    claims <- Try(proc.process(token, null)).flatMap(
+      _.toOption.toTry(new IllegalStateException("JWT processor returned no claims"))
+    )
+  } yield JWTClaimsSetWrapper(claims)
 
   private def getProcessor: Try[DefaultJWTProcessor[SecurityContext]] = processor match {
     case Some(p) => Success(p)
     case None    => synchronized {
         processor match {
           case Some(p) => Success(p)
-          case None    => Try {
-              val jwsKeySelector = jwsKeySelectorFactory.fromIssuer(issuer)
-              val proc           = new DefaultJWTProcessor[SecurityContext]()
-              proc.setJWSKeySelector(jwsKeySelector)
-              proc.setJWTClaimsSetVerifier(MultiIssuerClaimsVerifier(audience, extraIssuers + issuer))
-              processor = Some(proc)
-              proc
-            }
+          case None    => Try(jwsKeySelectorFactory.fromIssuer(issuer))
+              .flatten
+              .map { jwsKeySelector =>
+                val proc = new DefaultJWTProcessor[SecurityContext]()
+                proc.setJWSKeySelector(jwsKeySelector)
+                proc.setJWTClaimsSetVerifier(MultiIssuerClaimsVerifier(audience, extraIssuers + issuer))
+                processor = Some(proc)
+                proc
+              }
         }
       }
   }

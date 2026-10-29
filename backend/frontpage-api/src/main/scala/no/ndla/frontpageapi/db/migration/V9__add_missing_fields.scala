@@ -18,7 +18,7 @@ import scalikejdbc.*
 import scala.util.{Failure, Success}
 
 class V9__add_missing_fields extends BaseJavaMigration {
-  override def migrate(context: Context): Unit = DB(context.getConnection)
+  override def migrate(context: Context | Null): Unit = DB(context.nn.getConnection.nn)
     .autoClose(false)
     .withinTx { implicit session =>
       subjectPageData.map(convertSubjectpage).foreach(update)

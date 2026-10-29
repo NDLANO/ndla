@@ -13,7 +13,7 @@ import no.ndla.frontpageapi.controller.{ControllerErrorHandling, FilmPageControl
 import no.ndla.frontpageapi.service.{ReadService, WriteService}
 import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
 import no.ndla.tapirtesting.TapirControllerTest
-import org.mockito.Mockito.when
+import no.ndla.testbase.NullSafeMockito.when
 import sttp.client4.quick.*
 
 class FilmPageControllerTest extends UnitSuite with TestEnvironment with TapirControllerTest {

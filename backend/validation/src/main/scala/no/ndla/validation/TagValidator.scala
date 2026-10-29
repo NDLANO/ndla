@@ -13,6 +13,7 @@ import cats.implicits.*
 import io.lemonlabs.uri.typesafe.dsl.*
 import no.ndla.common.configuration.Constants.EmbedTagName
 import no.ndla.common.errors.ValidationMessage
+import no.ndla.common.implicits.toOption
 import no.ndla.common.model.{EmbedType, TagAttribute}
 import no.ndla.validation.AttributeType.*
 import no.ndla.validation.TagRules.TagAttributeRules
@@ -29,28 +30,39 @@ object TagValidator {
       requiredToOptional: Map[String, Seq[String]] = Map.empty,
   ): Seq[ValidationMessage] = {
 
-    val document = HtmlTagRules.stringToJsoupDocument(content)
-    document
-      .select("*")
-      .asScala
-      .flatMap(tag => {
-        if (tag.tagName == EmbedTagName) validateEmbedTag(fieldName, tag, requiredToOptional)
-        else validateHtmlTag(fieldName, tag)
-      })
-      .toList
+    HtmlTagRules.stringToJsoupDocument(content) match {
+      case None           => Seq(ValidationMessage(fieldName, "Unable to parse the content as HTML."))
+      case Some(document) => document
+          .select("*")
+          .toOption
+          .toList
+          .flatMap(_.asScala)
+          .flatMap(tag => {
+            if (tag.tagName == EmbedTagName) validateEmbedTag(fieldName, tag, requiredToOptional)
+            else validateHtmlTag(fieldName, tag)
+          })
+    }
   }
 
+  private def attributesOnTag(tag: Element): Map[String, String] = tag
+    .attributes()
+    .toOption
+    .toList
+    .flatMap(_.asScala)
+    .flatMap(attr => attr.getKey.toOption.map(_ -> attr.getValue.toOption.getOrElse("")))
+    .toMap
+
   private def validateHtmlTag(fieldName: String, html: Element): Seq[ValidationMessage] = {
-    val tagName = html.tagName
-    if (!HtmlTagRules.isTagValid(tagName)) {
-      return Seq.empty
+    val tagName = html.tagName.toOption match {
+      case Some(name) if HtmlTagRules.isTagValid(name) => name
+      case _                                           => return Seq.empty
     }
 
-    val allAttributesOnTag  = html.attributes().asScala.map(attr => attr.getKey -> attr.getValue).toMap
+    val allAttributesOnTag  = attributesOnTag(html)
     val legalAttributesUsed = getLegalAttributesUsed(allAttributesOnTag, tagName)
     val validationErrors    = attributesAreLegal(fieldName, allAttributesOnTag, tagName)
 
-    val tagAttributeRules = HtmlTagRules.tagAttributesForTagType(html.tagName).getOrElse(TagAttributeRules.empty)
+    val tagAttributeRules = HtmlTagRules.tagAttributesForTagType(tagName).getOrElse(TagAttributeRules.empty)
 
     val missingAttributes = getMissingAttributes(tagAttributeRules.required, legalAttributesUsed.keys.toSet)
     val missingErrors     = missingAttributes
@@ -78,7 +90,7 @@ object TagValidator {
   ): Seq[ValidationMessage] = {
     if (embed.tagName != EmbedTagName) return Seq()
 
-    val allAttributesOnTag  = embed.attributes().asScala.map(attr => attr.getKey -> attr.getValue).toMap
+    val allAttributesOnTag  = attributesOnTag(embed)
     val legalAttributesUsed = getLegalAttributesUsed(allAttributesOnTag, EmbedTagName)
 
     val (resourceType, tagAttributeRules) = getRules(fieldName, legalAttributesUsed, requiredToOptional) match {
@@ -138,14 +150,14 @@ object TagValidator {
           .getOrElse(Right(true))
 
         if (parentEither.getOrElse(true)) {
-          val parent                             = embed.parent()
+          val parent                             = embed.parent().toOption
           val expectedButMissingParentAttributes = parentRule
             .requiredAttr
             .filterNot { case (attrKey, attrVal) =>
-              parent.attr(attrKey) == attrVal
+              parent.exists(_.attr(attrKey) == attrVal)
             }
 
-          if (parent.tagName() != parentRule.name || expectedButMissingParentAttributes.nonEmpty) {
+          if (!parent.exists(_.tagName() == parentRule.name) || expectedButMissingParentAttributes.nonEmpty) {
             val requiredAttributes = parentRule
               .requiredAttr
               .map { case (key, value) =>
@@ -179,7 +191,13 @@ object TagValidator {
     */
   private[validation] def numDirectEqualSiblings(embed: Element): Int = {
     // Every sibling that is not whitespace
-    val siblings = embed.parent.childNodes().asScala.filterNot(n => n.outerHtml().replaceAll("\\s", "") == "")
+    val siblings = embed
+      .parent
+      .toOption
+      .flatMap(_.childNodes().toOption)
+      .toList
+      .flatMap(_.asScala)
+      .filterNot(n => n.outerHtml().toOption.forall(_.replaceAll("\\s", "") == ""))
 
     // Before siblings is reversed so we can use takeWhile
     // We use drop(1) on after siblings because splitAt includes the element that is split at
@@ -212,9 +230,9 @@ object TagValidator {
       condition: TagRules.Condition,
       childCount: Int,
   ): Either[Seq[ValidationMessage], Boolean] = {
-    val noSpace = condition.childCount.replace(" ", "")
+    val noSpace = condition.childCount.filterNot(_ == ' ')
     // Remove operator character and attempt to turn number to Int
-    Try(noSpace.replaceFirst("[<>=]", "").toInt) match {
+    Try("[<>=]".r.replaceFirstIn(noSpace, "").toInt) match {
       case Success(expectedChildNum) => noSpace.charAt(0) match {
           case '>' => Right(childCount > expectedChildNum)
           case '<' => Right(childCount < expectedChildNum)
@@ -274,7 +292,7 @@ object TagValidator {
             s"Tag '$EmbedTagName' with `data-resource=$resourceType` requires at least one child.",
           ).some
         } else {
-          val childrenTagNames = embed.children().asScala.toList.map(_.tagName())
+          val childrenTagNames = embed.children().toOption.toList.flatMap(_.asScala).flatMap(_.tagName().toOption)
           if (childrenRule.allowedChildren.isEmpty && childrenTagNames.nonEmpty) {
             ValidationMessage(
               fieldName,
@@ -591,7 +609,7 @@ object TagValidator {
     if (!field.validation.required && value.isEmpty) {
       return None
     }
-    if (value.trim.matches(domainRegex)) {
+    if (value.trim.toOption.exists(_.matches(domainRegex))) {
       if (field.validation.allowedDomains.isEmpty) None
       else {
         val urlHost               = value.hostOption.map(_.toString).getOrElse("")

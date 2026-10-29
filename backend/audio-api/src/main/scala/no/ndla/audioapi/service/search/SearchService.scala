@@ -172,7 +172,7 @@ trait SearchService[T](using
         scheduleIndexDocuments()
         Failure(IndexNotFoundException(s"Index $searchIndex not found. Scheduling a reindex"))
       case e: NdlaSearchException[?] =>
-        logger.error(e.getMessage)
+        logger.error(e.message)
         Failure(NdlaSearchException(s"Unable to execute search in $searchIndex", e))
       case t: Throwable => Failure(t)
     }

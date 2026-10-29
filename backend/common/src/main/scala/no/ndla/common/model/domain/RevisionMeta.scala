@@ -12,6 +12,7 @@ import enumeratum.*
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import no.ndla.common.Clock
+import no.ndla.common.implicits.toOption
 import no.ndla.common.model.NDLADate
 
 import java.util.UUID
@@ -25,9 +26,11 @@ object RevisionMeta {
   implicit val decoder: Decoder[RevisionMeta] = deriveDecoder
   val defaultNote                             = "Automatisk revisjonsdato satt av systemet"
 
-  def default(using clock: Clock): Seq[RevisionMeta] = Seq(
-    RevisionMeta(UUID.randomUUID(), clock.now().plusYears(5).withNano(0), defaultNote, RevisionStatus.NeedsRevision)
-  )
+  def default(using clock: Clock): Seq[RevisionMeta] = UUID
+    .randomUUID()
+    .toOption
+    .map(id => RevisionMeta(id, clock.now().plusYears(5).withNano(0), defaultNote, RevisionStatus.NeedsRevision))
+    .toSeq
 }
 
 extension (revisions: Seq[RevisionMeta]) {

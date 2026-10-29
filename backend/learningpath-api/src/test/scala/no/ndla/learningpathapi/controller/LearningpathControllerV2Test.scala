@@ -22,8 +22,7 @@ import no.ndla.mapping.License.getLicenses
 import no.ndla.network.model.CombinedUser
 import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
 import no.ndla.tapirtesting.TapirControllerTest
-import org.mockito.ArgumentMatchers.{eq as eqTo, *}
-import org.mockito.Mockito.{reset, times, verify, when}
+import no.ndla.testbase.NullSafeMockito.*
 import sttp.client4.quick.*
 
 import scala.util.{Failure, Success}

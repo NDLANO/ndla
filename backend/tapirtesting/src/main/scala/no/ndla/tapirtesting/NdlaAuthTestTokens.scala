@@ -53,21 +53,38 @@ object NdlaAuthTestTokens {
 
     val claims = new JWTClaimsSet.Builder()
       .issueTime(new Date())
+      .nn
       .expirationTime(new Date(System.currentTimeMillis() + 3_600_000))
+      .nn
       .issuer(iss)
+      .nn
       .audience(aud)
+      .nn
       .subject("google-oauth2|SomeGoogleNumber")
+      .nn
       .claim("azp", "SomeClientId")
+      .nn
       .claim("scope", "openid profile email offline_access")
+      .nn
       .claim("https://ndla.no/client_id", "SomeClientId")
+      .nn
       .claim("https://ndla.no/ndla_id", "SomeNdlaId")
+      .nn
       .claim("https://ndla.no/user_email", "cool.user@example.com")
+      .nn
       .claim("https://ndla.no/user_name", "Some cool user")
+      .nn
       .claim("permissions", permissions.map(_.entryName).asJava)
+      .nn
       .build()
-    val header = new JWSHeader.Builder(JWSAlgorithm.RS256).keyID(rsaJwk.getKeyID).`type`(JOSEObjectType.JWT).build()
-    val jwt    = new SignedJWT(header, claims)
+    val header = new JWSHeader.Builder(JWSAlgorithm.RS256)
+      .keyID(rsaJwk.getKeyID)
+      .nn
+      .`type`(JOSEObjectType.JWT)
+      .nn
+      .build()
+    val jwt = new SignedJWT(header, claims)
     jwt.sign(signer)
-    jwt.serialize()
+    jwt.serialize().nn
   }
 }

@@ -207,8 +207,8 @@ class DraftConceptRepository(using errorHelpers: ErrorHelpers, dbUtility: DBUtil
   def getTags(input: String, pageSize: Int, offset: Int, language: String)(implicit
       session: DBSession = dbUtility.autoSession
   ): (Seq[String], Int) = {
-    val sanitizedInput    = input.replaceAll("%", "")
-    val sanitizedLanguage = language.replaceAll("%", "")
+    val sanitizedInput    = input.filterNot(_ == '%')
+    val sanitizedLanguage = language.filterNot(_ == '%')
     val langOrAll         =
       if (sanitizedLanguage == "*" || sanitizedLanguage == "") "%"
       else sanitizedLanguage

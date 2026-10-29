@@ -11,8 +11,7 @@ package no.ndla.audioapi.service
 import no.ndla.audioapi.{AudioApiProperties, TestEnvironment, UnitSuite}
 import no.ndla.common.aws.NdlaS3Object
 import no.ndla.common.configuration.Prop
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.when
+import no.ndla.testbase.NullSafeMockito.{any, when}
 import software.amazon.awssdk.services.transcribe.model.{
   GetTranscriptionJobResponse,
   StartTranscriptionJobResponse,

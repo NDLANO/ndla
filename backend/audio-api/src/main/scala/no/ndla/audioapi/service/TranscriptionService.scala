@@ -14,8 +14,9 @@ import no.ndla.audioapi.integration.TranscribeS3Client
 import no.ndla.audioapi.model.api.JobAlreadyFoundException
 import no.ndla.common.aws.NdlaAWSTranscribeClient
 import no.ndla.common.brightcove.NdlaBrightcoveClient
+import no.ndla.common.implicits.{toOption, toTry}
 import no.ndla.common.model.domain.UploadedFile
-import software.amazon.awssdk.services.transcribe.model.TranscriptionJobStatus
+import software.amazon.awssdk.services.transcribe.model.{GetTranscriptionJobResponse, TranscriptionJobStatus}
 import sttp.client4.{UriContext, asFile, basicRequest}
 import sttp.client4.httpurlconnection.HttpURLConnectionBackend
 import ws.schild.jave.{Encoder, MultimediaObject}
@@ -87,10 +88,8 @@ class TranscriptionService(using
 
     transcribeClient
       .getTranscriptionJob(jobName)
-      .flatMap { transcriptionJobResponse =>
-        val transcriptionJob       = transcriptionJobResponse.transcriptionJob()
-        val transcriptionJobStatus = transcriptionJob.transcriptionJobStatus()
-
+      .flatMap(getTranscriptionJobStatus)
+      .flatMap { transcriptionJobStatus =>
         if (transcriptionJobStatus == TranscriptionJobStatus.COMPLETED) {
           val transcribeUri = s"transcription/$language/$videoId.vtt"
 
@@ -146,10 +145,9 @@ class TranscriptionService(using
 
     transcribeClient
       .getTranscriptionJob(jobName)
-      .flatMap { transcriptionJobResponse =>
-        val transcriptionJob       = transcriptionJobResponse.transcriptionJob()
-        val transcriptionJobStatus = transcriptionJob.transcriptionJobStatus().toString
-
+      .flatMap(getTranscriptionJobStatus)
+      .map(_.toString)
+      .flatMap { transcriptionJobStatus =>
         if (transcriptionJobStatus == "COMPLETED") {
           val transcribeUri = s"audio-transcription/$language/$audioId"
 
@@ -159,6 +157,12 @@ class TranscriptionService(using
         }
       }
   }
+
+  private def getTranscriptionJobStatus(response: GetTranscriptionJobResponse): Try[TranscriptionJobStatus] = response
+    .transcriptionJob()
+    .toOption
+    .flatMap(_.transcriptionJobStatus().toOption)
+    .toTry(new RuntimeException("Transcription job response did not contain a job status"))
 
   private def getObjectFromS3(Uri: String): Try[String] = {
     s3TranscribeClient

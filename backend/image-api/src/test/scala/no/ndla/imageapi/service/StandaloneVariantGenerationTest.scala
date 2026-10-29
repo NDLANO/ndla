@@ -13,8 +13,8 @@ import no.ndla.database.DBUtility
 import no.ndla.imageapi.model.domain.*
 import no.ndla.imageapi.{TestEnvironment, UnitSuite}
 import no.ndla.scalatestsuite.DBUtilityStub
-import org.mockito.ArgumentMatchers.{any, eq as eqTo}
-import org.mockito.Mockito.*
+import no.ndla.testbase.NullSafeMockito.*
+import org.mockito.Mockito
 
 import scala.util.{Failure, Success}
 
@@ -26,9 +26,9 @@ class StandaloneVariantGenerationTest extends UnitSuite with TestEnvironment {
 
   override def beforeEach(): Unit = {
     reset(imageRepository, imageStorage)
-    when(imageRepository.update(any, any)(using any)).thenAnswer(i => Success(i.getArgument(0)))
+    when(imageRepository.update(any, any)(using any)).thenAnswer(i => Success(i.nn.getArgument(0)))
     when(imageStorage.deleteObjects(any)).thenReturn(Success(()))
-    when(imageStorage.uploadFromStream(any, any, any, any)).thenAnswer(i => Success(i.getArgument(0)))
+    when(imageStorage.uploadFromStream(any, any, any, any)).thenAnswer(i => Success(i.nn.getArgument(0)))
   }
 
   private def withChangedFileStem(original: ImageFileData, newFileStem: String): ImageFileData = {
@@ -117,14 +117,14 @@ class StandaloneVariantGenerationTest extends UnitSuite with TestEnvironment {
     } do {
       reset(imageRepository, imageStorage)
       when(imageRepository.getImageMetaBatched(any)).thenReturn(Success(Iterator.single(Seq(meta))))
-      when(imageRepository.update(any, any)(using any)).thenAnswer(i => Success(i.getArgument(0)))
+      when(imageRepository.update(any, any)(using any)).thenAnswer(i => Success(i.nn.getArgument(0)))
 
       standaloneVariantGeneration.generateVariantsForExistingImages(mode).get
 
       verify(imageRepository, times(1)).getImageMetaBatched(any)
       verify(imageRepository, times(1)).update(eqTo(meta), eqTo(meta.id.get))(using any)
       verifyNoMoreInteractions(imageRepository)
-      verifyNoInteractions(imageStorage)
+      Mockito.verifyNoInteractions(imageStorage)
     }
   }
 
@@ -137,7 +137,7 @@ class StandaloneVariantGenerationTest extends UnitSuite with TestEnvironment {
     } do {
       reset(imageRepository, imageStorage)
       when(imageRepository.getImageMetaBatched(any)).thenReturn(Success(Iterator.single(Seq(meta))))
-      when(imageRepository.update(any, any)(using any)).thenAnswer(i => Success(i.getArgument(0)))
+      when(imageRepository.update(any, any)(using any)).thenAnswer(i => Success(i.nn.getArgument(0)))
       when(imageStorage.getRaw(eqTo(fileData.fileName))).thenReturn(
         Failure(MissingBucketKeyException(fileData.fileName))
       )

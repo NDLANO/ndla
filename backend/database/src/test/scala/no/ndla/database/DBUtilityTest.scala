@@ -14,7 +14,7 @@ import scalikejdbc.*
 import scala.util.{Failure, Success, Try}
 
 class DBUtilityTest extends DatabaseIntegrationSuite, UnitTestSuite, TestEnvironment {
-  override lazy val schemaName: String = s"dbutilitytest_${ProcessHandle.current().pid()}"
+  override lazy val schemaName: String = s"dbutilitytest_${ProcessHandle.current().nn.pid()}"
   val dataSource: DataSource           = testDataSource.get
 
   override def beforeAll(): Unit = {

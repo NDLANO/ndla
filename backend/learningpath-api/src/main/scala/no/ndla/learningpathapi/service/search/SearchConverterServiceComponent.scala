@@ -9,6 +9,7 @@
 package no.ndla.learningpathapi.service.search
 
 import com.sksamuel.elastic4s.requests.searches.SearchHit
+import no.ndla.common.implicits.toTry
 import no.ndla.common.model.api.search.{LanguageValue, SearchableLanguageList, SearchableLanguageValues}
 import no.ndla.common.model.domain.learningpath.{LearningPath, LearningStep}
 import no.ndla.language.Language.{
@@ -25,11 +26,13 @@ import no.ndla.learningpathapi.model.search.*
 import no.ndla.learningpathapi.service.ConverterService
 import no.ndla.network.ApplicationUrl
 
+import scala.util.Try
+
 class SearchConverterServiceComponent(using converterService: ConverterService, props: Props) {
   def asApiLearningPathSummaryV2(
       searchableLearningPath: SearchableLearningPath,
       language: String,
-  ): LearningPathSummaryV2DTO = {
+  ): Try[LearningPathSummaryV2DTO] = {
     val titles       = searchableLearningPath.titles.languageValues.map(lv => api.TitleDTO(lv.value, lv.language))
     val descriptions = searchableLearningPath
       .descriptions
@@ -42,24 +45,26 @@ class SearchConverterServiceComponent(using converterService: ConverterService, 
     val tags               = searchableLearningPath.tags.languageValues.map(lv => api.LearningPathTagsDTO(lv.value, lv.language))
     val supportedLanguages = getSupportedLanguages(titles, descriptions, introductions, tags)
 
-    LearningPathSummaryV2DTO(
-      searchableLearningPath.id,
-      revision = None,
-      findByLanguageOrBestEffort(titles, language).getOrElse(api.TitleDTO("", props.DefaultLanguage)),
-      findByLanguageOrBestEffort(descriptions, language).getOrElse(api.DescriptionDTO("", props.DefaultLanguage)),
-      findByLanguageOrBestEffort(introductions, language).getOrElse(api.IntroductionDTO("", props.DefaultLanguage)),
-      createUrlToLearningPath(searchableLearningPath.id),
-      searchableLearningPath.coverPhotoUrl,
-      searchableLearningPath.duration,
-      searchableLearningPath.status,
-      searchableLearningPath.created,
-      searchableLearningPath.lastUpdated,
-      findByLanguageOrBestEffort(tags, language).getOrElse(api.LearningPathTagsDTO(Seq(), props.DefaultLanguage)),
-      searchableLearningPath.copyright,
-      supportedLanguages,
-      searchableLearningPath.isBasedOn,
-      message = None,
-      grepCodes = searchableLearningPath.grepCodes,
+    createUrlToLearningPath(searchableLearningPath.id).map(url =>
+      LearningPathSummaryV2DTO(
+        searchableLearningPath.id,
+        revision = None,
+        findByLanguageOrBestEffort(titles, language).getOrElse(api.TitleDTO("", props.DefaultLanguage)),
+        findByLanguageOrBestEffort(descriptions, language).getOrElse(api.DescriptionDTO("", props.DefaultLanguage)),
+        findByLanguageOrBestEffort(introductions, language).getOrElse(api.IntroductionDTO("", props.DefaultLanguage)),
+        url,
+        searchableLearningPath.coverPhotoUrl,
+        searchableLearningPath.duration,
+        searchableLearningPath.status,
+        searchableLearningPath.created,
+        searchableLearningPath.lastUpdated,
+        findByLanguageOrBestEffort(tags, language).getOrElse(api.LearningPathTagsDTO(Seq(), props.DefaultLanguage)),
+        searchableLearningPath.copyright,
+        supportedLanguages,
+        searchableLearningPath.isBasedOn,
+        message = None,
+        grepCodes = searchableLearningPath.grepCodes,
+      )
     )
   }
 
@@ -100,9 +105,10 @@ class SearchConverterServiceComponent(using converterService: ConverterService, 
     )
   }
 
-  private def createUrlToLearningPath(id: Long): String = {
-    s"${ApplicationUrl.get}$id"
-  }
+  private def createUrlToLearningPath(id: Long): Try[String] = ApplicationUrl
+    .get
+    .toTry(IllegalStateException("Application url is not set"))
+    .map(applicationUrl => s"$applicationUrl$id")
 
   def getLanguageFromHit(result: SearchHit): Option[String] = {
     def keyToLanguage(keys: Iterable[String]): Option[String] = {

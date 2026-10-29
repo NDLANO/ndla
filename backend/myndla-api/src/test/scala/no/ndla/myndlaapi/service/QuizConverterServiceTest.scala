@@ -22,13 +22,15 @@ class QuizConverterServiceTest extends UnitTestSuite with TestEnvironment {
   private val now     = NDLADate.now().withNano(0)
 
   test("toDomainQuiz creates a private quiz owned by the caller with default display settings") {
-    val quiz = service.toDomainQuiz(
-      NewQuizDTO(title = "Kapittelquiz", description = Some("Kort beskrivelse"), displaySettings = None),
-      ownerId = "feide-owner-1",
-      user = "feide-owner-1",
-      now = now,
-      language = "nb",
-    )
+    val quiz = service
+      .toDomainQuiz(
+        NewQuizDTO(title = "Kapittelquiz", description = Some("Kort beskrivelse"), displaySettings = None),
+        ownerId = "feide-owner-1",
+        user = "feide-owner-1",
+        now = now,
+        language = "nb",
+      )
+      .failIfFailure
 
     quiz.ownerId should be("feide-owner-1")
     quiz.revision should be(None)
@@ -42,17 +44,17 @@ class QuizConverterServiceTest extends UnitTestSuite with TestEnvironment {
   }
 
   test("toApiQuiz uses requested language when available and hides correct answers for non-owners") {
-    val a1   = UUID.randomUUID()
-    val a2   = UUID.randomUUID()
+    val a1   = UUID.randomUUID().nn
+    val a2   = UUID.randomUUID().nn
     val quiz = Quiz(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       ownerId = "feide-owner-1",
       revision = Some(2),
       title = Seq(Title("Tittel bokmal", "nb"), Title("Title english", "en")),
       description = Seq(Description("Beskrivelse bokmal", "nb"), Description("Description english", "en")),
       questions = Seq(
         Question(
-          id = UUID.randomUUID(),
+          id = UUID.randomUUID().nn,
           questionType = QuestionType.SINGLE_CHOICE,
           language = "nb",
           title = "Hva er riktig?",
@@ -79,17 +81,17 @@ class QuizConverterServiceTest extends UnitTestSuite with TestEnvironment {
   }
 
   test("toApiQuiz falls back to first available language and exposes fasit to the owner") {
-    val a1   = UUID.randomUUID()
-    val a2   = UUID.randomUUID()
+    val a1   = UUID.randomUUID().nn
+    val a2   = UUID.randomUUID().nn
     val quiz = Quiz(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       ownerId = "feide-owner-2",
       revision = Some(1),
       title = Seq(Title("Norsk tittel", "nb")),
       description = Seq.empty,
       questions = Seq(
         Question(
-          id = UUID.randomUUID(),
+          id = UUID.randomUUID().nn,
           questionType = QuestionType.MULTI_CHOICE,
           language = "nb",
           title = "Velg riktige",
@@ -117,7 +119,7 @@ class QuizConverterServiceTest extends UnitTestSuite with TestEnvironment {
 
   test("mergeQuiz only overwrites the display setting fields that are provided") {
     val quiz = Quiz(
-      id = UUID.randomUUID(),
+      id = UUID.randomUUID().nn,
       ownerId = "feide-owner-1",
       revision = Some(1),
       title = Seq(Title("Tittel", "nb")),

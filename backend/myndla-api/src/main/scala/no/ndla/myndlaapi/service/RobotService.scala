@@ -12,6 +12,7 @@ import no.ndla.common.Clock
 import no.ndla.common.errors.NotFoundException
 import no.ndla.common.implicits.*
 import no.ndla.database.DBUtility
+import no.ndla.myndlaapi.randomUUID
 import no.ndla.myndlaapi.model.api.robot.{CreateRobotDefinitionDTO, ListOfRobotDefinitionsDTO, RobotDefinitionDTO}
 import no.ndla.myndlaapi.model.domain.{RobotConfiguration, RobotDefinition, RobotStatus}
 import no.ndla.myndlaapi.repository.RobotRepository
@@ -51,8 +52,9 @@ class RobotService(using
       val now = clock.now()
       for {
         user  <- folderWriteService.canWriteOrAccessDenied(feide)
+        id    <- randomUUID()
         domain = RobotDefinition(
-          id = UUID.randomUUID(),
+          id = id,
           feideId = user.feideId,
           status = robotDefinitionDTO.status.getOrElse(RobotStatus.PRIVATE),
           configuration = RobotConfiguration.fromDTO(robotDefinitionDTO.configuration),

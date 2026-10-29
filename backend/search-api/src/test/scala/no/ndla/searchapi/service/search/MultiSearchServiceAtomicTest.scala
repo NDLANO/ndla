@@ -25,8 +25,7 @@ import no.ndla.searchapi.TestData.{core, generateContexts, subjectMaterial, toda
 import no.ndla.searchapi.model.domain.{IndexingBundle, Sort}
 import no.ndla.searchapi.service.ConverterService
 import no.ndla.searchapi.{TestData, TestEnvironment, UnitSuite}
-import org.mockito.ArgumentMatchers.{any, eq as eqTo}
-import org.mockito.Mockito.*
+import no.ndla.testbase.NullSafeMockito.*
 
 import scala.util.Success
 

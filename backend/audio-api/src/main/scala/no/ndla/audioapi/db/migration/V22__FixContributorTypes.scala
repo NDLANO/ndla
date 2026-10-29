@@ -46,8 +46,8 @@ class V22__FixContributorTypes extends DocumentMigration {
 
   private def convertAuthors(authors: List[OldAuthor]): List[Author] = {
     authors.map(author => {
-      ContributorType.valueOf(author.`type`.toLowerCase) match {
-        case None    => Author(ContributorType.mapping(author.`type`.toLowerCase), author.name)
+      ContributorType.valueOf(author.`type`.toLowerCase.nn) match {
+        case None    => Author(ContributorType.mapping(author.`type`.toLowerCase.nn), author.name)
         case Some(a) => Author(a, author.name)
       }
     })

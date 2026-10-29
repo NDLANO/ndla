@@ -8,6 +8,8 @@
 
 package no.ndla.searchapi.integration
 
+import no.ndla.common.implicits.toOption
+
 import java.io.*
 import java.util.zip.ZipInputStream
 import scala.util.Try
@@ -17,11 +19,12 @@ object ZipUtil {
     val fis = new FileInputStream(zipFile)
     val zis = new ZipInputStream(fis)
     LazyList
-      .continually(zis.getNextEntry)
-      .takeWhile(_ != null)
+      .continually(zis.getNextEntry.toOption)
+      .takeWhile(_.isDefined)
+      .flatten
       .foreach { file =>
         val outFile = new File(targetDir, file.getName)
-        outFile.getParentFile.mkdirs()
+        outFile.getParentFile.toOption.foreach(_.mkdirs())
         val fout   = new FileOutputStream(outFile)
         val buffer = new Array[Byte](1024)
         LazyList.continually(zis.read(buffer)).takeWhile(_ != -1).foreach(fout.write(buffer, 0, _))

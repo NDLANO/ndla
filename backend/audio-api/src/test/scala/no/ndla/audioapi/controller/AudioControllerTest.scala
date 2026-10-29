@@ -19,9 +19,9 @@ import no.ndla.common.model.api.{CopyrightDTO, LicenseDTO}
 import no.ndla.mapping.License
 import no.ndla.network.tapir.{ErrorHelpers, Routes, TapirController}
 import no.ndla.tapirtesting.{NdlaAuthTestTokens, TapirControllerTest}
+import no.ndla.testbase.NullSafeMockito
+import no.ndla.testbase.NullSafeMockito.*
 import org.mockito.ArgumentCaptor
-import org.mockito.ArgumentMatchers.{eq as eqTo, *}
-import org.mockito.Mockito.{reset, times, verify, when}
 import org.scalatest.tagobjects.Retryable
 import org.scalatest.{Canceled, Failed, Outcome, Retries}
 import sttp.client4.quick.*
@@ -323,9 +323,9 @@ class AudioControllerTest extends UnitSuite with TestEnvironment with Retries wi
     val response = request.send()
     response.code.code should be(200)
 
-    val argumentCaptor: ArgumentCaptor[SearchSettings] = ArgumentCaptor.forClass(classOf[SearchSettings])
-    verify(audioSearchService, times(1)).matchingQuery(argumentCaptor.capture())
-    argumentCaptor.getValue.query should be(None)
+    val argumentCaptor: ArgumentCaptor[SearchSettings] = ArgumentCaptor.forClass(classOf[SearchSettings]).nn
+    verify(audioSearchService, times(1)).matchingQuery(NullSafeMockito.capture(argumentCaptor))
+    argumentCaptor.getValue.nn.query should be(None)
   }
 
   test("That uploading a file bigger than max filesize returns 413", Retryable) {

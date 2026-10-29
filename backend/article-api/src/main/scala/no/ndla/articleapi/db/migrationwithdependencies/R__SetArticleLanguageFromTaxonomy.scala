@@ -17,5 +17,5 @@ class R__SetArticleLanguageFromTaxonomy(properties: ArticleApiProperties) extend
   val dbArticle                     = new DBArticle
   override def getChecksum: Integer = 1 // Change this to something else if you want to repeat migration
 
-  override def migrate(context: Context): Unit = {}
+  override def migrate(context: Context | Null): Unit = {}
 }

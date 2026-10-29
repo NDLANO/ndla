@@ -8,10 +8,13 @@
 
 package no.ndla.common
 
+import no.ndla.common.implicits.*
+
 import java.util.UUID
+import scala.util.Try
 
 class UUIDUtil {
-  def randomUUID(): UUID = {
-    UUID.randomUUID()
+  def randomUUID(): Try[UUID] = {
+    UUID.randomUUID().toOption.toTry(new IllegalStateException("Could not generate a random UUID"))
   }
 }

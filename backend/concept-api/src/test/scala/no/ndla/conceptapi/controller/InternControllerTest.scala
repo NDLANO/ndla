@@ -13,7 +13,7 @@ import no.ndla.conceptapi.service.ConverterService
 import no.ndla.conceptapi.{TestEnvironment, UnitSuite}
 import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
 import no.ndla.tapirtesting.TapirControllerTest
-import org.mockito.Mockito.{reset, when}
+import no.ndla.testbase.NullSafeMockito.{reset, when}
 
 class InternControllerTest extends UnitSuite with TestEnvironment with TapirControllerTest {
   override implicit lazy val clock: Clock                       = mock[Clock]

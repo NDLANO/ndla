@@ -28,7 +28,7 @@ class V3__introduce_layout extends BaseJavaMigration {
   implicit val v3decoder: Decoder[V3_SubjectFrontPageData] = deriveDecoder
   implicit val v3encoder: Encoder[V3_SubjectFrontPageData] = deriveEncoder
 
-  override def migrate(context: Context): Unit = DB(context.getConnection)
+  override def migrate(context: Context | Null): Unit = DB(context.nn.getConnection.nn)
     .autoClose(false)
     .withinTx { implicit session =>
       subjectPageData.flatMap(convertSubjectpage).foreach(update)

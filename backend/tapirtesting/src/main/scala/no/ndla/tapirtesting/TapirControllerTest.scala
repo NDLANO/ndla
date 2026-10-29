@@ -12,12 +12,11 @@ import no.ndla.common.Clock
 import no.ndla.common.configuration.BaseProps
 import no.ndla.common.model.domain.myndla.{MyNDLAUser, UserRole}
 import no.ndla.network.clients.MyNDLAProvider
-import no.ndla.network.model.FeideUserWrapper
+import no.ndla.network.model.{FeideIdToken, FeideUserWrapper}
 import no.ndla.network.tapir.auth.{CombinedAuth, FeideAuth, NdlaAuth}
 import no.ndla.network.tapir.*
 import no.ndla.scalatestsuite.UnitTestSuite
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.when
+import no.ndla.testbase.NullSafeMockito.{any, when}
 import sttp.tapir.server.netty.sync.NettySyncServerBinding
 
 trait TapirControllerTest extends UnitTestSuite {
@@ -34,7 +33,7 @@ trait TapirControllerTest extends UnitTestSuite {
 
   implicit lazy val myNdlaProvider: MyNDLAProvider = {
     val providerMock = mock[MyNDLAProvider]
-    when(providerMock.getFeideUserWrapperFromIdToken(any())).thenAnswer { i =>
+    when(providerMock.getFeideUserWrapperFromIdToken(any)).thenAnswer { i =>
       Right(
         FeideUserWrapper(
           MyNDLAUser(
@@ -51,7 +50,7 @@ trait TapirControllerTest extends UnitTestSuite {
             arenaEnabled = false,
             lastSeen = clock.now(),
           ),
-          i.getArgument(0),
+          i.nn.getArgument[FeideIdToken](0).nn,
         )
       )
     }
@@ -72,6 +71,7 @@ trait TapirControllerTest extends UnitTestSuite {
     super.beforeAll()
     Thread
       .ofVirtual()
+      .nn
       .start(() => {
         routes.startServerAndWait(s"TapirControllerTest:${this.getClass.getName}", serverPort) { s =>
           server = Some(s)

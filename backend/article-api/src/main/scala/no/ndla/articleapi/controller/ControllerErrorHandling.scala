@@ -21,14 +21,14 @@ class ControllerErrorHandling(using dataSource: => DataSource, errorHelpers: Err
   import errorHelpers.*
 
   override def handleErrors: PartialFunction[Throwable, AllErrors] = {
-    case a: AccessDeniedException if a.unauthorized     => ErrorBody(ACCESS_DENIED, a.getMessage, clock.now(), 401)
-    case a: AccessDeniedException                       => ErrorBody(ACCESS_DENIED, a.getMessage, clock.now(), 403)
+    case a: AccessDeniedException if a.unauthorized     => ErrorBody(ACCESS_DENIED, a.message, clock.now(), 401)
+    case a: AccessDeniedException                       => ErrorBody(ACCESS_DENIED, a.message, clock.now(), 403)
     case v: ValidationException                         => validationError(v)
     case _: IndexNotFoundException                      => errorBody(INDEX_MISSING, INDEX_MISSING_DESCRIPTION, 500)
     case NotFoundException(message, sl) if sl.isEmpty   => notFoundWithMsg(message)
     case NotFoundException(message, supportedLanguages) =>
       NotFoundWithSupportedLanguages(NOT_FOUND, message, clock.now(), supportedLanguages, 404)
-    case rw: ArticleErrorHelpers.ResultWindowTooLargeException => errorBody(WINDOW_TOO_LARGE, rw.getMessage, 422)
+    case rw: ArticleErrorHelpers.ResultWindowTooLargeException => errorBody(WINDOW_TOO_LARGE, rw.message, 422)
     case _: PSQLException                                      =>
       dataSource.connectToDatabase()
       errorBody(DATABASE_UNAVAILABLE, DATABASE_UNAVAILABLE_DESCRIPTION, 500)
@@ -38,8 +38,7 @@ class ControllerErrorHandling(using dataSource: => DataSource, errorHelpers: Err
           .rootCause
           .exists(x => x.`type` == "search_context_missing_exception" || x.reason == "Cannot parse scroll id") =>
       errorBody(INVALID_SEARCH_CONTEXT, INVALID_SEARCH_CONTEXT_DESCRIPTION, 400)
-    case age: ArticleErrorHelpers.ArticleGoneException =>
-      errorBody(ArticleErrorHelpers.ARTICLE_GONE, age.getMessage, 410)
+    case age: ArticleErrorHelpers.ArticleGoneException => errorBody(ArticleErrorHelpers.ARTICLE_GONE, age.message, 410)
   }
 }
 

@@ -210,7 +210,7 @@ class ConverterService(using
     (toKeep ++ updated).filterNot(_.tags.isEmpty)
   }
 
-  def mergeLearningPaths(existing: LearningPath, updated: UpdatedLearningPathV2DTO): LearningPath = {
+  def mergeLearningPaths(existing: LearningPath, updated: UpdatedLearningPathV2DTO): Try[LearningPath] = {
     val titles = updated.title match {
       case None        => Seq.empty
       case Some(value) => Seq(common.Title(value, updated.language))
@@ -235,16 +235,19 @@ class ConverterService(using
     val updatedComments = updated
       .comments
       .map(comments => commonConverter.mergeUpdatedCommentsWithExisting(comments, existing.comments))
-      .getOrElse(existing.comments)
+      .getOrElse(Success(existing.comments))
 
     val message = existing.message.filterNot(_ => updated.deleteMessage.getOrElse(false))
 
     val updatedRevision = updated
       .revisionMeta
-      .map(_.map(commonConverter.revisionMetaApiToDomain))
-      .getOrElse(existing.revisionMeta)
+      .map(_.traverse(commonConverter.revisionMetaApiToDomain))
+      .getOrElse(Success(existing.revisionMeta))
 
-    LearningPath(
+    for {
+      comments     <- updatedComments
+      revisionMeta <- updatedRevision
+    } yield LearningPath(
       id = existing.id,
       externalId = existing.externalId,
       isBasedOn = existing.isBasedOn,
@@ -270,9 +273,9 @@ class ConverterService(using
       lastUpdated = clock.now(),
       message = message,
       responsible = getNewResponsible(existing, updated),
-      comments = updatedComments,
+      comments = comments,
       priority = updated.priority.getOrElse(existing.priority),
-      revisionMeta = updatedRevision,
+      revisionMeta = revisionMeta,
       grepCodes = updated.grepCodes.getOrElse(existing.grepCodes),
     )
   }
@@ -533,10 +536,14 @@ class ConverterService(using
     val priority = newLearningPath.priority.getOrElse(common.Priority.Unspecified)
 
     val revisionMeta = newLearningPath.revisionMeta match {
-      case Some(revs) if revs.nonEmpty =>
-        newLearningPath.revisionMeta.map(_.map(commonConverter.revisionMetaApiToDomain)).getOrElse(RevisionMeta.default)
-      case _ => RevisionMeta.default
+      case Some(revs) if revs.nonEmpty => revs.traverse(commonConverter.revisionMetaApiToDomain)
+      case _                           => Success(RevisionMeta.default)
     }
+
+    val comments = newLearningPath
+      .comments
+      .map(_.traverse(commonConverter.newCommentApiToDomain))
+      .getOrElse(Success(Seq.empty))
     user
       .id
       .toTry(AccessDeniedException("User id not found"))
@@ -553,39 +560,37 @@ class ConverterService(using
 
           learningSteps match {
             case Failure(exception) => Failure(exception)
-            case Success(steps)     => Success(
-                LearningPath(
-                  id = None,
-                  revision = None,
-                  externalId = None,
-                  isBasedOn = None,
-                  title = Seq(common.Title(newLearningPath.title, newLearningPath.language)),
-                  description = description,
-                  coverPhotoId = newLearningPath.coverPhotoMetaUrl.flatMap(extractImageId),
-                  duration = newLearningPath.duration,
-                  status = learningpath.LearningPathStatus.PRIVATE,
-                  verificationStatus = getVerificationStatus(user),
-                  created = clock.now(),
-                  lastUpdated = clock.now(),
-                  tags = domainTags,
-                  owner = ownerId,
-                  copyright = asCopyright(copyright),
-                  isMyNDLAOwner = user.isMyNDLAUser,
-                  learningsteps = steps,
-                  message = None,
-                  madeAvailable = None,
-                  responsible = newLearningPath
-                    .responsibleId
-                    .map(responsibleId => Responsible(responsibleId = responsibleId, lastUpdated = clock.now())),
-                  comments = newLearningPath
-                    .comments
-                    .map(comments => comments.map(commonConverter.newCommentApiToDomain))
-                    .getOrElse(Seq.empty),
-                  priority = priority,
-                  revisionMeta = revisionMeta,
-                  introduction = introduction,
-                  grepCodes = newLearningPath.grepCodes.getOrElse(Seq.empty),
-                )
+            case Success(steps)     => for {
+                comments     <- comments
+                revisionMeta <- revisionMeta
+              } yield LearningPath(
+                id = None,
+                revision = None,
+                externalId = None,
+                isBasedOn = None,
+                title = Seq(common.Title(newLearningPath.title, newLearningPath.language)),
+                description = description,
+                coverPhotoId = newLearningPath.coverPhotoMetaUrl.flatMap(extractImageId),
+                duration = newLearningPath.duration,
+                status = learningpath.LearningPathStatus.PRIVATE,
+                verificationStatus = getVerificationStatus(user),
+                created = clock.now(),
+                lastUpdated = clock.now(),
+                tags = domainTags,
+                owner = ownerId,
+                copyright = asCopyright(copyright),
+                isMyNDLAOwner = user.isMyNDLAUser,
+                learningsteps = steps,
+                message = None,
+                madeAvailable = None,
+                responsible = newLearningPath
+                  .responsibleId
+                  .map(responsibleId => Responsible(responsibleId = responsibleId, lastUpdated = clock.now())),
+                comments = comments,
+                priority = priority,
+                revisionMeta = revisionMeta,
+                introduction = introduction,
+                grepCodes = newLearningPath.grepCodes.getOrElse(Seq.empty),
               )
           }
         }

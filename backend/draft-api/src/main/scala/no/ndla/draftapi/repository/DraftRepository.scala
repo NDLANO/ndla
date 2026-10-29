@@ -10,6 +10,7 @@ package no.ndla.draftapi.repository
 
 import com.typesafe.scalalogging.StrictLogging
 import no.ndla.common.{CirceUtil, Clock}
+import no.ndla.common.implicits.toOption
 import no.ndla.common.model.domain.{ArticleType, EditorNote, Priority}
 import no.ndla.common.model.domain.draft.{Draft, DraftStatus}
 import no.ndla.database.implicits.*
@@ -37,7 +38,7 @@ class DraftRepository(using draftErrorHelpers: DraftErrorHelpers, clock: Clock, 
     val dataObject    = new PGobject()
     dataObject.setType("jsonb")
     dataObject.setValue(CirceUtil.toJsonString(article))
-    val slug                                  = article.slug.map(_.toLowerCase)
+    val slug                                  = article.slug.flatMap(_.toLowerCase.toOption)
     val (responsibleId, responsibleUpdatedAt) = article.responsible.map(r => (r.responsibleId, r.lastUpdated)).unzip
 
     for {
@@ -92,7 +93,7 @@ class DraftRepository(using draftErrorHelpers: DraftErrorHelpers, clock: Clock, 
             obj
           }
           uuid                                  = Try(importId.map(UUID.fromString)).toOption.flatten
-          slug                                  = article.slug.map(_.toLowerCase)
+          slug                                  = article.slug.flatMap(_.toLowerCase.toOption)
           (responsibleId, responsibleUpdatedAt) = copiedArticle
             .responsible
             .map(r => (r.responsibleId, r.lastUpdated))
@@ -148,7 +149,7 @@ class DraftRepository(using draftErrorHelpers: DraftErrorHelpers, clock: Clock, 
 
     val oldRevision                           = article.revision.getOrElse(0)
     val newRevision                           = oldRevision + 1
-    val slug                                  = article.slug.map(_.toLowerCase)
+    val slug                                  = article.slug.flatMap(_.toLowerCase.toOption)
     val (responsibleId, responsibleUpdatedAt) = article.responsible.map(r => (r.responsibleId, r.lastUpdated)).unzip
 
     val whereClause = sqls"""

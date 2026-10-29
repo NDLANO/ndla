@@ -9,6 +9,7 @@
 package no.ndla.imageapi.controller
 
 import cats.implicits.*
+import no.ndla.common.implicits.toOption
 import no.ndla.common.model.api.CommaSeparatedList.*
 import no.ndla.common.model.api.LanguageCode
 import no.ndla.common.model.domain.AiGenerated
@@ -94,7 +95,7 @@ class ImageControllerV3(using
   ) = {
     val settings = query match {
       case Some(searchString) => SearchSettings(
-          query = Some(searchString.trim),
+          query = searchString.trim.toOption,
           queryFields = queryFields,
           minimumSize = minimumSize,
           language = language,
@@ -356,7 +357,10 @@ class ImageControllerV3(using
     .summary("Upload a new image with meta information.")
     .description("Upload a new image file with meta data.")
     .out(jsonBody[ImageMetaInformationV3DTO])
-    .in(multipartBody[MetaDataAndFileForm])
+    .in {
+      import scala.language.unsafeNulls
+      multipartBody[MetaDataAndFileForm]
+    }
     .errorOut(errorOutputsFor(400))
     .requirePermission(IMAGE_API_WRITE)
     .serverLogicPure(user =>
@@ -411,7 +415,10 @@ class ImageControllerV3(using
     .description("Updates an existing image with meta data.")
     .in(pathImageId)
     .out(jsonBody[ImageMetaInformationV3DTO])
-    .in(multipartBody[UpdateMetaDataAndFileForm])
+    .in {
+      import scala.language.unsafeNulls
+      multipartBody[UpdateMetaDataAndFileForm]
+    }
     .errorOut(errorOutputsFor(400, 401, 403))
     .requirePermission(IMAGE_API_WRITE)
     .serverLogicPure { user => input =>
@@ -453,7 +460,10 @@ class ImageControllerV3(using
     .summary("Copy image meta data with a new image file")
     .description("Copy image meta data with a new image file")
     .in(pathImageId / "copy")
-    .in(multipartBody[CopyMetaDataAndFileForm])
+    .in {
+      import scala.language.unsafeNulls
+      multipartBody[CopyMetaDataAndFileForm]
+    }
     .out(jsonBody[ImageMetaInformationV3DTO])
     .errorOut(errorOutputsFor(400))
     .requirePermission(IMAGE_API_WRITE)

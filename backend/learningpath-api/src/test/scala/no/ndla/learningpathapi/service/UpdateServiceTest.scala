@@ -28,10 +28,9 @@ import no.ndla.network.model.CombinedUserWithMyNDLAUser
 import no.ndla.network.tapir.auth.TokenUser
 import no.ndla.tapirtesting.FeideAuthTestData
 import org.mockito.ArgumentCaptor
-import org.mockito.ArgumentMatchers.{any, eq as eqTo}
-import org.mockito.Mockito.*
-import org.mockito.invocation.InvocationOnMock
-import scalikejdbc.DBSession
+import no.ndla.testbase.NullSafeMockito
+import no.ndla.testbase.NullSafeMockito.*
+import scalikejdbc.{DBSession, ReadOnlyAutoSession}
 
 import scala.util.{Failure, Success, Try}
 
@@ -400,39 +399,39 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
   override def beforeEach(): Unit = {
     service = new UpdateService
     resetMocks()
-    when(searchIndexService.deleteDocument(any[LearningPath], any)).thenAnswer((i: InvocationOnMock) =>
-      Success(i.getArgument[LearningPath](0))
+    when(searchIndexService.deleteDocument(any[LearningPath], any)).thenAnswer(i =>
+      Success(i.nn.getArgument[LearningPath](0))
     )
-    when(searchIndexService.indexDocument(any[LearningPath])).thenAnswer((i: InvocationOnMock) =>
-      Success(i.getArgument[LearningPath](0))
+    when(searchIndexService.indexDocument(any[LearningPath])).thenAnswer(i =>
+      Success(i.nn.getArgument[LearningPath](0))
     )
-    when(taxonomyApiClient.updateTaxonomyForLearningPath(any[LearningPath], any[Boolean], any)).thenAnswer(
-      (i: InvocationOnMock) => Success(i.getArgument[LearningPath](0))
+    when(taxonomyApiClient.updateTaxonomyForLearningPath(any[LearningPath], any[Boolean], any)).thenAnswer(i =>
+      Success(i.nn.getArgument[LearningPath](0))
     )
-    when(learningPathValidator.validate(any[LearningPath], any[Boolean])).thenAnswer(i => Success(i.getArgument(0)))
+    when(learningPathValidator.validate(any[LearningPath], any[Boolean])).thenAnswer(i => Success(i.nn.getArgument(0)))
     when(learningPathValidator.validate(any[UpdatedLearningPathV2DTO], any[LearningPath])).thenAnswer(i =>
-      Success(i.getArgument(0))
+      Success(i.nn.getArgument(0))
     )
     when(learningPathValidator.validateNumberOfSteps(any[Int])).thenReturn(None)
-    when(learningStepValidator.validate(any[LearningStep], any[LearningPath], any[Boolean])).thenAnswer(
-      (i: InvocationOnMock) => Success(i.getArgument[LearningStep](0))
+    when(learningStepValidator.validate(any[LearningStep], any[LearningPath], any[Boolean])).thenAnswer(i =>
+      Success(i.nn.getArgument[LearningStep](0))
     )
     when(learningPathRepository.learningPathsWithIsBasedOnRaw(any[Long])).thenReturn(List.empty)
     when(learningPathRepository.withIdWithInactiveSteps(any[Long], any[Boolean])(using any[DBSession])).thenAnswer(
-      (i: InvocationOnMock) => {
-        val id             = i.getArgument[Long](0)
-        val includeDeleted = i.getArgument[Boolean](1)
-        val session        = i.getArgument[DBSession](2)
+      i => {
+        val id             = i.nn.getArgument[Long](0).nn
+        val includeDeleted = i.nn.getArgument[Boolean](1).nn
+        val session        = Option(i.nn.getArgument[DBSession](2)).getOrElse(ReadOnlyAutoSession)
         val fetched        =
           if (includeDeleted) learningPathRepository.withIdIncludingDeleted(id)(using session)
           else learningPathRepository.withId(id)(using session)
         Option(fetched).flatten
       }
     )
-    doAnswer((i: InvocationOnMock) => {
-      val x = i.getArgument[DBSession => Try[?]](0)
+    doAnswer(i => {
+      val x = i.nn.getArgument[DBSession => Try[?]](0).nn
       x(mock[DBSession])
-    }).when(learningPathRepository).inTransaction(any())(using any())
+    }).when(learningPathRepository).inTransaction(any)(using any)
   }
 
   test("That addLearningPathV2 inserts the given LearningPathV2") {
@@ -507,16 +506,16 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     doReturn(Some(learningPathWithDeleted))
       .when(learningPathRepository)
       .withIdWithInactiveSteps(eqTo(PRIVATE_ID), eqTo(false))(using any[DBSession])
-    when(learningPathRepository.update(any[LearningPath])(using any[DBSession])).thenAnswer(_.getArgument(0))
+    when(learningPathRepository.update(any[LearningPath])(using any[DBSession])).thenAnswer(_.nn.getArgument(0))
     when(learningPathRepository.learningPathsWithIsBasedOnRaw(any[Long])).thenReturn(List.empty)
 
-    val pathCaptor: ArgumentCaptor[LearningPath] = ArgumentCaptor.forClass(classOf[LearningPath])
+    val pathCaptor: ArgumentCaptor[LearningPath] = ArgumentCaptor.forClass(classOf[LearningPath]).nn
     service.updateLearningPathV2(PRIVATE_ID, UPDATED_PRIVATE_LEARNINGPATHV2, PRIVATE_OWNER.toCombined).get
     verify(learningPathRepository, times(1)).withIdWithInactiveSteps(eqTo(PRIVATE_ID), eqTo(false))(using
       any[DBSession]
     )
-    verify(learningPathRepository).update(pathCaptor.capture())(using any)
-    pathCaptor.getValue.learningsteps.exists(_.status == StepStatus.DELETED) should be(true)
+    verify(learningPathRepository).update(NullSafeMockito.capture(pathCaptor))(using any)
+    pathCaptor.getValue.nn.learningsteps.exists(_.status == StepStatus.DELETED) should be(true)
   }
 
   test("That updateLearningPathV2 returns Failure if user is not the owner") {
@@ -803,8 +802,8 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     when(learningPathRepository.withIdIncludingDeleted(eqTo(PUBLISHED_ID))(using any[DBSession])).thenReturn(
       Some(PUBLISHED_LEARNINGPATH)
     )
-    when(learningPathRepository.update(any[LearningPath])(using any[DBSession])).thenAnswer((i: InvocationOnMock) =>
-      i.getArgument[LearningPath](0)
+    when(learningPathRepository.update(any[LearningPath])(using any[DBSession])).thenAnswer(i =>
+      i.nn.getArgument[LearningPath](0)
     )
     when(learningPathRepository.learningPathsWithIsBasedOnRaw(any[Long])).thenReturn(List.empty)
     when(clock.now()).thenReturn(NDLADate.fromUnixTime(0))
@@ -826,8 +825,8 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     when(learningPathRepository.withIdIncludingDeleted(eqTo(PUBLISHED_ID))(using any[DBSession])).thenReturn(
       Some(PUBLISHED_LEARNINGPATH)
     )
-    when(learningPathRepository.update(any[LearningPath])(using any[DBSession])).thenAnswer((i: InvocationOnMock) =>
-      i.getArgument[LearningPath](0)
+    when(learningPathRepository.update(any[LearningPath])(using any[DBSession])).thenAnswer(i =>
+      i.nn.getArgument[LearningPath](0)
     )
     when(learningPathRepository.learningPathsWithIsBasedOnRaw(any[Long])).thenReturn(List.empty)
     when(clock.now()).thenReturn(NDLADate.MIN)
@@ -880,14 +879,14 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
       .when(learningPathRepository)
       .withIdWithInactiveSteps(eqTo(PRIVATE_ID), eqTo(false))(using any[DBSession])
     when(learningPathRepository.generateStepId()(using any[DBSession])).thenReturn(insertedStepId)
-    when(learningPathRepository.update(any[LearningPath])(using any[DBSession])).thenAnswer(_.getArgument(0))
+    when(learningPathRepository.update(any[LearningPath])(using any[DBSession])).thenAnswer(_.nn.getArgument(0))
     when(learningPathRepository.learningPathsWithIsBasedOnRaw(any[Long])).thenReturn(List.empty)
 
     service.addLearningStepV2(PRIVATE_ID, NEW_STEPV2, PRIVATE_OWNER.toCombined).isSuccess should be(true)
 
-    val pathCaptor: ArgumentCaptor[LearningPath] = ArgumentCaptor.forClass(classOf[LearningPath])
-    verify(learningPathRepository).update(pathCaptor.capture())(using any[DBSession])
-    val insertedStep = pathCaptor.getValue.learningsteps.find(_.id.contains(insertedStepId))
+    val pathCaptor: ArgumentCaptor[LearningPath] = ArgumentCaptor.forClass(classOf[LearningPath]).nn
+    verify(learningPathRepository).update(NullSafeMockito.capture(pathCaptor))(using any[DBSession])
+    val insertedStep = pathCaptor.getValue.nn.learningsteps.find(_.id.contains(insertedStepId))
     insertedStep.get.seqNo should be(2)
   }
 
@@ -898,8 +897,8 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
       Some(PUBLISHED_LEARNINGPATH)
     )
     when(learningPathRepository.generateStepId()(using any[DBSession])).thenReturn(STEP2.id.get)
-    when(learningPathRepository.update(any[LearningPath])(using any[DBSession])).thenAnswer((i: InvocationOnMock) =>
-      i.getArgument[LearningPath](0)
+    when(learningPathRepository.update(any[LearningPath])(using any[DBSession])).thenAnswer(i =>
+      i.nn.getArgument[LearningPath](0)
     )
     when(learningPathRepository.learningPathsWithIsBasedOnRaw(any[Long])).thenReturn(List.empty)
     assertResult(STEP2.id.get) {
@@ -1049,8 +1048,8 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     when(learningPathRepository.learningStepWithId(eqTo(PRIVATE_ID), eqTo(STEP1.id.get))(using any[DBSession]))
       .thenReturn(Some(STEP1))
     when(learningPathRepository.learningStepsFor(eqTo(PRIVATE_ID))(using any[DBSession])).thenReturn(List(STEP1))
-    when(learningPathRepository.update(any[LearningPath])(using any[DBSession])).thenAnswer((i: InvocationOnMock) =>
-      i.getArgument[LearningPath](0)
+    when(learningPathRepository.update(any[LearningPath])(using any[DBSession])).thenAnswer(i =>
+      i.nn.getArgument[LearningPath](0)
     )
     when(learningPathRepository.learningPathsWithIsBasedOnRaw(any[Long])).thenReturn(List.empty)
 
@@ -1074,8 +1073,8 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     when(learningPathRepository.learningStepsFor(eqTo(PUBLISHED_ID))(using any[DBSession])).thenReturn(
       PUBLISHED_LEARNINGPATH.learningsteps
     )
-    when(learningPathRepository.update(any[LearningPath])(using any[DBSession])).thenAnswer((i: InvocationOnMock) =>
-      i.getArgument[LearningPath](0)
+    when(learningPathRepository.update(any[LearningPath])(using any[DBSession])).thenAnswer(i =>
+      i.nn.getArgument[LearningPath](0)
     )
     val updatedDate = NDLADate.fromUnixTime(0)
     when(clock.now()).thenReturn(updatedDate)
@@ -1102,8 +1101,8 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     when(learningPathRepository.learningStepsFor(eqTo(PRIVATE_ID))(using any[DBSession])).thenReturn(
       List(STEP1, STEP2, STEP3)
     )
-    when(learningPathRepository.update(any[LearningPath])(using any[DBSession])).thenAnswer((i: InvocationOnMock) =>
-      i.getArgument[LearningPath](0)
+    when(learningPathRepository.update(any[LearningPath])(using any[DBSession])).thenAnswer(i =>
+      i.nn.getArgument[LearningPath](0)
     )
     when(learningPathRepository.learningPathsWithIsBasedOnRaw(any[Long])).thenReturn(List.empty)
 
@@ -1126,8 +1125,8 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     when(learningPathRepository.learningStepsFor(eqTo(PRIVATE_ID))(using any[DBSession])).thenReturn(
       List(STEP1, STEP2, STEP3)
     )
-    when(learningPathRepository.update(any[LearningPath])(using any[DBSession])).thenAnswer((i: InvocationOnMock) =>
-      i.getArgument[LearningPath](0)
+    when(learningPathRepository.update(any[LearningPath])(using any[DBSession])).thenAnswer(i =>
+      i.nn.getArgument[LearningPath](0)
     )
     when(learningPathRepository.learningPathsWithIsBasedOnRaw(any[Long])).thenReturn(List.empty)
 
@@ -1256,8 +1255,8 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     when(learningPathRepository.learningStepWithId(eqTo(PRIVATE_ID), eqTo(STEP1.id.get))(using any[DBSession]))
       .thenReturn(Some(STEP1))
     when(learningPathRepository.learningStepsFor(eqTo(PRIVATE_ID))(using any[DBSession])).thenReturn(List())
-    when(learningPathRepository.update(any[LearningPath])(using any[DBSession])).thenAnswer((i: InvocationOnMock) =>
-      i.getArgument[LearningPath](0)
+    when(learningPathRepository.update(any[LearningPath])(using any[DBSession])).thenAnswer(i =>
+      i.nn.getArgument[LearningPath](0)
     )
     when(clock.now()).thenReturn(newDate)
     when(learningPathRepository.learningPathsWithIsBasedOnRaw(any[Long])).thenReturn(List.empty)
@@ -1298,8 +1297,8 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     when(learningPathRepository.learningStepWithId(eqTo(PUBLISHED_ID), eqTo(STEP1.id.get))(using any[DBSession]))
       .thenReturn(Some(STEP1))
     when(learningPathRepository.learningStepsFor(eqTo(PUBLISHED_ID))(using any[DBSession])).thenReturn(List())
-    when(learningPathRepository.update(any[LearningPath])(using any[DBSession])).thenAnswer((i: InvocationOnMock) =>
-      i.getArgument[LearningPath](0)
+    when(learningPathRepository.update(any[LearningPath])(using any[DBSession])).thenAnswer(i =>
+      i.nn.getArgument[LearningPath](0)
     )
     when(clock.now()).thenReturn(newDate)
 
@@ -1523,8 +1522,8 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
     when(learningPathRepository.learningStepWithId(eqTo(PUBLISHED_ID), eqTo(STEP1.id.get))(using any[DBSession]))
       .thenReturn(Some(STEP1))
     when(learningPathRepository.learningStepsFor(eqTo(PUBLISHED_ID))(using any[DBSession])).thenReturn(List())
-    when(learningPathRepository.update(any[LearningPath])(using any[DBSession])).thenAnswer((i: InvocationOnMock) =>
-      i.getArgument[LearningPath](0)
+    when(learningPathRepository.update(any[LearningPath])(using any[DBSession])).thenAnswer(i =>
+      i.nn.getArgument[LearningPath](0)
     )
     when(clock.now()).thenReturn(newDate)
     when(learningPathRepository.learningPathsWithIsBasedOnRaw(any[Long])).thenReturn(List.empty)
@@ -1587,14 +1586,14 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
 
     val lp = PRIVATE_LEARNINGPATH.copy(learningsteps = Seq(step))
 
-    val pathCaptor: ArgumentCaptor[LearningPath] = ArgumentCaptor.forClass(classOf[LearningPath])
+    val pathCaptor: ArgumentCaptor[LearningPath] = ArgumentCaptor.forClass(classOf[LearningPath]).nn
     when(learningPathRepository.withId(eqTo(PRIVATE_ID))(using any[DBSession])).thenReturn(Some(lp))
     when(learningPathRepository.learningStepWithId(eqTo(PRIVATE_ID), eqTo(step.id.get))(using any[DBSession]))
       .thenReturn(Some(step))
-    when(learningPathRepository.update(any[LearningPath])(using any[DBSession])).thenAnswer(_.getArgument(0))
+    when(learningPathRepository.update(any[LearningPath])(using any[DBSession])).thenAnswer(_.nn.getArgument(0))
     service.deleteLearningStepLanguage(lp.id.get, step.id.get, "en", PRIVATE_OWNER.toCombined)
-    verify(learningPathRepository).update(pathCaptor.capture())(using any)
-    pathCaptor.getValue.learningsteps.head.title.length should be(1)
+    verify(learningPathRepository).update(NullSafeMockito.capture(pathCaptor))(using any)
+    pathCaptor.getValue.nn.learningsteps.head.title.length should be(1)
   }
 
   test("That delete learning path language should fail when only one language") {
@@ -1614,7 +1613,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
         PRIVATE_LEARNINGPATH.learningsteps.map(step => step.copy(title = step.title :+ Title("Tittel", "nn"))),
     )
     when(learningPathRepository.withId(eqTo(PRIVATE_ID))(using any[DBSession])).thenReturn(Some(learningPath))
-    when(learningPathRepository.update(any)(using any[DBSession])).thenAnswer(_.getArgument(0))
+    when(learningPathRepository.update(any)(using any[DBSession])).thenAnswer(_.nn.getArgument(0))
 
     val res = service.deleteLearningPathLanguage(PRIVATE_ID, "nb", PRIVATE_OWNER.toCombined).failIfFailure
     verify(learningPathRepository, times(1)).update(any[LearningPath])(using any)
@@ -1627,7 +1626,7 @@ class UpdateServiceTest extends UnitSuite with UnitTestEnvironment {
       description = PRIVATE_LEARNINGPATH.description :+ Description("Beskrivelse", "nn"),
     )
     when(learningPathRepository.withId(eqTo(PRIVATE_ID))(using any[DBSession])).thenReturn(Some(learningPath))
-    when(learningPathRepository.update(any)(using any[DBSession])).thenAnswer(_.getArgument(0))
+    when(learningPathRepository.update(any)(using any[DBSession])).thenAnswer(_.nn.getArgument(0))
 
     val res = service.deleteLearningPathLanguage(PRIVATE_ID, "nn", PRIVATE_OWNER.toCombined).failIfFailure
     verify(learningPathRepository, times(1)).update(any[LearningPath])(using any)

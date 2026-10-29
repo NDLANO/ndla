@@ -23,9 +23,7 @@ import no.ndla.draftapi.{TestData, TestEnvironment, UnitSuite}
 import no.ndla.mapping.License.CC_BY
 import no.ndla.network.tapir.auth.TokenUser
 import org.jsoup.nodes.Element
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.when
-import org.mockito.invocation.InvocationOnMock
+import no.ndla.testbase.NullSafeMockito.{any, when}
 
 import java.util.UUID
 import scala.util.{Failure, Success}
@@ -573,8 +571,8 @@ class ConverterServiceTest extends UnitSuite with TestEnvironment {
       .blankUpdatedArticle
       .copy(language = Some("en"), title = Some("Eng title"), content = Some(newContent))
 
-    when(writeService.cloneEmbedAndUpdateElement(any[Element])).thenAnswer((i: InvocationOnMock) => {
-      val element = i.getArgument[Element](0)
+    when(writeService.cloneEmbedAndUpdateElement(any[Element])).thenAnswer(i => {
+      val element = i.nn.getArgument[Element](0).nn
       Success(element.attr("data-path", "/files/resources/new.pdf"))
     })
 
@@ -582,12 +580,12 @@ class ConverterServiceTest extends UnitSuite with TestEnvironment {
   }
 
   test("Extracting h5p paths works as expected") {
-    val enPath1 = s"/resources/${UUID.randomUUID().toString}"
-    val enPath2 = s"/resources/${UUID.randomUUID().toString}"
-    val nbPath1 = s"/resources/${UUID.randomUUID().toString}"
-    val nbPath2 = s"/resources/${UUID.randomUUID().toString}"
-    val vePath1 = s"/resources/${UUID.randomUUID().toString}"
-    val vePath2 = s"/resources/${UUID.randomUUID().toString}"
+    val enPath1 = s"/resources/${UUID.randomUUID().nn.toString}"
+    val enPath2 = s"/resources/${UUID.randomUUID().nn.toString}"
+    val nbPath1 = s"/resources/${UUID.randomUUID().nn.toString}"
+    val nbPath2 = s"/resources/${UUID.randomUUID().nn.toString}"
+    val vePath1 = s"/resources/${UUID.randomUUID().nn.toString}"
+    val vePath2 = s"/resources/${UUID.randomUUID().nn.toString}"
 
     val expectedPaths = Seq(enPath1, enPath2, nbPath1, nbPath2, vePath1, vePath2).sorted
 
@@ -847,8 +845,8 @@ class ConverterServiceTest extends UnitSuite with TestEnvironment {
 
     when(clock.now()).thenReturn(expectedTime)
 
-    val result      = service.filterComments(content)
-    val blockResult = service.filterComments(blockContent)
+    val result      = service.filterComments(content).get
+    val blockResult = service.filterComments(blockContent).get
     result should be(expectedContent)
     blockResult should be(expectedBlockContent)
   }

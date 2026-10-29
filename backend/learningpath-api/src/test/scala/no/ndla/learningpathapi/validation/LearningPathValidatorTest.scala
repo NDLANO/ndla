@@ -21,7 +21,7 @@ import no.ndla.common.model.domain.learningpath.{
 }
 import no.ndla.learningpathapi.*
 import no.ndla.mapping.License.PublicDomain
-import org.mockito.Mockito.when
+import no.ndla.testbase.NullSafeMockito.when
 import no.ndla.common.model.domain.Priority
 import no.ndla.learningpathapi.model.api.UpdatedLearningPathV2DTO
 import no.ndla.common.model.domain.learningpath.Introduction

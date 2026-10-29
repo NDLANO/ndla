@@ -14,8 +14,7 @@ import no.ndla.draftapi.model.api.UploadedFileDTO
 import no.ndla.draftapi.{TestData, TestEnvironment, UnitSuite}
 import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
 import no.ndla.tapirtesting.TapirControllerTest
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.{reset, times, verify, when}
+import no.ndla.testbase.NullSafeMockito.{any, reset, times, verify, when}
 import sttp.client4.quick.*
 
 import scala.util.Success
@@ -33,7 +32,7 @@ class FileControllerTest extends UnitSuite with TestEnvironment with TapirContro
     when(clock.now()).thenCallRealMethod()
   }
 
-  val exampleFileBody: Array[Byte] = "Hello".getBytes
+  val exampleFileBody: Array[Byte] = "Hello".getBytes.nn
 
   test("That uploading a file returns 200 with body if successful") {
     val uploaded = UploadedFileDTO("pwqofkpowegjw.pdf", "application/pdf", ".pdf", "files/resources/pwqofkpowegjw.pdf")

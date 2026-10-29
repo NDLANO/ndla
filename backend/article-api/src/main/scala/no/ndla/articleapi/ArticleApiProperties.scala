@@ -50,7 +50,7 @@ class ArticleApiProperties extends BaseProps with DatabaseProps {
 
   def externalApiUrls: Map[String, String] = Map(
     EmbedType.Image.toString -> s"$Domain/image-api/v2/images",
-    "raw-image"              -> propOrElse("IMAGE_API_CLOUDFRONT_DOMAIN", s"$Domain/image-api/raw").concat("/id"),
+    "raw-image"              -> (propOrElse("IMAGE_API_CLOUDFRONT_DOMAIN", s"$Domain/image-api/raw") + "/id"),
     EmbedType.Audio.toString -> s"$Domain/audio-api/v1/audio",
     EmbedType.File.toString  -> Domain,
     EmbedType.H5P.toString   -> H5PAddress,
