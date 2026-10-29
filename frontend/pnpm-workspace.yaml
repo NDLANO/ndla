@@ -178,3 +178,8 @@ allowBuilds:
   tree-sitter: false
   tree-sitter-json: false
   unrs-resolver: false
+patchedDependencies:
+  # TODO: The ESM build loads forwarded-parse via createRequire, which Rolldown can't bundle, so the server crashes at
+  #       startup without node_modules.
+  #       Remove once fixed upstream: https://github.com/open-telemetry/opentelemetry-js/issues/7229
+  "@opentelemetry/instrumentation-http@0.300.0": patches/@opentelemetry__instrumentation-http@0.300.0.patch
