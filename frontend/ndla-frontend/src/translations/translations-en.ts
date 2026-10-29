@@ -550,6 +550,7 @@ const translations = {
           randomSubset: "Random selection of questions?",
           randomOrder: "Random order of questions?",
           questionCount: "Number of questions",
+          randomSubsetMinQuestions: "You need at least six questions to choose a random selection",
         },
         settings: {
           title: "Settings",

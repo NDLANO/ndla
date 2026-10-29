@@ -310,6 +310,7 @@ export const QuizBuilder = ({
               onRandomSubsetChange={(randomSubset) => onFormChange({ ...state, randomSubset })}
               randomOrder={state.randomOrder}
               onRandomOrderChange={(randomOrder) => onFormChange({ ...state, randomOrder })}
+              totalQuestions={state.questions.length}
               questionCount={state.questionCount}
               onQuestionCountChange={(questionCount) => onFormChange({ ...state, questionCount })}
             />

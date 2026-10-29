@@ -17,9 +17,12 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { QuestionCountOption } from "./QuizBuilder";
 import { QUESTION_COUNT_OPTIONS } from "./quizBuilderUtils";
+
+const MIN_QUESTIONS_FOR_RANDOM_SUBSET = 6;
 
 const Panel = styled("div", {
   base: {
@@ -71,6 +74,7 @@ interface Props {
   randomOrder: boolean;
   onRandomOrderChange: (value: boolean) => void;
   questionCount: QuestionCountOption;
+  totalQuestions: number;
   onQuestionCountChange: (value: QuestionCountOption) => void;
 }
 
@@ -80,9 +84,11 @@ export const QuizSettingsTab = ({
   randomOrder,
   onRandomOrderChange,
   questionCount,
+  totalQuestions,
   onQuestionCountChange,
 }: Props) => {
   const { t } = useTranslation();
+  const [subsetError, setSubsetError] = useState(false);
 
   return (
     <Panel>
@@ -112,7 +118,15 @@ export const QuizSettingsTab = ({
         <RadioGroupRoot
           orientation="vertical"
           value={randomSubset ? "yes" : "no"}
-          onValueChange={(details) => onRandomSubsetChange(details.value === "yes")}
+          onValueChange={(details) => {
+            const wantsSubset = details.value === "yes";
+            if (wantsSubset && totalQuestions < MIN_QUESTIONS_FOR_RANDOM_SUBSET) {
+              setSubsetError(true);
+              return;
+            }
+            setSubsetError(false);
+            onRandomSubsetChange(wantsSubset);
+          }}
         >
           <StyledRadioGroupLabel>{t("myNdla.quiz.form.settingsTab.randomSubset")}</StyledRadioGroupLabel>
           {["yes", "no"].map((value) => (
@@ -125,6 +139,11 @@ export const QuizSettingsTab = ({
             </RadioGroupItem>
           ))}
         </RadioGroupRoot>
+        {!!subsetError && (
+          <Text textStyle="label.small" color="text.error" role="alert">
+            {t("myNdla.quiz.form.settingsTab.randomSubsetMinQuestions")}
+          </Text>
+        )}
       </SettingRow>
       {!!randomSubset && (
         <SettingRow>
