@@ -38,7 +38,7 @@ trait UnitTestSuiteBase
         case _: Throwable =>
       }
     }
-    var socket: ServerSocket = null
+    var socket: ServerSocket | Null = null
     try {
       socket = new ServerSocket(0)
       socket.setReuseAddress(true)

@@ -912,7 +912,6 @@ class WriteService(using
         case Node(id, _, _, _) => taxonomyApiClient
             .getChildResources(id)
             .flatMap(resources => resources.traverse(setRevisions(_, revisions)).unit)
-        case null => Success(())
       }
     })
   }

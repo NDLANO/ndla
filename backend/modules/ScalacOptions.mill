@@ -47,6 +47,7 @@ trait ScalacOptions extends ScalaModule {
       "-Wunused:params",
       "-Wunused:privates",
       "-Yretain-trees",
+      "-Yexplicit-nulls",
       "-Xmax-inlines:50",
     ).filterEnabled(scalaVersion())
   }

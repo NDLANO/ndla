@@ -54,7 +54,7 @@ class ArticleApiClientTest
     override def ArticleSearchIndex: String        = "test-article"
   }
 
-  var articleApi: articleapi.MainClass = null
+  var articleApi: articleapi.MainClass = scala.compiletime.uninitialized
   val articleApiBaseUrl: String        = s"http://localhost:$articleApiPort"
 
   override def beforeAll(): Unit = {

@@ -8,6 +8,7 @@
 
 package no.ndla.network.jwt
 
+import com.nimbusds.jose.proc.SecurityContext
 import com.nimbusds.jwt.JWTClaimsSet
 import com.nimbusds.jwt.proc.{BadJWTException, DefaultJWTClaimsVerifier}
 import no.ndla.network.jwt.MultiIssuerClaimsVerifier.requiredClaimsFromIssuers
@@ -15,8 +16,13 @@ import no.ndla.network.jwt.MultiIssuerClaimsVerifier.requiredClaimsFromIssuers
 import scala.jdk.CollectionConverters.*
 
 case class MultiIssuerClaimsVerifier(audience: Option[String], issuers: Set[String])
-    extends DefaultJWTClaimsVerifier[Null](audience.toSet.asJava, null, requiredClaimsFromIssuers(issuers), null) {
-  override def verify(claims: JWTClaimsSet, context: Null): Unit = {
+    extends DefaultJWTClaimsVerifier[SecurityContext](
+      audience.toSet.asJava,
+      null,
+      requiredClaimsFromIssuers(issuers),
+      null,
+    ) {
+  override def verify(claims: JWTClaimsSet, context: SecurityContext | Null): Unit = {
     super.verify(claims, context)
 
     if !Option(claims.getIssuer).exists(issuers.contains) then
@@ -25,7 +31,7 @@ case class MultiIssuerClaimsVerifier(audience: Option[String], issuers: Set[Stri
 }
 
 object MultiIssuerClaimsVerifier {
-  def requiredClaimsFromIssuers(issuers: Set[String]): java.util.Set[String] =
+  def requiredClaimsFromIssuers(issuers: Set[String]): java.util.Set[String] | Null =
     if issuers.isEmpty then
       null
     else

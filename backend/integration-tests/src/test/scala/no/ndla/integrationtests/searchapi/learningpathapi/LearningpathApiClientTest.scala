@@ -52,7 +52,7 @@ class LearningpathApiClientTest
     override def SearchIndex: String        = "test-learningpath"
   }
 
-  var learningpathApi: learningpathapi.MainClass = null
+  var learningpathApi: learningpathapi.MainClass = scala.compiletime.uninitialized
   val learningpathApiBaseUrl: String             = s"http://localhost:$learningpathApiPort"
 
   override def beforeAll(): Unit = {

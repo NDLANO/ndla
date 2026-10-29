@@ -23,7 +23,7 @@ import scala.util.{Failure, Success, Try}
 
 class LearningPathRepository(using dbUtility: DBUtility, dbLearningPath: DBLearningPath) extends StrictLogging {
 
-  def inTransaction[A](work: DBSession => A)(implicit session: DBSession = null): A = {
+  def inTransaction[A](work: DBSession => A)(implicit session: DBSession | Null = null): A = {
     Option(session) match {
       case Some(x) => work(x)
       case None    => dbUtility.localTx { implicit newSession =>

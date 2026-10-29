@@ -190,7 +190,7 @@ class ConverterService(using
     }
 
     val pattern = """.*/images/(\d+)""".r
-    pattern.findFirstMatchIn(url.path.toString).map(_.group(1))
+    pattern.findFirstMatchIn(url.path.toString).flatMap(m => Option(m.group(1)))
   }
 
   private def updateImageId(existing: Option[String], url: UpdateOrDelete[String]): Option[String] = {
