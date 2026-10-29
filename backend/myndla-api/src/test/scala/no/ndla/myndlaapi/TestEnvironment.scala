@@ -26,7 +26,7 @@ import no.ndla.network.NdlaClient
 import no.ndla.network.clients.FeideApiClient
 import no.ndla.network.tapir.*
 import no.ndla.scalatestsuite.DBUtilityStub
-import org.mockito.Mockito.reset
+import no.ndla.testbase.NullSafeMockito.reset
 import org.scalatestplus.mockito.MockitoSugar
 
 trait TestEnvironment extends TapirApplication[MyNdlaApiProperties] with MockitoSugar {

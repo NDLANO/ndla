@@ -15,8 +15,9 @@ class V65__RemoveGridParallax extends HtmlMigration {
   override def convertHtml(doc: Element, language: String): Element = {
     doc
       .select("div[data-parallax-cell]")
+      .nn
       .forEach(embed => {
-        val _ = embed.removeAttr("data-parallax-cell")
+        val _ = embed.nn.removeAttr("data-parallax-cell")
       })
     doc
   }

@@ -112,7 +112,7 @@ class InternController(using
       def logDeleteResult(t: Try[String]) = {
         t match {
           case Failure(ex) =>
-            logger.error(ex.getMessage)
+            logger.error(s"Failed to delete indexes: ${ex.getMessage}")
             ex.getMessage
           case Success(msg) =>
             logger.info(msg)

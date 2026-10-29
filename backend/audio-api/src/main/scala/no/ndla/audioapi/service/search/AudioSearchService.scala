@@ -150,7 +150,7 @@ class AudioSearchService(using
     f.foreach {
       case Success(reindexResult) =>
         logger.info(s"Completed indexing of ${reindexResult.totalIndexed} documents in ${reindexResult.millisUsed} ms.")
-      case Failure(ex) => logger.warn(ex.getMessage, ex)
+      case Failure(ex) => logger.warn(s"Unable to index documents: ${ex.getMessage}", ex)
     }
   }
 }

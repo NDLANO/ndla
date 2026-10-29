@@ -26,7 +26,7 @@ import no.ndla.common.model.domain.learningpath.{
 import no.ndla.common.model.domain.{Author, ContributorType, Priority, Tag, Title}
 import no.ndla.learningpathapi.*
 import no.ndla.mapping.License.PublicDomain
-import org.mockito.Mockito.when
+import no.ndla.testbase.NullSafeMockito.when
 
 class LearningStepValidatorTest extends UnitSuite with TestEnvironment {
 

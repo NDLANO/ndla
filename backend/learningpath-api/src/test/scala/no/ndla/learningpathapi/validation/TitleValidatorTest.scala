@@ -11,7 +11,7 @@ package no.ndla.learningpathapi.validation
 import no.ndla.common.errors.ValidationMessage
 import no.ndla.common.model.domain.Title
 import no.ndla.learningpathapi.{TestEnvironment, UnitSuite}
-import org.mockito.Mockito.when
+import no.ndla.testbase.NullSafeMockito.when
 
 class TitleValidatorTest extends UnitSuite with TestEnvironment {
 

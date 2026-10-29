@@ -19,8 +19,7 @@ import no.ndla.network.model.{
   OptionalCombinedUser,
 }
 import no.ndla.scalatestsuite.UnitTestSuite
-import org.mockito.ArgumentMatchers.{any, eq as eqTo}
-import org.mockito.Mockito.when
+import no.ndla.testbase.NullSafeMockito.{any, eqTo, when}
 import scalikejdbc.DBSession
 
 import java.util.UUID
@@ -37,11 +36,11 @@ class QuizReadServiceTest extends UnitTestSuite with TestEnvironment {
   }
 
   test("withId includes display name of quiz owner") {
-    when(quizRepository.withIdOrError(eqTo(TestData.quizId))(using any[DBSession]())).thenReturn(
+    when(quizRepository.withIdOrError(eqTo(TestData.quizId))(using any[DBSession])).thenReturn(
       Success(TestData.publicQuiz(TestData.singleChoiceQuestion))
     )
-    when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser]())).thenCallRealMethod()
-    when(userRepository.userWithFeideId(eqTo("owner-feide-id"))(using any[DBSession]())).thenReturn(
+    when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser])).thenCallRealMethod()
+    when(userRepository.userWithFeideId(eqTo("owner-feide-id"))(using any[DBSession])).thenReturn(
       Success(Some(TestData.emptyMyNDLAUser.copy(id = 42, displayName = "Ola Nordmann")))
     )
 
@@ -54,12 +53,12 @@ class QuizReadServiceTest extends UnitTestSuite with TestEnvironment {
       tokenUser = None,
       feideUser = FeideUserWrapper(TestData.emptyMyNDLAUser.copy(feideId = "viewer-feide-id"), mock[FeideIdToken]),
     )
-    when(quizRepository.getSavedByUser(eqTo("viewer-feide-id"))(using any[DBSession]())).thenReturn(
+    when(quizRepository.getSavedByUser(eqTo("viewer-feide-id"))(using any[DBSession])).thenReturn(
       Success(List(TestData.publicQuiz(TestData.singleChoiceQuestion)))
     )
-    when(quizRepository.canView(any[Quiz], any[CombinedUser]())).thenCallRealMethod()
-    when(quizRepository.canSeeAnswers(any[Quiz], any[CombinedUser]())).thenCallRealMethod()
-    when(userRepository.userWithFeideId(eqTo("owner-feide-id"))(using any[DBSession]())).thenReturn(
+    when(quizRepository.canView(any[Quiz], any[CombinedUser])).thenCallRealMethod()
+    when(quizRepository.canSeeAnswers(any[Quiz], any[CombinedUser])).thenCallRealMethod()
+    when(userRepository.userWithFeideId(eqTo("owner-feide-id"))(using any[DBSession])).thenReturn(
       Success(Some(TestData.emptyMyNDLAUser.copy(id = 42, displayName = "Ola Nordmann")))
     )
 
@@ -68,10 +67,10 @@ class QuizReadServiceTest extends UnitTestSuite with TestEnvironment {
   }
 
   test("checkAnswer returns correct result for correct SINGLE_CHOICE answer") {
-    when(quizRepository.withIdOrError(eqTo(TestData.quizId))(using any[DBSession]())).thenReturn(
+    when(quizRepository.withIdOrError(eqTo(TestData.quizId))(using any[DBSession])).thenReturn(
       Success(TestData.publicQuiz(TestData.singleChoiceQuestion))
     )
-    when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser]())).thenCallRealMethod()
+    when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser])).thenCallRealMethod()
 
     val answer = QuestionAnswerDTO(TestData.q1, selectedAlternativeIds = Seq(TestData.a2), matchedPairs = Seq.empty)
     val result = service.checkAnswer(TestData.quizId, answer, anonymous)
@@ -83,10 +82,10 @@ class QuizReadServiceTest extends UnitTestSuite with TestEnvironment {
   }
 
   test("checkAnswer returns incorrect result for wrong SINGLE_CHOICE answer") {
-    when(quizRepository.withIdOrError(eqTo(TestData.quizId))(using any[DBSession]())).thenReturn(
+    when(quizRepository.withIdOrError(eqTo(TestData.quizId))(using any[DBSession])).thenReturn(
       Success(TestData.publicQuiz(TestData.singleChoiceQuestion))
     )
-    when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser]())).thenCallRealMethod()
+    when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser])).thenCallRealMethod()
 
     val answer = QuestionAnswerDTO(TestData.q1, selectedAlternativeIds = Seq(TestData.a1), matchedPairs = Seq.empty)
     val result = service.checkAnswer(TestData.quizId, answer, anonymous)
@@ -97,31 +96,31 @@ class QuizReadServiceTest extends UnitTestSuite with TestEnvironment {
   }
 
   test("checkAnswer returns Failure for a private quiz when the caller is not the owner") {
-    when(quizRepository.withIdOrError(eqTo(TestData.quizId))(using any[DBSession]())).thenReturn(
+    when(quizRepository.withIdOrError(eqTo(TestData.quizId))(using any[DBSession])).thenReturn(
       Success(TestData.privateQuiz)
     )
-    when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser]())).thenCallRealMethod()
+    when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser])).thenCallRealMethod()
 
     val answer = QuestionAnswerDTO(TestData.q1, selectedAlternativeIds = Seq(TestData.a2), matchedPairs = Seq.empty)
     service.checkAnswer(TestData.quizId, answer, anonymous).isFailure should be(true)
   }
 
   test("checkAnswer returns Failure for unknown question id") {
-    when(quizRepository.withIdOrError(eqTo(TestData.quizId))(using any[DBSession]())).thenReturn(
+    when(quizRepository.withIdOrError(eqTo(TestData.quizId))(using any[DBSession])).thenReturn(
       Success(TestData.publicQuiz(TestData.singleChoiceQuestion))
     )
-    when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser]())).thenCallRealMethod()
+    when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser])).thenCallRealMethod()
 
     val answer =
-      QuestionAnswerDTO(UUID.randomUUID(), selectedAlternativeIds = Seq(TestData.a2), matchedPairs = Seq.empty)
+      QuestionAnswerDTO(UUID.randomUUID().nn, selectedAlternativeIds = Seq(TestData.a2), matchedPairs = Seq.empty)
     service.checkAnswer(TestData.quizId, answer, anonymous).isFailure should be(true)
   }
 
   test("checkAnswer requires exactly the correct set for MULTI_CHOICE") {
-    when(quizRepository.withIdOrError(eqTo(TestData.quizId))(using any[DBSession]())).thenReturn(
+    when(quizRepository.withIdOrError(eqTo(TestData.quizId))(using any[DBSession])).thenReturn(
       Success(TestData.publicQuiz(TestData.multiChoiceQuestion))
     )
-    when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser]())).thenCallRealMethod()
+    when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser])).thenCallRealMethod()
 
     val correct = QuestionAnswerDTO(TestData.q2, Seq(TestData.b1, TestData.b3), Seq.empty)
     val partial = QuestionAnswerDTO(TestData.q2, Seq(TestData.b1), Seq.empty)
@@ -133,10 +132,10 @@ class QuizReadServiceTest extends UnitTestSuite with TestEnvironment {
   }
 
   test("checkAnswer evaluates MATCHING correctly") {
-    when(quizRepository.withIdOrError(eqTo(TestData.quizId))(using any[DBSession]())).thenReturn(
+    when(quizRepository.withIdOrError(eqTo(TestData.quizId))(using any[DBSession])).thenReturn(
       Success(TestData.publicQuiz(TestData.matchingQuestion))
     )
-    when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser]())).thenCallRealMethod()
+    when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser])).thenCallRealMethod()
 
     val correctAnswer =
       QuestionAnswerDTO(TestData.q3, Seq.empty, Seq(GlossaryPairDTO("cat", "katt"), GlossaryPairDTO("dog", "hund")))
@@ -148,10 +147,10 @@ class QuizReadServiceTest extends UnitTestSuite with TestEnvironment {
   }
 
   test("checkQuiz aggregates scores across all questions") {
-    when(quizRepository.withIdOrError(eqTo(TestData.quizId))(using any[DBSession]())).thenReturn(
+    when(quizRepository.withIdOrError(eqTo(TestData.quizId))(using any[DBSession])).thenReturn(
       Success(TestData.publicQuiz(TestData.singleChoiceQuestion, TestData.multiChoiceQuestion))
     )
-    when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser]())).thenCallRealMethod()
+    when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser])).thenCallRealMethod()
 
     val dto = CheckQuizDTO(answers =
       Seq(
@@ -170,12 +169,12 @@ class QuizReadServiceTest extends UnitTestSuite with TestEnvironment {
   }
 
   test("checkQuiz returns score 0 for unknown question id instead of crashing") {
-    when(quizRepository.withIdOrError(eqTo(TestData.quizId))(using any[DBSession]())).thenReturn(
+    when(quizRepository.withIdOrError(eqTo(TestData.quizId))(using any[DBSession])).thenReturn(
       Success(TestData.publicQuiz(TestData.singleChoiceQuestion))
     )
-    when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser]())).thenCallRealMethod()
+    when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser])).thenCallRealMethod()
 
-    val dto    = CheckQuizDTO(answers = Seq(QuestionAnswerDTO(UUID.randomUUID(), Seq(TestData.a2), Seq.empty)))
+    val dto    = CheckQuizDTO(answers = Seq(QuestionAnswerDTO(UUID.randomUUID().nn, Seq(TestData.a2), Seq.empty)))
     val result = service.checkQuiz(TestData.quizId, dto, anonymous)
     result.isSuccess should be(true)
     result.get.totalScore should be(0)

@@ -20,7 +20,8 @@ case class ProcessableImage(image: ImmutableImage, fileName: String, format: Pro
   def toProcessableStreamWithWriter(writer: ImageWriter, format: ProcessableImageFormat): Try[ImageStream.Processable] =
     ScrimageUtil.imageToStreamWithWriter(this, writer, format)
 
-  def transform(f: ImmutableImage => ImmutableImage): Try[ProcessableImage] = ScrimageUtil.transformImage(this, f)
+  def transform(f: ImmutableImage => ImmutableImage | Null): Try[ProcessableImage] =
+    ScrimageUtil.transformImage(this, f)
 }
 
 object ProcessableImage {

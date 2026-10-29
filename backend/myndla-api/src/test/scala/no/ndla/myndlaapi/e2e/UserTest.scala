@@ -24,8 +24,7 @@ import no.ndla.network.clients.{FeideApiClient, FeideExtendedUserInfo}
 import no.ndla.network.tapir.auth.FeideAuth
 import no.ndla.scalatestsuite.{DatabaseIntegrationSuite, RedisIntegrationSuite}
 import no.ndla.tapirtesting.{FeideAuthTest, FeideAuthTestData}
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.*
+import no.ndla.testbase.NullSafeMockito.*
 import org.mockito.quality.Strictness
 import scalikejdbc.DBSession
 import sttp.client4.Response
@@ -64,8 +63,8 @@ class UserTest extends DatabaseIntegrationSuite with RedisIntegrationSuite with 
   val myndlaApi: MainClass = new MainClass(myndlaproperties) {
     override val componentRegistry: ComponentRegistry = new ComponentRegistry(myndlaproperties) {
       override implicit lazy val feideApiClient: FeideApiClient =
-        mock[FeideApiClient](withSettings.strictness(Strictness.LENIENT))
-      override implicit lazy val clock: Clock                       = mock[Clock](withSettings.strictness(Strictness.LENIENT))
+        mock[FeideApiClient](withSettings.strictness(Strictness.LENIENT).nn)
+      override implicit lazy val clock: Clock                       = mock[Clock](withSettings.strictness(Strictness.LENIENT).nn)
       override implicit lazy val folderRepository: FolderRepository = spy(new FolderRepository)
       override implicit lazy val userRepository: UserRepository     = spy(new UserRepository)
       override implicit lazy val userService: UserService           = spy(new UserService)

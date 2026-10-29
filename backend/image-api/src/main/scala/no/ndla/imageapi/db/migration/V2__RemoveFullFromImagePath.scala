@@ -12,5 +12,5 @@ import com.typesafe.scalalogging.StrictLogging
 import org.flywaydb.core.api.migration.{BaseJavaMigration, Context}
 
 class V2__RemoveFullFromImagePath extends BaseJavaMigration with StrictLogging {
-  override def migrate(context: Context): Unit = {}
+  override def migrate(context: Context | Null): Unit = {}
 }

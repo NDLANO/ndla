@@ -11,6 +11,7 @@ package no.ndla.network.tapir
 import com.typesafe.scalalogging.StrictLogging
 import no.ndla.common.Environment.setPropsFromEnv
 import no.ndla.common.configuration.BaseProps
+import no.ndla.common.implicits.toOption
 import org.apache.logging.log4j.core.LoggerContext
 import org.apache.logging.log4j.jul.Log4jBridgeHandler
 import sttp.tapir.server.netty.sync.NettySyncServerBinding
@@ -30,7 +31,10 @@ trait NdlaTapirMain[T <: TapirApplication[?]] extends StrictLogging {
 
   private def logCopyrightHeader(): Unit = {
     if (!props.DisableLicense) {
-      logger.info(Source.fromInputStream(getClass.getResourceAsStream("/log-license.txt")).mkString)
+      getClass
+        .getResourceAsStream("/log-license.txt")
+        .toOption
+        .foreach(stream => logger.info(Source.fromInputStream(stream).mkString))
     }
   }
 
@@ -70,7 +74,7 @@ trait NdlaTapirMain[T <: TapirApplication[?]] extends StrictLogging {
     * than the default logger shutdown handler will allow
     */
   private def shutdownLogger(): Unit = {
-    LoggerContext.getContext(false).stop()
+    LoggerContext.getContext(false).toOption.foreach(_.stop())
   }
 
   private def runServer(): Try[Unit] = {
@@ -83,21 +87,20 @@ trait NdlaTapirMain[T <: TapirApplication[?]] extends StrictLogging {
     val serverStartedLatch = new CountDownLatch(1)
     val serverFailure      = new AtomicReference[Option[Throwable]](None)
 
-    val serverThread = Thread
-      .ofPlatform()
-      .name("netty-server")
-      .start { () =>
-        Try {
-          startServerAndWait(props.ApplicationName, props.ApplicationPort) { binding =>
-            this.serverBinding = Some(binding)
-            serverStartedLatch.countDown()
-          }
-        }.failed.foreach(ex => serverFailure.set(Some(ex)))
-        serverStartedLatch.countDown()
-      }
+    val serverTask: Runnable = () => {
+      Try {
+        startServerAndWait(props.ApplicationName, props.ApplicationPort) { binding =>
+          this.serverBinding = Some(binding)
+          serverStartedLatch.countDown()
+        }
+      }.failed.foreach(ex => serverFailure.set(Some(ex)))
+      serverStartedLatch.countDown()
+    }
+    val serverThread = new Thread(serverTask, "netty-server")
+    serverThread.start()
 
     serverStartedLatch.await()
-    serverFailure.get() match {
+    serverFailure.get().toOption.flatten match {
       case Some(ex) => return Failure(ex)
       case None     => ()
     }
@@ -106,7 +109,7 @@ trait NdlaTapirMain[T <: TapirApplication[?]] extends StrictLogging {
     performWarmup()
 
     serverThread.join()
-    serverFailure.get() match {
+    serverFailure.get().toOption.flatten match {
       case Some(ex) => Failure(ex)
       case None     => Success(())
     }

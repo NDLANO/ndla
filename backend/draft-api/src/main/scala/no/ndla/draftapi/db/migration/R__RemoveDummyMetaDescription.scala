@@ -11,6 +11,6 @@ package no.ndla.draftapi.db.migration
 import org.flywaydb.core.api.migration.{BaseJavaMigration, Context}
 
 class R__RemoveDummyMetaDescription extends BaseJavaMigration {
-  override def getChecksum: Integer            = 1
-  override def migrate(context: Context): Unit = {}
+  override def getChecksum: Integer                   = 1
+  override def migrate(context: Context | Null): Unit = {}
 }

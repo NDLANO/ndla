@@ -30,7 +30,7 @@ class V31__FixImageVisualElementSize extends DocumentMigration {
                 .withFocus(visualElement =>
                   visualElement
                     .asString
-                    .map(_.replace("data-size=\"fullbredde\"", "data-size=\"full\""))
+                    .map(_.replace("data-size=\"fullbredde\"", "data-size=\"full\"").nn)
                     .map(io.circe.Json.fromString)
                     .getOrElse(visualElement)
                 )

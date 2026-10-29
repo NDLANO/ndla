@@ -64,7 +64,7 @@ abstract class SearchService(using
     *   api-model summary of hit
     */
   private def hitToApiModel(hit: SearchHit, language: String, filterInactive: Boolean): Try[MultiSummaryBaseDTO] = {
-    val indexName = hit.index.split("_").headOption.traverse(x => props.indexToSearchType(x))
+    val indexName = hit.index.split('_').headOption.traverse(x => props.indexToSearchType(x))
     indexName.flatMap {
       case Some(SearchType.Articles)      => searchConverterService.articleHitAsMultiSummary(hit, language, filterInactive)
       case Some(SearchType.Drafts)        => searchConverterService.draftHitAsMultiSummary(hit, language, filterInactive)

@@ -23,7 +23,7 @@ object CorrelationID {
 
   def getOrGenerate(x: Option[String]): String = x match {
     case Some(x) => x
-    case None    => UUID.randomUUID().toString
+    case None    => s"${UUID.randomUUID()}"
   }
 
   def set(correlationId: Option[String]): Unit = {

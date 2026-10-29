@@ -9,8 +9,10 @@
 package no.ndla.imageapi.controller
 
 import com.typesafe.scalalogging.StrictLogging
+import no.ndla.common.UUIDUtil
 import no.ndla.common.auth.Permission.IMAGE_API_BATCH
 import no.ndla.common.errors.{ValidationException, ValidationMessage}
+import no.ndla.common.implicits.{toOption, toTry}
 import no.ndla.common.model.domain.UploadedFile
 import no.ndla.imageapi.Props
 import no.ndla.imageapi.controller.multipart.BatchMetaDataAndFileForm
@@ -32,7 +34,7 @@ import sttp.tapir.*
 import sttp.tapir.generic.auto.*
 import sttp.tapir.server.ServerEndpoint
 
-import java.io.File
+import java.io.{File, IOException}
 import java.nio.file.{Files, Path, StandardCopyOption}
 import java.util.UUID
 import scala.util.{Failure, Success, Try}
@@ -62,32 +64,41 @@ class BulkController(using
     * the request handler returns, so the background worker would otherwise be reading from missing inodes.
     */
   private def stageFiles(uploadId: UUID, parts: List[Part[File]]): Try[(Path, List[UploadedFile])] = Try {
-    val stagingDir = Files.createTempDirectory(s"image-bulk-upload-$uploadId-")
-    val staged     = parts.map { part =>
-      val source = part.body.toPath
-      val target = stagingDir.resolve(s"${UUID.randomUUID()}-${part.body.getName}")
-      Files.move(source, target, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE)
-      val stagedPart = part.copy(body = target.toFile)
-      UploadedFile.fromFilePart(stagedPart)
+    Files
+      .createTempDirectory(s"image-bulk-upload-$uploadId-")
+      .toOption
+      .toTry(IOException(s"Could not create staging dir for bulk upload $uploadId"))
+      .map { stagingDir =>
+        val staged = parts.map { part =>
+          val source = part.body.toPath
+          val target = File(stagingDir.toFile, s"${UUID.randomUUID()}-${part.body.getName}")
+          Files.move(source, target.toPath, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE)
+          val stagedPart = part.copy(body = target)
+          UploadedFile.fromFilePart(stagedPart)
+        }
+        stagingDir -> staged
+      }
+  }.flatten
+    .recoverWith { case ex =>
+      logger.error(s"Bulk upload $uploadId: failed to stage uploaded files", ex)
+      Failure(ex)
     }
-    stagingDir -> staged
-  }.recoverWith { case ex =>
-    logger.error(s"Bulk upload $uploadId: failed to stage uploaded files", ex)
-    Failure(ex)
-  }
 
   def batchInsertImages: ServerEndpoint[Any, Eff] = endpoint
     .post
     .summary("Start a bulk image upload session")
     .description("Stages all uploaded images and starts an asynchronous bulk upload.")
-    .in(multipartBody[BatchMetaDataAndFileForm])
+    .in {
+      import scala.language.unsafeNulls
+      multipartBody[BatchMetaDataAndFileForm]
+    }
     .out(jsonBody[BulkUploadStartedDTO])
     .errorOut(errorOutputsFor(400))
     .requirePermission(IMAGE_API_BATCH)
     .serverLogicPure(user =>
       formData => {
         val metas    = formData.metadatas.map(_.body)
-        val uploadId = UUID.randomUUID()
+        val uploadId = UUIDUtil.randomUUID()
         for {
           _                   <- validateSameLength(metas, formData.files)
           _                   <- formData.files.traverseSizeCheck

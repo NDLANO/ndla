@@ -20,9 +20,7 @@ import no.ndla.learningpathapi.integration.{Node, TaxonomyApiClient}
 import no.ndla.network.tapir.auth.{FeideAuth, NdlaAuth}
 import no.ndla.scalatestsuite.{DatabaseIntegrationSuite, ElasticsearchIntegrationSuite}
 import no.ndla.tapirtesting.{FeideAuthTest, NdlaAuthTest, NdlaAuthTestTokens}
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.{when, withSettings}
-import org.mockito.invocation.InvocationOnMock
+import no.ndla.testbase.NullSafeMockito.{any, when, withSettings}
 import org.mockito.quality.Strictness
 import sttp.client4.{Request, Response}
 import sttp.client4.quick.*
@@ -57,14 +55,14 @@ class LearningPathAndStepCreationTests
   lazy val learningpathApi: MainClass = new MainClass(learningpathApiProperties) {
     override val componentRegistry: ComponentRegistry = new ComponentRegistry(learningpathApiProperties) {
       override implicit lazy val clock: Clock = {
-        val mockClock = mock[Clock](withSettings.strictness(Strictness.LENIENT))
+        val mockClock = mock[Clock](withSettings.strictness(Strictness.LENIENT).nn)
         when(mockClock.now()).thenReturn(someDate)
         mockClock
       }
       override given taxonomyApiClient: TaxonomyApiClient = {
         val client = mock[TaxonomyApiClient]
-        when(client.updateTaxonomyForLearningPath(any, any, any)).thenAnswer { (i: InvocationOnMock) =>
-          Success(i.getArgument[LearningPath](0))
+        when(client.updateTaxonomyForLearningPath(any, any, any)).thenAnswer { i =>
+          Success(i.nn.getArgument[LearningPath](0))
         }
         when(client.queryNodes(any[Long])).thenReturn(Success(List.empty[Node]))
         client

@@ -36,7 +36,7 @@ import no.ndla.imageapi.model.api.{
 }
 import no.ndla.imageapi.model.domain.*
 import no.ndla.imageapi.repository.ImageRepository
-import no.ndla.imageapi.service.WriteService.getWebpWriterForFormat
+import no.ndla.imageapi.service.WriteService.{fixedThreadPool, getWebpWriterForFormat}
 import no.ndla.imageapi.service.search.{ImageIndexService, TagIndexService}
 import no.ndla.language.Language
 import no.ndla.language.Language.{mergeLanguageFields, sortByLanguagePriority}
@@ -47,7 +47,14 @@ import scalikejdbc.DBSession
 import java.nio.file.{Files, Path}
 import java.util.UUID
 import java.util.concurrent.atomic.AtomicReference
-import java.util.concurrent.{ExecutorService, Executors, TimeoutException}
+import java.util.concurrent.{
+  ExecutorService,
+  Executors,
+  LinkedBlockingQueue,
+  ThreadPoolExecutor,
+  TimeUnit,
+  TimeoutException,
+}
 import scala.concurrent.duration.{Duration, DurationInt}
 import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.util.Using.Releasable
@@ -73,13 +80,12 @@ class WriteService(using
     * we size it to ~2× cores to keep cores busy while some tasks block on IO. Used by all callers of
     * [[uploadImageWithVariants]] so total system-wide variant threads are bounded regardless of request concurrency.
     */
-  private val variantExecutor: ExecutorService =
-    Executors.newFixedThreadPool(math.max(4, Runtime.getRuntime.availableProcessors() * 2))
-  private val variantEc: ExecutionContext =
+  private val variantExecutor: ExecutorService = fixedThreadPool(math.max(4, sys.runtime.availableProcessors() * 2))
+  private val variantEc: ExecutionContext      =
     ExecutionContext.fromExecutor(variantExecutor, ex => logger.error("Variant worker failed", ex))
 
   private val bulkItemParallelism: Int          = 4
-  private val bulkItemExecutor: ExecutorService = Executors.newFixedThreadPool(bulkItemParallelism)
+  private val bulkItemExecutor: ExecutorService = fixedThreadPool(bulkItemParallelism)
 
   def deleteImageLanguageVersionV2(
       imageId: Long,
@@ -240,7 +246,7 @@ class WriteService(using
     insertAndStoreImage(toInsert, file, None, Seq(newImage.language))
   }
 
-  private val bulkUploadExecutor: ExecutorService = Executors.newSingleThreadExecutor()
+  private val bulkUploadExecutor: ExecutorService = fixedThreadPool(1)
 
   /** Starts a bulk image upload session. Initializes Redis state under `uploadId`, schedules the upload work on a
     * background worker, and returns immediately. Progress (and the eventual result or failure) is tracked through the
@@ -306,28 +312,32 @@ class WriteService(using
       .zipWithIndex
       .map { case (item, idx) =>
         Future {
-          if (!progressRef.get.hasFailed) {
+          if (!progressRef.get.toOption.exists(_.hasFailed)) {
             processBulkItem(uploadId, total, idx, item, user, progressRef)
           }
         }
       }
     Try(Await.result(Future.sequence(itemFutures), Duration.Inf)): Unit
 
-    val elapsedMs  = System.currentTimeMillis() - startedAt
-    val progress   = progressRef.get
-    val finalState = progress.failure match {
-      case None =>
-        logger.info(s"Bulk upload $uploadId: complete — $total item(s) stored in ${elapsedMs}ms")
-        progress.state.asComplete
-      case Some(ex) =>
-        logger.error(
-          s"Bulk upload $uploadId: failed after ${elapsedMs}ms; rolling back ${progress.stored.size} previously stored image(s)"
-        )
-        rollbackStoredImages(uploadId, progress.stored)
-        logger.error(s"Bulk upload $uploadId: marked as failed", ex)
-        progress.state.asFailed(ex)
-    }
-    persistState(uploadId, finalState)
+    val elapsedMs = System.currentTimeMillis() - startedAt
+    progressRef
+      .get
+      .toOption
+      .foreach { progress =>
+        val finalState = progress.failure match {
+          case None =>
+            logger.info(s"Bulk upload $uploadId: complete — $total item(s) stored in ${elapsedMs}ms")
+            progress.state.asComplete
+          case Some(ex) =>
+            logger.error(
+              s"Bulk upload $uploadId: failed after ${elapsedMs}ms; rolling back ${progress.stored.size} previously stored image(s)"
+            )
+            rollbackStoredImages(uploadId, progress.stored)
+            logger.error(s"Bulk upload $uploadId: marked as failed", ex)
+            progress.state.asFailed(ex)
+        }
+        persistState(uploadId, finalState)
+      }
     cleanupStagingDir(stagingDir)
   }
 
@@ -384,9 +394,14 @@ class WriteService(using
       progressRef: AtomicReference[BulkUploadProgress],
       f: BulkUploadProgress => BulkUploadProgress,
   ): Unit = progressRef.synchronized {
-    val updated = f(progressRef.get)
-    progressRef.set(updated)
-    persistState(uploadId, updated.state)
+    progressRef
+      .get
+      .toOption
+      .map(f)
+      .foreach { updated =>
+        progressRef.set(updated)
+        persistState(uploadId, updated.state)
+      }
   }
 
   private def persistState(uploadId: UUID, state: BulkUploadStateDTO): Unit =
@@ -409,9 +424,17 @@ class WriteService(using
   private def cleanupStagingDir(stagingDir: Path): Unit = {
     Try {
       if (Files.exists(stagingDir)) {
-        Using(Files.walk(stagingDir)) { dirStream =>
-          dirStream.sorted(java.util.Comparator.reverseOrder()).forEach(Files.deleteIfExists(_): Unit)
-        }: Unit
+        Files
+          .walk(stagingDir)
+          .toOption
+          .foreach { stream =>
+            Using(stream) { dirStream =>
+              dirStream
+                .sorted(java.util.Comparator.reverseOrder())
+                .toOption
+                .foreach(_.forEach(Files.deleteIfExists(_): Unit))
+            }: Unit
+          }
       }
     }.recover { ex =>
       logger.warn(s"Failed to clean up bulk upload staging dir $stagingDir", ex)
@@ -595,7 +618,7 @@ class WriteService(using
 
   private[service] def getFileExtension(fileName: String): Option[String] = {
     fileName.lastIndexOf(".") match {
-      case index: Int if index > -1 => Some(fileName.substring(index))
+      case index: Int if index > -1 => Some(fileName.drop(index))
       case _                        => None
     }
   }
@@ -620,7 +643,7 @@ class WriteService(using
       case Failure(ex)    => return Failure(ex)
     }
     val dimensions = ImageDimensions(processableImage.image.width, processableImage.image.height)
-    val exifData   = ExifUtil.extractMetadataMap(processableImage.image.getMetadata)
+    val exifData   = processableImage.image.getMetadata.toOption.flatMap(ExifUtil.extractMetadataMap)
 
     // Since a stream cannot be read from twice, we need to create a new stream for uploading the original image.
     // At this point we know that the image is processable, so we can safely create a new processable ImageStream.
@@ -675,8 +698,8 @@ class WriteService(using
         Future {
           for {
             resizedImage <- imageConverter.resizeToVariantSize(image, variantSize)
-            webpStream   <-
-              resizedImage.toProcessableStreamWithWriter(getWebpWriterForFormat(format), ProcessableImageFormat.Webp)
+            webpWriter   <- getWebpWriterForFormat(format)
+            webpStream   <- resizedImage.toProcessableStreamWithWriter(webpWriter, ProcessableImageFormat.Webp)
             bucketKey     = ImageVariant.bucketKeyFor(fileName, variantSize)
             imageVariant <- imageStorage
               .uploadFromStream(bucketKey, webpStream.stream, webpStream.contentLength, ImageContentType.Webp)
@@ -840,14 +863,26 @@ object WriteService {
   // See https://developers.google.com/speed/webp/docs/cwebp#options
   // For PNG images, we set the quality to the default value in cwebp
   // For JPEG and WebP images, we set the quality higher to reduce the effect of double compression
-  private val baseWebpWriter                = WebpWriter.DEFAULT.withMultiThread().withM(6)
-  private val webpWriterForJpeg: WebpWriter = baseWebpWriter.withoutAlpha().withQ(85)
-  private val webpWriterForPng: WebpWriter  = baseWebpWriter.withQ(75)
-  private val webpWriterForWebp: WebpWriter = baseWebpWriter.withQ(85)
+  private val baseWebpWriter: Option[WebpWriter] = WebpWriter
+    .DEFAULT
+    .toOption
+    .flatMap(_.withMultiThread().toOption)
+    .flatMap(_.withM(6).toOption)
+  private val webpWriterForJpeg: Option[WebpWriter] = baseWebpWriter
+    .flatMap(_.withoutAlpha().toOption)
+    .flatMap(_.withQ(85).toOption)
+  private val webpWriterForPng: Option[WebpWriter]  = baseWebpWriter.flatMap(_.withQ(75).toOption)
+  private val webpWriterForWebp: Option[WebpWriter] = baseWebpWriter.flatMap(_.withQ(85).toOption)
 
-  def getWebpWriterForFormat(format: ProcessableImageFormat): WebpWriter = format match {
-    case ProcessableImageFormat.Jpeg => webpWriterForJpeg
-    case ProcessableImageFormat.Png  => webpWriterForPng
-    case ProcessableImageFormat.Webp => webpWriterForWebp
+  def getWebpWriterForFormat(format: ProcessableImageFormat): Try[WebpWriter] = {
+    val writer = format match {
+      case ProcessableImageFormat.Jpeg => webpWriterForJpeg
+      case ProcessableImageFormat.Png  => webpWriterForPng
+      case ProcessableImageFormat.Webp => webpWriterForWebp
+    }
+    writer.toTry(ImageConversionException(s"Could not create WebP writer for format '$format'"))
   }
+
+  private def fixedThreadPool(nThreads: Int): ExecutorService =
+    new ThreadPoolExecutor(nThreads, nThreads, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue[Runnable]())
 }

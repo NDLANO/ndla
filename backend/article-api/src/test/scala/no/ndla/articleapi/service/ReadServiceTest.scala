@@ -21,8 +21,7 @@ import no.ndla.common.model.domain.*
 import no.ndla.common.model.domain.myndla.MyNDLAUser
 import no.ndla.network.clients.FeideExtendedUserInfo
 import no.ndla.network.model.{FeideIdToken, FeideUserWrapper}
-import org.mockito.ArgumentMatchers.{eq as eqTo, *}
-import org.mockito.Mockito.*
+import no.ndla.testbase.NullSafeMockito.*
 
 import scala.util.{Failure, Success, Try}
 

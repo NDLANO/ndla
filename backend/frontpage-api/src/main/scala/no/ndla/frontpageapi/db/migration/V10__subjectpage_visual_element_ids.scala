@@ -18,7 +18,7 @@ import scalikejdbc.*
 import scala.util.{Failure, Success}
 
 class V10__subjectpage_visual_element_ids extends BaseJavaMigration {
-  override def migrate(context: Context): Unit = DB(context.getConnection)
+  override def migrate(context: Context | Null): Unit = DB(context.nn.getConnection.nn)
     .autoClose(false)
     .withinTx { implicit session =>
       subjectPageData.map(convertSubjectpage).foreach(update)
@@ -36,7 +36,7 @@ class V10__subjectpage_visual_element_ids extends BaseJavaMigration {
   }
 
   def replaceUrlWithId(maybeUrl: String): String = {
-    maybeUrl.replaceAll("https://(.*)/image-api/raw/id/", "")
+    maybeUrl.replaceAll("https://(.*)/image-api/raw/id/", "").nn
   }
 
   def convertSubjectpage(subjectPageData: V10__DBSubjectPage): V10__DBSubjectPage = {

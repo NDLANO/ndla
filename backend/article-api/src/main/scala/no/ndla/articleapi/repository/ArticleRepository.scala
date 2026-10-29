@@ -12,6 +12,7 @@ import com.typesafe.scalalogging.StrictLogging
 import no.ndla.articleapi.model.NotFoundException
 import no.ndla.articleapi.model.domain.{ArticleIds, ArticleRow, DBArticle}
 import no.ndla.common.CirceUtil
+import no.ndla.common.implicits.toOption
 import no.ndla.common.model.domain.article.Article
 import no.ndla.database.implicits.*
 import org.postgresql.util.PGobject
@@ -26,7 +27,7 @@ class ArticleRepository(using dbArticle: DBArticle) extends StrictLogging {
     dataObject.setType("jsonb")
     val jsonString = CirceUtil.toJsonString(article)
     dataObject.setValue(jsonString)
-    val slug = article.slug.map(_.toLowerCase)
+    val slug = article.slug.flatMap(_.toLowerCase.toOption)
 
     tsql"""
       update ${dbArticle.Article.table}
@@ -40,7 +41,7 @@ class ArticleRepository(using dbArticle: DBArticle) extends StrictLogging {
         Success(article.copy(slug = slug))
       case Success(_) =>
         logger.info(s"No article with id ${article.id} and revision ${article.revision} exists, creating...")
-        val slug = article.slug.map(_.toLowerCase)
+        val slug = article.slug.flatMap(_.toLowerCase.toOption)
 
         tsql"""
           insert into ${dbArticle.Article.table} (article_id, document, external_id, revision, slug)
@@ -203,8 +204,8 @@ class ArticleRepository(using dbArticle: DBArticle) extends StrictLogging {
   def getTags(input: String, pageSize: Int, offset: Int, language: String)(implicit
       session: DBSession
   ): Try[(Seq[String], Long)] = {
-    val sanitizedInput    = input.replaceAll("%", "")
-    val sanitizedLanguage = language.replaceAll("%", "")
+    val sanitizedInput    = input.filterNot(_ == '%')
+    val sanitizedLanguage = language.filterNot(_ == '%')
     val langOrAll         =
       if (sanitizedLanguage == "*" || sanitizedLanguage == "") "%"
       else sanitizedLanguage

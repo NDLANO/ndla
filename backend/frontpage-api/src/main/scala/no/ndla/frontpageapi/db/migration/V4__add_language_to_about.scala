@@ -21,7 +21,7 @@ import scalikejdbc.*
 import scala.util.{Failure, Success}
 
 class V4__add_language_to_about extends BaseJavaMigration {
-  override def migrate(context: Context): Unit = DB(context.getConnection)
+  override def migrate(context: Context | Null): Unit = DB(context.nn.getConnection.nn)
     .autoClose(false)
     .withinTx { implicit session =>
       subjectPageData.flatMap(convertSubjectpage).foreach(update)

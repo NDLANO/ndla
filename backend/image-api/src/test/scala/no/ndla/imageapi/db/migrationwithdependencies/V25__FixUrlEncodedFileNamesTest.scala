@@ -10,8 +10,7 @@ package no.ndla.imageapi.db.migrationwithdependencies
 
 import no.ndla.common.CirceUtil
 import no.ndla.imageapi.{TestEnvironment, UnitSuite}
-import org.mockito.ArgumentMatchers.eq as eqTo
-import org.mockito.Mockito.{reset, when}
+import no.ndla.testbase.NullSafeMockito.{eqTo, reset, when}
 
 class V25__FixUrlEncodedFileNamesTest extends UnitSuite with TestEnvironment {
 

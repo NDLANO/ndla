@@ -34,7 +34,7 @@ class NdlaServer(using
   def startServerAndWait(name: String, port: Int)(onStartup: NettySyncServerBinding => Unit): Unit = {
     val prometheusMetrics = NdlaPrometheusRegistry.tapirPrometheusMetrics
 
-    val options = NettySyncServerOptions
+    val interceptors = NettySyncServerOptions
       .customiseInterceptors
       .rejectHandler(NdlaRejectHandler[Identity]())
       .exceptionHandler(NdlaExceptionHandler[Identity]())
@@ -42,7 +42,8 @@ class NdlaServer(using
       .serverLog(None)
       .metricsInterceptor(prometheusMetrics.metricsInterceptor())
       .prependInterceptor(ContextInterceptor)
-      .prependInterceptor(TracingInterceptor())
+    val options = TracingInterceptor()
+      .fold(interceptors)(interceptors.prependInterceptor)
       .prependInterceptor(LogInterceptor)
       .options
 

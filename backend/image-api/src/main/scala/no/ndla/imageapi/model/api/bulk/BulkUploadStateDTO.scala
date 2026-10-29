@@ -11,6 +11,7 @@ package no.ndla.imageapi.model.api.bulk
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
 import no.ndla.common.DeriveHelpers
+import no.ndla.common.implicits.toOption
 import no.ndla.imageapi.model.api.ImageMetaInformationV3DTO
 import sttp.tapir.Schema
 
@@ -33,7 +34,8 @@ case class BulkUploadStateDTO(
 
   def asComplete: BulkUploadStateDTO              = this.copy(status = BulkUploadStatus.Complete)
   def asFailed(error: String): BulkUploadStateDTO = this.copy(status = BulkUploadStatus.Failed, error = Some(error))
-  def asFailed(ex: Throwable): BulkUploadStateDTO = asFailed(ex.getMessage)
+  def asFailed(ex: Throwable): BulkUploadStateDTO =
+    this.copy(status = BulkUploadStatus.Failed, error = ex.getMessage.toOption)
 
   def setDone(idx: Int, image: ImageMetaInformationV3DTO): BulkUploadStateDTO = {
     val withUpdatedItem = this.updateItem(idx, _.setDone(image))

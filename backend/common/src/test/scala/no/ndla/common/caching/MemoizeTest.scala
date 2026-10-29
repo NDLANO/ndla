@@ -9,7 +9,7 @@
 package no.ndla.common.caching
 
 import no.ndla.testbase.UnitTestSuiteBase
-import org.mockito.Mockito.{times, verify, when}
+import no.ndla.testbase.NullSafeMockito.{times, verify, when}
 
 import scala.util.{Success, Try}
 
@@ -72,7 +72,7 @@ class MemoizeTest extends UnitTestSuiteBase {
     val memoizedTarget  =
       new Memoize[String](cacheMaxAgeInMs, () => targetMock.targetMethod(), retryOnErrorMs = Some(retryMs))
 
-    when(targetMock.targetMethod()).thenReturn(Success("Hello from mock")).thenThrow(new RuntimeException("Woop"))
+    when(targetMock.targetMethod()).thenReturn(Success("Hello from mock")).nn.thenThrow(new RuntimeException("Woop"))
 
     memoizedTarget() should equal(Success("Hello from mock"))
     Thread.sleep(cacheMaxAgeInMs)

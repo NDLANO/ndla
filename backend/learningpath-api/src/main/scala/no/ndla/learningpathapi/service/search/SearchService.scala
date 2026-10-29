@@ -43,25 +43,25 @@ class SearchService(using
     .execute {
       searchScroll(scrollId, props.ElasticSearchScrollKeepAlive)
     }
-    .map(response => {
-      val hits = getHitsV2(response.result, language)
-
-      SearchResult(
-        totalCount = response.result.totalHits,
-        page = None,
-        pageSize = response.result.hits.hits.length,
-        language = language,
-        results = hits,
-        scrollId = response.result.scrollId,
+    .flatMap(response =>
+      getHitsV2(response.result, language).map(hits =>
+        SearchResult(
+          totalCount = response.result.totalHits,
+          page = None,
+          pageSize = response.result.hits.hits.length,
+          language = language,
+          results = hits,
+          scrollId = response.result.scrollId,
+        )
       )
-    })
+    )
 
-  private def getHitsV2(response: SearchResponse, language: String): Seq[LearningPathSummaryV2DTO] = {
+  private def getHitsV2(response: SearchResponse, language: String): Try[Seq[LearningPathSummaryV2DTO]] = {
     response.totalHits match {
       case count if count > 0 =>
         val resultArray = response.hits.hits.toList
 
-        resultArray.map(result => {
+        resultArray.traverse(result => {
           val matchedLanguage = language match {
             case AllLanguages => searchConverterServiceComponent.getLanguageFromHit(result).getOrElse(language)
             case _            => language
@@ -69,11 +69,11 @@ class SearchService(using
 
           hitAsLearningPathSummaryV2(result.sourceAsString, matchedLanguage)
         })
-      case _ => Seq()
+      case _ => Success(Seq())
     }
   }
 
-  private def hitAsLearningPathSummaryV2(hitString: String, language: String): LearningPathSummaryV2DTO = {
+  private def hitAsLearningPathSummaryV2(hitString: String, language: String): Try[LearningPathSummaryV2DTO] = {
     val searchable = CirceUtil.unsafeParseAs[SearchableLearningPath](hitString)
     searchConverterServiceComponent.asApiLearningPathSummaryV2(searchable, language)
   }
@@ -207,13 +207,13 @@ class SearchService(using
         }
 
       e4sClient.execute(searchWithScroll) match {
-        case Success(response) => Success(
+        case Success(response) => getHitsV2(response.result, searchLanguage).map(hits =>
             SearchResult(
               response.result.totalHits,
               Some(settings.page.getOrElse(1)),
               numResults,
               searchLanguage,
-              getHitsV2(response.result, searchLanguage),
+              hits,
               response.result.scrollId,
             )
           )
@@ -300,7 +300,7 @@ class SearchService(using
         scheduleIndexDocuments()
         Failure(IndexNotFoundException(s"Index ${props.SearchIndex} not found. Scheduling a reindex"))
       case e: NdlaSearchException[?] =>
-        logger.error(e.getMessage)
+        logger.error(e.message)
         Failure(NdlaSearchException(s"Unable to execute search in ${props.SearchIndex}: ${e.getMessage}", e))
       case t => Failure(t)
     }
@@ -317,7 +317,7 @@ class SearchService(using
     f.foreach {
       case Success(reindexResult) =>
         logger.info(s"Completed indexing of ${reindexResult.totalIndexed} documents in ${reindexResult.millisUsed} ms.")
-      case Failure(ex) => logger.warn(ex.getMessage, ex)
+      case Failure(ex) => logger.warn(s"Unable to create index: ${ex.getMessage}", ex)
     }
   }
 }

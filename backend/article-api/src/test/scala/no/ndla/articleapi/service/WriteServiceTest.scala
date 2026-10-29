@@ -13,10 +13,9 @@ import no.ndla.common.model.NDLADate
 import no.ndla.common.model.domain.article.Article
 import no.ndla.database.DBUtility
 import no.ndla.network.tapir.auth.TokenUser
-import org.mockito.ArgumentMatchers.{any, eq as eqTo}
-import org.mockito.Mockito.*
-import org.mockito.invocation.InvocationOnMock
-import org.mockito.{ArgumentCaptor, Mockito}
+import no.ndla.testbase.NullSafeMockito
+import no.ndla.testbase.NullSafeMockito.*
+import org.mockito.ArgumentCaptor
 import scalikejdbc.*
 
 import scala.util.{Success, Try}
@@ -36,18 +35,18 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     .copy(id = Some(articleId), created = yesterday, updated = yesterday)
 
   override def beforeEach(): Unit = {
-    Mockito.reset(articleIndexService, articleRepository)
+    reset(articleIndexService, articleRepository)
 
     when(articleRepository.withId(eqTo(articleId))(using any)).thenReturn(Success(Option(toArticleRow(article))))
-    when(articleIndexService.indexDocument(any[Article])).thenAnswer((invocation: InvocationOnMock) =>
-      Try(invocation.getArgument[Article](0))
+    when(articleIndexService.indexDocument(any[Article])).thenAnswer(invocation =>
+      Try(invocation.nn.getArgument[Article](0))
     )
-    when(readService.addUrlsOnEmbedResources(any[Article])).thenAnswer((invocation: InvocationOnMock) =>
-      invocation.getArgument[Article](0)
+    when(readService.addUrlsOnEmbedResources(any[Article])).thenAnswer(invocation =>
+      invocation.nn.getArgument[Article](0)
     )
     when(clock.now()).thenReturn(today)
-    when(contentValidator.validateArticle(any[Article], any[Boolean])(using any)).thenAnswer(
-      (invocation: InvocationOnMock) => Success(invocation.getArgument[Article](0))
+    when(contentValidator.validateArticle(any[Article], any[Boolean])(using any)).thenAnswer(invocation =>
+      Success(invocation.nn.getArgument[Article](0))
     )
   }
 
@@ -73,20 +72,20 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
       skipValidation = false,
     )(dbUtil.autoSession)
 
-    val argCap1: ArgumentCaptor[Article] = ArgumentCaptor.forClass(classOf[Article])
-    val argCap2: ArgumentCaptor[Article] = ArgumentCaptor.forClass(classOf[Article])
+    val argCap1: ArgumentCaptor[Article] = ArgumentCaptor.forClass(classOf[Article]).nn
+    val argCap2: ArgumentCaptor[Article] = ArgumentCaptor.forClass(classOf[Article]).nn
 
-    verify(articleIndexService, times(1)).indexDocument(argCap1.capture())
-    verify(searchApiClient, times(1)).indexDocument(any[String], argCap2.capture(), any[Option[TokenUser]])(using
-      any,
-      any,
-      any,
-    )
+    verify(articleIndexService, times(1)).indexDocument(NullSafeMockito.capture(argCap1))
+    verify(searchApiClient, times(1)).indexDocument(
+      any[String],
+      NullSafeMockito.capture(argCap2),
+      any[Option[TokenUser]],
+    )(using any, any, any)
 
-    val captured1 = argCap1.getValue
+    val captured1 = argCap1.getValue.nn
     captured1.copy(updated = today) should be(updatedAndInserted)
 
-    val captured2 = argCap2.getValue
+    val captured2 = argCap2.getValue.nn
     captured2.copy(updated = today) should be(updatedAndInserted)
   }
 

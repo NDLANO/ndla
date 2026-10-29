@@ -21,12 +21,12 @@ import scala.util.{Failure, Success, Try}
 
 case class NDLADate(underlying: ZonedDateTime) extends Ordered[NDLADate], ParameterBinder {
 
-  private def withUnderlying(f: ZonedDateTime => ZonedDateTime): NDLADate = {
-    this.copy(underlying = f(underlying))
+  private def withUnderlying(f: ZonedDateTime => ZonedDateTime | Null): NDLADate = {
+    this.copy(underlying = f(underlying).nn)
   }
 
-  def asUtcLocalDateTime: LocalDateTime = underlying.withZoneSameInstant(ZoneOffset.UTC).toLocalDateTime
-  def toOffsetDateTime: OffsetDateTime  = underlying.toOffsetDateTime
+  def asUtcLocalDateTime: LocalDateTime = underlying.withZoneSameInstant(ZoneOffset.UTC).nn.toLocalDateTime.nn
+  def toOffsetDateTime: OffsetDateTime  = underlying.toOffsetDateTime.nn
 
   def minusSeconds(seconds: Long): NDLADate                    = withUnderlying(_.minusSeconds(seconds))
   def plusSeconds(seconds: Long): NDLADate                     = withUnderlying(_.plusSeconds(seconds))
@@ -47,7 +47,7 @@ case class NDLADate(underlying: ZonedDateTime) extends Ordered[NDLADate], Parame
   def withNano(nanoOfSecond: Int): NDLADate     = withUnderlying(_.withNano(nanoOfSecond))
 
   def toEpochSecond(offset: ZoneOffset): Long = asUtcLocalDateTime.toEpochSecond(offset)
-  def toUTCEpochSecond: Long                  = toEpochSecond(ZoneOffset.UTC)
+  def toUTCEpochSecond: Long                  = toEpochSecond(ZoneOffset.UTC.nn)
 
   def asUTCDateWithSameTime: NDLADate = withUnderlying(_.withZoneSameLocal(ZoneOffset.UTC))
 
@@ -63,12 +63,12 @@ case class NDLADate(underlying: ZonedDateTime) extends Ordered[NDLADate], Parame
 object NDLADate {
   case class NDLADateError(message: String) extends RuntimeException(message)
 
-  private val baseFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-  private val utcZone: ZoneOffset              = ZoneOffset.UTC
-  private val localZone: ZoneId                = ZoneId.systemDefault()
+  private val baseFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").nn
+  private val utcZone: ZoneOffset              = ZoneOffset.UTC.nn
+  private val localZone: ZoneId                = ZoneId.systemDefault().nn
 
-  val MIN: NDLADate = fromDate(LocalDateTime.MIN)
-  val MAX: NDLADate = fromDate(LocalDateTime.MAX)
+  val MIN: NDLADate = fromDate(LocalDateTime.MIN.nn)
+  val MAX: NDLADate = fromDate(LocalDateTime.MAX.nn)
 
   private val dateFormats: List[DateTimeFormatter] = baseFormatter +:
     List(
@@ -78,45 +78,45 @@ object NDLADate {
       "yyyy-MM-dd'T'HH:mm:ss",
       "yyyy-MM-dd'T'HH:mm:ss.SSS",
       "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS",
-    ).map(DateTimeFormatter.ofPattern)
+    ).map(DateTimeFormatter.ofPattern(_).nn)
 
-  def now(): NDLADate = NDLADate.fromDate(ZonedDateTime.now(localZone))
+  def now(): NDLADate = NDLADate.fromDate(ZonedDateTime.now(localZone).nn)
 
   def fromUtcDate(date: LocalDateTime): NDLADate = {
-    val zonedDate = date.atZone(utcZone)
-    new NDLADate(zonedDate.withZoneSameInstant(localZone))
+    val zonedDate = date.atZone(utcZone).nn
+    new NDLADate(zonedDate.withZoneSameInstant(localZone).nn)
   }
   def fromDate(date: LocalDateTime): NDLADate = {
-    val zonedDate = date.atZone(localZone)
+    val zonedDate = date.atZone(localZone).nn
     new NDLADate(zonedDate)
   }
 
   def fromUnixTime(timestamp: Long): NDLADate = {
-    val date = LocalDateTime.ofEpochSecond(timestamp, 0, utcZone)
+    val date = LocalDateTime.ofEpochSecond(timestamp, 0, utcZone).nn
     fromDate(date)
   }
 
   def of(year: Int, month: Int, dayOfMonth: Int, hour: Int, minute: Int, second: Int): NDLADate =
-    fromDate(LocalDateTime.of(year, month, dayOfMonth, hour, minute, second))
+    fromDate(LocalDateTime.of(year, month, dayOfMonth, hour, minute, second).nn)
   def of(year: Int, month: Int, dayOfMonth: Int, hour: Int, minute: Int): NDLADate =
-    fromDate(LocalDateTime.of(year, month, dayOfMonth, hour, minute))
+    fromDate(LocalDateTime.of(year, month, dayOfMonth, hour, minute).nn)
   def of(year: Int, month: Int, dayOfMonth: Int, hour: Int, minute: Int, second: Int, nanoOfSecond: Int): NDLADate =
-    fromDate(ZonedDateTime.of(year, month, dayOfMonth, hour, minute, second, nanoOfSecond, utcZone))
+    fromDate(ZonedDateTime.of(year, month, dayOfMonth, hour, minute, second, nanoOfSecond, utcZone).nn)
 
   def of(year: Int, month: Month, dayOfMonth: Int, hour: Int, minute: Int, second: Int): NDLADate =
-    fromUtcDate(LocalDateTime.of(year, month, dayOfMonth, hour, minute, second))
+    fromUtcDate(LocalDateTime.of(year, month, dayOfMonth, hour, minute, second).nn)
 
   def fromDate(date: ZonedDateTime): NDLADate = new NDLADate(date)
 
   def fromTimestampSeconds(seconds: Long): NDLADate =
-    new NDLADate(ZonedDateTime.ofInstant(Instant.ofEpochSecond(seconds), localZone))
+    new NDLADate(ZonedDateTime.ofInstant(Instant.ofEpochSecond(seconds), localZone).nn)
 
   def fromString(str: String): Try[NDLADate] = {
     @tailrec
     def _fromString(formatsToTry: List[DateTimeFormatter]): Try[NDLADate] = {
       formatsToTry match {
-        case headFormatter :: Nil  => Try(NDLADate.fromUtcDate(LocalDateTime.parse(str, headFormatter)))
-        case headFormatter :: tail => Try(NDLADate.fromUtcDate(LocalDateTime.parse(str, headFormatter))) match {
+        case headFormatter :: Nil  => Try(NDLADate.fromUtcDate(LocalDateTime.parse(str, headFormatter).nn))
+        case headFormatter :: tail => Try(NDLADate.fromUtcDate(LocalDateTime.parse(str, headFormatter).nn)) match {
             case Failure(_)      => _fromString(tail)
             case Success(result) => Success(result)
           }
@@ -129,7 +129,7 @@ object NDLADate {
 
   def asString(date: NDLADate): String = {
     val toFormat = date.underlying.withZoneSameInstant(utcZone)
-    baseFormatter.format(toFormat)
+    baseFormatter.format(toFormat).nn
   }
 
   implicit def encoder: Encoder[NDLADate] = Encoder.instance(ndlaDate => {
@@ -167,12 +167,12 @@ object NDLADate {
 
     override def apply(rs: ResultSet, columnIndex: Int): NDLADate = {
       val offsetDateTime = rs.getObject(columnIndex, classOf[OffsetDateTime])
-      NDLADate(offsetDateTime.atZoneSameInstant(localZone))
+      NDLADate(offsetDateTime.nn.atZoneSameInstant(localZone).nn)
     }
 
     override def apply(rs: ResultSet, columnLabel: String): NDLADate = {
       val offsetDateTime = rs.getObject(columnLabel, classOf[OffsetDateTime])
-      NDLADate(offsetDateTime.atZoneSameInstant(localZone))
+      NDLADate(offsetDateTime.nn.atZoneSameInstant(localZone).nn)
     }
   }
 }

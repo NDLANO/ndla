@@ -40,10 +40,12 @@ case class OEmbedProvider(
           s"The provider '$providerName' does not support the provided url '$url'. Must be one of [${validUrls.mkString(",")}]"
         )
       case Some(endpoint) =>
-        val embedUrl = endpoint.url.replace("{format}", "json") // Some providers have {format} instead of ?format=
-        val width    = maxWidth.map(("maxwidth", _)).toList
-        val height   = maxHeight.map(("maxheight", _)).toList
-        val params   = List(("url", url), ("format", "json")) ++ endpoint.mandatoryQueryParams.getOrElse(List.empty) ++
+        val embedUrl = "\\{format\\}"
+          .r
+          .replaceAllIn(endpoint.url, "json") // Some providers have {format} instead of ?format=
+        val width  = maxWidth.map(("maxwidth", _)).toList
+        val height = maxHeight.map(("maxheight", _)).toList
+        val params = List(("url", url), ("format", "json")) ++ endpoint.mandatoryQueryParams.getOrElse(List.empty) ++
           width ++ height
         Url.parse(embedUrl).addParams(params).toString
     }

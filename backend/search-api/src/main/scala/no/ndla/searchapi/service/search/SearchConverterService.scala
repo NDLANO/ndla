@@ -138,7 +138,17 @@ class SearchConverterService(using
     )
   }
 
-  private def toPlaintext(text: String): String              = Jsoup.parseBodyFragment(text).text()
+  private def toPlaintext(text: String): String = Jsoup
+    .parseBodyFragment(text)
+    .toOption
+    .flatMap(_.text().toOption)
+    .getOrElse("")
+  private def bodyText(html: String): String = Jsoup
+    .parseBodyFragment(html)
+    .toOption
+    .flatMap(_.body().toOption)
+    .flatMap(_.text().toOption)
+    .getOrElse("")
   private def toPlaintext(lv: LanguageField[String]): String = toPlaintext(lv.value)
 
   private def getTypeNames(learningResourceType: LearningResourceType): List[String] = {
@@ -680,18 +690,12 @@ class SearchConverterService(using
       val titles        = searchableArticle
         .domainObject
         .title
-        .map(title => TitleWithHtmlDTO(Jsoup.parseBodyFragment(title.title).body().text(), title.title, title.language))
+        .map(title => TitleWithHtmlDTO(bodyText(title.title), title.title, title.language))
       val introductions = searchableArticle
         .domainObject
         .introduction
         .map(intro =>
-          api
-            .article
-            .ArticleIntroductionDTO(
-              Jsoup.parseBodyFragment(intro.introduction).body().text(),
-              intro.introduction,
-              intro.language,
-            )
+          api.article.ArticleIntroductionDTO(bodyText(intro.introduction), intro.introduction, intro.language)
         )
       val metaDescriptions = searchableArticle
         .metaDescription
@@ -768,24 +772,12 @@ class SearchConverterService(using
       val titles        = searchableDraft
         .domainObject
         .title
-        .map(title =>
-          common
-            .model
-            .api
-            .search
-            .TitleWithHtmlDTO(Jsoup.parseBodyFragment(title.title).body().text(), title.title, title.language)
-        )
+        .map(title => common.model.api.search.TitleWithHtmlDTO(bodyText(title.title), title.title, title.language))
       val introductions = searchableDraft
         .domainObject
         .introduction
         .map(intro =>
-          api
-            .article
-            .ArticleIntroductionDTO(
-              Jsoup.parseBodyFragment(intro.introduction).body().text(),
-              intro.introduction,
-              intro.language,
-            )
+          api.article.ArticleIntroductionDTO(bodyText(intro.introduction), intro.introduction, intro.language)
         )
       val metaDescriptions = searchableDraft
         .metaDescription

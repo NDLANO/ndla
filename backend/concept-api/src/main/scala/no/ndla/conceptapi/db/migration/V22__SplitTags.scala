@@ -20,7 +20,7 @@ class V22__SplitTags extends DocumentMigration {
   override val tableName: String  = "conceptdata"
 
   private def convertTags(tags: List[TagsObject]): List[TagsObject] = tags.map { to =>
-    val splitTags = to.tags.flatMap(_.split(":")).filterNot(_.isEmpty)
+    val splitTags = to.tags.flatMap(_.split(':')).filterNot(_.isEmpty)
     to.copy(tags = splitTags)
   }
 

@@ -41,7 +41,7 @@ abstract class ContainerIntegrationSuiteBase[CT <: GenericContainer[?], O](using
             val container = createContainer()
             container.withReuse(true)
             container.start()
-            SharedContainerInfo(container.getContainerId, fromContainer(container))
+            SharedContainerInfo(container.getContainerId.nn, fromContainer(container))
           },
           healthCheck = healthCheck,
         )

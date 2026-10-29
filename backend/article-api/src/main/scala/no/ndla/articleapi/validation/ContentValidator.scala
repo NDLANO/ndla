@@ -11,6 +11,7 @@ package no.ndla.articleapi.validation
 import no.ndla.articleapi.Props
 import no.ndla.articleapi.repository.ArticleRepository
 import no.ndla.common.errors.{ValidationException, ValidationMessage}
+import no.ndla.common.implicits.toOption
 import no.ndla.common.model.NDLADate
 import no.ndla.common.model.domain.article.{Article, Copyright}
 import no.ndla.common.model.domain.*
@@ -115,7 +116,10 @@ class ContentValidator(using articleRepository: ArticleRepository, props: Props)
 
   private def rootElementContainsOnlySectionBlocks(field: String, html: String): Option[ValidationMessage] = {
     val legalTopLevelTag = "section"
-    val topLevelTags     = stringToJsoupDocument(html).children().asScala.map(_.tagName())
+    val topLevelTags     = stringToJsoupDocument(html)
+      .flatMap(_.children().toOption)
+      .toList
+      .flatMap(_.asScala.map(_.tagName()))
 
     if (topLevelTags.forall(_ == legalTopLevelTag)) {
       None

@@ -28,7 +28,7 @@ case class StepDocumentRowWithMeta(
 class V60__MoveLearningStepsToLearningPathDocument extends BaseJavaMigration with StrictLogging {
   private val chunkSize = 1000
 
-  override def migrate(context: Context): Unit = DB(context.getConnection)
+  override def migrate(context: Context | Null): Unit = DB(context.nn.getConnection.nn)
     .autoClose(false)
     .withinTx { session =>
       migrateRows(using session)

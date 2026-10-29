@@ -77,10 +77,14 @@ class MatomoService(using
     _                  <- subjectPageRepository.updateSubjectPage(subjectPageToUpdate)
   } yield popularArticles.size
 
-  private def lastWeekDateRange: String = {
-    val today   = LocalDate.now()
-    val weekAgo = today.minusDays(DaysInDateRange)
-    s"${weekAgo.format(DateTimeFormatter.ISO_LOCAL_DATE)},${today.format(DateTimeFormatter.ISO_LOCAL_DATE)}"
+  private def lastWeekDateRange: Try[String] = {
+    val dateRange = for {
+      today     <- LocalDate.now().toOption
+      weekAgo   <- today.minusDays(DaysInDateRange).toOption
+      fromDate  <- weekAgo.format(DateTimeFormatter.ISO_LOCAL_DATE).toOption
+      untilDate <- today.format(DateTimeFormatter.ISO_LOCAL_DATE).toOption
+    } yield s"$fromDate,$untilDate"
+    dateRange.toTry(new IllegalStateException("Could not compute date range for the last week"))
   }
 
   def updatePopularArticlesForSubjectPage(
@@ -128,7 +132,7 @@ class MatomoService(using
       for {
         taxonomySubjects <- taxonomyApiClient.getSubjects(true)
         contentUriToNode  = taxonomySubjects.flatMap(node => node.contentUri.map(_ -> node)).toMap
-        dateRange         = lastWeekDateRange
+        dateRange        <- lastWeekDateRange
         dimensionId      <- matomoApiClient.getDimensionIdForSubjectId
         subtableIds      <- matomoApiClient.getSubtableIds(MatomoPeriod, dateRange, dimensionId)
         result           <- updatePopularArticlesForEachSubjectPage(contentUriToNode, dateRange, subtableIds, dimensionId)

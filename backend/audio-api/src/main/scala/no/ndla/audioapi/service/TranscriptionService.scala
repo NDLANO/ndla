@@ -88,8 +88,8 @@ class TranscriptionService(using
     transcribeClient
       .getTranscriptionJob(jobName)
       .flatMap { transcriptionJobResponse =>
-        val transcriptionJob       = transcriptionJobResponse.transcriptionJob()
-        val transcriptionJobStatus = transcriptionJob.transcriptionJobStatus()
+        val transcriptionJob       = transcriptionJobResponse.transcriptionJob().nn
+        val transcriptionJobStatus = transcriptionJob.transcriptionJobStatus().nn
 
         if (transcriptionJobStatus == TranscriptionJobStatus.COMPLETED) {
           val transcribeUri = s"transcription/$language/$videoId.vtt"
@@ -147,7 +147,7 @@ class TranscriptionService(using
     transcribeClient
       .getTranscriptionJob(jobName)
       .flatMap { transcriptionJobResponse =>
-        val transcriptionJob       = transcriptionJobResponse.transcriptionJob()
+        val transcriptionJob       = transcriptionJobResponse.transcriptionJob().nn
         val transcriptionJobStatus = transcriptionJob.transcriptionJobStatus().toString
 
         if (transcriptionJobStatus == "COMPLETED") {

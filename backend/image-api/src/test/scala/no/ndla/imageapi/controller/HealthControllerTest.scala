@@ -26,8 +26,7 @@ import no.ndla.imageapi.model.domain.{
 import no.ndla.tapirtesting.TapirControllerTest
 import no.ndla.imageapi.{TestEnvironment, UnitSuite}
 import no.ndla.mapping.License
-import org.mockito.Mockito.when
-import org.mockito.ArgumentMatchers.any
+import no.ndla.testbase.NullSafeMockito.{any, when}
 import sttp.client4.quick.*
 
 import scala.util.{Failure, Success}

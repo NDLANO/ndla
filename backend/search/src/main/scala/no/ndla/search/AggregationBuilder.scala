@@ -67,7 +67,7 @@ object AggregationBuilder {
           case Some(fieldsFound) =>
             val fieldTypes    = fieldsFound.map(_.`type`).distinct
             val pathSoFar     = parts.mkString(".")
-            val fullPathSoFar = fullPath.split("\\.").reverse.dropWhile(_ != parts.last).reverse.mkString(".")
+            val fullPathSoFar = fullPath.split('.').reverse.dropWhile(_ != parts.last).reverse.mkString(".")
             val newParent     = newParentAggregation(fullPath, parentAgg, fieldTypes.toList, pathSoFar, fullPathSoFar)
 
             if (remainder.isEmpty) {
@@ -101,7 +101,7 @@ object AggregationBuilder {
       case _                        => Seq.empty
     }
 
-    _buildAggregationRecursive(path.split("\\.").toSeq, path, fieldsInIndex, Seq.empty, Seq.empty).map(_._1)
+    _buildAggregationRecursive(path.split('.').toSeq, path, fieldsInIndex, Seq.empty, Seq.empty).map(_._1)
   }
 
   def getAggregationsFromResult(response: SearchResponse): Seq[TermAggregation] = {

@@ -10,6 +10,7 @@ package no.ndla.network.tapir.interceptors
 
 import io.circe.generic.auto.*
 import io.opentelemetry.api.trace.Span
+import no.ndla.common.implicits.toOption
 import no.ndla.network.tapir.NoNullJsonPrinter.*
 import no.ndla.network.tapir.{AllErrors, ErrorHandling}
 import sttp.model.StatusCode
@@ -21,7 +22,7 @@ import sttp.tapir.statusCode
 
 case class NdlaExceptionHandler[T[_]]()(using errorHandling: ErrorHandling) extends ExceptionHandler[T] {
   override def apply(ctx: ExceptionContext)(implicit monad: MonadError[T]): T[Option[ValuedEndpointOutput[?]]] = {
-    val _             = Span.current().recordException(ctx.e)
+    Span.current().toOption.foreach(_.recordException(ctx.e))
     val errorToReturn = errorHandling.returnError(ctx.e)
     val sc            = StatusCode(errorToReturn.statusCode)
     val resp          = ValuedEndpointOutput(jsonBody[AllErrors], errorToReturn)

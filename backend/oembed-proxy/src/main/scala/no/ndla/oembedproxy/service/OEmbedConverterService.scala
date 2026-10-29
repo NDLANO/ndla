@@ -9,6 +9,7 @@
 package no.ndla.oembedproxy.service
 
 import io.lemonlabs.uri.Url
+import no.ndla.common.implicits.toOption
 import no.ndla.oembedproxy.model.OEmbedDTO
 import io.lemonlabs.uri.typesafe.dsl.*
 import org.jsoup.Jsoup
@@ -24,23 +25,27 @@ object OEmbedConverterService {
       case _        =>
         val newHtml = oembed
           .html
-          .map(Jsoup.parseBodyFragment)
-          .map(document => {
-            Option(document.select("iframe[src]").first).foreach(element => {
-              val newUrl = element.attr("src").addParams(queryParamsToTransfer).toString
-              element.attr("src", newUrl)
-            })
+          .flatMap(Jsoup.parseBodyFragment(_).toOption)
+          .flatMap(document => {
+            for {
+              iframes <- document.select("iframe[src]").toOption
+              element <- iframes.first.toOption
+              src     <- element.attr("src").toOption
+            } element.attr("src", src.addParams(queryParamsToTransfer).toString)
             document
               .body()
-              .html()
-              .replaceAll("&amp;", "&") // JSoup escapes & - even in attributes, and there is no way to disable it
+              .toOption
+              .flatMap(_.html().toOption)
+              .map(
+                "&amp;".r.replaceAllIn(_, "&")
+              ) // JSoup escapes & - even in attributes, and there is no way to disable it
           })
         oembed.copy(html = newHtml)
     }
   }
 
   def handleYoutubeRequestUrl(url: String): String = {
-    val filtered = filterQueryNames(url.replaceAll("&amp;", "&"), Set("v", "list"))
+    val filtered = filterQueryNames("&amp;".r.replaceAllIn(url, "&"), Set("v", "list"))
 
     filtered.path.parts.toList match {
       case "embed" :: videoId :: _ => idToYoutubeUrl(videoId)

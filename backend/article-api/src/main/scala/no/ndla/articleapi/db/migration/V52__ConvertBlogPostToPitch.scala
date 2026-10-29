@@ -16,11 +16,12 @@ class V52__ConvertBlogPostToPitch extends HtmlMigration {
   override def convertHtml(doc: Element, language: String): Element = {
     doc
       .select("ndlaembed[data-resource='blog-post']")
+      .nn
       .forEach(embed => {
-        embed.attr("data-resource", "pitch")
-        embed.attr("data-description", "")
-        embed.removeAttr("data-size"): Unit
-        embed.removeAttr("data-author"): Unit
+        embed.nn.attr("data-resource", "pitch")
+        embed.nn.attr("data-description", "")
+        embed.nn.removeAttr("data-size"): Unit
+        embed.nn.removeAttr("data-author"): Unit
       })
     doc
   }

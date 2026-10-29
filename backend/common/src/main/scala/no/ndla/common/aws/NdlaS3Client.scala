@@ -23,6 +23,7 @@ import scala.util.{Failure, Try}
 
 class NdlaS3Client(bucket: String, region: Option[String]) {
   lazy val client: S3Client = {
+    import scala.language.unsafeNulls
     val builder: S3ClientBuilder = S3Client.builder()
     region match {
       case Some(value) => builder.region(Region.of(value)).build()
@@ -31,6 +32,7 @@ class NdlaS3Client(bucket: String, region: Option[String]) {
   }
 
   def headObject(key: String): Try[HeadObjectResponse] = Try.throwIfInterrupted {
+    import scala.language.unsafeNulls
     val headObjectRequest = HeadObjectRequest.builder().bucket(bucket).key(key).build()
     client.headObject(headObjectRequest)
   }
@@ -38,12 +40,14 @@ class NdlaS3Client(bucket: String, region: Option[String]) {
   def objectExists(key: String): Boolean = headObject(key).isSuccess
 
   def canAccessBucket: Try[Unit] = Try.throwIfInterrupted {
+    import scala.language.unsafeNulls
     val listReq = ListObjectsV2Request.builder().bucket(bucket).maxKeys(1).build()
     client.listObjectsV2(listReq)
     ()
   }
 
   def getObject(key: String): Try[NdlaS3Object] = {
+    import scala.language.unsafeNulls
     val gor = GetObjectRequest.builder().bucket(bucket).key(key).build()
     Try
       .throwIfInterrupted(client.getObject(gor))
@@ -52,7 +56,7 @@ class NdlaS3Client(bucket: String, region: Option[String]) {
           bucket = bucket,
           key = key,
           stream = res,
-          contentType = res.response().contentType(),
+          contentType = Option(res.response().contentType()).getOrElse("application/octet-stream"),
           contentLength = res.response().contentLength(),
         )
       )
@@ -63,11 +67,13 @@ class NdlaS3Client(bucket: String, region: Option[String]) {
   }
 
   def deleteObject(key: String): Try[DeleteObjectResponse] = Try.throwIfInterrupted {
+    import scala.language.unsafeNulls
     val dor = DeleteObjectRequest.builder().key(key).bucket(bucket).build()
     client.deleteObject(dor)
   }
 
   def deleteObjects(keys: NonEmptySeq[String]): Try[DeleteObjectsResponse] = Try.throwIfInterrupted {
+    import scala.language.unsafeNulls
     val objects = keys.map(key => ObjectIdentifier.builder().key(key).build())
     val delete  = Delete.builder().objects(objects.toSeq.asJava).build()
     val dor     = DeleteObjectsRequest.builder().bucket(bucket).delete(delete).build()
@@ -78,6 +84,7 @@ class NdlaS3Client(bucket: String, region: Option[String]) {
 
   def putObject(key: String, uploadedFile: UploadedFile, cacheControl: Option[String]): Try[PutObjectResponse] = Try
     .throwIfInterrupted {
+      import scala.language.unsafeNulls
       val contentType = uploadedFile.contentType.getOrElse("application/octet-stream")
       val por         = PutObjectRequest
         .builder()
@@ -103,6 +110,7 @@ class NdlaS3Client(bucket: String, region: Option[String]) {
       contentType: String,
       cacheControl: Option[String],
   ): Try[PutObjectResponse] = {
+    import scala.language.unsafeNulls
     val por = PutObjectRequest.builder().contentLength(contentLength).contentType(contentType).key(key).bucket(bucket)
 
     val porWithCacheControl = cacheControl match {
@@ -116,6 +124,7 @@ class NdlaS3Client(bucket: String, region: Option[String]) {
   }
 
   def updateContentType(key: String, contentType: String): Try[CopyObjectResponse] = Try.throwIfInterrupted {
+    import scala.language.unsafeNulls
     val hor  = HeadObjectRequest.builder().bucket(bucket).key(key)
     val head = client.headObject(hor.build())
 
@@ -132,6 +141,7 @@ class NdlaS3Client(bucket: String, region: Option[String]) {
   }
 
   def copyObject(fromKey: String, toKey: String): Try[CopyObjectResponse] = Try.throwIfInterrupted {
+    import scala.language.unsafeNulls
     val cor = CopyObjectRequest
       .builder()
       .sourceBucket(bucket)

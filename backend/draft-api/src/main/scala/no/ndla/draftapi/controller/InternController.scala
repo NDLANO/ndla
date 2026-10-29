@@ -10,7 +10,7 @@ package no.ndla.draftapi.controller
 
 import cats.implicits.*
 import com.typesafe.scalalogging.StrictLogging
-import no.ndla.common.implicits.toTry
+import no.ndla.common.implicits.{toOption, toTry}
 import no.ndla.common.model.domain.draft.{Draft, DraftStatus}
 import no.ndla.database.DBUtility
 import no.ndla.draftapi.DraftApiProperties
@@ -103,8 +103,8 @@ class InternController(using
 
       Await.result(indexResults, Duration.Inf).sequence match {
         case Failure(ex) =>
-          logger.warn(ex.getMessage, ex)
-          ex.getMessage.asLeft
+          logger.warn(s"Failed to index drafts: ${ex.getMessage}", ex)
+          ex.getMessage.toOption.getOrElse("Failed to index drafts").asLeft
         case Success(results) =>
           val result = results
             .map(rr => s"Completed indexing of ${rr.totalIndexed} ${rr.name}s in ${rr.millisUsed} ms.")
@@ -134,8 +134,9 @@ class InternController(using
     } yield (articleIndex, tagIndex)
 
     val deleteResults: Seq[Try[?]] = Await.result(indexes, Duration(10, TimeUnit.MINUTES)) match {
-      case (Failure(articleFail), _)                      => return articleFail.getMessage.asLeft
-      case (_, Failure(tagFail))                          => return tagFail.getMessage.asLeft
+      case (Failure(articleFail), _) =>
+        return articleFail.getMessage.toOption.getOrElse("Failed to find article indexes").asLeft
+      case (_, Failure(tagFail))                          => return tagFail.getMessage.toOption.getOrElse("Failed to find tag indexes").asLeft
       case (Success(articleIndexes), Success(tagIndexes)) =>
         val articleDeleteResults = articleIndexes.map(index => {
           logger.info(s"Deleting article index $index")

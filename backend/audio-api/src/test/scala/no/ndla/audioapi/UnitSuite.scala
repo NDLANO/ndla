@@ -23,7 +23,7 @@ trait UnitSuite extends UnitTestSuite with PrivateMethodTester {
   setPropEnv("SEARCH_SERVER", "search-server")
   setPropEnv("SEARCH_REGION", "some-region")
   setPropEnv("RUN_WITH_SIGNED_SEARCH_REQUESTS", "false")
-  private val pid = ProcessHandle.current().pid()
+  private val pid = ProcessHandle.current().nn.pid()
   setPropEnv("SEARCH_INDEX_NAME", s"audio-integration-test-index-$pid")
   setPropEnv("SERIES_SEARCH_INDEX_NAME", s"audio-series-$pid")
   setPropEnv("AUDIO_TAG_SEARCH_INDEX_NAME", s"audio-tags-$pid")

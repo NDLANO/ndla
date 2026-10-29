@@ -70,7 +70,7 @@ class PublishedConceptSearchServiceTest extends ElasticsearchIntegrationSuite wi
     false,
   )
 
-  val today: LocalDateTime = LocalDateTime.now()
+  val today: LocalDateTime = LocalDateTime.now().nn
 
   val concept1: Concept = TestData
     .sampleConcept
