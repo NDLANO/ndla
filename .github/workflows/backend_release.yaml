@@ -29,6 +29,7 @@ on:
     paths:
       - backend/**
       - mise.toml
+      - docker-bake.hcl
       - .github/workflows/backend_release.yaml
       - .github/actions/backend-affected/**
       - frontend/packages/ci/**

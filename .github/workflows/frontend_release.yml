@@ -23,6 +23,7 @@ on:
       - frontend/**
       - mise.toml
       - .dockerignore
+      - docker-bake.hcl
       - .github/workflows/frontend_release.yml
       - .github/actions/frontend-affected/**
       - .github/actions/frontend-setup/**

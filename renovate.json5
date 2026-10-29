@@ -12,6 +12,8 @@
   schedule: ["* 0-5 * * *"],
   prConcurrentLimit: 10,
   prHourlyLimit: 0,
+  // Stages of frontend/Dockerfile that bake hands to the app Dockerfiles, not images
+  ignoreDeps: ["frontend-builder", "frontend-runtime"],
 
   customManagers: [
     {

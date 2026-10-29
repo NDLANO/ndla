@@ -25,7 +25,7 @@ const toolVersionsChanged = (): boolean =>
   );
 
 /** Shared image build files that no nx project owns, so `--affected` never selects an app for them. */
-const IMAGE_FILES = [".dockerignore", "frontend/Dockerfile", "frontend/build.properties", "frontend/build.sh"];
+const IMAGE_FILES = [".dockerignore", "frontend/Dockerfile", "docker-bake.hcl"];
 
 const imageFilesChanged = (): boolean =>
   runLines("git", ["diff", "--name-only", env("NX_BASE"), "HEAD", "--", ...IMAGE_FILES], { cwd: root }).length > 0;
