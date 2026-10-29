@@ -105,8 +105,8 @@ const translations = {
       other: "Annet innhold",
     },
     embedlink: {
-      heading: "Slik viser du artikkelen i annet innhold",
-      description: "Denne lenken viser artikkelen uten kontekst (meny og bunntekst)",
+      heading: "Slik viser du læringsressursen i annet innhold",
+      description: "Denne lenken viser læringsressursen uten kontekst (meny og bunntekst)",
       copyTitle: "Kopier lenke",
       hasCopiedTitle: "Lenke kopiert",
     },
