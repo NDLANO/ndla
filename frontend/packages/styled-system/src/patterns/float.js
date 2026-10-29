@@ -12,53 +12,47 @@ const floatConfig = {
       position: "absolute",
       insetBlockStart: map(placement, (v) => {
         const [side] = v.split("-");
-        const map2 = {
+        return {
           top: offsetY,
           middle: "50%",
           bottom: "auto"
-        };
-        return map2[side];
+        }[side];
       }),
       insetBlockEnd: map(placement, (v) => {
         const [side] = v.split("-");
-        const map2 = {
+        return {
           top: "auto",
           middle: "50%",
           bottom: offsetY
-        };
-        return map2[side];
+        }[side];
       }),
       insetInlineStart: map(placement, (v) => {
         const [, align] = v.split("-");
-        const map2 = {
+        return {
           start: offsetX,
           center: "50%",
           end: "auto"
-        };
-        return map2[align];
+        }[align];
       }),
       insetInlineEnd: map(placement, (v) => {
         const [, align] = v.split("-");
-        const map2 = {
+        return {
           start: "auto",
           center: "50%",
           end: offsetX
-        };
-        return map2[align];
+        }[align];
       }),
       translate: map(placement, (v) => {
         const [side, align] = v.split("-");
-        const mapX = {
+        return `${{
           start: "-50%",
           center: "-50%",
           end: "50%"
-        };
-        const mapY = {
+        }[align]} ${{
           top: "-50%",
           middle: "-50%",
           bottom: "50%"
-        };
-        return `${mapX[align]} ${mapY[side]}`;
+        }[side]}`;
       }),
       ...rest
     };
