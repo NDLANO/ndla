@@ -8,22 +8,15 @@
 
 import { NdlaLogoText } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { styled } from "@ndla/styled-system/jsx";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { DefaultErrorMessage } from "../../components/DefaultErrorMessage";
+import { ErrorNotice } from "../../components/ErrorNotice";
 import { PageLayout } from "../../components/Layout/PageContainer";
 import { PageTitle } from "../../components/PageTitle";
 import { Status } from "../../components/Status";
 import { INTERNAL_SERVER_ERROR } from "../../statusCodes";
 import { MastheadContainer } from "../Masthead/Masthead";
 import { Footer } from "../Page/components/Footer";
-
-const ErrorMessageMain = styled("main", {
-  base: {
-    paddingBlockEnd: "4xlarge",
-  },
-});
 
 interface ErrorPageLayoutProps {
   children: ReactNode;
@@ -36,8 +29,8 @@ export const ErrorPageLayout = ({ children }: ErrorPageLayoutProps) => (
         <NdlaLogoText />
       </SafeLink>
     </MastheadContainer>
-    <PageLayout asChild>
-      <ErrorMessageMain>{children}</ErrorMessageMain>
+    <PageLayout asChild consumeCss>
+      <main>{children}</main>
     </PageLayout>
     <Footer />
   </>
@@ -54,7 +47,7 @@ export const ErrorPage = ({ statusCode = INTERNAL_SERVER_ERROR }: ErrorPageProps
       <PageTitle title={t("htmlTitles.errorPage")} useLocationForCustomPath={true} />
       <meta name="description" content={t("meta.description")} />
       <ErrorPageLayout>
-        <DefaultErrorMessage applySkipToContentId statusCode={statusCode} />
+        <ErrorNotice statusCode={statusCode} applySkipToContentId />
       </ErrorPageLayout>
     </Status>
   );

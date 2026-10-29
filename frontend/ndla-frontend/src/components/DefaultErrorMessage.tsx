@@ -17,7 +17,8 @@ import { SafeLink } from "@ndla/safelink";
 import { useTranslation } from "react-i18next";
 import { Status } from "../components/Status";
 import { SKIP_TO_CONTENT_ID } from "../constants";
-import { PageContainer } from "./Layout/PageContainer";
+import { INTERNAL_SERVER_ERROR } from "../statusCodes";
+import { ErrorNotice, ErrorNoticeMain } from "./ErrorNotice";
 import { PageTitle } from "./PageTitle";
 
 interface MessageRootProps {
@@ -46,14 +47,18 @@ export const DefaultErrorMessage = ({ applySkipToContentId, statusCode = 500 }: 
   );
 };
 
+export const InternalServerError = ({ applySkipToContentId }: MessageRootProps) => (
+  <Status code={INTERNAL_SERVER_ERROR}>
+    <ErrorNotice statusCode={INTERNAL_SERVER_ERROR} applySkipToContentId={applySkipToContentId} />
+  </Status>
+);
+
 export const DefaultErrorMessagePage = () => {
   const { t } = useTranslation();
   return (
-    <PageContainer asChild consumeCss>
-      <main>
-        <PageTitle title={t("htmlTitles.errorPage")} useLocationForCustomPath={true} />
-        <DefaultErrorMessage applySkipToContentId={true} />
-      </main>
-    </PageContainer>
+    <ErrorNoticeMain>
+      <PageTitle title={t("htmlTitles.errorPage")} useLocationForCustomPath={true} />
+      <InternalServerError applySkipToContentId={true} />
+    </ErrorNoticeMain>
   );
 };

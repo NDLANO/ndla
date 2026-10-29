@@ -1134,13 +1134,44 @@ const translations = {
   tagSelector: {
     placeholder: "Skriv inn emneknagg",
   },
+  errorNotice: {
+    title: "Offisiell melding",
+    reasonLabel: "Årsak",
+    actionLabel: "Tiltak",
+    searchSubjects: "Søk etter fag",
+  },
   notFoundPage: {
-    title: "Sida finst ikkje",
-    errorDescription: "Orsak, vi fann ikkje sida du prøvde å komme til.",
+    eyebrow: "{{statusCode}} / Sida skulkar",
+    title: "Fråvær utan gyldig grunn",
+    description: "Vi har ført sida som «ikkje møtt». Heldigvis påverkar det ikkje vitnemålet ditt.",
+    notice: {
+      stampLarge: "Ikkje",
+      stampSmall: "godkjent",
+      reason: "Ukjent. Mogleg kollektivforseinking.",
+      action: "Prøv eit søk, eller gå til framsida.",
+    },
+  },
+  errorPage: {
+    eyebrow: "{{statusCode}} / Hunden åt sida",
+    title: "Ikkje levert",
+    description: "Vi veit ikkje heilt kva som har skjedd, men det kan godt vere at hunden har ete denne sida.",
+    notice: {
+      stampLarge: "Ikkje",
+      stampSmall: "levert",
+      reason: "Ukjent. Mogleg hunderelatert.",
+      action: "Prøv eit søk, eller gå til framsida.",
+    },
   },
   unpublishedResourcePage: {
-    title: "Ressursen er avpublisert",
-    errorDescription: "Orsak, ressursen du prøvde å komme til er avpublisert.",
+    eyebrow: "{{statusCode}} / Friminutt?",
+    title: "Timen er over",
+    description: "Du kom for seint til timen, og denne sida er dessverre arkivert.",
+    notice: {
+      stampLarge: "Etter",
+      stampSmall: "tidsfrist",
+      reason: "Kom for seint til timen.",
+      action: "Prøv eit søk, eller gå til framsida.",
+    },
   },
   messageBoxInfo: {
     noContent: "Vi har dessverre ikkje nokon programfag enno.",

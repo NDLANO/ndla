@@ -6,39 +6,20 @@
  *
  */
 
-import {
-  ErrorMessageDescription,
-  ErrorMessageRoot,
-  ErrorMessageTitle,
-  ErrorMessageContent,
-  ErrorMessageActions,
-} from "@ndla/primitives";
-import { SafeLink } from "@ndla/safelink";
 import { useTranslation } from "react-i18next";
-import { PageContainer } from "../../components/Layout/PageContainer";
+import { ErrorNotice, ErrorNoticeMain } from "../../components/ErrorNotice";
 import { PageTitle } from "../../components/PageTitle";
 import { Status } from "../../components/Status";
-import { SKIP_TO_CONTENT_ID } from "../../constants";
+import { GONE } from "../../statusCodes";
 
 export const UnpublishedResourcePage = () => {
   const { t } = useTranslation();
   return (
-    <Status code={410}>
-      <PageContainer asChild consumeCss>
-        <main>
-          <PageTitle title={t("htmlTitles.unpublished")} useLocationForCustomPath={true} />
-          <ErrorMessageRoot>
-            <img src={"/static/not-exist.gif"} alt={t("errorMessage.title")} />
-            <ErrorMessageContent>
-              <ErrorMessageTitle id={SKIP_TO_CONTENT_ID}>{t("unpublishedResourcePage.title")}</ErrorMessageTitle>
-              <ErrorMessageDescription>{t("unpublishedResourcePage.errorDescription")}</ErrorMessageDescription>
-            </ErrorMessageContent>
-            <ErrorMessageActions>
-              <SafeLink to="/">{t("errorMessage.goToFrontPage")}</SafeLink>
-            </ErrorMessageActions>
-          </ErrorMessageRoot>
-        </main>
-      </PageContainer>
+    <Status code={GONE}>
+      <ErrorNoticeMain>
+        <PageTitle title={t("htmlTitles.unpublished")} useLocationForCustomPath={true} />
+        <ErrorNotice statusCode={GONE} applySkipToContentId={true} />
+      </ErrorNoticeMain>
     </Status>
   );
 };

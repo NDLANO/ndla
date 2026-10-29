@@ -8,6 +8,7 @@
 
 import preset from "@ndla/preset-panda";
 import { defineConfig } from "@pandacss/dev";
+import { errorNoticeAnimations, errorNoticeKeyframes } from "./src/components/errorNoticeAnimations";
 import { quizAnimations, quizKeyframes } from "./src/quizAnimations";
 
 export default defineConfig({
@@ -23,9 +24,9 @@ export default defineConfig({
   theme: {
     extend: {
       tokens: {
-        animations: quizAnimations,
+        animations: { ...quizAnimations, ...errorNoticeAnimations },
       },
-      keyframes: quizKeyframes,
+      keyframes: { ...quizKeyframes, ...errorNoticeKeyframes },
     },
   },
 });

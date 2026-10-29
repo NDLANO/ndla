@@ -1134,13 +1134,44 @@ const translations = {
   tagSelector: {
     placeholder: "Čále fáddágilkora",
   },
+  errorNotice: {
+    title: untranslated,
+    reasonLabel: untranslated,
+    actionLabel: untranslated,
+    searchSubjects: untranslated,
+  },
   notFoundPage: {
-    title: "Siidu ii gávdno",
-    errorDescription: "Šállošat, eat gávnna siiddu masa geahččalit beassat.",
+    eyebrow: untranslated,
+    title: untranslated,
+    description: untranslated,
+    notice: {
+      stampLarge: untranslated,
+      stampSmall: untranslated,
+      reason: untranslated,
+      action: untranslated,
+    },
+  },
+  errorPage: {
+    eyebrow: untranslated,
+    title: untranslated,
+    description: untranslated,
+    notice: {
+      stampLarge: untranslated,
+      stampSmall: untranslated,
+      reason: untranslated,
+      action: untranslated,
+    },
   },
   unpublishedResourcePage: {
-    title: "Ressursen er avpublisert",
-    errorDescription: "Beklager, ressursen du prøvde å komme til er avpublisert.",
+    eyebrow: untranslated,
+    title: untranslated,
+    description: untranslated,
+    notice: {
+      stampLarge: untranslated,
+      stampSmall: untranslated,
+      reason: untranslated,
+      action: untranslated,
+    },
   },
   messageBoxInfo: {
     noContent: "Mis ii dađibahábut leat makkárge prográmmafága vuos.",

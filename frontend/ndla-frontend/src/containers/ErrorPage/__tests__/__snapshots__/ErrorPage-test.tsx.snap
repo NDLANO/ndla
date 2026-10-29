@@ -55,43 +55,118 @@ exports[`ErrorPage renderers correctly 1`] = `
     </div>
   </header>
   <main
-    class="pbe_4xlarge min-h_[calc(100vh_-_(var(--masthead-height,_80px)_-_token(spacing.medium)))]"
+    class="min-h_[calc(100vh_-_(var(--masthead-height,_80px)_-_token(spacing.medium)))]"
   >
-    <article
-      class="d_flex flex-d_column gap_xxlarge ai_center"
+    <div
+      class="cq-t_inline-size min-h_[inherit] ov_hidden bg_surface.brand.1.subtle"
     >
-      <img
-        alt="Ops, noe gikk galt"
-        src="/static/oops.gif"
-      />
       <div
-        class="d_flex flex-d_column gap_medium ai_center"
+        class="d_grid ai_center gap_xxlarge max-w_surface.wideMax mx_auto py_xxlarge px_small @/tablet:px_medium @/desktop:grid-tc_1fr_1fr @/wide:px_4xlarge"
       >
-        <h1
-          class="textStyle_heading.small ta_center"
-          id="SkipToContentId"
+        <div
+          class="d_flex flex-d_column ai_flex-start gap_medium max-w_surface.contentMax"
         >
-          Ops, noe gikk galt
-        </h1>
-        <p
-          class="textStyle_body.xlarge ta_center"
+          <p
+            class="textStyle_title.medium tt_uppercase"
+          >
+            500 / Hunden spiste siden
+          </p>
+          <h1
+            class="fs_[clamp(token(fontSizes.4xlarge),_6cqi,_5.5rem)] fw_semibold lh_[1.05] tw_balance"
+            id="SkipToContentId"
+          >
+            Ikke levert
+          </h1>
+          <p
+            class="textStyle_body.xlarge"
+          >
+            Vi vet ikke helt hva som har skjedd, men det kan godt være at hunden har spist denne siden.
+          </p>
+          <div
+            class="d_flex flex-wrap_wrap gap_3xsmall flex-d_column as_stretch @/tablet:flex-d_row @/tablet:as_flex-start"
+          >
+            <a
+              class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer text-decoration_none fw_bold trs-prop_[all] trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_[inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color),_inset_0px_0px_0px_calc(var(--shadow-width,_3px)_*_2)_currentcolor] motionReduce:trs_[none] motionReduce:trs-dur_[0s] c_text.onAction bg_surface.action hover:c_text.onAction hover:bg_surface.action.hover active:c_text.onAction active:bg_surface.action.active on:bg_surface.action.selected textStyle_label.medium px_small py_xxsmall min-h_24 [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium"
+              data-discover="true"
+              href="/"
+              tabindex="0"
+            >
+              Gå til forsiden
+            </a>
+            <a
+              class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer text-decoration_none fw_bold trs-prop_[all] trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_[inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color)] motionReduce:trs_[none] motionReduce:trs-dur_[0s] c_text.strong bg_surface.default bx-sh_[inset_0_0_0_1px_var(--shadow-color)] hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.hover.strong on:bg_surface.actionSubtle.active textStyle_label.medium px_small py_xxsmall min-h_24 [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium"
+              data-discover="true"
+              href="/subjects"
+              tabindex="0"
+            >
+              Søk etter fag
+            </a>
+          </div>
+        </div>
+        <div
+          class="cq-t_inline-size justify-self_center w_[calc(100%_-_token(spacing.xxsmall)_*_2)] max-w_surface.medium p_medium bg_background.default bd_3px_solid bdr_small trf_rotate(3deg) @/tablet:p_xxlarge @/desktop:max-w_surface.large"
         >
-          Beklager, en feil oppstod.
-        </p>
+          <div
+            class="d_flex ai_center jc_space-between gap_small pbe_medium bd-be_3px_solid"
+          >
+            <p
+              class="textStyle_label.large fw_semibold tt_uppercase"
+            >
+              Offisiell melding
+            </p>
+            <div
+              class="d_flex flex-d_column ai_center jc_center flex-sh_0 w_4xlarge h_4xlarge bd_3px_dotted ring_2px_solid ring-o_-xxsmall bdr_full c_text.error fs_xxsmall lh_[1] tt_uppercase anim_var(--animations-error-notice-stamp) motionReduce:anim_[none]"
+            >
+              <span
+                class="fs_large"
+              >
+                Ikke
+              </span>
+               levert
+            </div>
+          </div>
+          <p
+            class="fs_[min(10rem,_45cqi)] fw_[900] lh_[1] pbs_small"
+          >
+            500
+          </p>
+          <dl>
+            <div
+              class="d_grid grid-tc_1fr_2fr cg_medium py_small textStyle_label.large fw_semibold [&_+_&]:bd-bs_1px_solid [&_+_&]:bd-c_stroke.subtle [&_dt]:tt_uppercase"
+            >
+              <dt>
+                Årsak
+              </dt>
+              <dd>
+                Ukjent. Mulig hunderelatert.
+              </dd>
+            </div>
+            <div
+              class="d_grid grid-tc_1fr_2fr cg_medium py_small textStyle_label.large fw_semibold [&_+_&]:bd-bs_1px_solid [&_+_&]:bd-c_stroke.subtle [&_dt]:tt_uppercase"
+            >
+              <dt>
+                Tiltak
+              </dt>
+              <dd>
+                Prøv et søk, eller gå til forsiden.
+              </dd>
+            </div>
+          </dl>
+          <svg
+            aria-hidden="true"
+            class="d_inline-block fill_current va_middle lh_[1em] flex-sh_0 w_5xlarge h_5xlarge mbs_medium"
+            data-icon=""
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7 4V2h10v2h5v2h-2v15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6H2V4zM6 6v14h12V6zm3 3h2v8H9zm4 0h2v8h-2z"
+            />
+          </svg>
+        </div>
       </div>
-      <div
-        class="d_flex flex-d_column gap_xsmall ai_center"
-      >
-        <a
-          class=""
-          data-discover="true"
-          href="/"
-          tabindex="0"
-        >
-          Gå til forsiden
-        </a>
-      </div>
-    </article>
+    </div>
   </main>
   <footer
     class="pos_relative bg_primary c_text.onAction print:d_none"
