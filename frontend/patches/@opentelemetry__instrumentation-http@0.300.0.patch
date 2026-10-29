@@ -1,0 +1,17 @@
+diff --git a/dist/utils.mjs b/dist/utils.mjs
+index 93fe778b230a7fb36fa20ae30c5b56d349fb4948..a06a2d296a9bc1ff23fe469350b7204117b00ab5 100644
+--- a/dist/utils.mjs
++++ b/dist/utils.mjs
+@@ -1,11 +1,10 @@
+-import { __require } from "./_virtual/_rolldown/runtime.mjs";
++import forwardedParse from "forwarded-parse";
+ import { ATTR_USER_AGENT_SYNTHETIC_TYPE, USER_AGENT_SYNTHETIC_TYPE_VALUE_TEST } from "./semconv.mjs";
+ import { DEFAULT_QUERY_STRINGS_TO_REDACT, STR_REDACTED, SYNTHETIC_BOT_NAMES, SYNTHETIC_TEST_NAMES } from "./internal-types.mjs";
+ import { SpanKind, SpanStatusCode, context } from "@opentelemetry/api";
+ import { RPCType, getRPCMetadata } from "@opentelemetry/core";
+ import { ATTR_CLIENT_ADDRESS, ATTR_ERROR_TYPE, ATTR_HTTP_REQUEST_METHOD, ATTR_HTTP_REQUEST_METHOD_ORIGINAL, ATTR_HTTP_RESPONSE_STATUS_CODE, ATTR_HTTP_ROUTE, ATTR_NETWORK_PEER_ADDRESS, ATTR_NETWORK_PEER_PORT, ATTR_NETWORK_PROTOCOL_VERSION, ATTR_SERVER_ADDRESS, ATTR_SERVER_PORT, ATTR_URL_FULL, ATTR_URL_PATH, ATTR_URL_QUERY, ATTR_URL_SCHEME, ATTR_USER_AGENT_ORIGINAL } from "@opentelemetry/semantic-conventions";
+ //#region src/utils.ts
+-const forwardedParse = __require("forwarded-parse");
+ const defaultQueryStringsToRedact = Array.from(DEFAULT_QUERY_STRINGS_TO_REDACT);
+ /**
+ * Redacts sensitive query parameters from a query string (without leading '?').
