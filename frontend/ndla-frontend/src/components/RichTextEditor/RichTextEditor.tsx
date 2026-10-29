@@ -199,7 +199,6 @@ export const RichTextEditor = ({
   useEffect(() => {
     if (!focusOnMount) return;
     ReactEditor.focus(editor);
-    Transforms.select(editor, Editor.start(editor, []));
   }, [focusOnMount, editor]);
 
   const showToolbar = variant === "full" || isFocused;
