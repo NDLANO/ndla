@@ -43,7 +43,7 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: coursier/cache-action@057d08c2f9a2c4e7a4d33df3aae657b7db88b8cc # v8
+      - uses: coursier/cache-action@ee0650f98295f27a505e4bfd284c9bfaa913a465 # v9
       - uses: ./.github/actions/frontend-setup
         with:
           nx-cache: none
