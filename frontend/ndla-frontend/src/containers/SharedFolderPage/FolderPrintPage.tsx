@@ -38,18 +38,6 @@ import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { isPrintableResource, PrintResource, printResourceId, useTypesetQueue } from "./components/PrintResource";
 import { type FolderWithResources, getAllResources } from "./folderPrintUtil";
 
-const StyledMain = styled("main", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-    _print: {
-      display: "block",
-      paddingBlock: "10",
-    },
-  },
-});
-
 const PrintHeader = styled("header", {
   base: {
     display: "flex",
@@ -64,6 +52,26 @@ const PrintHeader = styled("header", {
   },
 });
 
+const StyledMain = styled("main", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
+
+const MetaImage = styled("img", {
+  base: {
+    width: "full",
+    paddingBottom: "xxlarge",
+    _print: {
+      display: "block",
+      marginInline: "auto",
+      width: "4/5",
+    },
+  },
+});
+
 const StyledMessageBox = styled(MessageBox, {
   base: {
     _print: {
@@ -71,14 +79,6 @@ const StyledMessageBox = styled(MessageBox, {
       breakInside: "avoid",
       marginBlockEnd: "medium",
     },
-  },
-});
-
-const MetaImage = styled("img", {
-  base: {
-    width: "full",
-    objectFit: "contain",
-    paddingBottom: "xxlarge",
   },
 });
 
