@@ -19,7 +19,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import type { QuestionCountOption } from "./QuizBuilder";
+import type { QuestionCountOption, QuizBuilderState } from "./QuizBuilder";
 import { QUESTION_COUNT_OPTIONS } from "./quizBuilderUtils";
 
 const MIN_QUESTIONS_FOR_RANDOM_SUBSET = 6;
@@ -69,24 +69,13 @@ const StyledRadioGroupItemText = styled(RadioGroupItemText, {
 });
 
 interface Props {
-  randomSubset: boolean;
-  onRandomSubsetChange: (value: boolean) => void;
-  randomOrder: boolean;
-  onRandomOrderChange: (value: boolean) => void;
-  questionCount: QuestionCountOption;
-  totalQuestions: number;
-  onQuestionCountChange: (value: QuestionCountOption) => void;
+  state: QuizBuilderState;
+  onChange: (state: QuizBuilderState) => void;
 }
 
-export const QuizSettingsTab = ({
-  randomSubset,
-  onRandomSubsetChange,
-  randomOrder,
-  onRandomOrderChange,
-  questionCount,
-  totalQuestions,
-  onQuestionCountChange,
-}: Props) => {
+export const QuizSettingsTab = ({ state, onChange }: Props) => {
+  const { randomSubset, randomOrder, questionCount } = state;
+  const totalQuestions = state.questions.length;
   const { t } = useTranslation();
   const [subsetError, setSubsetError] = useState(false);
 
@@ -100,7 +89,7 @@ export const QuizSettingsTab = ({
         <RadioGroupRoot
           orientation="vertical"
           value={randomOrder ? "yes" : "no"}
-          onValueChange={(details) => onRandomOrderChange(details.value === "yes")}
+          onValueChange={(details) => onChange({ ...state, randomOrder: details.value === "yes" })}
         >
           <StyledRadioGroupLabel>{t("myNdla.quiz.form.settingsTab.randomOrder")}</StyledRadioGroupLabel>
           {["yes", "no"].map((value) => (
@@ -125,7 +114,7 @@ export const QuizSettingsTab = ({
               return;
             }
             setSubsetError(false);
-            onRandomSubsetChange(wantsSubset);
+            onChange({ ...state, randomSubset: wantsSubset });
           }}
         >
           <StyledRadioGroupLabel>{t("myNdla.quiz.form.settingsTab.randomSubset")}</StyledRadioGroupLabel>
@@ -150,7 +139,12 @@ export const QuizSettingsTab = ({
           <RadioGroupRoot
             orientation="vertical"
             value={String(questionCount)}
-            onValueChange={(details) => onQuestionCountChange(Number(details.value) as QuestionCountOption)}
+            onValueChange={(details) =>
+              onChange({
+                ...state,
+                questionCount: Number(details.value) as QuestionCountOption,
+              })
+            }
           >
             <StyledRadioGroupLabel>{t("myNdla.quiz.form.settingsTab.questionCount")}</StyledRadioGroupLabel>
             {QUESTION_COUNT_OPTIONS.map((count) => (
