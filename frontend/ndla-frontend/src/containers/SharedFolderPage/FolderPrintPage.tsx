@@ -38,19 +38,6 @@ import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { isPrintableResource, PrintResource, printResourceId, useTypesetQueue } from "./components/PrintResource";
 import { type FolderWithResources, getAllResources } from "./folderPrintUtil";
 
-const StyledMain = styled("main", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-    paddingTop: "3xlarge",
-    _print: {
-      display: "block",
-      paddingBlock: "10",
-    },
-  },
-});
-
 const PrintHeader = styled("header", {
   base: {
     display: "flex",
@@ -65,6 +52,26 @@ const PrintHeader = styled("header", {
   },
 });
 
+const StyledMain = styled("main", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
+
+const MetaImage = styled("img", {
+  base: {
+    width: "full",
+    paddingBottom: "xxlarge",
+    _print: {
+      display: "block",
+      marginInline: "auto",
+      width: "4/5",
+    },
+  },
+});
+
 const StyledMessageBox = styled(MessageBox, {
   base: {
     _print: {
@@ -72,13 +79,6 @@ const StyledMessageBox = styled(MessageBox, {
       breakInside: "avoid",
       marginBlockEnd: "medium",
     },
-  },
-});
-
-const MetaImage = styled("img", {
-  base: {
-    width: "full",
-    objectFit: "contain",
   },
 });
 
@@ -235,10 +235,10 @@ const FolderPrint = ({ folder }: FolderPrintProps) => {
           </Heading>
           <Text textStyle="label.medium">{subtitle}</Text>
         </PrintHeader>
-        {metaImageUrl ? <MetaImage src={metaImageUrl} alt="" /> : undefined}
       </PageContent>
       <PageContent variant="content" asChild consumeCss>
         <StyledMain>
+          {metaImageUrl ? <MetaImage src={metaImageUrl} alt="" /> : undefined}
           <StyledMessageBox variant="warning">
             <Text>
               <Trans
