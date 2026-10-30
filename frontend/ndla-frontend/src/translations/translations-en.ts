@@ -1053,6 +1053,8 @@ const translations = {
   movedResourcePage: {
     title: "The page has moved, but you can find it here:",
     openInSubject: "Open the article in a subject:",
+    topicTitle: "The topic has moved, but you can find it here:",
+    openTopicInSubject: "Open the topic in a subject:",
   },
   forbiddenPage: {
     title: "Access denied",

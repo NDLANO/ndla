@@ -1049,6 +1049,8 @@ const translations = {
   movedResourcePage: {
     title: "Sida har flytta, men du finn ho her:",
     openInSubject: "Opne læringsressursen i eit fag:",
+    topicTitle: "Emnet har flytta, men du finn det her:",
+    openTopicInSubject: "Opne emnet i eit fag:",
   },
   forbiddenPage: {
     title: "Tilgang nekta",
