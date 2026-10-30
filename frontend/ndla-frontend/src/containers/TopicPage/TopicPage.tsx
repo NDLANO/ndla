@@ -21,6 +21,7 @@ import { findAccessDeniedErrors, hasNotFoundStatus } from "../../util/handleErro
 import { LocaleNavigate, useLocalePath, useRawLocation } from "../../util/localePath";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { ForbiddenPage } from "../ErrorPage/ForbiddenPage";
+import { MovedResourcePage } from "../MovedResourcePage/MovedResourcePage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { MultidisciplinarySubjectArticle } from "./MultidisciplinarySubjectArticle";
 import { TopicContainer } from "./TopicContainer";
@@ -72,10 +73,12 @@ export const topicPageQuery: TypedDocumentNode<GQLTopicPageQuery, GQLTopicPageQu
           url
         }
       }
+      ...MovedResourcePage_Node
       ...MultidisciplinarySubjectArticle_Node
       ...TopicContainer_Node
     }
   }
+  ${MovedResourcePage.fragments.resource}
   ${MultidisciplinarySubjectArticle.fragments.node}
   ${TopicContainer.fragments.node}
 `;
@@ -124,14 +127,18 @@ const TopicPageContent = () => {
 
   const node = query.data?.node;
 
-  if (node && node.nodeType !== "TOPIC" && node.nodeType !== "CASE") {
-    const url = node.context?.url;
-    if (!url) return <NotFoundPage />;
+  const redirectTo = (url: string) => {
     if (setRedirect) {
       setRedirect({ status: 301, url: resolveLocalePath(url) });
       return null;
     }
     return <LocaleNavigate to={url} replace />;
+  };
+
+  if (node && node.nodeType !== "TOPIC" && node.nodeType !== "CASE") {
+    const url = node.context?.url;
+    if (!url) return <NotFoundPage />;
+    return redirectTo(url);
   }
 
   if (!node?.article) {
@@ -141,6 +148,13 @@ const TopicPageContent = () => {
   if (i18n.language === "se" && !node.supportedLanguages?.includes("se")) {
     return <RedirectExternal to={constructNewPath(location.pathname, "nb")} />;
   }
+
+  if (node.contexts.length && !node.contexts.some((c) => c.contextId === contextId)) {
+    const url = node.contexts[0]?.url;
+    if (node.contexts.length === 1 && url) return redirectTo(url);
+    return <MovedResourcePage resource={node} />;
+  }
+
   const parents = node.context?.parents || [];
   const subjectType = getSubjectType(node.context?.rootId);
 

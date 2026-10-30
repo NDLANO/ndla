@@ -9751,14 +9751,14 @@ export type GQLTopicPageQuery = {
       htmlIntroduction: string | null;
       grepCodes: Array<string> | null;
       revision: number;
+      metaDescription: string;
+      traits: Array<string>;
       language: string;
       created: string;
       updated: string;
       revised: string;
       oembed: string | null;
       introduction: string | null;
-      metaDescription: string;
-      traits: Array<string>;
       supportedLanguages: Array<string>;
       published: string;
       revisionDate: string | null;
@@ -9766,7 +9766,17 @@ export type GQLTopicPageQuery = {
       metaImage: {
         __typename: "ImageMetaInformationV3";
         id: string;
-        image: { __typename: "ImageV3"; imageUrl: string };
+        image: {
+          __typename: "ImageV3";
+          imageUrl: string;
+          dimensions: { __typename: "ImageDimensions"; width: number; height: number } | null;
+          variants: Array<{
+            __typename: "ImageVariant";
+            size: string;
+            variantUrl: string;
+            dimensions: { __typename: "ImageDimensions"; width: number; height: number };
+          }>;
+        };
         alttext: { __typename: "ImageAltText"; alttext: string };
       } | null;
       visualElementEmbed: { __typename: "ResourceEmbed"; content: string } | null;
@@ -9947,6 +9957,27 @@ export type GQLTopicPageQuery = {
       isArchived: boolean;
       breadcrumbs: Array<string>;
       parents: Array<{ __typename: "TaxonomyCrumb"; id: string; contextId: string; url: string; name: string }> | null;
+    } | null;
+    contexts: Array<{ __typename: "TaxonomyContext"; contextId: string; url: string; breadcrumbs: Array<string> }>;
+    learningpath: {
+      __typename: "Learningpath";
+      id: number;
+      description: string;
+      coverphoto: {
+        __typename: "ImageMetaInformationV3";
+        image: {
+          __typename: "ImageV3";
+          imageUrl: string;
+          dimensions: { __typename: "ImageDimensions"; width: number; height: number } | null;
+          variants: Array<{
+            __typename: "ImageVariant";
+            size: string;
+            variantUrl: string;
+            dimensions: { __typename: "ImageDimensions"; width: number; height: number };
+          }>;
+        };
+        alttext: { __typename: "ImageAltText"; alttext: string };
+      } | null;
     } | null;
     resourceTypes: Array<{ __typename: "ResourceType"; id: string; name: string }>;
     children: Array<{
