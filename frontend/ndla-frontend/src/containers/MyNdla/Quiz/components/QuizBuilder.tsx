@@ -17,6 +17,7 @@ import {
   FieldRoot,
   MessageBox,
   TabsContent,
+  TabsIndicator,
   TabsList,
   TabsRoot,
   TabsTrigger,
@@ -134,6 +135,7 @@ export const QuizBuilder = ({
   const [attemptedSave, setAttemptedSave] = useState(false);
   const [dirty, setDirty] = useState(false);
   const [sharedQuiz, setSharedQuiz] = useState<GQLQuizFragment>();
+  const [focusQuestionId, setFocusQuestionId] = useState<string>();
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [unshareDialogOpen, setUnshareDialogOpen] = useState(false);
   const shareButtonRef = useRef<HTMLButtonElement>(null);
@@ -208,9 +210,11 @@ export const QuizBuilder = ({
   };
 
   const onAddQuestion = () => {
+    const question = emptyQuestion();
+    setFocusQuestionId(question.id);
     onFormChange({
       ...state,
-      questions: [...state.questions, emptyQuestion()],
+      questions: [...state.questions, question],
     });
   };
 
@@ -267,6 +271,7 @@ export const QuizBuilder = ({
             <TabsList>
               <TabsTrigger value="questions">{t("myNdla.quiz.form.tabs.questions")}</TabsTrigger>
               <TabsTrigger value="settings">{t("myNdla.quiz.form.settings.title")}</TabsTrigger>
+              <TabsIndicator />
             </TabsList>
             <ButtonRow>
               <Button variant="secondary" onClick={onSaveClick} loading={saving} disabled={sharing}>
@@ -284,6 +289,7 @@ export const QuizBuilder = ({
                   <li key={question.id} id={`question-${question.id}`}>
                     <QuestionCard
                       question={question}
+                      focusOnMount={question.id === focusQuestionId}
                       index={index}
                       onChange={(q) => onQuestionChange(question.id, q)}
                       onMoveUp={index > 0 ? () => onMoveQuestion(index, -1) : undefined}

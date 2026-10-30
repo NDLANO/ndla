@@ -50,9 +50,6 @@ const RadioToggle = styled(RadioGroupItem, {
     flex: "1",
     alignItems: "flex-start",
     gap: "xsmall",
-    "&:has(input:focus-visible)": {
-      outline: "none!",
-    },
   },
 });
 
@@ -97,6 +94,7 @@ interface Props {
   onTextChange: (id: string, text: string) => void;
   onCorrectChange: (id: string, isCorrect: boolean) => void;
   onRemove: (id: string) => void;
+  focusAlternativeId?: string;
 }
 
 export const AlternativesList = ({
@@ -107,6 +105,7 @@ export const AlternativesList = ({
   onTextChange,
   onCorrectChange,
   onRemove,
+  focusAlternativeId,
 }: Props) => {
   const { i18n } = useTranslation();
 
@@ -132,6 +131,7 @@ export const AlternativesList = ({
       onTextChange={onTextChange}
       onCorrectChange={onCorrectChange}
       onRemove={onRemove}
+      focusOnMount={alt.id === focusAlternativeId}
     />
   ));
 
@@ -160,6 +160,7 @@ interface AlternativeRowProps {
   onTextChange: (id: string, text: string) => void;
   onCorrectChange: (id: string, isCorrect: boolean) => void;
   onRemove: (id: string) => void;
+  focusOnMount: boolean;
 }
 
 const AlternativeRow = ({
@@ -171,6 +172,7 @@ const AlternativeRow = ({
   onTextChange,
   onCorrectChange,
   onRemove,
+  focusOnMount,
 }: AlternativeRowProps) => {
   const { t } = useTranslation();
   const [initialText] = useState(() => deserializeToSimpleRichText(alt.text));
@@ -205,6 +207,7 @@ const AlternativeRow = ({
               <RichTextEditor
                 variant="simple"
                 initialValue={initialText}
+                focusOnMount={focusOnMount}
                 onChange={(value) => onTextChange(alt.id, serializeFromSimpleRichText(value))}
                 placeholder={t("myNdla.quiz.form.alternativePlaceholder")}
               />

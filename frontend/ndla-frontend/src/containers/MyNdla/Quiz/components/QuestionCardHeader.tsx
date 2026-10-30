@@ -17,6 +17,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { HStack } from "@ndla/styled-system/jsx";
+import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { NumberBadge } from "../../components/NumberBadge";
 import type { QuestionFormValues } from "./QuestionCard";
@@ -27,10 +28,23 @@ interface Props {
   onQuestionTypeChange: (multiChoice: boolean) => void;
   onMoveUp?: () => void;
   onMoveDown?: () => void;
+  focusOnMount?: boolean;
 }
 
-export const QuestionCardHeader = ({ index, questionType, onQuestionTypeChange, onMoveUp, onMoveDown }: Props) => {
+export const QuestionCardHeader = ({
+  index,
+  questionType,
+  onQuestionTypeChange,
+  onMoveUp,
+  onMoveDown,
+  focusOnMount,
+}: Props) => {
   const { t } = useTranslation();
+  const multipleAnswersRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (focusOnMount) multipleAnswersRef.current?.focus();
+  }, [focusOnMount]);
 
   return (
     <HStack justify="space-between" gap="xsmall">
@@ -51,7 +65,7 @@ export const QuestionCardHeader = ({ index, questionType, onQuestionTypeChange, 
           <SwitchControl>
             <SwitchThumb />
           </SwitchControl>
-          <SwitchHiddenInput />
+          <SwitchHiddenInput ref={multipleAnswersRef} />
         </SwitchRoot>
         {onMoveUp ? (
           <IconButton

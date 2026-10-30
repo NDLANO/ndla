@@ -22,9 +22,9 @@ import {
 import { Input, InputContainer, useFieldContext } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { isHotkey } from "is-hotkey";
-import { type FocusEvent, type TextareaHTMLAttributes, useMemo, useRef, useState } from "react";
+import { type FocusEvent, type TextareaHTMLAttributes, useEffect, useMemo, useRef, useState } from "react";
 import { type Descendant, Editor, Transforms } from "slate";
-import { Editable, Slate } from "slate-react";
+import { Editable, ReactEditor, Slate } from "slate-react";
 import type { EditableProps } from "slate-react/dist/components/editable";
 import { BreakElement } from "./plugins/break/BreakElement";
 import { HeadingElement } from "./plugins/heading/HeadingElement";
@@ -50,6 +50,7 @@ interface Props extends Omit<TextareaHTMLAttributes<HTMLDivElement>, "onChange" 
    * simple: A single paragraph with bold, italic, language and line breaks. Looks like a regular input until focused.
    */
   variant?: RichTextEditorVariant;
+  focusOnMount?: boolean;
 }
 
 export const simpleRichTextPlugins = [
@@ -148,7 +149,7 @@ const StyledEditable = styled(
   { baseComponent: true },
 );
 
-export const RichTextEditor = ({ initialValue, onChange, variant = "full", ...rest }: Props) => {
+export const RichTextEditor = ({ initialValue, onChange, variant = "full", focusOnMount, ...rest }: Props) => {
   const [isFocused, setIsFocused] = useState(false);
   const isPointerDown = useRef(false);
   const [editor] = useState(() =>
@@ -188,6 +189,11 @@ export const RichTextEditor = ({ initialValue, onChange, variant = "full", ...re
       setIsFocused(false);
     }
   };
+
+  useEffect(() => {
+    if (!focusOnMount) return;
+    ReactEditor.focus(editor);
+  }, [focusOnMount, editor]);
 
   const showToolbar = variant === "full" || isFocused;
 
