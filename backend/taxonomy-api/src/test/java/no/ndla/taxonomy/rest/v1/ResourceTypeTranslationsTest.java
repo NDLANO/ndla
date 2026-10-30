@@ -54,8 +54,8 @@ public class ResourceTypeTranslationsTest extends RestTest {
         TranslationDTO[] translations = testUtils.getObject(
                 TranslationDTO[].class, testUtils.getResource("/v1/resource-types/" + id + "/translations"));
         assertEquals(4, translations.length);
-        assertAnyTrue(translations, t -> "Fagstoff".equals(t.name) && "nb".equals(t.language));
-        assertAnyTrue(translations, t -> "Subject Material".equals(t.name) && "en".equals(t.language));
+        assertAnyTrue(translations, t -> "Fagstoff".equals(t.getName()) && "nb".equals(t.getLanguage()));
+        assertAnyTrue(translations, t -> "Subject Material".equals(t.getName()) && "en".equals(t.getLanguage()));
     }
 
     @Test
@@ -63,8 +63,8 @@ public class ResourceTypeTranslationsTest extends RestTest {
         URI id = ResourceType.SUBJECT_MATERIAL.getPublicId();
         TranslationDTO translation = testUtils.getObject(
                 TranslationDTO.class, testUtils.getResource("/v1/resource-types/" + id + "/translations/nb"));
-        assertEquals("Fagstoff", translation.name);
-        assertEquals("nb", translation.language);
+        assertEquals("Fagstoff", translation.getName());
+        assertEquals("nb", translation.getLanguage());
     }
 
     private ResourceTypeDTO getResourceTypeIndexDocument(URI id, String language) throws Exception {

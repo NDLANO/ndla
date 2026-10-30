@@ -98,7 +98,7 @@ const SubjectCombobox = ({
       } else {
         updatedArchived = sortBy(subjects.results, (r) => r.metadata.customFields.subjectCategory === "archive");
       }
-      return updatedArchived.map((r) => ({ value: r.id, label: r.name }));
+      return updatedArchived.map((r) => ({ value: r.id, label: r.name ?? "" }));
     } else return [];
   }, [removeArchived, subjects]);
 

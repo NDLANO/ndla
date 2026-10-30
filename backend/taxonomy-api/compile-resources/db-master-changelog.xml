@@ -974,4 +974,20 @@
         <dropTable tableName="resource_type"/>
     </changeSet>
 
+    <changeSet id="20261026 Remove node translations without name or language code" author="Jonas Natten">
+        <sql>
+            UPDATE node n
+            SET translations = (
+                SELECT COALESCE(jsonb_agg(t.translation ORDER BY t.ordinality), '[]'::jsonb)
+                FROM jsonb_array_elements(n.translations) WITH ORDINALITY AS t(translation, ordinality)
+                WHERE t.translation ->> 'name' IS NOT NULL
+                  AND t.translation ->> 'languageCode' IS NOT NULL
+            )
+            WHERE EXISTS (
+                SELECT 1 FROM jsonb_array_elements(n.translations) AS t
+                WHERE t ->> 'name' IS NULL OR t ->> 'languageCode' IS NULL
+            )
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

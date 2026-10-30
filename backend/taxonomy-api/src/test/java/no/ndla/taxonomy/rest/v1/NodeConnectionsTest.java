@@ -41,12 +41,10 @@ public class NodeConnectionsTest extends RestTest {
         calculusId = builder.node(NodeType.TOPIC, t -> t.name("calculus")).getPublicId();
         integrationId = builder.node(NodeType.TOPIC, t -> t.name("integration")).getPublicId();
 
-        URI id = getId(testUtils.createResource("/v1/node-connections", new NodeConnectionPOST() {
-            {
-                parentId = calculusId;
-                childId = integrationId;
-            }
-        }));
+        var command = new NodeConnectionPOST();
+        command.setParentId(calculusId);
+        command.setChildId(integrationId);
+        URI id = getId(testUtils.createResource("/v1/node-connections", command));
 
         final var connection = nodeConnectionRepository.findByPublicId(id);
 
@@ -63,15 +61,10 @@ public class NodeConnectionsTest extends RestTest {
         URI calculusId = builder.node(NodeType.TOPIC, t -> t.name("calculus").child("integration"))
                 .getPublicId();
 
-        testUtils.createResource(
-                "/v1/node-connections",
-                new NodeConnectionPOST() {
-                    {
-                        parentId = calculusId;
-                        childId = integrationId;
-                    }
-                },
-                status().isConflict());
+        var command = new NodeConnectionPOST();
+        command.setParentId(calculusId);
+        command.setChildId(integrationId);
+        testUtils.createResource("/v1/node-connections", command, status().isConflict());
     }
 
     @Test
@@ -81,15 +74,10 @@ public class NodeConnectionsTest extends RestTest {
                 .getPublicId();
         URI calculusId = builder.node(NodeType.TOPIC, t -> t.name("calculus")).getPublicId();
 
-        testUtils.createResource(
-                "/v1/node-connections",
-                new NodeConnectionPOST() {
-                    {
-                        parentId = calculusId;
-                        childId = integrationId;
-                    }
-                },
-                status().is2xxSuccessful());
+        var command = new NodeConnectionPOST();
+        command.setParentId(calculusId);
+        command.setChildId(integrationId);
+        testUtils.createResource("/v1/node-connections", command, status().is2xxSuccessful());
     }
 
     @Test
@@ -116,9 +104,11 @@ public class NodeConnectionsTest extends RestTest {
         NodeConnectionDTO[] parentChildren = testUtils.getObject(NodeConnectionDTO[].class, response);
 
         assertEquals(2, parentChildren.length);
-        assertAnyTrue(parentChildren, t -> electricityId.equals(t.parentId) && alternatingCurrentId.equals(t.childId));
-        assertAnyTrue(parentChildren, t -> calculusId.equals(t.parentId) && integrationId.equals(t.childId));
-        assertAllTrue(parentChildren, t -> isValidId(t.id));
+        assertAnyTrue(
+                parentChildren,
+                t -> electricityId.equals(t.getParentId()) && alternatingCurrentId.equals(t.getChildId()));
+        assertAnyTrue(parentChildren, t -> calculusId.equals(t.getParentId()) && integrationId.equals(t.getChildId()));
+        assertAllTrue(parentChildren, t -> isValidId(t.getId()));
     }
 
     @Test
@@ -140,7 +130,7 @@ public class NodeConnectionsTest extends RestTest {
                 .map(DomainEntity::getPublicId)
                 .map(Object::toString)
                 .toList()
-                .containsAll(result.stream().map(r -> r.id.toString()).toList()));
+                .containsAll(result.stream().map(r -> r.getId().toString()).toList()));
     }
 
     @Test
@@ -157,8 +147,8 @@ public class NodeConnectionsTest extends RestTest {
         MockHttpServletResponse resource = testUtils.getResource("/v1/node-connections/" + id);
         NodeConnectionDTO parentChildIndexDocument = testUtils.getObject(NodeConnectionDTO.class, resource);
 
-        assertEquals(topicid, parentChildIndexDocument.parentId);
-        assertEquals(subtopicid, parentChildIndexDocument.childId);
+        assertEquals(topicid, parentChildIndexDocument.getParentId());
+        assertEquals(subtopicid, parentChildIndexDocument.getChildId());
     }
 
     @Test
@@ -171,7 +161,7 @@ public class NodeConnectionsTest extends RestTest {
         MockHttpServletResponse response = testUtils.getResource(("/v1/node-connections"));
         NodeConnectionDTO[] children = testUtils.getObject(NodeConnectionDTO[].class, response);
 
-        assertAllTrue(children, st -> st.rank == 0);
+        assertAllTrue(children, st -> st.getRank() == 0);
     }
 
     @Test
@@ -185,21 +175,17 @@ public class NodeConnectionsTest extends RestTest {
                 builder.node(NodeType.TOPIC, t -> t.name("Alternating currents").publicId("urn:topic:11"));
         Node wiring = builder.node(NodeType.TOPIC, t -> t.name("Wiring").publicId("urn:topic:12"));
 
-        testUtils.createResource("/v1/node-connections", new NodeConnectionPOST() {
-            {
-                parentId = electricity.getPublicId();
-                childId = alternatingCurrents.getPublicId();
-                rank = Optional.of(2);
-            }
-        });
+        var command1 = new NodeConnectionPOST();
+        command1.setParentId(electricity.getPublicId());
+        command1.setChildId(alternatingCurrents.getPublicId());
+        command1.setRank(2);
+        testUtils.createResource("/v1/node-connections", command1);
 
-        testUtils.createResource("/v1/node-connections", new NodeConnectionPOST() {
-            {
-                parentId = electricity.getPublicId();
-                childId = wiring.getPublicId();
-                rank = Optional.of(1);
-            }
-        });
+        var command2 = new NodeConnectionPOST();
+        command2.setParentId(electricity.getPublicId());
+        command2.setChildId(wiring.getPublicId());
+        command2.setRank(1);
+        testUtils.createResource("/v1/node-connections", command2);
 
         var response = testUtils.getResource("/v1/nodes/" + subject.getPublicId() + "/nodes?recursive=true");
         NodeChildDTO[] topics = testUtils.getObject(NodeChildDTO[].class, response);
@@ -213,12 +199,10 @@ public class NodeConnectionsTest extends RestTest {
     public void can_update_child_rank() throws Exception {
         URI id = save(NodeConnection.create(newTopic(), newTopic(), Relevance.CORE))
                 .getPublicId();
-        testUtils.updateResource("/v1/node-connections/" + id, new NodeConnectionPUT() {
-            {
-                primary = Optional.of(true);
-                rank = Optional.of(99);
-            }
-        });
+        var command = new NodeConnectionPUT();
+        command.setPrimary(true);
+        command.setRank(99);
+        testUtils.updateResource("/v1/node-connections/" + id, command);
         assertEquals(99, nodeConnectionRepository.getByPublicId(id).getRank());
     }
 
@@ -231,13 +215,11 @@ public class NodeConnectionsTest extends RestTest {
         // make the last object the first
         NodeConnection updatedConnection = nodeConnections.getLast();
         assertEquals(10, updatedConnection.getRank());
+        var command = new NodeConnectionPUT();
+        command.setPrimary(true);
+        command.setRank(1);
         testUtils.updateResource(
-                "/v1/node-connections/" + updatedConnection.getPublicId().toString(), new NodeConnectionPUT() {
-                    {
-                        primary = Optional.of(true);
-                        rank = Optional.of(1);
-                    }
-                });
+                "/v1/node-connections/" + updatedConnection.getPublicId().toString(), command);
         assertEquals(1, updatedConnection.getRank());
 
         // verify that the other connections have been updated
@@ -246,9 +228,9 @@ public class NodeConnectionsTest extends RestTest {
                     "/v1/node-connections/" + nodeConnection.getPublicId().toString());
             NodeConnectionDTO connectionFromDb = testUtils.getObject(NodeConnectionDTO.class, response);
             // verify that the other connections have had their rank bumped up 1
-            if (!connectionFromDb.id.equals(updatedConnection.getPublicId())) {
-                int oldRank = mappedRanks.get(connectionFromDb.id.toString());
-                assertEquals(oldRank + 1, connectionFromDb.rank);
+            if (!connectionFromDb.getId().equals(updatedConnection.getPublicId())) {
+                int oldRank = mappedRanks.get(connectionFromDb.getId().toString());
+                assertEquals(oldRank + 1, connectionFromDb.getRank());
             }
         }
     }
@@ -263,13 +245,11 @@ public class NodeConnectionsTest extends RestTest {
         // make the last object the first
         NodeConnection updatedConnection = nodeConnections.getLast();
         assertEquals(100, updatedConnection.getRank());
+        var command = new NodeConnectionPUT();
+        command.setPrimary(true);
+        command.setRank(1);
         testUtils.updateResource(
-                "/v1/node-connections/" + updatedConnection.getPublicId().toString(), new NodeConnectionPUT() {
-                    {
-                        primary = Optional.of(true);
-                        rank = Optional.of(1);
-                    }
-                });
+                "/v1/node-connections/" + updatedConnection.getPublicId().toString(), command);
         assertEquals(1, updatedConnection.getRank());
 
         // verify that the other connections have been updated
@@ -278,12 +258,12 @@ public class NodeConnectionsTest extends RestTest {
                     "/v1/node-connections/" + nodeConnection.getPublicId().toString());
             NodeConnectionDTO connectionFromDb = testUtils.getObject(NodeConnectionDTO.class, response);
             // verify that only the contiguous connections are updated
-            if (!connectionFromDb.id.equals(updatedConnection.getPublicId())) {
-                int oldRank = mappedRanks.get(connectionFromDb.id.toString());
+            if (!connectionFromDb.getId().equals(updatedConnection.getPublicId())) {
+                int oldRank = mappedRanks.get(connectionFromDb.getId().toString());
                 if (oldRank <= 5) {
-                    assertEquals(oldRank + 1, connectionFromDb.rank);
+                    assertEquals(oldRank + 1, connectionFromDb.getRank());
                 } else {
-                    assertEquals(oldRank, connectionFromDb.rank);
+                    assertEquals(oldRank, connectionFromDb.getRank());
                 }
             }
         }
@@ -297,13 +277,11 @@ public class NodeConnectionsTest extends RestTest {
         // set rank for last object to higher than any existing
         NodeConnection updatedConnection = nodeConnections.getLast();
         assertEquals(10, updatedConnection.getRank());
+        var command = new NodeConnectionPUT();
+        command.setPrimary(true);
+        command.setRank(99);
         testUtils.updateResource(
-                "/v1/node-connections/" + nodeConnections.get(9).getPublicId().toString(), new NodeConnectionPUT() {
-                    {
-                        primary = Optional.of(true);
-                        rank = Optional.of(99);
-                    }
-                });
+                "/v1/node-connections/" + nodeConnections.get(9).getPublicId().toString(), command);
         assertEquals(99, updatedConnection.getRank());
 
         // verify that the other connections are unchanged
@@ -311,8 +289,8 @@ public class NodeConnectionsTest extends RestTest {
             MockHttpServletResponse response = testUtils.getResource(
                     "/v1/node-connections/" + nodeConnection.getPublicId().toString());
             NodeConnectionDTO connection = testUtils.getObject(NodeConnectionDTO.class, response);
-            if (!connection.id.equals(updatedConnection.getPublicId())) {
-                assertEquals(mappedRanks.get(connection.id.toString()).intValue(), connection.rank);
+            if (!connection.getId().equals(updatedConnection.getPublicId())) {
+                assertEquals(mappedRanks.get(connection.getId().toString()).intValue(), connection.getRank());
             }
         }
     }

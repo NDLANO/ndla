@@ -69,7 +69,7 @@ const insertChild = (
   });
 };
 
-const parentIsRoot = (node: NodeChild) => node.path?.startsWith(node.parentId.replace("urn:", "/"));
+const parentIsRoot = (node: NodeChild) => node.path?.startsWith((node.parentId ?? "").replace("urn:", "/"));
 
 const groupChildNodes = (childNodes: NodeChild[]): NodeChildWithChildren[] =>
   childNodes.reduce((acc, curr) => {
