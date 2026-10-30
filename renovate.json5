@@ -12,6 +12,8 @@
   schedule: ["* 0-5 * * *"],
   prConcurrentLimit: 10,
   prHourlyLimit: 0,
+  // Images from frontend/docker that bake hands to other Dockerfiles as build contexts, not registry images
+  ignoreDeps: ["frontend-base", "frontend-builder", "frontend-runtime"],
 
   customManagers: [
     {

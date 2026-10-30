@@ -1,5 +1,5 @@
 # Frontend images build from the repository root so mise.toml (node + pnpm versions)
-# is in the context (see each app's build.sh). Only frontend/ and mise.toml are sent;
+# is in the context (see docker-bake.hcl). Only frontend/ and mise.toml are sent;
 # installed deps and build output are regenerated inside the image.
 *
 !mise.toml
@@ -14,3 +14,5 @@ frontend/**/storybook-static
 frontend/**/.vercel
 frontend/**/coverage
 frontend/**/*.tsbuildinfo
+frontend/**/Dockerfile
+frontend/docker

@@ -21,8 +21,7 @@ const UNTRACKED_BY_MILL = [
   "backend/mill", // Mill launcher / version
   "backend/Dockerfile", // release image
   "backend/jvm-runtime-options", // release image
-  "backend/build.properties", // release packaging
-  "backend/build.sh", // release packaging
+  "docker-bake.hcl", // release packaging
 ];
 
 type Mode = "only" | "all" | "selective";

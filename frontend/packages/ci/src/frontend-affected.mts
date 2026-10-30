@@ -24,6 +24,12 @@ const toolVersionsChanged = (): boolean =>
     /^[+-](node|pnpm)\s*=/.test(line),
   );
 
+/** Shared image build files that no nx project owns, so `--affected` never selects an app for them. */
+const IMAGE_FILES = [".dockerignore", "frontend/docker", "docker-bake.hcl"];
+
+const imageFilesChanged = (): boolean =>
+  runLines("git", ["diff", "--name-only", env("NX_BASE"), "HEAD", "--", ...IMAGE_FILES], { cwd: root }).length > 0;
+
 const only = env("ONLY");
 const all = flag("ALL");
 
@@ -39,6 +45,11 @@ const resolve = (): { projects: string[]; why: string } => {
       return {
         projects: showProjects(),
         why: `node/pnpm version changed in mise.toml since ${env("NX_BASE")}`,
+      };
+    if (imageFilesChanged())
+      return {
+        projects: showProjects(),
+        why: `shared image build files changed since ${env("NX_BASE")}`,
       };
     return {
       projects: showProjects("--affected"),

@@ -13,7 +13,7 @@ Substitute `article-api` below with the subproject you want to work on.
 
 **Run tests:** `./mill article-api.test`
 
-**Create Docker Image:** `./build.sh article-api`
+**Create Docker Image:** `MODULE=article-api docker buildx bake backend` (from the repository root)
 
 **Check code formatting:** `./checkfmt.sh`
 
