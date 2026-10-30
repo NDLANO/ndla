@@ -171,6 +171,8 @@ export const PrintResource = ({ resource, typesetElement }: PrintArticleProps) =
   const { t } = useTranslation();
   const isArticle = articleResourceTypes.includes(resource.resourceType);
   const sourceUrl = `${config.ndlaFrontendDomain}${resource.path}`;
+  const trackedUrl = new URL(sourceUrl);
+  trackedUrl.searchParams.set("mtm_source", "pdf-eksport");
   return (
     <PrintSection id={printResourceId(resource)}>
       <Suspense fallback={<Spinner />}>
@@ -182,7 +184,7 @@ export const PrintResource = ({ resource, typesetElement }: PrintArticleProps) =
       </Suspense>
       <Text>
         {`${t("source")}: `}
-        <SafeLink to={sourceUrl}>{sourceUrl}</SafeLink>
+        <SafeLink to={trackedUrl.toString()}>{sourceUrl}</SafeLink>
       </Text>
     </PrintSection>
   );
