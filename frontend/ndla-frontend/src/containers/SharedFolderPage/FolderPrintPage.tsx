@@ -218,10 +218,12 @@ const FolderPrint = ({ folder }: FolderPrintProps) => {
     [t, i18n, renderedDate],
   );
 
+  const pageUrl = `${config.ndlaFrontendDomain}${location.pathname}`;
+
   const emailTemplate = useMemo(
     () =>
-      `mailto:hjelp@ndla.no?subject=${t("folderPrintPage.emailSubject")}&body=${t("folderPrintPage.emailBody", { url: location.toString(), description: subtitle, interpolation: { escapeValue: false } })}`,
-    [t, subtitle],
+      `mailto:hjelp@ndla.no?subject=${t("folderPrintPage.emailSubject")}&body=${t("folderPrintPage.emailBody", { url: pageUrl, description: subtitle, interpolation: { escapeValue: false } })}`,
+    [t, subtitle, pageUrl],
   );
 
   return (
