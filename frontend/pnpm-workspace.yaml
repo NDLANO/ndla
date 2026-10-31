@@ -91,7 +91,7 @@ catalog:
   openapi-typescript-helpers: ^0.1.0
   openid-client: ^6.8.8
   oxfmt: ^0.75.0
-  oxlint: ^1.89.0
+  oxlint: ^1.90.0
   oxlint-tsgolint: ^7.0.2005
   postcss: ^8.5.32
   postcss-preset-env: ^11.6.1
