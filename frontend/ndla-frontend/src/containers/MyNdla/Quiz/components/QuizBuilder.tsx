@@ -311,14 +311,7 @@ export const QuizBuilder = ({
             </MyNdlaPageContent>
           </TabsContent>
           <TabsContent value="settings">
-            <QuizSettingsTab
-              randomSubset={state.randomSubset}
-              onRandomSubsetChange={(randomSubset) => onFormChange({ ...state, randomSubset })}
-              randomOrder={state.randomOrder}
-              onRandomOrderChange={(randomOrder) => onFormChange({ ...state, randomOrder })}
-              questionCount={state.questionCount}
-              onQuestionCountChange={(questionCount) => onFormChange({ ...state, questionCount })}
-            />
+            <QuizSettingsTab state={state} onChange={onFormChange} />
           </TabsContent>
         </TabsRoot>
       </MyNdlaPageContent>

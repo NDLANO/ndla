@@ -17,9 +17,12 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import type { QuestionCountOption } from "./QuizBuilder";
+import type { QuestionCountOption, QuizBuilderState } from "./QuizBuilder";
 import { QUESTION_COUNT_OPTIONS } from "./quizBuilderUtils";
+
+const MIN_QUESTIONS_FOR_RANDOM_SUBSET = 6;
 
 const Panel = styled("div", {
   base: {
@@ -66,23 +69,15 @@ const StyledRadioGroupItemText = styled(RadioGroupItemText, {
 });
 
 interface Props {
-  randomSubset: boolean;
-  onRandomSubsetChange: (value: boolean) => void;
-  randomOrder: boolean;
-  onRandomOrderChange: (value: boolean) => void;
-  questionCount: QuestionCountOption;
-  onQuestionCountChange: (value: QuestionCountOption) => void;
+  state: QuizBuilderState;
+  onChange: (state: QuizBuilderState) => void;
 }
 
-export const QuizSettingsTab = ({
-  randomSubset,
-  onRandomSubsetChange,
-  randomOrder,
-  onRandomOrderChange,
-  questionCount,
-  onQuestionCountChange,
-}: Props) => {
+export const QuizSettingsTab = ({ state, onChange }: Props) => {
+  const { randomSubset, randomOrder, questionCount } = state;
+  const totalQuestions = state.questions.length;
   const { t } = useTranslation();
+  const [subsetError, setSubsetError] = useState(false);
 
   return (
     <Panel>
@@ -94,7 +89,7 @@ export const QuizSettingsTab = ({
         <RadioGroupRoot
           orientation="vertical"
           value={randomOrder ? "yes" : "no"}
-          onValueChange={(details) => onRandomOrderChange(details.value === "yes")}
+          onValueChange={(details) => onChange({ ...state, randomOrder: details.value === "yes" })}
         >
           <StyledRadioGroupLabel>{t("myNdla.quiz.form.settingsTab.randomOrder")}</StyledRadioGroupLabel>
           {["yes", "no"].map((value) => (
@@ -112,7 +107,15 @@ export const QuizSettingsTab = ({
         <RadioGroupRoot
           orientation="vertical"
           value={randomSubset ? "yes" : "no"}
-          onValueChange={(details) => onRandomSubsetChange(details.value === "yes")}
+          onValueChange={(details) => {
+            const wantsSubset = details.value === "yes";
+            if (wantsSubset && totalQuestions < MIN_QUESTIONS_FOR_RANDOM_SUBSET) {
+              setSubsetError(true);
+              return;
+            }
+            setSubsetError(false);
+            onChange({ ...state, randomSubset: wantsSubset });
+          }}
         >
           <StyledRadioGroupLabel>{t("myNdla.quiz.form.settingsTab.randomSubset")}</StyledRadioGroupLabel>
           {["yes", "no"].map((value) => (
@@ -125,24 +128,35 @@ export const QuizSettingsTab = ({
             </RadioGroupItem>
           ))}
         </RadioGroupRoot>
+        {!!subsetError && (
+          <Text textStyle="label.small" color="text.error" role="alert">
+            {t("myNdla.quiz.form.settingsTab.randomSubsetMinQuestions")}
+          </Text>
+        )}
       </SettingRow>
-      <SettingRow>
-        <RadioGroupRoot
-          orientation="vertical"
-          value={String(questionCount)}
-          onValueChange={(details) => onQuestionCountChange(Number(details.value) as QuestionCountOption)}
-          disabled={!randomSubset}
-        >
-          <StyledRadioGroupLabel>{t("myNdla.quiz.form.settingsTab.questionCount")}</StyledRadioGroupLabel>
-          {QUESTION_COUNT_OPTIONS.map((count) => (
-            <RadioGroupItem value={String(count)} key={count}>
-              <RadioGroupItemControl />
-              <StyledRadioGroupItemText>{count}</StyledRadioGroupItemText>
-              <RadioGroupItemHiddenInput />
-            </RadioGroupItem>
-          ))}
-        </RadioGroupRoot>
-      </SettingRow>
+      {!!randomSubset && (
+        <SettingRow>
+          <RadioGroupRoot
+            orientation="vertical"
+            value={String(questionCount)}
+            onValueChange={(details) =>
+              onChange({
+                ...state,
+                questionCount: Number(details.value) as QuestionCountOption,
+              })
+            }
+          >
+            <StyledRadioGroupLabel>{t("myNdla.quiz.form.settingsTab.questionCount")}</StyledRadioGroupLabel>
+            {QUESTION_COUNT_OPTIONS.map((count) => (
+              <RadioGroupItem value={String(count)} key={count}>
+                <RadioGroupItemControl />
+                <StyledRadioGroupItemText>{count}</StyledRadioGroupItemText>
+                <RadioGroupItemHiddenInput />
+              </RadioGroupItem>
+            ))}
+          </RadioGroupRoot>
+        </SettingRow>
+      )}
     </Panel>
   );
 };
