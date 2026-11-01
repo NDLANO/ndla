@@ -1,0 +1,37 @@
+name: "Backend dependency cache"
+description: |
+  Restores or saves the coursier and mill caches that the backend build downloads into. One cache is
+  shared by every backend job, keyed on the files that declare backend dependencies. Only the nightly
+  warm-up job in Backend CI saves it; everything else restores.
+inputs:
+  mode:
+    description: "'restore' restores the newest matching cache, 'lookup' only checks whether this exact key exists, 'save' saves the cache under this key"
+    required: false
+    default: "restore"
+outputs:
+  cache-hit:
+    description: "'true' if a cache exists for exactly this key"
+    value: ${{ steps.restore.outputs.cache-hit }}
+runs:
+  using: composite
+  steps:
+    - name: "Restore dependency cache"
+      id: restore
+      if: inputs.mode != 'save'
+      uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+      with:
+        path: |
+          ~/.cache/coursier
+          ~/.cache/mill
+        key: ${{ runner.os }}-backend-deps-v1-${{ hashFiles('backend/mill', 'backend/**/*.mill', 'backend/versions.json', '!backend/out/**') }}
+        restore-keys: |
+          ${{ runner.os }}-backend-deps-v1-
+        lookup-only: ${{ inputs.mode == 'lookup' }}
+    - name: "Save dependency cache"
+      if: inputs.mode == 'save'
+      uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+      with:
+        path: |
+          ~/.cache/coursier
+          ~/.cache/mill
+        key: ${{ runner.os }}-backend-deps-v1-${{ hashFiles('backend/mill', 'backend/**/*.mill', 'backend/versions.json', '!backend/out/**') }}
