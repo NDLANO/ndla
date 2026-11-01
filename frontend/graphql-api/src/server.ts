@@ -89,6 +89,13 @@ const getExtensions = (cause: unknown) => {
 async function startApolloServer(): Promise<void> {
   const stopGracePeriodMillis = 20_000;
   const httpServer = configureKeepAlive(createServer(app));
+  let reloading = false;
+  onBeforeFullReload(() => {
+    reloading = true;
+    const closed = new Promise<void>((resolve) => httpServer.close(() => resolve()));
+    httpServer.closeAllConnections();
+    return closed;
+  });
   apolloServer = new ApolloServer<ContextWithLoaders>({
     schema: withOperationSpans(makeExecutableSchema({ typeDefs, resolvers })),
     introspection: true,
@@ -111,6 +118,7 @@ async function startApolloServer(): Promise<void> {
     },
   });
   await apolloServer.start();
+  if (reloading) return;
   app.use(
     "/graphql-api/graphql",
     cors(),
@@ -126,11 +134,6 @@ async function startApolloServer(): Promise<void> {
   httpServer.listen(GRAPHQL_PORT, () =>
     getLogger().info(`GraphQL Playground is now running on http://localhost:${GRAPHQL_PORT}/graphql-api/graphql`),
   );
-
-  onBeforeFullReload(() => {
-    httpServer.closeIdleConnections();
-    httpServer.close();
-  });
 }
 
 if (process.env.NODE_ENV === "production") {

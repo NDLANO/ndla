@@ -30,7 +30,7 @@ if (import.meta.env.PROD) {
     base: "/",
   });
   staticRouter.use(vite.middlewares);
-  onBeforeFullReload(() => void vite.close());
+  onBeforeFullReload(() => vite.close());
 }
 
 // We need to serve these files from the `swagger-ui-dist` package because we redirect to them directly
