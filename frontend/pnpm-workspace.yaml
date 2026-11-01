@@ -107,7 +107,7 @@ catalog:
   slate-dom: ^0.147.3
   slate-history: ^0.144.0
   slate-hyperscript: ^0.138.3
-  slate-react: ^0.147.3
+  slate-react: ^0.147.5
   storybook: ^10.6.5
   svgo: ^4.1.0
   tsdown: ^0.23.2

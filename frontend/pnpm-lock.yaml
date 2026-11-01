@@ -445,8 +445,8 @@ catalogs:
       specifier: ^0.138.3
       version: 0.138.3
     slate-react:
-      specifier: ^0.147.3
-      version: 0.147.3
+      specifier: ^0.147.5
+      version: 0.147.5
     storybook:
       specifier: ^10.6.5
       version: 10.6.5
@@ -615,7 +615,7 @@ importers:
         version: 0.144.0(slate@0.147.4)
       slate-react:
         specifier: 'catalog:'
-        version: 0.147.3(@types/lodash@4.17.27)(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(slate-dom@0.147.3(slate@0.147.4))(slate@0.147.4)
+        version: 0.147.5(@types/lodash@4.17.27)(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(slate-dom@0.147.3(slate@0.147.4))(slate@0.147.4)
       storybook:
         specifier: 'catalog:'
         version: 10.6.5(@types/react@19.3.0)(prettier@3.9.10)(react@19.3.1)
@@ -1039,7 +1039,7 @@ importers:
         version: 0.138.3(slate@0.147.4)
       slate-react:
         specifier: 'catalog:'
-        version: 0.147.3(@types/lodash@4.17.27)(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(slate-dom@0.147.3(slate@0.147.4))(slate@0.147.4)
+        version: 0.147.5(@types/lodash@4.17.27)(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(slate-dom@0.147.3(slate@0.147.4))(slate@0.147.4)
       winston:
         specifier: 'catalog:'
         version: 3.19.0
@@ -1452,7 +1452,7 @@ importers:
         version: 0.138.3(slate@0.147.4)
       slate-react:
         specifier: 'catalog:'
-        version: 0.147.3(@types/lodash@4.17.27)(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(slate-dom@0.147.3(slate@0.147.4))(slate@0.147.4)
+        version: 0.147.5(@types/lodash@4.17.27)(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(slate-dom@0.147.3(slate@0.147.4))(slate@0.147.4)
       winston:
         specifier: 'catalog:'
         version: 3.19.0
@@ -1844,7 +1844,7 @@ importers:
         version: 0.144.0(slate@0.147.4)
       slate-react:
         specifier: 'catalog:'
-        version: 0.147.3(@types/lodash@4.17.27)(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(slate-dom@0.147.3(slate@0.147.4))(slate@0.147.4)
+        version: 0.147.5(@types/lodash@4.17.27)(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(slate-dom@0.147.3(slate@0.147.4))(slate@0.147.4)
       tsdown:
         specifier: 'catalog:'
         version: 0.23.2(oxc-resolver@11.21.2)(tsx@4.23.15)(typescript@7.0.2)
@@ -1890,7 +1890,7 @@ importers:
         version: 0.144.0(slate@0.147.4)
       slate-react:
         specifier: 'catalog:'
-        version: 0.147.3(@types/lodash@4.17.27)(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(slate-dom@0.147.3(slate@0.147.4))(slate@0.147.4)
+        version: 0.147.5(@types/lodash@4.17.27)(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(slate-dom@0.147.3(slate@0.147.4))(slate@0.147.4)
       tsdown:
         specifier: 'catalog:'
         version: 0.23.2(oxc-resolver@11.21.2)(tsx@4.23.15)(typescript@7.0.2)
@@ -10980,8 +10980,8 @@ packages:
     peerDependencies:
       slate: '>=0.114.3'
 
-  slate-react@0.147.3:
-    resolution: {integrity: sha512-9e4W21wgOGGCtLdt5XVjS/VrE/ZGe4/cxQRJ1gbgTSOd6YNl8B/ebSHOhgd8pdL+JUtwLZU+dNpysBPdA7V0Xg==}
+  slate-react@0.147.5:
+    resolution: {integrity: sha512-XTMz12tMWOi/hRs8PtH9FFEndPt5ZGiPmWcRLmcXACngPo8qtufiBwd7PYG0xRhYo0AsR0g5Ps9NtnBIq8s6lg==}
     peerDependencies:
       '@types/lodash': ^4.14.0
       '@types/react': '>=18.0.0'
@@ -22473,7 +22473,7 @@ snapshots:
     dependencies:
       slate: 0.147.4
 
-  slate-react@0.147.3(@types/lodash@4.17.27)(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(slate-dom@0.147.3(slate@0.147.4))(slate@0.147.4):
+  slate-react@0.147.5(@types/lodash@4.17.27)(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(slate-dom@0.147.3(slate@0.147.4))(slate@0.147.4):
     dependencies:
       '@juggle/resize-observer': 3.4.0
       direction: 1.0.4
