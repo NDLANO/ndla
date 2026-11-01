@@ -161,10 +161,7 @@ const LearningResourcePanels = ({
     [],
   );
   const copyrightFields = useMemo<FlatArticleKeys[]>(() => ["copyright"], []);
-  const removeComments = useMemo(
-    () => RESET_COMMENTS_STATUSES.some((s) => s === article?.status.current),
-    [article?.status],
-  );
+  const removeComments = RESET_COMMENTS_STATUSES.some((s) => s === article?.status.current);
 
   const onCheckedChange = useCallback(
     (details: SwitchCheckedChangeDetails) => {
