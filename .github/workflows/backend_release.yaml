@@ -44,7 +44,7 @@ jobs:
         with:
           fetch-depth: 2
       - uses: coursier/cache-action@ee0650f98295f27a505e4bfd284c9bfaa913a465 # v9
-      - uses: jdx/mise-action@6be3c7ed4c21d4f76b208d351d95aac273ebb76d # v5
+      - uses: jdx/mise-action@6612f0ef07ed2a736cd1e00a94a065522dd41195 # v5
         with:
           working_directory: backend
       - id: select
