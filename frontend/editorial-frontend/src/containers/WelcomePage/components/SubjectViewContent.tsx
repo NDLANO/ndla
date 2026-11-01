@@ -176,7 +176,7 @@ const SubjectViewContent = ({
         { id: `publish_${stats.subjectId}`, data: stats.publishedArticleCount },
       ];
     });
-  }, [data, favoriteSubjects?.results, isFavoriteTab, subjects]);
+  }, [data, favoriteSubjects, isFavoriteTab, subjects]);
 
   return (
     <>
