@@ -444,7 +444,6 @@ export const typeDefs = gql`
     embedUrl: LearningpathEmbedInput
     showTitle: Boolean!
     type: LearningpathStepType!
-    license: String
     copyright: LearningpathCopyrightInput
   }
 
@@ -458,7 +457,6 @@ export const typeDefs = gql`
     embedUrl: LearningpathEmbedInput
     showTitle: Boolean
     type: LearningpathStepType
-    license: String
     copyright: LearningpathCopyrightInput
   }
 

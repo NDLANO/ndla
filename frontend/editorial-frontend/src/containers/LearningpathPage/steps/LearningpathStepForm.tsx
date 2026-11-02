@@ -22,6 +22,7 @@ import {
   RadioGroupRoot,
 } from "@ndla/primitives";
 import type {
+  CopyrightDTO,
   LearningStepV2DTO,
   NewLearningStepV2DTO,
   StepType,
@@ -69,9 +70,7 @@ export const toFormValues = (type: Exclude<StepType, "QUIZ">, step?: LearningSte
         title: step?.title.title ?? "",
         introduction: step?.introduction?.introduction ?? "",
         description: learningpathBlockContentToEditorValue(step?.description?.description ?? ""),
-        // TODO: `license` is deprecated in the backend API; migrate to its replacement
-        // oxlint-disable-next-line typescript/no-deprecated
-        license: step?.license?.license,
+        license: step?.copyright?.license.license,
       };
     case "EXTERNAL":
       return {
@@ -83,9 +82,7 @@ export const toFormValues = (type: Exclude<StepType, "QUIZ">, step?: LearningSte
         description: step?.description?.description
           ? learningpathBlockContentToEditorValue(step?.description?.description ?? "")
           : undefined,
-        // TODO: `license` is deprecated in the backend API; migrate to its replacement
-        // oxlint-disable-next-line typescript/no-deprecated
-        license: step?.license?.license,
+        license: step?.copyright?.license.license,
       };
     case "ARTICLE":
       return {
@@ -95,9 +92,7 @@ export const toFormValues = (type: Exclude<StepType, "QUIZ">, step?: LearningSte
         description: step?.description?.description
           ? learningpathBlockContentToEditorValue(step.description.description)
           : undefined,
-        // TODO: `license` is deprecated in the backend API; migrate to its replacement
-        // oxlint-disable-next-line typescript/no-deprecated
-        license: step?.license?.license,
+        license: step?.copyright?.license.license,
         articleId: step?.articleId,
       };
     default:
@@ -111,8 +106,12 @@ interface Props {
   onClose?: (focusId?: number) => void;
 }
 
+const formValuesToCopyright = (license: string | undefined, step?: LearningStepV2DTO): CopyrightDTO | undefined =>
+  license ? { license: { license }, contributors: step?.copyright?.contributors ?? [] } : undefined;
+
 const formValuesToStep = (
   values: LearningpathStepFormValues,
+  step?: LearningStepV2DTO,
 ): Omit<NewLearningStepV2DTO | UpdatedLearningStepV2DTO, "language" | "revision"> => {
   const htmlDescription = blockContentToHTML(values.description ?? []);
   const description = htmlDescription === "<section></section>" ? null : htmlDescription;
@@ -122,9 +121,7 @@ const formValuesToStep = (
       title: values.title,
       introduction: values.introduction,
       description,
-      // TODO: `license` is deprecated in the backend API; migrate to its replacement
-      // oxlint-disable-next-line typescript/no-deprecated
-      license: values.license,
+      copyright: formValuesToCopyright(values.license, step),
       embedUrl: null,
       articleId: null,
     };
@@ -136,9 +133,7 @@ const formValuesToStep = (
       title: values.title,
       introduction: values.introduction,
       description: description?.length ? description : null,
-      // TODO: `license` is deprecated in the backend API; migrate to its replacement
-      // oxlint-disable-next-line typescript/no-deprecated
-      license: values.license,
+      copyright: formValuesToCopyright(values.license, step),
       articleId: null,
       embedUrl: {
         url: values.url,
@@ -150,9 +145,7 @@ const formValuesToStep = (
   return {
     type: "ARTICLE",
     title: values.title.length ? values.title : null,
-    // TODO: `license` is deprecated in the backend API; migrate to its replacement
-    // oxlint-disable-next-line typescript/no-deprecated
-    license: values.license,
+    copyright: formValuesToCopyright(values.license, step),
     introduction: null,
     description: description?.length ? description : null,
     articleId: values.articleId,
@@ -194,7 +187,7 @@ export const LearningpathStepForm = ({ step, onClose, onlyPublishedResources }: 
       const numericId = id ? parseInt(id) : undefined;
       if (!numericId || !language) return;
       let newStep: LearningStepV2DTO | undefined = undefined;
-      const input = formValuesToStep(values);
+      const input = formValuesToStep(values, step);
       if (step) {
         await patchLearningStepMutation.mutateAsync({
           learningpathId: numericId,

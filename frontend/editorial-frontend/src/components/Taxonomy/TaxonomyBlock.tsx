@@ -16,7 +16,6 @@ import { useSession } from "../../containers/Session/SessionProvider";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
 import { postNode } from "../../modules/nodes/nodeApi";
 import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
-import { createResourceResourceType } from "../../modules/taxonomy";
 import { FormContent } from "../FormikForm";
 import OptGroupVersionSelector from "../Taxonomy/OptGroupVersionSelector";
 import { TaxonomyConnectionErrors } from "./TaxonomyConnectionErrors";
@@ -72,24 +71,16 @@ export const TaxonomyBlock = ({
 
   const createNodeConnection = useCallback(async () => {
     const contentType = nodeType === "resource" ? resourceType : "article";
-    const nodeLocation = await postNode({
+    await postNode({
       body: {
         contentUri: `urn:${contentType}:${resourceId}`,
         language: i18n.language,
         name: resourceTitle ?? "",
         nodeType: nodeType === "resource" ? "RESOURCE" : "TOPIC",
+        resourceTypes: resourceType === "learningpath" ? [RESOURCE_TYPE_LEARNING_PATH] : undefined,
       },
       taxonomyVersion,
     });
-    if (resourceType === "learningpath") {
-      await createResourceResourceType({
-        body: {
-          resourceId: nodeLocation.replace("/v1/nodes/", ""),
-          resourceTypeId: RESOURCE_TYPE_LEARNING_PATH,
-        },
-        taxonomyVersion,
-      });
-    }
     await qc.invalidateQueries({
       queryKey: nodeQueryKeys.nodes({
         contentURI: `urn:${contentType}:${resourceId}`,
