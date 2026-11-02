@@ -128,6 +128,20 @@ test("Can use trait dropdown", async ({ page }) => {
   await expect(tagButton).not.toBeVisible();
 });
 
+test("Can use priority dropdown", async ({ page }) => {
+  await page.getByTestId("priority-select").click();
+  await page.getByRole("option", { name: "Prioritert", exact: true }).click();
+  await page.waitForURL("**/*priority=prioritized*");
+  const tagButton = page.getByRole("button", { name: "Prioritet: Prioritert" });
+  await expect(tagButton).toBeVisible();
+  await expect(page.getByTestId("content-search-result").first()).toBeVisible();
+  await expect
+    .poll(async () => Number(await page.getByTestId("searchTotalCount").innerText()))
+    .toBeGreaterThanOrEqual(40);
+  await page.getByTestId("remove-tag-button").click();
+  await expect(tagButton).not.toBeVisible();
+});
+
 test("Can use searchfield dropdown", async ({ page }) => {
   await page.locator('input[name="query"]').fill("Test");
   await page.getByRole("button", { name: "Søk", exact: true }).click();

@@ -358,6 +358,7 @@ const translations = {
       "image-height": "Select height",
       "content-type": "Select file type",
       "is-primary": "Primary connection",
+      priority: "Select priority",
     },
     tagType: {
       query: "Search:",
@@ -382,6 +383,7 @@ const translations = {
       height: "Height: {{value}}",
       "content-type": "Select file type",
       "is-primary": "Primary connection",
+      priority: "Priority: {{value}}",
     },
     btn: "Search",
     empty: "Empty",
