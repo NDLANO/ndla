@@ -10,7 +10,9 @@ import { DeleteBinLine } from "@ndla/icons";
 import { Button, IconButton, ListItemContent, ListItemHeading, ListItemRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { Node, NodeConnection } from "@ndla/types-backend/taxonomy-api";
+import type { ComponentProps } from "react";
 import { useTranslation } from "react-i18next";
+import MatomoStats from "../MatomoStats";
 import Breadcrumb from "./Breadcrumb";
 import RelevanceOptionSwitch from "./RelevanceOptionSwitch";
 import type { MinimalNodeChild } from "./types";
@@ -44,16 +46,20 @@ interface Props {
   ) => void;
   node: MinimalNodeChild | Node;
   type: "resource" | "topic";
+  matomoStats?: ComponentProps<typeof MatomoStats>;
 }
 
-const ActiveTopicConnection = ({ removeConnection, type, node, updateConnection }: Props) => {
+const ActiveTopicConnection = ({ removeConnection, type, node, updateConnection, matomoStats }: Props) => {
   const { t } = useTranslation();
 
   if (type === "topic" || !("connectionId" in node)) {
     return (
       <ListItemRoot asChild consumeCss>
         <li>
-          <Breadcrumb node={node} />
+          <ListItemContent>
+            <Breadcrumb node={node} />
+            {!!matomoStats && <MatomoStats {...matomoStats} />}
+          </ListItemContent>
         </li>
       </ListItemRoot>
     );
@@ -86,6 +92,7 @@ const ActiveTopicConnection = ({ removeConnection, type, node, updateConnection 
                 updateConnection?.({ id: node.connectionId, relevanceId, primary: node.isPrimary })
               }
             />
+            {!!matomoStats && <MatomoStats {...matomoStats} />}
             <IconButton
               aria-label={!node.isPrimary ? t("taxonomy.removeResource") : t("taxonomy.removeResourceDisabled")}
               title={!node.isPrimary ? t("taxonomy.removeResource") : t("taxonomy.removeResourceDisabled")}

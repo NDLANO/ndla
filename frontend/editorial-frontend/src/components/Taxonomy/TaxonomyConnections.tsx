@@ -6,16 +6,19 @@
  *
  */
 
-import { Text } from "@ndla/primitives";
+import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { Node, NodeChild, NodeConnection } from "@ndla/types-backend/taxonomy-api";
 import { sortBy } from "@ndla/util";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useCallback, useState } from "react";
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../constants";
+import { REMEMBER_MATOMO, TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../constants";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
+import { useLocalStorageBooleanState } from "../../containers/WelcomePage/hooks/storedFilterHooks";
 import { userDataQueryOptions } from "../../modules/draft/draftQueries";
+import { matomoStatusQueryOptions } from "../../modules/matomo/matomoQueries";
+import { transformMatomoData } from "../../modules/matomo/matomoUtil";
 import { fetchChildNodes } from "../../modules/nodes/nodeApi";
 import type { NodeWithChildren } from "../../modules/nodes/nodeApiTypes";
 import {
@@ -48,6 +51,10 @@ const Wrapper = styled("div", {
     gap: "3xsmall",
     flexDirection: "column",
   },
+});
+
+const StyledSwitchRoot = styled(SwitchRoot, {
+  base: { width: "fit" },
 });
 
 const StyledConnectionsList = styled("ul", {
@@ -92,6 +99,25 @@ export const TaxonomyConnections = ({
     ...updateNodeConnectionMutationOptions(),
     onSettled: () => qc.invalidateQueries({ queryKey }),
   });
+
+  const [showMatomoStats, setShowMatomoStats] = useLocalStorageBooleanState(REMEMBER_MATOMO);
+  const matomoUrls = placements.flatMap((placement) => (placement.context?.url ? [placement.context.url] : []));
+
+  const matomoStatsQuery = useQuery({
+    ...matomoStatusQueryOptions({ urls: matomoUrls }),
+    enabled: showMatomoStats && !!matomoUrls.length,
+    staleTime: Infinity,
+    placeholderData: keepPreviousData,
+  });
+
+  const matomoStats = useMemo(
+    () => (matomoStatsQuery.data ? transformMatomoData(matomoStatsQuery.data) : undefined),
+    [matomoStatsQuery.data],
+  );
+
+  const allMatomoStats = placements.map((placement) =>
+    placement.context ? matomoStats?.[placement.context.contextId] : undefined,
+  );
 
   const subjectsQuery = useQuery({
     ...nodesQueryOptions({ language: i18n.language, taxonomyVersion, nodeType: ["SUBJECT"] }),
@@ -225,14 +251,35 @@ export const TaxonomyConnections = ({
       <Text>
         {type === "topic" ? t("taxonomy.topics.description") : t("taxonomy.topics.taxonomySubjectConnections")}
       </Text>
+      {!!placements.length && (
+        <StyledSwitchRoot checked={showMatomoStats} onCheckedChange={(details) => setShowMatomoStats(details.checked)}>
+          <SwitchLabel>{t("matomo.switchLabel")}</SwitchLabel>
+          <SwitchControl>
+            <SwitchThumb />
+          </SwitchControl>
+          <SwitchHiddenInput />
+        </StyledSwitchRoot>
+      )}
       <StyledConnectionsList>
-        {placements.map((node) => (
+        {placements.map((node, index) => (
           <ActiveTopicConnection
             key={node.id}
             node={node}
             removeConnection={removeConnection}
             type={type}
             updateConnection={updateNodeConnection}
+            matomoStats={
+              showMatomoStats
+                ? {
+                    stats: allMatomoStats[index],
+                    allStats: allMatomoStats,
+                    isPending:
+                      matomoStatsQuery.isLoading || (matomoStatsQuery.isPlaceholderData && !allMatomoStats[index]),
+                    isError: matomoStatsQuery.isError,
+                    hideFavorites: true,
+                  }
+                : undefined
+            }
           />
         ))}
       </StyledConnectionsList>

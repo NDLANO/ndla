@@ -20,16 +20,17 @@ import {
 } from "@ndla/primitives";
 import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { useTranslation } from "react-i18next";
-import type { ResourceStats } from "../utils";
+import type { ResourceStats } from "../modules/matomo/matomoUtil";
 
 interface Props {
   stats: ResourceStats | undefined;
   allStats: (ResourceStats | undefined)[];
   isPending: boolean;
   isError: boolean;
-  contentMeta: MultiSearchSummaryDTO | undefined;
+  contentMeta?: MultiSearchSummaryDTO;
+  hideFavorites?: boolean;
 }
-const MatomoStats = ({ stats, allStats, isPending, isError, contentMeta }: Props) => {
+const MatomoStats = ({ stats, allStats, isPending, isError, contentMeta, hideFavorites }: Props) => {
   const { t } = useTranslation();
 
   if (isError) {
@@ -71,7 +72,7 @@ const MatomoStats = ({ stats, allStats, isPending, isError, contentMeta }: Props
             <li>{t("matomo.visits", { count: stats?.nb_visits ?? 0 })}</li>
             <li>{t("matomo.avgTime", { time: stats?.avg_time_on_page ?? 0 })}</li>
             <li>{t("matomo.totalHits", { count: totalHits, contexts: allStats?.filter(Boolean).length })}</li>
-            <li>{t("matomo.totalHearts", { count: contentMeta?.favorited ?? 0 })}</li>
+            {!hideFavorites && <li>{t("matomo.totalHearts", { count: contentMeta?.favorited ?? 0 })}</li>}
           </UnOrderedList>
         </PopoverContent>
       </Portal>
