@@ -109,7 +109,12 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
   const embedWithoutCaching = useMemo(() => disableImageCache(embed), [embed]);
 
   if (imageEmbedQuery.isLoading || !embed || !embedWithoutCaching) {
-    return <Spinner />;
+    return (
+      <StyledEmbedWrapper {...attributes} contentEditable={false} noClear>
+        <Spinner />
+        {children}
+      </StyledEmbedWrapper>
+    );
   }
 
   return (

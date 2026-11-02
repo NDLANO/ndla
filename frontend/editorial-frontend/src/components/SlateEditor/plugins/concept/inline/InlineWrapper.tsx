@@ -176,9 +176,11 @@ const InlineWrapper = ({ children, element, editor, attributes }: Props) => {
   return (
     <>
       {!embed ? (
-        children
+        <span {...attributes}>{children}</span>
       ) : embed.status === "error" ? (
-        <ConceptEmbed embed={embed}>{children}</ConceptEmbed>
+        <span {...attributes}>
+          <ConceptEmbed embed={embed}>{children}</ConceptEmbed>
+        </span>
       ) : (
         <PopoverRoot>
           <PopoverTrigger asChild {...attributes}>
