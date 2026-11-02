@@ -36,6 +36,14 @@ import { useTranslation } from "react-i18next";
 import type { GQLCompetenceGoalsQuery, GQLCompetenceGoalsQueryVariables } from "../graphqlTypes";
 import { DialogCloseButton } from "./DialogCloseButton";
 
+const StyledButton = styled(Button, {
+  base: {
+    _print: {
+      display: "none",
+    },
+  },
+});
+
 interface Props {
   supportedLanguages?: string[];
   subjectId?: string;
@@ -223,7 +231,7 @@ const CompetenceGoalsDialog = ({ data, loading, subjectId, isOembed }: DialogPro
     <DialogRoot size="full">
       <DialogTrigger asChild>
         {/* We bypass the regular loading prop here to avoid a crash that occurs when translating the page with Google Translate. */}
-        <Button
+        <StyledButton
           aria-label={competenceGoalsLoading ? t("loading") : undefined}
           variant="secondary"
           aria-disabled={competenceGoalsLoading ? "true" : undefined}
@@ -231,7 +239,7 @@ const CompetenceGoalsDialog = ({ data, loading, subjectId, isOembed }: DialogPro
         >
           {!!competenceGoalsLoading && <Spinner size="small" />}
           {t("competenceGoals.showCompetenceGoals")}
-        </Button>
+        </StyledButton>
       </DialogTrigger>
       <Portal>
         <DialogContent>

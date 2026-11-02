@@ -57,6 +57,9 @@ const StyledMain = styled("main", {
     display: "flex",
     flexDirection: "column",
     gap: "medium",
+    _print: {
+      display: "block",
+    },
   },
 });
 

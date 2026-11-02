@@ -132,7 +132,7 @@ const PrintArticle = ({ resource, typesetElement }: PrintArticleProps) => {
       {scripts.map((script) => (
         <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
       ))}
-      <Article article={article} hideLicenseBox />
+      <Article article={article} />
     </div>
   );
 };
