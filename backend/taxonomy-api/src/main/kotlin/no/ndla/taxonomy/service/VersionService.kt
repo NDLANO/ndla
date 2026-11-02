@@ -101,6 +101,9 @@ class VersionService(
     }
 
     command.apply(entity)
+    while (versionRepository.findFirstByHash(entity.hash) != null) {
+      entity.regenerateHash()
+    }
     val version = versionRepository.save(entity)
 
     var sourceSchema = defaultSchema

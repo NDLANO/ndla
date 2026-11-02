@@ -38,10 +38,20 @@ class Builder(
     val builder = getVersionBuilder(key)
     consumer?.accept(builder)
 
+    while (versionHashExists(builder.version.hash)) {
+      builder.version.regenerateHash()
+    }
     entityManager.persist(builder.version)
 
     return builder.version
   }
+
+  private fun versionHashExists(hash: String): Boolean =
+      entityManager
+          .createQuery("SELECT 1 FROM Version v WHERE v.hash = :hash")
+          .setParameter("hash", hash)
+          .resultList
+          .isNotEmpty()
 
   private fun getVersionBuilder(key: String?): VersionBuilder {
     val versionKey = key ?: createKey()

@@ -37,4 +37,8 @@ class Version : DomainEntity() {
     publicId = URI.create("urn:version:${UUID.randomUUID()}")
     hash = HashUtil.shortHash(publicId)
   }
+
+  fun regenerateHash() {
+    hash = HashUtil.shortHash(UUID.randomUUID())
+  }
 }
