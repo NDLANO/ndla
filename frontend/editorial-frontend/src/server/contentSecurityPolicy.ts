@@ -64,7 +64,7 @@ const scriptSrc = (() => {
     "*.nrk.no",
     "http://nrk.no",
     "https://www.youtube.com",
-    "https//*.youtube.com",
+    "https://*.youtube.com",
     "https://s.ytimg.com",
     "https://cdn.auth0.com",
     "https://vjs.zencdn.net",
