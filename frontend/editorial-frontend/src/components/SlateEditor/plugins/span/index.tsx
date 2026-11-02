@@ -27,7 +27,7 @@ import {
   DEFINITION_DESCRIPTION_ELEMENT_TYPE,
   DEFINITION_TERM_ELEMENT_TYPE,
 } from "../definitionList/definitionListTypes";
-import { TABLE_CELL_ELEMENT_TYPE } from "../table/types";
+import { TABLE_CAPTION_ELEMENT_TYPE, TABLE_CELL_ELEMENT_TYPE } from "../table/types";
 import { isSpanElement } from "./queries";
 import { SPAN_ELEMENT_TYPE, SPAN_PLUGIN } from "./types";
 
@@ -48,6 +48,7 @@ const normalizerConfig: NormalizerConfig = {
       PARAGRAPH_ELEMENT_TYPE,
       BLOCK_QUOTE_ELEMENT_TYPE,
       TABLE_CELL_ELEMENT_TYPE,
+      TABLE_CAPTION_ELEMENT_TYPE,
       LIST_ITEM_ELEMENT_TYPE,
       DEFINITION_DESCRIPTION_ELEMENT_TYPE,
       DEFINITION_TERM_ELEMENT_TYPE,

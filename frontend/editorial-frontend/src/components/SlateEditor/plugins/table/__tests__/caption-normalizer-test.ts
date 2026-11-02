@@ -8,6 +8,7 @@
 
 import { PARAGRAPH_ELEMENT_TYPE } from "@ndla/editor";
 import { anySlateElementId } from "../../../../../__tests__/vitest.setup";
+import { SPAN_ELEMENT_TYPE } from "../../span/types";
 import {
   TABLE_CAPTION_ELEMENT_TYPE,
   TABLE_CELL_HEADER_ELEMENT_TYPE,
@@ -198,6 +199,111 @@ describe("Table caption normalizer", () => {
             type: TABLE_CAPTION_ELEMENT_TYPE,
             id: anySlateElementId,
             children: [{ text: "helloworld" }],
+          },
+          {
+            type: TABLE_HEAD_ELEMENT_TYPE,
+            id: anySlateElementId,
+            children: [
+              {
+                type: TABLE_ROW_ELEMENT_TYPE,
+                id: anySlateElementId,
+                children: [
+                  {
+                    type: TABLE_CELL_HEADER_ELEMENT_TYPE,
+                    id: anySlateElementId,
+                    data: {
+                      rowspan: 1,
+                      colspan: 1,
+                      scope: "col",
+                    },
+                    children: [
+                      {
+                        type: PARAGRAPH_ELEMENT_TYPE,
+                        id: anySlateElementId,
+                        // TODO: This should probably be here
+                        // serializeAsText: true,
+                        children: [{ text: "" }],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }),
+    );
+  });
+  it("should keep language spans in the caption, but unwrap other elements inside them", () => {
+    tableEditor.reinitialize({
+      value: defaultTable({
+        value: [
+          {
+            type: TABLE_CAPTION_ELEMENT_TYPE,
+            id: anySlateElementId,
+            children: [
+              { text: "hello " },
+              {
+                type: SPAN_ELEMENT_TYPE,
+                data: { lang: "en" },
+                children: [
+                  { text: "" },
+                  {
+                    type: "content-link",
+                    id: anySlateElementId,
+                    data: { resource: "content-link", contentId: "1" },
+                    children: [{ text: "world" }],
+                  },
+                  { text: "" },
+                ],
+              },
+              { text: "" },
+            ],
+          },
+          {
+            type: TABLE_HEAD_ELEMENT_TYPE,
+            id: anySlateElementId,
+            children: [
+              {
+                type: TABLE_ROW_ELEMENT_TYPE,
+                id: anySlateElementId,
+                children: [
+                  {
+                    type: TABLE_CELL_HEADER_ELEMENT_TYPE,
+                    id: anySlateElementId,
+                    data: {
+                      rowspan: 1,
+                      colspan: 1,
+                      scope: "col",
+                    },
+                    children: [
+                      {
+                        type: PARAGRAPH_ELEMENT_TYPE,
+                        id: anySlateElementId,
+                        serializeAsText: true,
+                        children: [{ text: "" }],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }),
+      shouldNormalize: true,
+    });
+    expect(tableEditor.children).toEqual(
+      defaultTable({
+        value: [
+          {
+            type: TABLE_CAPTION_ELEMENT_TYPE,
+            id: anySlateElementId,
+            children: [
+              { text: "hello " },
+              { type: SPAN_ELEMENT_TYPE, data: { lang: "en" }, children: [{ text: "world" }] },
+              { text: "" },
+            ],
           },
           {
             type: TABLE_HEAD_ELEMENT_TYPE,
