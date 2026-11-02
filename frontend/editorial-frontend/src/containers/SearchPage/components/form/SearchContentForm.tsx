@@ -70,9 +70,7 @@ const StyledForm = styled("form", {
 
 const StyledFieldRoot = styled(FieldRoot, {
   base: {
-    tabletDown: {
-      gridColumn: "-1/1",
-    },
+    gridColumn: "span 2",
   },
 });
 
