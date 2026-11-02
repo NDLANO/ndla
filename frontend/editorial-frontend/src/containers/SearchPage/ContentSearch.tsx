@@ -6,7 +6,13 @@
  *
  */
 
-import type { DraftSearchParamsDTO } from "@ndla/types-backend/search-api";
+import {
+  articleTraitValues,
+  draftSearchFieldValues,
+  priorityValues,
+  sortValues,
+  type DraftSearchParamsDTO,
+} from "@ndla/types-backend/search-api";
 import { keyBy, uniq } from "@ndla/util";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
@@ -60,6 +66,11 @@ const DEFAULT_PARAMS: DraftSearchParamsDTO = {
 
 const RELEVANT_SUBJECT_IDS = [LMA_SUBJECT_ID, DA_SUBJECT_ID, SA_SUBJECT_ID];
 
+const isOneOf =
+  <T extends string>(values: ReadonlyArray<T>) =>
+  (value: string): value is T =>
+    values.some((v) => v === value);
+
 export const ContentSearch = () => {
   const { t, i18n } = useTranslation();
   const [params, setParams] = useStableSearchPageParams();
@@ -75,25 +86,26 @@ export const ContentSearch = () => {
 
   const parsedParams = useMemo(() => {
     const responsibles = params.get("responsible-ids");
+    const sort = params.get("sort");
     const parsed: DraftSearchParamsDTO = {
       fallback: DEFAULT_PARAMS.fallback,
       draftStatus: params.get("draft-status")?.split(",") ?? undefined,
       resourceTypes: params.get("resource-types")?.split(",") ?? undefined,
       page: Number(params.get("page")) || DEFAULT_PARAMS.page,
       pageSize: Number(params.get("page-size")) || DEFAULT_PARAMS.pageSize,
-      sort: (params.get("sort") ?? DEFAULT_PARAMS.sort) as DraftSearchParamsDTO["sort"],
+      sort: sort && isOneOf(sortValues)(sort) ? sort : DEFAULT_PARAMS.sort,
       revisionDateFrom: params.get("revision-date-from") ?? undefined,
       revisionDateTo: params.get("revision-date-to") ?? undefined,
       responsibleIds: responsibles === NO_RESPONSIBLES ? [] : responsibles?.split(",") || undefined,
       query: params.get("query") ?? undefined,
-      queryFields: params.get("query-fields")?.split(",") as DraftSearchParamsDTO["queryFields"] | undefined,
+      queryFields: params.get("query-fields")?.split(",").filter(isOneOf(draftSearchFieldValues)),
       language: params.get("language") ?? undefined,
       articleTypes: params.get("article-types")?.split(",") ?? undefined,
       subjects: params.get("subjects")?.split(",") ?? undefined,
       users: params.get("users")?.split(",") ?? undefined,
       license: params.get("license") ?? DEFAULT_PARAMS.license,
-      traits: (params.get("traits")?.split(",") ?? undefined) as DraftSearchParamsDTO["traits"] | undefined,
-      priority: (params.get("priority")?.split(",") ?? undefined) as DraftSearchParamsDTO["priority"] | undefined,
+      traits: params.get("traits")?.split(",").filter(isOneOf(articleTraitValues)),
+      priority: params.get("priority")?.split(",").filter(isOneOf(priorityValues)),
       isPrimary: params.get("is-primary") === "true" || undefined,
     };
     return parsed;
