@@ -22,7 +22,7 @@
     "test": "vitest --run",
     "clean": "rm -rf ./*/dist ./*/es ./*/lib",
     "publish": "pnpm run clean && pnpm run packages-only -t build build:types build:panda --skip-nx-cache && lerna publish",
-    "packages-only": "nx run-many --exclude=ndla-frontend,editorial-frontend,graphql-api",
+    "packages-only": "nx run-many --exclude=api-documentation,design-manual,ndla-frontend,editorial-frontend,graphql-api",
     "check-translations": "vitest --run locales/src/__tests__/",
     "generate:icons": "node ./scripts/createTsIconComponents.mts"
   },
