@@ -9,6 +9,7 @@
 import { createPlugin } from "@ndla/editor";
 import { isKeyHotkey } from "is-hotkey";
 import { Node, Transforms } from "slate";
+import { isSpanElement } from "../span/queries";
 import { isTableCaptionElement, isTableElement } from "./queries";
 import { TABLE_CAPTION_ELEMENT_TYPE, TABLE_CAPTION_PLUGIN } from "./types";
 
@@ -38,9 +39,9 @@ export const tableCaptionPlugin = createPlugin({
       return true;
     }
 
-    for (const [index, child] of node.children.entries()) {
-      if (!Node.isText(child)) {
-        Transforms.unwrapNodes(editor, { at: path.concat(index) });
+    for (const [child, childPath] of Node.descendants(node)) {
+      if (Node.isElement(child) && !isSpanElement(child)) {
+        Transforms.unwrapNodes(editor, { at: path.concat(childPath) });
         return true;
       }
     }

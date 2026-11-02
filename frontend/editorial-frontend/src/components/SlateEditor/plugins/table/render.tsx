@@ -85,7 +85,7 @@ export const tableRenderer = (editor: Editor) => {
     const path = ReactEditor.findPath(editor, text);
 
     const [parent] = Editor.node(editor, Path.parent(path));
-    if (isTableCaptionElement(parent) && Node.string(leaf) === "") {
+    if (isTableCaptionElement(parent) && Node.string(parent) === "") {
       return (
         <WithPlaceHolder attributes={attributes} placeholder="form.name.title">
           {children}

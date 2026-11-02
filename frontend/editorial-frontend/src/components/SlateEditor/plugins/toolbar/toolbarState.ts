@@ -159,7 +159,6 @@ export const defaultAreaOptions: AreaFilters = {
   "table-caption": {
     block: { hidden: true },
     inline: { hidden: true },
-    languages: { hidden: true },
     text: { hidden: true },
     mark: { bold: { hidden: true } },
   },

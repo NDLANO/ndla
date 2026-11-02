@@ -9,6 +9,7 @@
 import { PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE } from "@ndla/editor";
 import type { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
+import { SPAN_ELEMENT_TYPE } from "../../span/types";
 import {
   TABLE_BODY_ELEMENT_TYPE,
   TABLE_CAPTION_ELEMENT_TYPE,
@@ -326,6 +327,57 @@ describe("table serializing tests", () => {
 
     const html =
       '<section><table><colgroup></colgroup><colgroup span="2"></colgroup><thead><tr><th scope="col"><p>1</p></th><th scope="col"><p>2</p></th></tr></thead><tbody><tr><th rowspan="2" scope="row"><p>3</p></th><td><p>4</p></td></tr><tr><td><p>5</p></td></tr></tbody></table></section>';
+
+    const serialized = blockContentToHTML(editor);
+    expect(serialized).toMatch(html);
+
+    const deserialized = blockContentToEditorValue(html);
+    expect(deserialized).toEqual(editor);
+  });
+
+  test("serialize and deserialize table with language marking in caption", () => {
+    const editor: Descendant[] = [
+      {
+        type: SECTION_ELEMENT_TYPE,
+        children: [
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
+          {
+            type: TABLE_ELEMENT_TYPE,
+            rowHeaders: false,
+            colgroups: "<colgroup></colgroup>",
+            children: [
+              {
+                type: TABLE_CAPTION_ELEMENT_TYPE,
+                children: [
+                  { text: "Tabell " },
+                  { type: SPAN_ELEMENT_TYPE, data: { lang: "en" }, children: [{ text: "table" }] },
+                  { text: "" },
+                ],
+              },
+              {
+                type: TABLE_HEAD_ELEMENT_TYPE,
+                children: [
+                  {
+                    type: TABLE_ROW_ELEMENT_TYPE,
+                    children: [
+                      {
+                        type: TABLE_CELL_HEADER_ELEMENT_TYPE,
+                        data: { colspan: 1, rowspan: 1, scope: "col" },
+                        children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "1" }] }],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
+        ],
+      },
+    ];
+
+    const html =
+      '<section><table><caption>Tabell <span lang="en">table</span></caption><colgroup></colgroup><thead><tr><th scope="col"><p>1</p></th></tr></thead></table></section>';
 
     const serialized = blockContentToHTML(editor);
     expect(serialized).toMatch(html);
