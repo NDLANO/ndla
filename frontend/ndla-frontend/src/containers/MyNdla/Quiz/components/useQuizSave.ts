@@ -15,6 +15,7 @@ import {
   useUpdateQuizMutation,
   useUpdateQuizQuestionMutation,
 } from "../../../../mutations/quiz/quizMutations";
+import { ensureError, handleError } from "../../../../util/handleError";
 import type { QuestionFormValues } from "./QuestionCard";
 import type { QuizBuilderState } from "./QuizBuilder";
 import { questionEquals } from "./quizBuilderUtils";
@@ -24,6 +25,11 @@ interface Props {
   quiz: GQLQuizFragment | undefined;
   onQuizSynced: (quiz: GQLQuizFragment) => void;
   onQuestionSynced: (localId: string, serverId: string) => void;
+}
+
+export interface SyncResult {
+  quiz: GQLQuizFragment | undefined;
+  failed: boolean;
 }
 
 const toAlternativesInput = (question: QuestionFormValues) =>
@@ -45,15 +51,13 @@ export const useQuizSave = ({ state, quiz, onQuizSynced, onQuestionSynced }: Pro
   const snapshotRef = useRef<Record<string, QuestionFormValues>>(
     Object.fromEntries(state.questions.filter((q) => q.serverId).map((q) => [q.id, q])),
   );
-  const syncingRef = useRef(false);
+  const inFlightRef = useRef<Promise<SyncResult> | undefined>(undefined);
 
-  const sync = useCallback(async (): Promise<GQLQuizFragment | undefined> => {
-    if (!state.title.trim() || syncingRef.current) return quizRef.current;
-    syncingRef.current = true;
+  const runSync = useCallback(async (): Promise<SyncResult> => {
+    let current: GQLQuizFragment | undefined = quizRef.current;
+    let failed = false;
     try {
-      let current: GQLQuizFragment;
-      let failed = false;
-      const existing = quizRef.current;
+      const existing = current;
 
       if (!existing) {
         const res = await addQuiz({
@@ -68,7 +72,7 @@ export const useQuizSave = ({ state, quiz, onQuizSynced, onQuestionSynced }: Pro
           },
         });
         const added = res.data?.addQuiz;
-        if (!added) return undefined;
+        if (!added) return { quiz: undefined, failed: true };
         current = added;
         onQuizSynced(added);
       } else {
@@ -86,7 +90,7 @@ export const useQuizSave = ({ state, quiz, onQuizSynced, onQuestionSynced }: Pro
           },
         });
         const updated = res.data?.updateQuiz;
-        if (!updated) return undefined;
+        if (!updated) return { quiz: existing, failed: true };
         current = updated;
         onQuizSynced(updated);
       }
@@ -164,11 +168,10 @@ export const useQuizSave = ({ state, quiz, onQuizSynced, onQuestionSynced }: Pro
         knownServerIdsRef.current.delete(snapshot.serverId);
       }
 
-      return failed ? undefined : current;
-    } catch {
-      return undefined;
-    } finally {
-      syncingRef.current = false;
+      return { quiz: current, failed };
+    } catch (error) {
+      handleError(ensureError(error), { quizId: current?.id });
+      return { quiz: current, failed: true };
     }
   }, [
     state,
@@ -180,6 +183,18 @@ export const useQuizSave = ({ state, quiz, onQuizSynced, onQuestionSynced }: Pro
     onQuizSynced,
     onQuestionSynced,
   ]);
+
+  const sync = useCallback(async (): Promise<SyncResult> => {
+    if (!state.title.trim()) return { quiz: quizRef.current, failed: true };
+    if (inFlightRef.current) return inFlightRef.current;
+    const promise = runSync();
+    inFlightRef.current = promise;
+    try {
+      return await promise;
+    } finally {
+      inFlightRef.current = undefined;
+    }
+  }, [state.title, runSync]);
 
   return { sync };
 };

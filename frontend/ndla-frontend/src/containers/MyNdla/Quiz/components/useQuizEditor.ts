@@ -9,8 +9,9 @@
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useToast } from "../../../../components/ToastContext";
-import type { GQLQuizFragment } from "../../../../graphqlTypes";
+import type { GQLQuizFragment, GQLQuizStatus } from "../../../../graphqlTypes";
 import { useUpdateQuizStatusMutation } from "../../../../mutations/quiz/quizMutations";
+import { ensureError, handleError } from "../../../../util/handleError";
 import type { QuizBuilderState } from "./QuizBuilder";
 import { useQuizSave } from "./useQuizSave";
 
@@ -30,7 +31,20 @@ export const useQuizEditor = ({ initialState, initialQuiz, saveFailedMessage }: 
   const [unsharing, setUnsharing] = useState(false);
   const [quiz, setQuiz] = useState<GQLQuizFragment | undefined>(initialQuiz);
 
-  const [updateQuizStatus] = useUpdateQuizStatusMutation();
+  const [updateQuizStatusMutation] = useUpdateQuizStatusMutation();
+
+  const updateQuizStatus = useCallback(
+    async (id: string, status: GQLQuizStatus) => {
+      try {
+        const res = await updateQuizStatusMutation({ variables: { id, status } });
+        return res.data?.updateQuizStatus ?? undefined;
+      } catch (error) {
+        handleError(ensureError(error), { quizId: id, status });
+        return undefined;
+      }
+    },
+    [updateQuizStatusMutation],
+  );
 
   const onQuestionSynced = useCallback((localId: string, serverId: string) => {
     setState((prev) => ({
@@ -50,20 +64,16 @@ export const useQuizEditor = ({ initialState, initialQuiz, saveFailedMessage }: 
     setSaving(true);
 
     const isFirstSave = !quiz;
-    const synced = await sync();
-    if (!synced) {
+    const { quiz: synced, failed } = await sync();
+    // A first save may create the quiz even if some questions fail, so the status must still be set.
+    const statusFailed = isFirstSave && !!synced && !(await updateQuizStatus(synced.id, "PRIVATE"));
+
+    setSaving(false);
+    if (!synced || failed || statusFailed) {
       toast.create({ title: saveFailedMessage });
-      setSaving(false);
       return false;
     }
 
-    if (isFirstSave) {
-      await updateQuizStatus({
-        variables: { id: synced.id, status: "PRIVATE" },
-      });
-    }
-
-    setSaving(false);
     toast.create({ title: t("myNdla.quiz.toast.saved") });
     return true;
   };
@@ -71,43 +81,39 @@ export const useQuizEditor = ({ initialState, initialQuiz, saveFailedMessage }: 
   const onShare = async () => {
     setSharing(true);
 
-    const synced = await sync();
-    if (!synced) {
+    const { quiz: synced, failed } = await sync();
+    if (!synced || failed) {
       toast.create({ title: saveFailedMessage });
       setSharing(false);
       return undefined;
     }
 
-    const res = await updateQuizStatus({
-      variables: { id: synced.id, status: "PUBLIC" },
-    });
+    const updated = await updateQuizStatus(synced.id, "PUBLIC");
     setSharing(false);
-    if (!res.data?.updateQuizStatus) {
+    if (!updated) {
       toast.create({ title: t("myNdla.quiz.toast.sharedFailed") });
       return undefined;
     }
 
-    setQuiz(res.data.updateQuizStatus);
+    setQuiz(updated);
     toast.create({
       title: t("myNdla.quiz.toast.shared", { title: state.title }),
     });
-    return res.data.updateQuizStatus;
+    return updated;
   };
 
   const onUnshare = async () => {
     if (!quiz) return false;
     setUnsharing(true);
 
-    const res = await updateQuizStatus({
-      variables: { id: quiz.id, status: "PRIVATE" },
-    });
+    const updated = await updateQuizStatus(quiz.id, "PRIVATE");
     setUnsharing(false);
-    if (!res.data?.updateQuizStatus) {
+    if (!updated) {
       toast.create({ title: t("myNdla.quiz.toast.unshareFailed") });
       return false;
     }
 
-    setQuiz(res.data.updateQuizStatus);
+    setQuiz(updated);
     toast.create({
       title: t("myNdla.quiz.toast.unshared", { title: state.title }),
     });
