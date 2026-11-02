@@ -35,8 +35,8 @@
   },
   "dependencies": {
     "@ark-ui/react": "catalog:",
-    "@aws-sdk/client-bedrock-runtime": "^3.1159.0",
-    "@aws-sdk/client-transcribe": "^3.1159.0",
+    "@aws-sdk/client-bedrock-runtime": "^3.1160.0",
+    "@aws-sdk/client-transcribe": "^3.1160.0",
     "@dnd-kit/abstract": "catalog:",
     "@dnd-kit/dom": "catalog:",
     "@dnd-kit/geometry": "catalog:",
