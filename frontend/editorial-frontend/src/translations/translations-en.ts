@@ -1985,6 +1985,13 @@ const translations = {
       addNew: "Add new grep code",
       delete: "Remove {{grepCode}}",
     },
+    competenceGoals: {
+      button: "Competence goals",
+      buttonLabel: "Choose competence goals from {{subject}}",
+      title: "Competence goals in {{subject}}",
+      description: "Check the competence goals that should be connected to the resource.",
+      empty: "Found no competence goals for this subject",
+    },
     copyRevisionDates: {
       text: "Are you sure you want to copy this revision date? This will apply for all nodes and resources underneath this node",
       buttonText: "Copy revision date",

@@ -1984,6 +1984,13 @@ const translations = {
       addNew: "Legg til ny læreplankobling",
       delete: "Fjern {{grepCode}}",
     },
+    competenceGoals: {
+      button: "Kompetansemål",
+      buttonLabel: "Vel kompetansemål frå {{subject}}",
+      title: "Kompetansemål i {{subject}}",
+      description: "Kryss av for kompetansemåla som skal knytast til ressursen.",
+      empty: "Fann ingen kompetansemål for faget",
+    },
     copyRevisionDates: {
       text: "Er du heilt sikker på at du ønsker å kopiere denne revisjonsdatoen? Dette vil sette alle revisjonsdatoar frå denne noden til alle undernoder og ressursar.",
       buttonText: "Kopier revisjonsdato",

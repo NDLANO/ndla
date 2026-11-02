@@ -14,6 +14,7 @@ import type { ComponentProps } from "react";
 import { useTranslation } from "react-i18next";
 import MatomoStats from "../MatomoStats";
 import Breadcrumb from "./Breadcrumb";
+import { CompetenceGoalsDialog } from "./CompetenceGoalsDialog";
 import RelevanceOptionSwitch from "./RelevanceOptionSwitch";
 import type { MinimalNodeChild } from "./types";
 
@@ -47,9 +48,10 @@ interface Props {
   node: MinimalNodeChild | Node;
   type: "resource" | "topic";
   matomoStats?: ComponentProps<typeof MatomoStats>;
+  subject?: Node;
 }
 
-const ActiveTopicConnection = ({ removeConnection, type, node, updateConnection, matomoStats }: Props) => {
+const ActiveTopicConnection = ({ removeConnection, type, node, updateConnection, matomoStats, subject }: Props) => {
   const { t } = useTranslation();
 
   if (type === "topic" || !("connectionId" in node)) {
@@ -58,7 +60,10 @@ const ActiveTopicConnection = ({ removeConnection, type, node, updateConnection,
         <li>
           <ListItemContent>
             <Breadcrumb node={node} />
-            {!!matomoStats && <MatomoStats {...matomoStats} />}
+            <StyledWrapper>
+              {!!matomoStats && <MatomoStats {...matomoStats} />}
+              {!!subject && <CompetenceGoalsDialog subject={subject} />}
+            </StyledWrapper>
           </ListItemContent>
         </li>
       </ListItemRoot>
@@ -93,6 +98,7 @@ const ActiveTopicConnection = ({ removeConnection, type, node, updateConnection,
               }
             />
             {!!matomoStats && <MatomoStats {...matomoStats} />}
+            {!!subject && <CompetenceGoalsDialog subject={subject} />}
             <IconButton
               aria-label={!node.isPrimary ? t("taxonomy.removeResource") : t("taxonomy.removeResourceDisabled")}
               title={!node.isPrimary ? t("taxonomy.removeResource") : t("taxonomy.removeResourceDisabled")}
