@@ -1,6 +1,8 @@
 name: "Frontend: Cleanup"
 on:
-  pull_request:
+  # pull_request skips PRs with merge conflicts.
+  # NOTE: Should be changed if we need to check out PR code in this workflow.
+  pull_request_target:
     types: [closed]
     paths:
       - frontend/**
@@ -8,7 +10,7 @@ on:
       - .github/workflows/frontend_ci.yml
       - .github/actions/frontend-*/**
 concurrency:
-  group: "CI: frontend-refs/pull/${{ github.event.number }}/merge"
+  group: "Frontend: CI-refs/pull/${{ github.event.number }}/merge"
   cancel-in-progress: true
 permissions: {}
 jobs:
