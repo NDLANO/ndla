@@ -12,7 +12,7 @@ lockfile:
   includeResolutionSettings: true
 
 catalog:
-  "@ark-ui/react": ^5.39.3
+  "@ark-ui/react": ^5.40.0
   "@dnd-kit/abstract": ^0.5.1
   "@dnd-kit/dom": ^0.5.1
   "@dnd-kit/geometry": ^0.5.1
