@@ -130,6 +130,9 @@ const TextVersionText = styled("div", {
 const TextVersionButton = styled(Button, {
   base: {
     alignSelf: "flex-start",
+    _print: {
+      display: "none",
+    },
   },
 });
 
