@@ -23,6 +23,7 @@ import {
 import type { LinkPathResolver } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import type { ContentLinkEmbedData } from "@ndla/types-embed";
+import { composeRefs } from "@ndla/util";
 import { useQuery } from "@tanstack/react-query";
 import { useLayoutEffect, useMemo, useRef, type JSX } from "react";
 import { useTranslation } from "react-i18next";
@@ -153,7 +154,12 @@ const Link = ({ attributes, editor, element, children }: Props) => {
         }}
       >
         <PopoverTrigger asChild consumeCss>
-          <StyledA {...attributes} href={linkData.href} ref={linkRef} inacessible={inaccessible}>
+          <StyledA
+            {...attributes}
+            href={linkData.href}
+            ref={composeRefs(attributes.ref, linkRef)}
+            inacessible={inaccessible}
+          >
             <InlineBugfix />
             {children}
             <InlineBugfix />
