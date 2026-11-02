@@ -39,9 +39,9 @@ import { DialogCloseButton } from "./DialogCloseButton";
 const StyledButton = styled(Button, {
   base: {
     _print: {
-      display: "none"
-    }
-  }
+      display: "none",
+    },
+  },
 });
 
 interface Props {
