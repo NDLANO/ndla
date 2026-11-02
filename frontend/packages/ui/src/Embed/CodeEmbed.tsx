@@ -34,6 +34,18 @@ const StyledFigure = styled(Figure, {
     "& > *:not(:where(:first-child))": {
       marginBlockStart: "xsmall",
     },
+    // Override 60% width for code block
+    _print: {
+      width: "full",
+    },
+  },
+});
+
+const StyledButton = styled(Button, {
+  base: {
+    _print: {
+      display: "none",
+    },
   },
 });
 
@@ -65,13 +77,13 @@ export const CodeEmbed = ({ embed }: Props) => {
   }
 
   return (
-    <StyledFigure data-embed-type="code-block">
+    <StyledFigure data-embed-type="code-block" consumeCss>
       <StyledFigCaption>{embed.embedData.title || getTitleFromFormat(embed.embedData.codeFormat)}</StyledFigCaption>
       <CodeBlock
         highlightedCode={embed.status === "success" ? embed.data.highlightedCode : ""}
         format={embed.embedData.codeFormat}
       />
-      <Button
+      <StyledButton
         variant="secondary"
         onClick={async () => {
           if (embed.status === "success") {
@@ -86,7 +98,7 @@ export const CodeEmbed = ({ embed }: Props) => {
       >
         {isCopied ? <CheckLine /> : <FileCopyLine />}
         {isCopied ? t("codeBlock.copiedCode") : t("codeBlock.copyCode")}
-      </Button>
+      </StyledButton>
     </StyledFigure>
   );
 };

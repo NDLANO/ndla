@@ -175,6 +175,12 @@ export const globalCss = defineGlobalStyles({
     fontFamily: "code",
     display: "block",
     whiteSpace: "pre",
+    _print: {
+      // Horizontal scroll is not available in print, so wrap long lines instead of truncating them.
+      whiteSpace: "pre-wrap",
+      overflowWrap: "anywhere",
+      overflowX: "visible",
+    },
     "& .linenumber": {
       display: "inline-block",
       paddingBlock: "0",
