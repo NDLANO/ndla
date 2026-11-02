@@ -86,7 +86,7 @@ catalog:
   lru-cache: ^11.5.3
   nock: ^15.0.5
   nx: 24.0.2
-  open-graph-scraper: ^6.12.0
+  open-graph-scraper: ^6.13.0
   openapi-fetch: ^0.17.0
   openapi-typescript-helpers: ^0.1.0
   openid-client: ^6.8.8
