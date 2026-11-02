@@ -12,10 +12,13 @@ import { getCorrelationId } from "@ndla/shared/server";
  * downstream call) carry the request's correlation id, letting it reach downstream logs. The whole request
  * — including the nested SSR render — runs inside `createLoggerContextMiddleware`'s AsyncLocalStorage scope, so
  * the id is available here. The W3C `traceparent` is added separately and automatically by the
- * OpenTelemetry undici instrumentation, so it is not set here. Must be installed once, server-side, during
- * bootstrap. */
+ * OpenTelemetry undici instrumentation, so it is not set here. Must be installed server-side, during bootstrap.
+ * Installing it again, as when the app is evaluated again in dev, replaces the previous wrapper. */
+const originalFetchKey = Symbol.for("ndla.originalFetch");
+
 export const installCorrelationIdFetch = (): void => {
-  const originalFetch = globalThis.fetch;
+  const fetchHolder = globalThis as { [originalFetchKey]?: typeof fetch };
+  const originalFetch = (fetchHolder[originalFetchKey] ??= globalThis.fetch);
 
   globalThis.fetch = (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
     const correlationID = getCorrelationId();

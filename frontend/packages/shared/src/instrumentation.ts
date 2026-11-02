@@ -22,12 +22,14 @@ const otlpEndpoint = process.env.OTEL_EXPORTER_OTLP_ENDPOINT;
 const tracesExporter = process.env.OTEL_TRACES_EXPORTER;
 const enabled = Boolean(otlpEndpoint || tracesExporter);
 
-let sdk: NodeSDK | undefined;
+// `vite-node --watch` evaluates this module again on every reload, but the SDK can only be started once per process.
+const sdkKey = Symbol.for("ndla.otelSdk");
+const sdkHolder = globalThis as { [sdkKey]?: NodeSDK };
 
-if (enabled) {
+if (enabled && !sdkHolder[sdkKey]) {
   const traceExporter = tracesExporter === "console" ? new ConsoleSpanExporter() : new OTLPTraceExporter();
 
-  sdk = new NodeSDK({
+  const sdk = new NodeSDK({
     traceExporter,
     instrumentations: [
       getNodeAutoInstrumentations({
@@ -37,6 +39,7 @@ if (enabled) {
   });
 
   sdk.start();
+  sdkHolder[sdkKey] = sdk;
 }
 
-export { sdk };
+export const sdk = sdkHolder[sdkKey];

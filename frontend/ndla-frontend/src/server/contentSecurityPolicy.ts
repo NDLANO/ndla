@@ -41,8 +41,6 @@ const connectSrc = (() => {
       "http://localhost:3100",
       "http://localhost:4000",
       "http://localhost",
-      "http://localhost:24678",
-      "ws://localhost:24678",
       "https://tall.test.ndla.no",
     ];
   }

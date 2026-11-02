@@ -23,8 +23,9 @@ server.listen(port, () => {
 });
 
 onBeforeFullReload(() => {
-  server.closeIdleConnections();
-  server.close();
+  const closed = new Promise<void>((resolve) => server.close(() => resolve()));
+  server.closeAllConnections();
+  return closed;
 });
 
 /**
