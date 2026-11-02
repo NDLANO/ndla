@@ -190,6 +190,11 @@ export const globalCss = defineGlobalStyles({
       width: "xxlarge",
       textAlign: "right",
       marginInlineEnd: "xsmall",
+      // Prevent line numbers from inheriting the print wrapping applied to the code block.
+      _print: {
+        whiteSpace: "pre",
+        overflowWrap: "normal",
+      },
     },
     "& :nth-child(1 of .linenumber)": {
       paddingBlockStart: "xsmall",
