@@ -548,6 +548,7 @@ const translations = {
           randomSubset: "Tilfeldig utvalg av spørsmål?",
           randomOrder: "Tilfeldig rekkefølge på spørsmål?",
           questionCount: "Antall spørsmål",
+          randomSubsetMinQuestions: "Du må ha minst seks spørsmål for å velge tilfeldig utvalg",
         },
         settings: {
           title: "Innstillinger",
