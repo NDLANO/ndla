@@ -7,6 +7,7 @@
 
 package no.ndla.taxonomy.config
 
+import no.ndla.taxonomy.security.VersionWriteInterceptor
 import no.ndla.taxonomy.service.VersionRequestInterceptor
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
@@ -16,10 +17,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 class InterceptorConfig(
     private val tenantInterceptor: VersionRequestInterceptor,
     private val requestLoggerInterceptor: RequestLoggerInterceptor,
+    private val versionWriteInterceptor: VersionWriteInterceptor?,
 ) : WebMvcConfigurer {
 
   override fun addInterceptors(registry: InterceptorRegistry) {
     registry.addInterceptor(requestLoggerInterceptor).addPathPatterns("/**")
     registry.addInterceptor(tenantInterceptor).addPathPatterns("/**")
+    versionWriteInterceptor?.let { registry.addInterceptor(it).addPathPatterns("/**") }
   }
 }
