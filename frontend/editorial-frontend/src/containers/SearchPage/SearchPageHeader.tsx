@@ -10,7 +10,6 @@ import { ListCheck, SearchContent, SearchMedia, VoiceprintLine } from "@ndla/ico
 import { PageContent } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { linkOverlay } from "@ndla/styled-system/patterns";
 import type { ParseKeys } from "i18next";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
@@ -22,38 +21,16 @@ import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const StyledList = styled("ul", {
   base: {
-    display: "grid",
-    gridTemplateColumns: "repeat(4, 1fr)",
-    listStyle: "none",
-    gap: "xsmall",
-  },
-});
-
-const ItemWrapper = styled("li", {
-  base: {
-    placeSelf: "center",
-    position: "relative",
     display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-    alignItems: "center",
-    "& svg": {
-      width: "xxlarge",
-      height: "xxlarge",
-      color: "stroke.default",
-    },
-    tabletWide: {
-      width: "surface.3xsmall",
-    },
-    "& a": {
-      width: "full",
-    },
+    flexWrap: "wrap",
+    listStyle: "none",
+    gap: "3xsmall",
   },
 });
 
 const StyledPageContent = styled(PageContent, {
   base: {
-    paddingBlock: "medium",
+    paddingBlock: "small",
   },
 });
 
@@ -104,17 +81,17 @@ export const SearchPageHeader = () => {
             {searchTypes.map((type) => {
               const currentPage = type.url.startsWith(pathname);
               return (
-                <ItemWrapper key={type.type}>
-                  {type.icon}
+                <li key={type.type}>
                   <SafeLinkButton
                     to={type.url}
+                    size="small"
                     variant={currentPage ? "primary" : "secondary"}
                     aria-current={currentPage}
-                    css={linkOverlay.raw()}
                   >
+                    {type.icon}
                     {t(type.title)}
                   </SafeLinkButton>
-                </ItemWrapper>
+                </li>
               );
             })}
           </StyledList>
