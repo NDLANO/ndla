@@ -145,12 +145,7 @@
       "dependsOn": ["watch:types", "^watch:js", "^watch:codegen"],
       "cache": false,
       "continuous": true
-    },
-    "publish": [
-      {
-        "filter": { "projects": ["!tag:releasable"]}
-      }
-    ]
+    }
   },
   "defaultBase": "main",
   "namedInputs": {
