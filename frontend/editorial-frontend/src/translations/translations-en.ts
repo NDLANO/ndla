@@ -383,6 +383,8 @@ const translations = {
       "content-type": "Select file type",
       "is-primary": "Primary connection",
       priority: "Priority: {{value}}",
+      sort: "Sort: {{value}}",
+      "page-size": "Hits per page: {{value}}",
     },
     btn: "Search",
     empty: "Empty",
