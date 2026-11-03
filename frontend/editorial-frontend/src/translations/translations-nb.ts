@@ -356,6 +356,7 @@ const translations = {
       "image-height": "Velg høyde",
       "content-type": "Velg filtype",
       "is-primary": "Primærkobling",
+      priority: "Velg prioritet",
     },
     tagType: {
       query: "Søk:",
@@ -380,6 +381,7 @@ const translations = {
       height: "Høyde: {{value}}",
       "content-type": "Filtype: {{value}}",
       "is-primary": "Primærkobling",
+      priority: "Prioritet: {{value}}",
     },
     btn: "Søk",
     empty: "Tøm",

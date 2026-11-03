@@ -70,9 +70,7 @@ const StyledForm = styled("form", {
 
 const StyledFieldRoot = styled(FieldRoot, {
   base: {
-    tabletDown: {
-      gridColumn: "-1/1",
-    },
+    gridColumn: "span 2",
   },
 });
 
@@ -108,6 +106,11 @@ const getArticleTraits = (t: TFunction) => [
   { id: "AUDIO", name: t("articleTraits.AUDIO") },
   { id: "INTERACTIVE", name: t("articleTraits.INTERACTIVE") },
   { id: "PODCAST", name: t("articleTraits.PODCAST") },
+];
+
+const getPriorityOptions = (t: TFunction) => [
+  { id: "prioritized", name: t("editorFooter.prioritized") },
+  { id: "on-hold", name: t("welcomePage.workList.onHold") },
 ];
 
 const userHasCustomField = (subjects: Node[], ndlaId: string | undefined, customField: string) =>
@@ -211,6 +214,7 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
       users: null,
       license: null,
       traits: null,
+      priority: null,
       "is-primary": null,
     });
   };
@@ -292,6 +296,11 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
       ?.split(",")
       .map((f) => f.toLowerCase())
       .filter((t): t is string => !!t),
+    priority: params
+      .get("priority")
+      ?.split(",")
+      .map((f) => getTagName(f, getPriorityOptions(t)))
+      .filter((t): t is string => !!t),
     users: params
       .get("users")
       ?.split(",")
@@ -315,6 +324,7 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
     { name: "resource-types", multiple: true, options: sortBy(resourceTypes, (rt) => rt.name) },
     { name: "responsible-ids", multiple: true, options: responsibles ?? [] },
     { name: "draft-status", multiple: true, options: draftStatuses },
+    { name: "priority", multiple: true, options: getPriorityOptions(t) },
     { name: "users", multiple: true, options: users ?? [] },
     { name: "language", options: getResourceLanguages(t) },
     { name: "license", options: sortBy(licenses, (lic) => lic.name) },
