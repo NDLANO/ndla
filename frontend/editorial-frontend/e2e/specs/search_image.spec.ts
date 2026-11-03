@@ -41,9 +41,7 @@ test("Can use text input", async ({ page }) => {
 });
 
 test("Can use model released dropdown", async ({ page }) => {
-  await page.getByRole("button", { name: "Flere filtre" }).click();
-  await page.getByTestId("model-released-select").click();
-  await page.getByRole("option", { name: "Modellklarert", exact: true }).click();
+  await page.getByTestId("model-released-filter").getByText("Modellklarert", { exact: true }).click();
   await page.waitForURL("**/*model-released=yes*");
   const tagButton = page.getByRole("button", { name: "Modellklarering: Modellklarert" });
   await expect(tagButton).toBeVisible();
@@ -56,8 +54,7 @@ test("Can use model released dropdown", async ({ page }) => {
 });
 
 test("Can use language dropdown", async ({ page }) => {
-  await page.getByTestId("language-select").click();
-  await page.getByRole("option", { name: "Bokmål", exact: true }).click();
+  await page.getByTestId("language-filter").getByText("Bokmål", { exact: true }).click();
   await page.waitForURL("**/*language=nb*");
   const tagButton = page.getByRole("button", { name: "Språk: Bokmål" });
   await expect(tagButton).toBeVisible();

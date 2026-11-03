@@ -7,41 +7,37 @@
  */
 
 import { SearchLine } from "@ndla/icons";
-import { Button, FieldInput, FieldLabel, FieldRoot, IconButton } from "@ndla/primitives";
+import { FieldInput, FieldLabel, FieldRoot, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 
-const StyledFieldRoot = styled(FieldRoot, {
+const Wrapper = styled("div", {
   base: {
-    gridColumn: "1 / -2",
-  },
-});
-
-const ActionsWrapper = styled("div", {
-  base: {
-    gridColumn: "-2 / -1",
     display: "flex",
     gap: "3xsmall",
     alignItems: "center",
+    tabletDown: {
+      flexWrap: "wrap",
+    },
+  },
+});
+
+const StyledFieldRoot = styled(FieldRoot, {
+  base: {
+    flex: "1",
+    tabletDown: {
+      flexBasis: "full",
+    },
   },
 });
 
 const AddonWrapper = styled("div", {
   base: {
-    flex: "1",
-    minWidth: "0",
-    "& [data-part='value-text']": {
-      display: "block",
-      whiteSpace: "nowrap",
-      textOverflow: "ellipsis",
+    width: "surface.xxsmall",
+    tabletDown: {
+      flex: "1",
     },
-  },
-});
-
-const StyledButton = styled(Button, {
-  base: {
-    flex: "1",
   },
 });
 
@@ -55,7 +51,7 @@ interface Props {
 export const SearchQueryField = ({ value, onChange, placeholder, children }: Props) => {
   const { t } = useTranslation();
   return (
-    <>
+    <Wrapper>
       <StyledFieldRoot>
         <FieldLabel srOnly>{placeholder}</FieldLabel>
         <FieldInput
@@ -65,18 +61,10 @@ export const SearchQueryField = ({ value, onChange, placeholder, children }: Pro
           onChange={(e) => onChange(e.currentTarget.value)}
         />
       </StyledFieldRoot>
-      <ActionsWrapper>
-        {children ? (
-          <>
-            <AddonWrapper>{children}</AddonWrapper>
-            <IconButton type="submit" aria-label={t("searchForm.btn")} title={t("searchForm.btn")}>
-              <SearchLine />
-            </IconButton>
-          </>
-        ) : (
-          <StyledButton type="submit">{t("searchForm.btn")}</StyledButton>
-        )}
-      </ActionsWrapper>
-    </>
+      {!!children && <AddonWrapper>{children}</AddonWrapper>}
+      <IconButton type="submit" aria-label={t("searchForm.btn")} title={t("searchForm.btn")}>
+        <SearchLine />
+      </IconButton>
+    </Wrapper>
   );
 };

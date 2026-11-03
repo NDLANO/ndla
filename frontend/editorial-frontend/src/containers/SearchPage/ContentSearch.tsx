@@ -179,42 +179,43 @@ export const ContentSearch = () => {
     <SearchPageContainer asChild consumeCss>
       <main>
         <title>{t("htmlTitles.search.content")}</title>
-        <SearchContentForm userData={userDataQuery.data} subjects={subjectsQuery.data ?? []} />
-        <SearchListOptions totalCount={searchQuery.data?.totalCount} defaultValue={DEFAULT_PARAMS.pageSize!}>
-          <SearchSort
-            sortTypes={SORT_TYPES}
-            value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
-            onValueChange={(value) => setParams({ sort: value === DEFAULT_PARAMS.sort ? null : value })}
-          />
-        </SearchListOptions>
-        <GenericSearchList
-          type="content"
-          loading={searchQuery.isLoading}
-          error={searchQuery.error}
-          query={params.get("query")}
-          resultLength={searchQuery.data?.totalCount ?? 0}
-        >
-          {searchQuery.data?.results.map((result) => (
-            <SearchContent
-              key={`${result.id}-${result.learningResourceType}`}
-              content={result}
-              responsibleName={
-                result.responsible ? keyedResponsibles[result.responsible.responsibleId]?.name : undefined
-              }
+        <SearchContentForm userData={userDataQuery.data} subjects={subjectsQuery.data ?? []}>
+          <SearchListOptions totalCount={searchQuery.data?.totalCount} defaultValue={DEFAULT_PARAMS.pageSize!}>
+            <SearchSort
+              sortTypes={SORT_TYPES}
+              value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
+              onValueChange={(value) => setParams({ sort: value === DEFAULT_PARAMS.sort ? null : value })}
             />
-          ))}
-        </GenericSearchList>
-        <Pagination
-          page={parsedParams.page}
-          onPageChange={(details) =>
-            setParams({
-              page: details.page === DEFAULT_PARAMS.page ? null : details.page.toString(),
-            })
-          }
-          pageSize={searchQuery.data?.pageSize}
-          count={searchQuery.data?.totalCount ?? 0}
-          siblingCount={1}
-        />
+          </SearchListOptions>
+          <GenericSearchList
+            type="content"
+            loading={searchQuery.isLoading}
+            error={searchQuery.error}
+            query={params.get("query")}
+            resultLength={searchQuery.data?.totalCount ?? 0}
+          >
+            {searchQuery.data?.results.map((result) => (
+              <SearchContent
+                key={`${result.id}-${result.learningResourceType}`}
+                content={result}
+                responsibleName={
+                  result.responsible ? keyedResponsibles[result.responsible.responsibleId]?.name : undefined
+                }
+              />
+            ))}
+          </GenericSearchList>
+          <Pagination
+            page={parsedParams.page}
+            onPageChange={(details) =>
+              setParams({
+                page: details.page === DEFAULT_PARAMS.page ? null : details.page.toString(),
+              })
+            }
+            pageSize={searchQuery.data?.pageSize}
+            count={searchQuery.data?.totalCount ?? 0}
+            siblingCount={1}
+          />
+        </SearchContentForm>
       </main>
     </SearchPageContainer>
   );
