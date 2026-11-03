@@ -15,6 +15,7 @@ test.beforeEach(async ({ page, harCheckpoint }) => {
   await expect(page.getByTestId("loading-spinner")).not.toBeVisible();
   await expect(page.getByTestId("searchTotalCount")).not.toBeEmpty();
   await harCheckpoint();
+  await page.getByRole("button", { name: "Vis filtre" }).click();
 });
 
 test.afterEach(async ({ page }) => {

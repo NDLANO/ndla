@@ -13,7 +13,7 @@ import SearchHeader from "../../../../components/Form/SearchHeader";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import { useStableSearchPageParams } from "../../useStableSearchPageParams";
 import { RadioFilter } from "../filters/RadioFilter";
-import { SearchLayout } from "../SearchLayout";
+import { countActiveFilters, SearchFiltersToggle, SearchLayout } from "../SearchLayout";
 import { SearchActiveFilters } from "./SearchActiveFilters";
 import { SearchQueryField } from "./SearchQueryField";
 
@@ -51,6 +51,7 @@ const SearchAudioForm = ({ userData, children }: Props) => {
 
   return (
     <SearchLayout
+      activeFilterCount={countActiveFilters(filters)}
       sidebar={
         <RadioFilter
           title={t("searchForm.filterHeading.language")}
@@ -62,7 +63,9 @@ const SearchAudioForm = ({ userData, children }: Props) => {
         />
       }
     >
-      <SearchHeader type="podcast-series" filters={filters} userData={userData} />
+      <SearchHeader type="podcast-series" filters={filters} userData={userData}>
+        <SearchFiltersToggle />
+      </SearchHeader>
       <form
         onSubmit={(e) => {
           setParams({ query: input });

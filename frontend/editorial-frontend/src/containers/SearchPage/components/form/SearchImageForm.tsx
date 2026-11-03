@@ -25,7 +25,7 @@ import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import { useStableSearchPageParams } from "../../useStableSearchPageParams";
 import { FilterGroup } from "../filters/FilterGroup";
 import { RadioFilter } from "../filters/RadioFilter";
-import { SearchLayout } from "../SearchLayout";
+import { countActiveFilters, SearchFiltersToggle, SearchLayout } from "../SearchLayout";
 import { SearchActiveFilters } from "./SearchActiveFilters";
 import { SearchQueryField } from "./SearchQueryField";
 
@@ -216,6 +216,7 @@ const SearchImageForm = ({ userData, children }: Props) => {
 
   return (
     <SearchLayout
+      activeFilterCount={countActiveFilters(filters)}
       sidebar={
         <>
           <FilterGroup title={t("searchForm.filterHeading.license")}>
@@ -291,7 +292,9 @@ const SearchImageForm = ({ userData, children }: Props) => {
         </>
       }
     >
-      <SearchHeader type="image" filters={filters} userData={userData} />
+      <SearchHeader type="image" filters={filters} userData={userData}>
+        <SearchFiltersToggle />
+      </SearchHeader>
       <form
         onSubmit={(e) => {
           setParams({ query: input });

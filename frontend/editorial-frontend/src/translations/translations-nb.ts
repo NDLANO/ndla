@@ -389,6 +389,8 @@ const translations = {
     all: "Alle",
     showAll: "Vis alle ({{count}})",
     showFewer: "Vis færre",
+    showFilters: "Vis filtre",
+    hideFilters: "Skjul filtre",
     filterHeading: {
       subjects: "Fag",
       "draft-status": "Status",

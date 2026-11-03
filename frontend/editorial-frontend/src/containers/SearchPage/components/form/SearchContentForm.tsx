@@ -49,7 +49,7 @@ import { useStableSearchPageParams } from "../../useStableSearchPageParams";
 import { CheckboxFilter } from "../filters/CheckboxFilter";
 import { FilterGroup } from "../filters/FilterGroup";
 import { RadioFilter } from "../filters/RadioFilter";
-import { SearchLayout } from "../SearchLayout";
+import { countActiveFilters, SearchFiltersToggle, SearchLayout } from "../SearchLayout";
 import CheckboxSelector from "./CheckboxSelector";
 import { SearchActiveFilters } from "./SearchActiveFilters";
 import { SearchQueryField } from "./SearchQueryField";
@@ -307,6 +307,7 @@ const SearchContentForm = ({ subjects, userData, children }: Props) => {
 
   return (
     <SearchLayout
+      activeFilterCount={countActiveFilters(filters)}
       sidebar={
         <>
           <CheckboxFilter
@@ -416,7 +417,9 @@ const SearchContentForm = ({ subjects, userData, children }: Props) => {
         </>
       }
     >
-      <SearchHeader type="content" filters={filters} userData={userData} />
+      <SearchHeader type="content" filters={filters} userData={userData}>
+        <SearchFiltersToggle />
+      </SearchHeader>
       <form
         onSubmit={(e) => {
           setParams({ query: queryInput });

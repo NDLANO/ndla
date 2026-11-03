@@ -391,6 +391,8 @@ const translations = {
     all: "All",
     showAll: "Show all ({{count}})",
     showFewer: "Show fewer",
+    showFilters: "Show filters",
+    hideFilters: "Hide filters",
     filterHeading: {
       subjects: "Subjects",
       "draft-status": "Status",
