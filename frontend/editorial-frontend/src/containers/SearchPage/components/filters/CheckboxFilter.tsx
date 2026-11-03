@@ -26,29 +26,13 @@ interface Props {
   value: string[];
   onChange: (value: string[]) => void;
   activeCount?: number;
-  defaultOpen?: boolean;
   children?: ReactNode;
 }
 
-export const CheckboxFilter = ({
-  title,
-  name,
-  options,
-  value,
-  onChange,
-  activeCount,
-  defaultOpen,
-  children,
-}: Props) => {
+export const CheckboxFilter = ({ title, name, options, value, onChange, activeCount, children }: Props) => {
   const headingId = useId();
   return (
-    <FilterGroup
-      title={title}
-      name={name}
-      headingId={headingId}
-      activeCount={activeCount ?? value.length}
-      defaultOpen={defaultOpen}
-    >
+    <FilterGroup title={title} name={name} headingId={headingId} activeCount={activeCount ?? value.length}>
       <CheckboxGroup value={value} onValueChange={onChange} aria-labelledby={headingId}>
         {options.map((option) => (
           <CheckboxRoot key={option.id} value={option.id} disabled={option.disabled}>

@@ -340,7 +340,6 @@ const SearchContentForm = ({ subjects, userData, children }: Props) => {
             options={draftStatuses}
             value={getValues("draft-status")}
             onChange={(values) => setValues("draft-status", values)}
-            defaultOpen={false}
           />
           <CheckboxFilter
             title={t("searchForm.filterHeading.resource-types")}
@@ -348,7 +347,6 @@ const SearchContentForm = ({ subjects, userData, children }: Props) => {
             options={sortBy(resourceTypes, (rt) => rt.name)}
             value={getValues("resource-types")}
             onChange={(values) => setValues("resource-types", values)}
-            defaultOpen={false}
           />
           <FilterGroup
             title={t("searchForm.filterHeading.responsible-ids")}
@@ -394,7 +392,6 @@ const SearchContentForm = ({ subjects, userData, children }: Props) => {
             options={getResourceLanguages(t)}
             value={params.get("language")}
             onChange={(value) => setParams({ language: value })}
-            defaultOpen={false}
           />
           <FilterGroup
             title={t("searchForm.filterHeading.license")}

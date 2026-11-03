@@ -33,16 +33,15 @@ interface Props {
   options: SelectOption[];
   value: string | null | undefined;
   onChange: (value: string | null) => void;
-  defaultOpen?: boolean;
 }
 
-export const RadioFilter = ({ title, name, options, value, onChange, defaultOpen }: Props) => {
+export const RadioFilter = ({ title, name, options, value, onChange }: Props) => {
   const { t } = useTranslation();
   const headingId = useId();
   const allOptions = useMemo(() => [{ id: ALL_VALUE, name: t("searchForm.all") }, ...options], [options, t]);
 
   return (
-    <FilterGroup title={title} name={name} headingId={headingId} activeCount={value ? 1 : 0} defaultOpen={defaultOpen}>
+    <FilterGroup title={title} name={name} headingId={headingId} activeCount={value ? 1 : 0}>
       <StyledRadioGroupRoot
         orientation="vertical"
         aria-labelledby={headingId}

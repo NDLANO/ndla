@@ -38,13 +38,12 @@ interface Props {
   title: string;
   name: string;
   children: ReactNode;
-  defaultOpen?: boolean;
   activeCount?: number;
   headingId?: string;
 }
 
-export const FilterGroup = ({ title, name, children, defaultOpen = true, activeCount = 0, headingId }: Props) => (
-  <AccordionRoot collapsible defaultValue={defaultOpen || activeCount > 0 ? [name] : []} data-testid={`${name}-filter`}>
+export const FilterGroup = ({ title, name, children, activeCount = 0, headingId }: Props) => (
+  <AccordionRoot collapsible defaultValue={activeCount > 0 ? [name] : []} data-testid={`${name}-filter`}>
     <AccordionItem value={name}>
       <Heading id={headingId} asChild consumeCss textStyle="label.medium" fontWeight="bold">
         <h3>
