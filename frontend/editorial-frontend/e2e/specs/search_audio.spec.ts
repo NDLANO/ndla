@@ -40,6 +40,7 @@ test("Can use text input", async ({ page }) => {
 });
 
 test("Can use audiotype dropdown", async ({ page }) => {
+  await page.getByTestId("audio-type-filter").getByRole("button", { name: "Lydfiltype", exact: true }).click();
   await page.getByTestId("audio-type-filter").getByText("Podkast", { exact: true }).click();
   await page.waitForURL("**/*audio-type=podcast*");
   const tagButton = page.getByRole("button", { name: "Lydfiltype: Podkast" });
