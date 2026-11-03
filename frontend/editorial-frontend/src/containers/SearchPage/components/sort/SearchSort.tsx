@@ -8,6 +8,7 @@
 
 import { createListCollection } from "@ark-ui/react/collection";
 import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
+import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { GenericSelectItem, GenericSelectTrigger } from "@ndla/ui";
 import { useMemo } from "react";
@@ -16,15 +17,20 @@ import { useTranslation } from "react-i18next";
 const StyledSortContainer = styled("div", {
   base: {
     display: "flex",
-    gap: "small",
-    paddingBlock: "small",
+    gap: "xsmall",
     flexWrap: "wrap",
   },
 });
 
+const inlineSelectRootStyle = css.raw({
+  flexDirection: "row",
+  alignItems: "center",
+});
+
 const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
   base: {
-    maxWidth: "surface.xsmall",
+    width: "surface.xxsmall",
+    whiteSpace: "nowrap",
   },
 });
 
@@ -87,6 +93,7 @@ const SearchSort = ({ sortTypes = DEFAULT_SORT_TYPES, value, onValueChange }: Pr
       <SelectRoot
         collection={sortCollection}
         positioning={{ sameWidth: true }}
+        css={inlineSelectRootStyle}
         value={[sort]}
         onValueChange={(details) => {
           const value = details.value[0];
@@ -108,6 +115,7 @@ const SearchSort = ({ sortTypes = DEFAULT_SORT_TYPES, value, onValueChange }: Pr
       <SelectRoot
         collection={orderCollection}
         positioning={{ sameWidth: true }}
+        css={inlineSelectRootStyle}
         value={[order]}
         onValueChange={(details) => {
           const value = details.value[0];

@@ -65,11 +65,12 @@ export const AudioSearch = () => {
       <main>
         <title>{t("htmlTitles.search.audio")}</title>
         <SearchAudioForm userData={userDataQuery.data} />
-        <SearchSort
-          value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
-          onValueChange={(value) => setParams({ sort: value === DEFAULT_PARAMS.sort ? null : value })}
-        />
-        <SearchListOptions totalCount={searchQuery.data?.totalCount} defaultValue={DEFAULT_PARAMS.pageSize!} />
+        <SearchListOptions totalCount={searchQuery.data?.totalCount} defaultValue={DEFAULT_PARAMS.pageSize!}>
+          <SearchSort
+            value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
+            onValueChange={(value) => setParams({ sort: value === DEFAULT_PARAMS.sort ? null : value })}
+          />
+        </SearchListOptions>
         <GenericSearchList
           type="audio"
           loading={searchQuery.isLoading}
