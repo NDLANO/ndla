@@ -63,33 +63,34 @@ export const PodcastSeriesSearch = () => {
     <SearchPageContainer asChild consumeCss>
       <main>
         <title>{t("htmlTitles.search.podcast-series")}</title>
-        <SearchPodcastSeriesForm userData={userDataQuery.data} />
-        <SearchListOptions totalCount={searchQuery.data?.totalCount} defaultValue={DEFAULT_PARAMS.pageSize!}>
-          <SearchSort
-            value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
-            onValueChange={(value) => setParams({ sort: value === DEFAULT_PARAMS.sort ? null : value })}
+        <SearchPodcastSeriesForm userData={userDataQuery.data}>
+          <SearchListOptions totalCount={searchQuery.data?.totalCount} defaultValue={DEFAULT_PARAMS.pageSize!}>
+            <SearchSort
+              value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
+              onValueChange={(value) => setParams({ sort: value === DEFAULT_PARAMS.sort ? null : value })}
+            />
+          </SearchListOptions>
+          <GenericSearchList
+            type="podcast-series"
+            loading={searchQuery.isLoading}
+            error={searchQuery.error}
+            query={params.get("query")}
+            resultLength={searchQuery.data?.totalCount ?? 0}
+          >
+            {searchQuery.data?.results.map((series) => (
+              <SearchPodcastSeries series={series} key={series.id} />
+            ))}
+          </GenericSearchList>
+          <Pagination
+            page={Number(params.get("page")) || DEFAULT_PARAMS.page}
+            onPageChange={(details) =>
+              setParams({ page: details.page === DEFAULT_PARAMS.page ? null : details.page.toString() })
+            }
+            pageSize={searchQuery.data?.pageSize}
+            count={searchQuery.data?.totalCount ?? 0}
+            siblingCount={1}
           />
-        </SearchListOptions>
-        <GenericSearchList
-          type="podcast-series"
-          loading={searchQuery.isLoading}
-          error={searchQuery.error}
-          query={params.get("query")}
-          resultLength={searchQuery.data?.totalCount ?? 0}
-        >
-          {searchQuery.data?.results.map((series) => (
-            <SearchPodcastSeries series={series} key={series.id} />
-          ))}
-        </GenericSearchList>
-        <Pagination
-          page={Number(params.get("page")) || DEFAULT_PARAMS.page}
-          onPageChange={(details) =>
-            setParams({ page: details.page === DEFAULT_PARAMS.page ? null : details.page.toString() })
-          }
-          pageSize={searchQuery.data?.pageSize}
-          count={searchQuery.data?.totalCount ?? 0}
-          siblingCount={1}
-        />
+        </SearchPodcastSeriesForm>
       </main>
     </SearchPageContainer>
   );

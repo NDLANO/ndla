@@ -6,31 +6,23 @@
  *
  */
 
-import { styled } from "@ndla/styled-system/jsx";
 import type { UserDataDTO } from "@ndla/types-backend/draft-api";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import SearchHeader from "../../../../components/Form/SearchHeader";
-import ObjectSelector from "../../../../components/ObjectSelector";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import { useStableSearchPageParams } from "../../useStableSearchPageParams";
+import { RadioFilter } from "../filters/RadioFilter";
+import { SearchLayout } from "../SearchLayout";
 import { SearchActiveFilters } from "./SearchActiveFilters";
-import { SearchFilters } from "./SearchFilters";
 import { SearchQueryField } from "./SearchQueryField";
-
-const StyledForm = styled("form", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "3xsmall",
-  },
-});
 
 interface Props {
   userData: UserDataDTO | undefined;
+  children?: ReactNode;
 }
 
-const SearchAudioForm = ({ userData }: Props) => {
+const SearchAudioForm = ({ userData, children }: Props) => {
   const { t } = useTranslation();
   const [params, setParams] = useStableSearchPageParams();
   const [input, setInput] = useState(params.get("query") ?? "");
@@ -58,27 +50,30 @@ const SearchAudioForm = ({ userData }: Props) => {
   };
 
   return (
-    <>
+    <SearchLayout
+      sidebar={
+        <RadioFilter
+          title={t("searchForm.filterHeading.language")}
+          name="language"
+          options={getResourceLanguages(t)}
+          value={params.get("language")}
+          onChange={(value) => setParams({ language: value })}
+          collapsedCount={4}
+        />
+      }
+    >
       <SearchHeader type="podcast-series" filters={filters} userData={userData} />
-      <StyledForm
+      <form
         onSubmit={(e) => {
           setParams({ query: input });
           e.preventDefault();
         }}
       >
-        <SearchFilters>
-          <SearchQueryField value={input} onChange={setInput} placeholder={t("searchForm.types.audioQuery")} />
-          <ObjectSelector
-            name="language"
-            value={params.get("language") ?? ""}
-            options={getResourceLanguages(t)}
-            onChange={(value) => setParams({ language: value[0] })}
-            placeholder={t("searchForm.types.language")}
-          />
-        </SearchFilters>
-      </StyledForm>
+        <SearchQueryField value={input} onChange={setInput} placeholder={t("searchForm.types.audioQuery")} />
+      </form>
       <SearchActiveFilters onReset={emptySearch} onRemoveTag={(tag) => setParams({ [tag]: null })} tags={filters} />
-    </>
+      {children}
+    </SearchLayout>
   );
 };
 

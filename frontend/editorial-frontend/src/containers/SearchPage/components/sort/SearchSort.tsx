@@ -7,7 +7,8 @@
  */
 
 import { createListCollection } from "@ark-ui/react/collection";
-import { SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
+import { ArrowRightLine } from "@ndla/icons";
+import { IconButton, SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
 import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { GenericSelectItem, GenericSelectTrigger } from "@ndla/ui";
@@ -17,14 +18,28 @@ import { useTranslation } from "react-i18next";
 const StyledSortContainer = styled("div", {
   base: {
     display: "flex",
-    gap: "xsmall",
-    flexWrap: "wrap",
+    gap: "3xsmall",
+    alignItems: "center",
   },
 });
 
 const inlineSelectRootStyle = css.raw({
   flexDirection: "row",
   alignItems: "center",
+});
+
+const OrderIcon = styled(ArrowRightLine, {
+  base: {
+    transform: "rotate(-90deg)",
+  },
+  variants: {
+    order: {
+      desc: {
+        transform: "rotate(90deg)",
+      },
+      asc: {},
+    },
+  },
 });
 
 const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
@@ -54,8 +69,6 @@ interface Props {
 
 const DEFAULT_SORT_TYPES: SortType[] = ["id", "relevance", "title", "lastUpdated"];
 
-const orderTypes: ("desc" | "asc")[] = ["desc", "asc"];
-
 const SearchSort = ({ sortTypes = DEFAULT_SORT_TYPES, value, onValueChange }: Props) => {
   const { t } = useTranslation();
 
@@ -69,10 +82,12 @@ const SearchSort = ({ sortTypes = DEFAULT_SORT_TYPES, value, onValueChange }: Pr
     onValueChange(_order + value);
   };
 
-  const handleOrderChange = (value: string) => {
-    const newOrder = value === "desc" ? "-" : "";
+  const toggleOrder = () => {
+    const newOrder = order === "desc" ? "" : "-";
     onValueChange(newOrder + sort);
   };
+
+  const orderLabel = `${t("searchForm.order")}: ${t(order === "desc" ? "searchForm.desc" : "searchForm.asc")}`;
 
   const sortCollection = useMemo(() => {
     return createListCollection({
@@ -80,13 +95,6 @@ const SearchSort = ({ sortTypes = DEFAULT_SORT_TYPES, value, onValueChange }: Pr
       itemToString: (item) => t(`searchForm.sort.${item}`),
     });
   }, [sortTypes, t]);
-
-  const orderCollection = useMemo(() => {
-    return createListCollection({
-      items: orderTypes,
-      itemToString: (item) => t(`searchForm.${item}`),
-    });
-  }, [t]);
 
   return (
     <StyledSortContainer>
@@ -112,28 +120,9 @@ const SearchSort = ({ sortTypes = DEFAULT_SORT_TYPES, value, onValueChange }: Pr
           ))}
         </SelectContent>
       </SelectRoot>
-      <SelectRoot
-        collection={orderCollection}
-        positioning={{ sameWidth: true }}
-        css={inlineSelectRootStyle}
-        value={[order]}
-        onValueChange={(details) => {
-          const value = details.value[0];
-          if (value) handleOrderChange(value);
-        }}
-      >
-        <SelectLabel>{t("searchForm.order")}</SelectLabel>
-        <StyledGenericSelectTrigger>
-          <SelectValueText />
-        </StyledGenericSelectTrigger>
-        <SelectContent>
-          {orderCollection.items.map((option) => (
-            <GenericSelectItem item={option} key={option}>
-              {t(`searchForm.${option}`)}
-            </GenericSelectItem>
-          ))}
-        </SelectContent>
-      </SelectRoot>
+      <IconButton variant="secondary" aria-label={orderLabel} title={orderLabel} onClick={toggleOrder}>
+        <OrderIcon order={order === "desc" ? "desc" : "asc"} />
+      </IconButton>
     </StyledSortContainer>
   );
 };

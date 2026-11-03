@@ -80,34 +80,35 @@ export const ImageSearch = () => {
     <SearchPageContainer asChild consumeCss>
       <main>
         <title>{t("htmlTitles.search.image")}</title>
-        <SearchImageForm userData={userDataQuery.data} />
-        <SearchListOptions totalCount={searchQuery.data?.totalCount} defaultValue={DEFAULT_PARAMS.pageSize!}>
-          <SearchSort
-            sortTypes={SORT_TYPES}
-            value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
-            onValueChange={(value) => setParams({ sort: value === DEFAULT_PARAMS.sort ? null : value })}
+        <SearchImageForm userData={userDataQuery.data}>
+          <SearchListOptions totalCount={searchQuery.data?.totalCount} defaultValue={DEFAULT_PARAMS.pageSize!}>
+            <SearchSort
+              sortTypes={SORT_TYPES}
+              value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
+              onValueChange={(value) => setParams({ sort: value === DEFAULT_PARAMS.sort ? null : value })}
+            />
+          </SearchListOptions>
+          <GenericSearchList
+            type="image"
+            loading={searchQuery.isLoading}
+            error={searchQuery.error}
+            query={params.get("query")}
+            resultLength={searchQuery.data?.totalCount ?? 0}
+          >
+            {searchQuery.data?.results.map((image) => (
+              <SearchImage image={image} key={image.id} />
+            ))}
+          </GenericSearchList>
+          <Pagination
+            page={Number(params.get("page")) || DEFAULT_PARAMS.page}
+            onPageChange={(details) =>
+              setParams({ page: details.page === DEFAULT_PARAMS.page ? null : details.page.toString() })
+            }
+            pageSize={searchQuery.data?.pageSize}
+            count={searchQuery.data?.totalCount ?? 0}
+            siblingCount={1}
           />
-        </SearchListOptions>
-        <GenericSearchList
-          type="image"
-          loading={searchQuery.isLoading}
-          error={searchQuery.error}
-          query={params.get("query")}
-          resultLength={searchQuery.data?.totalCount ?? 0}
-        >
-          {searchQuery.data?.results.map((image) => (
-            <SearchImage image={image} key={image.id} />
-          ))}
-        </GenericSearchList>
-        <Pagination
-          page={Number(params.get("page")) || DEFAULT_PARAMS.page}
-          onPageChange={(details) =>
-            setParams({ page: details.page === DEFAULT_PARAMS.page ? null : details.page.toString() })
-          }
-          pageSize={searchQuery.data?.pageSize}
-          count={searchQuery.data?.totalCount ?? 0}
-          siblingCount={1}
-        />
+        </SearchImageForm>
       </main>
     </SearchPageContainer>
   );
