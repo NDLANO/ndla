@@ -63,13 +63,9 @@ export const useQuizEditor = ({ initialState, initialQuiz, saveFailedMessage }: 
   const onSave = async () => {
     setSaving(true);
 
-    const isFirstSave = !quiz;
     const { quiz: synced, failed } = await sync();
-    // A first save may create the quiz even if some questions fail, so the status must still be set.
-    const statusFailed = isFirstSave && !!synced && !(await updateQuizStatus(synced.id, "PRIVATE"));
-
     setSaving(false);
-    if (!synced || failed || statusFailed) {
+    if (!synced || failed) {
       toast.create({ title: saveFailedMessage });
       return false;
     }
