@@ -55,6 +55,7 @@ test("Can use model released dropdown", async ({ page }) => {
 });
 
 test("Can use language dropdown", async ({ page }) => {
+  await page.getByTestId("language-filter").getByRole("button", { name: "Språk" }).click();
   await page.getByTestId("language-filter").getByText("Bokmål", { exact: true }).click();
   await page.waitForURL("**/*language=nb*");
   const tagButton = page.getByRole("button", { name: "Språk: Bokmål" });

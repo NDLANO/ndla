@@ -15,9 +15,9 @@ import {
   CheckboxLabel,
   CheckboxRoot,
 } from "@ndla/primitives";
-import { useState, type ReactNode } from "react";
+import { useId, type ReactNode } from "react";
 import type { SelectOption } from "../../../../components/ObjectSelector";
-import { FilterGroup, getVisibleOptions, ShowMoreToggle } from "./FilterGroup";
+import { FilterGroup } from "./FilterGroup";
 
 interface Props {
   title: string;
@@ -25,18 +25,32 @@ interface Props {
   options: SelectOption[];
   value: string[];
   onChange: (value: string[]) => void;
-  collapsedCount?: number;
+  activeCount?: number;
+  defaultOpen?: boolean;
   children?: ReactNode;
 }
 
-export const CheckboxFilter = ({ title, name, options, value, onChange, collapsedCount, children }: Props) => {
-  const [expanded, setExpanded] = useState(false);
-  const visibleOptions = getVisibleOptions(options, value, collapsedCount, expanded);
-
+export const CheckboxFilter = ({
+  title,
+  name,
+  options,
+  value,
+  onChange,
+  activeCount,
+  defaultOpen,
+  children,
+}: Props) => {
+  const headingId = useId();
   return (
-    <FilterGroup title={title} data-testid={`${name}-filter`}>
-      <CheckboxGroup value={value} onValueChange={onChange}>
-        {visibleOptions.map((option) => (
+    <FilterGroup
+      title={title}
+      name={name}
+      headingId={headingId}
+      activeCount={activeCount ?? value.length}
+      defaultOpen={defaultOpen}
+    >
+      <CheckboxGroup value={value} onValueChange={onChange} aria-labelledby={headingId}>
+        {options.map((option) => (
           <CheckboxRoot key={option.id} value={option.id} disabled={option.disabled}>
             <CheckboxControl>
               <CheckboxIndicator asChild>
@@ -48,12 +62,6 @@ export const CheckboxFilter = ({ title, name, options, value, onChange, collapse
           </CheckboxRoot>
         ))}
       </CheckboxGroup>
-      <ShowMoreToggle
-        count={options.length}
-        collapsedCount={collapsedCount}
-        expanded={expanded}
-        onToggle={() => setExpanded((prev) => !prev)}
-      />
       {children}
     </FilterGroup>
   );

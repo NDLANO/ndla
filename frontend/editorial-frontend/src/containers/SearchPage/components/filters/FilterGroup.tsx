@@ -6,71 +6,57 @@
  *
  */
 
-import { Button, Heading } from "@ndla/primitives";
+import { ArrowDownShortLine } from "@ndla/icons";
+import {
+  AccordionItem,
+  AccordionItemContent,
+  AccordionItemIndicator,
+  AccordionItemTrigger,
+  AccordionRoot,
+  Heading,
+} from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useId, type ReactNode } from "react";
-import { useTranslation } from "react-i18next";
-import type { SelectOption } from "../../../../components/ObjectSelector";
+import type { ReactNode } from "react";
 
-export const FilterContainer = styled("div", {
+const StyledAccordionItemTrigger = styled(AccordionItemTrigger, {
   base: {
-    border: "1px solid",
-    borderColor: "stroke.subtle",
-    borderRadius: "xsmall",
-    padding: "xsmall",
+    paddingInline: "xsmall",
+    paddingBlock: "xsmall",
+  },
+});
+
+const StyledAccordionItemContent = styled(AccordionItemContent, {
+  base: {
     display: "flex",
     flexDirection: "column",
     gap: "xsmall",
+    padding: "xsmall",
   },
 });
 
-const ShowMoreButton = styled(Button, {
-  base: {
-    alignSelf: "flex-start",
-  },
-});
-
-interface FilterGroupProps {
+interface Props {
   title: string;
+  name: string;
   children: ReactNode;
-  "data-testid"?: string;
+  defaultOpen?: boolean;
+  activeCount?: number;
+  headingId?: string;
 }
 
-export const FilterGroup = ({ title, children, ...rest }: FilterGroupProps) => {
-  const headingId = useId();
-  return (
-    <FilterContainer role="group" aria-labelledby={headingId} {...rest}>
-      <Heading id={headingId} textStyle="label.medium" fontWeight="bold" asChild consumeCss>
-        <h3>{title}</h3>
+export const FilterGroup = ({ title, name, children, defaultOpen = true, activeCount = 0, headingId }: Props) => (
+  <AccordionRoot collapsible defaultValue={defaultOpen || activeCount > 0 ? [name] : []} data-testid={`${name}-filter`}>
+    <AccordionItem value={name}>
+      <Heading id={headingId} asChild consumeCss textStyle="label.medium" fontWeight="bold">
+        <h3>
+          <StyledAccordionItemTrigger>
+            {activeCount > 0 ? `${title} (${activeCount})` : title}
+            <AccordionItemIndicator asChild>
+              <ArrowDownShortLine size="medium" />
+            </AccordionItemIndicator>
+          </StyledAccordionItemTrigger>
+        </h3>
       </Heading>
-      {children}
-    </FilterContainer>
-  );
-};
-
-export const getVisibleOptions = <T extends SelectOption>(
-  options: T[],
-  selected: string[],
-  collapsedCount: number | undefined,
-  expanded: boolean,
-) => {
-  if (expanded || collapsedCount === undefined || options.length <= collapsedCount) return options;
-  return options.filter((option, index) => index < collapsedCount || selected.includes(option.id));
-};
-
-interface ShowMoreToggleProps {
-  count: number;
-  collapsedCount: number | undefined;
-  expanded: boolean;
-  onToggle: () => void;
-}
-
-export const ShowMoreToggle = ({ count, collapsedCount, expanded, onToggle }: ShowMoreToggleProps) => {
-  const { t } = useTranslation();
-  if (collapsedCount === undefined || count <= collapsedCount) return null;
-  return (
-    <ShowMoreButton variant="link" size="small" aria-expanded={expanded} onClick={onToggle}>
-      {expanded ? t("searchForm.showFewer") : t("searchForm.showAll", { count })}
-    </ShowMoreButton>
-  );
-};
+      <StyledAccordionItemContent>{children}</StyledAccordionItemContent>
+    </AccordionItem>
+  </AccordionRoot>
+);

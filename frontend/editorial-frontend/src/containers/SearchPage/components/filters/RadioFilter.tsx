@@ -11,14 +11,13 @@ import {
   RadioGroupItemControl,
   RadioGroupItemHiddenInput,
   RadioGroupItemText,
-  RadioGroupLabel,
   RadioGroupRoot,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useMemo, useState } from "react";
+import { useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import type { SelectOption } from "../../../../components/ObjectSelector";
-import { FilterContainer, getVisibleOptions, ShowMoreToggle } from "./FilterGroup";
+import { FilterGroup } from "./FilterGroup";
 
 const ALL_VALUE = "__all";
 
@@ -34,27 +33,23 @@ interface Props {
   options: SelectOption[];
   value: string | null | undefined;
   onChange: (value: string | null) => void;
-  collapsedCount?: number;
+  defaultOpen?: boolean;
 }
 
-export const RadioFilter = ({ title, name, options, value, onChange, collapsedCount }: Props) => {
+export const RadioFilter = ({ title, name, options, value, onChange, defaultOpen }: Props) => {
   const { t } = useTranslation();
-  const [expanded, setExpanded] = useState(false);
+  const headingId = useId();
   const allOptions = useMemo(() => [{ id: ALL_VALUE, name: t("searchForm.all") }, ...options], [options, t]);
-  const currentValue = value || ALL_VALUE;
-  const visibleOptions = getVisibleOptions(allOptions, [currentValue], collapsedCount, expanded);
 
   return (
-    <FilterContainer data-testid={`${name}-filter`}>
+    <FilterGroup title={title} name={name} headingId={headingId} activeCount={value ? 1 : 0} defaultOpen={defaultOpen}>
       <StyledRadioGroupRoot
         orientation="vertical"
-        value={currentValue}
+        aria-labelledby={headingId}
+        value={value || ALL_VALUE}
         onValueChange={(details) => onChange(details.value === ALL_VALUE ? null : details.value)}
       >
-        <RadioGroupLabel textStyle="label.medium" fontWeight="bold" asChild consumeCss>
-          <h3>{title}</h3>
-        </RadioGroupLabel>
-        {visibleOptions.map((option) => (
+        {allOptions.map((option) => (
           <RadioGroupItem key={option.id} value={option.id} disabled={option.disabled}>
             <RadioGroupItemControl />
             <RadioGroupItemText>{option.name}</RadioGroupItemText>
@@ -62,12 +57,6 @@ export const RadioFilter = ({ title, name, options, value, onChange, collapsedCo
           </RadioGroupItem>
         ))}
       </StyledRadioGroupRoot>
-      <ShowMoreToggle
-        count={allOptions.length}
-        collapsedCount={collapsedCount}
-        expanded={expanded}
-        onToggle={() => setExpanded((prev) => !prev)}
-      />
-    </FilterContainer>
+    </FilterGroup>
   );
 };
