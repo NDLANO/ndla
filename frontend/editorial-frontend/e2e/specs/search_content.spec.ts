@@ -72,6 +72,7 @@ test("Can use language dropdown", async ({ page }) => {
 });
 
 test("Can use subject dropdown", async ({ page }) => {
+  await page.getByTestId("subjects-filter").getByRole("button", { name: "Fag", exact: true }).click();
   await page.getByTestId("subjects-select").click();
   await page.getByRole("option", { name: "Biologi 1", exact: true }).click();
   await page.waitForURL("**/*subjects=urn%3Asubject%3A1%3A83ce68bc-19c9-4f2b-8dba-caf401428f21*");
@@ -87,6 +88,7 @@ test("Can use subject dropdown", async ({ page }) => {
 });
 
 test("Can use responsible dropdown", async ({ page }) => {
+  await page.getByTestId("responsible-ids-filter").getByRole("button", { name: "Ansvarlig", exact: true }).click();
   await page.getByTestId("responsible-ids-select").click();
   await expect(page.getByRole("option", { name: "Ed Test", exact: true })).toBeVisible();
   await page.getByRole("option", { name: "Ed Test", exact: true }).click();
@@ -116,6 +118,7 @@ test("Can use content type dropdown", async ({ page }) => {
 });
 
 test("Can use trait dropdown", async ({ page }) => {
+  await page.getByTestId("traits-filter").getByRole("button", { name: "Egenskap", exact: true }).click();
   await page.getByTestId("traits-filter").getByText("Film", { exact: true }).click();
   await page.waitForURL("**/*traits=VIDEO*");
   const tagButton = page.getByRole("button", { name: "Egenskap: Film" });
@@ -129,6 +132,7 @@ test("Can use trait dropdown", async ({ page }) => {
 });
 
 test("Can use priority dropdown", async ({ page }) => {
+  await page.getByTestId("priority-filter").getByRole("button", { name: "Prioritet", exact: true }).click();
   await page.getByTestId("priority-filter").getByText("Prioritert", { exact: true }).click();
   await page.waitForURL("**/*priority=prioritized*");
   const tagButton = page.getByRole("button", { name: "Prioritet: Prioritert" });

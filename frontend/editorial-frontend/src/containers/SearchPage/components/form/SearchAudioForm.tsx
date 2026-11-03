@@ -111,7 +111,6 @@ const SearchAudioForm = ({ userData, children }: Props) => {
             options={getResourceLanguages(t)}
             value={params.get("language")}
             onChange={(value) => setParams({ language: value })}
-            defaultOpen={false}
           />
         </>
       }

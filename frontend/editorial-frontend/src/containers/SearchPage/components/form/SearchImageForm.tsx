@@ -251,7 +251,6 @@ const SearchImageForm = ({ userData, children }: Props) => {
             options={getResourceLanguages(t)}
             value={params.get("language")}
             onChange={(value) => setParams({ language: value })}
-            defaultOpen={false}
           />
           <RadioFilter
             title={t("searchForm.filterHeading.content-type")}
