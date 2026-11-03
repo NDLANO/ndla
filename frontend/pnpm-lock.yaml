@@ -331,7 +331,7 @@ catalogs:
       specifier: ^1.0.3
       version: 1.0.3
     eslint:
-      specifier: ^10.13.0
+      specifier: ^10.14.0
       version: 10.14.0
     eslint-plugin-import-x:
       specifier: ^4.17.1
