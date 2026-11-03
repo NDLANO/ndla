@@ -385,6 +385,7 @@ const translations = {
     },
     btn: "Søk",
     empty: "Tøm",
+    moreFilters: "Flere filtre",
     articleType: {
       all: "Alle",
       standard: "Standard",
