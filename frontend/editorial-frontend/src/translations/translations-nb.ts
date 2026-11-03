@@ -381,6 +381,8 @@ const translations = {
       "content-type": "Filtype: {{value}}",
       "is-primary": "Primærkobling",
       priority: "Prioritet: {{value}}",
+      sort: "Sortering: {{value}}",
+      "page-size": "Treff per side: {{value}}",
     },
     btn: "Søk",
     empty: "Tøm",
