@@ -387,6 +387,7 @@ const translations = {
     },
     btn: "Search",
     empty: "Empty",
+    moreFilters: "More filters",
     articleType: {
       all: "All",
       standard: "Standard",

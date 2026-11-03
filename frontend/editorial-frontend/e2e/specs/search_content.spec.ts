@@ -57,6 +57,7 @@ test("Can use status dropdown", async ({ page }) => {
 });
 
 test("Can use language dropdown", async ({ page }) => {
+  await page.getByRole("button", { name: "Flere filtre" }).click();
   await page.getByTestId("language-select").click();
   await page.getByRole("option", { name: "Bokmål", exact: true }).click();
   await page.waitForURL("**/*language=nb*");
@@ -115,6 +116,7 @@ test("Can use content type dropdown", async ({ page }) => {
 });
 
 test("Can use trait dropdown", async ({ page }) => {
+  await page.getByRole("button", { name: "Flere filtre" }).click();
   await page.getByTestId("traits-select").click();
   await page.getByRole("option", { name: "Film", exact: true }).click();
   await page.waitForURL("**/*traits=VIDEO*");
@@ -129,6 +131,7 @@ test("Can use trait dropdown", async ({ page }) => {
 });
 
 test("Can use priority dropdown", async ({ page }) => {
+  await page.getByRole("button", { name: "Flere filtre" }).click();
   await page.getByTestId("priority-select").click();
   await page.getByRole("option", { name: "Prioritert", exact: true }).click();
   await page.waitForURL("**/*priority=prioritized*");
