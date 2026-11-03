@@ -244,7 +244,6 @@ const translations = {
     conceptNoHits: "Ingen forklaringer samsvarte med søket ditt på: {{query}}",
     audioNoHits: "Ingen lydfiler samsvarte med søket ditt på: {{query}}",
     imageNoHits: "Ingen bilder samsvarte med søket ditt på: {{query}}",
-    pageSize: "{{pageSize}} treff per side",
     hitsSelectLabel: "Antall treff per side",
     totalCount: "Antall søketreff",
     highlights: {
