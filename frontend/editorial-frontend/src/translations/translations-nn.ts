@@ -245,7 +245,6 @@ const translations = {
     "podcast-seriesNoHits": "Ingen serier samsvarte med søket ditt på: {{query}}",
     audioNoHits: "Ingen lydfiler samsvarte med søket ditt på: {{query}}",
     imageNoHits: "Ingen bilete samsvarte med søket ditt på: {{query}}",
-    pageSize: "{{pageSize}} treff per side",
     hitsSelectLabel: "Antall treff per side",
     totalCount: "Antall søketreff",
     highlights: {
