@@ -10,7 +10,6 @@ import type { SearchParamsDTO } from "@ndla/types-backend/audio-api";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import Pagination from "../../components/abstractions/Pagination";
 import config from "../../config";
 import { searchSeriesQueryOptions } from "../../modules/audio/audioQueries";
 import { userDataQueryOptions } from "../../modules/draft/draftQueries";
@@ -19,6 +18,7 @@ import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import SearchPodcastSeriesForm from "./components/form/SearchPodcastSeriesForm";
 import { GenericSearchList } from "./components/GenericSearchList";
 import SearchListOptions from "./components/results/SearchListOptions";
+import { SearchPagination } from "./components/results/SearchPagination";
 import SearchPodcastSeries from "./components/results/SearchPodcastSeries";
 import { SearchPageContainer } from "./components/SearchPageContainer";
 import SearchSort from "./components/sort/SearchSort";
@@ -64,7 +64,7 @@ export const PodcastSeriesSearch = () => {
       <main>
         <title>{t("htmlTitles.search.podcast-series")}</title>
         <SearchPodcastSeriesForm userData={userDataQuery.data}>
-          <SearchListOptions totalCount={searchQuery.data?.totalCount} defaultValue={DEFAULT_PARAMS.pageSize!}>
+          <SearchListOptions totalCount={searchQuery.data?.totalCount}>
             <SearchSort
               value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
               onValueChange={(value) => setParams({ sort: value === DEFAULT_PARAMS.sort ? null : value })}
@@ -81,7 +81,8 @@ export const PodcastSeriesSearch = () => {
               <SearchPodcastSeries series={series} key={series.id} />
             ))}
           </GenericSearchList>
-          <Pagination
+          <SearchPagination
+            defaultPageSize={DEFAULT_PARAMS.pageSize!}
             page={Number(params.get("page")) || DEFAULT_PARAMS.page}
             onPageChange={(details) =>
               setParams({ page: details.page === DEFAULT_PARAMS.page ? null : details.page.toString() })

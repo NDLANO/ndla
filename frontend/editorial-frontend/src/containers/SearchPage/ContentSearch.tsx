@@ -17,7 +17,6 @@ import { keyBy, uniq } from "@ndla/util";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import Pagination from "../../components/abstractions/Pagination";
 import config from "../../config";
 import { DA_SUBJECT_ID, LMA_SUBJECT_ID, NO_RESPONSIBLES, SA_SUBJECT_ID } from "../../constants";
 import { auth0UsersQueryOptions } from "../../modules/auth0/auth0Queries";
@@ -38,6 +37,7 @@ import SearchContentForm from "./components/form/SearchContentForm";
 import { GenericSearchList } from "./components/GenericSearchList";
 import SearchContent from "./components/results/SearchContent";
 import SearchListOptions from "./components/results/SearchListOptions";
+import { SearchPagination } from "./components/results/SearchPagination";
 import { SearchPageContainer } from "./components/SearchPageContainer";
 import SearchSort, { type SortType } from "./components/sort/SearchSort";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
@@ -180,7 +180,7 @@ export const ContentSearch = () => {
       <main>
         <title>{t("htmlTitles.search.content")}</title>
         <SearchContentForm userData={userDataQuery.data} subjects={subjectsQuery.data ?? []}>
-          <SearchListOptions totalCount={searchQuery.data?.totalCount} defaultValue={DEFAULT_PARAMS.pageSize!}>
+          <SearchListOptions totalCount={searchQuery.data?.totalCount}>
             <SearchSort
               sortTypes={SORT_TYPES}
               value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
@@ -204,7 +204,8 @@ export const ContentSearch = () => {
               />
             ))}
           </GenericSearchList>
-          <Pagination
+          <SearchPagination
+            defaultPageSize={DEFAULT_PARAMS.pageSize!}
             page={parsedParams.page}
             onPageChange={(details) =>
               setParams({

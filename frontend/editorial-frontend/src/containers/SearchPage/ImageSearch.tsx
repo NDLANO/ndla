@@ -15,7 +15,6 @@ import type {
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import Pagination from "../../components/abstractions/Pagination";
 import config from "../../config";
 import { userDataQueryOptions } from "../../modules/draft/draftQueries";
 import { searchImagesQueryOptions } from "../../modules/image/imageQueries";
@@ -25,6 +24,7 @@ import SearchImageForm from "./components/form/SearchImageForm";
 import { GenericSearchList } from "./components/GenericSearchList";
 import SearchImage from "./components/results/SearchImage";
 import SearchListOptions from "./components/results/SearchListOptions";
+import { SearchPagination } from "./components/results/SearchPagination";
 import { SearchPageContainer } from "./components/SearchPageContainer";
 import SearchSort, { type SortType } from "./components/sort/SearchSort";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
@@ -81,7 +81,7 @@ export const ImageSearch = () => {
       <main>
         <title>{t("htmlTitles.search.image")}</title>
         <SearchImageForm userData={userDataQuery.data}>
-          <SearchListOptions totalCount={searchQuery.data?.totalCount} defaultValue={DEFAULT_PARAMS.pageSize!}>
+          <SearchListOptions totalCount={searchQuery.data?.totalCount}>
             <SearchSort
               sortTypes={SORT_TYPES}
               value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
@@ -99,7 +99,8 @@ export const ImageSearch = () => {
               <SearchImage image={image} key={image.id} />
             ))}
           </GenericSearchList>
-          <Pagination
+          <SearchPagination
+            defaultPageSize={DEFAULT_PARAMS.pageSize!}
             page={Number(params.get("page")) || DEFAULT_PARAMS.page}
             onPageChange={(details) =>
               setParams({ page: details.page === DEFAULT_PARAMS.page ? null : details.page.toString() })
