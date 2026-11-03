@@ -13,6 +13,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto("/search/image");
   await expect(page.getByRole("button", { name: "Søk", exact: true })).toBeVisible();
   await expect(page.getByTestId("loading-spinner")).not.toBeVisible();
+  await page.getByRole("button", { name: "Vis filtre" }).click();
 });
 
 test.afterEach(async ({ page }) => {

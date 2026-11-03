@@ -390,6 +390,8 @@ const translations = {
     all: "Alle",
     showAll: "Vis alle ({{count}})",
     showFewer: "Vis færre",
+    showFilters: "Vis filter",
+    hideFilters: "Skjul filter",
     filterHeading: {
       subjects: "Fag",
       "draft-status": "Status",
