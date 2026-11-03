@@ -156,7 +156,7 @@ function EditorFooter<S extends StatusActionKey, T extends FormValues<S> = FormV
     enabled: isPublishedLearningpath && !!values.id,
   });
 
-  const isInTaxonomy = !!learningpathNodesQuery.data?.length;
+  const isInTaxonomy = !!learningpathNodesQuery.data?.some((node) => node.contexts.length > 0);
 
   useEffect(() => {
     onSaveClickRef.current = onSaveClick;
