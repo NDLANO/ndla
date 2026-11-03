@@ -89,7 +89,7 @@ export const BleedPageContent = styled(
   ark.div,
   {
     base: {
-      "& ": {
+      "&& ": {
         width: "full",
         gridColumnStart: "1",
         gridColumnEnd: "-1",
