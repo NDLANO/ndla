@@ -41,6 +41,7 @@ test("Can use text input", async ({ page }) => {
 });
 
 test("Can use model released dropdown", async ({ page }) => {
+  await page.getByRole("button", { name: "Flere filtre" }).click();
   await page.getByTestId("model-released-select").click();
   await page.getByRole("option", { name: "Modellklarert", exact: true }).click();
   await page.waitForURL("**/*model-released=yes*");

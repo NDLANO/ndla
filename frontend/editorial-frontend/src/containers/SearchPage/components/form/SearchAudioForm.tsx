@@ -6,16 +6,14 @@
  *
  */
 
-import { FieldRoot, FieldInput, FieldLabel } from "@ndla/primitives";
+import { FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { SearchParamsDTO } from "@ndla/types-backend/audio-api";
 import type { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import SearchControlButtons from "../../../../components/Form/SearchControlButtons";
 import SearchHeader from "../../../../components/Form/SearchHeader";
-import SearchTagGroup from "../../../../components/Form/SearchTagGroup";
 import { getTagName } from "../../../../components/Form/utils";
 import ObjectSelector, { type SelectElement } from "../../../../components/ObjectSelector";
 import type { CamelToKebab } from "../../../../interfaces";
@@ -23,15 +21,17 @@ import { licenseQuery } from "../../../../modules/draft/draftQueries";
 import { getLicensesWithTranslations } from "../../../../util/licenseHelpers";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import { useStableSearchPageParams } from "../../useStableSearchPageParams";
+import { SearchActiveFilters } from "./SearchActiveFilters";
+import { SearchFilters } from "./SearchFilters";
+import { SearchQueryField } from "./SearchQueryField";
 
 type SearchParams = { [k in keyof SearchParamsDTO as CamelToKebab<k>]: SearchParamsDTO[k] };
 
 const StyledForm = styled("form", {
   base: {
-    display: "grid",
-    gridTemplateColumns: "repeat(2, 1fr)",
-    gridGap: "3xsmall",
-    alignItems: "center",
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
   },
 });
 
@@ -102,29 +102,22 @@ const SearchAudioForm = ({ userData }: Props) => {
           setParams({ query: input });
         }}
       >
-        <FieldRoot>
-          <FieldLabel srOnly>{t("searchForm.types.audioQuery")}</FieldLabel>
-          <FieldInput
-            name="query"
-            placeholder={t("searchForm.types.audioQuery")}
-            value={input}
-            onChange={(e) => setInput(e.currentTarget.value)}
-          />
-        </FieldRoot>
-        {selectElements.map((selectElement) => (
-          <FieldRoot key={selectElement.name}>
-            <ObjectSelector
-              name={selectElement.name}
-              placeholder={t(`searchForm.types.${selectElement.name}`)}
-              value={params.get(selectElement.name) ?? ""}
-              options={selectElement.options}
-              onChange={(value) => setParams({ [selectElement.name]: value.join(",") })}
-            />
-          </FieldRoot>
-        ))}
-        <SearchControlButtons reset={emptySearch} />
+        <SearchFilters>
+          <SearchQueryField value={input} onChange={setInput} placeholder={t("searchForm.types.audioQuery")} />
+          {selectElements.map((selectElement) => (
+            <FieldRoot key={selectElement.name}>
+              <ObjectSelector
+                name={selectElement.name}
+                placeholder={t(`searchForm.types.${selectElement.name}`)}
+                value={params.get(selectElement.name) ?? ""}
+                options={selectElement.options}
+                onChange={(value) => setParams({ [selectElement.name]: value.join(",") })}
+              />
+            </FieldRoot>
+          ))}
+        </SearchFilters>
       </StyledForm>
-      <SearchTagGroup onRemoveTag={removeTagItem} tags={filters} />
+      <SearchActiveFilters onReset={emptySearch} onRemoveTag={removeTagItem} tags={filters} />
     </>
   );
 };

@@ -6,24 +6,23 @@
  *
  */
 
-import { FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import SearchControlButtons from "../../../../components/Form/SearchControlButtons";
 import SearchHeader from "../../../../components/Form/SearchHeader";
-import SearchTagGroup from "../../../../components/Form/SearchTagGroup";
 import ObjectSelector from "../../../../components/ObjectSelector";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import { useStableSearchPageParams } from "../../useStableSearchPageParams";
+import { SearchActiveFilters } from "./SearchActiveFilters";
+import { SearchFilters } from "./SearchFilters";
+import { SearchQueryField } from "./SearchQueryField";
 
 const StyledForm = styled("form", {
   base: {
-    display: "grid",
-    gridTemplateColumns: "repeat(2, 1fr)",
-    gridGap: "3xsmall",
-    alignItems: "center",
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
   },
 });
 
@@ -67,25 +66,18 @@ const SearchAudioForm = ({ userData }: Props) => {
           e.preventDefault();
         }}
       >
-        <FieldRoot>
-          <FieldLabel srOnly>{t("searchForm.types.audioQuery")}</FieldLabel>
-          <FieldInput
-            name="query"
-            placeholder={t("searchForm.types.audioQuery")}
-            value={input}
-            onChange={(e) => setInput(e.currentTarget.value)}
+        <SearchFilters>
+          <SearchQueryField value={input} onChange={setInput} placeholder={t("searchForm.types.audioQuery")} />
+          <ObjectSelector
+            name="language"
+            value={params.get("language") ?? ""}
+            options={getResourceLanguages(t)}
+            onChange={(value) => setParams({ language: value[0] })}
+            placeholder={t("searchForm.types.language")}
           />
-        </FieldRoot>
-        <ObjectSelector
-          name="language"
-          value={params.get("language") ?? ""}
-          options={getResourceLanguages(t)}
-          onChange={(value) => setParams({ language: value[0] })}
-          placeholder={t("searchForm.types.language")}
-        />
-        <SearchControlButtons reset={emptySearch} />
+        </SearchFilters>
       </StyledForm>
-      <SearchTagGroup onRemoveTag={(tag) => setParams({ [tag]: null })} tags={filters} />
+      <SearchActiveFilters onReset={emptySearch} onRemoveTag={(tag) => setParams({ [tag]: null })} tags={filters} />
     </>
   );
 };
