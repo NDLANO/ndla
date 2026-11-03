@@ -53,6 +53,7 @@ test("Can use audiotype dropdown", async ({ page }) => {
 });
 
 test("Can use language dropdown", async ({ page }) => {
+  await page.getByTestId("language-filter").getByRole("button", { name: "Språk" }).click();
   await page.getByTestId("language-filter").getByText("Engelsk", { exact: true }).click();
   await page.waitForURL("**/*language=en*");
   const tagButton = page.getByRole("button", { name: "Språk: Engelsk" });

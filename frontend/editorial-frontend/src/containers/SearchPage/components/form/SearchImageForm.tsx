@@ -219,7 +219,11 @@ const SearchImageForm = ({ userData, children }: Props) => {
       activeFilterCount={countActiveFilters(filters)}
       sidebar={
         <>
-          <FilterGroup title={t("searchForm.filterHeading.license")}>
+          <FilterGroup
+            title={t("searchForm.filterHeading.license")}
+            name="license"
+            activeCount={params.get("license") ? 1 : 0}
+          >
             <ObjectSelector
               name="license"
               value={params.get("license") ?? ""}
@@ -228,7 +232,11 @@ const SearchImageForm = ({ userData, children }: Props) => {
               placeholder={t("searchForm.types.license")}
             />
           </FilterGroup>
-          <FilterGroup title={t("searchForm.filterHeading.users")}>
+          <FilterGroup
+            title={t("searchForm.filterHeading.users")}
+            name="users"
+            activeCount={params.get("users") ? 1 : 0}
+          >
             <ObjectSelector
               name="users"
               value={params.get("users") ?? ""}
@@ -243,7 +251,7 @@ const SearchImageForm = ({ userData, children }: Props) => {
             options={getResourceLanguages(t)}
             value={params.get("language")}
             onChange={(value) => setParams({ language: value })}
-            collapsedCount={4}
+            defaultOpen={false}
           />
           <RadioFilter
             title={t("searchForm.filterHeading.content-type")}

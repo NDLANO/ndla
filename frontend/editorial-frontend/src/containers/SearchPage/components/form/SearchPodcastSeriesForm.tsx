@@ -59,7 +59,6 @@ const SearchAudioForm = ({ userData, children }: Props) => {
           options={getResourceLanguages(t)}
           value={params.get("language")}
           onChange={(value) => setParams({ language: value })}
-          collapsedCount={4}
         />
       }
     >

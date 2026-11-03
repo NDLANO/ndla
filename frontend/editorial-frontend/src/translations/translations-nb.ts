@@ -387,8 +387,6 @@ const translations = {
     empty: "Tøm",
     filtersHeading: "Filtre",
     all: "Alle",
-    showAll: "Vis alle ({{count}})",
-    showFewer: "Vis færre",
     showFilters: "Vis filtre",
     hideFilters: "Skjul filtre",
     filterHeading: {

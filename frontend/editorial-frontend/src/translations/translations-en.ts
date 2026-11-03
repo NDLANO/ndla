@@ -389,8 +389,6 @@ const translations = {
     empty: "Empty",
     filtersHeading: "Filters",
     all: "All",
-    showAll: "Show all ({{count}})",
-    showFewer: "Show fewer",
     showFilters: "Show filters",
     hideFilters: "Hide filters",
     filterHeading: {

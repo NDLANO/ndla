@@ -316,6 +316,7 @@ const SearchContentForm = ({ subjects, userData, children }: Props) => {
             options={shortcutSubjects}
             value={selectedShortcutSubjects}
             onChange={(values) => setValues("subjects", [...values, ...selectedRegularSubjects])}
+            activeCount={getValues("subjects").length}
           >
             <ObjectSelector
               name="subjects"
@@ -339,7 +340,7 @@ const SearchContentForm = ({ subjects, userData, children }: Props) => {
             options={draftStatuses}
             value={getValues("draft-status")}
             onChange={(values) => setValues("draft-status", values)}
-            collapsedCount={6}
+            defaultOpen={false}
           />
           <CheckboxFilter
             title={t("searchForm.filterHeading.resource-types")}
@@ -347,9 +348,13 @@ const SearchContentForm = ({ subjects, userData, children }: Props) => {
             options={sortBy(resourceTypes, (rt) => rt.name)}
             value={getValues("resource-types")}
             onChange={(values) => setValues("resource-types", values)}
-            collapsedCount={6}
+            defaultOpen={false}
           />
-          <FilterGroup title={t("searchForm.filterHeading.responsible-ids")}>
+          <FilterGroup
+            title={t("searchForm.filterHeading.responsible-ids")}
+            name="responsible-ids"
+            activeCount={getValues("responsible-ids").length}
+          >
             <ObjectSelector
               name="responsible-ids"
               placeholder={t("searchForm.types.responsible-ids")}
@@ -373,7 +378,7 @@ const SearchContentForm = ({ subjects, userData, children }: Props) => {
             value={getValues("traits")}
             onChange={(values) => setValues("traits", values)}
           />
-          <FilterGroup title={t("searchForm.filterHeading.users")}>
+          <FilterGroup title={t("searchForm.filterHeading.users")} name="users" activeCount={getValues("users").length}>
             <ObjectSelector
               name="users"
               placeholder={t("searchForm.types.users")}
@@ -389,9 +394,13 @@ const SearchContentForm = ({ subjects, userData, children }: Props) => {
             options={getResourceLanguages(t)}
             value={params.get("language")}
             onChange={(value) => setParams({ language: value })}
-            collapsedCount={4}
+            defaultOpen={false}
           />
-          <FilterGroup title={t("searchForm.filterHeading.license")}>
+          <FilterGroup
+            title={t("searchForm.filterHeading.license")}
+            name="license"
+            activeCount={getValues("license").length}
+          >
             <ObjectSelector
               name="license"
               placeholder={t("searchForm.types.license")}
@@ -400,7 +409,11 @@ const SearchContentForm = ({ subjects, userData, children }: Props) => {
               onChange={(values) => setValues("license", values)}
             />
           </FilterGroup>
-          <FilterGroup title={t("searchForm.filterHeading.revision-date")}>
+          <FilterGroup
+            title={t("searchForm.filterHeading.revision-date")}
+            name="revision-date"
+            activeCount={[params.get("revision-date-from"), params.get("revision-date-to")].filter(Boolean).length}
+          >
             <InlineDatePicker
               name="revision-date-from"
               onChange={(e) => setParams({ "revision-date-from": e.currentTarget.value })}

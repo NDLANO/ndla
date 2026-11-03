@@ -92,7 +92,11 @@ const SearchAudioForm = ({ userData, children }: Props) => {
             value={params.get("audio-type")}
             onChange={(value) => setParams({ "audio-type": value })}
           />
-          <FilterGroup title={t("searchForm.filterHeading.license")}>
+          <FilterGroup
+            title={t("searchForm.filterHeading.license")}
+            name="license"
+            activeCount={params.get("license") ? 1 : 0}
+          >
             <ObjectSelector
               name="license"
               placeholder={t("searchForm.types.license")}
@@ -107,7 +111,7 @@ const SearchAudioForm = ({ userData, children }: Props) => {
             options={getResourceLanguages(t)}
             value={params.get("language")}
             onChange={(value) => setParams({ language: value })}
-            collapsedCount={4}
+            defaultOpen={false}
           />
         </>
       }

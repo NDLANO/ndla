@@ -44,10 +44,7 @@ test("Can use text input", async ({ page }) => {
 });
 
 test("Can use status dropdown", async ({ page }) => {
-  await page
-    .getByTestId("draft-status-filter")
-    .getByRole("button", { name: /Vis alle/ })
-    .click();
+  await page.getByTestId("draft-status-filter").getByRole("button", { name: "Status" }).click();
   await page.getByTestId("draft-status-filter").getByText("Publisert", { exact: true }).click();
   await page.waitForURL("**/*draft-status=PUBLISHED*");
   const tagButton = page.getByRole("button", { name: "Status: Publisert" });
@@ -61,6 +58,7 @@ test("Can use status dropdown", async ({ page }) => {
 });
 
 test("Can use language dropdown", async ({ page }) => {
+  await page.getByTestId("language-filter").getByRole("button", { name: "Språk" }).click();
   await page.getByTestId("language-filter").getByText("Bokmål", { exact: true }).click();
   await page.waitForURL("**/*language=nb*");
   const tagButton = page.getByRole("button", { name: "Språk: Bokmål" });
@@ -104,6 +102,7 @@ test("Can use responsible dropdown", async ({ page }) => {
 });
 
 test("Can use content type dropdown", async ({ page }) => {
+  await page.getByTestId("resource-types-filter").getByRole("button", { name: "Innholdstype" }).click();
   await page.getByTestId("resource-types-filter").getByText("Fagstoff", { exact: true }).click();
   await page.waitForURL("**/*resource-types=urn%3Aresourcetype%3AsubjectMaterial*");
   const tagButton = page.getByRole("button", { name: "Innholdstype: Fagstoff" });
