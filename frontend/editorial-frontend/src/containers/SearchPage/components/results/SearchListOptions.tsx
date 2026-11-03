@@ -10,7 +10,7 @@ import { createListCollection } from "@ark-ui/react/collection";
 import { SelectContent, SelectLabel, SelectRoot, SelectValueText, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { GenericSelectItem, GenericSelectTrigger } from "@ndla/ui";
-import { useMemo } from "react";
+import { useMemo, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { useStableSearchPageParams } from "../../useStableSearchPageParams";
 
@@ -19,6 +19,7 @@ const pageSizeOptions = ["5", "10", "20", "50", "100"];
 interface Props {
   totalCount?: number;
   defaultValue: number;
+  children?: ReactNode;
 }
 
 const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
@@ -30,12 +31,24 @@ const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
 const SearchListOptionsWrapper = styled("div", {
   base: {
     display: "flex",
-    flexDirection: "column",
+    flexWrap: "wrap",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: "xsmall",
+    paddingBlockStart: "xsmall",
+  },
+});
+
+const ControlsWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexWrap: "wrap",
+    alignItems: "center",
     gap: "xsmall",
   },
 });
 
-const SearchListOptions = ({ totalCount, defaultValue }: Props) => {
+const SearchListOptions = ({ totalCount, defaultValue, children }: Props) => {
   const { t } = useTranslation();
   const [params, setParams] = useStableSearchPageParams();
 
@@ -55,27 +68,30 @@ const SearchListOptions = ({ totalCount, defaultValue }: Props) => {
       <Text data-testid="totalCount">
         {t("searchPage.totalCount")}: <b data-testid="searchTotalCount">{totalCount}</b>
       </Text>
-      <SelectRoot
-        collection={collection}
-        value={[params.get("page-size")?.toString() ?? defaultValue.toString()]}
-        onValueChange={(details) => {
-          const value = details.value[0];
-          if (value) handlePageSizeChange(value);
-        }}
-        positioning={{ sameWidth: true }}
-      >
-        <SelectLabel srOnly>{t("searchPage.hitsSelectLabel")}</SelectLabel>
-        <StyledGenericSelectTrigger>
-          <SelectValueText />
-        </StyledGenericSelectTrigger>
-        <SelectContent>
-          {collection.items.map((option) => (
-            <GenericSelectItem item={option} key={`pageSize_${option}`}>
-              {t("searchPage.pageSize", { pageSize: option })}
-            </GenericSelectItem>
-          ))}
-        </SelectContent>
-      </SelectRoot>
+      <ControlsWrapper>
+        {children}
+        <SelectRoot
+          collection={collection}
+          value={[params.get("page-size")?.toString() ?? defaultValue.toString()]}
+          onValueChange={(details) => {
+            const value = details.value[0];
+            if (value) handlePageSizeChange(value);
+          }}
+          positioning={{ sameWidth: true }}
+        >
+          <SelectLabel srOnly>{t("searchPage.hitsSelectLabel")}</SelectLabel>
+          <StyledGenericSelectTrigger>
+            <SelectValueText />
+          </StyledGenericSelectTrigger>
+          <SelectContent>
+            {collection.items.map((option) => (
+              <GenericSelectItem item={option} key={`pageSize_${option}`}>
+                {t("searchPage.pageSize", { pageSize: option })}
+              </GenericSelectItem>
+            ))}
+          </SelectContent>
+        </SelectRoot>
+      </ControlsWrapper>
     </SearchListOptionsWrapper>
   );
 };

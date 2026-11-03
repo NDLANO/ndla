@@ -180,12 +180,13 @@ export const ContentSearch = () => {
       <main>
         <title>{t("htmlTitles.search.content")}</title>
         <SearchContentForm userData={userDataQuery.data} subjects={subjectsQuery.data ?? []} />
-        <SearchSort
-          sortTypes={SORT_TYPES}
-          value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
-          onValueChange={(value) => setParams({ sort: value === DEFAULT_PARAMS.sort ? null : value })}
-        />
-        <SearchListOptions totalCount={searchQuery.data?.totalCount} defaultValue={DEFAULT_PARAMS.pageSize!} />
+        <SearchListOptions totalCount={searchQuery.data?.totalCount} defaultValue={DEFAULT_PARAMS.pageSize!}>
+          <SearchSort
+            sortTypes={SORT_TYPES}
+            value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
+            onValueChange={(value) => setParams({ sort: value === DEFAULT_PARAMS.sort ? null : value })}
+          />
+        </SearchListOptions>
         <GenericSearchList
           type="content"
           loading={searchQuery.isLoading}
