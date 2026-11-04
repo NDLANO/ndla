@@ -34,7 +34,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useField } from "formik";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { GREP_CODE_FORMATS } from "../../constants";
 import { searchGrepCodesQueryOptions } from "../../modules/search/searchQueries";
+import { isGrepCodeValid } from "../../util/articleUtil";
 import { DialogCloseButton } from "../DialogCloseButton";
 import { getCompetenceGoalCodes, groupCompetenceGoals } from "./competenceGoalsUtil";
 
@@ -68,7 +70,7 @@ interface Props {
 export const CompetenceGoalsDialog = ({ subject }: Props) => {
   const { t } = useTranslation();
   const setCodes = useMemo(
-    () => subject.metadata.grepCodes.filter((code) => code.startsWith("KV")),
+    () => subject.metadata.grepCodes.filter((code) => isGrepCodeValid(code, [GREP_CODE_FORMATS.KOMPETANSEMALSETT])),
     [subject.metadata.grepCodes],
   );
 

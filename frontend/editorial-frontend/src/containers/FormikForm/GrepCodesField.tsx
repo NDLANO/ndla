@@ -10,7 +10,7 @@ import { AlertLine, DeleteBinLine } from "@ndla/icons";
 import { FieldHelper, FieldLabel, FieldRoot, IconButton, ListItemContent, ListItemRoot, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { GrepResultDTO } from "@ndla/types-backend/search-api";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useField } from "formik";
 import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -78,20 +78,31 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
     }),
   );
 
-  const grepCodeTitlesQuery = useQuery({
-    ...searchGrepCodesQueryOptions({ codes: field.value, pageSize: field.value.length }),
-    enabled: !!field.value.length,
-    placeholderData: keepPreviousData,
+  const [grepCodes, setGrepCodes] = useState<Record<string, GrepObject>>({});
+  const missingCodes = useMemo(() => field.value.filter((code) => !grepCodes[code]), [field.value, grepCodes]);
+
+  const missingGrepCodesQuery = useQuery({
+    ...searchGrepCodesQueryOptions({ codes: missingCodes, pageSize: missingCodes.length }),
+    enabled: !!missingCodes.length,
   });
 
-  const grepCodes = useMemo(
-    () =>
-      (grepCodeTitlesQuery.data?.results ?? []).reduce<Record<string, GrepObject>>((acc, grepCode) => {
-        acc[grepCode.code] = { title: grepCodeTitle(grepCode), isExpired: grepCode.status !== "Published" };
-        return acc;
-      }, {}),
-    [grepCodeTitlesQuery.data],
-  );
+  const [prevMissingGrepCodes, setPrevMissingGrepCodes] = useState(missingGrepCodesQuery.data);
+
+  if (missingGrepCodesQuery.data !== prevMissingGrepCodes) {
+    setPrevMissingGrepCodes(missingGrepCodesQuery.data);
+    const results = missingGrepCodesQuery.data?.results ?? [];
+    if (results.length) {
+      setGrepCodes((prev) =>
+        results.reduce<Record<string, GrepObject>>(
+          (acc, grepCode) => {
+            acc[grepCode.code] = { title: grepCodeTitle(grepCode), isExpired: grepCode.status !== "Published" };
+            return acc;
+          },
+          { ...prev },
+        ),
+      );
+    }
+  }
 
   const fetchGrepCodeTitles = async (
     newGrepCodes: string[],
@@ -143,6 +154,15 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
 
     const grepCodesWithName = await fetchGrepCodeTitles(addedGrepCodes);
 
+    setGrepCodes((prev) =>
+      grepCodesWithName.success.reduce<Record<string, GrepObject>>(
+        (acc, v) => {
+          acc[v.code] = { title: v.title, isExpired: v.isExpired };
+          return acc;
+        },
+        { ...prev },
+      ),
+    );
     helpers.setValue([...field.value, ...grepCodesWithName.success.map((v) => v.code)]);
 
     if (grepCodesWithName.failed.length) {
