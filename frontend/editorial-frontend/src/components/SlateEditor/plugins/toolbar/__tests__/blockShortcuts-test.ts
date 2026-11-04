@@ -18,6 +18,7 @@ import {
 import { Editor, Node, Transforms, type Descendant } from "slate";
 import { plugins as commentPlugins } from "../../../../../containers/ArticlePage/components/commentToolbarUtils";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
+import { BLOCK_QUOTE_ELEMENT_TYPE } from "../../blockquote/blockquoteTypes";
 
 const paragraph = (text: string): Descendant => ({ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text }] });
 
@@ -33,6 +34,11 @@ const setup = (plugins: SlatePlugin[], children: Descendant[], text: string) => 
 
 const findList = (editor: Editor) => {
   const [entry] = editor.nodes({ at: [], match: (n) => Node.isElement(n) && n.type === LIST_ELEMENT_TYPE });
+  return entry?.[0];
+};
+
+const findQuote = (editor: Editor) => {
+  const [entry] = editor.nodes({ at: [], match: (n) => Node.isElement(n) && n.type === BLOCK_QUOTE_ELEMENT_TYPE });
   return entry?.[0];
 };
 
@@ -141,5 +147,21 @@ describe("block shortcuts", () => {
   test("only triggers for headings available in the toolbar", () => {
     const editor = setup(commentPlugins, [paragraph("")], "## ");
     expect(Node.get(editor, [0, 0])).toMatchObject(paragraph("## "));
+  });
+
+  test("typing '> ' at the start of a paragraph creates a quote", () => {
+    const editor = setup(learningResourcePlugins, [paragraph("Hello")], "> ");
+    expect(findQuote(editor)).toMatchObject({ type: BLOCK_QUOTE_ELEMENT_TYPE, children: [paragraph("Hello")] });
+  });
+
+  test("typing '> ' inside a quote does not unwrap it", () => {
+    const editor = setup(learningResourcePlugins, [paragraph("")], "> > Hello");
+    expect(findQuote(editor)).toMatchObject({ type: BLOCK_QUOTE_ELEMENT_TYPE, children: [paragraph("> Hello")] });
+  });
+
+  test("does not create a quote inside a list", () => {
+    const editor = setup(learningResourcePlugins, [paragraph("")], "- > ");
+    expect(findQuote(editor)).toBeUndefined();
+    expect(text(editor)).toBe("> ");
   });
 });
