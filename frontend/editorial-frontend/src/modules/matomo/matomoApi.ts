@@ -9,17 +9,16 @@
 import { resolveJsonOrRejectWithError } from "@ndla/shared/apiClient";
 import { fetchAuthorized } from "../../util/apiHelpers";
 
-export interface MatomoPageData {
-  Actions_PageUrl: string;
-  label: string;
+export interface ResourceStats {
   nb_visits: number;
   nb_hits: number;
   avg_time_on_page: number;
-  segment: string;
-  url: string;
 }
 
-export type MatomoResponse = Record<string, MatomoPageData[]>;
+/**
+ * Aggregated stats for the last 12 months, keyed by context id. Contexts without any data are omitted.
+ */
+export type MatomoStats = Record<string, ResourceStats>;
 
 export interface MatomoStatsBody {
   urls: string[];
@@ -29,7 +28,7 @@ interface Props extends MatomoStatsBody {
   signal: AbortSignal;
 }
 
-export const fetchMatomoStats = async ({ urls, signal }: Props): Promise<PromiseSettledResult<MatomoResponse>[]> => {
+export const fetchMatomoStats = async ({ urls, signal }: Props): Promise<MatomoStats> => {
   return fetchAuthorized("/matomo-stats/", {
     method: "POST",
     headers: {
@@ -37,5 +36,5 @@ export const fetchMatomoStats = async ({ urls, signal }: Props): Promise<Promise
     },
     body: JSON.stringify({ urls: urls }),
     signal: signal,
-  }).then((r) => resolveJsonOrRejectWithError<PromiseSettledResult<MatomoResponse>[]>(r));
+  }).then((r) => resolveJsonOrRejectWithError<MatomoStats>(r));
 };
