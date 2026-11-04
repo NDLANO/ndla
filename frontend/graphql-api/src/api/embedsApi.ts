@@ -382,6 +382,13 @@ export const transformEmbed = async (
       meta = await contentLinkMeta({ embedData, context, index, opts });
     } else if (embedData.resource === "related-content") {
       meta = await relatedContentMeta({ embedData, context, index, opts });
+      const resource = meta?.resource;
+      const ctx = resource?.contexts?.find((c) => c.rootId === opts.subject) ?? resource?.context;
+      // Do not link to articles that are only placed in archived taxonomy contexts.
+      if (ctx?.isArchived) {
+        embed.embed.replaceWith("");
+        return;
+      }
       const match = embedData.url?.match(URL_DOMAIN_REGEX)?.[1] || embedData.url;
       if (match) {
         embedData.urlDomain = domainToUnicode(match) || match;
