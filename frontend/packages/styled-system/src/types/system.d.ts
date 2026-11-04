@@ -67,6 +67,7 @@ interface LocalConditions {
   "_backdrop": string
   "_before": string
   "_checked": string
+  "_children": string
   "_chinese": string
   "_closed": string
   "_complete": string

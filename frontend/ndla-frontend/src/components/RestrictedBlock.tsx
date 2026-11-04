@@ -44,8 +44,7 @@ const StyledPageContent = styled(PageContent, {
     context: {
       bleed: {
         width: "full",
-        gridColumnStart: "1!",
-        gridColumnEnd: "-1!",
+        gridColumn: "1 / -1",
       },
       article: {
         position: "relative",
