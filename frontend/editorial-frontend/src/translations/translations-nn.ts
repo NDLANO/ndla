@@ -1364,6 +1364,9 @@ const translations = {
       description:
         "Skriv inn koder som starter på riktig format ({{ codes }} fulgt av eit eller fleire siffer. Koder som ikkje eksisterer vil ikkje bli oppretta. Separer fleire koder med komma. Tekstene visast på bokmål i ed, men korrekt i artikkelvisning. Du kan også filtrere på læreplankoder.",
       expired: "Denne koden er ikkje aktiv lenger",
+      unmatched: "Kompetansemålet høyrer ikkje til nokon av faga ressursen er plassert i",
+      unmatchedSection: "Eitt eller fleire kompetansemål høyrer ikkje til faga ressursen er plassert i",
+      foreignLanguages: "Framandspråk",
     },
     articleDisclaimer: {
       title: "Informasjon om tilgjengelegheit for heile artikkelen",

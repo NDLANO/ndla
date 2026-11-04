@@ -7,7 +7,13 @@
  */
 
 import type { GrepKompetansemaalDTO, GrepKompetansemaalSettDTO, GrepStatusDTO } from "@ndla/types-backend/search-api";
-import { countSelectedCompetenceGoals, getCompetenceGoalCodes, groupCompetenceGoals } from "../competenceGoalsUtil";
+import {
+  countSelectedCompetenceGoals,
+  getCompetenceGoalCodes,
+  getSubjectNamesByGoalSet,
+  getUnmatchedCompetenceGoals,
+  groupCompetenceGoals,
+} from "../competenceGoalsUtil";
 
 const reference = (code: string, title = `Title ${code}`) => ({
   code,
@@ -76,6 +82,37 @@ test("that groupCompetenceGoals skips sets without resolved goals", () => {
   const result = groupCompetenceGoals(["KV1", "KV404", "KV2"], sets, goals.slice(0, 2));
 
   expect(result.map((curriculum) => curriculum.sets.map((set) => set.code))).toStrictEqual([["KV1"]]);
+});
+
+const subject = (id: string, grepCodes: string[], subjectCategory = "active") => ({
+  id,
+  name: `Subject ${id}`,
+  metadata: { grepCodes, visible: true, customFields: { subjectCategory } },
+});
+
+test("that getSubjectNamesByGoalSet maps goal sets to subject names", () => {
+  const result = getSubjectNamesByGoalSet(
+    [subject("S1", ["KV1", "MAT01-05"]), subject("S2", ["KV2"]), subject("S3", ["KV2"]), subject("S4", [])],
+    "Shared",
+  );
+
+  expect(Object.fromEntries(result)).toStrictEqual({ KV1: "Subject S1", KV2: "Shared" });
+});
+
+test("that getUnmatchedCompetenceGoals returns goals without a matching placement subject", () => {
+  const result = getUnmatchedCompetenceGoals([...goals, sets[0]!], [subject("S1", ["KV1"]), subject("S2", ["KV3"])]);
+
+  expect(Array.from(result)).toStrictEqual(["KM3", "KM4"]);
+});
+
+test("that getUnmatchedCompetenceGoals returns all goals when there are no placements", () => {
+  expect(Array.from(getUnmatchedCompetenceGoals(goals.slice(0, 2), []))).toStrictEqual(["KM1", "KM2"]);
+});
+
+test("that getUnmatchedCompetenceGoals ignores resources placed in other resources subjects", () => {
+  const result = getUnmatchedCompetenceGoals(goals, [subject("S1", ["KV1"]), subject("S2", [], "otherResources")]);
+
+  expect(result.size).toBe(0);
 });
 
 test("that countSelectedCompetenceGoals only counts goals in the sets", () => {

@@ -19,6 +19,7 @@ import { GREP_CODE_FORMATS, STORED_HIDE_COMMENTS, TAXONOMY_WRITE_SCOPE } from ".
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../../FormikForm";
 import type { TopicArticleFormType } from "../../../FormikForm/articleFormHooks";
 import GrepCodesField from "../../../FormikForm/GrepCodesField";
+import { GrepCodesPanelTitle } from "../../../FormikForm/GrepCodesPanelTitle";
 import { onSaveAsVisualElement } from "../../../FormikForm/utils";
 import { useSession } from "../../../Session/SessionProvider";
 import { useLocalStorageBooleanState } from "../../../WelcomePage/hooks/storedFilterHooks";
@@ -80,6 +81,7 @@ const TopicArticleAccordionPanels = ({
   const copyrightFields = useMemo<FlatArticleKeys[]>(() => ["copyright"], []);
 
   const { values, errors, isSubmitting } = formikContext;
+  const contentURI = article ? `urn:article:${article.id}` : undefined;
   return (
     <>
       <StyledControls>
@@ -147,13 +149,19 @@ const TopicArticleAccordionPanels = ({
               checkboxAction={(image) => onSaveAsVisualElement(image, formikContext)}
             />
           </FormAccordion>
-          <FormAccordion id={"topic-article-grepCodes"} title={t("form.name.grepCodes")} hasError={!!errors.grepCodes}>
+          <FormAccordion
+            id={"topic-article-grepCodes"}
+            title={<GrepCodesPanelTitle contentURI={contentURI} language={articleLanguage} />}
+            hasError={!!errors.grepCodes}
+          >
             <GrepCodesField
               prefixFilter={[
                 GREP_CODE_FORMATS.KJERNEELEMENT,
                 GREP_CODE_FORMATS.KOMPETANSEMAL,
                 GREP_CODE_FORMATS.TVERRFAGLIGTEMA,
               ]}
+              contentURI={contentURI}
+              language={articleLanguage}
             />
           </FormAccordion>
           {config.ndlaEnvironment === "test" && (

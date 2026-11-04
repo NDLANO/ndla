@@ -7,6 +7,9 @@
  */
 
 import type { GrepKompetansemaalDTO, GrepResultDTO } from "@ndla/types-backend/search-api";
+import type { Node } from "@ndla/types-backend/taxonomy-api";
+import { subjectCategories } from "@ndla/ui";
+import { GREP_CODE_FORMATS, TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
 
 export interface CompetenceGoalSet {
   code: string;
@@ -54,4 +57,42 @@ export const groupCompetenceGoals = (
   }
 
   return Array.from(curriculums.values());
+};
+
+type SubjectWithGrepCodes = Pick<Node, "id" | "name" | "metadata">;
+
+const getGoalSetCodes = (subject: SubjectWithGrepCodes) =>
+  subject.metadata.grepCodes.filter((code) => GREP_CODE_FORMATS.KOMPETANSEMALSETT.regexp.test(code));
+
+export const getSubjectNamesByGoalSet = (subjects: SubjectWithGrepCodes[], sharedLabel: string) => {
+  const subjectsByGoalSet = new Map<string, Set<string>>();
+  for (const subject of subjects) {
+    for (const code of getGoalSetCodes(subject)) {
+      subjectsByGoalSet.set(code, (subjectsByGoalSet.get(code) ?? new Set()).add(subject.id));
+    }
+  }
+  const subjectNames = new Map<string, string>();
+  for (const [code, subjectIds] of subjectsByGoalSet) {
+    const name = subjectIds.size > 1 ? sharedLabel : subjects.find((s) => subjectIds.has(s.id))?.name;
+    if (name) subjectNames.set(code, name);
+  }
+  return subjectNames;
+};
+
+export const getUnmatchedCompetenceGoals = (
+  goalResults: GrepResultDTO[],
+  placementSubjects: SubjectWithGrepCodes[],
+): Set<string> => {
+  const isExempt = placementSubjects.some(
+    (subject) => subject.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] === subjectCategories.OTHER,
+  );
+  if (isExempt) return new Set();
+  const goalSetCodes = new Set(placementSubjects.flatMap(getGoalSetCodes));
+  return new Set(
+    goalResults.flatMap((result) =>
+      result.typename === "GrepKompetansemaalDTO" && !goalSetCodes.has(result.kompetansemaalSett.code)
+        ? [result.code]
+        : [],
+    ),
+  );
 };

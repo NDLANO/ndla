@@ -30,6 +30,7 @@ import { routes } from "../../util/routeHelpers";
 import RevisionNotes from "../ArticlePage/components/RevisionNotes";
 import { AlertDialogWrapper } from "../FormikForm/AlertDialogWrapper";
 import GrepCodesField from "../FormikForm/GrepCodesField";
+import { GrepCodesPanelTitle } from "../FormikForm/GrepCodesPanelTitle";
 import { PreventWindowUnload } from "../FormikForm/PreventWindowUnload";
 import { useSession } from "../Session/SessionProvider";
 import { TaxonomyVersionProvider } from "../StructureVersion/TaxonomyVersionProvider";
@@ -132,6 +133,7 @@ export const LearningpathForm = ({ learningpath, language }: Props) => {
   const navigate = useLocaleNavigate();
   const postLearningpathMutation = useMutation(postLearningpathMutationOptions());
   const patchLearningpathMutation = useMutation(patchLearningpathMutationOptions());
+  const contentURI = learningpath ? `urn:learningpath:${learningpath.id}` : undefined;
 
   const validate = useCallback((values: LearningpathFormValues) => validateFormik(values, metaDataRules, t), [t]);
 
@@ -192,13 +194,19 @@ export const LearningpathForm = ({ learningpath, language }: Props) => {
               >
                 <RevisionNotes />
               </FormAccordion>
-              <FormAccordion id="grepCodes" title={t("form.name.grepCodes")} hasError={!!errors.grepCodes}>
+              <FormAccordion
+                id="grepCodes"
+                title={<GrepCodesPanelTitle contentURI={contentURI} language={language} />}
+                hasError={!!errors.grepCodes}
+              >
                 <GrepCodesField
                   prefixFilter={[
                     GREP_CODE_FORMATS.KJERNEELEMENT,
                     GREP_CODE_FORMATS.KOMPETANSEMAL,
                     GREP_CODE_FORMATS.TVERRFAGLIGTEMA,
                   ]}
+                  contentURI={contentURI}
+                  language={language}
                 />
               </FormAccordion>
             </FormAccordions>
