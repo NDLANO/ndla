@@ -58,7 +58,7 @@ const NodeControls = ({
   isLoading,
 }: Props) => {
   const { t } = useTranslation();
-  const isReadOnly = useTaxonomyVersion();
+  const { isReadOnly } = useTaxonomyVersion();
 
   const showJumpToResources = isMainActive && (node.id.includes("topic") || node.id.includes("subject"));
 
