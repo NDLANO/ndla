@@ -188,6 +188,7 @@ const AlternativeCheckboxRoot = styled(CheckboxRoot, {
 const NavigationRow = styled("div", {
   base: {
     display: "flex",
+    flexDirection: "row-reverse",
     justifyContent: "space-between",
     alignItems: "center",
     width: "full",
@@ -340,15 +341,15 @@ export const QuizQuestionScreen = ({
           )}
         </ProgressSection>
         <NavigationRow>
+          <Button onClick={onNextClick} loading={isLast ? !!finishing : false}>
+            {t(isLast ? "myNdla.quiz.take.finish" : "myNdla.quiz.take.next")}
+            <ArrowRightLine />
+          </Button>
           {!!onBack && (
             <Button variant="tertiary" onClick={() => onBack(selectedIds)}>
               {t("myNdla.quiz.take.back")}
             </Button>
           )}
-          <Button onClick={onNextClick} css={{ marginInlineStart: "auto" }} loading={isLast ? !!finishing : false}>
-            {t(isLast ? "myNdla.quiz.take.finish" : "myNdla.quiz.take.next")}
-            <ArrowRightLine />
-          </Button>
         </NavigationRow>
       </StyledQuestionCard>
     </Wrapper>
