@@ -226,6 +226,10 @@ const translations = {
     started: "Oppdateringa er starta. Ho kan ta lang tid, og blir fullført i bakgrunnen.",
     error: "Noko gjekk gale ved oppdatering av grep-koder",
   },
+  pagination: {
+    prev: "Førre",
+    next: "Neste",
+  },
   searchPage: {
     search: "Søk",
     header: {
