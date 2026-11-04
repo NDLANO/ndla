@@ -13,11 +13,11 @@ lockfile:
 
 catalog:
   "@ark-ui/react": ^5.40.0
-  "@dnd-kit/abstract": ^0.5.1
-  "@dnd-kit/dom": ^0.5.1
-  "@dnd-kit/geometry": ^0.5.1
-  "@dnd-kit/helpers": ^0.5.1
-  "@dnd-kit/react": ^0.5.1
+  "@dnd-kit/abstract": ^0.5.3
+  "@dnd-kit/dom": ^0.5.3
+  "@dnd-kit/geometry": ^0.5.3
+  "@dnd-kit/helpers": ^0.5.3
+  "@dnd-kit/react": ^0.5.3
   "@fontsource-variable/source-code-pro": ^5.3.1
   "@fontsource-variable/source-serif-4": ^5.3.1
   "@googleapis/youtube": ^40.0.2
