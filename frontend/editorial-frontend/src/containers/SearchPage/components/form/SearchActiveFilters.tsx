@@ -6,10 +6,8 @@
  *
  */
 
-import { tDynamic } from "@ndla/locales";
 import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import SearchTagGroup from "../../../../components/Form/SearchTagGroup";
 import { useStableSearchPageParams } from "../../useStableSearchPageParams";
@@ -23,13 +21,6 @@ const Wrapper = styled("div", {
   },
 });
 
-const getSortLabel = (sort: string, t: TFunction) => {
-  const descending = sort.startsWith("-");
-  const sortType = descending ? sort.slice(1) : sort;
-  const order = t(descending ? "searchForm.desc" : "searchForm.asc").toLowerCase();
-  return `${tDynamic(t, `searchForm.sort.${sortType}`)} (${order})`;
-};
-
 interface Props<Tags extends {}> {
   tags: Tags;
   onRemoveTag: (parameterName: keyof Tags, index: number | undefined) => void;
@@ -39,11 +30,9 @@ interface Props<Tags extends {}> {
 export const SearchActiveFilters = <Tags extends {}>({ tags, onRemoveTag, onReset }: Props<Tags>) => {
   const { t } = useTranslation();
   const [params, setParams] = useStableSearchPageParams();
-  const sort = params.get("sort");
 
   const allTags = {
     ...tags,
-    sort: sort ? getSortLabel(sort, t) : undefined,
     "page-size": params.get("page-size"),
   };
 
@@ -55,7 +44,7 @@ export const SearchActiveFilters = <Tags extends {}>({ tags, onRemoveTag, onRese
       <SearchTagGroup
         tags={allTags}
         onRemoveTag={(name, index) => {
-          if (name === "sort" || name === "page-size") {
+          if (name === "page-size") {
             setParams({ [name]: null });
           } else {
             onRemoveTag(name as keyof Tags, index);

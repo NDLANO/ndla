@@ -6,46 +6,64 @@
  *
  */
 
-import { createListCollection } from "@ark-ui/react/collection";
-import { ArrowRightLine } from "@ndla/icons";
-import { IconButton, SelectContent, SelectLabel, SelectRoot, SelectValueText } from "@ndla/primitives";
-import { css } from "@ndla/styled-system/css";
+import { ArrowDownShortLine } from "@ndla/icons";
+import { tDynamic } from "@ndla/locales";
+import {
+  Button,
+  RadioGroupItem,
+  RadioGroupItemControl,
+  RadioGroupItemHiddenInput,
+  RadioGroupItemText,
+  RadioGroupLabel,
+  RadioGroupRoot,
+} from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { GenericSelectItem, GenericSelectTrigger } from "@ndla/ui";
-import { useMemo } from "react";
+import type { TFunction } from "i18next";
+import { useId, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-const StyledSortContainer = styled("div", {
+const Wrapper = styled("div", {
   base: {
     display: "flex",
-    gap: "3xsmall",
-    alignItems: "center",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: "xsmall",
   },
 });
 
-const inlineSelectRootStyle = css.raw({
-  flexDirection: "row",
-  alignItems: "center",
-});
-
-const OrderIcon = styled(ArrowRightLine, {
+const StyledRadioGroupRoot = styled(RadioGroupRoot, {
   base: {
-    transform: "rotate(-90deg)",
+    gap: "xxsmall",
   },
-  variants: {
-    order: {
-      desc: {
-        transform: "rotate(90deg)",
-      },
-      asc: {},
+});
+
+const OptionsRow = styled("div", {
+  base: {
+    display: "flex",
+    flexWrap: "wrap",
+    columnGap: "small",
+    rowGap: "xsmall",
+    paddingBlock: "xxsmall",
+    _hidden: {
+      display: "none",
     },
   },
 });
 
-const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
+const ToggleIcon = styled(ArrowDownShortLine, {
   base: {
-    width: "surface.xxsmall",
-    whiteSpace: "nowrap",
+    transitionProperty: "[transform]",
+    transitionDuration: "normal",
+    _motionReduce: {
+      transition: "[none]",
+    },
+  },
+  variants: {
+    open: {
+      true: {
+        transform: "rotate(180deg)",
+      },
+    },
   },
 });
 
@@ -61,70 +79,79 @@ export type SortType =
   | "width"
   | "height";
 
+const DEFAULT_SORT_TYPES: SortType[] = ["id", "relevance", "title", "lastUpdated"];
+
+const PRIMARY_SORT_LABELS: Record<string, "searchForm.bestMatch" | "searchForm.dateAsc" | "searchForm.dateDesc"> = {
+  "-relevance": "searchForm.bestMatch",
+  lastUpdated: "searchForm.dateAsc",
+  "-lastUpdated": "searchForm.dateDesc",
+};
+
+const DEFAULT_PRIMARY = Object.keys(PRIMARY_SORT_LABELS);
+
+const getSortLabel = (value: string, t: TFunction) => {
+  const primaryLabel = PRIMARY_SORT_LABELS[value];
+  if (primaryLabel) return t(primaryLabel);
+  const descending = value.startsWith("-");
+  const sortType = descending ? value.slice(1) : value;
+  return `${tDynamic(t, `searchForm.sort.${sortType}`)} ${t(descending ? "searchForm.desc" : "searchForm.asc").toLowerCase()}`;
+};
+
 interface Props {
   sortTypes?: SortType[];
+  primary?: string[];
   value: string;
   onValueChange: (value: string) => void;
 }
 
-const DEFAULT_SORT_TYPES: SortType[] = ["id", "relevance", "title", "lastUpdated"];
-
-const SearchSort = ({ sortTypes = DEFAULT_SORT_TYPES, value, onValueChange }: Props) => {
+const SearchSort = ({ sortTypes = DEFAULT_SORT_TYPES, primary = DEFAULT_PRIMARY, value, onValueChange }: Props) => {
   const { t } = useTranslation();
+  const otherOptionsId = useId();
 
-  const [sort, order] = useMemo(() => {
-    const split = value.split("-");
-    return split.length > 1 ? [split[1] ?? "", "desc"] : [split[0] ?? "", "asc"];
-  }, [value]);
+  const otherOptions = useMemo(
+    () => sortTypes.flatMap((type) => [type, `-${type}`]).filter((option) => !primary.includes(option)),
+    [primary, sortTypes],
+  );
 
-  const handleSortChange = (value: string) => {
-    const _order = order === "desc" ? "-" : "";
-    onValueChange(_order + value);
-  };
-
-  const toggleOrder = () => {
-    const newOrder = order === "desc" ? "" : "-";
-    onValueChange(newOrder + sort);
-  };
-
-  const orderLabel = `${t("searchForm.order")}: ${t(order === "desc" ? "searchForm.desc" : "searchForm.asc")}`;
-
-  const sortCollection = useMemo(() => {
-    return createListCollection({
-      items: sortTypes,
-      itemToString: (item) => t(`searchForm.sort.${item}`),
-    });
-  }, [sortTypes, t]);
+  const [showOther, setShowOther] = useState(() => otherOptions.includes(value));
 
   return (
-    <StyledSortContainer>
-      <SelectRoot
-        collection={sortCollection}
-        positioning={{ sameWidth: true }}
-        css={inlineSelectRootStyle}
-        value={[sort]}
-        onValueChange={(details) => {
-          const value = details.value[0];
-          if (value) handleSortChange(value);
-        }}
-      >
-        <SelectLabel>{t("searchForm.sorting")}</SelectLabel>
-        <StyledGenericSelectTrigger>
-          <SelectValueText />
-        </StyledGenericSelectTrigger>
-        <SelectContent>
-          {sortCollection.items.map((option) => (
-            <GenericSelectItem item={option} key={option}>
-              {t(`searchForm.sort.${option}`)}
-            </GenericSelectItem>
+    <Wrapper>
+      <StyledRadioGroupRoot value={value} onValueChange={(details) => details.value && onValueChange(details.value)}>
+        <RadioGroupLabel textStyle="label.small">{t("searchForm.sortBy")}</RadioGroupLabel>
+        <OptionsRow>
+          {primary.map((option) => (
+            <SortOption key={option} value={option} label={getSortLabel(option, t)} />
           ))}
-        </SelectContent>
-      </SelectRoot>
-      <IconButton variant="secondary" aria-label={orderLabel} title={orderLabel} onClick={toggleOrder}>
-        <OrderIcon order={order === "desc" ? "desc" : "asc"} />
-      </IconButton>
-    </StyledSortContainer>
+        </OptionsRow>
+        <OptionsRow id={otherOptionsId} hidden={!showOther}>
+          {otherOptions.map((option) => (
+            <SortOption key={option} value={option} label={getSortLabel(option, t)} />
+          ))}
+        </OptionsRow>
+      </StyledRadioGroupRoot>
+      {!!otherOptions.length && (
+        <Button
+          variant="tertiary"
+          size="small"
+          aria-expanded={showOther}
+          aria-controls={otherOptionsId}
+          onClick={() => setShowOther((prev) => !prev)}
+        >
+          {t("searchForm.otherSortOptions")}
+          <ToggleIcon open={showOther} />
+        </Button>
+      )}
+    </Wrapper>
   );
 };
+
+const SortOption = ({ value, label }: { value: string; label: string }) => (
+  <RadioGroupItem value={value}>
+    <RadioGroupItemControl />
+    <RadioGroupItemText textStyle="label.small">{label}</RadioGroupItemText>
+    <RadioGroupItemHiddenInput />
+  </RadioGroupItem>
+);
 
 export default SearchSort;
