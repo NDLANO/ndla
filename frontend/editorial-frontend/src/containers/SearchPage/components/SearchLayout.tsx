@@ -43,6 +43,11 @@ const Sidebar = styled("section", {
     gap: "xsmall",
     flexShrink: "0",
     width: "[360px]",
+    padding: "small",
+    background: "surface.brand.2.subtle",
+    border: "1px solid",
+    borderColor: "stroke.discrete",
+    boxShadow: "xsmall",
     desktopDown: {
       position: "fixed",
       insetBlock: "0",
@@ -52,7 +57,6 @@ const Sidebar = styled("section", {
       maxWidth: "[360px]",
       overflowY: "auto",
       padding: "medium",
-      background: "surface.default",
       boxShadow: "large",
     },
     _hidden: {
@@ -121,11 +125,12 @@ export const SearchLayout = ({ sidebar, children, activeFilterCount }: Props) =>
         <MainColumn>{children}</MainColumn>
         <Sidebar id={sidebarId} aria-labelledby={headingId} hidden={!open}>
           <SidebarHeader>
-            <Heading id={headingId} textStyle="title.medium" asChild consumeCss>
+            <Heading id={headingId} textStyle="title.small" asChild consumeCss>
               <h2>{t("searchForm.filtersHeading")}</h2>
             </Heading>
             <IconButton
               variant="tertiary"
+              size="small"
               aria-label={t("searchForm.hideFilters")}
               title={t("searchForm.hideFilters")}
               onClick={() => setOpen(false)}
