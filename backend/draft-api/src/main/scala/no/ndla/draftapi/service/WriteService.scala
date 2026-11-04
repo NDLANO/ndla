@@ -167,12 +167,9 @@ class WriteService(using
   /** MUTATES fileEmbed by cloning file and updating data-path */
   def cloneEmbedAndUpdateElement(fileEmbed: Element): Try[Element] = {
     Option(fileEmbed.attr(TagAttribute.DataPath.toString)) match {
-      case Some(existingPath) => cloneFileAndGetNewPath(existingPath).flatMap(newPath => {
+      case Some(existingPath) => cloneFileAndGetNewPath(existingPath).map(newPath => {
           // Jsoup is mutable and we use it here to update the embeds data-path with the cloned file
-          fileEmbed
-            .attr(TagAttribute.DataPath.toString, newPath)
-            .toOption
-            .toTry(api.CloneFileException(s"Could not update ${TagAttribute.DataPath} of file embed '$fileEmbed'."))
+          fileEmbed.attr(TagAttribute.DataPath.toString, newPath).nn
         })
       case None =>
         Failure(api.CloneFileException(s"Could not get ${TagAttribute.DataPath} of file embed '$fileEmbed'."))

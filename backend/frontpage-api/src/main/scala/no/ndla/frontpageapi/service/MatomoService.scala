@@ -77,14 +77,10 @@ class MatomoService(using
     _                  <- subjectPageRepository.updateSubjectPage(subjectPageToUpdate)
   } yield popularArticles.size
 
-  private def lastWeekDateRange: Try[String] = {
-    val dateRange = for {
-      today     <- LocalDate.now().toOption
-      weekAgo   <- today.minusDays(DaysInDateRange).toOption
-      fromDate  <- weekAgo.format(DateTimeFormatter.ISO_LOCAL_DATE).toOption
-      untilDate <- today.format(DateTimeFormatter.ISO_LOCAL_DATE).toOption
-    } yield s"$fromDate,$untilDate"
-    dateRange.toTry(new IllegalStateException("Could not compute date range for the last week"))
+  private def lastWeekDateRange: Try[String] = Try {
+    val today   = LocalDate.now().nn
+    val weekAgo = today.minusDays(DaysInDateRange).nn
+    s"${weekAgo.format(DateTimeFormatter.ISO_LOCAL_DATE)},${today.format(DateTimeFormatter.ISO_LOCAL_DATE)}"
   }
 
   def updatePopularArticlesForSubjectPage(

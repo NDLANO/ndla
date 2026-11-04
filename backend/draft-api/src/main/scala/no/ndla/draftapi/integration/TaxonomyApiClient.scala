@@ -14,7 +14,6 @@ import com.typesafe.scalalogging.StrictLogging
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
 import no.ndla.common.CirceUtil
-import no.ndla.common.implicits.{toOption, toTry}
 import no.ndla.common.model.domain.Title
 import no.ndla.common.model.domain.draft.Draft
 import no.ndla.draftapi.Props
@@ -64,12 +63,7 @@ class TaxonomyApiClient(using ndlaClient: NdlaClient, props: Props) extends Stri
   }
 
   private def updateTitleAndTranslations(node: Node, defaultTitle: Title, titles: Seq[Title], user: TokenUser) = {
-    def extractTitle(title: Title): Try[String] = Jsoup
-      .parseBodyFragment(title.title)
-      .toOption
-      .flatMap(_.body().toOption)
-      .flatMap(_.text().toOption)
-      .toTry(new RuntimeException(s"Could not extract text from title '${title.title}'"))
+    def extractTitle(title: Title): Try[String] = Try(Jsoup.parseBodyFragment(title.title).nn.body().nn.text().nn)
 
     for {
       translations <- titles.toList.traverse(title => extractTitle(title).map(Translation(_, Some(title.language))))

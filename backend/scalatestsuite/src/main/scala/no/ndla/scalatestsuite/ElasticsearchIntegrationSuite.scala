@@ -62,16 +62,13 @@ trait ElasticsearchIntegrationSuite extends UnitTestSuite {
     }
 
     override protected def healthCheck(url: String): Boolean = Try {
-      val request  = HttpRequest.newBuilder(URI.create(url)).nn.timeout(Duration.ofSeconds(2)).nn.GET().nn.build()
+      import scala.language.unsafeNulls
+      val request  = HttpRequest.newBuilder(URI.create(url)).timeout(Duration.ofSeconds(2)).GET().build()
       val response = HttpClient
         .newBuilder()
-        .nn
         .connectTimeout(Duration.ofSeconds(2))
-        .nn
         .build()
-        .nn
         .send(request, HttpResponse.BodyHandlers.discarding())
-        .nn
       response.statusCode() >= 200 && response.statusCode() < 500
     }.getOrElse(false)
   }

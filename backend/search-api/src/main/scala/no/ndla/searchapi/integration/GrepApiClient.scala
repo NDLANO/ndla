@@ -110,12 +110,7 @@ class GrepApiClient(using props: Props) extends StrictLogging {
   private def getGrepBundleUncached: Try[GrepBundle] = logTaskTime("Fetching grep bundle", 30.seconds) {
     permitTry {
       val date        = NDLADate.now().toUTCEpochSecond
-      val tempDirPath = Try(Files.createTempDirectory(s"grep-dump-$date")).?
-      val tempDirFile = tempDirPath
-        .toOption
-        .flatMap(_.toFile.toOption)
-        .toTry(GrepException("Could not create temporary directory for grep dump"))
-        .?
+      val tempDirFile = Try(Files.createTempDirectory(s"grep-dump-$date").nn.toFile.nn).?
       Using(tempDirFile) { tempDir =>
         val zippedDump   = fetchDump(tempDir).?
         val unzippedDump = ZipUtil.unzip(zippedDump, tempDir, deleteArchive = true).?

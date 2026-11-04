@@ -13,7 +13,7 @@ import io.circe.{Decoder, Encoder}
 import no.ndla.common.implicits.*
 
 import java.time.{LocalDateTime, ZoneOffset}
-import java.time.format.{DateTimeFormatter, DateTimeParseException}
+import java.time.format.DateTimeFormatter
 import scala.util.Try
 
 object DateParser {
@@ -34,11 +34,7 @@ object DateParser {
 
   def decoderWithFormat(fmt: String): Decoder[LocalDateTime] = {
     val format = DateTimeFormatter.ofPattern(fmt)
-    Decoder[String].emapTry(str =>
-      Try(LocalDateTime.parse(str, format)).flatMap(
-        _.toOption.toTry(new DateTimeParseException(s"Could not parse '$str' with format '$fmt'", str, 0))
-      )
-    )
+    Decoder[String].emapTry(str => Try(LocalDateTime.parse(str, format).nn))
   }
 
   object Circe {

@@ -424,17 +424,9 @@ class WriteService(using
   private def cleanupStagingDir(stagingDir: Path): Unit = {
     Try {
       if (Files.exists(stagingDir)) {
-        Files
-          .walk(stagingDir)
-          .toOption
-          .foreach { stream =>
-            Using(stream) { dirStream =>
-              dirStream
-                .sorted(java.util.Comparator.reverseOrder())
-                .toOption
-                .foreach(_.forEach(Files.deleteIfExists(_): Unit))
-            }: Unit
-          }
+        Using(Files.walk(stagingDir).nn) { dirStream =>
+          dirStream.sorted(java.util.Comparator.reverseOrder()).nn.forEach(Files.deleteIfExists(_): Unit)
+        }: Unit
       }
     }.recover { ex =>
       logger.warn(s"Failed to clean up bulk upload staging dir $stagingDir", ex)
@@ -863,24 +855,15 @@ object WriteService {
   // See https://developers.google.com/speed/webp/docs/cwebp#options
   // For PNG images, we set the quality to the default value in cwebp
   // For JPEG and WebP images, we set the quality higher to reduce the effect of double compression
-  private val baseWebpWriter: Option[WebpWriter] = WebpWriter
-    .DEFAULT
-    .toOption
-    .flatMap(_.withMultiThread().toOption)
-    .flatMap(_.withM(6).toOption)
-  private val webpWriterForJpeg: Option[WebpWriter] = baseWebpWriter
-    .flatMap(_.withoutAlpha().toOption)
-    .flatMap(_.withQ(85).toOption)
-  private val webpWriterForPng: Option[WebpWriter]  = baseWebpWriter.flatMap(_.withQ(75).toOption)
-  private val webpWriterForWebp: Option[WebpWriter] = baseWebpWriter.flatMap(_.withQ(85).toOption)
+  private val baseWebpWriter: Try[WebpWriter]    = Try(WebpWriter.DEFAULT.nn.withMultiThread().nn.withM(6).nn)
+  private val webpWriterForJpeg: Try[WebpWriter] = baseWebpWriter.map(_.withoutAlpha().nn.withQ(85).nn)
+  private val webpWriterForPng: Try[WebpWriter]  = baseWebpWriter.map(_.withQ(75).nn)
+  private val webpWriterForWebp: Try[WebpWriter] = baseWebpWriter.map(_.withQ(85).nn)
 
-  def getWebpWriterForFormat(format: ProcessableImageFormat): Try[WebpWriter] = {
-    val writer = format match {
-      case ProcessableImageFormat.Jpeg => webpWriterForJpeg
-      case ProcessableImageFormat.Png  => webpWriterForPng
-      case ProcessableImageFormat.Webp => webpWriterForWebp
-    }
-    writer.toTry(ImageConversionException(s"Could not create WebP writer for format '$format'"))
+  def getWebpWriterForFormat(format: ProcessableImageFormat): Try[WebpWriter] = format match {
+    case ProcessableImageFormat.Jpeg => webpWriterForJpeg
+    case ProcessableImageFormat.Png  => webpWriterForPng
+    case ProcessableImageFormat.Webp => webpWriterForWebp
   }
 
   private def fixedThreadPool(nThreads: Int): ExecutorService =

@@ -9,7 +9,6 @@
 package no.ndla.validation
 
 import no.ndla.common.CirceUtil
-import no.ndla.common.implicits.*
 import no.ndla.validation.model.{HtmlRulesFile, MathMLRulesFile}
 
 import scala.io.Source
@@ -17,11 +16,8 @@ import scala.util.Try
 
 object ValidationRules {
 
-  private[validation] def readResource(resourceName: String): Try[String] = getClass
-    .getClassLoader
-    .toOption
-    .toTry(new ConfigurationException(s"Unable to find class loader for reading resource '$resourceName'"))
-    .map(classLoader => Source.fromResource(resourceName, classLoader).mkString)
+  private[validation] def readResource(resourceName: String): Try[String] =
+    Try(Source.fromResource(resourceName, getClass.getClassLoader.nn).mkString)
 
   def embedTagRulesJson: HtmlRulesFile = {
     val jsonStr = readResource("embed-tag-rules.json")

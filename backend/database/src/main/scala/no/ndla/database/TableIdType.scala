@@ -8,7 +8,6 @@
 
 package no.ndla.database
 
-import no.ndla.common.implicits.{toOption, toTry}
 import scalikejdbc.*
 
 import java.util.UUID as JavaUUID
@@ -33,9 +32,6 @@ object TableIdType {
     override type ScalaType = JavaUUID
     override def zeroValueSql: SQLSyntax                             = sqls"'00000000-0000-0000-0000-000000000000'::uuid"
     override def zeroValueScala: ScalaType                           = JavaUUID(0L, 0L)
-    override def fromResultSet(rs: WrappedResultSet): Try[ScalaType] = JavaUUID
-      .fromString(rs.string("id"))
-      .toOption
-      .toTry(new IllegalStateException("Could not parse id column as UUID"))
+    override def fromResultSet(rs: WrappedResultSet): Try[ScalaType] = Try(JavaUUID.fromString(rs.string("id")).nn)
   }
 }

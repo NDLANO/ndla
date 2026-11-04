@@ -14,8 +14,7 @@ import com.sksamuel.scrimage.webp.{WebpImageReader, WebpWriter}
 import com.sksamuel.scrimage.{ImageParseException, ImmutableImage}
 import no.ndla.common.TryUtil
 import no.ndla.common.TryUtil.throwIfInterrupted
-import no.ndla.common.implicits.{toOption, toTry}
-import no.ndla.imageapi.model.ImageConversionException
+import no.ndla.common.implicits.toOption
 import no.ndla.imageapi.model.domain.{ImageDimensions, ImageStream, ProcessableImage, ProcessableImageFormat}
 
 import java.awt.image.BufferedImage
@@ -27,21 +26,17 @@ import scala.util.{Failure, Success, Try, Using}
 object ScrimageUtil {
   // NOTE: We rely on the presence of WebpImageReader to handle exceptions from interrupts. The order is important, and
   // we want WebpImageReader last in order to properly catch InterruptedExceptions.
-  private val readers                              = Seq(new ImageIOReader, new PngReader, new WebpImageReader)
-  private val loader: Option[ImmutableImageLoader] = ImmutableImage
-    .loader()
-    .toOption
-    .flatMap(_.withImageReaders(readers.asJava).toOption)
+  private val readers                           = Seq(new ImageIOReader, new PngReader, new WebpImageReader)
+  private val loader: Try[ImmutableImageLoader] = Try(ImmutableImage.loader().nn.withImageReaders(readers.asJava).nn)
 
   def detectFormatFromInputStream(stream: InputStream): Try[Option[Format]] =
-    Try.throwIfInterrupted(FormatDetector.detect(stream).toOption.flatMap(_.toScala))
+    Try.throwIfInterrupted(FormatDetector.detect(stream).nn.toScala)
 
   def imageFromStream(stream: ImageStream.Processable): Try[ProcessableImage] = {
     val maybeImage = Using(stream) { imageStream =>
       for {
-        imageLoader        <- loader.toTry(ImageConversionException("Could not create image loader"))
-        maybeImage         <- Try.throwIfInterrupted(imageLoader.fromStream(imageStream.stream))
-        image              <- maybeImage.toOption.toTry(ImageConversionException(s"Could not read image '${imageStream.fileName}'"))
+        imageLoader        <- loader
+        image              <- Try.throwIfInterrupted(imageLoader.fromStream(imageStream.stream).nn)
         imageWithFixedType <- fixImageUnderlyingType(image)
       } yield ProcessableImage(imageWithFixedType, imageStream.fileName, imageStream.format)
     }.flatten
@@ -67,10 +62,7 @@ object ScrimageUtil {
       case ProcessableImageFormat.Webp => WebpWriter.DEFAULT
     }
 
-    writer
-      .toOption
-      .toTry(ImageConversionException(s"Could not find image writer for format '${processableImage.format}'"))
-      .flatMap(imageToStreamWithWriter(processableImage, _, processableImage.format))
+    Try(writer.nn).flatMap(imageToStreamWithWriter(processableImage, _, processableImage.format))
   }
 
   def imageToStreamWithWriter(
@@ -78,8 +70,7 @@ object ScrimageUtil {
       writer: ImageWriter,
       writerFormat: ProcessableImageFormat,
   ): Try[ImageStream.Processable] = Try
-    .throwIfInterrupted(processableImage.image.bytes(writer))
-    .flatMap(_.toOption.toTry(ImageConversionException(s"Could not write image '${processableImage.fileName}'")))
+    .throwIfInterrupted(processableImage.image.bytes(writer).nn)
     .map(bytes =>
       ImageStream.Processable(
         new ByteArrayInputStream(bytes),
@@ -92,41 +83,27 @@ object ScrimageUtil {
   def getDimensionsFromGifStream(stream: ImageStream.Gif): Try[(ImageStream.Gif, ImageDimensions)] = Try
     .throwIfInterrupted {
       Using.resource(stream) { imageStream =>
-        for {
-          bytes <- imageStream
-            .stream
-            .readAllBytes()
-            .toOption
-            .toTry(ImageConversionException(s"Could not read GIF '${imageStream.fileName}'"))
-          awtDim <- AnimatedGifReader
-            .read(ImageSource.of(bytes))
-            .toOption
-            .flatMap(_.getDimensions.toOption)
-            .toTry(ImageConversionException(s"Could not read dimensions of GIF '${imageStream.fileName}'"))
-        } yield {
-          val dim                     = ImageDimensions(awtDim.width, awtDim.height)
-          val byteStream              = new ByteArrayInputStream(bytes)
-          val stream: ImageStream.Gif = ImageStream.Gif(byteStream, imageStream.fileName, bytes.length)
-          (stream, dim)
-        }
+        val bytes                   = imageStream.stream.readAllBytes().nn
+        val gif                     = AnimatedGifReader.read(ImageSource.of(bytes)).nn
+        val awtDim                  = gif.getDimensions.nn
+        val dim                     = ImageDimensions(awtDim.width, awtDim.height)
+        val byteStream              = new ByteArrayInputStream(bytes)
+        val stream: ImageStream.Gif = ImageStream.Gif(byteStream, imageStream.fileName, bytes.length)
+        (stream, dim)
       }
     }
-    .flatten
 
   def transformImage(
       processableImage: ProcessableImage,
       f: ImmutableImage => ImmutableImage | Null,
   ): Try[ProcessableImage] = Try
-    .throwIfInterrupted(f(processableImage.image))
-    .flatMap(_.toOption.toTry(ImageConversionException(s"Could not transform image '${processableImage.fileName}'")))
+    .throwIfInterrupted(f(processableImage.image).nn)
     .map(i => processableImage.copy(image = i))
 
   // Due to a bug in Scrimage, 16-bit grayscale images must be converted to e.g., 8-bit RGBA
   // See https://github.com/dbcxy/java-image-scaling/issues/35, which is used internally by Scrimage
   private def fixImageUnderlyingType(image: ImmutableImage): Try[ImmutableImage] = image.getType match {
-    case BufferedImage.TYPE_USHORT_GRAY => Try(image.copy(ImmutableImage.DEFAULT_DATA_TYPE)).flatMap(
-        _.toOption.toTry(ImageConversionException("Could not convert 16-bit grayscale image"))
-      )
-    case _ => Success(image)
+    case BufferedImage.TYPE_USHORT_GRAY => Try(image.copy(ImmutableImage.DEFAULT_DATA_TYPE).nn)
+    case _                              => Success(image)
   }
 }
