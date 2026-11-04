@@ -169,7 +169,6 @@ const PlainQuizPageContent = () => {
           )}
         </main>
       </PageContainer>
-      <FavoritesHeart position="bottom" desktopOnly />
     </StyledLayout>
   );
 };
