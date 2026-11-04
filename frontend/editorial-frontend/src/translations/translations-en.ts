@@ -250,6 +250,12 @@ const translations = {
     totalCount: "Total results",
     resultSummary: "Showing results {{from}} – {{to}} of <count>{{count}}</count>",
     resultSummaryWithQuery: 'Showing results {{from}} – {{to}} of <count>{{count}}</count> for "{{query}}"',
+    resultMeta: {
+      contentType: "Content type",
+      published: "Published",
+      notPublished: "Not published",
+      publishedVersion: "Published version",
+    },
     highlights: {
       title: "Search hits",
       content: "Search hits from content",
