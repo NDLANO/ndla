@@ -268,6 +268,7 @@ export const TaxonomyConnections = ({
             removeConnection={removeConnection}
             type={type}
             updateConnection={updateNodeConnection}
+            subject={subjectsQuery.data?.find((subject) => subject.id === node.context?.rootId)}
             matomoStats={
               showMatomoStats
                 ? {

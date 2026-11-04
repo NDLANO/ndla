@@ -12,7 +12,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { GrepResultDTO } from "@ndla/types-backend/search-api";
 import { useQuery } from "@tanstack/react-query";
 import { useField } from "formik";
-import { memo, useState, useEffect } from "react";
+import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../components/Form/GenericSearchCombobox";
@@ -44,14 +44,6 @@ const grepCodeTitle = (grepResult: GrepResultDTO) => {
   return `${grepResult.code}${laereplan}${kompetansesett} - ${grepResult.title.title}`;
 };
 
-export const convertGrepCodesToObject = async (grepCodes: string[]): Promise<Record<string, GrepObject>> => {
-  const grepCodesData = await searchGrepCodes({ codes: grepCodes, pageSize: grepCodes.length });
-  const grepCodesWithTitle = grepCodesData.results.map((grepCode) => ({
-    [grepCode.code]: { title: grepCodeTitle(grepCode), isExpired: grepCode.status !== "Published" },
-  }));
-  return Object.assign({}, ...grepCodesWithTitle);
-};
-
 interface GrepCodeSuccess {
   code: string;
   title: string;
@@ -74,7 +66,6 @@ interface Props {
 const GrepCodesField = ({ prefixFilter }: Props) => {
   const { t } = useTranslation();
   const [field, meta, helpers] = useField<string[]>("grepCodes");
-  const [grepCodes, setGrepCodes] = useState<Record<string, GrepObject>>({});
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
   const nonNullPrefix = prefixFilter.map((f) => f.prefix).filter(Boolean);
 
@@ -87,21 +78,38 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
     }),
   );
 
-  useEffect(() => {
-    (async () => {
-      if (!field.value.length) return;
-      const grepCodesObject = await convertGrepCodesToObject(field.value);
-      setGrepCodes(grepCodesObject);
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const [grepCodes, setGrepCodes] = useState<Record<string, GrepObject>>({});
+  const missingCodes = useMemo(() => field.value.filter((code) => !grepCodes[code]), [field.value, grepCodes]);
+
+  const missingGrepCodesQuery = useQuery({
+    ...searchGrepCodesQueryOptions({ codes: missingCodes, pageSize: missingCodes.length }),
+    enabled: !!missingCodes.length,
+  });
+
+  const [prevMissingGrepCodes, setPrevMissingGrepCodes] = useState(missingGrepCodesQuery.data);
+
+  if (missingGrepCodesQuery.data !== prevMissingGrepCodes) {
+    setPrevMissingGrepCodes(missingGrepCodesQuery.data);
+    const results = missingGrepCodesQuery.data?.results ?? [];
+    if (results.length) {
+      setGrepCodes((prev) =>
+        results.reduce<Record<string, GrepObject>>(
+          (acc, grepCode) => {
+            acc[grepCode.code] = { title: grepCodeTitle(grepCode), isExpired: grepCode.status !== "Published" };
+            return acc;
+          },
+          { ...prev },
+        ),
+      );
+    }
+  }
 
   const fetchGrepCodeTitles = async (
     newGrepCodes: string[],
   ): Promise<{ success: GrepCodeSuccess[]; failed: GrepCodeError[] }> => {
     try {
       const withoutSavedAndInvalid = newGrepCodes.filter(
-        (code) => !grepCodes[code] && isGrepCodeValid(code, prefixFilter),
+        (code) => !field.value.includes(code) && isGrepCodeValid(code, prefixFilter),
       );
       if (!withoutSavedAndInvalid.length) return { success: [], failed: [] };
       const grepCodesData = await searchGrepCodes({ codes: withoutSavedAndInvalid });
@@ -135,8 +143,6 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
       const trimmedValue = v.toUpperCase().trim();
       // Delete grep code
       if (field.value.includes(trimmedValue)) {
-        const { [trimmedValue]: _, ...remaining } = grepCodes;
-        setGrepCodes(remaining);
         helpers.setValue(field.value.filter((v) => v !== trimmedValue));
         return acc;
       }
@@ -148,16 +154,16 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
 
     const grepCodesWithName = await fetchGrepCodeTitles(addedGrepCodes);
 
-    const newValues: string[] = [];
-
-    const updatedGrepCodes = grepCodesWithName.success.reduce<Record<string, GrepObject>>((acc, v) => {
-      newValues.push(v.code);
-      acc[v.code] = v;
-      return acc;
-    }, grepCodes);
-
-    helpers.setValue([...field.value, ...newValues]);
-    setGrepCodes(updatedGrepCodes);
+    setGrepCodes((prev) =>
+      grepCodesWithName.success.reduce<Record<string, GrepObject>>(
+        (acc, v) => {
+          acc[v.code] = { title: v.title, isExpired: v.isExpired };
+          return acc;
+        },
+        { ...prev },
+      ),
+    );
+    helpers.setValue([...field.value, ...grepCodesWithName.success.map((v) => v.code)]);
 
     if (grepCodesWithName.failed.length) {
       setTimeout(() => {
@@ -213,11 +219,11 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
         />
       </GenericSearchCombobox>
       <StyledList>
-        {Object.entries(grepCodes).map(([code, object]) => (
+        {field.value.map((code) => (
           <ListItemRoot key={code} asChild consumeCss id="list-item">
             <li>
-              <ListItemContent>{object.title}</ListItemContent>
-              {object.isExpired ? <StyledAlertLine title={t("form.grepCodes.expired")} /> : undefined}
+              <ListItemContent>{grepCodes[code]?.title ?? code}</ListItemContent>
+              {grepCodes[code]?.isExpired ? <StyledAlertLine title={t("form.grepCodes.expired")} /> : undefined}
               <IconButton
                 variant="danger"
                 size="small"
