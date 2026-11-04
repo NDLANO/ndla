@@ -83,6 +83,7 @@ export const disclaimerPlugins: SlatePlugin[] = [
   markPlugin.configure({
     options: {
       supportedMarks: { value: ["bold", "italic", "sub", "sup"], override: true },
+      markdownShortcuts: true,
     },
   }),
   noopPlugin,
