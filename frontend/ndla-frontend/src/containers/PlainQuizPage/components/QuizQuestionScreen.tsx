@@ -43,6 +43,34 @@ const QuizTitle = styled(Heading, {
   },
 });
 
+const ProgressSection = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+    width: "full",
+    paddingBottom: "xxlarge",
+  },
+});
+
+const ProgressContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxsmall",
+    width: "full",
+  },
+});
+
+const QuestionSection = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
+    width: "full",
+  },
+});
+
 const ProgressRow = styled("div", {
   base: {
     display: "flex",
@@ -68,7 +96,7 @@ const ProgressFill = styled("div", {
     height: "full",
     width: "var(--quiz-progress-to)",
     borderRadius: "[inherit]",
-    backgroundColor: "surface.brand.1.strong",
+    backgroundColor: "primary",
     animation: "var(--animations-quiz-progress-fill)",
     _motionReduce: {
       animation: "[none]",
@@ -80,7 +108,7 @@ const StyledQuestionCard = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "small",
+    gap: "large",
     width: "full",
     desktop: {
       padding: "medium",
@@ -105,10 +133,10 @@ const AlternativeLetter = styled(Text, {
     justifyContent: "center",
     flexShrink: "0",
     borderRadius: "half",
-    width: "large",
-    height: "large",
-    backgroundColor: "surface.brand.1.subtle",
-    color: "text.strong",
+    width: "medium",
+    height: "medium",
+    backgroundColor: "surface.brand.1.moderate",
+    color: "text.subtle",
   },
   variants: {
     multiChoice: {
@@ -121,11 +149,11 @@ const AlternativeLetter = styled(Text, {
 
 const selectableAlternativeStyle = css.raw({
   width: "full",
-  gap: "xsmall",
+  gap: "xxsmall",
   padding: "xsmall",
   borderRadius: "xsmall",
   border: "1px solid",
-  borderColor: "stroke.default",
+  borderColor: "stroke.subtle",
   backgroundColor: "background.default",
   cursor: "pointer",
   transitionDuration: "normal",
@@ -239,80 +267,90 @@ export const QuizQuestionScreen = ({
         <QuizTitle textStyle="title.small" id={SKIP_TO_CONTENT_ID}>
           {quizTitle}
         </QuizTitle>
-        <ProgressRow>
-          <Text textStyle="label.xsmall" fontWeight="bold" color="text.subtle">
-            {t("myNdla.quiz.take.questionProgress", {
-              current: questionNumber,
-              total: questionCount,
-            })}
-          </Text>
-          <Text textStyle="label.xsmall" color="text.subtle">
-            {t("myNdla.quiz.take.percentComplete", { percent })}
-          </Text>
-        </ProgressRow>
-        <ProgressTrack aria-hidden>
-          <ProgressFill style={progressStyle} />
-        </ProgressTrack>
-        <Heading textStyle="title.medium" id={headingId}>
-          {parseSimpleRichText(question.title)}
-        </Heading>
-        <Text textStyle="label.small" color="text.subtle" id={hintId}>
-          {t(isMultiChoice ? "myNdla.quiz.take.multipleChoiceHint" : "myNdla.quiz.take.singleChoiceHint")}
-        </Text>
-        <AlternativesList role={isMultiChoice ? "group" : undefined} {...(isMultiChoice ? alternativesLabelProps : {})}>
-          {isMultiChoice ? (
-            question.alternatives.map((alt, index) => (
-              <AlternativeCheckboxRoot
-                key={alt.id}
-                checked={selectedIds.includes(alt.id)}
-                onCheckedChange={(details) => onCheckboxChange(alt.id, !!details.checked)}
-                onKeyDown={onAlternativeKeyDown}
-              >
-                <AlternativeLetter multiChoice textStyle="label.small" fontWeight="bold" asChild consumeCss>
-                  <span>{String.fromCharCode(65 + index)}</span>
-                </AlternativeLetter>
-                <Text textStyle="label.medium">{parseSimpleRichText(alt.text)}</Text>
-                <CheckboxHiddenInput />
-              </AlternativeCheckboxRoot>
-            ))
-          ) : (
-            <RadioGroupRoot
-              {...alternativesLabelProps}
-              value={selectedIds[0] ?? null}
-              onValueChange={(details) => {
-                setSelectedIds(details.value ? [details.value] : []);
-                setShowError(false);
-              }}
-            >
-              {question.alternatives.map((alt, index) => (
-                <AlternativeRadioItem key={alt.id} value={alt.id} onKeyDown={onAlternativeKeyDown}>
-                  <AlternativeLetter textStyle="label.small" fontWeight="bold" asChild consumeCss>
+        <ProgressSection>
+          <ProgressContainer>
+            <ProgressRow>
+              <Text textStyle="label.xsmall" fontWeight="bold" color="text.subtle">
+                {t("myNdla.quiz.take.questionProgress", {
+                  current: questionNumber,
+                  total: questionCount,
+                })}
+              </Text>
+              <Text textStyle="label.xsmall" color="text.subtle">
+                {t("myNdla.quiz.take.percentComplete", { percent })}
+              </Text>
+            </ProgressRow>
+            <ProgressTrack aria-hidden>
+              <ProgressFill style={progressStyle} />
+            </ProgressTrack>
+          </ProgressContainer>
+          <QuestionSection>
+            <Heading textStyle="title.medium" id={headingId}>
+              {parseSimpleRichText(question.title)}
+            </Heading>
+            <Text textStyle="label.small" color="text.subtle" id={hintId}>
+              {t(isMultiChoice ? "myNdla.quiz.take.multipleChoiceHint" : "myNdla.quiz.take.singleChoiceHint")}
+            </Text>
+          </QuestionSection>
+          <AlternativesList
+            role={isMultiChoice ? "group" : undefined}
+            {...(isMultiChoice ? alternativesLabelProps : {})}
+          >
+            {isMultiChoice ? (
+              question.alternatives.map((alt, index) => (
+                <AlternativeCheckboxRoot
+                  key={alt.id}
+                  checked={selectedIds.includes(alt.id)}
+                  onCheckedChange={(details) => onCheckboxChange(alt.id, !!details.checked)}
+                  onKeyDown={onAlternativeKeyDown}
+                >
+                  <AlternativeLetter multiChoice textStyle="label.xsmall" fontWeight="bold" asChild consumeCss>
                     <span>{String.fromCharCode(65 + index)}</span>
                   </AlternativeLetter>
-                  <Text textStyle="label.medium">{parseSimpleRichText(alt.text)}</Text>
-                  <RadioGroupItemHiddenInput />
-                </AlternativeRadioItem>
-              ))}
-            </RadioGroupRoot>
+                  <Text textStyle="label.small">{parseSimpleRichText(alt.text)}</Text>
+                  <CheckboxHiddenInput />
+                </AlternativeCheckboxRoot>
+              ))
+            ) : (
+              <RadioGroupRoot
+                css={{ gap: "xsmall" }}
+                {...alternativesLabelProps}
+                value={selectedIds[0] ?? null}
+                onValueChange={(details) => {
+                  setSelectedIds(details.value ? [details.value] : []);
+                  setShowError(false);
+                }}
+              >
+                {question.alternatives.map((alt, index) => (
+                  <AlternativeRadioItem key={alt.id} value={alt.id} onKeyDown={onAlternativeKeyDown}>
+                    <AlternativeLetter textStyle="label.xsmall" fontWeight="bold" asChild consumeCss>
+                      <span>{String.fromCharCode(65 + index)}</span>
+                    </AlternativeLetter>
+                    <Text textStyle="label.small">{parseSimpleRichText(alt.text)}</Text>
+                    <RadioGroupItemHiddenInput />
+                  </AlternativeRadioItem>
+                ))}
+              </RadioGroupRoot>
+            )}
+          </AlternativesList>
+          {!!showError && (
+            <Text textStyle="label.small" color="text.error" id={errorId} role="alert">
+              {t(isMultiChoice ? "myNdla.quiz.take.selectAnswerErrorMulti" : "myNdla.quiz.take.selectAnswerError")}
+            </Text>
           )}
-        </AlternativesList>
-        {!!showError && (
-          <Text textStyle="label.small" color="text.error" id={errorId} role="alert">
-            {t(isMultiChoice ? "myNdla.quiz.take.selectAnswerErrorMulti" : "myNdla.quiz.take.selectAnswerError")}
-          </Text>
-        )}
-      </StyledQuestionCard>
-      <NavigationRow>
-        {!!onBack && (
-          <Button variant="tertiary" onClick={() => onBack(selectedIds)}>
-            {t("myNdla.quiz.take.back")}
+        </ProgressSection>
+        <NavigationRow>
+          {!!onBack && (
+            <Button variant="tertiary" onClick={() => onBack(selectedIds)}>
+              {t("myNdla.quiz.take.back")}
+            </Button>
+          )}
+          <Button onClick={onNextClick} css={{ marginInlineStart: "auto" }} loading={isLast ? !!finishing : false}>
+            {t(isLast ? "myNdla.quiz.take.finish" : "myNdla.quiz.take.next")}
+            <ArrowRightLine />
           </Button>
-        )}
-        <Button onClick={onNextClick} css={{ marginInlineStart: "auto" }} loading={isLast ? !!finishing : false}>
-          {t(isLast ? "myNdla.quiz.take.finish" : "myNdla.quiz.take.next")}
-          <ArrowRightLine />
-        </Button>
-      </NavigationRow>
+        </NavigationRow>
+      </StyledQuestionCard>
     </Wrapper>
   );
 };

@@ -127,7 +127,12 @@ const PlainQuizPageContent = () => {
   return (
     <StyledLayout>
       <FavoritesHeart position="top" desktopOnly />
-      <PageContainer variant="content" asChild consumeCss css={{ position: "relative", zIndex: "[1]" }}>
+      <PageContainer
+        variant="content"
+        asChild
+        consumeCss
+        css={{ position: "relative", zIndex: "[1]", desktop: { paddingBlockStart: "5xlarge" } }}
+      >
         <main>
           <PageTitle title={quiz.title} useLocationForCustomPath={true} />
           <SocialMediaMetadata
