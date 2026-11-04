@@ -25,7 +25,7 @@ const Wrapper = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "medium",
+    gap: "large",
     width: "full",
     maxWidth: "surface.pageMax",
   },
@@ -38,8 +38,9 @@ const Card = styled("div", {
     alignItems: "center",
     gap: "small",
     width: "full",
-    padding: "medium",
-    borderRadius: "large",
+    paddingBlock: "medium",
+    paddingInline: "small",
+    borderRadius: "medium",
     backgroundColor: "surface.brand.3.subtle",
     textAlign: "center",
     boxShadow: "xsmall",
@@ -69,7 +70,7 @@ const AvatarBox = styled("div", {
 const MetaRow = styled("div", {
   base: {
     display: "flex",
-    gap: "small",
+    gap: "xsmall",
     width: "full",
   },
 });
@@ -77,8 +78,8 @@ const MetaRow = styled("div", {
 const MetaItem = styled("div", {
   base: {
     display: "flex",
-    flexDirection: "column",
-    gap: "3xsmall",
+    alignItems: "center",
+    gap: "xsmall",
     flex: "1",
     minWidth: "0",
     padding: "small",
@@ -88,12 +89,11 @@ const MetaItem = styled("div", {
   },
 });
 
-const MetaLabel = styled("div", {
+const MetaText = styled("div", {
   base: {
     display: "flex",
-    alignItems: "center",
-    gap: "3xsmall",
-    color: "text.subtle",
+    flexDirection: "column",
+    gap: "5xsmall",
   },
 });
 
@@ -101,6 +101,7 @@ const InfoBox = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
+    gap: "xxsmall",
     width: "full",
     padding: "small",
     backgroundColor: "background.default",
@@ -115,7 +116,7 @@ const InfoList = styled("ul", {
     flexDirection: "column",
     gap: "3xsmall",
     margin: "0",
-    paddingInlineStart: "medium",
+    paddingInlineStart: "[21px]",
     listStyleType: "disc",
   },
 });
@@ -130,7 +131,6 @@ const StartButtonRow = styled("div", {
 
 const StartButton = styled(Button, {
   base: {
-    paddingInline: "large",
     width: "100",
   },
 });
@@ -138,8 +138,9 @@ const StartButton = styled(Button, {
 const ButtonRow = styled("div", {
   base: {
     display: "flex",
-    gap: "medium",
+    gap: "xsmall",
     flexWrap: "wrap",
+    marginBlockStart: "small",
   },
 });
 
@@ -171,25 +172,29 @@ export const QuizStartScreen = ({ quiz, questionCount, onStart }: Props) => {
       {!!quiz.description && <Text>{quiz.description}</Text>}
       <MetaRow>
         <MetaItem>
-          <MetaLabel>
-            <QuestionLine size="small" />
-            <Text textStyle="label.small">{t("myNdla.quiz.form.tabs.questions")}</Text>
-          </MetaLabel>
-          <Text textStyle="label.medium" fontWeight="bold">
-            {t("myNdla.quiz.questionCount", { count: questionCount })}
-          </Text>
+          <QuestionLine />
+          <MetaText>
+            <Text textStyle="label.small" color="text.subtle">
+              {t("myNdla.quiz.form.tabs.questions")}
+            </Text>
+            <Text textStyle="label.medium" fontWeight="bold">
+              {t("myNdla.quiz.questionCount", { count: questionCount })}
+            </Text>
+          </MetaText>
         </MetaItem>
         {!!estimatedMinutes && (
           <MetaItem>
-            <MetaLabel>
-              <TimeLine size="small" />
-              <Text textStyle="label.small">{t("myNdla.quiz.take.estimatedLabel")}</Text>
-            </MetaLabel>
-            <Text textStyle="label.medium" fontWeight="bold">
-              {t("myNdla.quiz.take.estimatedMinutes", {
-                count: estimatedMinutes,
-              })}
-            </Text>
+            <TimeLine />
+            <MetaText>
+              <Text textStyle="label.small" color="text.subtle">
+                {t("myNdla.quiz.take.estimatedLabel")}
+              </Text>
+              <Text textStyle="label.medium" fontWeight="bold">
+                {t("myNdla.quiz.take.estimatedMinutes", {
+                  count: estimatedMinutes,
+                })}
+              </Text>
+            </MetaText>
           </MetaItem>
         )}
       </MetaRow>
@@ -199,10 +204,14 @@ export const QuizStartScreen = ({ quiz, questionCount, onStart }: Props) => {
         </Text>
         <InfoList>
           <li>
-            <Text textStyle="label.small">{t("myNdla.quiz.take.beforeStart.selectAnswer")}</Text>
+            <Text textStyle="label.small" color="text.subtle">
+              {t("myNdla.quiz.take.beforeStart.selectAnswer")}
+            </Text>
           </li>
           <li>
-            <Text textStyle="label.small">{t("myNdla.quiz.take.beforeStart.retry")}</Text>
+            <Text textStyle="label.small" color="text.subtle">
+              {t("myNdla.quiz.take.beforeStart.retry")}
+            </Text>
           </li>
         </InfoList>
       </InfoBox>
