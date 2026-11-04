@@ -163,81 +163,83 @@ interface AlternativeRowProps {
   focusOnMount: boolean;
 }
 
-const AlternativeRow = memo(function AlternativeRow({
-  alt,
-  index,
-  questionType,
-  dragDisabled,
-  canRemove,
-  onTextChange,
-  onCorrectChange,
-  onRemove,
-  focusOnMount,
-}: AlternativeRowProps) {
-  const { t } = useTranslation();
-  const [initialText] = useState(() => deserializeToSimpleRichText(alt.text));
-  const plainText = useMemo(
-    () =>
-      deserializeToSimpleRichText(alt.text)
-        .map((node) => Node.string(node))
-        .join("")
-        .trim(),
-    [alt.text],
-  );
-
-  const altId = alt.id;
-  const onChange = useCallback(
-    (value: Descendant[]) => onTextChange(altId, serializeFromSimpleRichText(value)),
-    [onTextChange, altId],
-  );
-
-  const dragHandleName = plainText || t("myNdla.quiz.form.alternativeNumber", { number: index + 1 });
-
-  const { ref, handleRef } = useSortable({
-    id: alt.id,
+const AlternativeRow = memo(
+  ({
+    alt,
     index,
-    disabled: dragDisabled,
-    data: { name: dragHandleName },
-  });
+    questionType,
+    dragDisabled,
+    canRemove,
+    onTextChange,
+    onCorrectChange,
+    onRemove,
+    focusOnMount,
+  }: AlternativeRowProps) => {
+    const { t } = useTranslation();
+    const [initialText] = useState(() => deserializeToSimpleRichText(alt.text));
+    const plainText = useMemo(
+      () =>
+        deserializeToSimpleRichText(alt.text)
+          .map((node) => Node.string(node))
+          .join("")
+          .trim(),
+      [alt.text],
+    );
 
-  return (
-    <SortableRow ref={ref}>
-      <CorrectAnswerToggle alt={alt} questionType={questionType} onCorrectChange={onCorrectChange}>
-        <AlternativeField>
-          <AlignedWithInput>
-            <DragHandle ref={handleRef} name={dragHandleName} disabled={dragDisabled} type="quizalternative" />
-          </AlignedWithInput>
-          <Stack gap="xsmall" css={{ flex: "1" }}>
-            <ContentEditableFieldLabel>{t("myNdla.quiz.form.alternative")}</ContentEditableFieldLabel>
-            <div role="presentation" onClick={preventLabelActivation} onPointerDown={stopPropagation}>
-              <RichTextEditor
-                variant="simple"
-                initialValue={initialText}
-                focusOnMount={focusOnMount}
-                onChange={onChange}
-                placeholder={t("myNdla.quiz.form.alternativePlaceholder")}
-              />
-            </div>
-          </Stack>
-          <AlignedWithInput css={{ paddingInlineStart: "xsmall", gap: "xxsmall" }}>
-            <CorrectAnswerMarker questionType={questionType} />
-            {!!canRemove && (
-              <IconButton
-                aria-label={t("myNdla.quiz.form.removeAlternative")}
-                title={t("myNdla.quiz.form.removeAlternative")}
-                variant="tertiary"
-                size="small"
-                onClick={() => onRemove(alt.id)}
-              >
-                <DeleteBinLine />
-              </IconButton>
-            )}
-          </AlignedWithInput>
-        </AlternativeField>
-      </CorrectAnswerToggle>
-    </SortableRow>
-  );
-});
+    const altId = alt.id;
+    const onChange = useCallback(
+      (value: Descendant[]) => onTextChange(altId, serializeFromSimpleRichText(value)),
+      [onTextChange, altId],
+    );
+
+    const dragHandleName = plainText || t("myNdla.quiz.form.alternativeNumber", { number: index + 1 });
+
+    const { ref, handleRef } = useSortable({
+      id: alt.id,
+      index,
+      disabled: dragDisabled,
+      data: { name: dragHandleName },
+    });
+
+    return (
+      <SortableRow ref={ref}>
+        <CorrectAnswerToggle alt={alt} questionType={questionType} onCorrectChange={onCorrectChange}>
+          <AlternativeField>
+            <AlignedWithInput>
+              <DragHandle ref={handleRef} name={dragHandleName} disabled={dragDisabled} type="quizalternative" />
+            </AlignedWithInput>
+            <Stack gap="xsmall" css={{ flex: "1" }}>
+              <ContentEditableFieldLabel>{t("myNdla.quiz.form.alternative")}</ContentEditableFieldLabel>
+              <div role="presentation" onClick={preventLabelActivation} onPointerDown={stopPropagation}>
+                <RichTextEditor
+                  variant="simple"
+                  initialValue={initialText}
+                  focusOnMount={focusOnMount}
+                  onChange={onChange}
+                  placeholder={t("myNdla.quiz.form.alternativePlaceholder")}
+                />
+              </div>
+            </Stack>
+            <AlignedWithInput css={{ paddingInlineStart: "xsmall", gap: "xxsmall" }}>
+              <CorrectAnswerMarker questionType={questionType} />
+              {!!canRemove && (
+                <IconButton
+                  aria-label={t("myNdla.quiz.form.removeAlternative")}
+                  title={t("myNdla.quiz.form.removeAlternative")}
+                  variant="tertiary"
+                  size="small"
+                  onClick={() => onRemove(alt.id)}
+                >
+                  <DeleteBinLine />
+                </IconButton>
+              )}
+            </AlignedWithInput>
+          </AlternativeField>
+        </CorrectAnswerToggle>
+      </SortableRow>
+    );
+  },
+);
 
 interface CorrectAnswerToggleProps {
   alt: AlternativeFormValues;

@@ -158,13 +158,7 @@ const StyledEditable = styled(
   { baseComponent: true },
 );
 
-export const RichTextEditor = memo(function RichTextEditor({
-  initialValue,
-  onChange,
-  variant = "full",
-  focusOnMount,
-  ...rest
-}: Props) {
+export const RichTextEditor = memo(({ initialValue, onChange, variant = "full", focusOnMount, ...rest }: Props) => {
   const [isFocused, setIsFocused] = useState(false);
   const isPointerDown = useRef(false);
   const [editor] = useState(() =>
