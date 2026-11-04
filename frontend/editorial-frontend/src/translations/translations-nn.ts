@@ -393,6 +393,11 @@ const translations = {
     all: "Alle",
     showFilters: "Vis filter",
     clearQuery: "Tøm søkefeltet",
+    sortBy: "Sorter etter:",
+    otherSortOptions: "Andre sorteringsval",
+    bestMatch: "Beste treff",
+    dateAsc: "Dato stigande",
+    dateDesc: "Dato søkkande",
     hideFilters: "Skjul filter",
     filterHeading: {
       subjects: "Fag",
