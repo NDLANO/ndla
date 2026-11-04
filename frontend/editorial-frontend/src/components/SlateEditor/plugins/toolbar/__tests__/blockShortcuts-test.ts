@@ -8,6 +8,7 @@
 
 import {
   createSlate,
+  HEADING_ELEMENT_TYPE,
   LIST_ELEMENT_TYPE,
   LIST_ITEM_ELEMENT_TYPE,
   PARAGRAPH_ELEMENT_TYPE,
@@ -37,7 +38,7 @@ const findList = (editor: Editor) => {
 
 const text = (editor: Editor) => Node.string(editor);
 
-describe("list shortcuts", () => {
+describe("block shortcuts", () => {
   test.each([
     ["- ", "bulleted-list"],
     ["* ", "bulleted-list"],
@@ -108,5 +109,37 @@ describe("list shortcuts", () => {
     const numbered = setup(commentPlugins, [paragraph("")], "1. ");
     expect(findList(numbered)).toBeUndefined();
     expect(text(numbered)).toBe("1. ");
+  });
+
+  test.each([
+    ["## ", 2],
+    ["### ", 3],
+    ["#### ", 4],
+  ])("typing '%s' at the start of a paragraph creates a level %s heading", (prefix, level) => {
+    const editor = setup(learningResourcePlugins, [paragraph("Hello")], prefix);
+    expect(Node.get(editor, [0, 0])).toMatchObject({
+      type: HEADING_ELEMENT_TYPE,
+      level,
+      children: [{ text: "Hello" }],
+    });
+  });
+
+  test("does not create headings for other prefixes", () => {
+    const editor = setup(learningResourcePlugins, [paragraph("")], "# ##### a ## ");
+    expect(Node.get(editor, [0, 0])).toMatchObject(paragraph("# ##### a ## "));
+  });
+
+  test("creates a heading inside a list item", () => {
+    const editor = setup(learningResourcePlugins, [paragraph("")], "- ## Hello");
+    expect(findList(editor)).toMatchObject({
+      type: LIST_ELEMENT_TYPE,
+      children: [{ type: LIST_ITEM_ELEMENT_TYPE, children: [{ type: HEADING_ELEMENT_TYPE, level: 2 }] }],
+    });
+    expect(text(editor)).toBe("Hello");
+  });
+
+  test("only triggers for headings available in the toolbar", () => {
+    const editor = setup(commentPlugins, [paragraph("")], "## ");
+    expect(Node.get(editor, [0, 0])).toMatchObject(paragraph("## "));
   });
 });
