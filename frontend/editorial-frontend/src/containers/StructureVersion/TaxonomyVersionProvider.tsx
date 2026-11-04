@@ -41,7 +41,8 @@ export const useTaxonomyVersion = (): TaxonomyVersion => {
   };
 
   const { userPermissions } = useSession();
-  const isReadOnly = taxonomyVersion !== TAXONOMY_VERSION_DEFAULT && !userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
+  const isDraft = !taxonomyVersion || taxonomyVersion === TAXONOMY_VERSION_DEFAULT;
+  const isReadOnly = !isDraft && !userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
   return {
     taxonomyVersion,
