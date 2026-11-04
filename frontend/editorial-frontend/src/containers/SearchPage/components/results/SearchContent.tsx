@@ -199,10 +199,15 @@ const SearchContent = ({ content, responsibleName }: Props) => {
   const { t, i18n } = useTranslation();
   const { userPermissions } = useSession();
 
+  const primaryContext = useMemo(
+    () => content.contexts.find((context) => context.isPrimary) ?? content.contexts[0],
+    [content.contexts],
+  );
+
   const badges = useBadges({
-    resourceTypes: content.contexts?.[0]?.resourceTypes,
+    resourceTypes: primaryContext?.resourceTypes,
     traits: content.traits,
-    relevanceId: content.contexts?.[0]?.relevanceId,
+    relevanceId: primaryContext?.relevanceId,
     resourceType: content.learningResourceType !== "standard" ? content.learningResourceType : undefined,
   });
 
@@ -213,7 +218,11 @@ const SearchContent = ({ content, responsibleName }: Props) => {
       : tDynamic(t, `form.status.${status}`);
 
   const metaDescription = content.metaDescription.metaDescription ?? "";
-  const breadcrumbs = useMemo(() => content.contexts?.[0]?.breadcrumbs ?? [], [content.contexts]);
+  const breadcrumbs = useMemo(() => {
+    if (!primaryContext) return [];
+    const contentType = primaryContext.resourceTypes[0]?.name;
+    return contentType ? [...primaryContext.breadcrumbs, contentType] : primaryContext.breadcrumbs;
+  }, [primaryContext]);
 
   const isPublished = content.status?.current === "PUBLISHED" || !!content.status?.other.includes("PUBLISHED");
   const showMarkupLink =
