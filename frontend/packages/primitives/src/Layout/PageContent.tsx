@@ -23,13 +23,8 @@ const pageRecipe = cva({
      */
     gridColumnGap: "var(--gutter, 0)",
     gridTemplateColumns: "1fr min(var(--size), calc(100% - (var(--gutter, 0) * 2))) 1fr",
-    // :where() gives the default child placement zero specificity, so children that set
-    // their own grid column (e.g. BleedPageContent) always win regardless of CSS output order.
-    // Panda's types only allow selectors starting or ending with "&", but it handles this fine.
-    // @ts-expect-error -- see above
-    ":where(&) > *": {
-      gridColumnStart: "2",
-      gridColumnEnd: "2",
+    _children: {
+      gridColumn: "2",
     },
   },
   defaultVariants: {
@@ -93,11 +88,8 @@ export const BleedPageContent = styled(
   ark.div,
   {
     base: {
-      "& ": {
-        width: "full",
-        gridColumnStart: "1",
-        gridColumnEnd: "-1",
-      },
+      width: "full",
+      gridColumn: "1 / -1",
     },
   },
   { baseComponent: true },
