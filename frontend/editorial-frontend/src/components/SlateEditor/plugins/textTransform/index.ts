@@ -7,7 +7,7 @@
  */
 
 import type { KeyboardEvent } from "react";
-import { Editor, Transforms, Range } from "slate";
+import { Editor, Node, Range, Text, Transforms } from "slate";
 import { KEY_ENTER } from "../../utils/keys";
 
 const replaceConsecutiveChars = (
@@ -35,8 +35,29 @@ const replaceConsecutiveChars = (
   }
 };
 
+/**
+ * Replaces ".." with an ellipsis when typing a third ".". Code is left untouched.
+ */
+const replaceEllipsis = (editor: Editor) => {
+  const { selection } = editor;
+  if (!selection || !Range.isCollapsed(selection)) return false;
+  const { path, offset } = selection.anchor;
+  if (offset < 2) return false;
+  const node = Node.get(editor, path);
+  if (!Text.isText(node) || node.code || node.text.slice(offset - 2, offset) !== "..") return false;
+
+  Transforms.delete(editor, { at: { anchor: { path, offset: offset - 2 }, focus: { path, offset } } });
+  Transforms.insertText(editor, "…");
+  return true;
+};
+
 export const textTransformPlugin = (editor: Editor) => {
-  const { onKeyDown: nextOnKeyDown } = editor;
+  const { onKeyDown: nextOnKeyDown, insertText } = editor;
+
+  editor.insertText = (text, options) => {
+    if (text === "." && !options?.at && replaceEllipsis(editor)) return;
+    insertText(text, options);
+  };
 
   editor.onKeyDown = (e) => {
     if (e.key === "<") {
