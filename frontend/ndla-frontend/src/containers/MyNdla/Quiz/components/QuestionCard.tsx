@@ -19,8 +19,9 @@ import {
   Text,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import { useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
+import type { Descendant } from "slate";
 import { RichTextEditor } from "../../../../components/RichTextEditor/RichTextEditor";
 import {
   deserializeToSimpleRichText,
@@ -50,10 +51,11 @@ export interface QuestionFormValues {
 interface Props {
   question: QuestionFormValues;
   index: number;
-  onChange: (question: QuestionFormValues) => void;
-  onMoveUp?: () => void;
-  onMoveDown?: () => void;
-  onDelete: () => void;
+  onChange: (id: string, updater: (question: QuestionFormValues) => QuestionFormValues) => void;
+  onMove: (id: string, direction: -1 | 1) => void;
+  canMoveUp: boolean;
+  canMoveDown: boolean;
+  onDelete: (id: string) => void;
   error?: string;
   focusOnMount?: boolean;
 }
@@ -77,60 +79,87 @@ const Card = styled("div", {
   },
 });
 
-export const QuestionCard = ({
+export const QuestionCard = memo(function QuestionCard({
   question,
   index,
   onChange,
-  onMoveUp,
-  onMoveDown,
+  onMove,
+  canMoveUp,
+  canMoveDown,
   onDelete,
   error,
   focusOnMount,
-}: Props) => {
+}: Props) {
   const { t } = useTranslation();
   const [initialTitle] = useState(() => deserializeToSimpleRichText(question.title));
   const [focusAlternativeId, setFocusAlternativeId] = useState<string>();
+  const questionId = question.id;
 
-  const setAlternatives = (alternatives: AlternativeFormValues[]) => onChange({ ...question, alternatives });
+  const update = useCallback(
+    (updater: (question: QuestionFormValues) => QuestionFormValues) => onChange(questionId, updater),
+    [onChange, questionId],
+  );
+
+  const updateAlternatives = useCallback(
+    (updater: (alternatives: AlternativeFormValues[]) => AlternativeFormValues[]) =>
+      update((q) => ({ ...q, alternatives: updater(q.alternatives) })),
+    [update],
+  );
+
+  const onReorder = useCallback(
+    (alternatives: AlternativeFormValues[]) => updateAlternatives(() => alternatives),
+    [updateAlternatives],
+  );
 
   const onAddAlternative = () => {
     const id = crypto.randomUUID();
     setFocusAlternativeId(id);
-    setAlternatives([...question.alternatives, { id, text: "", isCorrect: false }]);
+    updateAlternatives((alternatives) => [...alternatives, { id, text: "", isCorrect: false }]);
   };
 
-  const onRemoveAlternative = (id: string) => {
-    setAlternatives(question.alternatives.filter((alt) => alt.id !== id));
-  };
+  const onRemoveAlternative = useCallback(
+    (id: string) => updateAlternatives((alternatives) => alternatives.filter((alt) => alt.id !== id)),
+    [updateAlternatives],
+  );
 
-  const onAlternativeTextChange = (id: string, text: string) => {
-    setAlternatives(question.alternatives.map((alt) => (alt.id === id ? { ...alt, text } : alt)));
-  };
+  const onAlternativeTextChange = useCallback(
+    (id: string, text: string) =>
+      updateAlternatives((alternatives) => alternatives.map((alt) => (alt.id === id ? { ...alt, text } : alt))),
+    [updateAlternatives],
+  );
 
-  const onAlternativeCorrectChange = (id: string, isCorrect: boolean) => {
-    if (question.questionType === "SINGLE_CHOICE") {
-      setAlternatives(
-        question.alternatives.map((alt) => ({
-          ...alt,
-          isCorrect: alt.id === id && isCorrect,
-        })),
-      );
-    } else {
-      setAlternatives(question.alternatives.map((alt) => (alt.id === id ? { ...alt, isCorrect } : alt)));
-    }
-  };
-
-  const onQuestionTypeChange = (multiChoice: boolean) => {
-    setFocusAlternativeId(undefined);
-    onChange({
-      ...question,
-      questionType: multiChoice ? "MULTI_CHOICE" : "SINGLE_CHOICE",
-      alternatives: question.alternatives.map((alt) => ({
-        ...alt,
-        isCorrect: false,
+  const onAlternativeCorrectChange = useCallback(
+    (id: string, isCorrect: boolean) =>
+      update((q) => ({
+        ...q,
+        alternatives:
+          q.questionType === "SINGLE_CHOICE"
+            ? q.alternatives.map((alt) => ({ ...alt, isCorrect: alt.id === id && isCorrect }))
+            : q.alternatives.map((alt) => (alt.id === id ? { ...alt, isCorrect } : alt)),
       })),
-    });
-  };
+    [update],
+  );
+
+  const onQuestionTypeChange = useCallback(
+    (multiChoice: boolean) => {
+      setFocusAlternativeId(undefined);
+      update((q) => ({
+        ...q,
+        questionType: multiChoice ? "MULTI_CHOICE" : "SINGLE_CHOICE",
+        alternatives: q.alternatives.map((alt) => ({ ...alt, isCorrect: false })),
+      }));
+    },
+    [update],
+  );
+
+  const onTitleChange = useCallback(
+    (value: Descendant[]) => update((q) => ({ ...q, title: serializeFromSimpleRichText(value) })),
+    [update],
+  );
+
+  const onMoveUp = useCallback(() => onMove(questionId, -1), [onMove, questionId]);
+  const onMoveDown = useCallback(() => onMove(questionId, 1), [onMove, questionId]);
+  const onDeleteQuestion = useCallback(() => onDelete(questionId), [onDelete, questionId]);
 
   return (
     <Card>
@@ -138,8 +167,8 @@ export const QuestionCard = ({
         index={index}
         questionType={question.questionType}
         onQuestionTypeChange={onQuestionTypeChange}
-        onMoveUp={onMoveUp}
-        onMoveDown={onMoveDown}
+        onMoveUp={canMoveUp ? onMoveUp : undefined}
+        onMoveDown={canMoveDown ? onMoveDown : undefined}
         focusOnMount={focusOnMount}
       />
       <FieldRoot css={{ gap: "xsmall" }}>
@@ -147,14 +176,14 @@ export const QuestionCard = ({
         <RichTextEditor
           variant="simple"
           initialValue={initialTitle}
-          onChange={(value) => onChange({ ...question, title: serializeFromSimpleRichText(value) })}
+          onChange={onTitleChange}
           placeholder={t("myNdla.quiz.form.questionTitlePlaceholder")}
         />
       </FieldRoot>
       <HStack justify="flex-end" css={{ width: "full", paddingInlineEnd: "xsmall" }}>
         <SwitchRoot
           checked={question.alternativesRandomOrder}
-          onCheckedChange={(details) => onChange({ ...question, alternativesRandomOrder: details.checked })}
+          onCheckedChange={(details) => update((q) => ({ ...q, alternativesRandomOrder: details.checked }))}
         >
           <SwitchLabel textStyle="label.small">{t("myNdla.quiz.form.settings.randomOrder")}</SwitchLabel>
           <SwitchControl>
@@ -167,7 +196,7 @@ export const QuestionCard = ({
         alternatives={question.alternatives}
         questionType={question.questionType}
         randomOrder={question.alternativesRandomOrder}
-        onReorder={setAlternatives}
+        onReorder={onReorder}
         onTextChange={onAlternativeTextChange}
         onCorrectChange={onAlternativeCorrectChange}
         onRemove={onRemoveAlternative}
@@ -185,8 +214,8 @@ export const QuestionCard = ({
             {t("myNdla.quiz.form.addAlternative")}
           </Button>
         </HStack>
-        <QuestionDeleteDialog onDelete={onDelete} />
+        <QuestionDeleteDialog onDelete={onDeleteQuestion} />
       </HStack>
     </Card>
   );
-};
+});

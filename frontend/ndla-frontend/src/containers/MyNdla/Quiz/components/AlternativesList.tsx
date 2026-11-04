@@ -24,9 +24,9 @@ import {
   RadioGroupRoot,
 } from "@ndla/primitives";
 import { Stack, styled } from "@ndla/styled-system/jsx";
-import { type MouseEvent, type ReactNode, type SyntheticEvent, useMemo, useState } from "react";
+import { type MouseEvent, type ReactNode, type SyntheticEvent, memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Node } from "slate";
+import { type Descendant, Node } from "slate";
 import { RichTextEditor } from "../../../../components/RichTextEditor/RichTextEditor";
 import {
   deserializeToSimpleRichText,
@@ -163,7 +163,7 @@ interface AlternativeRowProps {
   focusOnMount: boolean;
 }
 
-const AlternativeRow = ({
+const AlternativeRow = memo(function AlternativeRow({
   alt,
   index,
   questionType,
@@ -173,7 +173,7 @@ const AlternativeRow = ({
   onCorrectChange,
   onRemove,
   focusOnMount,
-}: AlternativeRowProps) => {
+}: AlternativeRowProps) {
   const { t } = useTranslation();
   const [initialText] = useState(() => deserializeToSimpleRichText(alt.text));
   const plainText = useMemo(
@@ -183,6 +183,12 @@ const AlternativeRow = ({
         .join("")
         .trim(),
     [alt.text],
+  );
+
+  const altId = alt.id;
+  const onChange = useCallback(
+    (value: Descendant[]) => onTextChange(altId, serializeFromSimpleRichText(value)),
+    [onTextChange, altId],
   );
 
   const dragHandleName = plainText || t("myNdla.quiz.form.alternativeNumber", { number: index + 1 });
@@ -208,7 +214,7 @@ const AlternativeRow = ({
                 variant="simple"
                 initialValue={initialText}
                 focusOnMount={focusOnMount}
-                onChange={(value) => onTextChange(alt.id, serializeFromSimpleRichText(value))}
+                onChange={onChange}
                 placeholder={t("myNdla.quiz.form.alternativePlaceholder")}
               />
             </div>
@@ -231,7 +237,7 @@ const AlternativeRow = ({
       </CorrectAnswerToggle>
     </SortableRow>
   );
-};
+});
 
 interface CorrectAnswerToggleProps {
   alt: AlternativeFormValues;

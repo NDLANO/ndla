@@ -22,9 +22,18 @@ import {
 import { Input, InputContainer, useFieldContext } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { isHotkey } from "is-hotkey";
-import { type FocusEvent, type TextareaHTMLAttributes, useEffect, useMemo, useRef, useState } from "react";
+import {
+  type FocusEvent,
+  type TextareaHTMLAttributes,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { type Descendant, Editor, Transforms } from "slate";
-import { Editable, ReactEditor, Slate } from "slate-react";
+import { Editable, ReactEditor, type RenderElementProps, type RenderLeafProps, Slate } from "slate-react";
 import type { EditableProps } from "slate-react/dist/components/editable";
 import { BreakElement } from "./plugins/break/BreakElement";
 import { HeadingElement } from "./plugins/heading/HeadingElement";
@@ -149,7 +158,13 @@ const StyledEditable = styled(
   { baseComponent: true },
 );
 
-export const RichTextEditor = ({ initialValue, onChange, variant = "full", focusOnMount, ...rest }: Props) => {
+export const RichTextEditor = memo(function RichTextEditor({
+  initialValue,
+  onChange,
+  variant = "full",
+  focusOnMount,
+  ...rest
+}: Props) {
   const [isFocused, setIsFocused] = useState(false);
   const isPointerDown = useRef(false);
   const [editor] = useState(() =>
@@ -195,14 +210,24 @@ export const RichTextEditor = ({ initialValue, onChange, variant = "full", focus
     ReactEditor.focus(editor);
   }, [focusOnMount, editor]);
 
+  const renderElement = useCallback(
+    (props: RenderElementProps) => editor.renderElement?.(props) || <div {...props.attributes}>{props.children}</div>,
+    [editor],
+  );
+
+  const renderLeaf = useCallback(
+    (props: RenderLeafProps) => editor.renderLeaf?.(props) || <span {...props.attributes}>{props.children}</span>,
+    [editor],
+  );
+
   const showToolbar = variant === "full" || isFocused;
 
   const styledEditable = (
     <StyledEditable
       variant={variant}
       onKeyDown={editor.onKeyDown}
-      renderElement={(props) => editor.renderElement?.(props) || <div {...props.attributes}>{props.children}</div>}
-      renderLeaf={(props) => editor.renderLeaf?.(props) || <span {...props.attributes}>{props.children}</span>}
+      renderElement={renderElement}
+      renderLeaf={renderLeaf}
       {...fieldProps}
       aria-labelledby={field?.ids.label}
       {...rest}
@@ -235,4 +260,4 @@ export const RichTextEditor = ({ initialValue, onChange, variant = "full", focus
       {editable}
     </EditorWrapper>
   );
-};
+});
