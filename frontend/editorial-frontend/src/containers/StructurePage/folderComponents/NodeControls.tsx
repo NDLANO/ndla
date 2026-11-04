@@ -11,6 +11,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { Node, NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { useTranslation } from "react-i18next";
 import type { NodeChildWithChildren } from "../../../modules/nodes/nodeApiTypes";
+import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import SettingsMenu from "./SettingsMenu";
 
 const StyledButton = styled(Button, {
@@ -57,6 +58,7 @@ const NodeControls = ({
   isLoading,
 }: Props) => {
   const { t } = useTranslation();
+  const isReadOnly = useTaxonomyVersion();
 
   const showJumpToResources = isMainActive && (node.id.includes("topic") || node.id.includes("subject"));
 
@@ -65,12 +67,14 @@ const NodeControls = ({
       {!!isMainActive && (
         <Wrapper>
           {isLoading ? <Spinner size="small" /> : null}
-          <SettingsMenu
-            node={node}
-            rootNodeId={rootNodeId}
-            onCurrentNodeChanged={onCurrentNodeChanged}
-            nodeChildren={nodeChildren}
-          />
+          {!isReadOnly && (
+            <SettingsMenu
+              node={node}
+              rootNodeId={rootNodeId}
+              onCurrentNodeChanged={onCurrentNodeChanged}
+              nodeChildren={nodeChildren}
+            />
+          )}
         </Wrapper>
       )}
       {!!showJumpToResources && (

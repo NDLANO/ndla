@@ -6,18 +6,18 @@
  *
  */
 
-import { PageContent } from "@ndla/primitives";
+import { MessageBox, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { NodeType } from "@ndla/types-backend/taxonomy-api";
 import { keyBy } from "@ndla/util";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, type ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import ErrorBoundary from "../../components/ErrorBoundary";
-import { TAXONOMY_ADMIN_SCOPE, DRAFT_RESPONSIBLE } from "../../constants";
+import { DRAFT_RESPONSIBLE } from "../../constants";
 import { auth0ResponsiblesQueryOptions } from "../../modules/auth0/auth0Queries";
 import type { StructureNodeType } from "../../modules/nodes/nodeApiTypes";
 import { useBasePathname } from "../../util/localePath";
-import { useSession } from "../Session/SessionProvider";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 import { useCurrentNode } from "./CurrentNodeProvider";
 import LeftColumn from "./LeftColumn";
@@ -74,11 +74,11 @@ const StructureContainer = ({
 }: Props) => {
   const pathname = useBasePathname();
   const paths = pathname.replace(rootPath, "").split("/");
+  const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
+  const { isReadOnly } = useTaxonomyVersion();
   const { currentNode, setCurrentNode } = useCurrentNode();
   const shouldScroll = useRef(!!paths.length);
-
-  const { userPermissions } = useSession();
 
   const prevTaxonomyVersion = useRef(taxonomyVersion);
 
@@ -102,13 +102,17 @@ const StructureContainer = ({
     shouldScroll.current = true;
   }, [setCurrentNode, taxonomyVersion]);
 
-  const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
   return (
     <ErrorBoundary>
       <PageContent variant="wide">
         <PreferencesProvider>
           <GridWrapper>
             {!!messageBox && <MessageBoxWrapper>{messageBox}</MessageBoxWrapper>}
+            {!!isReadOnly && (
+              <MessageBoxWrapper>
+                <MessageBox variant="warning">{t("taxonomy.readOnlyVersion")}</MessageBox>
+              </MessageBoxWrapper>
+            )}
             <LeftColumn rootNodeType={rootNodeType} childNodeTypes={childNodeTypes} rootPath={rootPath} />
             {!!showResourceColumn && (
               <div>
@@ -125,7 +129,7 @@ const StructureContainer = ({
           </GridWrapper>
         </PreferencesProvider>
       </PageContent>
-      {!!isTaxonomyAdmin && <VersionSelector />}
+      <VersionSelector />
     </ErrorBoundary>
   );
 };

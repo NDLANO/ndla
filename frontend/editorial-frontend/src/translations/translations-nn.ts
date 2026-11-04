@@ -1825,6 +1825,7 @@ const translations = {
     subjectSettings: "Faginnstillinger",
     topicSettings: "Emneinnstillinger",
     currentVersion: "Noverande versjon",
+    readOnlyVersion: "Du ser på ein skriveverna versjon av taksonomien. Byt til Draft for å gjere endringar.",
     delete: {
       deleteNode: "Slett {{ nodeType }}",
       deleteDisabled: "{{ nodeType }} med {{ childNode }} kan ikkje slettast",

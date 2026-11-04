@@ -7,7 +7,8 @@
  */
 
 import { createContext, type Dispatch, type ReactNode, type SetStateAction, useContext, useState } from "react";
-import { TAXONOMY_VERSION_DEFAULT } from "../../constants";
+import { TAXONOMY_ADMIN_SCOPE, TAXONOMY_VERSION_DEFAULT } from "../../constants";
+import { useSession } from "../Session/SessionProvider";
 
 const TaxonomyVersionContext = createContext<
   [string | undefined, Dispatch<SetStateAction<string | undefined>>] | undefined
@@ -25,18 +26,26 @@ export const TaxonomyVersionProvider = ({ children }: Props) => {
 export interface TaxonomyVersion {
   taxonomyVersion: string;
   changeVersion: (newHash: string) => void;
+  isReadOnly: boolean;
 }
 
 export const useTaxonomyVersion = (): TaxonomyVersion => {
   const versionContext = useContext(TaxonomyVersionContext);
+  const taxonomyVersion = versionContext?.[0] ?? TAXONOMY_VERSION_DEFAULT;
+
   const changeVersion = (newHash: string) => {
     if (!versionContext) {
       throw new Error("You cannot change the taxonomy version without having a TaxonomyVersionProvider present!");
     }
     versionContext[1](newHash);
   };
+
+  const { userPermissions } = useSession();
+  const isReadOnly = taxonomyVersion !== TAXONOMY_VERSION_DEFAULT && !userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
+
   return {
-    taxonomyVersion: versionContext?.[0] ?? TAXONOMY_VERSION_DEFAULT,
+    taxonomyVersion,
     changeVersion,
+    isReadOnly,
   };
 };

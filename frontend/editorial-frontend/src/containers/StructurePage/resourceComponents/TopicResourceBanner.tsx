@@ -150,7 +150,7 @@ const TopicResourceBanner = ({
   topicNodes,
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const { taxonomyVersion } = useTaxonomyVersion();
+  const { taxonomyVersion, isReadOnly } = useTaxonomyVersion();
   const { showQuality, showMatomoStats } = usePreferences();
 
   const elementCount = useMemo(() => Object.values(contentMetas).length, [contentMetas]);
@@ -193,7 +193,7 @@ const TopicResourceBanner = ({
         {!!showQuality && (
           <ContentWrapper>
             <AverageQualityEvaluation gradeAverage={currentNode.gradeAverage ?? undefined} nodeType="TOPIC" />
-            <QualityEvaluation articleType="topic-article" taxonomy={[currentNode]} />
+            <QualityEvaluation articleType="topic-article" taxonomy={[currentNode]} readOnly={isReadOnly} />
           </ContentWrapper>
         )}
         <ContentWrapper>

@@ -177,7 +177,7 @@ const Resource = ({
   numbered,
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const { taxonomyVersion } = useTaxonomyVersion();
+  const { taxonomyVersion, isReadOnly } = useTaxonomyVersion();
   const { showQuality, showMatomoStats } = usePreferences();
 
   const ref = useRef(null);
@@ -305,27 +305,31 @@ const Resource = ({
               currentNodeId={currentNodeId}
             />
             <VersionHistory resource={resource} contentMeta={contentMeta} contentType={contentType} />
-            <DialogRoot>
-              <DialogTrigger asChild>
-                <IconButton
-                  aria-label={resource.isPrimary ? t("taxonomy.removeResourceDisabled") : t("taxonomy.removeResource")}
-                  title={resource.isPrimary ? t("taxonomy.removeResourceDisabled") : t("taxonomy.removeResource")}
-                  size="small"
-                  variant="danger"
-                  disabled={resource.isPrimary}
-                >
-                  <DeleteBinLine />
-                </IconButton>
-              </DialogTrigger>
-              <DialogContent>
-                <DeleteResourceDialogContent
-                  resource={resource}
-                  contentMeta={contentMeta}
-                  invalidate={invalidate}
-                  isMultidisciplinary={type === "link"}
-                />
-              </DialogContent>
-            </DialogRoot>
+            {!isReadOnly && (
+              <DialogRoot>
+                <DialogTrigger asChild>
+                  <IconButton
+                    aria-label={
+                      resource.isPrimary ? t("taxonomy.removeResourceDisabled") : t("taxonomy.removeResource")
+                    }
+                    title={resource.isPrimary ? t("taxonomy.removeResourceDisabled") : t("taxonomy.removeResource")}
+                    size="small"
+                    variant="danger"
+                    disabled={resource.isPrimary}
+                  >
+                    <DeleteBinLine />
+                  </IconButton>
+                </DialogTrigger>
+                <DialogContent>
+                  <DeleteResourceDialogContent
+                    resource={resource}
+                    contentMeta={contentMeta}
+                    invalidate={invalidate}
+                    isMultidisciplinary={type === "link"}
+                  />
+                </DialogContent>
+              </DialogRoot>
+            )}
           </ControlButtonGroup>
         </ContentRow>
       </StyledListItemContent>

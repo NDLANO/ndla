@@ -31,6 +31,7 @@ interface Props {
   revisionMetaField?: FieldInputProps<ArticleFormType["revisionMeta"]>;
   revisionMetaHelpers?: FieldHelperProps<ArticleFormType["revisionMeta"]>;
   updateNotes?: (art: UpdatedArticleDTO) => Promise<ArticleDTO>;
+  readOnly?: boolean;
 }
 
 const QualityEvaluation = ({
@@ -40,6 +41,7 @@ const QualityEvaluation = ({
   revisionMetaField,
   revisionMetaHelpers,
   updateNotes,
+  readOnly,
 }: Props) => {
   const { t } = useTranslation();
   // Since quality evaluation is the same every place the resource is used in taxonomy, we can use the first node
@@ -61,14 +63,16 @@ const QualityEvaluation = ({
           {t("qualityEvaluationForm.unavailable")}
         </Text>
       )}
-      <QualityEvaluationDialog
-        articleType={articleType}
-        article={article}
-        taxonomy={taxonomy}
-        revisionMetaField={revisionMetaField}
-        revisionMetaHelpers={revisionMetaHelpers}
-        updateNotes={updateNotes}
-      />
+      {!readOnly && (
+        <QualityEvaluationDialog
+          articleType={articleType}
+          article={article}
+          taxonomy={taxonomy}
+          revisionMetaField={revisionMetaField}
+          revisionMetaHelpers={revisionMetaHelpers}
+          updateNotes={updateNotes}
+        />
+      )}
     </FlexWrapper>
   );
 };
