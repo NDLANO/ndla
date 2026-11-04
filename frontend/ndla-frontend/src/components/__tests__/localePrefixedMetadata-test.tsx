@@ -85,4 +85,18 @@ describe("PageTitle", () => {
       expect.objectContaining({ CustomPath: expected, CustomUrl: `https://test.ndla.no${expected}` }),
     ]);
   });
+
+  test("forwards campaign parameters to CustomUrl only", () => {
+    renderAt(
+      "/nn/search?query=test&mtm_campaign=varsling&mtm_source=banner",
+      "nn",
+      <PageTitle title="Title" useLocationForCustomPath />,
+    );
+    expect(window._mtm).toEqual([
+      expect.objectContaining({
+        CustomPath: "/search",
+        CustomUrl: "https://test.ndla.no/search?mtm_campaign=varsling&mtm_source=banner",
+      }),
+    ]);
+  });
 });
