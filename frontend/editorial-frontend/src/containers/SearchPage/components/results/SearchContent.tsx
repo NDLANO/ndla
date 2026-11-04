@@ -77,8 +77,15 @@ const StyledListItemHeading = styled(ListItemHeading, {
   },
 });
 
+const SmallText = styled(Text, {
+  base: {
+    lineHeight: "xsmall",
+  },
+});
+
 const Description = styled(Text, {
   base: {
+    lineHeight: "xsmall",
     lineClamp: "2",
   },
 });
@@ -109,14 +116,18 @@ const MetaList = styled("dl", {
 const MetaItem = styled("div", {
   base: {
     display: "flex",
+    alignItems: "center",
     gap: "5xsmall",
     whiteSpace: "nowrap",
     "&:not(:first-child)": {
-      borderInlineStartWidth: "1px",
-      borderInlineStartStyle: "solid",
-      borderColor: "icon.subtle",
       marginInlineStart: "xxsmall",
-      paddingInlineStart: "xxsmall",
+      _before: {
+        content: '""',
+        width: "[1px]",
+        height: "7",
+        marginInlineEnd: "xxsmall",
+        background: "icon.subtle",
+      },
     },
   },
 });
@@ -175,9 +186,9 @@ const SubjectBreadcrumb = ({ breadcrumbs }: { breadcrumbs: string[] }) => {
       {breadcrumbs.map((crumb, index) => (
         <Fragment key={`${crumb}-${index}`}>
           {index > 0 && <ArrowRightShortLine size="small" aria-hidden />}
-          <Text textStyle="label.xsmall" asChild consumeCss>
+          <SmallText textStyle="label.xsmall" asChild consumeCss>
             <span>{crumb}</span>
-          </Text>
+          </SmallText>
         </Fragment>
       ))}
     </Breadcrumb>
@@ -186,12 +197,12 @@ const SubjectBreadcrumb = ({ breadcrumbs }: { breadcrumbs: string[] }) => {
 
 const Meta = ({ label, value }: { label: string; value: string }) => (
   <MetaItem>
-    <Text textStyle="label.xsmall" fontWeight="bold" asChild consumeCss>
+    <SmallText textStyle="label.xsmall" fontWeight="bold" asChild consumeCss>
       <dt>{label}:</dt>
-    </Text>
-    <Text textStyle="label.xsmall" color="text.subtle" asChild consumeCss>
+    </SmallText>
+    <SmallText textStyle="label.xsmall" color="text.subtle" asChild consumeCss>
       <dd>{value}</dd>
-    </Text>
+    </SmallText>
   </MetaItem>
 );
 
