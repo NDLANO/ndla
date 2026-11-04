@@ -21,10 +21,10 @@ const pageSizeOptions = ["5", "10", "20", "50", "100"];
 const Footer = styled("div", {
   base: {
     display: "flex",
-    flexWrap: "wrap",
+    flexDirection: "column",
     alignItems: "center",
-    justifyContent: "space-between",
     gap: "xsmall",
+    marginBlockStart: "xlarge",
   },
 });
 
@@ -37,6 +37,7 @@ const StyledSelectLabel = styled(SelectLabel, {
 const inlineSelectRootStyle = css.raw({
   flexDirection: "row",
   alignItems: "center",
+  alignSelf: "flex-end",
 });
 
 const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
