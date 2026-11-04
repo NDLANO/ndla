@@ -249,6 +249,12 @@ const translations = {
     totalCount: "Antall søketreff",
     resultSummary: "Viser treff {{from}} – {{to}} av <count>{{count}}</count>",
     resultSummaryWithQuery: "Viser treff {{from}} – {{to}} av <count>{{count}}</count> for «{{query}}»",
+    resultMeta: {
+      contentType: "Innhaldstype",
+      published: "Publisert",
+      notPublished: "Ikkje publisert",
+      publishedVersion: "Publisert versjon",
+    },
     highlights: {
       title: "Søketreff",
       content: "Søketreff frå innhold",
