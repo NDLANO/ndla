@@ -6,20 +6,24 @@
  *
  */
 
-import { ArrowDownShortLine } from "@ndla/icons";
+import { createListCollection } from "@ark-ui/react/collection";
 import { tDynamic } from "@ndla/locales";
 import {
-  Button,
   RadioGroupItem,
   RadioGroupItemControl,
   RadioGroupItemHiddenInput,
   RadioGroupItemText,
   RadioGroupLabel,
   RadioGroupRoot,
+  SelectContent,
+  SelectLabel,
+  SelectRoot,
+  SelectValueText,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { GenericSelectItem, GenericSelectTrigger } from "@ndla/ui";
 import type { TFunction } from "i18next";
-import { useId, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 const Wrapper = styled("div", {
@@ -44,26 +48,12 @@ const OptionsRow = styled("div", {
     columnGap: "small",
     rowGap: "xsmall",
     paddingBlock: "xxsmall",
-    _hidden: {
-      display: "none",
-    },
   },
 });
 
-const ToggleIcon = styled(ArrowDownShortLine, {
+const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
   base: {
-    transitionProperty: "[transform]",
-    transitionDuration: "normal",
-    _motionReduce: {
-      transition: "[none]",
-    },
-  },
-  variants: {
-    open: {
-      true: {
-        transform: "rotate(180deg)",
-      },
-    },
+    width: "fit",
   },
 });
 
@@ -106,14 +96,15 @@ interface Props {
 
 const SearchSort = ({ sortTypes = DEFAULT_SORT_TYPES, primary = DEFAULT_PRIMARY, value, onValueChange }: Props) => {
   const { t } = useTranslation();
-  const otherOptionsId = useId();
 
-  const otherOptions = useMemo(
-    () => sortTypes.flatMap((type) => [type, `-${type}`]).filter((option) => !primary.includes(option)),
-    [primary, sortTypes],
+  const otherCollection = useMemo(
+    () =>
+      createListCollection({
+        items: sortTypes.flatMap((type) => [type, `-${type}`]).filter((option) => !primary.includes(option)),
+        itemToString: (item) => getSortLabel(item, t),
+      }),
+    [primary, sortTypes, t],
   );
-
-  const [showOther, setShowOther] = useState(() => otherOptions.includes(value));
 
   return (
     <Wrapper>
@@ -121,37 +112,39 @@ const SearchSort = ({ sortTypes = DEFAULT_SORT_TYPES, primary = DEFAULT_PRIMARY,
         <RadioGroupLabel textStyle="label.small">{t("searchForm.sortBy")}</RadioGroupLabel>
         <OptionsRow>
           {primary.map((option) => (
-            <SortOption key={option} value={option} label={getSortLabel(option, t)} />
-          ))}
-        </OptionsRow>
-        <OptionsRow id={otherOptionsId} hidden={!showOther}>
-          {otherOptions.map((option) => (
-            <SortOption key={option} value={option} label={getSortLabel(option, t)} />
+            <RadioGroupItem key={option} value={option}>
+              <RadioGroupItemControl />
+              <RadioGroupItemText textStyle="label.small">{getSortLabel(option, t)}</RadioGroupItemText>
+              <RadioGroupItemHiddenInput />
+            </RadioGroupItem>
           ))}
         </OptionsRow>
       </StyledRadioGroupRoot>
-      {!!otherOptions.length && (
-        <Button
-          variant="tertiary"
-          size="small"
-          aria-expanded={showOther}
-          aria-controls={otherOptionsId}
-          onClick={() => setShowOther((prev) => !prev)}
+      {!!otherCollection.items.length && (
+        <SelectRoot
+          collection={otherCollection}
+          positioning={{ sameWidth: false, placement: "bottom-start" }}
+          value={otherCollection.has(value) ? [value] : []}
+          onValueChange={(details) => {
+            const newValue = details.value[0];
+            if (newValue) onValueChange(newValue);
+          }}
         >
-          {t("searchForm.otherSortOptions")}
-          <ToggleIcon open={showOther} />
-        </Button>
+          <SelectLabel srOnly>{t("searchForm.otherSortOptions")}</SelectLabel>
+          <StyledGenericSelectTrigger variant="tertiary" size="small">
+            <SelectValueText placeholder={t("searchForm.otherSortOptions")} />
+          </StyledGenericSelectTrigger>
+          <SelectContent>
+            {otherCollection.items.map((option) => (
+              <GenericSelectItem item={option} key={option}>
+                {getSortLabel(option, t)}
+              </GenericSelectItem>
+            ))}
+          </SelectContent>
+        </SelectRoot>
       )}
     </Wrapper>
   );
 };
-
-const SortOption = ({ value, label }: { value: string; label: string }) => (
-  <RadioGroupItem value={value}>
-    <RadioGroupItemControl />
-    <RadioGroupItemText textStyle="label.small">{label}</RadioGroupItemText>
-    <RadioGroupItemHiddenInput />
-  </RadioGroupItem>
-);
 
 export default SearchSort;
