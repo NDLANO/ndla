@@ -23,9 +23,8 @@ const pageRecipe = cva({
      */
     gridColumnGap: "var(--gutter, 0)",
     gridTemplateColumns: "1fr min(var(--size), calc(100% - (var(--gutter, 0) * 2))) 1fr",
-    "& > *": {
-      gridColumnStart: "2",
-      gridColumnEnd: "2",
+    _children: {
+      gridColumn: "2",
     },
   },
   defaultVariants: {
@@ -89,11 +88,8 @@ export const BleedPageContent = styled(
   ark.div,
   {
     base: {
-      "& ": {
-        width: "full",
-        gridColumnStart: "1",
-        gridColumnEnd: "-1",
-      },
+      width: "full",
+      gridColumn: "1 / -1",
     },
   },
   { baseComponent: true },
