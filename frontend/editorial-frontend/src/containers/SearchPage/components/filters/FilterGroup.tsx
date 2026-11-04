@@ -18,19 +18,11 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import type { ReactNode } from "react";
 
-const StyledAccordionItemTrigger = styled(AccordionItemTrigger, {
-  base: {
-    paddingInline: "xsmall",
-    paddingBlock: "xsmall",
-  },
-});
-
 const StyledAccordionItemContent = styled(AccordionItemContent, {
   base: {
     display: "flex",
     flexDirection: "column",
     gap: "xsmall",
-    padding: "xsmall",
   },
 });
 
@@ -43,16 +35,21 @@ interface Props {
 }
 
 export const FilterGroup = ({ title, name, children, activeCount = 0, headingId }: Props) => (
-  <AccordionRoot collapsible defaultValue={activeCount > 0 ? [name] : []} data-testid={`${name}-filter`}>
+  <AccordionRoot
+    variant="subtle"
+    collapsible
+    defaultValue={activeCount > 0 ? [name] : []}
+    data-testid={`${name}-filter`}
+  >
     <AccordionItem value={name}>
-      <Heading id={headingId} asChild consumeCss textStyle="label.medium" fontWeight="bold">
+      <Heading id={headingId} asChild consumeCss textStyle="label.small" fontWeight="bold">
         <h3>
-          <StyledAccordionItemTrigger>
+          <AccordionItemTrigger>
             {activeCount > 0 ? `${title} (${activeCount})` : title}
             <AccordionItemIndicator asChild>
               <ArrowDownShortLine size="medium" />
             </AccordionItemIndicator>
-          </StyledAccordionItemTrigger>
+          </AccordionItemTrigger>
         </h3>
       </Heading>
       <StyledAccordionItemContent>{children}</StyledAccordionItemContent>
