@@ -103,13 +103,21 @@ const Breadcrumb = styled("div", {
   },
 });
 
+const MetaWrapper = styled("div", {
+  base: {
+    alignSelf: "stretch",
+    overflow: "hidden",
+    marginBlockStart: "4xsmall",
+  },
+});
+
 const MetaList = styled("dl", {
   base: {
     display: "flex",
     flexWrap: "wrap",
     alignItems: "center",
     rowGap: "4xsmall",
-    marginBlockStart: "4xsmall",
+    marginInlineStart: "[calc(-2 * token(spacing.xxsmall) - 1px)]",
   },
 });
 
@@ -119,15 +127,12 @@ const MetaItem = styled("div", {
     alignItems: "center",
     gap: "5xsmall",
     whiteSpace: "nowrap",
-    "&:not(:first-child)": {
-      marginInlineStart: "xxsmall",
-      _before: {
-        content: '""',
-        width: "[1px]",
-        height: "7",
-        marginInlineEnd: "xxsmall",
-        background: "icon.subtle",
-      },
+    _before: {
+      content: '""',
+      width: "[1px]",
+      height: "7",
+      marginInline: "xxsmall",
+      background: "icon.subtle",
     },
   },
 });
@@ -256,15 +261,20 @@ const SearchContent = ({ content, responsibleName }: Props) => {
             </Description>
           )}
           <SubjectBreadcrumb breadcrumbs={breadcrumbs} />
-          <MetaList>
-            {!!badges.length && <Meta label={t("searchPage.resultMeta.contentType")} value={badges.join(", ")} />}
-            <Meta label={t("form.responsible.label")} value={responsibleName || t("form.responsible.noResponsible")} />
-            <Meta label={t("form.workflow.statusLabel")} value={statusLabel || t("form.status.new")} />
-            <Meta
-              label={t("searchPage.resultMeta.published")}
-              value={content.published ? formatDate(content.published) : t("searchPage.resultMeta.notPublished")}
-            />
-          </MetaList>
+          <MetaWrapper>
+            <MetaList>
+              {!!badges.length && <Meta label={t("searchPage.resultMeta.contentType")} value={badges.join(", ")} />}
+              <Meta
+                label={t("form.responsible.label")}
+                value={responsibleName || t("form.responsible.noResponsible")}
+              />
+              <Meta label={t("form.workflow.statusLabel")} value={statusLabel || t("form.status.new")} />
+              <Meta
+                label={t("searchPage.resultMeta.published")}
+                value={content.published ? formatDate(content.published) : t("searchPage.resultMeta.notPublished")}
+              />
+            </MetaList>
+          </MetaWrapper>
         </MainColumn>
         <SideColumn>
           <IconRow>
