@@ -14,9 +14,10 @@ import { RESOURCE_FILTER_CORE, RESOURCE_FILTER_SUPPLEMENTARY } from "../../const
 interface Props {
   relevanceId: string | undefined;
   onChange: (id: string) => void;
+  disabled?: boolean;
 }
 
-const RelevanceOptionSwitch = ({ relevanceId, onChange }: Props) => {
+const RelevanceOptionSwitch = ({ relevanceId, onChange, disabled }: Props) => {
   const { t } = useTranslation();
 
   const [checked, setChecked] = useState((relevanceId ?? RESOURCE_FILTER_CORE) === RESOURCE_FILTER_CORE);
@@ -24,6 +25,7 @@ const RelevanceOptionSwitch = ({ relevanceId, onChange }: Props) => {
   return (
     <SwitchRoot
       checked={checked}
+      disabled={disabled}
       title={t("form.topics.RGTooltip")}
       onCheckedChange={(details) => {
         onChange(details.checked ? RESOURCE_FILTER_CORE : RESOURCE_FILTER_SUPPLEMENTARY);

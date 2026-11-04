@@ -12,8 +12,6 @@ import { TaxonomyBlock } from "../../../components/Taxonomy/TaxonomyBlock";
 import { TaxonomyConnections } from "../../../components/Taxonomy/TaxonomyConnections";
 import { TaxonomyVisibility } from "../../../components/Taxonomy/TaxonomyVisibility";
 import type { MinimalNodeChild } from "../../../components/Taxonomy/types";
-import { TAXONOMY_ADMIN_SCOPE } from "../../../constants";
-import { useSession } from "../../Session/SessionProvider";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
@@ -47,8 +45,6 @@ const contextToPlacement = (
 
 export const LearningpathTaxonomy = ({ learningpath, resourceLanguage, nodes, versions }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
-  const { userPermissions } = useSession();
-  const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
   const node = nodes?.[0];
   const placements = node?.contexts
@@ -70,15 +66,13 @@ export const LearningpathTaxonomy = ({ learningpath, resourceLanguage, nodes, ve
     >
       {!!node && (
         <>
-          {!!isTaxonomyAdmin && (
-            <TaxonomyVisibility
-              resourceType="learningpath"
-              taxonomyVersion={taxonomyVersion}
-              resourceId={learningpath.id}
-              resourceLanguage={resourceLanguage}
-              node={node}
-            />
-          )}
+          <TaxonomyVisibility
+            resourceType="learningpath"
+            taxonomyVersion={taxonomyVersion}
+            resourceId={learningpath.id}
+            resourceLanguage={resourceLanguage}
+            node={node}
+          />
           <TaxonomyConnections
             resourceType="learningpath"
             taxonomyVersion={taxonomyVersion}

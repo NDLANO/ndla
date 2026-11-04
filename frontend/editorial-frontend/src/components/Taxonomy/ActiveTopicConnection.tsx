@@ -49,9 +49,18 @@ interface Props {
   type: "resource" | "topic";
   matomoStats?: ComponentProps<typeof MatomoStats>;
   subject?: Node;
+  readOnly?: boolean;
 }
 
-const ActiveTopicConnection = ({ removeConnection, type, node, updateConnection, matomoStats, subject }: Props) => {
+const ActiveTopicConnection = ({
+  removeConnection,
+  type,
+  node,
+  updateConnection,
+  matomoStats,
+  subject,
+  readOnly,
+}: Props) => {
   const { t } = useTranslation();
 
   if (type === "topic" || !("connectionId" in node)) {
@@ -76,6 +85,7 @@ const ActiveTopicConnection = ({ removeConnection, type, node, updateConnection,
           size="small"
           primary={node.isPrimary}
           variant="success"
+          disabled={!!readOnly && !node.isPrimary}
           onClick={() => {
             if (node.isPrimary) return;
             updateConnection?.(
@@ -93,22 +103,25 @@ const ActiveTopicConnection = ({ removeConnection, type, node, updateConnection,
           <StyledWrapper>
             <RelevanceOptionSwitch
               relevanceId={node.relevanceId ?? undefined}
+              disabled={readOnly}
               onChange={(relevanceId) =>
                 updateConnection?.({ id: node.connectionId, relevanceId, primary: node.isPrimary })
               }
             />
             {!!matomoStats && <MatomoStats {...matomoStats} />}
             {!!subject && <CompetenceGoalsDialog subject={subject} />}
-            <IconButton
-              aria-label={!node.isPrimary ? t("taxonomy.removeResource") : t("taxonomy.removeResourceDisabled")}
-              title={!node.isPrimary ? t("taxonomy.removeResource") : t("taxonomy.removeResourceDisabled")}
-              variant="danger"
-              size="small"
-              disabled={node.isPrimary}
-              onClick={() => removeConnection?.(node.connectionId)}
-            >
-              <DeleteBinLine />
-            </IconButton>
+            {!readOnly && (
+              <IconButton
+                aria-label={!node.isPrimary ? t("taxonomy.removeResource") : t("taxonomy.removeResourceDisabled")}
+                title={!node.isPrimary ? t("taxonomy.removeResource") : t("taxonomy.removeResourceDisabled")}
+                variant="danger"
+                size="small"
+                disabled={node.isPrimary}
+                onClick={() => removeConnection?.(node.connectionId)}
+              >
+                <DeleteBinLine />
+              </IconButton>
+            )}
           </StyledWrapper>
         </ListItemContent>
       </li>

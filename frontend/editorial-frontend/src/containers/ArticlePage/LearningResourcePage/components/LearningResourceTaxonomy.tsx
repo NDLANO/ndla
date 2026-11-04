@@ -54,7 +54,7 @@ const contextToPlacement = (
 
 const LearningResourceTaxonomy = ({ article, articleLanguage, hasTaxEntries }: Props) => {
   const { t, i18n } = useTranslation();
-  const { taxonomyVersion } = useTaxonomyVersion();
+  const { taxonomyVersion, isReadOnly } = useTaxonomyVersion();
   const putNodeMutation = useMutation(putNodeMutationOptions());
   const qc = useQueryClient();
 
@@ -129,6 +129,7 @@ const LearningResourceTaxonomy = ({ article, articleLanguage, hasTaxEntries }: P
             onResourceTypeChanged={onResourceTypeChanged}
             resourceTypes={allResourceTypesQuery.data ?? []}
             value={node.resourceTypes}
+            disabled={isReadOnly}
           />
           <TaxonomyConnections
             taxonomyVersion={taxonomyVersion}

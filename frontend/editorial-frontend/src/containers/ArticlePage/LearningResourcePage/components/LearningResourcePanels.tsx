@@ -51,6 +51,7 @@ import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../
 import type { ArticleFormType, HandleSubmitFunc, LearningResourceFormType } from "../../../FormikForm/articleFormHooks";
 import GrepCodesField from "../../../FormikForm/GrepCodesField";
 import { useSession } from "../../../Session/SessionProvider";
+import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import { useLocalStorageBooleanState } from "../../../WelcomePage/hooks/storedFilterHooks";
 import CommentSection, { RESET_COMMENTS_STATUSES } from "../../components/CommentSection";
 import PanelTitleWithChangeIndicator from "../../components/PanelTitleWithChangeIndicator";
@@ -153,6 +154,7 @@ const LearningResourcePanels = ({
   const [revisionMetaField, , revisionMetaHelpers] = useField<ArticleFormType["revisionMeta"]>("revisionMeta");
   const { t } = useTranslation();
   const { userPermissions } = useSession();
+  const { isReadOnly } = useTaxonomyVersion();
   const { errors } = useFormikContext<LearningResourceFormType>();
   const defaultOpen = useMemo(() => ["learning-resource-content"], []);
 
@@ -180,6 +182,7 @@ const LearningResourcePanels = ({
           revisionMetaField={revisionMetaField}
           revisionMetaHelpers={revisionMetaHelpers}
           updateNotes={updateNotes}
+          readOnly={isReadOnly}
         />
         {!removeComments && (
           <SwitchRoot checked={!hideComments} onCheckedChange={onCheckedChange}>
