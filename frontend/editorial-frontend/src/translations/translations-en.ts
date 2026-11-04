@@ -227,6 +227,10 @@ const translations = {
     started: "The update has started. It may take a long time, and finishes in the background.",
     error: "Something went wrong while updating grep-codes",
   },
+  pagination: {
+    prev: "Previous",
+    next: "Next",
+  },
   searchPage: {
     search: "Søk",
     header: {
