@@ -425,7 +425,16 @@ const MultiChoiceBreakdown = ({
       </AlternativesList>
       {!!isAllCorrect && <MessageBox variant="success">{t("myNdla.quiz.take.result.allCorrectFeedback")}</MessageBox>}
       {!!isAllIncorrect && <MessageBox variant="error">{t("myNdla.quiz.take.result.allIncorrectFeedback")}</MessageBox>}
-      {!!isPartial && (
+      {!!isPartial && !selectedIncorrect && (
+        <MessageBox variant="warning">
+          {t("myNdla.quiz.take.result.partialNoIncorrectFeedback", {
+            count: selectedCorrect,
+            correct: numberToWord(i18n.language, "neuter", selectedCorrect),
+            missing: capitalize(numberToWord(i18n.language, "neuter", missing)),
+          })}
+        </MessageBox>
+      )}
+      {!!isPartial && !!selectedIncorrect && (
         <MessageBox variant="warning">
           {t("myNdla.quiz.take.result.partialFeedback", {
             correct: numberToWord(i18n.language, "common", selectedCorrect),
