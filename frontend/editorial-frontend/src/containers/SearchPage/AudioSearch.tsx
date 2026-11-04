@@ -18,9 +18,9 @@ import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import SearchAudioForm from "./components/form/SearchAudioForm";
 import { GenericSearchList } from "./components/GenericSearchList";
 import SearchAudio from "./components/results/SearchAudio";
-import SearchListOptions from "./components/results/SearchListOptions";
 import { SearchPagination } from "./components/results/SearchPagination";
 import { SearchPageContainer } from "./components/SearchPageContainer";
+import { SearchResultSummary } from "./components/SearchSummaryRow";
 import SearchSort from "./components/sort/SearchSort";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
 
@@ -64,13 +64,21 @@ export const AudioSearch = () => {
     <SearchPageContainer asChild consumeCss>
       <main>
         <title>{t("htmlTitles.search.audio")}</title>
-        <SearchAudioForm userData={userDataQuery.data}>
-          <SearchListOptions totalCount={searchQuery.data?.totalCount}>
-            <SearchSort
-              value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
-              onValueChange={(value) => setParams({ sort: value === DEFAULT_PARAMS.sort ? null : value })}
+        <SearchAudioForm
+          userData={userDataQuery.data}
+          summary={
+            <SearchResultSummary
+              totalCount={searchQuery.data?.totalCount}
+              page={Number(params.get("page")) || DEFAULT_PARAMS.page}
+              pageSize={searchQuery.data?.pageSize}
+              query={params.get("query")}
             />
-          </SearchListOptions>
+          }
+        >
+          <SearchSort
+            value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
+            onValueChange={(value) => setParams({ sort: value === DEFAULT_PARAMS.sort ? null : value })}
+          />
           <GenericSearchList
             type="audio"
             loading={searchQuery.isLoading}

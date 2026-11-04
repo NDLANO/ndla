@@ -6,16 +6,16 @@
  *
  */
 
-import { SearchLine } from "@ndla/icons";
-import { FieldInput, FieldLabel, FieldRoot, IconButton } from "@ndla/primitives";
+import { CloseLine, SearchLine } from "@ndla/icons";
+import { FieldInput, FieldLabel, FieldRoot, IconButton, InputContainer } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import type { ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 
 const Wrapper = styled("div", {
   base: {
     display: "flex",
-    gap: "3xsmall",
+    gap: "4xsmall",
     alignItems: "center",
     tabletDown: {
       flexWrap: "wrap",
@@ -44,22 +44,41 @@ const AddonWrapper = styled("div", {
 interface Props {
   value: string;
   onChange: (value: string) => void;
+  onClear?: () => void;
   placeholder: string;
   children?: ReactNode;
 }
 
-export const SearchQueryField = ({ value, onChange, placeholder, children }: Props) => {
+export const SearchQueryField = ({ value, onChange, onClear, placeholder, children }: Props) => {
   const { t } = useTranslation();
+  const inputRef = useRef<HTMLInputElement>(null);
   return (
     <Wrapper>
       <StyledFieldRoot>
         <FieldLabel srOnly>{placeholder}</FieldLabel>
-        <FieldInput
-          name="query"
-          placeholder={placeholder}
-          value={value}
-          onChange={(e) => onChange(e.currentTarget.value)}
-        />
+        <InputContainer>
+          <FieldInput
+            ref={inputRef}
+            name="query"
+            placeholder={placeholder}
+            value={value}
+            onChange={(e) => onChange(e.currentTarget.value)}
+          />
+          {!!value && (
+            <IconButton
+              variant="clear"
+              aria-label={t("searchForm.clearQuery")}
+              title={t("searchForm.clearQuery")}
+              onClick={() => {
+                onChange("");
+                onClear?.();
+                inputRef.current?.focus();
+              }}
+            >
+              <CloseLine />
+            </IconButton>
+          )}
+        </InputContainer>
       </StyledFieldRoot>
       {!!children && <AddonWrapper>{children}</AddonWrapper>}
       <IconButton type="submit" aria-label={t("searchForm.btn")} title={t("searchForm.btn")}>

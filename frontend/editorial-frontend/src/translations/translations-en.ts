@@ -248,6 +248,8 @@ const translations = {
     imageNoHits: "Your search - {{query}} - did not match any images.",
     hitsSelectLabel: "Number of hits per page",
     totalCount: "Total results",
+    resultSummary: "Showing results {{from}} – {{to}} of <count>{{count}}</count>",
+    resultSummaryWithQuery: 'Showing results {{from}} – {{to}} of <count>{{count}}</count> for "{{query}}"',
     highlights: {
       title: "Search hits",
       content: "Search hits from content",
@@ -391,6 +393,7 @@ const translations = {
     filtersHeading: "Filters",
     all: "All",
     showFilters: "Show filters",
+    clearQuery: "Clear search field",
     hideFilters: "Hide filters",
     filterHeading: {
       subjects: "Subjects",
