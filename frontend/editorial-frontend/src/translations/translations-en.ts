@@ -394,6 +394,11 @@ const translations = {
     all: "All",
     showFilters: "Show filters",
     clearQuery: "Clear search field",
+    sortBy: "Sort by:",
+    otherSortOptions: "Other sort options",
+    bestMatch: "Best match",
+    dateAsc: "Date ascending",
+    dateDesc: "Date descending",
     hideFilters: "Hide filters",
     filterHeading: {
       subjects: "Subjects",
