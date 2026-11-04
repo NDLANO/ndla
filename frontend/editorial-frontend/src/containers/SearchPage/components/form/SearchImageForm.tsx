@@ -6,13 +6,13 @@
  *
  */
 
+import { Heading } from "@ndla/primitives";
 import type { UserDataDTO } from "@ndla/types-backend/draft-api";
 import type { SearchParamsDTO, ImageSearchField } from "@ndla/types-backend/image-api";
 import { useQuery } from "@tanstack/react-query";
 import type { TFunction } from "i18next";
 import { useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import SearchHeader from "../../../../components/Form/SearchHeader";
 import { getTagName } from "../../../../components/Form/utils";
 import ObjectSelector, { type SelectOption } from "../../../../components/ObjectSelector";
 import config from "../../../../config";
@@ -25,7 +25,8 @@ import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import { useStableSearchPageParams } from "../../useStableSearchPageParams";
 import { FilterGroup } from "../filters/FilterGroup";
 import { RadioFilter } from "../filters/RadioFilter";
-import { countActiveFilters, SearchFiltersToggle, SearchLayout } from "../SearchLayout";
+import { countActiveFilters, SearchLayout } from "../SearchLayout";
+import { SearchQueryStack, SearchSummaryRow } from "../SearchSummaryRow";
 import { SearchActiveFilters } from "./SearchActiveFilters";
 import { SearchQueryField } from "./SearchQueryField";
 
@@ -41,6 +42,7 @@ type SearchParams = { [k in keyof SearchParamsDTO as CamelToKebab<k>]: SearchPar
 interface Props {
   userData: UserDataDTO | undefined;
   children?: ReactNode;
+  summary?: ReactNode;
 }
 
 const getAiGeneratedOptions = (t: TFunction) => [
@@ -128,7 +130,7 @@ const getQueryFieldOptions = (t: TFunction): SelectOption[] =>
     name: t(`searchForm.queryFields.${field}`),
   }));
 
-const SearchImageForm = ({ userData, children }: Props) => {
+const SearchImageForm = ({ userData, children, summary }: Props) => {
   const [params, setParams] = useStableSearchPageParams();
   const { t, i18n } = useTranslation();
   const [input, setInput] = useState(params.get("query") ?? "");
@@ -299,26 +301,32 @@ const SearchImageForm = ({ userData, children }: Props) => {
         </>
       }
     >
-      <SearchHeader type="image" filters={filters} userData={userData}>
-        <SearchFiltersToggle />
-      </SearchHeader>
-      <form
-        onSubmit={(e) => {
-          setParams({ query: input });
-          e.preventDefault();
-        }}
-      >
-        <SearchQueryField value={input} onChange={setInput} placeholder={t("searchForm.types.imageQuery")}>
-          <ObjectSelector
-            name="query-fields"
-            value={params.get("query-fields") ?? ""}
-            options={getQueryFieldOptions(t)}
-            multiple
-            onChange={(value) => setParams({ "query-fields": value.join(",") })}
-            placeholder={t("searchForm.types.query-fields")}
-          />
-        </SearchQueryField>
-      </form>
+      <Heading textStyle="heading.small">{t("searchPage.header.image")}</Heading>
+      <SearchQueryStack>
+        <form
+          onSubmit={(e) => {
+            setParams({ query: input });
+            e.preventDefault();
+          }}
+        >
+          <SearchQueryField
+            value={input}
+            onClear={() => setParams({ query: null })}
+            onChange={setInput}
+            placeholder={t("searchForm.types.imageQuery")}
+          >
+            <ObjectSelector
+              name="query-fields"
+              value={params.get("query-fields") ?? ""}
+              options={getQueryFieldOptions(t)}
+              multiple
+              onChange={(value) => setParams({ "query-fields": value.join(",") })}
+              placeholder={t("searchForm.types.query-fields")}
+            />
+          </SearchQueryField>
+        </form>
+        <SearchSummaryRow type="image" summary={summary} filters={filters} userData={userData} />
+      </SearchQueryStack>
       <SearchActiveFilters onReset={emptySearch} onRemoveTag={removeTagItem} tags={filters} />
       {children}
     </SearchLayout>

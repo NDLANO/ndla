@@ -7,7 +7,7 @@
  */
 
 import { tDynamic } from "@ndla/locales";
-import { Button, Text } from "@ndla/primitives";
+import { Button, type ButtonProps, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { SearchParamsDTO as AudioSearchParamsDTO } from "@ndla/types-backend/audio-api";
 import type { DraftConceptSearchParamsDTO } from "@ndla/types-backend/concept-api";
@@ -82,9 +82,11 @@ interface Props {
   filters: SearchSaveParams;
   searchContentType: SearchType;
   userData?: UserDataDTO | undefined;
+  size?: ButtonProps["size"];
+  variant?: ButtonProps["variant"];
 }
 
-const SearchSaveButton = ({ filters, searchContentType, userData }: Props) => {
+const SearchSaveButton = ({ filters, searchContentType, userData, size, variant }: Props) => {
   const { t } = useTranslation();
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<Error>("");
@@ -150,6 +152,8 @@ const SearchSaveButton = ({ filters, searchContentType, userData }: Props) => {
       )}
       <StyledWrapper>
         <SaveButton
+          size={size}
+          variant={variant}
           loading={userDataMutation.isPending}
           showSaved={success}
           defaultText={isSaved ? "alreadySaved" : "saveSearch"}

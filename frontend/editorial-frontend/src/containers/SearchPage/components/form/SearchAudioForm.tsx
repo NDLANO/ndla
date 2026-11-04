@@ -6,12 +6,12 @@
  *
  */
 
+import { Heading } from "@ndla/primitives";
 import type { SearchParamsDTO } from "@ndla/types-backend/audio-api";
 import type { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import SearchHeader from "../../../../components/Form/SearchHeader";
 import { getTagName } from "../../../../components/Form/utils";
 import ObjectSelector from "../../../../components/ObjectSelector";
 import type { CamelToKebab } from "../../../../interfaces";
@@ -21,7 +21,8 @@ import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import { useStableSearchPageParams } from "../../useStableSearchPageParams";
 import { FilterGroup } from "../filters/FilterGroup";
 import { RadioFilter } from "../filters/RadioFilter";
-import { countActiveFilters, SearchFiltersToggle, SearchLayout } from "../SearchLayout";
+import { countActiveFilters, SearchLayout } from "../SearchLayout";
+import { SearchQueryStack, SearchSummaryRow } from "../SearchSummaryRow";
 import { SearchActiveFilters } from "./SearchActiveFilters";
 import { SearchQueryField } from "./SearchQueryField";
 
@@ -30,9 +31,10 @@ type SearchParams = { [k in keyof SearchParamsDTO as CamelToKebab<k>]: SearchPar
 interface Props {
   userData: UserDataDTO | undefined;
   children?: ReactNode;
+  summary?: ReactNode;
 }
 
-const SearchAudioForm = ({ userData, children }: Props) => {
+const SearchAudioForm = ({ userData, children, summary }: Props) => {
   const [params, setParams] = useStableSearchPageParams();
   const queryParam = useMemo(() => params.get("query") || "", [params]);
   const [input, setInput] = useState(queryParam);
@@ -115,17 +117,23 @@ const SearchAudioForm = ({ userData, children }: Props) => {
         </>
       }
     >
-      <SearchHeader type="audio" filters={filters} userData={userData}>
-        <SearchFiltersToggle />
-      </SearchHeader>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          setParams({ query: input });
-        }}
-      >
-        <SearchQueryField value={input} onChange={setInput} placeholder={t("searchForm.types.audioQuery")} />
-      </form>
+      <Heading textStyle="heading.small">{t("searchPage.header.audio")}</Heading>
+      <SearchQueryStack>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            setParams({ query: input });
+          }}
+        >
+          <SearchQueryField
+            value={input}
+            onClear={() => setParams({ query: null })}
+            onChange={setInput}
+            placeholder={t("searchForm.types.audioQuery")}
+          />
+        </form>
+        <SearchSummaryRow type="audio" summary={summary} filters={filters} userData={userData} />
+      </SearchQueryStack>
       <SearchActiveFilters onReset={emptySearch} onRemoveTag={removeTagItem} tags={filters} />
       {children}
     </SearchLayout>

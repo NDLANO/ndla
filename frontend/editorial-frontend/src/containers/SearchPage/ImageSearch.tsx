@@ -23,9 +23,9 @@ import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import SearchImageForm from "./components/form/SearchImageForm";
 import { GenericSearchList } from "./components/GenericSearchList";
 import SearchImage from "./components/results/SearchImage";
-import SearchListOptions from "./components/results/SearchListOptions";
 import { SearchPagination } from "./components/results/SearchPagination";
 import { SearchPageContainer } from "./components/SearchPageContainer";
+import { SearchResultSummary } from "./components/SearchSummaryRow";
 import SearchSort, { type SortType } from "./components/sort/SearchSort";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
 
@@ -80,14 +80,22 @@ export const ImageSearch = () => {
     <SearchPageContainer asChild consumeCss>
       <main>
         <title>{t("htmlTitles.search.image")}</title>
-        <SearchImageForm userData={userDataQuery.data}>
-          <SearchListOptions totalCount={searchQuery.data?.totalCount}>
-            <SearchSort
-              sortTypes={SORT_TYPES}
-              value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
-              onValueChange={(value) => setParams({ sort: value === DEFAULT_PARAMS.sort ? null : value })}
+        <SearchImageForm
+          userData={userDataQuery.data}
+          summary={
+            <SearchResultSummary
+              totalCount={searchQuery.data?.totalCount}
+              page={Number(params.get("page")) || DEFAULT_PARAMS.page}
+              pageSize={searchQuery.data?.pageSize}
+              query={params.get("query")}
             />
-          </SearchListOptions>
+          }
+        >
+          <SearchSort
+            sortTypes={SORT_TYPES}
+            value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
+            onValueChange={(value) => setParams({ sort: value === DEFAULT_PARAMS.sort ? null : value })}
+          />
           <GenericSearchList
             type="image"
             loading={searchQuery.isLoading}

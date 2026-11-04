@@ -36,9 +36,9 @@ import {
 import SearchContentForm from "./components/form/SearchContentForm";
 import { GenericSearchList } from "./components/GenericSearchList";
 import SearchContent from "./components/results/SearchContent";
-import SearchListOptions from "./components/results/SearchListOptions";
 import { SearchPagination } from "./components/results/SearchPagination";
 import { SearchPageContainer } from "./components/SearchPageContainer";
+import { SearchResultSummary } from "./components/SearchSummaryRow";
 import SearchSort, { type SortType } from "./components/sort/SearchSort";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
 
@@ -179,14 +179,23 @@ export const ContentSearch = () => {
     <SearchPageContainer asChild consumeCss>
       <main>
         <title>{t("htmlTitles.search.content")}</title>
-        <SearchContentForm userData={userDataQuery.data} subjects={subjectsQuery.data ?? []}>
-          <SearchListOptions totalCount={searchQuery.data?.totalCount}>
-            <SearchSort
-              sortTypes={SORT_TYPES}
-              value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
-              onValueChange={(value) => setParams({ sort: value === DEFAULT_PARAMS.sort ? null : value })}
+        <SearchContentForm
+          userData={userDataQuery.data}
+          subjects={subjectsQuery.data ?? []}
+          summary={
+            <SearchResultSummary
+              totalCount={searchQuery.data?.totalCount}
+              page={parsedParams.page}
+              pageSize={searchQuery.data?.pageSize}
+              query={params.get("query")}
             />
-          </SearchListOptions>
+          }
+        >
+          <SearchSort
+            sortTypes={SORT_TYPES}
+            value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
+            onValueChange={(value) => setParams({ sort: value === DEFAULT_PARAMS.sort ? null : value })}
+          />
           <GenericSearchList
             type="content"
             loading={searchQuery.isLoading}

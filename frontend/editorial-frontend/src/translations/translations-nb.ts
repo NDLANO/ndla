@@ -246,6 +246,8 @@ const translations = {
     imageNoHits: "Ingen bilder samsvarte med søket ditt på: {{query}}",
     hitsSelectLabel: "Antall treff per side",
     totalCount: "Antall søketreff",
+    resultSummary: "Viser treff {{from}} – {{to}} av <count>{{count}}</count>",
+    resultSummaryWithQuery: "Viser treff {{from}} – {{to}} av <count>{{count}}</count> for «{{query}}»",
     highlights: {
       title: "Søketreff",
       content: "Søketreff fra innhold",
@@ -389,6 +391,7 @@ const translations = {
     filtersHeading: "Filtre",
     all: "Alle",
     showFilters: "Vis filtre",
+    clearQuery: "Tøm søkefeltet",
     hideFilters: "Skjul filtre",
     filterHeading: {
       subjects: "Fag",

@@ -6,7 +6,7 @@
  *
  */
 
-import { ArrowLeftShortLine, CloseLine } from "@ndla/icons";
+import { ArrowLeftShortLine, ArrowRightShortLine, CloseLine } from "@ndla/icons";
 import { Button, Heading, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { createContext, useContext, useId, useMemo, type ReactNode } from "react";
@@ -32,7 +32,7 @@ const MainColumn = styled("div", {
     minWidth: "0",
     display: "flex",
     flexDirection: "column",
-    gap: "xsmall",
+    gap: "medium",
   },
 });
 
@@ -95,10 +95,16 @@ export const SearchFiltersToggle = () => {
   if (!context) return null;
   const { open, setOpen, sidebarId, activeFilterCount } = context;
   return (
-    <Button variant="secondary" aria-expanded={open} aria-controls={sidebarId} onClick={() => setOpen(!open)}>
+    <Button
+      variant="tertiary"
+      size="small"
+      aria-expanded={open}
+      aria-controls={sidebarId}
+      onClick={() => setOpen(!open)}
+    >
       {open ? t("searchForm.hideFilters") : t("searchForm.showFilters")}
       {!open && activeFilterCount > 0 && ` (${activeFilterCount})`}
-      {!open && <ArrowLeftShortLine />}
+      {open ? <ArrowRightShortLine /> : <ArrowLeftShortLine />}
     </Button>
   );
 };

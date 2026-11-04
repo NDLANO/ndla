@@ -17,10 +17,10 @@ import { getAccessToken, isActiveToken } from "../../util/authHelpers";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import SearchPodcastSeriesForm from "./components/form/SearchPodcastSeriesForm";
 import { GenericSearchList } from "./components/GenericSearchList";
-import SearchListOptions from "./components/results/SearchListOptions";
 import { SearchPagination } from "./components/results/SearchPagination";
 import SearchPodcastSeries from "./components/results/SearchPodcastSeries";
 import { SearchPageContainer } from "./components/SearchPageContainer";
+import { SearchResultSummary } from "./components/SearchSummaryRow";
 import SearchSort from "./components/sort/SearchSort";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
 
@@ -63,13 +63,21 @@ export const PodcastSeriesSearch = () => {
     <SearchPageContainer asChild consumeCss>
       <main>
         <title>{t("htmlTitles.search.podcast-series")}</title>
-        <SearchPodcastSeriesForm userData={userDataQuery.data}>
-          <SearchListOptions totalCount={searchQuery.data?.totalCount}>
-            <SearchSort
-              value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
-              onValueChange={(value) => setParams({ sort: value === DEFAULT_PARAMS.sort ? null : value })}
+        <SearchPodcastSeriesForm
+          userData={userDataQuery.data}
+          summary={
+            <SearchResultSummary
+              totalCount={searchQuery.data?.totalCount}
+              page={Number(params.get("page")) || DEFAULT_PARAMS.page}
+              pageSize={searchQuery.data?.pageSize}
+              query={params.get("query")}
             />
-          </SearchListOptions>
+          }
+        >
+          <SearchSort
+            value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
+            onValueChange={(value) => setParams({ sort: value === DEFAULT_PARAMS.sort ? null : value })}
+          />
           <GenericSearchList
             type="podcast-series"
             loading={searchQuery.isLoading}

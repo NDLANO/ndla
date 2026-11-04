@@ -6,23 +6,25 @@
  *
  */
 
+import { Heading } from "@ndla/primitives";
 import type { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import SearchHeader from "../../../../components/Form/SearchHeader";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import { useStableSearchPageParams } from "../../useStableSearchPageParams";
 import { RadioFilter } from "../filters/RadioFilter";
-import { countActiveFilters, SearchFiltersToggle, SearchLayout } from "../SearchLayout";
+import { countActiveFilters, SearchLayout } from "../SearchLayout";
+import { SearchQueryStack, SearchSummaryRow } from "../SearchSummaryRow";
 import { SearchActiveFilters } from "./SearchActiveFilters";
 import { SearchQueryField } from "./SearchQueryField";
 
 interface Props {
   userData: UserDataDTO | undefined;
   children?: ReactNode;
+  summary?: ReactNode;
 }
 
-const SearchAudioForm = ({ userData, children }: Props) => {
+const SearchAudioForm = ({ userData, children, summary }: Props) => {
   const { t } = useTranslation();
   const [params, setParams] = useStableSearchPageParams();
   const [input, setInput] = useState(params.get("query") ?? "");
@@ -62,17 +64,23 @@ const SearchAudioForm = ({ userData, children }: Props) => {
         />
       }
     >
-      <SearchHeader type="podcast-series" filters={filters} userData={userData}>
-        <SearchFiltersToggle />
-      </SearchHeader>
-      <form
-        onSubmit={(e) => {
-          setParams({ query: input });
-          e.preventDefault();
-        }}
-      >
-        <SearchQueryField value={input} onChange={setInput} placeholder={t("searchForm.types.audioQuery")} />
-      </form>
+      <Heading textStyle="heading.small">{t("searchPage.header.podcast-series")}</Heading>
+      <SearchQueryStack>
+        <form
+          onSubmit={(e) => {
+            setParams({ query: input });
+            e.preventDefault();
+          }}
+        >
+          <SearchQueryField
+            value={input}
+            onClear={() => setParams({ query: null })}
+            onChange={setInput}
+            placeholder={t("searchForm.types.audioQuery")}
+          />
+        </form>
+        <SearchSummaryRow type="podcast-series" summary={summary} filters={filters} userData={userData} />
+      </SearchQueryStack>
       <SearchActiveFilters onReset={emptySearch} onRemoveTag={(tag) => setParams({ [tag]: null })} tags={filters} />
       {children}
     </SearchLayout>

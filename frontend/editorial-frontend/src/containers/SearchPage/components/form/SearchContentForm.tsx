@@ -7,6 +7,7 @@
  */
 
 import { tDynamic } from "@ndla/locales";
+import { Heading } from "@ndla/primitives";
 import type { UserDataDTO } from "@ndla/types-backend/draft-api";
 import type { DraftSearchField } from "@ndla/types-backend/search-api";
 import type { Node, ResourceType } from "@ndla/types-backend/taxonomy-api";
@@ -15,7 +16,6 @@ import { useQuery } from "@tanstack/react-query";
 import type { TFunction } from "i18next";
 import { useMemo, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import SearchHeader from "../../../../components/Form/SearchHeader";
 import { getTagName } from "../../../../components/Form/utils";
 import ObjectSelector, { type SelectOption } from "../../../../components/ObjectSelector";
 import {
@@ -49,7 +49,8 @@ import { useStableSearchPageParams } from "../../useStableSearchPageParams";
 import { CheckboxFilter } from "../filters/CheckboxFilter";
 import { FilterGroup } from "../filters/FilterGroup";
 import { RadioFilter } from "../filters/RadioFilter";
-import { countActiveFilters, SearchFiltersToggle, SearchLayout } from "../SearchLayout";
+import { countActiveFilters, SearchLayout } from "../SearchLayout";
+import { SearchQueryStack, SearchSummaryRow } from "../SearchSummaryRow";
 import CheckboxSelector from "./CheckboxSelector";
 import { SearchActiveFilters } from "./SearchActiveFilters";
 import { SearchQueryField } from "./SearchQueryField";
@@ -124,9 +125,10 @@ interface Props {
   subjects: Node[];
   userData: UserDataDTO | undefined;
   children?: ReactNode;
+  summary?: ReactNode;
 }
 
-const SearchContentForm = ({ subjects, userData, children }: Props) => {
+const SearchContentForm = ({ subjects, userData, children, summary }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const [params, setParams] = useStableSearchPageParams();
@@ -427,26 +429,32 @@ const SearchContentForm = ({ subjects, userData, children }: Props) => {
         </>
       }
     >
-      <SearchHeader type="content" filters={filters} userData={userData}>
-        <SearchFiltersToggle />
-      </SearchHeader>
-      <form
-        onSubmit={(e) => {
-          setParams({ query: queryInput });
-          e.preventDefault();
-        }}
-      >
-        <SearchQueryField value={queryInput} onChange={setQueryInput} placeholder={t("searchForm.types.contentQuery")}>
-          <ObjectSelector
-            name="query-fields"
-            placeholder={t("searchForm.types.query-fields")}
-            value={params.get("query-fields") ?? ""}
-            multiple
-            options={getQueryFieldOptions(t)}
-            onChange={(value) => setParams({ "query-fields": value.join(",") })}
-          />
-        </SearchQueryField>
-      </form>
+      <Heading textStyle="heading.small">{t("searchPage.header.content")}</Heading>
+      <SearchQueryStack>
+        <form
+          onSubmit={(e) => {
+            setParams({ query: queryInput });
+            e.preventDefault();
+          }}
+        >
+          <SearchQueryField
+            value={queryInput}
+            onClear={() => setParams({ query: null })}
+            onChange={setQueryInput}
+            placeholder={t("searchForm.types.contentQuery")}
+          >
+            <ObjectSelector
+              name="query-fields"
+              placeholder={t("searchForm.types.query-fields")}
+              value={params.get("query-fields") ?? ""}
+              multiple
+              options={getQueryFieldOptions(t)}
+              onChange={(value) => setParams({ "query-fields": value.join(",") })}
+            />
+          </SearchQueryField>
+        </form>
+        <SearchSummaryRow type="content" summary={summary} filters={filters} userData={userData} />
+      </SearchQueryStack>
       <SearchActiveFilters
         onReset={emptySearch}
         onRemoveTag={(name, index) => {
