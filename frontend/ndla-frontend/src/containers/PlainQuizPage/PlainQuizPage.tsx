@@ -131,7 +131,12 @@ const PlainQuizPageContent = () => {
         variant="content"
         asChild
         consumeCss
-        css={{ position: "relative", zIndex: "[1]", desktop: { paddingBlockStart: "5xlarge" } }}
+        css={{
+          position: "relative",
+          zIndex: "[1]",
+          tablet: { paddingInline: "small" },
+          desktop: { padding: "[32px]", paddingBlockStart: "5xlarge" },
+        }}
       >
         <main>
           <PageTitle title={quiz.title} useLocationForCustomPath={true} />

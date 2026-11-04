@@ -47,6 +47,16 @@ const Card = styled("div", {
   },
 });
 
+const HeroMeta = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "4xsmall",
+    width: "full",
+  },
+});
+
 const AvatarBox = styled("div", {
   base: {
     display: "flex",
@@ -161,13 +171,15 @@ export const QuizStartScreen = ({ quiz, questionCount, onStart }: Props) => {
         <AvatarBox>
           <KvissLine size="large" />
         </AvatarBox>
-        <MyNdlaTitle title={quiz.title} />
-        <Text textStyle="label.small" color="text.subtle">
-          {t("myNdla.quiz.take.sharedBy", {
-            sharedBy: quiz.owner?.name ?? t("myNdla.quiz.take.sharedByFallback"),
-            interpolation: { escapeValue: false },
-          })}
-        </Text>
+        <HeroMeta>
+          <MyNdlaTitle title={quiz.title} />
+          <Text textStyle="label.small" color="text.subtle">
+            {t("myNdla.quiz.take.sharedBy", {
+              sharedBy: quiz.owner?.name ?? t("myNdla.quiz.take.sharedByFallback"),
+              interpolation: { escapeValue: false },
+            })}
+          </Text>
+        </HeroMeta>
       </Card>
       {!!quiz.description && <Text>{quiz.description}</Text>}
       <MetaRow>
