@@ -31,7 +31,7 @@ trait TestEnvironment extends TapirApplication[AudioApiProperties] with MockitoS
   implicit lazy val errorHelpers: ErrorHelpers             = new ErrorHelpers
   implicit lazy val errorHandling: ControllerErrorHandling = new ControllerErrorHandling
   implicit lazy val clock: Clock                           = mock[Clock]
-  implicit lazy val routes: Routes                         = mock[Routes]
+  implicit lazy val ndlaServer: NdlaServer                 = mock[NdlaServer]
   implicit lazy val services: List[TapirController]        = List.empty
   implicit lazy val searchLanguage: SearchLanguage         = mock[SearchLanguage]
 

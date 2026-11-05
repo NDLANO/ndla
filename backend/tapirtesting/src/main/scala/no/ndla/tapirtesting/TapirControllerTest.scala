@@ -64,7 +64,7 @@ trait TapirControllerTest extends UnitTestSuite {
   val controller: TapirController
 
   implicit lazy val services: List[TapirController] = List(controller)
-  implicit lazy val routes: Routes                  = new Routes
+  implicit lazy val ndlaServer: NdlaServer          = new NdlaServer
 
   var server: Option[NettySyncServerBinding] = None
 
@@ -73,7 +73,7 @@ trait TapirControllerTest extends UnitTestSuite {
     Thread
       .ofVirtual()
       .start(() => {
-        routes.startServerAndWait(s"TapirControllerTest:${this.getClass.getName}", serverPort) { s =>
+        ndlaServer.startServerAndWait(s"TapirControllerTest:${this.getClass.getName}", serverPort) { s =>
           server = Some(s)
         }
       })

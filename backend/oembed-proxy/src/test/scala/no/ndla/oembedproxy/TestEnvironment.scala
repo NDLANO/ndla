@@ -14,7 +14,7 @@ import no.ndla.network.clients.MyNDLAApiClient
 import no.ndla.network.tapir.{
   ErrorHandling,
   ErrorHelpers,
-  Routes,
+  NdlaServer,
   SwaggerController,
   TapirApplication,
   TapirController,
@@ -32,7 +32,7 @@ trait TestEnvironment extends TapirApplication[OEmbedProxyProperties] with Mocki
   implicit lazy val clock: Clock                                 = mock[Clock]
   implicit lazy val errorHelpers: ErrorHelpers                   = mock[ErrorHelpers]
   implicit lazy val errorHandling: ErrorHandling                 = mock[ErrorHandling]
-  implicit lazy val routes: Routes                               = mock[Routes]
+  implicit lazy val ndlaServer: NdlaServer                       = mock[NdlaServer]
   implicit lazy val oEmbedService: OEmbedService                 = mock[OEmbedService]
   implicit lazy val oEmbedProxyController: OEmbedProxyController = mock[OEmbedProxyController]
   implicit lazy val ndlaClient: NdlaClient                       = mock[NdlaClient]
@@ -50,7 +50,7 @@ trait TestEnvironment extends TapirApplication[OEmbedProxyProperties] with Mocki
       oEmbedService,
       healthController,
       swagger,
-      routes,
+      ndlaServer,
       errorHelpers,
     )
   }

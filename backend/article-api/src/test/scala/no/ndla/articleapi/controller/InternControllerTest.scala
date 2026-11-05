@@ -13,7 +13,7 @@ import no.ndla.articleapi.{TestEnvironment, UnitSuite}
 import no.ndla.common.Clock
 import no.ndla.common.model.domain.article.Article
 import no.ndla.common.model.domain.{Author, ContributorType}
-import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
+import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, NdlaServer, TapirController}
 import no.ndla.tapirtesting.{NdlaAuthTestTokens, TapirControllerTest}
 import org.mockito.ArgumentMatchers.{any, eq as eqTo}
 import org.mockito.Mockito.*
@@ -31,7 +31,7 @@ class InternControllerTest extends UnitSuite with TestEnvironment with TapirCont
   override implicit lazy val converterService: ConverterService = new ConverterService
   val controller: InternController                              = new InternController
   override implicit lazy val services: List[TapirController]    = List(controller)
-  override implicit lazy val routes: Routes                     = new Routes
+  override implicit lazy val ndlaServer: NdlaServer             = new NdlaServer
 
   override def beforeEach(): Unit = {
     super.beforeEach()

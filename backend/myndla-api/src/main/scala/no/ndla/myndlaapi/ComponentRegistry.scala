@@ -105,5 +105,5 @@ class ComponentRegistry(properties: MyNdlaApiProperties) extends TapirApplicatio
   )
 
   given services: List[TapirController] = swagger.allServices
-  given routes: Routes                  = new Routes
+  given ndlaServer: NdlaServer          = new NdlaServer
 }

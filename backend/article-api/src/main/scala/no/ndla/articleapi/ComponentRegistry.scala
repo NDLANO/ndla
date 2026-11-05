@@ -36,7 +36,7 @@ import no.ndla.network.tapir.auth.{FeideAuth, NdlaAuth}
 import no.ndla.network.tapir.{
   ErrorHandling,
   ErrorHelpers,
-  Routes,
+  NdlaServer,
   SwaggerController,
   SwaggerInfo,
   TapirApplication,
@@ -105,5 +105,5 @@ class ComponentRegistry(properties: ArticleApiProperties) extends TapirApplicati
   given swagger: SwaggerController = new SwaggerController(internController, articleControllerV2, healthController)
 
   given services: List[TapirController] = swagger.allServices
-  given routes: Routes                  = new Routes
+  given ndlaServer: NdlaServer          = new NdlaServer
 }

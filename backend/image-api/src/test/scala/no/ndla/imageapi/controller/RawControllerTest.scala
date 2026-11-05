@@ -11,7 +11,7 @@ package no.ndla.imageapi.controller
 import no.ndla.common.Clock
 import no.ndla.imageapi.model.ImageNotFoundException
 import no.ndla.imageapi.{TestEnvironment, UnitSuite}
-import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
+import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, NdlaServer, TapirController}
 import no.ndla.tapirtesting.TapirControllerTest
 import org.mockito.ArgumentMatchers.{any, eq as eqTo}
 import org.mockito.Mockito.{reset, when}
@@ -32,7 +32,7 @@ class RawControllerTest extends UnitSuite with TestEnvironment with TapirControl
   override implicit lazy val errorHandling: ErrorHandling    = new ControllerErrorHandling
   val controller: RawController                              = new RawController
   override implicit lazy val services: List[TapirController] = List(controller)
-  override implicit lazy val routes: Routes                  = new Routes
+  override implicit lazy val ndlaServer: NdlaServer          = new NdlaServer
 
   val id    = 1L
   val idGif = 1L

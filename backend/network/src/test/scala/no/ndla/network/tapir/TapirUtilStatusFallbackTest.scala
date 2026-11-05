@@ -32,7 +32,7 @@ class TapirUtilStatusFallbackTest extends UnitTestSuite with TapirControllerTest
   }
   override val controller: TapirUtilStatusFallbackController = new TapirUtilStatusFallbackController
   override implicit lazy val services: List[TapirController] = List(controller)
-  override implicit lazy val routes: Routes                  = new Routes
+  override implicit lazy val ndlaServer: NdlaServer          = new NdlaServer
 
   class TapirUtilStatusFallbackController(using errorHelpers: ErrorHelpers, errorHandling: ErrorHandling)
       extends TapirController {

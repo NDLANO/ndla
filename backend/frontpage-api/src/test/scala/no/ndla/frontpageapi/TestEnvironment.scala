@@ -30,7 +30,7 @@ trait TestEnvironment extends TapirApplication[FrontpageApiProperties] with Mock
   implicit lazy val clock: Clock                    = mock[Clock]
   implicit lazy val errorHandling: ErrorHandling    = new ControllerErrorHandling
   implicit lazy val errorHelpers: ErrorHelpers      = new ErrorHelpers
-  implicit lazy val routes: Routes                  = new Routes
+  implicit lazy val ndlaServer: NdlaServer          = new NdlaServer
   implicit lazy val services: List[TapirController] = List.empty
 
   implicit lazy val migrator: DBMigrator   = mock[DBMigrator]

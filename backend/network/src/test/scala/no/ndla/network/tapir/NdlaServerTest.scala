@@ -40,10 +40,10 @@ class RoutesTestController(using errorHandling: ErrorHandling) extends TapirCont
     }
 }
 
-class RoutesTest extends UnitTestSuite, TapirControllerTest {
+class NdlaServerTest extends UnitTestSuite, TapirControllerTest {
   override implicit lazy val props: BaseProps = new BaseProps {
     override def ApplicationPort: Int             = findFreePort
-    override def ApplicationName: String          = "RoutesTest"
+    override def ApplicationName: String          = "NdlaServerTest"
     override val ndlaAuth0Scopes: Seq[Permission] = Seq.empty
   }
   override implicit lazy val clock: Clock                 = mock[Clock]
@@ -53,7 +53,7 @@ class RoutesTest extends UnitTestSuite, TapirControllerTest {
   }
   override val controller: RoutesTestController              = new RoutesTestController
   override implicit lazy val services: List[TapirController] = List(controller)
-  override implicit lazy val routes: Routes                  = new Routes
+  override implicit lazy val ndlaServer: NdlaServer          = new NdlaServer
 
   def req: PartialRequest[Array[Byte]] = basicRequest.response(asByteArrayAlways)
 

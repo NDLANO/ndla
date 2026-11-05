@@ -11,7 +11,7 @@ package no.ndla.frontpageapi.controller
 import no.ndla.common.{Clock, model, errors as common}
 import no.ndla.common.model.api.FrontPageDTO
 import no.ndla.frontpageapi.{TestEnvironment, UnitSuite}
-import no.ndla.network.tapir.{ErrorHelpers, Routes, TapirController}
+import no.ndla.network.tapir.{ErrorHelpers, NdlaServer, TapirController}
 import no.ndla.tapirtesting.{NdlaAuthTestTokens, TapirControllerTest}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
@@ -26,7 +26,7 @@ class PageControllerTest extends UnitSuite with TestEnvironment with TapirContro
   override implicit lazy val errorHandling: ControllerErrorHandling = new ControllerErrorHandling
   val controller: FrontPageController                               = new FrontPageController
   override implicit lazy val services: List[TapirController]        = List(controller)
-  override implicit lazy val routes: Routes                         = new Routes
+  override implicit lazy val ndlaServer: NdlaServer                 = new NdlaServer
   when(clock.now()).thenCallRealMethod()
 
   val authHeaderWithAdminRole = s"Bearer ${NdlaAuthTestTokens.FrontPageAdmin}"

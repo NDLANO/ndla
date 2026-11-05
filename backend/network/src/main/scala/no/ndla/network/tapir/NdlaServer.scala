@@ -25,7 +25,7 @@ import sttp.tapir.server.netty.sync.{NettySyncServer, NettySyncServerBinding, Ne
 
 import scala.concurrent.duration.DurationInt
 
-class Routes(using
+class NdlaServer(using
     errorHelpers: ErrorHelpers,
     errorHandling: ErrorHandling,
     services: List[TapirController],

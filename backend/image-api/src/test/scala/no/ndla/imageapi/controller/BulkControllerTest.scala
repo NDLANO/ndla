@@ -21,7 +21,7 @@ import no.ndla.imageapi.model.api.bulk.{
   BulkUploadStatus,
 }
 import no.ndla.imageapi.{TestEnvironment, UnitSuite}
-import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
+import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, NdlaServer, TapirController}
 import no.ndla.tapirtesting.{NdlaAuthTestTokens, TapirControllerTest}
 import org.mockito.ArgumentMatchers.{any, eq as eqTo}
 import org.mockito.Mockito.{reset, when}
@@ -37,7 +37,7 @@ class BulkControllerTest extends UnitSuite with TestEnvironment with TapirContro
   override implicit lazy val errorHandling: ErrorHandling    = new ControllerErrorHandling
   val controller: BulkController                             = new BulkController
   override implicit lazy val services: List[TapirController] = List(controller)
-  override implicit lazy val routes: Routes                  = new Routes
+  override implicit lazy val ndlaServer: NdlaServer          = new NdlaServer
 
   private val authHeaderWithBatchRole = s"Bearer ${NdlaAuthTestTokens.ImageBatch}"
 

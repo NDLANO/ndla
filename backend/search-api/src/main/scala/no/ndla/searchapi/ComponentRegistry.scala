@@ -71,5 +71,5 @@ class ComponentRegistry(properties: SearchApiProperties) extends TapirApplicatio
   given swagger: SwaggerController = new SwaggerController(searchController, healthController, internController)
 
   given services: List[TapirController] = swagger.allServices
-  given routes: Routes                  = new Routes
+  given ndlaServer: NdlaServer          = new NdlaServer
 }

@@ -90,5 +90,5 @@ class ComponentRegistry(properties: AudioApiProperties) extends TapirApplication
   )
 
   given services: List[no.ndla.network.tapir.TapirController] = swagger.allServices
-  given routes: Routes                                        = new Routes
+  given ndlaServer: NdlaServer                                = new NdlaServer
 }

@@ -72,5 +72,5 @@ class ComponentRegistry(properties: ConceptApiProperties) extends TapirApplicati
     new SwaggerController(draftConceptController, publishedConceptController, healthController, internController)
 
   given services: List[TapirController] = swagger.allServices
-  given routes: Routes                  = new Routes
+  given ndlaServer: NdlaServer          = new NdlaServer
 }

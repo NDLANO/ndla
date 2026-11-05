@@ -12,7 +12,7 @@ import no.ndla.common.configuration.BaseProps
 
 trait TapirApplication[PropType <: BaseProps] {
   given props: PropType
-  given routes: Routes
+  given ndlaServer: NdlaServer
   given swagger: SwaggerController
   given healthController: TapirHealthController
 }

@@ -27,7 +27,7 @@ trait TestEnvironment extends TapirApplication[ImageApiProperties] with MockitoS
   implicit lazy val clock: Clock                    = mock[Clock]
   implicit lazy val errorHelpers: ErrorHelpers      = mock[ErrorHelpers]
   implicit lazy val errorHandling: ErrorHandling    = mock[ErrorHandling]
-  implicit lazy val routes: Routes                  = mock[Routes]
+  implicit lazy val ndlaServer: NdlaServer          = mock[NdlaServer]
   implicit lazy val services: List[TapirController] = List.empty
 
   implicit lazy val migrator: DBMigrator                           = mock[DBMigrator]

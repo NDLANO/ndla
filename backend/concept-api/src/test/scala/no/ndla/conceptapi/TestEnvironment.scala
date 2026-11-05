@@ -71,5 +71,5 @@ trait TestEnvironment extends TapirApplication[ConceptApiProperties] with Mockit
 
   implicit lazy val services: List[TapirController] = List.empty
   implicit lazy val swagger: SwaggerController      = mock[SwaggerController]
-  implicit lazy val routes: Routes                  = mock[Routes]
+  implicit lazy val ndlaServer: NdlaServer          = mock[NdlaServer]
 }

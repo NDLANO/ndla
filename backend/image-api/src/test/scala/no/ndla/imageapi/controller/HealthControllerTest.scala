@@ -10,7 +10,7 @@ package no.ndla.imageapi.controller
 
 import no.ndla.common.Clock
 import no.ndla.common.model.NDLADate
-import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
+import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, NdlaServer, TapirController}
 import no.ndla.common.model.domain.{AiGenerated, Author, ContributorType}
 import no.ndla.common.model.domain.article.Copyright
 import no.ndla.imageapi.model.domain.{
@@ -38,7 +38,7 @@ class HealthControllerTest extends UnitSuite with TestEnvironment with TapirCont
   override implicit lazy val errorHandling: ErrorHandling    = new ControllerErrorHandling
   val controller: HealthController                           = new HealthController
   override implicit lazy val services: List[TapirController] = List(controller)
-  override implicit lazy val routes: Routes                  = new Routes
+  override implicit lazy val ndlaServer: NdlaServer          = new NdlaServer
   controller.setRunning()
 
   val updated: NDLADate = NDLADate.of(2017, 4, 1, 12, 15, 32)

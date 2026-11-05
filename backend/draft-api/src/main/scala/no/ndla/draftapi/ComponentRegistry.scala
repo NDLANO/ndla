@@ -101,5 +101,5 @@ class ComponentRegistry(properties: DraftApiProperties) extends TapirApplication
     new SwaggerController(internController, draftController, fileController, userDataController, healthController)
 
   implicit lazy val services: List[TapirController] = swagger.allServices
-  implicit lazy val routes: Routes                  = new Routes
+  implicit lazy val ndlaServer: NdlaServer          = new NdlaServer
 }

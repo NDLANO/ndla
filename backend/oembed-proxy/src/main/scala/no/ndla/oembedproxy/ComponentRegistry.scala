@@ -13,7 +13,7 @@ import no.ndla.network.NdlaClient
 import no.ndla.network.tapir.{
   ErrorHandling,
   ErrorHelpers,
-  Routes,
+  NdlaServer,
   SwaggerController,
   SwaggerInfo,
   TapirApplication,
@@ -41,5 +41,5 @@ class ComponentRegistry(properties: OEmbedProxyProperties) extends TapirApplicat
   given swagger: SwaggerController = new SwaggerController(healthController, oEmbedProxyController)
 
   given services: List[TapirController] = swagger.allServices
-  given routes: Routes                  = new Routes
+  given ndlaServer: NdlaServer          = new NdlaServer
 }

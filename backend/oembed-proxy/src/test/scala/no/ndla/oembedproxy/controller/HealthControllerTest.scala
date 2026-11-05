@@ -9,7 +9,7 @@
 package no.ndla.oembedproxy.controller
 
 import no.ndla.common.Clock as NDLAClock
-import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController, TapirHealthController}
+import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, NdlaServer, TapirController, TapirHealthController}
 import no.ndla.oembedproxy.{TestEnvironment, UnitSuite}
 import no.ndla.tapirtesting.TapirControllerTest
 import sttp.client4.quick.*
@@ -18,7 +18,7 @@ class HealthControllerTest extends UnitSuite with TestEnvironment with TapirCont
   val controller: TapirHealthController                      = new TapirHealthController
   override implicit lazy val services: List[TapirController] = List(controller)
   override implicit lazy val errorHandling: ErrorHandling    = new ControllerErrorHandling
-  override implicit lazy val routes: Routes                  = new Routes
+  override implicit lazy val ndlaServer: NdlaServer          = new NdlaServer
   override implicit lazy val clock: NDLAClock                = mock[NDLAClock]
   override implicit lazy val errorHelpers: ErrorHelpers      = new ErrorHelpers
   controller.setRunning()
