@@ -24,6 +24,7 @@ class TaxonomyApplication {
   companion object {
     @JvmStatic
     fun main(args: Array<String>) {
+      System.setProperty("APPLICATION_NAME", "taxonomy-api")
       if (args.contains("--generate-openapi")) {
         generateOpenApi()
         return

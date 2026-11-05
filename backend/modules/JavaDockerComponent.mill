@@ -3,6 +3,7 @@ package build.modules
 import mill.*
 import mill.scalalib.*
 
+import java.io.{ByteArrayInputStream, ByteArrayOutputStream, DataInputStream, DataOutputStream}
 import java.util.zip.{ZipEntry, ZipFile, ZipOutputStream}
 import scala.jdk.CollectionConverters.*
 import scala.collection.mutable
@@ -19,11 +20,14 @@ trait JavaDockerComponent extends DockerComponent {
   // Post-process the shaded jar: Mill's text-concat merge of META-INF/spring.factories
   // produces duplicate keys, which java.util.Properties silently overwrites. Re-parse and
   // merge factory values per key so Spring Boot's SpringFactoriesLoader sees all entries.
+  // log4j-core and spring-boot both ship a binary log4j plugin index, and the assembly
+  // keeps only the first one on the classpath, so merge those too.
   override def assembly: T[PathRef] = Task {
-    val upstream = super.assembly()
-    val fixed    = Task.dest / "out.jar"
-    val src      = upstream.path
-    val in       = new ZipFile(src.toIO)
+    val upstream      = super.assembly()
+    val pluginIndexes = runClasspath().flatMap(p => readLog4jPluginIndex(p.path))
+    val fixed         = Task.dest / "out.jar"
+    val src           = upstream.path
+    val in            = new ZipFile(src.toIO)
     try {
       val out = new ZipOutputStream(os.write.outputStream(fixed))
       try {
@@ -38,6 +42,8 @@ trait JavaDockerComponent extends DockerComponent {
               val original = scala.io.Source.fromInputStream(is)(using "UTF-8").mkString
               val merged   = mergeSpringFactories(original)
               out.write(merged.getBytes("UTF-8"))
+            } else if (name == Log4jPluginIndex && pluginIndexes.size > 1) {
+              out.write(mergeLog4jPluginIndexes(pluginIndexes))
             } else {
               val is = in.getInputStream(entry)
               try os.Internals.transfer(is, out)
@@ -49,6 +55,55 @@ trait JavaDockerComponent extends DockerComponent {
     } finally
       in.close()
     PathRef(fixed)
+  }
+
+  private val Log4jPluginIndex = "META-INF/org/apache/logging/log4j/core/config/plugins/Log4j2Plugins.dat"
+
+  private def readLog4jPluginIndex(path: os.Path): Option[Array[Byte]] = {
+    if (os.isDir(path)) {
+      val index = path / os.RelPath(Log4jPluginIndex)
+      Option.when(os.exists(index))(os.read.bytes(index))
+    } else if (os.isFile(path) && path.ext == "jar") {
+      val zip = new ZipFile(path.toIO)
+      try Option(zip.getEntry(Log4jPluginIndex)).map(entry => zip.getInputStream(entry).readAllBytes())
+      finally zip.close()
+    } else None
+  }
+
+  // Same format as log4j's PluginCache: per category, entries of (key, class name, name, printable, defer).
+  // Like log4j, the first entry for a key wins, so classpath order is kept.
+  private def mergeLog4jPluginIndexes(indexes: Seq[Array[Byte]]): Array[Byte] = {
+    val categories = mutable
+      .LinkedHashMap
+      .empty[String, mutable.LinkedHashMap[String, (String, String, Boolean, Boolean)]]
+    indexes.foreach { bytes =>
+      val in = new DataInputStream(new ByteArrayInputStream(bytes))
+      (0 until in.readInt()).foreach { _ =>
+        val plugins = categories.getOrElseUpdate(in.readUTF(), mutable.LinkedHashMap.empty)
+        (0 until in.readInt()).foreach { _ =>
+          val key    = in.readUTF()
+          val plugin = (in.readUTF(), in.readUTF(), in.readBoolean(), in.readBoolean())
+          if (!plugins.contains(key)) plugins(key) = plugin
+        }
+      }
+    }
+
+    val bytes = new ByteArrayOutputStream()
+    val out   = new DataOutputStream(bytes)
+    out.writeInt(categories.size)
+    categories.foreach { case (category, plugins) =>
+      out.writeUTF(category)
+      out.writeInt(plugins.size)
+      plugins.foreach { case (key, (className, name, printable, defer)) =>
+        out.writeUTF(key)
+        out.writeUTF(className)
+        out.writeUTF(name)
+        out.writeBoolean(printable)
+        out.writeBoolean(defer)
+      }
+    }
+    out.flush()
+    bytes.toByteArray
   }
 
   private def mergeSpringFactories(content: String): String = {
