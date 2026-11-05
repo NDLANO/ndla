@@ -9,7 +9,7 @@
 import { useContext, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { isValidLocale } from "../i18n";
-import { useBasePathname } from "../util/localePath";
+import { useBasePathname, useRawLocation } from "../util/localePath";
 import { log } from "../util/logger/logger";
 import { getAllDimensions } from "../util/trackingUtil";
 import { AuthContext } from "./AuthenticationContext";
@@ -50,6 +50,20 @@ export const getTrackedPath = (pathname: string) => {
   return parts.join("/");
 };
 
+const CAMPAIGN_PARAM_REGEX =
+  /^(mtm|pk|matomo|piwik|utm)_(campaign|cpn|kwd|keyword|term|source|medium|content|cid|id|group|placement)$/i;
+
+// NOTE: Matomo detects campaigns from the query string of the tracked URL. Since `CustomUrl` replaces the browser URL,
+// campaign parameters must be forwarded explicitly or the visit is attributed to the wrong referrer.
+export const getCampaignQuery = (search: string) => {
+  const params = new URLSearchParams(search);
+  for (const key of new Set(params.keys())) {
+    if (!CAMPAIGN_PARAM_REGEX.test(key)) params.delete(key);
+  }
+  const query = params.toString();
+  return query ? `?${query}` : "";
+};
+
 /**
  * A component for setting the page title and tracking a page view event.
  * @param title - The title of the page. Will update the document title tag and dispatch a page view event. The component expects this title to be stable for the lifetime of the page, meaning it should not change unless the page location changes.
@@ -61,6 +75,8 @@ export const PageTitle = ({ title, trackingProps }: Props) => {
   const hasTracked = useRef(false);
 
   const basePathname = useBasePathname();
+  const { search } = useRawLocation();
+  const campaignQuery = getCampaignQuery(search);
   const customPath = trackingProps?.defaultUrl;
   const subjectId = trackingProps?.rootId;
   const rawPath = customPath ?? basePathname;
@@ -81,14 +97,14 @@ export const PageTitle = ({ title, trackingProps }: Props) => {
     window._mtm?.push({
       page_title: title,
       event: "Pageview",
-      CustomUrl: trackedUrl,
+      CustomUrl: `${trackedUrl}${campaignQuery}`,
       CustomPath: trackedPath,
       languageCode: i18n.language,
       subjectId,
       ...dimensions,
     });
     hasTracked.current = true;
-  }, [authContextLoaded, title, trackedUrl, trackedPath, user, subjectId, i18n.language]);
+  }, [authContextLoaded, title, trackedUrl, trackedPath, campaignQuery, user, subjectId, i18n.language]);
 
   return <title>{title}</title>;
 };
