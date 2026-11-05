@@ -1,22 +1,23 @@
 package build.modules
 
 import mill.*
-import mill.javalib.repackage.RepackageModule
 import mill.scalalib.*
+import org.springframework.boot.loader.tools.{Libraries, Library, LibraryScope, Repackager}
 
-trait JavaDockerComponent extends DockerComponent, RepackageModule {
+trait JavaDockerComponent extends DockerComponent {
   // Build Spring Boot's own executable jar instead of a flat assembly. It keeps each dependency
   // jar intact, so files that several jars ship (spring.factories, log4j's plugin index, ...)
   // don't collide. It is exposed as `assembly` because the shared Dockerfile copies
-  // `assembly.dest/out.jar`. The launcher comes from Mill's bundled Spring Boot tools (3.5.x),
-  // since Mill's repackager doesn't work with the 4.x tools API yet.
+  // `assembly.dest/out.jar`.
   override def assembly: T[PathRef] = Task {
-    val dest = Task.dest / "out.jar"
-    os.copy(repackagedJar().path, dest)
-    PathRef(dest)
-  }
+    val dest                 = Task.dest / "out.jar"
+    val dependencies         = resolvedRunMvnDeps().map(_.path.toIO)
+    val libraries: Libraries =
+      callback => dependencies.foreach(dependency => callback.library(new Library(dependency, LibraryScope.RUNTIME)))
 
-  override def repackagePrependScript: T[Option[String]] = Task {
-    None
+    val repackager = new Repackager(jar().path.toIO)
+    repackager.setMainClass(finalMainClass())
+    repackager.repackage(dest.toIO, libraries)
+    PathRef(dest)
   }
 }
