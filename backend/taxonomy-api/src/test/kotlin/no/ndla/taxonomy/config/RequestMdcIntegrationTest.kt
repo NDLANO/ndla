@@ -93,8 +93,7 @@ class RequestMdcIntegrationTest : AbstractIntegrationTest() {
     errors.forEach { assertEquals(correlationId, it.contextData.toMap()["correlationID"]) }
   }
 
-  class CapturingAppender :
-      AbstractAppender("capturing", null, null, true, Property.EMPTY_ARRAY) {
+  class CapturingAppender : AbstractAppender("capturing", null, null, true, Property.EMPTY_ARRAY) {
     val events = CopyOnWriteArrayList<LogEvent>()
 
     override fun append(event: LogEvent) {

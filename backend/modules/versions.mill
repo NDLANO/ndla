@@ -22,11 +22,14 @@ case class SharedDependencies(private val versions: Map[String, String]) {
   val ScalaTestV: String   = version("org.scalatest::scalatest")
   val KotlinV: String      = version("org.jetbrains.kotlin:kotlin-stdlib")
 
-  def logging: Seq[Dep] = Seq(
+  def log4j: Seq[Dep] = Seq(
     dep"org.apache.logging.log4j:log4j-api",
     dep"org.apache.logging.log4j:log4j-core",
     dep"org.apache.logging.log4j:log4j-jul",
     dep"org.apache.logging.log4j:log4j-slf4j2-impl",
+  )
+
+  def logging: Seq[Dep] = log4j ++ Seq(
     dep"com.typesafe.scala-logging::scala-logging",
     dep"org.slf4j:slf4j-api",
     // We need jackson to load `log4j2.yaml`
@@ -134,6 +137,9 @@ case class SharedDependencies(private val versions: Map[String, String]) {
     dep"net.bull.javamelody:javamelody-spring-boot4-starter",
     mvn"io.micrometer:micrometer-registry-prometheus",
     mvn"org.springframework.boot:spring-boot-starter-log4j2",
+    // log4j needs Jackson 2 to load `log4j2.yaml` and for JsonLayout, while Spring Boot 4 itself uses Jackson 3
+    mvn"com.fasterxml.jackson.core:jackson-databind",
+    mvn"com.fasterxml.jackson.dataformat:jackson-dataformat-yaml",
     dep"org.jetbrains:annotations",
   )
 

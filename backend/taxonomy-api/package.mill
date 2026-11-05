@@ -3,7 +3,7 @@ package build.`taxonomy-api`
 import mill.*
 import mill.api.BuildCtx
 import mill.scalalib.*
-import build.modules.{JavaBaseModule, JavaDockerComponent, SharedDependencies}
+import build.modules.{JavaBaseModule, JavaDockerComponent, SharedDependencies, sharedDependencies}
 
 object `package` extends JavaBaseModule, JavaDockerComponent {
   override def moduleName: String           = "taxonomy-api"
@@ -27,8 +27,14 @@ object `package` extends JavaBaseModule, JavaDockerComponent {
 
   override def boms(deps: SharedDependencies): Seq[Dep] = deps.springBootBoms
 
-  override def dependencies(deps: SharedDependencies): Seq[Dep] =
-    (deps.springBootStarters ++ deps.taxonomyExtras).map(withoutLogback)
+  // The Spring Boot BOM pins an older log4j than the Scala backends we share `log4j2.yaml` with.
+  override def depManagement: T[Seq[Dep]] = Task {
+    super.depManagement() ++ sharedDependencies().log4j
+  }
+
+  override def dependencies(deps: SharedDependencies): Seq[Dep] = (deps.springBootStarters ++ deps.taxonomyExtras).map(
+    withoutLogback
+  )
 
   private def withoutLogback(dep: Dep): Dep = dep.exclude("org.springframework.boot" -> "spring-boot-starter-logging")
 
