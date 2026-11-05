@@ -1,4 +1,17 @@
-# @ndla/tasks
+# @ndla/tools
+
+Scripts backing the repository's GitHub Actions and mise tasks. Private — never published.
+
+The scripts are run directly with `node` by path, so the package has no exports.
+
+## `src/ci`
+
+Backs the repository's GitHub Actions.
+
+`nx-cache-server.mts` serves the nx cache over HTTP on localhost during a CI job, backed by a directory
+that `actions/cache` persists between runs.
+
+## `src/tasks`
 
 Backs the repository's `mise tasks` to achieve one command surface over
 the nx frontend workspace and the Mill backend.

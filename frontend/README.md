@@ -11,6 +11,7 @@ The workspace contains four applications — [`ndla-frontend`](ndla-frontend) (n
 [`api-documentation`](api-documentation) (api.ndla.no) plus the shared [`packages`](packages)
 they are built from, with their Storybook in [`design-manual`](design-manual) (designmanual.ndla.no).
 Code shared only between the applications, and never published, lives in [`shared`](shared).
+The scripts behind the repository's GitHub Actions and mise tasks live in [`tools`](tools).
 
 ## Developer documentation
 

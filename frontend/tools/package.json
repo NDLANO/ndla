@@ -1,22 +1,25 @@
 {
-  "name": "@ndla/ci",
+  "name": "@ndla/tools",
   "private": true,
-  "description": "Scripts backing the repository's GitHub Actions.",
+  "description": "Scripts backing the repository's GitHub Actions and mise tasks.",
   "license": "GPL-3.0",
   "author": "ndla@knowit.no",
   "repository": {
     "type": "git",
     "url": "https://github.com/NDLANO/ndla.git",
-    "directory": "frontend/packages/ci"
+    "directory": "frontend/tools"
   },
   "type": "module",
   "scripts": {
+    "lint:oxlint": "oxlint --deny-warnings -c ../oxlint.config.ts .",
     "type-check": "tsc -p tsconfig.json",
     "test": "vitest --run"
   },
   "devDependencies": {
     "@types/node": "catalog:",
     "nx": "catalog:",
+    "oxlint": "catalog:",
+    "oxlint-tsgolint": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"
   },
@@ -25,6 +28,7 @@
   },
   "nx": {
     "targets": {
+      "lint": {},
       "type-check": {
         "dependsOn": []
       },

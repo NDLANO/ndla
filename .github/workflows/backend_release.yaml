@@ -32,7 +32,7 @@ on:
       - docker-bake.hcl
       - .github/workflows/backend_release.yaml
       - .github/actions/backend-affected/**
-      - frontend/packages/ci/**
+      - frontend/tools/src/ci/**
 jobs:
   select:
     name: Select affected components
