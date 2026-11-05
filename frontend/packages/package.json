@@ -77,7 +77,8 @@
   "nx": {
     "implicitDependencies": [
       "@ndla/*",
-      "!@ndla/shared"
+      "!@ndla/shared",
+      "!@ndla/tools"
     ],
     "namedInputs": {
       "default": [

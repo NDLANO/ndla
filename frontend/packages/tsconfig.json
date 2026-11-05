@@ -10,14 +10,5 @@
     "types": ["vitest/globals", "vite/client", "node"]
   },
   "include": ["./*/**/*"],
-  "exclude": [
-    "**/node_modules",
-    "./*/lib",
-    "./*/dist",
-    "./*/es",
-    "./*/tsdown.config.mts",
-    "./ci",
-    "./tasks",
-    "./scripts"
-  ]
+  "exclude": ["**/node_modules", "./*/lib", "./*/dist", "./*/es", "./*/tsdown.config.mts", "./scripts"]
 }

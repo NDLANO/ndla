@@ -7,7 +7,7 @@
  */
 
 import { defineConfig } from "vitest/config";
-import { ndlaNodeTest } from "../../vite.config.base.mts";
+import { ndlaNodeTest } from "../vite.config.base.mts";
 
 export default defineConfig({
   test: ndlaNodeTest({ include: ["src/**/__tests__/*-test.mts"], testTimeout: 60_000 }),
