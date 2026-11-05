@@ -186,7 +186,7 @@ const frameSrc = (() => {
     "www.vitentv.no",
     "*.kaltura.com",
     "www.google.com",
-    "*.lovable.app",
+    "ki-kviss.lovable.app",
   ];
   if (import.meta.env.MODE === "development") {
     return [
