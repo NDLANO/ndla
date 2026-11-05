@@ -258,6 +258,7 @@ const translations = {
       contentType: "Content type",
       published: "Published",
       notPublished: "Not published",
+      publishedWithoutDate: "Yes",
       publishedVersion: "Published version",
     },
     highlights: {
