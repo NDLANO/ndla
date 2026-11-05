@@ -48,6 +48,7 @@ class DraftApiClient(
       RestClient.builder()
           .baseUrl("http://$draftApiHost/draft-api")
           .requestInitializer(AuthorizationRequestInitializer())
+          .requestInitializer(CorrelationIdRequestInitializer())
           .build()
 
   private fun notBaseSchema() = VersionContext.getCurrentVersion() != defaultSchema

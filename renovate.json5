@@ -88,7 +88,6 @@
     { matchPackageNames: ["io.prometheus:prometheus-metrics-*"], groupName: "prometheus" },
     { matchPackageNames: ["com.sksamuel.scrimage:*"], groupName: "scrimage" },
     { matchPackageNames: ["ws.schild:*"], groupName: "jave" },
-    { matchPackageNames: ["ch.qos.logback.contrib:*"], groupName: "logback-contrib" },
     { matchPackageNames: ["com.beachape:*"], groupName: "enumeratum" },
   ],
 }
