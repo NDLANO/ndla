@@ -12,29 +12,22 @@ import com.typesafe.scalalogging.StrictLogging
 import io.circe.generic.auto.*
 import io.opentelemetry.api.trace.Span
 import no.ndla.common.configuration.BaseProps
-import no.ndla.common.{CorrelationID, RequestLogger}
-import no.ndla.common.configuration.Constants
-import no.ndla.network.TaxonomyData
 import no.ndla.network.model.*
 import no.ndla.network.tapir.NoNullJsonPrinter.*
-import org.playframework.netty.http.StreamedHttpRequest
-import org.slf4j.MDC
+import no.ndla.network.tapir.interceptors.{ContextInterceptor, LogInterceptor, TracingInterceptor}
 import ox.{never, supervised, useInScope}
-import sttp.model.HeaderNames.SensitiveHeaders
-import sttp.model.{Header, HeaderNames, MediaType, StatusCode}
+import sttp.model.{Header, StatusCode}
 import sttp.monad.MonadError
 import sttp.shared.Identity
 import sttp.tapir.generic.auto.schemaForCaseClass
-import sttp.tapir.model.ServerRequest
-import sttp.tapir.server.interceptor.RequestInterceptor.RequestResultEffectTransform
 import sttp.tapir.server.interceptor.decodefailure.{DecodeFailureHandler, DefaultDecodeFailureHandler}
 import sttp.tapir.server.interceptor.exception.{ExceptionContext, ExceptionHandler}
 import sttp.tapir.server.interceptor.reject.{RejectContext, RejectHandler}
-import sttp.tapir.server.interceptor.{DecodeFailureContext, RequestInterceptor, RequestResult}
+import sttp.tapir.server.interceptor.{DecodeFailureContext, RequestResult}
 import sttp.tapir.server.model.ValuedEndpointOutput
 import sttp.tapir.server.netty.NettyConfig
 import sttp.tapir.server.netty.sync.{NettySyncServer, NettySyncServerBinding, NettySyncServerOptions}
-import sttp.tapir.{AttributeKey, DecodeResult, EndpointInput, headers, statusCode}
+import sttp.tapir.{DecodeResult, EndpointInput, headers, statusCode}
 
 import scala.concurrent.duration.DurationInt
 
@@ -130,136 +123,6 @@ class Routes(using
     }
   }
 
-  private object TapirMiddleware {
-    private def shouldLogRequest(req: ServerRequest): Boolean = {
-      if (req.uri.path.size == 1) {
-        if (req.uri.path.head == "metrics") return false
-        if (req.uri.path.head == "health") return false
-      } else if (req.uri.path.size > 1 && req.uri.path.head == "health") return false
-      true
-    }
-
-    private def setBeforeMDC(info: RequestInfo, req: ServerRequest): Unit = {
-      MDC.put("requestPath", RequestLogger.pathWithQueryParams(req))
-      MDC.put("method", req.method.toString())
-
-      if (info.taxonomyVersion != TaxonomyData.defaultVersion) {
-        MDC.put("taxonomyVersion", info.taxonomyVersion): Unit
-      }
-    }
-
-    private val beforeTime      = new AttributeKey[Long]("beforeTime")
-    private val activityTracked = new AttributeKey[Boolean]("activityTracked")
-    private val requestBody     = new AttributeKey[RequestBodyCapture]("requestBody")
-
-    // Only log request body if Content-Type is suitable for logging
-    private def isLoggableBody(req: ServerRequest): Boolean = req
-      .contentType
-      .flatMap(MediaType.parse(_).toOption)
-      .exists {
-        case MediaType("text", _, _, _)                                   => true
-        case MediaType("application", "json", _, _)                       => true
-        case MediaType("application", "xml", _, _)                        => true
-        case MediaType("application", "x-www-form-urlencoded", _, _)      => true
-        case MediaType("application", sub, _, _) if sub.endsWith("+json") => true
-        case MediaType("application", sub, _, _) if sub.endsWith("+xml")  => true
-        case _                                                            => false
-      }
-
-    def before: RequestInterceptor[Identity] = RequestInterceptor.transformServerRequest { req =>
-      val requestInfo = RequestInfo.fromRequest(req)
-      requestInfo.setThreadContextRequestInfo()
-      setBeforeMDC(requestInfo, req)
-      val startTime = System.currentTimeMillis()
-
-      val shouldLog = shouldLogRequest(req)
-      if (shouldLog) {
-        logger.info(RequestLogger.beforeRequestLogString(req))
-
-        val bodyLoggingRequest = req.underlying match {
-          case sr: StreamedHttpRequest if isLoggableBody(req) =>
-            val bodyCapture   = RequestBodyCapture(req.contentLength)
-            val newUnderlying = NettyStreamedRequestWrapper(sr, bodyCapture)
-            req.withUnderlying(newUnderlying).attribute(requestBody, bodyCapture)
-
-          case _ => req
-        }
-
-        bodyLoggingRequest.attribute(beforeTime, startTime).attribute(activityTracked, true)
-      } else {
-        req.attribute(activityTracked, false)
-      }
-    }
-
-    class after extends RequestResultEffectTransform[Identity] {
-      private val sensitiveHeaders                       = SensitiveHeaders + "feideauthorization"
-      private def addHeaderMDC(req: ServerRequest): Unit = req
-        .headers
-        .foreach { header =>
-          val value =
-            if (HeaderNames.isSensitive(header, sensitiveHeaders)) "[REDACTED]"
-            else header.value
-          MDC.put(s"requestHeader.${header.name.toLowerCase}", value)
-        }
-
-      private def addRequestBodyMDC(req: ServerRequest): Unit = req
-        .attribute(requestBody)
-        .foreach(bodyCapture => MDC.put("requestBody", bodyCapture.asString))
-
-      def apply[B](req: ServerRequest, result: RequestResult[B]): RequestResult[B] = {
-        if (req.attribute(activityTracked).contains(true)) {
-          val code: Int = result match {
-            case RequestResult.Response(response, _) => response.code.code
-            case RequestResult.Failure(failures)     => -1
-          }
-
-          val latency = req
-            .attribute(beforeTime)
-            .map(startTime => System.currentTimeMillis() - startTime)
-            .getOrElse(-1L)
-
-          if (code >= 400) {
-            addRequestBodyMDC(req)
-            addHeaderMDC(req)
-          }
-
-          MDC.put("reqLatencyMs", s"$latency")
-          MDC.put("statusCode", code.toString)
-
-          val s = RequestLogger.afterRequestLogString(
-            method = req.method.toString(),
-            requestPath = s"/${req.uri.path.mkString("/")}",
-            queryString = req.queryParameters.toString(false),
-            latency = latency,
-            responseCode = code,
-          )
-
-          if (code >= 500) logger.error(s)
-          else logger.info(s)
-        }
-
-        val response = withCorrelationIdHeader(result)
-
-        RequestInfo.clear()
-        MDC.clear()
-
-        response
-      }
-    }
-  }
-
-  private def withCorrelationIdHeader[B](result: RequestResult[B]): RequestResult[B] = {
-    CorrelationID.get match {
-      case None                => result
-      case Some(correlationId) => result match {
-          case RequestResult.Response(response, source) =>
-            val header = Header(Constants.CorrelationIdHeader, correlationId)
-            RequestResult.Response(response.addHeaders(List(header)), source)
-          case other => other
-        }
-    }
-  }
-
   def startServerAndWait(name: String, port: Int)(onStartup: NettySyncServerBinding => Unit): Unit = {
     val prometheusMetrics = NdlaPrometheusRegistry.tapirPrometheusMetrics
 
@@ -271,9 +134,9 @@ class Routes(using
       .decodeFailureHandler(NdlaDecodeFailureHandler)
       .serverLog(None)
       .metricsInterceptor(prometheusMetrics.metricsInterceptor())
-      .prependInterceptor(TapirMiddleware.before)
-      .prependInterceptor(RequestInterceptor.transformResultEffect(new TapirMiddleware.after))
-      .prependInterceptor(NdlaTracing.tracingInterceptor)
+      .prependInterceptor(ContextInterceptor)
+      .prependInterceptor(TracingInterceptor())
+      .prependInterceptor(LogInterceptor)
       .options
 
     val gracefulShutdownTimeout = 30.seconds
