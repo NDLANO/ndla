@@ -250,6 +250,11 @@ const SearchContent = ({ content, responsibleName }: Props) => {
   }, [primaryContext]);
 
   const isPublished = content.status?.current === "PUBLISHED" || !!content.status?.other.includes("PUBLISHED");
+  const publishedValue = content.published
+    ? formatDate(content.published)
+    : isPublished
+      ? t("searchPage.resultMeta.publishedWithoutDate")
+      : t("searchPage.resultMeta.notPublished");
   const showMarkupLink =
     !conceptTypes.includes(content.learningResourceType) &&
     !!content.id &&
@@ -278,10 +283,7 @@ const SearchContent = ({ content, responsibleName }: Props) => {
                 value={responsibleName || t("form.responsible.noResponsible")}
               />
               <Meta label={t("form.workflow.statusLabel")} value={statusLabel || t("form.status.new")} />
-              <Meta
-                label={t("searchPage.resultMeta.published")}
-                value={content.published ? formatDate(content.published) : t("searchPage.resultMeta.notPublished")}
-              />
+              <Meta label={t("searchPage.resultMeta.published")} value={publishedValue} />
             </MetaList>
           </MetaWrapper>
         </MainColumn>
