@@ -53,6 +53,8 @@ case class NDLADate(underlying: ZonedDateTime) extends Ordered[NDLADate], Parame
 
   def asString: String = NDLADate.asString(this)
 
+  def format(pattern: String): String = underlying.format(DateTimeFormatter.ofPattern(pattern)).nn
+
   override def compare(that: NDLADate): Int = {
     this.underlying.compareTo(that.underlying)
   }

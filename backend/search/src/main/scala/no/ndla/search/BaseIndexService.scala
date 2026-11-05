@@ -18,9 +18,9 @@ import com.sksamuel.elastic4s.requests.mappings.MappingDefinition
 import com.typesafe.scalalogging.StrictLogging
 import no.ndla.common.configuration.BaseProps
 import no.ndla.common.implicits.*
+import no.ndla.common.model.NDLADate
 import no.ndla.search.model.domain.{BulkIndexResult, ElasticIndexingException, ReindexResult}
 
-import java.util.Date
 import scala.annotation.tailrec
 import scala.util.boundary
 import scala.util.{Failure, Random, Success, Try}
@@ -377,7 +377,7 @@ abstract class BaseIndexService(using e4sClient: NdlaE4sClient, props: BaseProps
     }
   }
 
-  def getTimestamp: String = "%1$tY%1$tm%1$td%1$tH%1$tM%1$tS".format(new Date())
+  def getTimestamp: String = NDLADate.now().format("yyyyMMddHHmmss")
 
   def findAllIndexes(indexName: String): Try[Seq[String]] = {
     val response = e4sClient.execute {
