@@ -1,161 +1,22 @@
 package build.modules
 
 import mill.*
+import mill.javalib.repackage.RepackageModule
 import mill.scalalib.*
 
-import java.io.{ByteArrayInputStream, ByteArrayOutputStream, DataInputStream, DataOutputStream}
-import java.util.zip.{ZipEntry, ZipFile, ZipOutputStream}
-import scala.jdk.CollectionConverters.*
-import scala.collection.mutable
-
-trait JavaDockerComponent extends DockerComponent {
-  // Spring jars each ship their own copy of these files; concatenate them so the fat jar keeps every entry.
-  override def assemblyRules: Seq[Assembly.Rule] = super.assemblyRules ++ Seq(
-    Assembly.Rule.AppendPattern("META-INF/spring/.*\\.imports", "\n"),
-    Assembly.Rule.Append("META-INF/spring.factories", "\n"),
-    Assembly.Rule.Append("META-INF/spring.handlers", "\n"),
-    Assembly.Rule.Append("META-INF/spring.schemas", "\n"),
-  )
-
-  // Post-process the shaded jar: Mill's text-concat merge of META-INF/spring.factories
-  // produces duplicate keys, which java.util.Properties silently overwrites. Re-parse and
-  // merge factory values per key so Spring Boot's SpringFactoriesLoader sees all entries.
-  // log4j-core and spring-boot both ship a binary log4j plugin index, and the assembly
-  // keeps only the first one on the classpath, so merge those too.
+trait JavaDockerComponent extends DockerComponent, RepackageModule {
+  // Build Spring Boot's own executable jar instead of a flat assembly. It keeps each dependency
+  // jar intact, so files that several jars ship (spring.factories, log4j's plugin index, ...)
+  // don't collide. It is exposed as `assembly` because the shared Dockerfile copies
+  // `assembly.dest/out.jar`. The launcher comes from Mill's bundled Spring Boot tools (3.5.x),
+  // since Mill's repackager doesn't work with the 4.x tools API yet.
   override def assembly: T[PathRef] = Task {
-    val upstream      = super.assembly()
-    val pluginIndexes = runClasspath().flatMap(p => readLog4jPluginIndex(p.path))
-    val fixed         = Task.dest / "out.jar"
-    val src           = upstream.path
-    val in            = new ZipFile(src.toIO)
-    try {
-      val out = new ZipOutputStream(os.write.outputStream(fixed))
-      try {
-        in.entries()
-          .asScala
-          .foreach { entry =>
-            val name     = entry.getName
-            val newEntry = new ZipEntry(name)
-            out.putNextEntry(newEntry)
-            if (name == "META-INF/spring.factories") {
-              val is       = in.getInputStream(entry)
-              val original = scala.io.Source.fromInputStream(is)(using "UTF-8").mkString
-              val merged   = mergeSpringFactories(original)
-              out.write(merged.getBytes("UTF-8"))
-            } else if (name == Log4jPluginIndex && pluginIndexes.size > 1) {
-              out.write(mergeLog4jPluginIndexes(pluginIndexes))
-            } else {
-              val is = in.getInputStream(entry)
-              try os.Internals.transfer(is, out)
-              finally is.close()
-            }
-            out.closeEntry()
-          }
-      } finally out.close()
-    } finally
-      in.close()
-    PathRef(fixed)
+    val dest = Task.dest / "out.jar"
+    os.copy(repackagedJar().path, dest)
+    PathRef(dest)
   }
 
-  private val Log4jPluginIndex = "META-INF/org/apache/logging/log4j/core/config/plugins/Log4j2Plugins.dat"
-
-  private def readLog4jPluginIndex(path: os.Path): Option[Array[Byte]] = {
-    if (os.isDir(path)) {
-      val index = path / os.RelPath(Log4jPluginIndex)
-      Option.when(os.exists(index))(os.read.bytes(index))
-    } else if (os.isFile(path) && path.ext == "jar") {
-      val zip = new ZipFile(path.toIO)
-      try Option(zip.getEntry(Log4jPluginIndex)).map(entry => zip.getInputStream(entry).readAllBytes())
-      finally zip.close()
-    } else None
-  }
-
-  // Same format as log4j's PluginCache: per category, entries of (key, class name, name, printable, defer).
-  // Like log4j, the first entry for a key wins, so classpath order is kept.
-  private def mergeLog4jPluginIndexes(indexes: Seq[Array[Byte]]): Array[Byte] = {
-    val categories = mutable
-      .LinkedHashMap
-      .empty[String, mutable.LinkedHashMap[String, (String, String, Boolean, Boolean)]]
-    indexes.foreach { bytes =>
-      val in = new DataInputStream(new ByteArrayInputStream(bytes))
-      (0 until in.readInt()).foreach { _ =>
-        val plugins = categories.getOrElseUpdate(in.readUTF(), mutable.LinkedHashMap.empty)
-        (0 until in.readInt()).foreach { _ =>
-          val key    = in.readUTF()
-          val plugin = (in.readUTF(), in.readUTF(), in.readBoolean(), in.readBoolean())
-          if (!plugins.contains(key)) plugins(key) = plugin
-        }
-      }
-    }
-
-    val bytes = new ByteArrayOutputStream()
-    val out   = new DataOutputStream(bytes)
-    out.writeInt(categories.size)
-    categories.foreach { case (category, plugins) =>
-      out.writeUTF(category)
-      out.writeInt(plugins.size)
-      plugins.foreach { case (key, (className, name, printable, defer)) =>
-        out.writeUTF(key)
-        out.writeUTF(className)
-        out.writeUTF(name)
-        out.writeBoolean(printable)
-        out.writeBoolean(defer)
-      }
-    }
-    out.flush()
-    bytes.toByteArray
-  }
-
-  private def mergeSpringFactories(content: String): String = {
-    val collapsed = new StringBuilder
-    content
-      .linesIterator
-      .foreach { raw =>
-        val line = raw.stripTrailing()
-        if (collapsed.nonEmpty && collapsed.last == '\\') {
-          collapsed.deleteCharAt(collapsed.length - 1)
-          collapsed.append(line.stripLeading())
-        } else {
-          if (collapsed.nonEmpty) collapsed.append('\n')
-          collapsed.append(line)
-        }
-      }
-    val keyToValues = mutable.LinkedHashMap[String, mutable.LinkedHashSet[String]]()
-    collapsed
-      .toString
-      .linesIterator
-      .foreach { line =>
-        val trimmed = line.trim
-        if (trimmed.nonEmpty && !trimmed.startsWith("#") && !trimmed.startsWith("!")) {
-          val sep = {
-            val eq = trimmed.indexOf('=')
-            val cl = trimmed.indexOf(':')
-            if (eq < 0) cl
-            else if (cl < 0) eq
-            else math.min(eq, cl)
-          }
-          if (sep > 0) {
-            val key    = trimmed.substring(0, sep).trim
-            val values = trimmed.substring(sep + 1).split(",").map(_.trim).filter(_.nonEmpty)
-            val bucket = keyToValues.getOrElseUpdate(key, mutable.LinkedHashSet.empty[String])
-            values.foreach(bucket.add)
-          }
-        }
-      }
-    val sb = new StringBuilder
-    keyToValues.foreach { case (key, values) =>
-      val list = values.toSeq
-      if (list.nonEmpty) {
-        sb.append(key).append("=\\\n")
-        list
-          .zipWithIndex
-          .foreach { case (v, i) =>
-            sb.append(v)
-            if (i < list.size - 1) sb.append(",\\")
-            sb.append('\n')
-          }
-      }
-    }
-    sb.toString
+  override def repackagePrependScript: T[Option[String]] = Task {
+    None
   }
 }
