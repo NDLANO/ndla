@@ -256,6 +256,7 @@ const translations = {
       contentType: "Innholdstype",
       published: "Publisert",
       notPublished: "Ikke publisert",
+      publishedWithoutDate: "Ja",
       publishedVersion: "Publisert versjon",
     },
     highlights: {
