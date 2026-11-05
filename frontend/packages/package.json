@@ -41,7 +41,6 @@
     "@ndla/preset-panda": "workspace:^",
     "@ndla/primitives": "workspace:^",
     "@ndla/safelink": "workspace:^",
-    "@ndla/shared": "workspace:^",
     "@ndla/styled-system": "workspace:^",
     "@ndla/types-backend": "workspace:^",
     "@ndla/types-embed": "workspace:^",
@@ -77,7 +76,8 @@
   },
   "nx": {
     "implicitDependencies": [
-      "@ndla/*"
+      "@ndla/*",
+      "!@ndla/shared"
     ],
     "namedInputs": {
       "default": [

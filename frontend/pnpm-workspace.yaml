@@ -1,6 +1,7 @@
 packages:
   - packages
   - packages/*
+  - shared
   - design-manual
   - ndla-frontend
   - editorial-frontend

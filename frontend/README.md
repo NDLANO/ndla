@@ -10,6 +10,7 @@ The workspace contains four applications — [`ndla-frontend`](ndla-frontend) (n
 [`editorial-frontend`](editorial-frontend) (ed.ndla.no), [`graphql-api`](graphql-api) and
 [`api-documentation`](api-documentation) (api.ndla.no) plus the shared [`packages`](packages)
 they are built from, with their Storybook in [`design-manual`](design-manual) (designmanual.ndla.no).
+Code shared only between the applications, and never published, lives in [`shared`](shared).
 
 ## Developer documentation
 
