@@ -227,6 +227,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: "Viten-TV", url: ["www.vitentv.no", "api.frp2.ovp.kaltura.com"] },
   { name: "Google Maps", url: ["www.google.com"] },
   { name: "Lovable", url: ["ki-kviss.lovable.app"] },
+  { name: "Reddbarna", url: ["video.reddbarna.no"] },
 ];
 
 export const Revision = {
