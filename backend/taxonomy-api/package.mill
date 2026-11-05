@@ -1,6 +1,7 @@
 package build.`taxonomy-api`
 
 import mill.*
+import mill.api.BuildCtx
 import mill.scalalib.*
 import build.modules.{JavaBaseModule, JavaDockerComponent, SharedDependencies}
 
@@ -21,9 +22,15 @@ object `package` extends JavaBaseModule, JavaDockerComponent {
     Seq.empty[PathRef]
   }
 
+  override def compileResources: T[Seq[PathRef]] =
+    Task.Sources("compile-resources", BuildCtx.workspaceRoot / "log4j" / "main")
+
   override def boms(deps: SharedDependencies): Seq[Dep] = deps.springBootBoms
 
-  override def dependencies(deps: SharedDependencies): Seq[Dep] = deps.springBootStarters ++ deps.taxonomyExtras
+  override def dependencies(deps: SharedDependencies): Seq[Dep] =
+    (deps.springBootStarters ++ deps.taxonomyExtras).map(withoutLogback)
+
+  private def withoutLogback(dep: Dep): Dep = dep.exclude("org.springframework.boot" -> "spring-boot-starter-logging")
 
   // The `typescript` Spring profile points at `jdbc:tc:postgresql://...`, which needs
   // testcontainers' JDBC driver on the runtime classpath. Those are test-scoped, so
@@ -34,6 +41,6 @@ object `package` extends JavaBaseModule, JavaDockerComponent {
 
   object test extends TestBase {
     override def testBoms(deps: SharedDependencies): Seq[Dep]         = deps.springBootBoms
-    override def testDependencies(deps: SharedDependencies): Seq[Dep] = deps.springBootTest
+    override def testDependencies(deps: SharedDependencies): Seq[Dep] = deps.springBootTest.map(withoutLogback)
   }
 }

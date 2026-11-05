@@ -7,24 +7,24 @@
 
 package no.ndla.taxonomy.config
 
-import ch.qos.logback.classic.Level
-import ch.qos.logback.classic.LoggerContext
-import ch.qos.logback.classic.spi.ILoggingEvent
-import ch.qos.logback.core.AppenderBase
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.util.concurrent.CopyOnWriteArrayList
 import no.ndla.taxonomy.service.AbstractIntegrationTest
+import org.apache.logging.log4j.Level
+import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.core.LogEvent
+import org.apache.logging.log4j.core.LoggerContext
+import org.apache.logging.log4j.core.appender.AbstractAppender
+import org.apache.logging.log4j.core.config.Property
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.slf4j.Logger.ROOT_LOGGER_NAME
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.TestConfiguration
@@ -39,18 +39,20 @@ class RequestMdcIntegrationTest : AbstractIntegrationTest() {
   @Value("\${local.server.port}") private var port: Int = 0
 
   private val appender = CapturingAppender()
-  private val rootLogger =
-      (LoggerFactory.getILoggerFactory() as LoggerContext).getLogger(ROOT_LOGGER_NAME)
+  private val loggerContext
+    get() = LogManager.getContext(false) as LoggerContext
 
   @BeforeEach
   fun attachAppender() {
     appender.start()
-    rootLogger.addAppender(appender)
+    loggerContext.configuration.rootLogger.addAppender(appender, null, null)
+    loggerContext.updateLoggers()
   }
 
   @AfterEach
   fun detachAppender() {
-    rootLogger.detachAppender(appender)
+    loggerContext.configuration.rootLogger.removeAppender(appender.name)
+    loggerContext.updateLoggers()
     appender.stop()
   }
 
@@ -62,8 +64,8 @@ class RequestMdcIntegrationTest : AbstractIntegrationTest() {
     return HttpClient.newHttpClient().send(request.build(), HttpResponse.BodyHandlers.ofString())
   }
 
-  private fun unhandledExceptionLogs(): List<ILoggingEvent> =
-      appender.events.filter { it.level == Level.ERROR && it.throwableProxy?.message == FAILURE }
+  private fun unhandledExceptionLogs(): List<LogEvent> =
+      appender.events.filter { it.level == Level.ERROR && it.thrown?.message == FAILURE }
 
   @Test
   fun `unhandled exception is logged with the incoming correlation id`() {
@@ -74,9 +76,9 @@ class RequestMdcIntegrationTest : AbstractIntegrationTest() {
     val errors = unhandledExceptionLogs()
     assertFalse(errors.isEmpty(), "expected the unhandled exception to be logged")
     errors.forEach {
-      assertEquals("from-frontend-123", it.mdcPropertyMap["correlationID"])
-      assertEquals("/test/unhandled", it.mdcPropertyMap["requestPath"])
-      assertEquals("GET", it.mdcPropertyMap["method"])
+      assertEquals("from-frontend-123", it.contextData.toMap()["correlationID"])
+      assertEquals("/test/unhandled", it.contextData.toMap()["requestPath"])
+      assertEquals("GET", it.contextData.toMap()["method"])
     }
   }
 
@@ -88,15 +90,15 @@ class RequestMdcIntegrationTest : AbstractIntegrationTest() {
     assertNotNull(correlationId)
     val errors = unhandledExceptionLogs()
     assertFalse(errors.isEmpty(), "expected the unhandled exception to be logged")
-    errors.forEach { assertEquals(correlationId, it.mdcPropertyMap["correlationID"]) }
+    errors.forEach { assertEquals(correlationId, it.contextData.toMap()["correlationID"]) }
   }
 
-  class CapturingAppender : AppenderBase<ILoggingEvent>() {
-    val events = CopyOnWriteArrayList<ILoggingEvent>()
+  class CapturingAppender :
+      AbstractAppender("capturing", null, null, true, Property.EMPTY_ARRAY) {
+    val events = CopyOnWriteArrayList<LogEvent>()
 
-    override fun append(event: ILoggingEvent) {
-      event.prepareForDeferredProcessing()
-      events.add(event)
+    override fun append(event: LogEvent) {
+      events.add(event.toImmutable())
     }
   }
 

@@ -133,7 +133,7 @@ case class SharedDependencies(private val versions: Map[String, String]) {
     dep"org.jsoup:jsoup",
     dep"net.bull.javamelody:javamelody-spring-boot4-starter",
     mvn"io.micrometer:micrometer-registry-prometheus",
-    mvn"ch.qos.logback:logback-core",
+    mvn"org.springframework.boot:spring-boot-starter-log4j2",
     dep"org.jetbrains:annotations",
   )
 
