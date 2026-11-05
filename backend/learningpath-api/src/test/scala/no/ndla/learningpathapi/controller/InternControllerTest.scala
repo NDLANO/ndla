@@ -11,7 +11,7 @@ package no.ndla.learningpathapi.controller
 import no.ndla.common.{CirceUtil, Clock}
 import no.ndla.common.model.api.learningpath.LearningPathStatsDTO
 import no.ndla.learningpathapi.{TestEnvironment, UnitSuite}
-import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
+import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, NdlaServer, TapirController}
 import no.ndla.tapirtesting.TapirControllerTest
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.{doReturn, never, reset, verify, verifyNoMoreInteractions, when}
@@ -26,7 +26,7 @@ class InternControllerTest extends UnitSuite with TestEnvironment with TapirCont
   override implicit lazy val errorHandling: ErrorHandling    = new ControllerErrorHandling
   val controller: InternController                           = new InternController
   override implicit lazy val services: List[TapirController] = List(controller)
-  override implicit lazy val routes: Routes                  = new Routes
+  override implicit lazy val ndlaServer: NdlaServer          = new NdlaServer
 
   test("that id with value 404 gives OK") {
     resetMocks()

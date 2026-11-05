@@ -17,7 +17,7 @@ import no.ndla.common.CirceUtil.unsafeParseAs
 import no.ndla.common.Clock
 import no.ndla.common.model.api.{CopyrightDTO, LicenseDTO}
 import no.ndla.mapping.License
-import no.ndla.network.tapir.{ErrorHelpers, Routes, TapirController}
+import no.ndla.network.tapir.{ErrorHelpers, NdlaServer, TapirController}
 import no.ndla.tapirtesting.{NdlaAuthTestTokens, TapirControllerTest}
 import org.mockito.ArgumentCaptor
 import org.mockito.ArgumentMatchers.{eq as eqTo, *}
@@ -34,7 +34,7 @@ class AudioControllerTest extends UnitSuite with TestEnvironment with Retries wi
   override implicit lazy val errorHelpers: ErrorHelpers             = new ErrorHelpers
   override implicit lazy val errorHandling: ControllerErrorHandling = new ControllerErrorHandling
   override implicit lazy val services: List[TapirController]        = List(controller)
-  override implicit lazy val routes: Routes                         = new Routes
+  override implicit lazy val ndlaServer: NdlaServer                 = new NdlaServer
   val controller: AudioController                                   = new AudioController {
     // NOTE: Small max file size when testing to test the failure in the controller without using a bunch of memory
     override val maxAudioFileSizeBytes: Int = 10

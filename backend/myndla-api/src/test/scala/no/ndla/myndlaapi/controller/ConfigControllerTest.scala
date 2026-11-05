@@ -13,7 +13,7 @@ import no.ndla.common.model.NDLADate
 import no.ndla.common.model.api.config.{ConfigMetaDTO, ConfigMetaValueDTO}
 import no.ndla.common.model.domain.config.ConfigKey
 import no.ndla.myndlaapi.TestEnvironment
-import no.ndla.network.tapir.{ErrorHelpers, Routes, TapirController}
+import no.ndla.network.tapir.{ErrorHelpers, NdlaServer, TapirController}
 import no.ndla.network.tapir.auth.TokenUser
 import no.ndla.scalatestsuite.UnitTestSuite
 import no.ndla.tapirtesting.{NdlaAuthTestTokens, TapirControllerTest}
@@ -27,7 +27,7 @@ class ConfigControllerTest extends UnitTestSuite with TestEnvironment with Tapir
   override implicit lazy val clock: Clock                           = new Clock
   override implicit lazy val errorHelpers: ErrorHelpers             = new ErrorHelpers
   override implicit lazy val errorHandling: ControllerErrorHandling = new ControllerErrorHandling
-  override implicit lazy val routes: Routes                         = new Routes
+  override implicit lazy val ndlaServer: NdlaServer                 = new NdlaServer
   val controller: ConfigController                                  = new ConfigController()
   override implicit lazy val services: List[TapirController]        = List(controller)
 

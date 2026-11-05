@@ -10,7 +10,7 @@ package no.ndla.oembedproxy.controller
 
 import no.ndla.common.Clock
 import no.ndla.network.model.HttpRequestException
-import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
+import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, NdlaServer, TapirController}
 import no.ndla.oembedproxy.model.OEmbedDTO
 import no.ndla.oembedproxy.{TestEnvironment, UnitSuite}
 import no.ndla.tapirtesting.TapirControllerTest
@@ -26,7 +26,7 @@ class OEmbedProxyControllerTest extends UnitSuite with TestEnvironment with Tapi
   val controller: OEmbedProxyController                      = new OEmbedProxyController
   override implicit lazy val services: List[TapirController] = List(controller)
   override implicit lazy val errorHandling: ErrorHandling    = new ControllerErrorHandling
-  override implicit lazy val routes: Routes                  = new Routes
+  override implicit lazy val ndlaServer: NdlaServer          = new NdlaServer
   override implicit lazy val clock: Clock                    = mock[Clock]
   override implicit lazy val errorHelpers: ErrorHelpers      = new ErrorHelpers
 

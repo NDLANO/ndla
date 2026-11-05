@@ -10,7 +10,7 @@ package no.ndla.articleapi.controller
 
 import no.ndla.articleapi.{TestEnvironment, UnitSuite}
 import no.ndla.common.Clock
-import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController, TapirHealthController}
+import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, NdlaServer, TapirController, TapirHealthController}
 import no.ndla.tapirtesting.TapirControllerTest
 import sttp.client4.quick.*
 
@@ -20,7 +20,7 @@ class HealthControllerTest extends UnitSuite with TestEnvironment with TapirCont
   override implicit lazy val errorHandling: ErrorHandling    = new ControllerErrorHandling
   override val controller: TapirHealthController             = new TapirHealthController()
   override implicit lazy val services: List[TapirController] = List(controller)
-  override implicit lazy val routes: Routes                  = new Routes
+  override implicit lazy val ndlaServer: NdlaServer          = new NdlaServer
   controller.setRunning()
 
   test("That /health returns 200 ok") {

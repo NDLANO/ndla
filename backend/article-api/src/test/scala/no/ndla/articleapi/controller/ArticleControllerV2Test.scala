@@ -12,7 +12,7 @@ import no.ndla.articleapi.model.search.SearchResult
 import no.ndla.articleapi.model.{NotFoundException, api, domain}
 import no.ndla.articleapi.{TestEnvironment, UnitSuite, model}
 import no.ndla.common.Clock
-import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
+import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, NdlaServer, TapirController}
 import no.ndla.tapirtesting.TapirControllerTest
 import org.mockito.ArgumentMatchers.{eq as eqTo, *}
 import org.mockito.Mockito.{never, reset, times, verify, when}
@@ -26,7 +26,7 @@ class ArticleControllerV2Test extends UnitSuite with TestEnvironment with TapirC
   override implicit lazy val errorHandling: ErrorHandling    = new ControllerErrorHandling
   override val controller: ArticleControllerV2               = new ArticleControllerV2
   override implicit lazy val services: List[TapirController] = List(controller)
-  override implicit lazy val routes: Routes                  = new Routes
+  override implicit lazy val ndlaServer: NdlaServer          = new NdlaServer
 
   override def beforeEach(): Unit = {
     reset(clock)

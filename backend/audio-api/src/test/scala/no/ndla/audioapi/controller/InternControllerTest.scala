@@ -16,7 +16,7 @@ import no.ndla.common.Clock
 import no.ndla.common.model.domain.article.Copyright
 import no.ndla.common.model.domain as common
 import no.ndla.mapping.License
-import no.ndla.network.tapir.{ErrorHelpers, Routes, TapirController}
+import no.ndla.network.tapir.{ErrorHelpers, NdlaServer, TapirController}
 import no.ndla.tapirtesting.TapirControllerTest
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.{doReturn, never, reset, verify, verifyNoMoreInteractions, when}
@@ -30,7 +30,7 @@ class InternControllerTest extends UnitSuite with TestEnvironment with TapirCont
   override implicit lazy val errorHandling: ControllerErrorHandling = new ControllerErrorHandling
   val controller: InternController                                  = new InternController
   override implicit lazy val services: List[TapirController]        = List(controller)
-  override implicit lazy val routes: Routes                         = new Routes
+  override implicit lazy val ndlaServer: NdlaServer                 = new NdlaServer
 
   val DefaultDomainImageMetaInformation: AudioMetaInformation = domain.AudioMetaInformation(
     Some(1),

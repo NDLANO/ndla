@@ -13,7 +13,7 @@ import no.ndla.common.model.NDLADate
 import no.ndla.common.model.domain.Availability
 import no.ndla.common.model.domain.myndla.{MyNDLAUser, UserRole}
 import no.ndla.network.clients.MyNDLAProvider
-import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, NonEmptyString, Routes, TapirController}
+import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, NonEmptyString, NdlaServer, TapirController}
 import no.ndla.searchapi.model.domain
 import no.ndla.searchapi.model.domain.DraftSearchField
 import no.ndla.searchapi.model.domain.Sort
@@ -37,7 +37,7 @@ class SearchControllerTest extends UnitSuite with TestEnvironment with TapirCont
   override implicit lazy val myNdlaProvider: MyNDLAProvider     = myndlaApiClient
   override val controller: SearchController                     = new SearchController()
   override implicit lazy val services: List[TapirController]    = List(controller)
-  override implicit lazy val routes: Routes                     = new Routes
+  override implicit lazy val ndlaServer: NdlaServer             = new NdlaServer
 
   override def beforeEach(): Unit = {
     reset(clock)

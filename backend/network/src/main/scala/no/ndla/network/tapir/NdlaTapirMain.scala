@@ -35,7 +35,7 @@ trait NdlaTapirMain[T <: TapirApplication[?]] extends StrictLogging {
   }
 
   def startServerAndWait(name: String, port: Int)(onStartup: NettySyncServerBinding => Unit): Unit = componentRegistry
-    .routes
+    .ndlaServer
     .startServerAndWait(name, port)(onStartup)
 
   private def performWarmup(): Unit =

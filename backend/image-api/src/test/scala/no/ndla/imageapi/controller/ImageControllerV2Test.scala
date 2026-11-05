@@ -24,7 +24,7 @@ import no.ndla.imageapi.service.ConverterService
 import no.ndla.imageapi.{TestEnvironment, UnitSuite}
 import no.ndla.mapping.License
 import no.ndla.mapping.License.CC_BY
-import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
+import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, NdlaServer, TapirController}
 import no.ndla.tapirtesting.{NdlaAuthTestTokens, TapirControllerTest}
 import org.mockito.ArgumentMatchers.{eq as eqTo, *}
 import org.mockito.Mockito.{reset, times, verify, when, withSettings}
@@ -48,7 +48,7 @@ class ImageControllerV2Test extends UnitSuite with TestEnvironment with TapirCon
     override val maxImageFileSizeBytes: Int = 10
   }
   override implicit lazy val services: List[TapirController] = List(controller)
-  override lazy val routes                                   = new Routes
+  override lazy val ndlaServer                               = new NdlaServer
 
   override def beforeEach(): Unit = {
     reset(clock)

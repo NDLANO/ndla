@@ -44,7 +44,7 @@ trait TestEnvironment extends TapirApplication[DraftApiProperties] with MockitoS
   implicit lazy val draftErrorHelpers: DraftErrorHelpers = new DraftErrorHelpers
   implicit lazy val errorHandling: ErrorHandling         = new ControllerErrorHandling
   implicit lazy val clock: Clock                         = mock[Clock]
-  implicit lazy val routes: Routes                       = mock[Routes]
+  implicit lazy val ndlaServer: NdlaServer               = mock[NdlaServer]
   implicit lazy val services: List[TapirController]      = List.empty
 
   implicit lazy val articleSearchService: ArticleSearchService     = mock[ArticleSearchService]

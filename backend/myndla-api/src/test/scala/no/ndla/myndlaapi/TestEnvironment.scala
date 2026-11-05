@@ -40,7 +40,7 @@ trait TestEnvironment extends TapirApplication[MyNdlaApiProperties] with Mockito
   implicit lazy val dbRobotDefinition: DBRobotDefinition           = new DBRobotDefinition
   implicit lazy val dbQuiz: DBQuiz                                 = new DBQuiz
   implicit lazy val dbSavedQuiz: DBSavedQuiz                       = new DBSavedQuiz
-  implicit lazy val routes: Routes                                 = mock[Routes]
+  implicit lazy val ndlaServer: NdlaServer                         = mock[NdlaServer]
   implicit lazy val errorHandling: ControllerErrorHandling         = mock[ControllerErrorHandling]
   implicit lazy val errorHelpers: ErrorHelpers                     = mock[ErrorHelpers]
   implicit lazy val clock: Clock                                   = mock[Clock]

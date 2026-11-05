@@ -14,7 +14,7 @@ import no.ndla.conceptapi.model.domain.{SearchResult, Sort}
 import no.ndla.conceptapi.model.search.SearchSettings
 import no.ndla.conceptapi.service.ConverterService
 import no.ndla.conceptapi.{TestData, TestEnvironment, UnitSuite}
-import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
+import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, NdlaServer, TapirController}
 import no.ndla.tapirtesting.TapirControllerTest
 import org.mockito.ArgumentMatchers.{any, eq as eqTo}
 import org.mockito.Mockito.{reset, times, verify, when}
@@ -30,7 +30,7 @@ class PublishedConceptControllerTest extends UnitSuite with TestEnvironment with
   override implicit lazy val conceptControllerHelpers: ConceptControllerHelpers = new ConceptControllerHelpers
   val controller: PublishedConceptController                                    = new PublishedConceptController
   override implicit lazy val services: List[TapirController]                    = List(controller)
-  override implicit lazy val routes: Routes                                     = new Routes
+  override implicit lazy val ndlaServer: NdlaServer                             = new NdlaServer
 
   override def beforeEach(): Unit = {
     reset(clock)

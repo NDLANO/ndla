@@ -6,7 +6,7 @@
  *
  */
 
-package no.ndla.network.tapir
+package no.ndla.network.tapir.interceptors
 
 import io.netty.handler.codec.DecoderResult
 import io.netty.handler.codec.http.*

@@ -6,7 +6,7 @@
  *
  */
 
-package no.ndla.network.tapir
+package no.ndla.network.tapir.interceptors
 
 import io.opentelemetry.api.GlobalOpenTelemetry
 import io.opentelemetry.api.common.AttributeKey
@@ -20,6 +20,7 @@ import io.opentelemetry.sdk.trace.data.SpanData
 import io.opentelemetry.sdk.trace.`export`.SimpleSpanProcessor
 import no.ndla.common.auth.Permission
 import no.ndla.common.configuration.{BaseProps, Constants}
+import no.ndla.network.tapir.{AllErrors, ErrorHandling, TapirController}
 import no.ndla.scalatestsuite.UnitTestSuite
 import no.ndla.tapirtesting.TapirControllerTest
 import org.scalatest.LoneElement
@@ -29,10 +30,10 @@ import sttp.tapir.server.ServerEndpoint
 
 import scala.jdk.CollectionConverters.*
 
-class NdlaTracingTest extends UnitTestSuite, TapirControllerTest, LoneElement {
+class TracingInterceptorTest extends UnitTestSuite, TapirControllerTest, LoneElement {
   override implicit lazy val props: BaseProps = new BaseProps {
     override def ApplicationPort: Int             = findFreePort
-    override def ApplicationName: String          = "NdlaTracingTest"
+    override def ApplicationName: String          = "TracingInterceptorTest"
     override val ndlaAuth0Scopes: Seq[Permission] = Seq.empty
   }
   override implicit lazy val errorHandling: ErrorHandling = new ErrorHandling() {

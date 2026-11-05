@@ -16,7 +16,7 @@ import no.ndla.common.model.NDLADate
 import no.ndla.common.model.domain.article.Copyright
 import no.ndla.common.model.domain.{Author, ContributorType, Tag, Title}
 import no.ndla.mapping.License
-import no.ndla.network.tapir.{ErrorHelpers, Routes, TapirController}
+import no.ndla.network.tapir.{ErrorHelpers, NdlaServer, TapirController}
 import no.ndla.tapirtesting.TapirControllerTest
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito
@@ -31,7 +31,7 @@ class HealthControllerTest extends UnitSuite with TestEnvironment with TapirCont
   override implicit lazy val errorHandling: ControllerErrorHandling = new ControllerErrorHandling
   val controller: HealthController                                  = new HealthController
   override implicit lazy val services: List[TapirController]        = List(controller)
-  override implicit lazy val routes: Routes                         = new Routes
+  override implicit lazy val ndlaServer: NdlaServer                 = new NdlaServer
   controller.setRunning()
 
   override def beforeEach(): Unit = {

@@ -6,10 +6,10 @@
  *
  */
 
-package no.ndla.network.tapir
+package no.ndla.network.tapir.interceptors
 
 import io.netty.buffer.ByteBuf
-import no.ndla.network.tapir.RequestBodyCapture.{DefaultInitialSize, MaxSize}
+import no.ndla.network.tapir.interceptors.RequestBodyCapture.{DefaultInitialSize, MaxSize}
 
 import java.io.ByteArrayOutputStream
 import java.nio.charset.StandardCharsets

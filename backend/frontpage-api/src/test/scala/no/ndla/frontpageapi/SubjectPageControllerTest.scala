@@ -13,7 +13,7 @@ import no.ndla.common.Clock
 import no.ndla.common.model.NDLADate
 import no.ndla.frontpageapi.controller.{ControllerErrorHandling, SubjectPageController}
 import no.ndla.frontpageapi.service.{ReadService, WriteService}
-import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
+import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, NdlaServer, TapirController}
 import no.ndla.tapirtesting.TapirControllerTest
 import org.mockito.Mockito.when
 import sttp.client4.quick.*
@@ -22,7 +22,7 @@ class SubjectPageControllerTest extends UnitSuite with TestEnvironment with Tapi
   override implicit lazy val clock: Clock                 = mock[Clock]
   override implicit lazy val errorHelpers: ErrorHelpers   = new ErrorHelpers
   override implicit lazy val errorHandling: ErrorHandling = new ControllerErrorHandling
-  override lazy val routes                                = new Routes
+  override lazy val ndlaServer                            = new NdlaServer
   override val controller: TapirController                = {
     given ReadService            = readService
     given WriteService           = writeService

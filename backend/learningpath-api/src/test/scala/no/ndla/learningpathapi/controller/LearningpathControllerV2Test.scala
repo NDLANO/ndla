@@ -20,7 +20,7 @@ import no.ndla.learningpathapi.{TestData, TestEnvironment, UnitSuite}
 import no.ndla.mapping.License
 import no.ndla.mapping.License.getLicenses
 import no.ndla.network.model.CombinedUser
-import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
+import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, NdlaServer, TapirController}
 import no.ndla.tapirtesting.TapirControllerTest
 import org.mockito.ArgumentMatchers.{eq as eqTo, *}
 import org.mockito.Mockito.{reset, times, verify, when}
@@ -32,7 +32,7 @@ class LearningpathControllerV2Test extends UnitSuite with TestEnvironment with T
   override implicit lazy val clock: Clock                    = mock[Clock]
   override implicit lazy val errorHelpers: ErrorHelpers      = new ErrorHelpers
   override implicit lazy val errorHandling: ErrorHandling    = new ControllerErrorHandling
-  override implicit lazy val routes: Routes                  = new Routes
+  override implicit lazy val ndlaServer: NdlaServer          = new NdlaServer
   val controller: LearningpathControllerV2                   = new LearningpathControllerV2
   override implicit lazy val services: List[TapirController] = List(controller)
 

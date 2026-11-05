@@ -12,7 +12,7 @@ import no.ndla.common.{CirceUtil, Clock}
 import no.ndla.common.model.domain
 import no.ndla.draftapi.model.api.UploadedFileDTO
 import no.ndla.draftapi.{TestData, TestEnvironment, UnitSuite}
-import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
+import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, NdlaServer, TapirController}
 import no.ndla.tapirtesting.TapirControllerTest
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.{reset, times, verify, when}
@@ -26,7 +26,7 @@ class FileControllerTest extends UnitSuite with TestEnvironment with TapirContro
   override implicit lazy val errorHelpers: ErrorHelpers      = new ErrorHelpers
   override implicit lazy val errorHandling: ErrorHandling    = new ControllerErrorHandling
   override implicit lazy val services: List[TapirController] = List(controller)
-  override implicit lazy val routes: Routes                  = new Routes
+  override implicit lazy val ndlaServer: NdlaServer          = new NdlaServer
 
   override def beforeEach(): Unit = {
     reset(clock)

@@ -18,7 +18,7 @@ import no.ndla.imageapi.model.domain.{ImageContentType, ImageFileData, ImageMeta
 import no.ndla.imageapi.service.ConverterService
 import no.ndla.imageapi.{TestEnvironment, UnitSuite}
 import no.ndla.mapping.License.{CC_BY, getLicense}
-import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, Routes, TapirController}
+import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, NdlaServer, TapirController}
 import no.ndla.tapirtesting.TapirControllerTest
 import sttp.client4.quick.*
 
@@ -34,7 +34,7 @@ class InternControllerTest extends UnitSuite with TestEnvironment with TapirCont
   override implicit lazy val converterService: ConverterService = new ConverterService
   val controller: InternController                              = new InternController
   override implicit lazy val services: List[TapirController]    = List(controller)
-  override implicit lazy val routes: Routes                     = new Routes
+  override implicit lazy val ndlaServer: NdlaServer             = new NdlaServer
 
   val updated: NDLADate       = NDLADate.of(2017, 4, 1, 12, 15, 32)
   val BySa: LicenseDefinition = getLicense(CC_BY.toString).get
