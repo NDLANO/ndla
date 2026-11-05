@@ -129,13 +129,16 @@ const PlainQuizPageContent = () => {
       <FavoritesHeart position="top" desktopOnly />
       <PageContainer
         variant="content"
+        padding="none"
         asChild
         consumeCss
         css={{
           position: "relative",
           zIndex: "[1]",
-          tablet: { paddingInline: "small" },
-          desktop: { padding: "[32px]", paddingBlockStart: "5xlarge" },
+          paddingBlockStart: "medium",
+          paddingBlockEnd: "4xlarge",
+          tablet: { paddingInline: "small", paddingBlockEnd: "3xlarge" },
+          desktop: { padding: "[32px]", paddingBlock: "5xlarge" },
         }}
       >
         <main>
