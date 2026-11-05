@@ -226,6 +226,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: "Nasjonalt senter for flerkulturell opplæring", url: ["nafoki.no"] },
   { name: "Viten-TV", url: ["www.vitentv.no", "api.frp2.ovp.kaltura.com"] },
   { name: "Google Maps", url: ["www.google.com"] },
+  { name: "Lovable", url: ["ki-kviss.lovable.app"] },
 ];
 
 export const Revision = {
