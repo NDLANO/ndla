@@ -8,7 +8,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/NDLANO/ndla.git",
-    "directory": "frontend/packages/packages/shared"
+    "directory": "frontend/shared"
   },
   "type": "module",
   "sideEffects": [
@@ -38,6 +38,13 @@
       "ndla-source": "./src/server/index.ts"
     }
   },
+  "scripts": {
+    "lint:oxlint": "oxlint --deny-warnings -c ../oxlint.config.ts .",
+    "type-check": "tsc --noEmit",
+    "watch:types": "tsc --noEmit -w --preserveWatchOutput",
+    "test": "vitest --run",
+    "tdd": "vitest"
+  },
   "dependencies": {
     "@ndla/types-backend": "workspace:*",
     "@opentelemetry/api": "catalog:",
@@ -58,9 +65,21 @@
   },
   "devDependencies": {
     "@types/express": "catalog:",
+    "@types/node": "catalog:",
+    "jsdom": "catalog:",
+    "oxlint": "catalog:",
+    "oxlint-tsgolint": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
     "vite-node": "catalog:",
     "vitest": "catalog:"
+  },
+  "engines": {
+    "node": ">=26.13.0"
+  },
+  "nx": {
+    "targets": {
+      "lint": {}
+    }
   }
 }
