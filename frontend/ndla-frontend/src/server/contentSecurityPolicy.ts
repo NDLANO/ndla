@@ -206,6 +206,7 @@ const frameSrc = (() => {
     "*.kaltura.com",
     "www.google.com",
     "*.hcaptcha.com",
+    "ki-kviss.lovable.app",
     "video.reddbarna.no",
   ];
   if (import.meta.env.MODE === "development") {
