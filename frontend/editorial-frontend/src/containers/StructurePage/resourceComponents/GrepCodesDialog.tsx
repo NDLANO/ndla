@@ -45,8 +45,9 @@ interface Props {
 
 const GrepCodesDialog = ({ codes, contentUri, revision, currentNodeId }: Props) => {
   const [open, setOpen] = useState(false);
+  const { taxonomyVersion, isReadOnly } = useTaxonomyVersion();
   const uriInfo = getContentUriInfo(contentUri);
-  if (!uriInfo || !revision) return null;
+  if (!uriInfo || !revision || isReadOnly) return null;
 
   return (
     <DialogRoot size="large" position="top" open={open} onOpenChange={(details) => setOpen(details.open)}>
@@ -56,6 +57,7 @@ const GrepCodesDialog = ({ codes, contentUri, revision, currentNodeId }: Props) 
       <Portal>
         <DialogContent>
           <GrepCodeDialogContent
+            taxonomyVersion={taxonomyVersion}
             codes={codes}
             revision={revision}
             resourceId={uriInfo.id}
@@ -70,6 +72,7 @@ const GrepCodesDialog = ({ codes, contentUri, revision, currentNodeId }: Props) 
 };
 
 interface DialogContentProps {
+  taxonomyVersion: string;
   codes: string[];
   resourceId: number;
   revision: number;
@@ -79,6 +82,7 @@ interface DialogContentProps {
 }
 
 const GrepCodeDialogContent = ({
+  taxonomyVersion,
   codes,
   resourceId,
   revision,
@@ -90,7 +94,6 @@ const GrepCodeDialogContent = ({
   const updateLearningpath = useMutation(patchLearningpathMutationOptions());
   const { t, i18n } = useTranslation();
   const qc = useQueryClient();
-  const { taxonomyVersion } = useTaxonomyVersion();
   const { currentNode } = useCurrentNode();
 
   const rootNodeQuery = useNode(

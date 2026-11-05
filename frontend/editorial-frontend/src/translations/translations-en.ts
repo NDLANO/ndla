@@ -1825,6 +1825,7 @@ const translations = {
     subjectSettings: "Subject settings",
     topicSettings: "Topic settings",
     currentVersion: "Current version",
+    readOnlyVersion: "You are viewing a read-only version of the taxonomy. Switch to Draft to make changes.",
     delete: {
       deleteNode: "Delete {{ nodeType }}",
       deleteResource: "Delete resource",

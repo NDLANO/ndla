@@ -18,6 +18,7 @@ interface Props {
   blacklistedResourceTypes: string[];
   onResourceTypeChanged: (resourceTypes: ResourceType[]) => void;
   value: ResourceType[];
+  disabled?: boolean;
 }
 
 interface ResourceTypeWithParent extends ResourceType {
@@ -32,6 +33,7 @@ export const TaxonomyResourceTypeSelect = ({
   resourceTypes,
   onResourceTypeChanged,
   value,
+  disabled,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -60,6 +62,7 @@ export const TaxonomyResourceTypeSelect = ({
   return (
     <SelectRoot
       multiple
+      disabled={disabled}
       collection={collection}
       positioning={{ sameWidth: true }}
       value={value.filter((rt) => collection.has(rt.id)).map((rt) => rt.id)}

@@ -15,6 +15,7 @@ import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { REMEMBER_MATOMO, TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../constants";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
+import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
 import { useLocalStorageBooleanState } from "../../containers/WelcomePage/hooks/storedFilterHooks";
 import { userDataQueryOptions } from "../../modules/draft/draftQueries";
 import { matomoStatusQueryOptions } from "../../modules/matomo/matomoQueries";
@@ -78,6 +79,7 @@ export const TaxonomyConnections = ({
   node,
 }: Props) => {
   const { t, i18n } = useTranslation();
+  const { isReadOnly } = useTaxonomyVersion();
   const userDataQuery = useQuery(userDataQueryOptions());
   const { createMessage } = useMessages();
   const qc = useQueryClient();
@@ -269,6 +271,7 @@ export const TaxonomyConnections = ({
             type={type}
             updateConnection={updateNodeConnection}
             subject={subjectsQuery.data?.find((subject) => subject.id === node.context?.rootId)}
+            readOnly={isReadOnly}
             matomoStats={
               showMatomoStats
                 ? {
@@ -289,14 +292,16 @@ export const TaxonomyConnections = ({
       {!!(postNodeMutation.isError || postNodeConnectionMutation.isError) && (
         <Text>{t("taxonomy.errors.failedToCreateConnection")}</Text>
       )}
-      <AddConnectionDialog
-        type={type}
-        structure={filtered}
-        selectedNodes={placements}
-        favoriteSubjects={userDataQuery.data?.favoriteSubjects}
-        addConnection={addConnection}
-        getSubjectTopics={getSubjectTopics}
-      />
+      {!isReadOnly && (
+        <AddConnectionDialog
+          type={type}
+          structure={filtered}
+          selectedNodes={placements}
+          favoriteSubjects={userDataQuery.data?.favoriteSubjects}
+          addConnection={addConnection}
+          getSubjectTopics={getSubjectTopics}
+        />
+      )}
     </Wrapper>
   );
 };

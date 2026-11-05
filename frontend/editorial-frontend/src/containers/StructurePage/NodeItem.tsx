@@ -23,6 +23,7 @@ import { useBasePathname } from "../../util/localePath";
 import { removeLastItemFromUrl } from "../../util/routeHelpers";
 import { nodePathToUrnPath } from "../../util/taxonomyHelpers";
 import { useSession } from "../Session/SessionProvider";
+import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 import { useCurrentNode } from "./CurrentNodeProvider";
 import NodeControls from "./folderComponents/NodeControls";
 import StructureErrorIcon from "./folderComponents/StructureErrorIcon";
@@ -121,6 +122,7 @@ const NodeItem = ({
   const { setCurrentNode } = useCurrentNode();
   const { userPermissions } = useSession();
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) || false;
+  const { isReadOnly } = useTaxonomyVersion();
   const path = nodePathToUrnPath(item.path ?? undefined) ?? "";
   const isOpen = openedPaths.includes(path);
   const isActive = openedPaths[openedPaths.length - 1] === path;
@@ -213,7 +215,7 @@ const NodeItem = ({
           <StyledUl>
             <DndList
               items={nodes}
-              disabled={!isActive || nodes.length < 2}
+              disabled={isReadOnly || !isActive || nodes.length < 2}
               onDragEnd={(move) => onDragEnd(move, nodes)}
               renderItem={(t) => (
                 <NodeItem

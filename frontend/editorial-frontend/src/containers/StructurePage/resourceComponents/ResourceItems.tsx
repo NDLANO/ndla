@@ -97,7 +97,7 @@ const ResourceItems = ({
 }: Props) => {
   const { setCurrentNode } = useCurrentNode();
   const { t, i18n } = useTranslation();
-  const { taxonomyVersion } = useTaxonomyVersion();
+  const { taxonomyVersion, isReadOnly } = useTaxonomyVersion();
 
   const qc = useQueryClient();
   const compKey = nodeQueryKeys.childNodes({
@@ -172,7 +172,7 @@ const ResourceItems = ({
           <h2>{title}</h2>
         </Heading>
         <ActionsWrapper>
-          {type === "core" && (
+          {type === "core" && !isReadOnly && (
             <GroupTopicResources
               node={currentNode}
               onChanged={(partialMeta) => {
@@ -183,7 +183,7 @@ const ResourceItems = ({
               }}
             />
           )}
-          {!hideAddButton && (
+          {!hideAddButton && !isReadOnly && (
             <DialogRoot>
               <DialogTrigger asChild>
                 <Button size="small">
@@ -211,7 +211,7 @@ const ResourceItems = ({
         <StyledResourceItems>
           <DndList
             items={resources}
-            disabled={resources.length < 2}
+            disabled={isReadOnly || resources.length < 2}
             onDragEnd={onDragEnd}
             dragHandle={
               <DragHandle aria-label={t("dragAndDrop.handle")}>

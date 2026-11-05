@@ -6,7 +6,7 @@
  *
  */
 
-import { Button, SelectLabel, Text } from "@ndla/primitives";
+import { Button, MessageBox, SelectLabel, Text } from "@ndla/primitives";
 import type { Node, Version } from "@ndla/types-backend/taxonomy-api";
 import { useQueryClient } from "@tanstack/react-query";
 import { type ReactNode, useCallback } from "react";
@@ -56,7 +56,7 @@ export const TaxonomyBlock = ({
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { userPermissions } = useSession();
-  const { taxonomyVersion, changeVersion } = useTaxonomyVersion();
+  const { taxonomyVersion, changeVersion, isReadOnly } = useTaxonomyVersion();
   const qc = useQueryClient();
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
@@ -93,24 +93,17 @@ export const TaxonomyBlock = ({
   return (
     <FormContent>
       {!hasTaxEntries && <Text color="text.error">{t("errorMessage.missingTax")}</Text>}
-      {!!isTaxonomyAdmin && (
-        <>
-          <TaxonomyConnectionErrors type={nodeType} nodes={nodes} />
-          <OptGroupVersionSelector
-            currentVersion={taxonomyVersion}
-            onVersionChanged={onVersionChanged}
-            versions={versions}
-          >
-            <SelectLabel>{t("taxonomy.version")}</SelectLabel>
-          </OptGroupVersionSelector>
-        </>
-      )}
+      {!!isTaxonomyAdmin && <TaxonomyConnectionErrors type={nodeType} nodes={nodes} />}
+      <OptGroupVersionSelector currentVersion={taxonomyVersion} onVersionChanged={onVersionChanged} versions={versions}>
+        <SelectLabel>{t("taxonomy.version")}</SelectLabel>
+      </OptGroupVersionSelector>
+      {!!isReadOnly && <MessageBox variant="warning">{t("taxonomy.readOnlyVersion")}</MessageBox>}
       {nodes[0]?.id.length || nodeType === "topic" ? (
         children
       ) : (
         <>
           <Text>{t("errorMessage.noTaxNode")}</Text>
-          <Button onClick={createNodeConnection}>{t("errorMessage.createNode")}</Button>
+          {!isReadOnly && <Button onClick={createNodeConnection}>{t("errorMessage.createNode")}</Button>}
         </>
       )}
     </FormContent>

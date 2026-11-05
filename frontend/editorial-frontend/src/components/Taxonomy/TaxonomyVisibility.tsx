@@ -11,6 +11,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { Node } from "@ndla/types-backend/taxonomy-api";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
+import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
 import { useUpdateNodeMetadataMutation } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
 
@@ -49,6 +50,7 @@ interface Props {
 
 export const TaxonomyVisibility = ({ node, taxonomyVersion, resourceId, resourceType, resourceLanguage }: Props) => {
   const { t } = useTranslation();
+  const { isReadOnly } = useTaxonomyVersion();
   const updateNodeMetadataMutation = useUpdateNodeMetadataMutation();
   const qc = useQueryClient();
 
@@ -71,6 +73,7 @@ export const TaxonomyVisibility = ({ node, taxonomyVersion, resourceId, resource
       </StyledText>
       <StyledSwitchRoot
         checked={node.metadata.visible}
+        disabled={isReadOnly}
         onCheckedChange={(details) => updateVisibility(details.checked)}
       >
         <SwitchLabel>{t("metadata.changeVisibility")}</SwitchLabel>

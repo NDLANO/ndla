@@ -1822,6 +1822,7 @@ const translations = {
     subjectSettings: "Faginnstillinger",
     topicSettings: "Emneinnstillinger",
     currentVersion: "Nåværende versjon",
+    readOnlyVersion: "Du ser på en skrivebeskyttet versjon av taksonomien. Bytt til Draft for å gjøre endringer.",
     delete: {
       deleteNode: "Slett {{ nodeType }}",
       deleteResource: "Slett ressurs",

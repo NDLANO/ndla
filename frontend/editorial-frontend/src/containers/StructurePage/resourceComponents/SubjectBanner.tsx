@@ -75,7 +75,7 @@ interface Props {
 
 const SubjectBanner = ({ subjectNode, users }: Props) => {
   const { t } = useTranslation();
-  const { taxonomyVersion } = useTaxonomyVersion();
+  const { taxonomyVersion, isReadOnly } = useTaxonomyVersion();
   const { showQuality } = usePreferences();
 
   const subjectResponsibles = useMemo(
@@ -110,7 +110,7 @@ const SubjectBanner = ({ subjectNode, users }: Props) => {
             {!!showQuality && (
               <>
                 <AverageQualityEvaluation gradeAverage={subjectNode.gradeAverage ?? undefined} nodeType="SUBJECT" />
-                <QualityEvaluation articleType="subject" taxonomy={[subjectNode]} />
+                <QualityEvaluation articleType="subject" taxonomy={[subjectNode]} readOnly={isReadOnly} />
               </>
             )}
           </ContentWrapper>
