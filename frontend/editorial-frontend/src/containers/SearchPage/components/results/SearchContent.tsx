@@ -184,6 +184,15 @@ const resourceToLink = (content: MultiSearchSummaryDTO, locale: string) => {
   } else return toEditArticle(content.id, content.learningResourceType ?? "standard", languageOrDefault);
 };
 
+const publishedVersionLink = (content: MultiSearchSummaryDTO) => {
+  const path = conceptTypes.includes(content.learningResourceType)
+    ? "concept"
+    : content.resultType === "learningpath"
+      ? "learningpaths"
+      : "article";
+  return `${config.ndlaFrontendDomain}/${path}/${content.id}`;
+};
+
 const SubjectBreadcrumb = ({ breadcrumbs }: { breadcrumbs: string[] }) => {
   if (!breadcrumbs.length) return null;
   return (
@@ -309,12 +318,7 @@ const SearchContent = ({ content, responsibleName }: Props) => {
               </StyledSafeLinkButton>
             )}
             {!!isPublished && (
-              <StyledSafeLinkButton
-                variant="link"
-                size="small"
-                target="_blank"
-                to={`${config.ndlaFrontendDomain}/${conceptTypes.includes(content.learningResourceType) ? "concept" : "article"}/${content.id}`}
-              >
+              <StyledSafeLinkButton variant="link" size="small" target="_blank" to={publishedVersionLink(content)}>
                 {t("searchPage.resultMeta.publishedVersion")}
                 <ArrowRightLine />
               </StyledSafeLinkButton>
