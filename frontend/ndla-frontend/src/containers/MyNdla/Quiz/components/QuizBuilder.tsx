@@ -25,7 +25,7 @@ import {
 } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MyNdlaBreadcrumb } from "../../../../components/MyNdla/MyNdlaBreadcrumb";
 import { MyNdlaTitle } from "../../../../components/MyNdla/MyNdlaTitle";
@@ -57,7 +57,7 @@ interface Props {
   pageTitle: string;
   breadcrumbName: string;
   state: QuizBuilderState;
-  onChange: (state: QuizBuilderState) => void;
+  onChange: (updater: (prev: QuizBuilderState) => QuizBuilderState) => void;
   onSave: () => Promise<boolean>;
   onShare: () => Promise<GQLQuizFragment | undefined>;
   onUnshare: () => Promise<boolean>;
@@ -160,10 +160,15 @@ export const QuizBuilder = ({
     });
   };
 
-  const onFormChange = (newState: QuizBuilderState) => {
-    setDirty(true);
-    onChange(newState);
-  };
+  const onFormChange = useCallback(
+    (updater: (prev: QuizBuilderState) => QuizBuilderState) => {
+      setDirty(true);
+      onChange(updater);
+    },
+    [onChange],
+  );
+
+  const onSettingsChange = (newState: QuizBuilderState) => onFormChange(() => newState);
 
   const onSaveClick = async () => {
     if (!state.title.trim() || (isShared && hasMissingCorrectAnswer)) {
@@ -202,37 +207,46 @@ export const QuizBuilder = ({
     }
   };
 
-  const onQuestionChange = (id: string, question: QuestionFormValues) => {
-    onFormChange({
-      ...state,
-      questions: state.questions.map((q) => (q.id === id ? question : q)),
-    });
-  };
+  const onQuestionChange = useCallback(
+    (id: string, updater: (question: QuestionFormValues) => QuestionFormValues) => {
+      onFormChange((prev) => ({
+        ...prev,
+        questions: prev.questions.map((q) => (q.id === id ? updater(q) : q)),
+      }));
+    },
+    [onFormChange],
+  );
 
   const onAddQuestion = () => {
     const question = emptyQuestion();
     setFocusQuestionId(question.id);
-    onFormChange({
-      ...state,
-      questions: [...state.questions, question],
-    });
+    onFormChange((prev) => ({
+      ...prev,
+      questions: [...prev.questions, question],
+    }));
   };
 
-  const onDeleteQuestion = (id: string) => {
-    onFormChange({
-      ...state,
-      questions: state.questions.filter((q) => q.id !== id),
-    });
-  };
+  const onDeleteQuestion = useCallback(
+    (id: string) => {
+      onFormChange((prev) => ({
+        ...prev,
+        questions: prev.questions.filter((q) => q.id !== id),
+      }));
+    },
+    [onFormChange],
+  );
 
-  const onMoveQuestion = (index: number, direction: -1 | 1) => {
-    const newIndex = index + direction;
-    if (newIndex < 0 || newIndex >= state.questions.length) return;
-    onFormChange({
-      ...state,
-      questions: arrayMove(state.questions, index, newIndex),
-    });
-  };
+  const onMoveQuestion = useCallback(
+    (id: string, direction: -1 | 1) => {
+      onFormChange((prev) => {
+        const index = prev.questions.findIndex((q) => q.id === id);
+        const newIndex = index + direction;
+        if (index === -1 || newIndex < 0 || newIndex >= prev.questions.length) return prev;
+        return { ...prev, questions: arrayMove(prev.questions, index, newIndex) };
+      });
+    },
+    [onFormChange],
+  );
 
   return (
     <MyNdlaPageWrapper css={{ gap: "xlarge" }}>
@@ -259,7 +273,13 @@ export const QuizBuilder = ({
       <MyNdlaPageContent quiz={true}>
         <FieldRoot invalid={!!titleError}>
           <FieldLabel>{t("myNdla.quiz.form.title")}</FieldLabel>
-          <FieldInput value={state.title} onChange={(e) => onFormChange({ ...state, title: e.currentTarget.value })} />
+          <FieldInput
+            value={state.title}
+            onChange={(e) => {
+              const title = e.currentTarget.value;
+              onFormChange((prev) => ({ ...prev, title }));
+            }}
+          />
           <FieldErrorMessage>{titleError}</FieldErrorMessage>
         </FieldRoot>
         <TabsRoot
@@ -291,10 +311,11 @@ export const QuizBuilder = ({
                       question={question}
                       focusOnMount={question.id === focusQuestionId}
                       index={index}
-                      onChange={(q) => onQuestionChange(question.id, q)}
-                      onMoveUp={index > 0 ? () => onMoveQuestion(index, -1) : undefined}
-                      onMoveDown={index < state.questions.length - 1 ? () => onMoveQuestion(index, 1) : undefined}
-                      onDelete={() => onDeleteQuestion(question.id)}
+                      onChange={onQuestionChange}
+                      onMove={onMoveQuestion}
+                      canMoveUp={index > 0}
+                      canMoveDown={index < state.questions.length - 1}
+                      onDelete={onDeleteQuestion}
                       error={
                         attemptedSave && question.title.trim() && !hasCorrectAnswer(question)
                           ? t("myNdla.quiz.form.noCorrectAnswer")
@@ -311,7 +332,7 @@ export const QuizBuilder = ({
             </MyNdlaPageContent>
           </TabsContent>
           <TabsContent value="settings">
-            <QuizSettingsTab state={state} onChange={onFormChange} />
+            <QuizSettingsTab state={state} onChange={onSettingsChange} />
           </TabsContent>
         </TabsRoot>
       </MyNdlaPageContent>
