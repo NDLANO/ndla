@@ -7,8 +7,8 @@
 
 package no.ndla.taxonomy.integration
 
-import no.ndla.taxonomy.config.RequestLoggerInterceptor.Companion.CORRELATION_ID_HEADER
-import no.ndla.taxonomy.config.RequestLoggerInterceptor.Companion.CORRELATION_ID_KEY
+import no.ndla.taxonomy.config.RequestMdcListener.Companion.CORRELATION_ID_HEADER
+import no.ndla.taxonomy.config.RequestMdcListener.Companion.CORRELATION_ID_KEY
 import org.slf4j.MDC
 import org.springframework.http.client.ClientHttpRequest
 import org.springframework.http.client.ClientHttpRequestInitializer
