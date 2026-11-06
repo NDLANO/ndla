@@ -8,7 +8,7 @@ description = "Start a frontend app or backend service in dev mode"
 run = 'eval "set -- ${usage_args:-}"; node "{{config_root}}/frontend/tools/src/tasks/index.mts" dev "$@"'
 usage = '''
 arg "<project>" help="Frontend app or backend service"
-arg "[args]" var=#true help="Extra arguments for nx or mill"
+arg "[args]" var=#true help="More frontend apps to run alongside, --port=N to pin the first app's port, or extra arguments for nx or mill"
 complete "project" run="mise run projects dev"
 '''
 

@@ -63,7 +63,8 @@ export const h5pHostUrl = () => {
 
 export const cacheTime = getEnvironmentVariabel("CACHE_TIME", "60");
 export const defaultLanguage = getEnvironmentVariabel("DEFAULT_LANGUAGE", "nb");
-export const port = getEnvironmentVariabel("PORT", "4000");
+/** not GRAPHQL_API_PORT: Kubernetes sets that to `tcp://<service ip>:80` in every pod next to the graphql-api service */
+export const port = getEnvironmentVariabel("LOCAL_GRAPHQL_API_PORT", getEnvironmentVariabel("PORT", "4000"));
 export const apiUrl = getEnvironmentVariabel("API_URL", ndlaApiUrl());
 export const ndlaUrl = getEnvironmentVariabel("NDLA_URL", ndlaFrontendUrl());
 export const uptimeOwner = getEnvironmentVariabel("UPTIME_OWNER", "NDLANO");

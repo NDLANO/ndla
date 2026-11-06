@@ -138,6 +138,7 @@ export type ConfigType = {
   isNdlaProdEnvironment: boolean;
   ndlaEnvironment: string;
   localGraphqlApi: boolean;
+  graphqlApiPort: string;
   brightcoveApiUrl: string;
   brightcoveUrl: string;
   h5pApiUrl: string | undefined;
@@ -196,6 +197,7 @@ const getServerSideConfig = (): ConfigType => {
     brightcoveUrl: "https://studio.brightcove.com/products/videocloud/home",
     h5pApiUrl: getEnvironmentVariabel("H5P_API_URL", h5pApiUrl(ndlaEnvironment)),
     localGraphqlApi: getEnvironmentVariabel("LOCAL_GRAPHQL_API", "false") === "true",
+    graphqlApiPort: getEnvironmentVariabel("LOCAL_GRAPHQL_API_PORT", "4000"),
     disableCSP: getEnvironmentVariabel("DISABLE_CSP", "false"),
     usernamePasswordEnabled: getEnvironmentVariabel(
       "USERNAME_PASSWORD_ENABLED",
