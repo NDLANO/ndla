@@ -108,12 +108,13 @@ const StyledQuestionCard = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "large",
+    gap: "medium",
     width: "full",
     desktop: {
       padding: "medium",
       backgroundColor: "background.default",
       boxShadow: "xsmall",
+      gap: "large",
     },
   },
 });

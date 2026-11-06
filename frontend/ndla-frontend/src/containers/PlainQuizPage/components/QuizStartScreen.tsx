@@ -37,9 +37,9 @@ const Content = styled("div", {
     alignItems: "center",
     gap: "large",
     width: "full",
-    padding: "medium",
     desktop: {
       marginBlockEnd: "xxlarge",
+      padding: "medium",
     },
   },
 });
