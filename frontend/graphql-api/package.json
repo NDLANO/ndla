@@ -38,7 +38,7 @@
     "he": "catalog:",
     "lodash": "^4.18.1",
     "lru-cache": "catalog:",
-    "marked": "^18.1.2",
+    "marked": "^18.1.3",
     "open-graph-scraper": "catalog:",
     "openapi-fetch": "catalog:",
     "oxfmt": "catalog:",
