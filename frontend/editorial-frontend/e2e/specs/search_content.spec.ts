@@ -72,10 +72,12 @@ test("Can use language dropdown", async ({ page }) => {
 });
 
 test("Can use subject dropdown", async ({ page }) => {
-  await page.getByTestId("subjects-filter").getByRole("button", { name: "Fag", exact: true }).click();
-  await page.getByTestId("subjects-select").click();
+  const filter = page.getByTestId("subjects-filter");
+  await filter.getByRole("button", { name: "Fag", exact: true }).click();
+  await filter.getByRole("combobox").fill("Biologi");
   await page.getByRole("option", { name: "Biologi 1", exact: true }).click();
   await page.waitForURL("**/*subjects=urn%3Asubject%3A1%3A83ce68bc-19c9-4f2b-8dba-caf401428f21*");
+  await expect(filter.getByRole("checkbox", { name: "Biologi 1", exact: true })).toBeChecked();
   const tagButton = page.getByRole("button", { name: "Fag: Biologi 1" });
   await expect(tagButton).toBeVisible();
   await expect(page.getByTestId("content-search-result").first()).toBeVisible();
@@ -88,11 +90,13 @@ test("Can use subject dropdown", async ({ page }) => {
 });
 
 test("Can use responsible dropdown", async ({ page }) => {
-  await page.getByTestId("responsible-ids-filter").getByRole("button", { name: "Ansvarlig", exact: true }).click();
-  await page.getByTestId("responsible-ids-select").click();
+  const filter = page.getByTestId("responsible-ids-filter");
+  await filter.getByRole("button", { name: "Ansvarlig", exact: true }).click();
+  await filter.getByRole("combobox").fill("Ed");
   await expect(page.getByRole("option", { name: "Ed Test", exact: true })).toBeVisible();
   await page.getByRole("option", { name: "Ed Test", exact: true }).click();
   await page.waitForURL("**/*responsible-ids=Gxfx7B-MXoFdgVZZ6p611C6w*");
+  await expect(filter.getByRole("checkbox", { name: "Ed Test", exact: true })).toBeChecked();
   const tagButton = page.getByRole("button", { name: "Ansvarlig: Ed Test" });
   await expect(tagButton).toBeVisible();
   await expect(page.getByTestId("content-search-result").first()).toBeVisible();

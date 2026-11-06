@@ -429,6 +429,11 @@ const translations = {
       "content-type": "Filtype",
       "audio-type": "Lydfiltype",
     },
+    filterSearch: {
+      subjects: "Søk etter fag",
+      "responsible-ids": "Søk etter ansvarleg",
+      users: "Søk etter brukar",
+    },
     articleType: {
       all: "Alle",
       standard: "Standard",

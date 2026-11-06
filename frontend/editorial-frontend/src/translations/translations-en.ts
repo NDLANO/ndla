@@ -430,6 +430,11 @@ const translations = {
       "content-type": "File type",
       "audio-type": "Audio file type",
     },
+    filterSearch: {
+      subjects: "Search subjects",
+      "responsible-ids": "Search responsible",
+      users: "Search editors",
+    },
     articleType: {
       all: "All",
       standard: "Standard",
