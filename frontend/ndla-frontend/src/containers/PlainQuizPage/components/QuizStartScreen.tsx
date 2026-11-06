@@ -25,7 +25,6 @@ const Wrapper = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "medium",
     width: "full",
     maxWidth: "surface.pageMax",
   },
@@ -38,7 +37,11 @@ const Content = styled("div", {
     alignItems: "center",
     gap: "large",
     width: "full",
+    tablet: {
+      padding: "medium",
+    },
     desktop: {
+      padding: "medium",
       marginBlockEnd: "xxlarge",
     },
   },
