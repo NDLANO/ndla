@@ -135,7 +135,6 @@ const PlainQuizPageContent = () => {
         css={{
           position: "relative",
           zIndex: "[1]",
-          paddingBlockStart: "medium",
           paddingBlockEnd: "4xlarge",
           tablet: { paddingInline: "small", paddingBlockEnd: "3xlarge" },
           desktop: { padding: "[32px]", paddingBlock: "5xlarge" },
