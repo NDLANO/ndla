@@ -221,19 +221,13 @@ const SearchImageForm = ({ userData, children, summary }: Props) => {
       activeFilterCount={countActiveFilters(filters)}
       sidebar={
         <>
-          <FilterGroup
+          <RadioFilter
             title={t("searchForm.filterHeading.license")}
             name="license"
-            activeCount={params.get("license") ? 1 : 0}
-          >
-            <ObjectSelector
-              name="license"
-              value={params.get("license") ?? ""}
-              options={licenses ?? []}
-              onChange={(value) => setParams({ license: value[0] })}
-              placeholder={t("searchForm.types.license")}
-            />
-          </FilterGroup>
+            options={licenses ?? []}
+            value={params.get("license")}
+            onChange={(value) => setParams({ license: value })}
+          />
           <FilterGroup
             title={t("searchForm.filterHeading.users")}
             name="users"

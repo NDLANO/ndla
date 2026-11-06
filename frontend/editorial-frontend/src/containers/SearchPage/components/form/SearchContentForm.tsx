@@ -395,19 +395,13 @@ const SearchContentForm = ({ subjects, userData, children, summary }: Props) => 
             value={params.get("language")}
             onChange={(value) => setParams({ language: value })}
           />
-          <FilterGroup
+          <RadioFilter
             title={t("searchForm.filterHeading.license")}
             name="license"
-            activeCount={getValues("license").length}
-          >
-            <ObjectSelector
-              name="license"
-              placeholder={t("searchForm.types.license")}
-              value={params.get("license") ?? ""}
-              options={sortBy(licenses, (lic) => lic.name)}
-              onChange={(values) => setValues("license", values)}
-            />
-          </FilterGroup>
+            options={sortBy(licenses ?? [], (lic) => lic.name)}
+            value={params.get("license")}
+            onChange={(value) => setParams({ license: value })}
+          />
           <FilterGroup
             title={t("searchForm.filterHeading.revision-date")}
             name="revision-date"

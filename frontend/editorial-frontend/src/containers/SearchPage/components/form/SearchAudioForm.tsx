@@ -13,13 +13,11 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { getTagName } from "../../../../components/Form/utils";
-import ObjectSelector from "../../../../components/ObjectSelector";
 import type { CamelToKebab } from "../../../../interfaces";
 import { licenseQuery } from "../../../../modules/draft/draftQueries";
 import { getLicensesWithTranslations } from "../../../../util/licenseHelpers";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import { useStableSearchPageParams } from "../../useStableSearchPageParams";
-import { FilterGroup } from "../filters/FilterGroup";
 import { RadioFilter } from "../filters/RadioFilter";
 import { countActiveFilters, SearchLayout } from "../SearchLayout";
 import { SearchQueryStack, SearchSummaryRow } from "../SearchSummaryRow";
@@ -94,19 +92,13 @@ const SearchAudioForm = ({ userData, children, summary }: Props) => {
             value={params.get("audio-type")}
             onChange={(value) => setParams({ "audio-type": value })}
           />
-          <FilterGroup
+          <RadioFilter
             title={t("searchForm.filterHeading.license")}
             name="license"
-            activeCount={params.get("license") ? 1 : 0}
-          >
-            <ObjectSelector
-              name="license"
-              placeholder={t("searchForm.types.license")}
-              value={params.get("license") ?? ""}
-              options={licenses ?? []}
-              onChange={(value) => setParams({ license: value[0] })}
-            />
-          </FilterGroup>
+            options={licenses ?? []}
+            value={params.get("license")}
+            onChange={(value) => setParams({ license: value })}
+          />
           <RadioFilter
             title={t("searchForm.filterHeading.language")}
             name="language"

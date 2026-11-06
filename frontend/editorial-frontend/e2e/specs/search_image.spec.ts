@@ -71,8 +71,10 @@ test("Can use language dropdown", async ({ page }) => {
 
 test("Can use license dropdown", async ({ page }) => {
   await page.getByTestId("license-filter").getByRole("button", { name: "Lisens", exact: true }).click();
-  await page.getByTestId("license-select").click();
-  await page.getByRole("option", { name: "CC0 Public domain dedication: Gitt til fellesskapet", exact: true }).click();
+  await page
+    .getByTestId("license-filter")
+    .getByText("CC0 Public domain dedication: Gitt til fellesskapet", { exact: true })
+    .click();
   await page.waitForURL("**/*license=CC0-1.0*");
   const tagButton = page.getByRole("button", { name: "Lisens: CC0 Public" });
   await expect(tagButton).toBeVisible();
