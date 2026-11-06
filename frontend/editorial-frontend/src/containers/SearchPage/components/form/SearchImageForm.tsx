@@ -23,8 +23,8 @@ import { imageEditorsQueryOptions } from "../../../../modules/image/imageQueries
 import { getLicensesWithTranslations } from "../../../../util/licenseHelpers";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import { useStableSearchPageParams } from "../../useStableSearchPageParams";
-import { FilterGroup } from "../filters/FilterGroup";
 import { RadioFilter } from "../filters/RadioFilter";
+import { SearchableCheckboxFilter } from "../filters/SearchableCheckboxFilter";
 import { countActiveFilters, SearchLayout } from "../SearchLayout";
 import { SearchQueryStack, SearchSummaryRow } from "../SearchSummaryRow";
 import { SearchActiveFilters } from "./SearchActiveFilters";
@@ -158,7 +158,7 @@ const SearchImageForm = ({ userData, children, summary }: Props) => {
     setInput(queryInput ?? "");
   }
 
-  const removeTagItem = (parameterName: keyof SearchParams) => {
+  const removeTagItem = (parameterName: keyof SearchParams, index: number | undefined) => {
     if (parameterName === "query") setInput("");
     if (parameterName === "width") {
       setParams({ "width-from": null, "width-to": null });
@@ -166,7 +166,12 @@ const SearchImageForm = ({ userData, children, summary }: Props) => {
     if (parameterName === "height") {
       setParams({ "height-from": null, "height-to": null });
     }
-    setParams({ [parameterName]: null });
+    const values = params.get(parameterName)?.split(",");
+    if (index != null && values && values.length > 1) {
+      setParams({ [parameterName]: values.filter((_, idx) => idx !== index).join(",") });
+    } else {
+      setParams({ [parameterName]: null });
+    }
   };
 
   const emptySearch = () => {
@@ -204,8 +209,11 @@ const SearchImageForm = ({ userData, children, summary }: Props) => {
     "ai-generated": getTagName(params.get("ai-generated"), getAiGeneratedOptions(t)),
     language: params.get("language"),
     inactive: getTagName(params.get("inactive"), getInactiveOptions(t)),
-    // TODO: This is ugly
-    users: getTagName(params.get("users")?.split(",")?.[0], users),
+    users: params
+      .get("users")
+      ?.split(",")
+      .map((f) => getTagName(f, users))
+      .filter((t): t is string => !!t),
     width: getSizeValue(params.get("width-from") ?? undefined, params.get("width-to") ?? undefined, t),
     height: getSizeValue(params.get("height-from") ?? undefined, params.get("height-to") ?? undefined, t),
     "content-type": getTagName(params.get("content-type"), getContentTypeOptions(t)),
@@ -228,19 +236,14 @@ const SearchImageForm = ({ userData, children, summary }: Props) => {
             value={params.get("license")}
             onChange={(value) => setParams({ license: value })}
           />
-          <FilterGroup
+          <SearchableCheckboxFilter
             title={t("searchForm.filterHeading.users")}
             name="users"
-            activeCount={params.get("users") ? 1 : 0}
-          >
-            <ObjectSelector
-              name="users"
-              value={params.get("users") ?? ""}
-              options={users ?? []}
-              onChange={(value) => setParams({ users: value[0] })}
-              placeholder={t("searchForm.types.users")}
-            />
-          </FilterGroup>
+            placeholder={t("searchForm.filterSearch.users")}
+            options={users ?? []}
+            value={params.get("users")?.split(",") ?? []}
+            onChange={(values) => setParams({ users: values.join(",") })}
+          />
           <RadioFilter
             title={t("searchForm.filterHeading.language")}
             name="language"

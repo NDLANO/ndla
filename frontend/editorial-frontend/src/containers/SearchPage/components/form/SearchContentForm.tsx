@@ -49,6 +49,7 @@ import { useStableSearchPageParams } from "../../useStableSearchPageParams";
 import { CheckboxFilter } from "../filters/CheckboxFilter";
 import { FilterGroup } from "../filters/FilterGroup";
 import { RadioFilter } from "../filters/RadioFilter";
+import { SearchableCheckboxFilter } from "../filters/SearchableCheckboxFilter";
 import { countActiveFilters, SearchLayout } from "../SearchLayout";
 import { SearchQueryStack, SearchSummaryRow } from "../SearchSummaryRow";
 import CheckboxSelector from "./CheckboxSelector";
@@ -303,31 +304,21 @@ const SearchContentForm = ({ subjects, userData, children, summary }: Props) => 
   const setValues = (name: string, values: string[]) => setParams({ [name]: values.join(",") });
 
   const [shortcutSubjects, regularSubjects] = partition(sortedSubjects, (s) => SHORTCUT_SUBJECT_IDS.includes(s.id));
-  const [selectedShortcutSubjects, selectedRegularSubjects] = partition(getValues("subjects"), (id) =>
-    SHORTCUT_SUBJECT_IDS.includes(id),
-  );
 
   return (
     <SearchLayout
       activeFilterCount={countActiveFilters(filters)}
       sidebar={
         <>
-          <CheckboxFilter
+          <SearchableCheckboxFilter
             title={t("searchForm.filterHeading.subjects")}
             name="subjects"
-            options={shortcutSubjects}
-            value={selectedShortcutSubjects}
-            onChange={(values) => setValues("subjects", [...values, ...selectedRegularSubjects])}
-            activeCount={getValues("subjects").length}
+            placeholder={t("searchForm.filterSearch.subjects")}
+            pinnedOptions={shortcutSubjects}
+            options={regularSubjects}
+            value={getValues("subjects")}
+            onChange={(values) => setValues("subjects", values)}
           >
-            <ObjectSelector
-              name="subjects"
-              placeholder={t("searchForm.types.subjects")}
-              value={selectedRegularSubjects.join(",")}
-              multiple
-              options={regularSubjects}
-              onChange={(values) => setValues("subjects", [...selectedShortcutSubjects, ...values])}
-            />
             <CheckboxSelector
               disabled={params.get("subjects") == null}
               title={t("searchForm.primaryCheckbox")}
@@ -335,7 +326,7 @@ const SearchContentForm = ({ subjects, userData, children, summary }: Props) => 
               checked={params.get("is-primary") === "true"}
               onCheckedChange={(value) => setParams({ "is-primary": value ? "true" : undefined })}
             />
-          </CheckboxFilter>
+          </SearchableCheckboxFilter>
           <CheckboxFilter
             title={t("searchForm.filterHeading.draft-status")}
             name="draft-status"
@@ -350,20 +341,14 @@ const SearchContentForm = ({ subjects, userData, children, summary }: Props) => 
             value={getValues("resource-types")}
             onChange={(values) => setValues("resource-types", values)}
           />
-          <FilterGroup
+          <SearchableCheckboxFilter
             title={t("searchForm.filterHeading.responsible-ids")}
             name="responsible-ids"
-            activeCount={getValues("responsible-ids").length}
-          >
-            <ObjectSelector
-              name="responsible-ids"
-              placeholder={t("searchForm.types.responsible-ids")}
-              value={params.get("responsible-ids") ?? ""}
-              multiple
-              options={responsibles ?? []}
-              onChange={(values) => setValues("responsible-ids", values)}
-            />
-          </FilterGroup>
+            placeholder={t("searchForm.filterSearch.responsible-ids")}
+            options={responsibles ?? []}
+            value={getValues("responsible-ids")}
+            onChange={(values) => setValues("responsible-ids", values)}
+          />
           <CheckboxFilter
             title={t("searchForm.filterHeading.priority")}
             name="priority"
@@ -378,16 +363,14 @@ const SearchContentForm = ({ subjects, userData, children, summary }: Props) => 
             value={getValues("traits")}
             onChange={(values) => setValues("traits", values)}
           />
-          <FilterGroup title={t("searchForm.filterHeading.users")} name="users" activeCount={getValues("users").length}>
-            <ObjectSelector
-              name="users"
-              placeholder={t("searchForm.types.users")}
-              value={params.get("users") ?? ""}
-              multiple
-              options={users ?? []}
-              onChange={(values) => setValues("users", values)}
-            />
-          </FilterGroup>
+          <SearchableCheckboxFilter
+            title={t("searchForm.filterHeading.users")}
+            name="users"
+            placeholder={t("searchForm.filterSearch.users")}
+            options={users ?? []}
+            value={getValues("users")}
+            onChange={(values) => setValues("users", values)}
+          />
           <RadioFilter
             title={t("searchForm.filterHeading.language")}
             name="language"
