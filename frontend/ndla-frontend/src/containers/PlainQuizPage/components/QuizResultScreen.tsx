@@ -52,7 +52,7 @@ const ResultPanel = styled("div", {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    gap: "small",
+    gap: "medium",
     width: "full",
     desktop: {
       padding: "xlarge",
@@ -77,7 +77,8 @@ const ResultSummary = styled("div", {
     width: "full",
     maxWidth: "surface.pageMax",
     textAlign: "center",
-    paddingBlock: "medium",
+    paddingBlock: "xxlarge",
+    paddingInline: "medium",
     desktop: {
       padding: "xlarge",
       backgroundColor: "background.default",
@@ -93,11 +94,22 @@ const ResultSummary = styled("div", {
   },
 });
 
+const FeedbackContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "xxsmall",
+  },
+});
+
 const ScorePill = styled(Text, {
   base: {
-    paddingBlock: "xsmall",
-    paddingInline: "medium",
-    borderRadius: "large",
+    display: "flex",
+    gap: "4xsmall",
+    paddingBlock: "xxsmall",
+    paddingInline: "[20px]",
+    borderRadius: "[100px]",
     backgroundColor: "surface.brand.1.moderate",
   },
 });
@@ -111,8 +123,8 @@ const ScorePillCorrect = styled("span", {
 
 const ScorePillTotal = styled("span", {
   base: {
-    fontWeight: "light",
-    color: "[#706F8A]",
+    fontWeight: "normal",
+    color: "text.subtle",
   },
 });
 
@@ -125,19 +137,35 @@ const SummaryRoot = styled(AccordionRoot, {
   },
 });
 
+const SummaryContent = styled(AccordionItemContent, {
+  base: {
+    paddingBlockStart: "small",
+    paddingBlockEnd: "medium",
+    paddingInline: "medium",
+  },
+});
+
 const QuestionResultRow = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
+    gap: "xsmall",
+    paddingBlock: "small",
+  },
+});
+
+const QuestionResultText = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
     gap: "3xsmall",
-    padding: "small",
   },
 });
 
 const QuestionResultHeader = styled("div", {
   base: {
     display: "flex",
-    alignItems: "flex-start",
+    alignItems: "center",
     gap: "xsmall",
   },
 });
@@ -148,8 +176,8 @@ const StatusIcon = styled("div", {
     alignItems: "center",
     justifyContent: "center",
     flexShrink: "0",
-    width: "medium",
-    height: "medium",
+    width: "large",
+    height: "large",
     borderRadius: "half",
   },
   variants: {
@@ -174,7 +202,7 @@ const AlternativesList = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "xsmall",
+    gap: "3xsmall",
   },
 });
 
@@ -182,7 +210,7 @@ const AlternativeRow = styled(CheckboxRoot, {
   base: {
     display: "flex",
     alignItems: "center",
-    gap: "xsmall",
+    gap: "xxsmall",
     width: "full",
     padding: "xsmall",
     borderRadius: "xsmall",
@@ -197,6 +225,7 @@ const AlternativeText = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
+    gap: "4xsmall",
   },
 });
 
@@ -260,10 +289,17 @@ export const QuizResultScreen = ({ session, answers, result, onRetry }: Props) =
         {scoreTier === "perfect" && <Confetti />}
         <ResultSummary overflow={scoreTier === "good" ? "hidden" : undefined}>
           <ResultAnimation />
-          <Heading textStyle="title.large" fontWeight="bold">
-            {t(RESULT_HEADING_KEY[scoreTier])}
-          </Heading>
-          <Text>{t("myNdla.quiz.take.result.score", { correct: correctCount, total })}</Text>
+          <FeedbackContainer>
+            <Heading textStyle="title.large" fontWeight="bold">
+              {t(RESULT_HEADING_KEY[scoreTier])}
+            </Heading>
+            <Text textStyle="body.large">
+              {t("myNdla.quiz.take.result.score", {
+                correct: correctCount,
+                total,
+              })}
+            </Text>
+          </FeedbackContainer>
           <ScorePill textStyle="body.xlarge">
             <ScorePillCorrect>{correctCount}</ScorePillCorrect>
             <ScorePillTotal>{t("myNdla.quiz.take.result.scorePillTotal", { total })}</ScorePillTotal>
@@ -275,7 +311,7 @@ export const QuizResultScreen = ({ session, answers, result, onRetry }: Props) =
       </ResultPanel>
       <SummaryRoot multiple>
         <AccordionItem value="summary">
-          <Heading asChild consumeCss textStyle="label.medium" fontWeight="bold">
+          <Heading asChild consumeCss textStyle="label.small" fontWeight="bold">
             <h2>
               <AccordionItemTrigger>
                 {t("myNdla.quiz.take.result.summaryTitle")}
@@ -285,7 +321,7 @@ export const QuizResultScreen = ({ session, answers, result, onRetry }: Props) =
               </AccordionItemTrigger>
             </h2>
           </Heading>
-          <AccordionItemContent>
+          <SummaryContent>
             {session.map((question) => {
               const questionResult = result.results.find((r) => r.questionId === question.id);
               if (!questionResult) return null;
@@ -295,16 +331,10 @@ export const QuizResultScreen = ({ session, answers, result, onRetry }: Props) =
                 <QuestionResultRow key={question.id}>
                   <QuestionResultHeader>
                     <StatusIcon status={status}>
-                      {status === "correct" ? (
-                        <CheckLine size="small" />
-                      ) : status === "incorrect" ? (
-                        <CloseLine size="small" />
-                      ) : (
-                        <SubtractLine size="small" />
-                      )}
+                      {status === "correct" ? <CheckLine /> : status === "incorrect" ? <CloseLine /> : <SubtractLine />}
                     </StatusIcon>
-                    <div>
-                      <Text textStyle="label.medium" fontWeight="bold">
+                    <QuestionResultText>
+                      <Text textStyle="label.small" fontWeight="bold">
                         {parseSimpleRichText(question.title)}
                       </Text>
                       {isMultiChoice ? (
@@ -318,7 +348,7 @@ export const QuizResultScreen = ({ session, answers, result, onRetry }: Props) =
                           questionResult={questionResult}
                         />
                       )}
-                    </div>
+                    </QuestionResultText>
                   </QuestionResultHeader>
                   {!!isMultiChoice && (
                     <MultiChoiceBreakdown
@@ -330,7 +360,7 @@ export const QuizResultScreen = ({ session, answers, result, onRetry }: Props) =
                 </QuestionResultRow>
               );
             })}
-          </AccordionItemContent>
+          </SummaryContent>
         </AccordionItem>
       </SummaryRoot>
     </Wrapper>
@@ -416,7 +446,7 @@ const MultiChoiceBreakdown = ({
                 </Text>
               </AlternativeText>
               <StatusIcon status={isRight ? "correct" : "incorrect"} css={{ marginInlineStart: "auto" }}>
-                {isRight ? <CheckLine size="small" /> : <CloseLine size="small" />}
+                {isRight ? <CheckLine /> : <CloseLine />}
               </StatusIcon>
               <CheckboxHiddenInput />
             </AlternativeRow>
@@ -425,7 +455,16 @@ const MultiChoiceBreakdown = ({
       </AlternativesList>
       {!!isAllCorrect && <MessageBox variant="success">{t("myNdla.quiz.take.result.allCorrectFeedback")}</MessageBox>}
       {!!isAllIncorrect && <MessageBox variant="error">{t("myNdla.quiz.take.result.allIncorrectFeedback")}</MessageBox>}
-      {!!isPartial && (
+      {!!isPartial && !selectedIncorrect && (
+        <MessageBox variant="warning">
+          {t("myNdla.quiz.take.result.partialNoIncorrectFeedback", {
+            count: selectedCorrect,
+            correct: numberToWord(i18n.language, "neuter", selectedCorrect),
+            missing: capitalize(numberToWord(i18n.language, "neuter", missing)),
+          })}
+        </MessageBox>
+      )}
+      {!!isPartial && !!selectedIncorrect && (
         <MessageBox variant="warning">
           {t("myNdla.quiz.take.result.partialFeedback", {
             correct: numberToWord(i18n.language, "common", selectedCorrect),

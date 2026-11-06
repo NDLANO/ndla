@@ -25,9 +25,25 @@ const Wrapper = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "medium",
     width: "full",
     maxWidth: "surface.pageMax",
+    gap: "medium",
+    desktop: {
+      gap: "xxlarge",
+    },
+  },
+});
+
+const Content = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "large",
+    width: "full",
+    desktop: {
+      padding: "medium",
+    },
   },
 });
 
@@ -38,11 +54,22 @@ const Card = styled("div", {
     alignItems: "center",
     gap: "small",
     width: "full",
-    padding: "medium",
-    borderRadius: "large",
+    paddingBlock: "medium",
+    paddingInline: "small",
+    borderRadius: "medium",
     backgroundColor: "surface.brand.3.subtle",
     textAlign: "center",
     boxShadow: "xsmall",
+  },
+});
+
+const HeroMeta = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "4xsmall",
+    width: "full",
   },
 });
 
@@ -69,7 +96,7 @@ const AvatarBox = styled("div", {
 const MetaRow = styled("div", {
   base: {
     display: "flex",
-    gap: "small",
+    gap: "xsmall",
     width: "full",
   },
 });
@@ -77,8 +104,8 @@ const MetaRow = styled("div", {
 const MetaItem = styled("div", {
   base: {
     display: "flex",
-    flexDirection: "column",
-    gap: "3xsmall",
+    alignItems: "center",
+    gap: "xsmall",
     flex: "1",
     minWidth: "0",
     padding: "small",
@@ -88,12 +115,11 @@ const MetaItem = styled("div", {
   },
 });
 
-const MetaLabel = styled("div", {
+const MetaText = styled("div", {
   base: {
     display: "flex",
-    alignItems: "center",
-    gap: "3xsmall",
-    color: "text.subtle",
+    flexDirection: "column",
+    gap: "5xsmall",
   },
 });
 
@@ -101,6 +127,7 @@ const InfoBox = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
+    gap: "xxsmall",
     width: "full",
     padding: "small",
     backgroundColor: "background.default",
@@ -115,7 +142,7 @@ const InfoList = styled("ul", {
     flexDirection: "column",
     gap: "3xsmall",
     margin: "0",
-    paddingInlineStart: "medium",
+    paddingInlineStart: "[21px]",
     listStyleType: "disc",
   },
 });
@@ -130,7 +157,6 @@ const StartButtonRow = styled("div", {
 
 const StartButton = styled(Button, {
   base: {
-    paddingInline: "large",
     width: "100",
   },
 });
@@ -138,7 +164,7 @@ const StartButton = styled(Button, {
 const ButtonRow = styled("div", {
   base: {
     display: "flex",
-    gap: "medium",
+    gap: "xsmall",
     flexWrap: "wrap",
   },
 });
@@ -156,59 +182,71 @@ export const QuizStartScreen = ({ quiz, questionCount, onStart }: Props) => {
 
   return (
     <Wrapper>
-      <Card>
-        <AvatarBox>
-          <KvissLine size="large" />
-        </AvatarBox>
-        <MyNdlaTitle title={quiz.title} />
-        <Text textStyle="label.small" color="text.subtle">
-          {t("myNdla.quiz.take.sharedBy", {
-            sharedBy: quiz.owner?.name ?? t("myNdla.quiz.take.sharedByFallback"),
-            interpolation: { escapeValue: false },
-          })}
-        </Text>
-      </Card>
-      {!!quiz.description && <Text>{quiz.description}</Text>}
-      <MetaRow>
-        <MetaItem>
-          <MetaLabel>
-            <QuestionLine size="small" />
-            <Text textStyle="label.small">{t("myNdla.quiz.form.tabs.questions")}</Text>
-          </MetaLabel>
-          <Text textStyle="label.medium" fontWeight="bold">
-            {t("myNdla.quiz.questionCount", { count: questionCount })}
-          </Text>
-        </MetaItem>
-        {!!estimatedMinutes && (
-          <MetaItem>
-            <MetaLabel>
-              <TimeLine size="small" />
-              <Text textStyle="label.small">{t("myNdla.quiz.take.estimatedLabel")}</Text>
-            </MetaLabel>
-            <Text textStyle="label.medium" fontWeight="bold">
-              {t("myNdla.quiz.take.estimatedMinutes", {
-                count: estimatedMinutes,
+      <Content>
+        <Card>
+          <AvatarBox>
+            <KvissLine size="large" />
+          </AvatarBox>
+          <HeroMeta>
+            <MyNdlaTitle title={quiz.title} />
+            <Text textStyle="label.small" color="text.subtle">
+              {t("myNdla.quiz.take.sharedBy", {
+                sharedBy: quiz.owner?.name ?? t("myNdla.quiz.take.sharedByFallback"),
+                interpolation: { escapeValue: false },
               })}
             </Text>
+          </HeroMeta>
+        </Card>
+        {!!quiz.description && <Text color="text.subtle">{quiz.description}</Text>}
+        <MetaRow>
+          <MetaItem>
+            <QuestionLine />
+            <MetaText>
+              <Text textStyle="label.small" color="text.subtle">
+                {t("myNdla.quiz.form.tabs.questions")}
+              </Text>
+              <Text textStyle="label.medium" fontWeight="bold">
+                {t("myNdla.quiz.questionCount", { count: questionCount })}
+              </Text>
+            </MetaText>
           </MetaItem>
-        )}
-      </MetaRow>
-      <InfoBox>
-        <Text textStyle="label.medium" fontWeight="bold">
-          {t("myNdla.quiz.take.beforeStart.title")}
-        </Text>
-        <InfoList>
-          <li>
-            <Text textStyle="label.small">{t("myNdla.quiz.take.beforeStart.selectAnswer")}</Text>
-          </li>
-          <li>
-            <Text textStyle="label.small">{t("myNdla.quiz.take.beforeStart.retry")}</Text>
-          </li>
-        </InfoList>
-      </InfoBox>
-      <StartButtonRow>
-        <StartButton onClick={onStart}>{t("myNdla.quiz.take.start")}</StartButton>
-      </StartButtonRow>
+          {!!estimatedMinutes && (
+            <MetaItem>
+              <TimeLine />
+              <MetaText>
+                <Text textStyle="label.small" color="text.subtle">
+                  {t("myNdla.quiz.take.estimatedLabel")}
+                </Text>
+                <Text textStyle="label.medium" fontWeight="bold">
+                  {t("myNdla.quiz.take.estimatedMinutes", {
+                    count: estimatedMinutes,
+                  })}
+                </Text>
+              </MetaText>
+            </MetaItem>
+          )}
+        </MetaRow>
+        <InfoBox>
+          <Text textStyle="label.medium" fontWeight="bold">
+            {t("myNdla.quiz.take.beforeStart.title")}
+          </Text>
+          <InfoList>
+            <li>
+              <Text textStyle="label.small" color="text.subtle">
+                {t("myNdla.quiz.take.beforeStart.selectAnswer")}
+              </Text>
+            </li>
+            <li>
+              <Text textStyle="label.small" color="text.subtle">
+                {t("myNdla.quiz.take.beforeStart.retry")}
+              </Text>
+            </li>
+          </InfoList>
+        </InfoBox>
+        <StartButtonRow>
+          <StartButton onClick={onStart}>{t("myNdla.quiz.take.start")}</StartButton>
+        </StartButtonRow>
+      </Content>
       {user?.role === "employee" && (
         <ButtonRow>
           <CopyQuiz quizId={quiz.id} />

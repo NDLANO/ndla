@@ -127,7 +127,19 @@ const PlainQuizPageContent = () => {
   return (
     <StyledLayout>
       <FavoritesHeart position="top" desktopOnly />
-      <PageContainer variant="content" asChild consumeCss css={{ position: "relative", zIndex: "[1]" }}>
+      <PageContainer
+        variant="content"
+        padding="none"
+        asChild
+        consumeCss
+        css={{
+          position: "relative",
+          zIndex: "[1]",
+          mobile: { paddingBlockStart: "medium", paddingBlockEnd: "4xlarge" },
+          tablet: { paddingBlockStart: "medium", paddingInline: "small", paddingBlockEnd: "3xlarge" },
+          desktop: { padding: "[32px]", paddingBlock: "5xlarge" },
+        }}
+      >
         <main>
           <PageTitle title={quiz.title} useLocationForCustomPath={true} />
           <SocialMediaMetadata
@@ -169,7 +181,6 @@ const PlainQuizPageContent = () => {
           )}
         </main>
       </PageContainer>
-      <FavoritesHeart position="bottom" desktopOnly />
     </StyledLayout>
   );
 };
