@@ -11,7 +11,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { Node, NodeChild, NodeConnection } from "@ndla/types-backend/taxonomy-api";
 import { sortBy } from "@ndla/util";
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { REMEMBER_MATOMO, TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../constants";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
@@ -19,7 +19,6 @@ import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVe
 import { useLocalStorageBooleanState } from "../../containers/WelcomePage/hooks/storedFilterHooks";
 import { userDataQueryOptions } from "../../modules/draft/draftQueries";
 import { matomoStatusQueryOptions } from "../../modules/matomo/matomoQueries";
-import { transformMatomoData } from "../../modules/matomo/matomoUtil";
 import { fetchChildNodes } from "../../modules/nodes/nodeApi";
 import type { NodeWithChildren } from "../../modules/nodes/nodeApiTypes";
 import {
@@ -112,13 +111,8 @@ export const TaxonomyConnections = ({
     placeholderData: keepPreviousData,
   });
 
-  const matomoStats = useMemo(
-    () => (matomoStatsQuery.data ? transformMatomoData(matomoStatsQuery.data) : undefined),
-    [matomoStatsQuery.data],
-  );
-
   const allMatomoStats = placements.map((placement) =>
-    placement.context ? matomoStats?.[placement.context.contextId] : undefined,
+    placement.context ? matomoStatsQuery.data?.[placement.context.contextId] : undefined,
   );
 
   const subjectsQuery = useQuery({

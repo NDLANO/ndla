@@ -15,7 +15,16 @@ import config, { getEnvironmentVariabel } from "../config";
 import { AI_ACCESS_SCOPE, DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from "../constants";
 import type { NdlaError } from "../interfaces";
 import { getToken, getBrightcoveToken, fetchAuth0UsersById, getEditors, getResponsibles } from "./auth";
-import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN, BAD_REQUEST, NOT_FOUND, FOUND } from "./httpCodes";
+import {
+  OK,
+  INTERNAL_SERVER_ERROR,
+  NOT_ACCEPTABLE,
+  FORBIDDEN,
+  BAD_REQUEST,
+  NOT_FOUND,
+  FOUND,
+  BAD_GATEWAY,
+} from "./httpCodes";
 import { generateAnswer, getDefaultPrompts, getTranscription, initializeTranscription } from "./llm";
 import { isLlmLanguageCode } from "./llmTypes";
 import errorLogger from "./logger";
@@ -157,7 +166,8 @@ router.post("/matomo-stats", jwtMiddleware, async (req, res) => {
       const matomoStats = await fetchMatomoStats(body.urls);
       res.status(OK).json(matomoStats);
     } catch (err) {
-      res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
+      errorLogger.error("Failed to fetch Matomo stats", err);
+      res.status(BAD_GATEWAY).json({ status: BAD_GATEWAY, text: "Failed to fetch stats from Matomo" });
     }
   } else {
     res.status(BAD_REQUEST).json({ status: BAD_REQUEST, text: "The 'urls' field is required in the request body." });

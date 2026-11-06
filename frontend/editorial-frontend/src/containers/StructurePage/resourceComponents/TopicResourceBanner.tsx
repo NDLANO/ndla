@@ -23,7 +23,6 @@ import config from "../../../config";
 import { RESOURCE_FILTER_SUPPLEMENTARY } from "../../../constants";
 import type { Dictionary } from "../../../interfaces";
 import { matomoStatusQueryOptions } from "../../../modules/matomo/matomoQueries";
-import { transformMatomoData } from "../../../modules/matomo/matomoUtil";
 import { stripInlineContentHtmlTags } from "../../../util/formHelper";
 import { routes } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
@@ -172,11 +171,6 @@ const TopicResourceBanner = ({
     enabled: !!currentNode.url && showMatomoStats,
   });
 
-  const resourceStats = useMemo(
-    () => (matomoStatsData ? transformMatomoData(matomoStatsData) : undefined),
-    [matomoStatsData],
-  );
-
   const numericId = parseInt(currentNode.contentUri?.split(":").pop() ?? "");
 
   const lastCommentTopicArticle = useMemo(
@@ -247,8 +241,8 @@ const TopicResourceBanner = ({
           <InfoItems>
             {showMatomoStats ? (
               <MatomoStats
-                stats={currentNode.contextId ? resourceStats?.[currentNode.contextId] : undefined}
-                allStats={currentNode.contextids.map((cId) => resourceStats?.[cId])}
+                stats={currentNode.contextId ? matomoStatsData?.[currentNode.contextId] : undefined}
+                allStats={currentNode.contextids.map((cId) => matomoStatsData?.[cId])}
                 isPending={matomoStatsIsPending}
                 isError={matomoStatsIsError}
                 contentMeta={currentContentMeta}
