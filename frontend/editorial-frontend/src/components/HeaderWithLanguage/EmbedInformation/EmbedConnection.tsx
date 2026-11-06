@@ -22,7 +22,7 @@ import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { postSearchConcepts } from "../../../modules/concept/conceptApi";
-import { postSearch } from "../../../modules/search/searchApi";
+import { searchDraft, searchPublic } from "../../../modules/search/searchApi";
 import { routes } from "../../../util/routeHelpers";
 import { DialogCloseButton } from "../../DialogCloseButton";
 import ListResource from "../../Form/ListResource";
@@ -51,19 +51,39 @@ const convertToSearchEmbedTypes = (embedType: EmbedType): SearchEmbedTypes[] => 
   }
 };
 
+// Drafts and published articles share id, so treat them as the same resource when deduplicating.
+const getResourceKey = (result: MultiSearchSummaryDTO) =>
+  `${result.resultType === "article" ? "draft" : result.resultType}-${result.id}`;
+
+const mergeResults = (drafts: MultiSearchSummaryDTO[], published: MultiSearchSummaryDTO[]) => {
+  const seen = new Set(drafts.map(getResourceKey));
+  return drafts.concat(published.filter((result) => !seen.has(getResourceKey(result))));
+};
+
 const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcepts }: Props) => {
   const { i18n, t } = useTranslation();
 
   useEffect(() => {
     let shouldUpdateState = true;
     if (id) {
-      postSearch({
-        embedId: type === "article" ? `article:${id}` : id.toString(),
-        embedResource: convertToSearchEmbedTypes(type),
-        pageSize: 50,
-        resultTypes: ["draft", "concept", "learningpath"],
-      }).then((result) => {
-        if (shouldUpdateState) setArticles(result.results);
+      const embedId = type === "article" ? `article:${id}` : id.toString();
+      const embedResource = convertToSearchEmbedTypes(type);
+      Promise.all([
+        searchDraft({
+          embedId,
+          embedResource,
+          pageSize: 50,
+          resultTypes: ["draft", "concept", "learningpath"],
+        }),
+        searchPublic({
+          embedId,
+          embedResource,
+          pageSize: 50,
+          license: "all",
+          resultTypes: ["article", "learningpath"],
+        }),
+      ]).then(([draftResult, publishedResult]) => {
+        if (shouldUpdateState) setArticles(mergeResults(draftResult.results, publishedResult.results));
       });
       if (type === "image" || type === "audio") {
         postSearchConcepts({

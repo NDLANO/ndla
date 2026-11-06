@@ -21,7 +21,7 @@ import type { MultiSummarySearchResults, NoNodeDraftSearchParams, NoNodeSearchPa
 
 const client = createAuthClient<paths>();
 
-export const postSearch = async (body: NoNodeDraftSearchParams): Promise<MultiSummarySearchResults> => {
+export const searchDraft = async (body: NoNodeDraftSearchParams): Promise<MultiSummarySearchResults> => {
   const response = await client
     .POST("/search-api/v1/search/editorial", {
       body: transformSearchBody(body),
@@ -47,7 +47,7 @@ export const convertSearchTypeOrThrowError = (result: MultiSearchResultDTO): Mul
   };
 };
 
-export const searchResources = async (body: NoNodeSearchParams): Promise<MultiSummarySearchResults> => {
+export const searchPublic = async (body: NoNodeSearchParams): Promise<MultiSummarySearchResults> => {
   const response = await client
     .POST("/search-api/v1/search", {
       body: {

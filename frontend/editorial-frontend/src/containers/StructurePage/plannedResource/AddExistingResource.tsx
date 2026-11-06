@@ -41,7 +41,7 @@ import { FormActionsContainer, FormContent } from "../../../components/FormikFor
 import { RESOURCE_FILTER_CORE, RESOURCE_FILTER_SUPPLEMENTARY, RESOURCE_TYPE_LEARNING_PATH } from "../../../constants";
 import { fetchNodes, postNode, postNodeConnection } from "../../../modules/nodes/nodeApi";
 import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
-import { postSearch } from "../../../modules/search/searchApi";
+import { searchDraft } from "../../../modules/search/searchApi";
 import { searchQueryOptions } from "../../../modules/search/searchQueries";
 import { resourceTypesQueryOptions } from "../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import { resolveUrls } from "../../../modules/taxonomy/taxonomyApi";
@@ -193,7 +193,7 @@ const doPastedSearch = async ({ input, type, t, taxonomyVersion, language }: Pas
     throw new Error(t("taxonomy.noResources"));
   }
 
-  const res = await postSearch({
+  const res = await searchDraft({
     ids: [searchId],
     language: language,
     fallback: true,

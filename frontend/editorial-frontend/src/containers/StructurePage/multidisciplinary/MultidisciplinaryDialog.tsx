@@ -38,7 +38,7 @@ import { MULTIDISCIPLINARY_SUBJECT_ID, VALID_CONTEXT_ID_REGEXP } from "../../../
 import { fetchNodes } from "../../../modules/nodes/nodeApi";
 import { postNodeConnectionMutationOptions } from "../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
-import { postSearch } from "../../../modules/search/searchApi";
+import { searchDraft } from "../../../modules/search/searchApi";
 import { searchQueryOptions } from "../../../modules/search/searchQueries";
 import { isNDLAFrontendUrl } from "../../../util/htmlHelpers";
 import useDebounce from "../../../util/useDebounce";
@@ -131,7 +131,7 @@ export const MultidisciplinaryDialogContent = ({ currentNode, existingResourceId
         articleId = parseInt(taxNodes[0]?.contentUri?.split(":").at(-1) ?? "");
       }
       if (articleId) {
-        const searchRes = await postSearch({
+        const searchRes = await searchDraft({
           resultTypes: ["draft"],
           ids: [articleId],
           subjects: [MULTIDISCIPLINARY_SUBJECT_ID],
