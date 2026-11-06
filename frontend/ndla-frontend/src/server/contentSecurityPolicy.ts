@@ -36,10 +36,8 @@ const connectSrc = (() => {
       ...defaultConnectSrc,
       "http://api-gateway.ndla-local",
       "https://devtools.apollodata.com/graphql",
-      "http://localhost:3001",
-      "ws://localhost:3001",
-      "http://localhost:3100",
-      "http://localhost:4000",
+      "http://localhost:*",
+      "ws://localhost:*",
       "http://localhost",
       "https://tall.test.ndla.no",
     ];
@@ -110,13 +108,7 @@ const scriptSrc = (() => {
     "https://*.hcaptcha.com",
   ];
   if (import.meta.env.MODE === "development") {
-    return [
-      ...defaultScriptSrc,
-      "http://api-gateway.ndla-local",
-      "http://localhost:3001",
-      "ws://localhost:3001",
-      "http://localhost:3000",
-    ];
+    return [...defaultScriptSrc, "http://api-gateway.ndla-local", "http://localhost:*"];
   }
   // Temp for testing xapi
   if (config.ndlaEnvironment === "test") {
@@ -210,14 +202,7 @@ const frameSrc = (() => {
     "video.reddbarna.no",
   ];
   if (import.meta.env.MODE === "development") {
-    return [
-      ...defaultFrameSrc,
-      "http://api-gateway.ndla-local",
-      "http://localhost:3001",
-      "ws://localhost:3001",
-      "http://localhost:3000",
-      "http://localhost:3100",
-    ];
+    return [...defaultFrameSrc, "http://api-gateway.ndla-local", "http://localhost:*"];
   }
   return defaultFrameSrc;
 })();
@@ -234,7 +219,7 @@ const fontSrc = (() => {
     "https://cdn.imghost.no",
   ];
   if (import.meta.env.MODE === "development") {
-    return defaultFontSrc.concat("http://localhost:3001");
+    return defaultFontSrc.concat("http://localhost:*");
   }
   return defaultFontSrc;
 })();

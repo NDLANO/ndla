@@ -35,14 +35,7 @@ const connectSrc = (() => {
     "https://app.formbricks.com",
   ];
   if (import.meta.env.MODE === "development") {
-    return [
-      ...defaultConnectSrc,
-      "http://localhost:3001",
-      "ws://localhost:3001",
-      "http://localhost:3100",
-      "http://localhost:4000",
-      "http://localhost",
-    ];
+    return [...defaultConnectSrc, "http://localhost:*", "ws://localhost:*", "http://localhost"];
   }
 
   return defaultConnectSrc;
@@ -101,7 +94,7 @@ const scriptSrc = (() => {
     "https://app.formbricks.com",
   ];
   if (import.meta.env.MODE === "development") {
-    return [...defaultScriptSrc, "http://localhost:3001", "ws://localhost:3001", "http://localhost:3000"];
+    return [...defaultScriptSrc, "http://localhost:*"];
   }
   return defaultScriptSrc;
 })();
@@ -190,13 +183,7 @@ const frameSrc = (() => {
     "video.reddbarna.no",
   ];
   if (import.meta.env.MODE === "development") {
-    return [
-      ...defaultFrameSrc,
-      "http://localhost:3001",
-      "ws://localhost:3001",
-      "http://localhost:3000",
-      "http://localhost:3100",
-    ];
+    return [...defaultFrameSrc, "http://localhost:*"];
   }
   return defaultFrameSrc;
 })();
@@ -212,7 +199,7 @@ const fontSrc = (() => {
     "https://cdn.fontshare.com",
   ];
   if (import.meta.env.MODE === "development") {
-    return defaultFontSrc.concat("http://localhost:3001");
+    return defaultFontSrc.concat("http://localhost:*");
   }
   return defaultFontSrc;
 })();

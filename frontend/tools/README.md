@@ -40,5 +40,38 @@ repository, and the project lists) lives in `repo.mts`.
 
 ```sh
 mise run test graphql-api graphql.GraphqlApiTest
+```
+
+### Running frontend apps in parallel
+
+`dev` gives every frontend app the first free port at or above its base port,
+so several copies can run at the same time. The chosen URL is printed before
+nx starts. Run each copy from its own worktree: nx will not start a task that
+is already running in the same checkout, and prints
+`Waiting for <task> in another nx process` instead.
+
+| App                  | Base port | Variable                  |
+| -------------------- | --------- | ------------------------- |
+| `ndla-frontend`      | 3000      | `NDLA_FRONTEND_PORT`      |
+| `editorial-frontend` | 3000      | `EDITORIAL_FRONTEND_PORT` |
+| `api-documentation`  | 3000      | `API_DOCUMENTATION_PORT`  |
+| `graphql-api`        | 4000      | `LOCAL_GRAPHQL_API_PORT`  |
+| `design-manual`      | 6006      | `SBCONFIG_PORT`           |
+
+The port variables from your environment and `.mise.toml` are overridden. Use
+`--port` to pin the port of the first app instead:
+
+```sh
 mise run dev ndla-frontend --port=3005
 ```
+
+Name more apps to run them together. When `graphql-api` is one of them, the
+frontends are pointed at that local instance (`LOCAL_GRAPHQL_API=true`):
+
+```sh
+mise run dev ndla-frontend graphql-api
+```
+
+Feide (`ndla-frontend`) and Auth0 (`editorial-frontend`) only accept the
+localhost ports registered with them, and neither allows wildcards, so logging
+in fails on any port outside that list.

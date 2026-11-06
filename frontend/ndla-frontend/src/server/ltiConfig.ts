@@ -9,7 +9,7 @@
 import config from "../config";
 
 export const ltiConfig = (): string => {
-  const launchUrl = config?.ndlaEnvironment === "dev" ? "http://localhost:3000" : config?.ndlaFrontendDomain;
+  const launchUrl = config?.ndlaEnvironment === "dev" ? `http://localhost:${config.port}` : config?.ndlaFrontendDomain;
 
   const domainXML = config?.ndlaEnvironment === "dev" ? `<lticm:property name="domain">localhost</lticm:property>` : "";
   return `<?xml version="1.0" encoding="UTF-8"?>

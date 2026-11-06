@@ -118,6 +118,7 @@ export type ConfigType = {
   ndlaKiDomain: string;
   zendeskWidgetKey: string | undefined;
   localGraphQLApi: boolean;
+  graphqlApiPort: string;
   feideDomain: string;
   matomoUrl: string;
   matomoTagmanagerId: string;
@@ -156,6 +157,7 @@ const getServerSideConfig = (): ConfigType => {
     ndlaKiDomain: ndlaKiDomain(ndlaEnvironment),
     zendeskWidgetKey: getEnvironmentVariable("NDLA_ZENDESK_WIDGET_KEY"),
     localGraphQLApi: getEnvironmentVariable("LOCAL_GRAPHQL_API", false),
+    graphqlApiPort: getEnvironmentVariable("LOCAL_GRAPHQL_API_PORT", "4000"),
     feideDomain: getEnvironmentVariable("FEIDE_DOMAIN", feideDomain(ndlaEnvironment)),
     matomoUrl: getEnvironmentVariable("MATOMO_URL", "https://tall.ndla.no"),
     matomoTagmanagerId: getEnvironmentVariable("MATOMO_TAGMANAGER_ID", ""),

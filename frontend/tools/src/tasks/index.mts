@@ -12,7 +12,7 @@ import { format } from "./format.mts";
 import { projects } from "./projects.mts";
 import { test } from "./test.mts";
 
-const tasks: Record<string, (args: string[]) => number> = {
+const tasks: Record<string, (args: string[]) => number | Promise<number>> = {
   dev,
   test,
   format,
@@ -20,4 +20,4 @@ const tasks: Record<string, (args: string[]) => number> = {
   projects,
 };
 const task = process.argv[2] ?? "";
-process.exit(tasks[task]?.(process.argv.slice(3)) ?? 1);
+process.exit(await (tasks[task]?.(process.argv.slice(3)) ?? 1));
