@@ -99,6 +99,7 @@ export const InlineField = ({
       markPlugin.configure({
         options: {
           supportedMarks: { value: ["bold", "italic", "sup", "sub"], override: true },
+          markdownShortcuts: true,
         },
       }),
       inlineNoopPlugin,

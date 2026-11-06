@@ -22,6 +22,10 @@ export type MarkType = (typeof marks)[keyof typeof marks];
 
 export interface MarkPluginOptions {
   supportedMarks?: MarkType[];
+  /**
+   * Enables markdown-like shortcuts: `code`, _italic_ and *bold*.
+   */
+  markdownShortcuts?: boolean;
 }
 
 export interface CustomText {
