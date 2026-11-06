@@ -6,134 +6,166 @@
  *
  */
 
-import { ErrorWarningFill, CheckLine, CodeView, GlobalLine, InfoI } from "@ndla/icons";
+import { ArrowRightLine, ArrowRightShortLine, InformationFill } from "@ndla/icons";
 import { tDynamic } from "@ndla/locales";
-import { Badge, ListItemContent, ListItemHeading, ListItemRoot, Text } from "@ndla/primitives";
-import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
+import { ListItemContent, ListItemHeading, ListItemRoot, Text } from "@ndla/primitives";
+import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
-import { BadgesContainer } from "@ndla/ui";
-import { useMemo } from "react";
+import { Fragment, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import HeaderFavoriteStatus from "../../../../components/HeaderWithLanguage/HeaderFavoriteStatus";
 import config from "../../../../config";
 import { DRAFT_HTML_SCOPE } from "../../../../constants";
+import formatDate from "../../../../util/formatDate";
 import { useBadges } from "../../../../util/getBadges";
 import { routes, toEditArticle, toEditConcept, toEditGloss } from "../../../../util/routeHelpers";
 import { useSession } from "../../../Session/SessionProvider";
 import SearchHighlight from "./SearchHighlight";
-import { SearchListItemImage } from "./SearchListItemImage";
 
 interface Props {
   content: MultiSearchSummaryDTO;
   responsibleName?: string;
 }
 
-const SubjectBreadcrumb = ({ content }: { content: MultiSearchSummaryDTO }) => {
-  const breadcrumbs = useMemo(() => {
-    return content.contexts?.[0]?.breadcrumbs ?? [];
-  }, [content.contexts]);
-
-  if (!breadcrumbs) return null;
-
-  return (
-    <BreadcrumbText textStyle="label.xsmall" color="text.subtle">
-      {breadcrumbs.join(" > ")}
-    </BreadcrumbText>
-  );
-};
-
-const BreadcrumbText = styled(Text, {
+const StyledListItemRoot = styled(ListItemRoot, {
   base: {
-    justifySelf: "flex-end",
-  },
-});
-
-const ContentWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "5xsmall",
+    paddingInline: "xsmall",
   },
 });
 
 const StyledListItemContent = styled(ListItemContent, {
   base: {
-    flexDirection: "column",
-    gap: "4xsmall",
-    alignItems: "flex-start",
-  },
-});
-
-const StatusWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    alignSelf: "flex-end",
-  },
-});
-
-const StyledSpan = styled("span", {
-  base: {
-    whiteSpace: "nowrap",
-  },
-});
-
-const StyledSearchListItemImage = styled(SearchListItemImage, {
-  base: {
-    tabletDown: {
-      display: "none",
-    },
-  },
-});
-
-const StyledListItemRoot = styled(ListItemRoot, {
-  base: {
-    tabletDown: {
-      gap: "0",
-    },
-  },
-});
-
-const InfoWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "3xsmall",
-    alignItems: "center",
-  },
-});
-
-const ListItemHeadingContent = styled(ListItemContent, {
-  base: {
-    flexWrap: "wrap",
-  },
-});
-
-const ListItemFooterContent = styled(ListItemContent, {
-  base: {
-    alignItems: "flex-end",
-    flexWrap: "wrap",
-  },
-});
-
-const ListItemMainContent = styled(ListItemContent, {
-  base: {
-    alignItems: "flex-start",
+    alignItems: "stretch",
+    gap: "small",
     tabletDown: {
       flexWrap: "wrap",
     },
   },
 });
 
-const StyledText = styled(Text, {
+const MainColumn = styled("div", {
   base: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: "4xsmall",
+    minWidth: "0",
+  },
+});
+
+const SideColumn = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-end",
+    justifyContent: "space-between",
+    gap: "xsmall",
+    flexShrink: "0",
+    tabletDown: {
+      alignItems: "flex-start",
+    },
+  },
+});
+
+const StyledListItemHeading = styled(ListItemHeading, {
+  base: {
+    textDecoration: "none",
+    _hover: {
+      textDecoration: "underline",
+    },
+  },
+});
+
+const SmallText = styled(Text, {
+  base: {
+    lineHeight: "xsmall",
+  },
+});
+
+const Description = styled(Text, {
+  base: {
+    lineHeight: "xsmall",
     lineClamp: "2",
   },
 });
 
-const StyledErrorWarningFill = styled(ErrorWarningFill, {
+const Breadcrumb = styled("div", {
   base: {
-    fill: "icon.subtle",
+    display: "flex",
+    flexWrap: "wrap",
+    alignItems: "center",
+    gap: "4xsmall",
+    color: "text.subtle",
+    "& svg": {
+      fill: "icon.subtle",
+    },
+  },
+});
+
+const MetaWrapper = styled("div", {
+  base: {
+    alignSelf: "stretch",
+    overflow: "hidden",
+    marginBlockStart: "4xsmall",
+  },
+});
+
+const MetaList = styled("dl", {
+  base: {
+    display: "flex",
+    flexWrap: "wrap",
+    alignItems: "center",
+    rowGap: "4xsmall",
+    marginInlineStart: "[calc(-2 * token(spacing.xxsmall) - 1px)]",
+  },
+});
+
+const MetaItem = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "5xsmall",
+    whiteSpace: "nowrap",
+    _before: {
+      content: '""',
+      width: "[1px]",
+      height: "7",
+      marginInline: "xxsmall",
+      background: "icon.subtle",
+    },
+  },
+});
+
+const IconRow = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "xsmall",
+    color: "icon.subtle",
+  },
+});
+
+const LinkStack = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-end",
+    gap: "3xsmall",
+    tabletDown: {
+      alignItems: "flex-start",
+    },
+  },
+});
+
+const StyledSafeLinkButton = styled(SafeLinkButton, {
+  base: {
+    color: "text.default",
+    textStyle: "label.small",
+    "& svg": {
+      width: "small",
+      height: "small",
+    },
   },
 });
 
@@ -152,60 +184,117 @@ const resourceToLink = (content: MultiSearchSummaryDTO, locale: string) => {
   } else return toEditArticle(content.id, content.learningResourceType ?? "standard", languageOrDefault);
 };
 
+const publishedVersionLink = (content: MultiSearchSummaryDTO) => {
+  const path = conceptTypes.includes(content.learningResourceType)
+    ? "concept"
+    : content.resultType === "learningpath"
+      ? "learningpaths"
+      : "article";
+  return `${config.ndlaFrontendDomain}/${path}/${content.id}`;
+};
+
+const SubjectBreadcrumb = ({ breadcrumbs }: { breadcrumbs: string[] }) => {
+  if (!breadcrumbs.length) return null;
+  return (
+    <Breadcrumb>
+      {breadcrumbs.map((crumb, index) => (
+        <Fragment key={`${crumb}-${index}`}>
+          {index > 0 && <ArrowRightShortLine size="small" aria-hidden />}
+          <SmallText textStyle="label.xsmall" asChild consumeCss>
+            <span>{crumb}</span>
+          </SmallText>
+        </Fragment>
+      ))}
+    </Breadcrumb>
+  );
+};
+
+const Meta = ({ label, value }: { label: string; value: string }) => (
+  <MetaItem>
+    <SmallText textStyle="label.xsmall" fontWeight="bold" asChild consumeCss>
+      <dt>{label}:</dt>
+    </SmallText>
+    <SmallText textStyle="label.xsmall" color="text.subtle" asChild consumeCss>
+      <dd>{value}</dd>
+    </SmallText>
+  </MetaItem>
+);
+
 const SearchContent = ({ content, responsibleName }: Props) => {
   const { t, i18n } = useTranslation();
   const { userPermissions } = useSession();
 
+  const primaryContext = useMemo(
+    () => content.contexts.find((context) => context.isPrimary) ?? content.contexts[0],
+    [content.contexts],
+  );
+
   const badges = useBadges({
-    resourceTypes: content.contexts?.[0]?.resourceTypes,
+    resourceTypes: primaryContext?.resourceTypes,
     traits: content.traits,
-    relevanceId: content.contexts?.[0]?.relevanceId,
+    relevanceId: primaryContext?.relevanceId,
     resourceType: content.learningResourceType !== "standard" ? content.learningResourceType : undefined,
   });
 
-  const imageData = useMemo(() => {
-    if (content.learningResourceType === "gloss") {
-      return { icon: <GlobalLine />, imageUrl: "" };
-    } else if (content.learningResourceType === "concept") {
-      return { icon: <InfoI />, imageUrl: "" };
-    } else {
-      return { icon: undefined, imageUrl: content.metaImage?.url ?? "/static/placeholder.png" };
-    }
-  }, [content.learningResourceType, content.metaImage?.url]);
-
-  const statusType = () => {
-    const status = content.status?.current.toLowerCase();
-    return content.learningResourceType === "learningpath"
+  const status = content.status?.current.toLowerCase();
+  const statusLabel =
+    content.learningResourceType === "learningpath"
       ? tDynamic(t, `form.status.learningpath_statuses.${status}`)
       : tDynamic(t, `form.status.${status}`);
-  };
 
   const metaDescription = content.metaDescription.metaDescription ?? "";
+  const breadcrumbs = useMemo(() => {
+    if (!primaryContext) return [];
+    const contentType = primaryContext.resourceTypes[0]?.name;
+    return contentType ? [...primaryContext.breadcrumbs, contentType] : primaryContext.breadcrumbs;
+  }, [primaryContext]);
+
+  const isPublished = content.status?.current === "PUBLISHED" || !!content.status?.other.includes("PUBLISHED");
+  const publishedValue = content.published
+    ? formatDate(content.published)
+    : isPublished
+      ? t("searchPage.resultMeta.publishedWithoutDate")
+      : t("searchPage.resultMeta.notPublished");
+  const showMarkupLink =
+    !conceptTypes.includes(content.learningResourceType) &&
+    !!content.id &&
+    content.resultType === "draft" &&
+    !!userPermissions?.includes(DRAFT_HTML_SCOPE);
 
   return (
     <StyledListItemRoot data-testid="content-search-result">
-      <StyledSearchListItemImage
-        src={imageData.imageUrl}
-        imageLanguage={i18n.language}
-        alt={content.metaImage?.alt ?? ""}
-        fallbackElement={imageData.icon}
-        sizes="56px"
-        fallbackWidth={56}
-      />
       <StyledListItemContent>
-        <ListItemHeadingContent>
-          <ListItemHeading asChild consumeCss>
+        <MainColumn>
+          <StyledListItemHeading textStyle="label.large" asChild consumeCss>
             <SafeLink to={resourceToLink(content, i18n.language)}>{content.title.title}</SafeLink>
-          </ListItemHeading>
-          <InfoWrapper>
+          </StyledListItemHeading>
+          <SearchHighlight content={content} locale={i18n.language} />
+          {!!metaDescription.length && (
+            <Description textStyle="label.xsmall" color="text.subtle">
+              {metaDescription}
+            </Description>
+          )}
+          <SubjectBreadcrumb breadcrumbs={breadcrumbs} />
+          <MetaWrapper>
+            <MetaList>
+              {!!badges.length && <Meta label={t("searchPage.resultMeta.contentType")} value={badges.join(", ")} />}
+              <Meta
+                label={t("form.responsible.label")}
+                value={responsibleName || t("form.responsible.noResponsible")}
+              />
+              <Meta label={t("form.workflow.statusLabel")} value={statusLabel || t("form.status.new")} />
+              <Meta label={t("searchPage.resultMeta.published")} value={publishedValue} />
+            </MetaList>
+          </MetaWrapper>
+        </MainColumn>
+        <SideColumn>
+          <IconRow>
             {content.contexts.length > 1 && (
-              <StyledErrorWarningFill title={t("searchForm.multiTaxonomy", { count: content.contexts.length })} />
+              <InformationFill
+                size="medium"
+                title={t("searchForm.multiTaxonomy", { count: content.contexts.length })}
+              />
             )}
-            <BadgesContainer>
-              {badges.map((badge) => (
-                <Badge key={badge}>{badge}</Badge>
-              ))}
-            </BadgesContainer>
             {content.learningResourceType !== "frontpage-article" && (
               <HeaderFavoriteStatus
                 id={content.id}
@@ -213,23 +302,12 @@ const SearchContent = ({ content, responsibleName }: Props) => {
                 favoriteCount={content.favorited}
               />
             )}
-          </InfoWrapper>
-        </ListItemHeadingContent>
-        <ListItemMainContent>
-          <ContentWrapper>
-            <SearchHighlight content={content} locale={i18n.language} />
-            {!!metaDescription.length && <StyledText textStyle="body.small">{metaDescription}</StyledText>}
-          </ContentWrapper>
-          <InfoWrapper>
-            {!conceptTypes.includes(content.learningResourceType) &&
-            content.id &&
-            content.resultType === "draft" &&
-            userPermissions?.includes(DRAFT_HTML_SCOPE) ? (
-              <SafeLinkIconButton
+          </IconRow>
+          <LinkStack>
+            {!!showMarkupLink && (
+              <StyledSafeLinkButton
+                variant="link"
                 size="small"
-                variant="secondary"
-                title={t("editMarkup.linkTitle")}
-                aria-label={t("editMarkup.linkTitle")}
                 to={routes.editMarkup(
                   content.id,
                   content.supportedLanguages.includes(i18n.language)
@@ -237,46 +315,18 @@ const SearchContent = ({ content, responsibleName }: Props) => {
                     : (content.supportedLanguages[0] ?? ""),
                 )}
               >
-                <CodeView />
-              </SafeLinkIconButton>
-            ) : null}
-            {!!(content.status?.current === "PUBLISHED" || content.status?.other.includes("PUBLISHED")) && (
-              <SafeLinkIconButton
-                size="small"
-                variant="success"
-                target="_blank"
-                aria-label={t("form.workflow.published")}
-                title={t("form.workflow.published")}
-                to={`${config.ndlaFrontendDomain}/${content.learningResourceType === "concept" || content.learningResourceType === "gloss" ? "concept" : "article"}/${
-                  content.id
-                }`}
-              >
-                <CheckLine />
-              </SafeLinkIconButton>
+                {t("editMarkup.title")}
+                <ArrowRightLine />
+              </StyledSafeLinkButton>
             )}
-          </InfoWrapper>
-        </ListItemMainContent>
-        <ListItemFooterContent>
-          <SubjectBreadcrumb content={content} />
-          <StatusWrapper>
-            <StyledSpan>
-              <Text asChild consumeCss fontWeight="bold" textStyle="label.xsmall">
-                <span>{`${t("form.responsible.label")}: `}</span>
-              </Text>
-              <Text asChild consumeCss textStyle="label.xsmall">
-                <span>{responsibleName || t("form.responsible.noResponsible")}</span>
-              </Text>
-            </StyledSpan>
-            <StyledSpan>
-              <Text asChild consumeCss fontWeight="bold" textStyle="label.xsmall">
-                <span>{`${t("form.workflow.statusLabel")}: `}</span>
-              </Text>
-              <Text asChild consumeCss textStyle="label.xsmall">
-                <span>{statusType() || t("form.status.new")}</span>
-              </Text>
-            </StyledSpan>
-          </StatusWrapper>
-        </ListItemFooterContent>
+            {!!isPublished && (
+              <StyledSafeLinkButton variant="link" size="small" target="_blank" to={publishedVersionLink(content)}>
+                {t("searchPage.resultMeta.publishedVersion")}
+                <ArrowRightLine />
+              </StyledSafeLinkButton>
+            )}
+          </LinkStack>
+        </SideColumn>
       </StyledListItemContent>
     </StyledListItemRoot>
   );

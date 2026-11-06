@@ -7,21 +7,17 @@
  */
 
 import { tDynamic } from "@ndla/locales";
-import { FieldLabel, FieldRoot, FieldInput } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
+import { Heading } from "@ndla/primitives";
 import type { UserDataDTO } from "@ndla/types-backend/draft-api";
-import type { DraftSearchField, DraftSearchParamsDTO } from "@ndla/types-backend/search-api";
+import type { DraftSearchField } from "@ndla/types-backend/search-api";
 import type { Node, ResourceType } from "@ndla/types-backend/taxonomy-api";
 import { partition, sortBy } from "@ndla/util";
 import { useQuery } from "@tanstack/react-query";
 import type { TFunction } from "i18next";
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import SearchControlButtons from "../../../../components/Form/SearchControlButtons";
-import SearchHeader from "../../../../components/Form/SearchHeader";
-import SearchTagGroup from "../../../../components/Form/SearchTagGroup";
 import { getTagName } from "../../../../components/Form/utils";
-import ObjectSelector, { type SelectElement, type SelectOption } from "../../../../components/ObjectSelector";
+import ObjectSelector, { type SelectOption } from "../../../../components/ObjectSelector";
 import {
   DA_SUBJECT_ID,
   FAVOURITES_SUBJECT_ID,
@@ -35,7 +31,6 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
   RESOURCE_TYPE_LEARNING_PATH,
 } from "../../../../constants";
-import type { CamelToKebab } from "../../../../interfaces";
 import { auth0UsersQueryOptions } from "../../../../modules/auth0/auth0Queries";
 import {
   licenseQuery,
@@ -51,28 +46,15 @@ import { lowerCased } from "../../../../util/translationKeys";
 import InlineDatePicker from "../../../FormikForm/components/InlineDatePicker";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import { useStableSearchPageParams } from "../../useStableSearchPageParams";
+import { CheckboxFilter } from "../filters/CheckboxFilter";
+import { FilterGroup } from "../filters/FilterGroup";
+import { RadioFilter } from "../filters/RadioFilter";
+import { SearchableCheckboxFilter } from "../filters/SearchableCheckboxFilter";
+import { countActiveFilters, SearchLayout } from "../SearchLayout";
+import { SearchQueryStack, SearchSummaryRow } from "../SearchSummaryRow";
 import CheckboxSelector from "./CheckboxSelector";
-
-const StyledForm = styled("form", {
-  base: {
-    display: "grid",
-    gridTemplateColumns: "repeat(4, 1fr)",
-    gridGap: "3xsmall",
-    alignItems: "center",
-    desktopDown: {
-      gridTemplateColumns: "repeat(3, 1fr)",
-    },
-    tabletDown: {
-      gridTemplateColumns: "repeat(2, 1fr)",
-    },
-  },
-});
-
-const StyledFieldRoot = styled(FieldRoot, {
-  base: {
-    gridColumn: "span 2",
-  },
-});
+import { SearchActiveFilters } from "./SearchActiveFilters";
+import { SearchQueryField } from "./SearchQueryField";
 
 interface ContextType {
   name: string;
@@ -113,6 +95,8 @@ const getPriorityOptions = (t: TFunction) => [
   { id: "on-hold", name: t("welcomePage.workList.onHold") },
 ];
 
+const SHORTCUT_SUBJECT_IDS = [FAVOURITES_SUBJECT_ID, LMA_SUBJECT_ID, SA_SUBJECT_ID, DA_SUBJECT_ID, NO_SUBJECT_ID];
+
 const userHasCustomField = (subjects: Node[], ndlaId: string | undefined, customField: string) =>
   subjects.some((s) => s.metadata.customFields?.[customField] === ndlaId);
 
@@ -141,13 +125,11 @@ const getQueryFieldOptions = (t: TFunction): SelectOption[] =>
 interface Props {
   subjects: Node[];
   userData: UserDataDTO | undefined;
+  children?: ReactNode;
+  summary?: ReactNode;
 }
 
-export type DraftSearchParams = {
-  [k in keyof DraftSearchParamsDTO as CamelToKebab<k>]: DraftSearchParamsDTO[k];
-};
-
-const SearchContentForm = ({ subjects, userData }: Props) => {
+const SearchContentForm = ({ subjects, userData, children, summary }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const [params, setParams] = useStableSearchPageParams();
@@ -318,71 +300,140 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
     "is-primary": params.get("is-primary") || undefined,
   };
 
-  const selectElements = [
-    { name: "query-fields", multiple: true, options: getQueryFieldOptions(t) },
-    { name: "subjects", multiple: true, options: sortedSubjects },
-    { name: "resource-types", multiple: true, options: sortBy(resourceTypes, (rt) => rt.name) },
-    { name: "responsible-ids", multiple: true, options: responsibles ?? [] },
-    { name: "draft-status", multiple: true, options: draftStatuses },
-    { name: "priority", multiple: true, options: getPriorityOptions(t) },
-    { name: "users", multiple: true, options: users ?? [] },
-    { name: "language", options: getResourceLanguages(t) },
-    { name: "license", options: sortBy(licenses, (lic) => lic.name) },
-    { name: "traits", multiple: true, options: getArticleTraits(t) },
-  ] satisfies SelectElement<DraftSearchParams>[];
+  const getValues = (name: string) => params.get(name)?.split(",") ?? [];
+  const setValues = (name: string, values: string[]) => setParams({ [name]: values.join(",") });
+
+  const [shortcutSubjects, regularSubjects] = partition(sortedSubjects, (s) => SHORTCUT_SUBJECT_IDS.includes(s.id));
 
   return (
-    <>
-      <SearchHeader type="content" filters={filters} userData={userData} />
-      <StyledForm
-        onSubmit={(e) => {
-          setParams({ query: queryInput });
-          e.preventDefault();
-        }}
-      >
-        <StyledFieldRoot>
-          <FieldLabel srOnly>{t("searchForm.types.contentQuery")}</FieldLabel>
-          <FieldInput
-            name="query"
-            placeholder={t("searchForm.types.contentQuery")}
-            value={queryInput}
-            onChange={(e) => setQueryInput(e.currentTarget.value)}
-          />
-        </StyledFieldRoot>
-        {selectElements.map((selectElement) => (
-          <FieldRoot key={selectElement.name}>
-            <ObjectSelector
-              name={selectElement.name}
-              placeholder={t(`searchForm.types.${selectElement.name}`)}
-              value={params.get(selectElement.name) ?? ""}
-              multiple={selectElement.multiple}
-              options={selectElement.options}
-              onChange={(value) => setParams({ [selectElement.name]: value.join(",") })}
+    <SearchLayout
+      activeFilterCount={countActiveFilters(filters)}
+      sidebar={
+        <>
+          <SearchableCheckboxFilter
+            title={t("searchForm.filterHeading.subjects")}
+            name="subjects"
+            placeholder={t("searchForm.filterSearch.subjects")}
+            pinnedOptions={shortcutSubjects}
+            options={regularSubjects}
+            value={getValues("subjects")}
+            onChange={(values) => setValues("subjects", values)}
+          >
+            <CheckboxSelector
+              disabled={params.get("subjects") == null}
+              title={t("searchForm.primaryCheckbox")}
+              name="is-primary"
+              checked={params.get("is-primary") === "true"}
+              onCheckedChange={(value) => setParams({ "is-primary": value ? "true" : undefined })}
             />
-          </FieldRoot>
-        ))}
-        <InlineDatePicker
-          name="revision-date-from"
-          onChange={(e) => setParams({ "revision-date-from": e.currentTarget.value })}
-          placeholder={t("searchForm.types.revision-date-from")}
-          value={params.get("revision-date-from") ?? ""}
-        />
-        <InlineDatePicker
-          name="revision-date-to"
-          onChange={(e) => setParams({ "revision-date-to": e.currentTarget.value })}
-          placeholder={t("searchForm.types.revision-date-to")}
-          value={params.get("revision-date-to") ?? ""}
-        />
-        <CheckboxSelector
-          disabled={params.get("subjects") == null}
-          title={t("searchForm.primaryCheckbox")}
-          name="is-primary"
-          checked={params.get("is-primary") === "true"}
-          onCheckedChange={(value) => setParams({ "is-primary": value ? "true" : undefined })}
-        />
-        <SearchControlButtons reset={emptySearch} />
-      </StyledForm>
-      <SearchTagGroup
+          </SearchableCheckboxFilter>
+          <CheckboxFilter
+            title={t("searchForm.filterHeading.draft-status")}
+            name="draft-status"
+            options={draftStatuses}
+            value={getValues("draft-status")}
+            onChange={(values) => setValues("draft-status", values)}
+          />
+          <CheckboxFilter
+            title={t("searchForm.filterHeading.resource-types")}
+            name="resource-types"
+            options={sortBy(resourceTypes, (rt) => rt.name)}
+            value={getValues("resource-types")}
+            onChange={(values) => setValues("resource-types", values)}
+          />
+          <SearchableCheckboxFilter
+            title={t("searchForm.filterHeading.responsible-ids")}
+            name="responsible-ids"
+            placeholder={t("searchForm.filterSearch.responsible-ids")}
+            options={responsibles ?? []}
+            value={getValues("responsible-ids")}
+            onChange={(values) => setValues("responsible-ids", values)}
+          />
+          <CheckboxFilter
+            title={t("searchForm.filterHeading.priority")}
+            name="priority"
+            options={getPriorityOptions(t)}
+            value={getValues("priority")}
+            onChange={(values) => setValues("priority", values)}
+          />
+          <CheckboxFilter
+            title={t("searchForm.filterHeading.traits")}
+            name="traits"
+            options={getArticleTraits(t)}
+            value={getValues("traits")}
+            onChange={(values) => setValues("traits", values)}
+          />
+          <SearchableCheckboxFilter
+            title={t("searchForm.filterHeading.users")}
+            name="users"
+            placeholder={t("searchForm.filterSearch.users")}
+            options={users ?? []}
+            value={getValues("users")}
+            onChange={(values) => setValues("users", values)}
+          />
+          <RadioFilter
+            title={t("searchForm.filterHeading.language")}
+            name="language"
+            options={getResourceLanguages(t)}
+            value={params.get("language")}
+            onChange={(value) => setParams({ language: value })}
+          />
+          <RadioFilter
+            title={t("searchForm.filterHeading.license")}
+            name="license"
+            options={sortBy(licenses ?? [], (lic) => lic.name)}
+            value={params.get("license")}
+            onChange={(value) => setParams({ license: value })}
+          />
+          <FilterGroup
+            title={t("searchForm.filterHeading.revision-date")}
+            name="revision-date"
+            activeCount={[params.get("revision-date-from"), params.get("revision-date-to")].filter(Boolean).length}
+          >
+            <InlineDatePicker
+              name="revision-date-from"
+              onChange={(e) => setParams({ "revision-date-from": e.currentTarget.value })}
+              placeholder={t("searchForm.types.revision-date-from")}
+              value={params.get("revision-date-from") ?? ""}
+            />
+            <InlineDatePicker
+              name="revision-date-to"
+              onChange={(e) => setParams({ "revision-date-to": e.currentTarget.value })}
+              placeholder={t("searchForm.types.revision-date-to")}
+              value={params.get("revision-date-to") ?? ""}
+            />
+          </FilterGroup>
+        </>
+      }
+    >
+      <Heading textStyle="heading.small">{t("searchPage.header.content")}</Heading>
+      <SearchQueryStack>
+        <form
+          onSubmit={(e) => {
+            setParams({ query: queryInput });
+            e.preventDefault();
+          }}
+        >
+          <SearchQueryField
+            value={queryInput}
+            onClear={() => setParams({ query: null })}
+            onChange={setQueryInput}
+            placeholder={t("searchForm.types.contentQuery")}
+          >
+            <ObjectSelector
+              name="query-fields"
+              placeholder={t("searchForm.types.query-fields")}
+              value={params.get("query-fields") ?? ""}
+              multiple
+              options={getQueryFieldOptions(t)}
+              onChange={(value) => setParams({ "query-fields": value.join(",") })}
+            />
+          </SearchQueryField>
+        </form>
+        <SearchSummaryRow type="content" summary={summary} filters={filters} userData={userData} />
+      </SearchQueryStack>
+      <SearchActiveFilters
+        onReset={emptySearch}
         onRemoveTag={(name, index) => {
           const val = params.get(name)?.split(",");
           if (val && val.length > 1 && index != null) {
@@ -395,7 +446,8 @@ const SearchContentForm = ({ subjects, userData }: Props) => {
         }}
         tags={filters}
       />
-    </>
+      {children}
+    </SearchLayout>
   );
 };
 

@@ -6,32 +6,25 @@
  *
  */
 
-import { FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
+import { Heading } from "@ndla/primitives";
 import type { UserDataDTO } from "@ndla/types-backend/draft-api";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import SearchControlButtons from "../../../../components/Form/SearchControlButtons";
-import SearchHeader from "../../../../components/Form/SearchHeader";
-import SearchTagGroup from "../../../../components/Form/SearchTagGroup";
-import ObjectSelector from "../../../../components/ObjectSelector";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import { useStableSearchPageParams } from "../../useStableSearchPageParams";
-
-const StyledForm = styled("form", {
-  base: {
-    display: "grid",
-    gridTemplateColumns: "repeat(2, 1fr)",
-    gridGap: "3xsmall",
-    alignItems: "center",
-  },
-});
+import { RadioFilter } from "../filters/RadioFilter";
+import { countActiveFilters, SearchLayout } from "../SearchLayout";
+import { SearchQueryStack, SearchSummaryRow } from "../SearchSummaryRow";
+import { SearchActiveFilters } from "./SearchActiveFilters";
+import { SearchQueryField } from "./SearchQueryField";
 
 interface Props {
   userData: UserDataDTO | undefined;
+  children?: ReactNode;
+  summary?: ReactNode;
 }
 
-const SearchAudioForm = ({ userData }: Props) => {
+const SearchAudioForm = ({ userData, children, summary }: Props) => {
   const { t } = useTranslation();
   const [params, setParams] = useStableSearchPageParams();
   const [input, setInput] = useState(params.get("query") ?? "");
@@ -59,34 +52,38 @@ const SearchAudioForm = ({ userData }: Props) => {
   };
 
   return (
-    <>
-      <SearchHeader type="podcast-series" filters={filters} userData={userData} />
-      <StyledForm
-        onSubmit={(e) => {
-          setParams({ query: input });
-          e.preventDefault();
-        }}
-      >
-        <FieldRoot>
-          <FieldLabel srOnly>{t("searchForm.types.audioQuery")}</FieldLabel>
-          <FieldInput
-            name="query"
-            placeholder={t("searchForm.types.audioQuery")}
-            value={input}
-            onChange={(e) => setInput(e.currentTarget.value)}
-          />
-        </FieldRoot>
-        <ObjectSelector
+    <SearchLayout
+      activeFilterCount={countActiveFilters(filters)}
+      sidebar={
+        <RadioFilter
+          title={t("searchForm.filterHeading.language")}
           name="language"
-          value={params.get("language") ?? ""}
           options={getResourceLanguages(t)}
-          onChange={(value) => setParams({ language: value[0] })}
-          placeholder={t("searchForm.types.language")}
+          value={params.get("language")}
+          onChange={(value) => setParams({ language: value })}
         />
-        <SearchControlButtons reset={emptySearch} />
-      </StyledForm>
-      <SearchTagGroup onRemoveTag={(tag) => setParams({ [tag]: null })} tags={filters} />
-    </>
+      }
+    >
+      <Heading textStyle="heading.small">{t("searchPage.header.podcast-series")}</Heading>
+      <SearchQueryStack>
+        <form
+          onSubmit={(e) => {
+            setParams({ query: input });
+            e.preventDefault();
+          }}
+        >
+          <SearchQueryField
+            value={input}
+            onClear={() => setParams({ query: null })}
+            onChange={setInput}
+            placeholder={t("searchForm.types.audioQuery")}
+          />
+        </form>
+        <SearchSummaryRow type="podcast-series" summary={summary} filters={filters} userData={userData} />
+      </SearchQueryStack>
+      <SearchActiveFilters onReset={emptySearch} onRemoveTag={(tag) => setParams({ [tag]: null })} tags={filters} />
+      {children}
+    </SearchLayout>
   );
 };
 
