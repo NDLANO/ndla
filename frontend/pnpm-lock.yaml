@@ -391,8 +391,8 @@ catalogs:
       specifier: ^0.1.0
       version: 0.1.0
     openid-client:
-      specifier: ^6.8.8
-      version: 6.8.8
+      specifier: ^6.8.9
+      version: 6.8.9
     oxfmt:
       specifier: ^0.75.0
       version: 0.75.0
@@ -669,7 +669,7 @@ importers:
         version: 0.17.0
       openid-client:
         specifier: 'catalog:'
-        version: 6.8.8
+        version: 6.8.9
       react:
         specifier: 'catalog:'
         version: 19.3.1
@@ -985,7 +985,7 @@ importers:
         version: 0.17.0
       openid-client:
         specifier: 'catalog:'
-        version: 6.8.8
+        version: 6.8.9
       oxfmt:
         specifier: 'catalog:'
         version: 0.75.0
@@ -1413,7 +1413,7 @@ importers:
         version: 0.17.0
       openid-client:
         specifier: 'catalog:'
-        version: 6.8.8
+        version: 6.8.9
       react:
         specifier: 'catalog:'
         version: 19.3.1
@@ -2279,7 +2279,7 @@ importers:
         version: 0.1.0
       openid-client:
         specifier: 'catalog:'
-        version: 6.8.8
+        version: 6.8.9
       path-to-regexp:
         specifier: ^9.0.0
         version: 9.0.0
@@ -9175,8 +9175,8 @@ packages:
   jose@4.15.9:
     resolution: {integrity: sha512-1vUQX+IdDMVPj4k8kOxgUqlcK518yluMuGZwqlr44FS1ppZB/5GWh4rZG89erpOBOJjU/OBsnCVFfapsRz6nEA==}
 
-  jose@6.2.14:
-    resolution: {integrity: sha512-3JasLuki1NRLQvY4wCoC37KZk4qxoBx2k2aFqLxT84IezqW0bkJKnNtxnZj/Fu1xsQivoc/lytxaRHJoGLjJ1A==}
+  jose@6.2.15:
+    resolution: {integrity: sha512-qdF6ewcZARtef63fJ9AKKZPgxw+t7USH6HLXYcD4CrdmSvDp79rpJSPFEKc90QBeGS63u1KQtN2MZQHC0yDIzA==}
 
   js-file-download@0.4.12:
     resolution: {integrity: sha512-rML+NkoD08p5Dllpjo0ffy4jRHeY6Zsapvr/W86N7E0yuzAO6qa5X9+xog6zQNlH102J7IXljNY2FtS6Lj3ucg==}
@@ -9908,8 +9908,8 @@ packages:
     peerDependencies:
       typescript: ^5.x
 
-  openid-client@6.8.8:
-    resolution: {integrity: sha512-ZsucJA5Ad04Uv7YN4ql+s4GXNmb9uAYQwyJTsJx7CH/MX3JZioLE2pVKi1SC+YrbSLA4Px3Gi30dMjgOZtb6pA==}
+  openid-client@6.8.9:
+    resolution: {integrity: sha512-6mXMRNJxDOf6BflEWLXul1UwzLFz++9Ofz1PYwPwwsJsyXBsbfkO+Jo255SW1qnFNLYz4EJWHz42X4OJJrya/g==}
 
   optimism@0.18.1:
     resolution: {integrity: sha512-mLXNwWPa9dgFyDqkNi54sjDyNJ9/fTI6WGBLgnXku1vdKY/jovHfZT5r+aiVeFFLOz+foPNOm5YJ4mqgld2GBQ==}
@@ -19980,7 +19980,7 @@ snapshots:
 
   jose@4.15.9: {}
 
-  jose@6.2.14: {}
+  jose@6.2.15: {}
 
   js-file-download@0.4.12: {}
 
@@ -20960,9 +20960,9 @@ snapshots:
       typescript: '@typescript/typescript6@6.0.2'
       yargs-parser: 21.1.1
 
-  openid-client@6.8.8:
+  openid-client@6.8.9:
     dependencies:
-      jose: 6.2.14
+      jose: 6.2.15
       oauth4webapi: 3.8.8
 
   optimism@0.18.1:
