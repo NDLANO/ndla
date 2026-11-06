@@ -63,9 +63,13 @@ class TaxonomyApiClient(using ndlaClient: NdlaClient, props: Props) extends Stri
   }
 
   private def updateTitleAndTranslations(node: Node, defaultTitle: Title, titles: Seq[Title], user: TokenUser) = {
-    def extractTitle(title: Title) = Jsoup.parseBodyFragment(title.title).body().text()
-    val translations               = titles.map(title => Translation(extractTitle(title), Some(title.language)))
-    updateNode(node.copy(name = extractTitle(defaultTitle), translations = translations.toList), user)
+    def extractTitle(title: Title): Try[String] = Try(Jsoup.parseBodyFragment(title.title).nn.body().nn.text().nn)
+
+    for {
+      translations <- titles.toList.traverse(title => extractTitle(title).map(Translation(_, Some(title.language))))
+      name         <- extractTitle(defaultTitle)
+      updated      <- updateNode(node.copy(name = name, translations = translations), user)
+    } yield updated
   }
 
   private[integration] def updateNode(node: Node, user: TokenUser) =

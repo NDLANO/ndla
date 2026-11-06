@@ -12,8 +12,7 @@ import no.ndla.common.model.domain.frontpage.VisualElementType.Image
 import no.ndla.common.model.domain.frontpage.{AboutSubject, MetaDescription, MovieThemeName, VisualElement}
 import no.ndla.frontpageapi.{TestData, TestEnvironment, UnitSuite}
 import no.ndla.language.Language
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.when
+import no.ndla.testbase.NullSafeMockito.{any, when}
 
 import scala.util.Success
 
@@ -30,7 +29,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
         metaDescription = TestData.domainSubjectPage.metaDescription ++ Seq(MetaDescription("Description", "nn")),
       )
     when(subjectPageRepository.withId(any)(using any)).thenReturn(Success(Some(subjectPage)))
-    when(subjectPageRepository.updateSubjectPage(any)(using any)).thenAnswer(i => Success(i.getArgument(0)))
+    when(subjectPageRepository.updateSubjectPage(any)(using any)).thenAnswer(i => Success(i.nn.getArgument(0)))
 
     val result = writeService.deleteSubjectPageLanguage(subjectPage.id.get, "nn")
     result should be(
@@ -44,7 +43,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
 
   test("That deleting last language for subject page throws exception") {
     when(subjectPageRepository.withId(any)(using any)).thenReturn(Success(Some(TestData.domainSubjectPage)))
-    when(subjectPageRepository.updateSubjectPage(any)(using any)).thenAnswer(i => Success(i.getArgument(0)))
+    when(subjectPageRepository.updateSubjectPage(any)(using any)).thenAnswer(i => Success(i.nn.getArgument(0)))
 
     val result = writeService.deleteSubjectPageLanguage(TestData.domainSubjectPage.id.get, "nb")
     result.isFailure should be(true)
@@ -62,7 +61,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
           .map(movieTheme => movieTheme.copy(name = movieTheme.name ++ Seq(MovieThemeName("FooBar", "nn")))),
       )
     when(filmFrontPageRepository.get(using any)).thenReturn(Some(filmFrontPage))
-    when(filmFrontPageRepository.update(any)(using any)).thenAnswer(i => Success(i.getArgument(0)))
+    when(filmFrontPageRepository.update(any)(using any)).thenAnswer(i => Success(i.nn.getArgument(0)))
 
     val result = writeService.deleteFilmFrontPageLanguage("nn")
     result should be(Success(converterService.toApiFilmFrontPage(TestData.domainFilmFrontPage, None)))
@@ -79,7 +78,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
           .map(movieTheme => movieTheme.copy(name = movieTheme.name.filter(_.language == "nb"))),
       )
     when(filmFrontPageRepository.get(using any)).thenReturn(Some(filmFrontPage))
-    when(filmFrontPageRepository.update(any)(using any)).thenAnswer(i => Success(i.getArgument(0)))
+    when(filmFrontPageRepository.update(any)(using any)).thenAnswer(i => Success(i.nn.getArgument(0)))
 
     val result = writeService.deleteFilmFrontPageLanguage("nb")
     result.isFailure should be(true)

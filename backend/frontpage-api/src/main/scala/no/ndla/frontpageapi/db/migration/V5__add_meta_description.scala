@@ -33,7 +33,7 @@ class V5__add_meta_description extends BaseJavaMigration {
   implicit val v5MetaDescriptionDecoder: Decoder[V5_MetaDescription] = deriveDecoder
   implicit val v5MetaDescriptionEncoder: Encoder[V5_MetaDescription] = deriveEncoder
 
-  override def migrate(context: Context): Unit = DB(context.getConnection)
+  override def migrate(context: Context | Null): Unit = DB(context.nn.getConnection.nn)
     .autoClose(false)
     .withinTx { implicit session =>
       subjectPageData.flatMap(convertSubjectpage).foreach(update)

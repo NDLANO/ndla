@@ -9,6 +9,7 @@
 package no.ndla.common.util
 
 import cats.syntax.option.catsSyntaxOptionId
+import no.ndla.common.implicits.toOption
 import no.ndla.common.configuration.Constants.EmbedTagName
 import no.ndla.common.model.TagAttribute
 import no.ndla.common.model.api.search.ArticleTrait
@@ -21,16 +22,21 @@ import org.jsoup.nodes.Entities.EscapeMode
 import scala.jdk.CollectionConverters.*
 
 class TraitUtil {
-  private def parseHtml(html: String): Element = {
-    val document = Jsoup.parseBodyFragment(html)
-    document.outputSettings().escapeMode(EscapeMode.xhtml).prettyPrint(false)
-    document.body()
-  }
+  private def parseHtml(html: String): Option[Element] = for {
+    document <- Jsoup.parseBodyFragment(html).toOption
+    settings <- document.outputSettings().toOption
+    _        <- settings.escapeMode(EscapeMode.xhtml).toOption.flatMap(_.prettyPrint(false).toOption)
+    body     <- document.body().toOption
+  } yield body
+
+  private def selectEmbeds(html: String): List[Element] = parseHtml(html)
+    .flatMap(_.select(EmbedTagName).toOption)
+    .toList
+    .flatMap(_.asScala)
 
   def getArticleTraits(contents: Seq[ArticleContent]): List[ArticleTrait] = contents
     .flatMap { content =>
-      val html      = parseHtml(content.content)
-      val embedTags = html.select(EmbedTagName).asScala
+      val embedTags = selectEmbeds(content.content)
       val init      = List.empty[ArticleTrait]
       embedTags.foldLeft(init)((acc, embed) => acc ++ embedToMaybeTrait(embed))
     }
@@ -81,21 +87,21 @@ class TraitUtil {
   )
   private def embedToMaybeTrait(embed: Element): Option[ArticleTrait] = {
     val dataResource = embed.attr(TagAttribute.DataResource.toString)
-    val dataUrl      = embed.attr(TagAttribute.DataUrl.toString)
+    val dataUrl      = embed.attr(TagAttribute.DataUrl.toString).toOption
     val dataType     = embed.attr(TagAttribute.DataType.toString)
     dataResource match {
-      case "brightcove" | "nrk"                                             => Video.some
-      case "external" | "iframe" if videoUrl.exists(dataUrl.contains)       => Video.some
-      case "external" | "iframe" if interactiveUrl.exists(dataUrl.contains) => Interactive.some
-      case "h5p"                                                            => Interactive.some
-      case "audio" if dataType == "podcast"                                 => Podcast.some
-      case "audio"                                                          => Audio.some
-      case _                                                                => None
+      case "brightcove" | "nrk"                                                                => Video.some
+      case "external" | "iframe" if dataUrl.exists(url => videoUrl.exists(url.contains))       => Video.some
+      case "external" | "iframe" if dataUrl.exists(url => interactiveUrl.exists(url.contains)) => Interactive.some
+      case "h5p"                                                                               => Interactive.some
+      case "audio" if dataType == "podcast"                                                    => Podcast.some
+      case "audio"                                                                             => Audio.some
+      case _                                                                                   => None
     }
   }
 
   def getAttributes(html: String): List[String] = {
-    parseHtml(html).select(EmbedTagName).asScala.flatMap(getAttributes).toList
+    selectEmbeds(html).flatMap(getAttributes)
   }
 
   private def getAttributes(embed: Element): List[String] = {
@@ -116,7 +122,7 @@ class TraitUtil {
     attributesToKeep.flatMap(attr =>
       embed.attr(attr.toString) match {
         case "" => None
-        case a  => Some(a)
+        case a  => a.toOption
       }
     )
   }

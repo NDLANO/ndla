@@ -23,8 +23,7 @@ import no.ndla.network.tapir.auth.FeideAuth
 import no.ndla.scalatestsuite.{DatabaseIntegrationSuite, RedisIntegrationSuite}
 import no.ndla.tapirtesting.{FeideAuthTest, FeideAuthTestData}
 import no.ndla.{articleapi, myndlaapi}
-import org.mockito.ArgumentMatchers.eq as eqTo
-import org.mockito.Mockito.{when, withSettings}
+import no.ndla.testbase.NullSafeMockito.{eqTo, when, withSettings}
 import org.mockito.quality.Strictness
 import org.scalatestplus.mockito.MockitoSugar
 import sttp.client4.quick.*
@@ -112,7 +111,7 @@ class ArticleApiMyndlaIntegrationTest extends DatabaseIntegrationSuite, RedisInt
     myndlaApi = new myndlaapi.MainClass(myndlaApiProperties) {
       override val componentRegistry: ComponentRegistry = new ComponentRegistry(myndlaApiProperties) {
         override implicit lazy val feideApiClient: FeideApiClient =
-          mock[FeideApiClient](withSettings().strictness(Strictness.LENIENT))
+          mock[FeideApiClient](withSettings.strictness(Strictness.LENIENT).nn)
         override implicit lazy val feideAuth: FeideAuth = FeideAuthTest()
       }
     }

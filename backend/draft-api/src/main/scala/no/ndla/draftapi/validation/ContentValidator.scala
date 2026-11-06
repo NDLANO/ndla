@@ -15,6 +15,7 @@ import no.ndla.draftapi.DraftApiProperties
 import no.ndla.common.model.domain.draft.DraftStatus
 import no.ndla.validation.TextValidator
 import no.ndla.common.errors.{ValidationException, ValidationMessage}
+import no.ndla.common.implicits.toOption
 import no.ndla.common.model.NDLADate
 import no.ndla.common.model.domain.*
 import no.ndla.common.model.domain.draft.*
@@ -191,18 +192,22 @@ class ContentValidator(using
 
   private def rootElementContainsOnlySectionBlocks(field: String, html: String): Option[ValidationMessage] = {
     val legalTopLevelTag = "section"
-    val topLevelTags     = stringToJsoupDocument(html).children().asScala.map(_.tagName())
+    stringToJsoupDocument(html) match {
+      case None           => Some(ValidationMessage(field, "Unable to parse the content as HTML."))
+      case Some(document) =>
+        val topLevelTags = document.children().toOption.toList.flatMap(_.asScala).map(_.tagName())
 
-    if (topLevelTags.forall(_ == legalTopLevelTag)) {
-      None
-    } else {
-      val illegalTags = topLevelTags.filterNot(_ == legalTopLevelTag).mkString(",")
-      Some(
-        ValidationMessage(
-          field,
-          s"An article must consist of one or more <section> blocks. Illegal tag(s) are $illegalTags ",
-        )
-      )
+        if (topLevelTags.forall(_ == legalTopLevelTag)) {
+          None
+        } else {
+          val illegalTags = topLevelTags.filterNot(_ == legalTopLevelTag).mkString(",")
+          Some(
+            ValidationMessage(
+              field,
+              s"An article must consist of one or more <section> blocks. Illegal tag(s) are $illegalTags ",
+            )
+          )
+        }
     }
   }
 
@@ -344,7 +349,7 @@ class ContentValidator(using
   }
 
   private def validateMinimumLength(fieldPath: String, content: String, minLength: Int): Option[ValidationMessage] =
-    if (content.trim.length < minLength) Some(
+    if (content.trim.toOption.forall(_.length < minLength)) Some(
       ValidationMessage(fieldPath, s"This field does not meet the minimum length requirement of $minLength characters")
     )
     else None

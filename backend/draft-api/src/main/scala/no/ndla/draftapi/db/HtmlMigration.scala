@@ -24,9 +24,9 @@ abstract class HtmlMigration extends DocumentMigration {
   val convertVisualElement: Boolean = false
 
   def convertContent(htmlString: String, language: String): String = {
-    val doc       = stringToJsoupDocument(htmlString)
+    val doc       = stringToJsoupDocument(htmlString).get
     val converted = convertHtml(doc, language)
-    jsoupDocumentToString(converted)
+    jsoupDocumentToString(converted).get
   }
 
   def convertColumn(document: String): String = {
@@ -64,9 +64,9 @@ abstract class HtmlMigration extends DocumentMigration {
         oldArticle
           .visualElement
           .map(ve => {
-            val doc       = stringToJsoupDocument(ve.resource)
+            val doc       = stringToJsoupDocument(ve.resource).get
             val converted = convertHtml(doc, ve.language)
-            ve.copy(resource = jsoupDocumentToString(converted))
+            ve.copy(resource = jsoupDocumentToString(converted).get)
           })
       } else oldArticle.visualElement
 

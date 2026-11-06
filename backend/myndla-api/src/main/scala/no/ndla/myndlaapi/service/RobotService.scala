@@ -8,7 +8,7 @@
 
 package no.ndla.myndlaapi.service
 
-import no.ndla.common.Clock
+import no.ndla.common.{Clock, UUIDUtil}
 import no.ndla.common.errors.NotFoundException
 import no.ndla.common.implicits.*
 import no.ndla.database.DBUtility
@@ -52,7 +52,7 @@ class RobotService(using
       for {
         user  <- folderWriteService.canWriteOrAccessDenied(feide)
         domain = RobotDefinition(
-          id = UUID.randomUUID(),
+          id = UUIDUtil.randomUUID(),
           feideId = user.feideId,
           status = robotDefinitionDTO.status.getOrElse(RobotStatus.PRIVATE),
           configuration = RobotConfiguration.fromDTO(robotDefinitionDTO.configuration),

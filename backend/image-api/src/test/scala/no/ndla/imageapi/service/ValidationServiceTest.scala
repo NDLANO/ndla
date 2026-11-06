@@ -15,7 +15,7 @@ import no.ndla.common.model.domain.{AiGenerated, Author, ContributorType, Tag, U
 import no.ndla.imageapi.model.domain.*
 import no.ndla.imageapi.{TestEnvironment, UnitSuite}
 import no.ndla.mapping.License.CC_BY
-import org.mockito.Mockito.{reset, when}
+import no.ndla.testbase.NullSafeMockito.{reset, when}
 
 class ValidationServiceTest extends UnitSuite with TestEnvironment {
   override lazy val validationService = new ValidationService

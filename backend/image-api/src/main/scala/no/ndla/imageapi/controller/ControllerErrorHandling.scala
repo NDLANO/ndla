@@ -29,13 +29,13 @@ class ControllerErrorHandling(using props: Props, dataSource: => DataSource, err
 
   override def handleErrors: PartialFunction[Throwable, AllErrors] = {
     case v: ValidationException            => validationError(v)
-    case a: AccessDeniedException          => forbiddenMsg(a.getMessage)
+    case a: AccessDeniedException          => forbiddenMsg(a.message)
     case _: IndexNotFoundException         => errorBody(INDEX_MISSING, INDEX_MISSING_DESCRIPTION, 500)
-    case nfe: NotFoundException            => notFoundWithMsg(nfe.getMessage)
-    case i: ImageNotFoundException         => notFoundWithMsg(i.getMessage)
-    case b: ImportException                => errorBody(IMPORT_FAILED, b.getMessage, 422)
-    case iu: InvalidUrlException           => errorBody(INVALID_URL, iu.getMessage, 400)
-    case rw: ResultWindowTooLargeException => errorBody(WINDOW_TOO_LARGE, rw.getMessage, 422)
+    case nfe: NotFoundException            => notFoundWithMsg(nfe.message)
+    case i: ImageNotFoundException         => notFoundWithMsg(i.message)
+    case b: ImportException                => errorBody(IMPORT_FAILED, b.message, 422)
+    case iu: InvalidUrlException           => errorBody(INVALID_URL, iu.message, 400)
+    case rw: ResultWindowTooLargeException => errorBody(WINDOW_TOO_LARGE, rw.message, 422)
     case _: PSQLException                  =>
       dataSource.connectToDatabase()
       errorBody(DATABASE_UNAVAILABLE, DATABASE_UNAVAILABLE_DESCRIPTION, 500)

@@ -12,5 +12,5 @@ import org.flywaydb.core.api.migration.{BaseJavaMigration, Context}
 
 class V3__ConvertCoverPhotoUrlToID extends BaseJavaMigration {
 
-  override def migrate(context: Context): Unit = {}
+  override def migrate(context: Context | Null): Unit = {}
 }

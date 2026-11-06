@@ -14,5 +14,5 @@ trait FileStream {
   def contentType: String
   def stream: InputStream
   def fileName: String
-  def format: String = fileName.substring(fileName.lastIndexOf(".") + 1)
+  def format: String = fileName.drop(fileName.lastIndexOf(".") + 1)
 }

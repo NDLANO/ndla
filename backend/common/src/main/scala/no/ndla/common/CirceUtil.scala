@@ -12,6 +12,7 @@ import enumeratum.*
 import io.circe.*
 import io.circe.generic.semiauto.deriveEncoder
 import io.circe.syntax.*
+import no.ndla.common.implicits.toOption
 
 import scala.deriving.Mirror
 import scala.util.{Failure, Try}
@@ -23,7 +24,9 @@ object CirceUtil {
   object CirceFailure {
     def apply(jsonString: String, reason: Throwable): Throwable = {
       val message = s"${reason.getMessage}\n$jsonString"
-      new CirceFailure(message, jsonString).initCause(reason)
+      val failure = new CirceFailure(message, jsonString)
+      failure.initCause(reason): Unit
+      failure
     }
   }
 
@@ -59,7 +62,7 @@ object CirceUtil {
   }
 
   def addTypenameDiscriminator(json: Json, clazz: Class[?]): Json = {
-    json.mapObject(_.add("typename", Json.fromString(clazz.getSimpleName)))
+    json.mapObject(_.add("typename", clazz.getSimpleName.toOption.asJson))
   }
 
   inline def deriveEncoderWithTypename[T](using inline T: Mirror.Of[T]): Encoder[T] = {
@@ -80,7 +83,7 @@ object CirceUtil {
         withNameEither(s)
           .left
           .map { notFound =>
-            val enumName = this.getClass.getSimpleName.stripSuffix("$")
+            val enumName = this.getClass.getSimpleName.toOption.fold("")(_.stripSuffix("$"))
             val enumList = s"[${notFound.enumValues.map(_.entryName).mkString("'", "','", "'")}]"
             val message  = s"'${notFound.notFoundName}' is not a member of enum '$enumName'. Must be one of $enumList"
             DecodingFailure(message, c.history)

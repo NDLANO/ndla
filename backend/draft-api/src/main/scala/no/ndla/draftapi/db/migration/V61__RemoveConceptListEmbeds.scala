@@ -19,6 +19,8 @@ import org.jsoup.nodes.Entities.EscapeMode
 import org.postgresql.util.PGobject
 import scalikejdbc.{DB, DBSession, *}
 
+import scala.jdk.CollectionConverters.*
+
 class V61__RemoveConceptListEmbeds extends BaseJavaMigration {
   private def countAllRows(implicit session: DBSession): Option[Long] = {
     sql"select count(*) from articledata where document is not NULL".map(rs => rs.long("count")).single()
@@ -40,7 +42,7 @@ class V61__RemoveConceptListEmbeds extends BaseJavaMigration {
     sql"update articledata set document = $dataObject where id = $id".update()
   }
 
-  override def migrate(context: Context): Unit = DB(context.getConnection)
+  override def migrate(context: Context | Null): Unit = DB(context.nn.getConnection.nn)
     .autoClose(false)
     .withinTx { session =>
       migrateRows(using session)
@@ -61,13 +63,13 @@ class V61__RemoveConceptListEmbeds extends BaseJavaMigration {
   }
 
   private def stringToJsoupDocument(htmlString: String): Element = {
-    val document = Jsoup.parseBodyFragment(htmlString)
-    document.outputSettings().escapeMode(EscapeMode.xhtml).prettyPrint(false)
-    document.select("body").first()
+    val document = Jsoup.parseBodyFragment(htmlString).nn
+    document.outputSettings().nn.escapeMode(EscapeMode.xhtml).nn.prettyPrint(false)
+    document.select("body").nn.first().nn
   }
 
   private def jsoupDocumentToString(element: Element): String = {
-    element.select("body").html()
+    element.select("body").nn.html().nn
   }
 
   def convertContent(c: ArticleContent): ArticleContent = {
@@ -75,7 +77,9 @@ class V61__RemoveConceptListEmbeds extends BaseJavaMigration {
 
     doc
       .select("ndlaembed")
-      .forEach(embed => {
+      .nn
+      .asScala
+      .foreach(embed => {
         val dataResource = embed.attr("data-resource")
         if (dataResource == "concept-list") {
           embed.remove()

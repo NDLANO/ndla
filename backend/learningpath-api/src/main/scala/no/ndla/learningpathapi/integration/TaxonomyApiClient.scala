@@ -17,6 +17,7 @@ import cats.implicits.*
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
 import no.ndla.common.CirceUtil
+import no.ndla.common.implicits.toOption
 import no.ndla.common.model.domain.Title
 import no.ndla.common.model.domain.learningpath.LearningPath
 import no.ndla.language.Language
@@ -141,7 +142,8 @@ class TaxonomyApiClient(using ndlaClient: NdlaClient, props: Props) extends Stri
       user: Option[TokenUser],
   ): Try[List[Translation]] = {
     // Since 'unknown' language is known as 'unk' in taxonomy we do a conversion
-    val titlesWithConvertedLang = titles.map(t => t.copy(language = t.language.replace("unknown", "unk")))
+    val titlesWithConvertedLang =
+      titles.map(t => t.copy(language = t.language.replace("unknown", "unk").toOption.getOrElse(t.language)))
     getTranslations(resourceId, user) match {
       case Failure(ex) =>
         logger.error(s"Failed to get translations for $resourceId when updating taxonomy...")

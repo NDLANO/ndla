@@ -18,7 +18,7 @@ trait UnitSuite extends UnitTestSuite {
   setPropEnv("SEARCH_SERVER", "some-server")
   setPropEnv("SEARCH_REGION", "some-region")
   setPropEnv("RUN_WITH_SIGNED_SEARCH_REQUESTS", "false")
-  private val pid = ProcessHandle.current().pid()
+  private val pid = ProcessHandle.current().nn.pid()
   setPropEnv("SEARCH_INDEX_NAME", s"draft-integration-test-index-$pid")
   setPropEnv("TAG_SEARCH_INDEX_NAME", s"draft-tags-$pid")
   setPropEnv("GREP_CODES_SEARCH_INDEX_NAME", s"draft-grepcodes-$pid")

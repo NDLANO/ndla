@@ -11,11 +11,15 @@ package no.ndla.draftapi.db.migration
 import no.ndla.draftapi.db.HtmlMigration
 import org.jsoup.nodes.Element
 
+import scala.jdk.CollectionConverters.*
+
 class V73__InlineConceptLinkTextToChildren extends HtmlMigration {
   override def convertHtml(doc: Element, language: String): Element = {
     doc
       .select("ndlaembed[data-resource='concept'][data-link-text]")
-      .forEach(embed => {
+      .nn
+      .asScala
+      .foreach(embed => {
         val linkText = embed.attr("data-link-text")
         embed.append(linkText)
         val _ = embed.removeAttr("data-link-text")

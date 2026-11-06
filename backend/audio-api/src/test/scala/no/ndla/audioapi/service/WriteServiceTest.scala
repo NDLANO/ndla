@@ -20,9 +20,7 @@ import no.ndla.common.model.api.{CopyrightDTO, LicenseDTO}
 import no.ndla.common.model.domain.{ContributorType, UploadedFile}
 import no.ndla.common.model.{NDLADate, domain as common}
 import no.ndla.mapping.License
-import org.mockito.ArgumentMatchers.{any, eq as eqTo}
-import org.mockito.Mockito.{reset, times, verify, when, withSettings}
-import org.mockito.invocation.InvocationOnMock
+import no.ndla.testbase.NullSafeMockito.{any, eqTo, reset, times, verify, when, withSettings}
 import org.mockito.quality.Strictness
 import scalikejdbc.DBSession
 import software.amazon.awssdk.services.s3.model.{DeleteObjectResponse, HeadObjectResponse, PutObjectResponse}
@@ -214,7 +212,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
       )
     ).thenReturn(Failure(new ValidationException(errors = Seq())))
     when(s3Client.putObject(any, any)).thenReturn(
-      Success(mock[PutObjectResponse](withSettings.strictness(Strictness.LENIENT)))
+      Success(mock[PutObjectResponse](withSettings.strictness(Strictness.LENIENT).nn))
     )
 
     writeService.storeNewAudio(newAudioMeta, filePartMock, testUser).isFailure should be(true)
@@ -234,7 +232,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
       )
     ).thenReturn(Success(domainAudioMeta))
     when(s3Client.putObject(any, any)).thenReturn(
-      Success(mock[PutObjectResponse](withSettings.strictness(Strictness.LENIENT)))
+      Success(mock[PutObjectResponse](withSettings.strictness(Strictness.LENIENT).nn))
     )
     when(s3Client.headObject(any)).thenReturn(Success(s3ObjectMock))
     when(audioRepository.insert(any[domain.AudioMetaInformation])(using any[DBSession])).thenThrow(new RuntimeException)
@@ -255,7 +253,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
       )
     ).thenReturn(Success(domainAudioMeta))
     when(s3Client.putObject(any, any)).thenReturn(
-      Success(mock[PutObjectResponse](withSettings.strictness(Strictness.LENIENT)))
+      Success(mock[PutObjectResponse](withSettings.strictness(Strictness.LENIENT).nn))
     )
     when(s3Client.headObject(any)).thenReturn(Success(s3ObjectMock))
     when(audioIndexService.indexDocument(any[domain.AudioMetaInformation])).thenReturn(Failure(new RuntimeException))
@@ -277,7 +275,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
       )
     ).thenReturn(Success(domainAudioMeta))
     when(s3Client.putObject(any, any)).thenReturn(
-      Success(mock[PutObjectResponse](withSettings.strictness(Strictness.LENIENT)))
+      Success(mock[PutObjectResponse](withSettings.strictness(Strictness.LENIENT).nn))
     )
     when(s3Client.headObject(any)).thenReturn(Success(s3ObjectMock))
     when(audioIndexService.indexDocument(any[domain.AudioMetaInformation])).thenReturn(Success(afterInsert))
@@ -428,7 +426,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     when(audioRepository.withId(1)).thenReturn(Some(domainAudioMeta))
     when(validationService.validateAudioFile(any)).thenReturn(Seq.empty)
     when(s3Client.putObject(any, any)).thenReturn(
-      Success(mock[PutObjectResponse](withSettings.strictness(Strictness.LENIENT)))
+      Success(mock[PutObjectResponse](withSettings.strictness(Strictness.LENIENT).nn))
     )
     when(s3Client.headObject(any)).thenReturn(Success(s3ObjectMock))
     when(
@@ -451,7 +449,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     when(audioRepository.withId(1)).thenReturn(Some(domainAudioMeta))
     when(validationService.validateAudioFile(any)).thenReturn(Seq.empty)
     when(s3Client.putObject(any, any)).thenReturn(
-      Success(mock[PutObjectResponse](withSettings.strictness(Strictness.LENIENT)))
+      Success(mock[PutObjectResponse](withSettings.strictness(Strictness.LENIENT).nn))
     )
     when(s3Client.headObject(any)).thenReturn(Success(s3ObjectMock))
     when(
@@ -479,7 +477,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     when(audioRepository.withId(1)).thenReturn(Some(domainAudioMeta))
     when(validationService.validateAudioFile(any)).thenReturn(Seq.empty)
     when(s3Client.putObject(any, any)).thenReturn(
-      Success(mock[PutObjectResponse](withSettings.strictness(Strictness.LENIENT)))
+      Success(mock[PutObjectResponse](withSettings.strictness(Strictness.LENIENT).nn))
     )
     when(s3Client.headObject(any)).thenReturn(Success(s3ObjectMock))
     when(
@@ -566,11 +564,11 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
 
     when(audioRepository.withId(audioId)).thenReturn(Some(audio))
     when(s3Client.deleteObject(any)).thenReturn(Success(mock[DeleteObjectResponse]))
-    when(audioRepository.update(any[domain.AudioMetaInformation], eqTo(audioId))).thenAnswer((i: InvocationOnMock) =>
-      Success(i.getArgument[domain.AudioMetaInformation](0))
+    when(audioRepository.update(any[domain.AudioMetaInformation], eqTo(audioId))).thenAnswer(i =>
+      Success(i.nn.getArgument[domain.AudioMetaInformation](0))
     )
-    when(audioRepository.setSeriesId(any[Long], any[Option[Long]])(using any[DBSession])).thenAnswer(
-      (i: InvocationOnMock) => Success(i.getArgument(0))
+    when(audioRepository.setSeriesId(any[Long], any[Option[Long]])(using any[DBSession])).thenAnswer(i =>
+      Success(i.nn.getArgument(0))
     )
     when(
       validationService.validate(
@@ -579,12 +577,12 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
         any[Option[domain.Series]],
         any[Option[String]],
       )
-    ).thenAnswer((i: InvocationOnMock) => Success(i.getArgument[domain.AudioMetaInformation](0)))
-    when(audioIndexService.indexDocument(any[domain.AudioMetaInformation])).thenAnswer((i: InvocationOnMock) =>
-      Success(i.getArgument[domain.AudioMetaInformation](0))
+    ).thenAnswer(i => Success(i.nn.getArgument[domain.AudioMetaInformation](0)))
+    when(audioIndexService.indexDocument(any[domain.AudioMetaInformation])).thenAnswer(i =>
+      Success(i.nn.getArgument[domain.AudioMetaInformation](0))
     )
-    when(tagIndexService.indexDocument(any[domain.AudioMetaInformation])).thenAnswer((i: InvocationOnMock) =>
-      Success(i.getArgument[domain.AudioMetaInformation](0))
+    when(tagIndexService.indexDocument(any[domain.AudioMetaInformation])).thenAnswer(i =>
+      Success(i.nn.getArgument[domain.AudioMetaInformation](0))
     )
 
     val updated = writeService.deleteAudioLanguageVersion(audioId, "nn")
@@ -623,14 +621,14 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
         any[Seq[(Long, Option[domain.AudioMetaInformation])]],
         any[Option[Long]],
       )
-    ).thenAnswer((i: InvocationOnMock) => {
-      val inputArgument  = i.getArgument[Seq[(Long, Option[domain.AudioMetaInformation])]](0)
+    ).thenAnswer(i => {
+      val inputArgument  = i.nn.getArgument[Seq[(Long, Option[domain.AudioMetaInformation])]](0).nn
       val passedEpisodes = inputArgument.map(_._2.get)
       Success(passedEpisodes)
     })
 
-    when(validationService.validate(any[domain.SeriesWithoutId])).thenAnswer((i: InvocationOnMock) => {
-      Success(i.getArgument[domain.SeriesWithoutId](0))
+    when(validationService.validate(any[domain.SeriesWithoutId])).thenAnswer(i => {
+      Success(i.nn.getArgument[domain.SeriesWithoutId](0))
     })
   }
 
@@ -643,8 +641,8 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
 
     setupSuccessfulSeriesValidation()
     when(seriesRepository.withId(any, any)).thenReturn(Success(Some(series)))
-    when(audioRepository.withId(any[Long])).thenAnswer((i: InvocationOnMock) => {
-      val id = i.getArgument[Long](0)
+    when(audioRepository.withId(any[Long])).thenAnswer(i => {
+      val id = i.nn.getArgument[Long](0)
       series.episodes.get.find(_.id.contains(id))
     })
     when(seriesRepository.insert(any[domain.SeriesWithoutId])(using any[DBSession])).thenReturn(
@@ -677,14 +675,12 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     val series = TestData.SampleSeries
 
     when(seriesRepository.withId(any, any)).thenReturn(Success(Some(series)))
-    when(seriesIndexService.indexDocument(any[domain.Series])).thenAnswer((i: InvocationOnMock) =>
-      Success(i.getArgument(0))
+    when(seriesIndexService.indexDocument(any[domain.Series])).thenAnswer(i => Success(i.nn.getArgument(0)))
+    when(audioIndexService.indexDocument(any[domain.AudioMetaInformation])).thenAnswer(i =>
+      Success(i.nn.getArgument(0))
     )
-    when(audioIndexService.indexDocument(any[domain.AudioMetaInformation])).thenAnswer((i: InvocationOnMock) =>
-      Success(i.getArgument(0))
-    )
-    when(audioRepository.withId(any[Long])).thenAnswer((i: InvocationOnMock) => {
-      val id = i.getArgument[Long](0)
+    when(audioRepository.withId(any[Long])).thenAnswer(i => {
+      val id = i.nn.getArgument[Long](0)
       series.episodes.get.find(_.id.contains(id))
     })
     when(seriesRepository.update(any[domain.Series])(using any[DBSession])).thenReturn(
@@ -718,24 +714,20 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     val series = TestData.SampleSeries
 
     setupSuccessfulSeriesValidation()
-    when(seriesIndexService.indexDocument(any[domain.Series])).thenAnswer((i: InvocationOnMock) =>
-      Success(i.getArgument(0))
-    )
-    when(audioIndexService.indexDocument(any[domain.AudioMetaInformation])).thenAnswer((i: InvocationOnMock) =>
-      Success(i.getArgument(0))
+    when(seriesIndexService.indexDocument(any[domain.Series])).thenAnswer(i => Success(i.nn.getArgument(0)))
+    when(audioIndexService.indexDocument(any[domain.AudioMetaInformation])).thenAnswer(i =>
+      Success(i.nn.getArgument(0))
     )
     when(seriesRepository.withId(any, any)).thenReturn(Success(Some(series)))
-    when(audioRepository.withId(any[Long])).thenAnswer((i: InvocationOnMock) => {
-      val id = i.getArgument[Long](0)
+    when(audioRepository.withId(any[Long])).thenAnswer(i => {
+      val id = i.nn.getArgument[Long](0)
       series.episodes.get.find(_.id.contains(id))
     })
     when(audioRepository.setSeriesId(any[Long], any[Option[Long]])(using any[DBSession])).thenReturn(Success(1L))
 
-    when(seriesRepository.insert(any[domain.SeriesWithoutId])(using any[DBSession])).thenAnswer(
-      (i: InvocationOnMock) => {
-        Success(domain.Series.fromId(id = 1, revision = 1, i.getArgument[domain.SeriesWithoutId](0)))
-      }
-    )
+    when(seriesRepository.insert(any[domain.SeriesWithoutId])(using any[DBSession])).thenAnswer(i => {
+      Success(domain.Series.fromId(id = 1, revision = 1, i.nn.getArgument[domain.SeriesWithoutId](0).nn))
+    })
 
     val updateSeries = api.NewSeriesDTO(
       title = "nyTittel",
@@ -768,20 +760,18 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     val series = TestData.SampleSeries
 
     setupSuccessfulSeriesValidation()
-    when(seriesIndexService.indexDocument(any[domain.Series])).thenAnswer((i: InvocationOnMock) =>
-      Success(i.getArgument(0))
-    )
+    when(seriesIndexService.indexDocument(any[domain.Series])).thenAnswer(i => Success(i.nn.getArgument(0)))
     when(seriesRepository.withId(any, any)).thenReturn(Success(Some(series)))
-    when(audioRepository.withId(any[Long])).thenAnswer((i: InvocationOnMock) => {
-      val id = i.getArgument[Long](0)
+    when(audioRepository.withId(any[Long])).thenAnswer(i => {
+      val id = i.nn.getArgument[Long](0).nn
       episodesMap.get(id)
     })
     when(audioRepository.setSeriesId(any[Long], any[Option[Long]])(using any[DBSession])).thenReturn(Success(1L))
-    when(seriesRepository.update(any[domain.Series])(using any[DBSession])).thenAnswer((i: InvocationOnMock) => {
-      Success(i.getArgument[domain.Series](0))
+    when(seriesRepository.update(any[domain.Series])(using any[DBSession])).thenAnswer(i => {
+      Success(i.nn.getArgument[domain.Series](0))
     })
-    when(audioIndexService.indexDocument(any[domain.AudioMetaInformation])).thenAnswer((i: InvocationOnMock) =>
-      Success(i.getArgument(0))
+    when(audioIndexService.indexDocument(any[domain.AudioMetaInformation])).thenAnswer(i =>
+      Success(i.nn.getArgument(0))
     )
 
     val updateSeries = api.NewSeriesDTO(
@@ -813,13 +803,13 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
 
     setupSuccessfulSeriesValidation()
     when(seriesRepository.withId(any, any)).thenReturn(Success(Some(series)))
-    when(audioRepository.withId(any[Long])).thenAnswer((i: InvocationOnMock) => {
-      val id = i.getArgument[Long](0)
+    when(audioRepository.withId(any[Long])).thenAnswer(i => {
+      val id = i.nn.getArgument[Long](0).nn
       episodesMap.get(id)
     })
     when(audioRepository.setSeriesId(any[Long], any[Option[Long]])(using any[DBSession])).thenReturn(Success(1))
-    when(seriesRepository.update(any[domain.Series])(using any[DBSession])).thenAnswer((i: InvocationOnMock) => {
-      Success(i.getArgument[domain.Series](0))
+    when(seriesRepository.update(any[domain.Series])(using any[DBSession])).thenAnswer(i => {
+      Success(i.nn.getArgument[domain.Series](0))
     })
 
     val updateSeries = api.NewSeriesDTO(
@@ -880,8 +870,8 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
 
     when(audioRepository.withId(audioId)).thenReturn(Some(audio))
     when(s3Client.deleteObject(any[String])).thenReturn(Success(mock[DeleteObjectResponse]))
-    when(audioRepository.update(any[domain.AudioMetaInformation], eqTo(audioId))).thenAnswer((i: InvocationOnMock) =>
-      Success(i.getArgument[domain.AudioMetaInformation](0))
+    when(audioRepository.update(any[domain.AudioMetaInformation], eqTo(audioId))).thenAnswer(i =>
+      Success(i.nn.getArgument[domain.AudioMetaInformation](0))
     )
     when(
       validationService.validate(
@@ -890,9 +880,9 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
         any[Option[domain.Series]],
         any[Option[String]],
       )
-    ).thenAnswer((i: InvocationOnMock) => Success(i.getArgument[domain.AudioMetaInformation](0)))
-    when(audioIndexService.indexDocument(any[domain.AudioMetaInformation])).thenAnswer((i: InvocationOnMock) =>
-      Success(i.getArgument[domain.AudioMetaInformation](0))
+    ).thenAnswer(i => Success(i.nn.getArgument[domain.AudioMetaInformation](0)))
+    when(audioIndexService.indexDocument(any[domain.AudioMetaInformation])).thenAnswer(i =>
+      Success(i.nn.getArgument[domain.AudioMetaInformation](0))
     )
 
     writeService.deleteAudioLanguageVersion(audioId, "nn")
@@ -924,8 +914,8 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     )
 
     when(audioRepository.withId(audioId)).thenReturn(Some(audio))
-    when(audioRepository.update(any[domain.AudioMetaInformation], eqTo(audioId))).thenAnswer((i: InvocationOnMock) =>
-      Success(i.getArgument[domain.AudioMetaInformation](0))
+    when(audioRepository.update(any[domain.AudioMetaInformation], eqTo(audioId))).thenAnswer(i =>
+      Success(i.nn.getArgument[domain.AudioMetaInformation](0))
     )
     when(
       validationService.validate(
@@ -934,9 +924,9 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
         any[Option[domain.Series]],
         any[Option[String]],
       )
-    ).thenAnswer((i: InvocationOnMock) => Success(i.getArgument[domain.AudioMetaInformation](0)))
-    when(audioIndexService.indexDocument(any[domain.AudioMetaInformation])).thenAnswer((i: InvocationOnMock) =>
-      Success(i.getArgument[domain.AudioMetaInformation](0))
+    ).thenAnswer(i => Success(i.nn.getArgument[domain.AudioMetaInformation](0)))
+    when(audioIndexService.indexDocument(any[domain.AudioMetaInformation])).thenAnswer(i =>
+      Success(i.nn.getArgument[domain.AudioMetaInformation](0))
     )
 
     writeService.deleteAudioLanguageVersion(audioId, "nn")

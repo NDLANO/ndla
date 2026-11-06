@@ -15,8 +15,9 @@ class V66__RemoveGridBackground extends HtmlMigration {
   override def convertHtml(doc: Element, language: String): Element = {
     doc
       .select("div[data-type='grid'][data-background]")
+      .nn
       .forEach(embed => {
-        val _ = embed.removeAttr("data-background")
+        val _ = embed.nn.removeAttr("data-background")
       })
     doc
   }

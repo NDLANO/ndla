@@ -326,12 +326,12 @@ class SearchController(using
 
   def stringListParam(name: String)(implicit queryParams: QueryParams): List[String] = queryParams
     .get(name)
-    .map(_.split(",").toList)
+    .map(_.split(',').toList)
     .getOrElse(List.empty)
 
   def stringListParamOrNone(name: String)(implicit queryParams: QueryParams): Option[List[String]] = queryParams
     .get(name)
-    .map(_.split(",").toList.some)
+    .map(_.split(',').toList.some)
     .getOrElse(None)
 
   def dateParamOrNone(name: String)(implicit queryParams: QueryParams): Option[NDLADate] = queryParams
@@ -340,7 +340,7 @@ class SearchController(using
 
   def longListParam(name: String)(implicit queryParams: QueryParams): List[Long] = queryParams
     .get(name)
-    .map(x => x.split(",").toList.flatMap(_.toLongOption))
+    .map(x => x.split(',').toList.flatMap(_.toLongOption))
     .getOrElse(List.empty)
 
   def booleanParamOrNone(name: String)(implicit queryParams: QueryParams): Option[Boolean] = queryParams

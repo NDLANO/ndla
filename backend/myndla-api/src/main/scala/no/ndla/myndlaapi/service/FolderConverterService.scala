@@ -286,8 +286,8 @@ class FolderConverterService(using clock: Clock) extends StrictLogging {
   def toUUIDValidated(maybeValue: Option[String], paramName: String): Try[UUID] = {
     val maybeUUID = maybeValue.map(value => Try(UUID.fromString(value)))
     maybeUUID match {
-      case Some(Success(uuid)) => Success(uuid)
-      case _                   => Failure(ValidationException(paramName, s"Invalid value for $paramName. Only UUID's allowed."))
+      case Some(Success(uuid: UUID)) => Success(uuid)
+      case _                         => Failure(ValidationException(paramName, s"Invalid value for $paramName. Only UUID's allowed."))
     }
   }
 

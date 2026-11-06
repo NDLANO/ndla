@@ -19,7 +19,7 @@ import no.ndla.articleapi.repository.ArticleRepository
 import no.ndla.articleapi.service.*
 import no.ndla.articleapi.service.search.ArticleIndexService
 import no.ndla.articleapi.validation.ContentValidator
-import no.ndla.common.implicits.toTry
+import no.ndla.common.implicits.{toOption, toTry}
 import no.ndla.common.model.domain.article.{Article, PartialPublishArticleDTO, PartialPublishArticlesBulkDTO}
 import no.ndla.database.DBUtility
 import no.ndla.language.Language
@@ -74,8 +74,8 @@ class InternController(using
           logger.info(result)
           result.asRight
         case Failure(articleFail) =>
-          logger.warn(articleFail.getMessage, articleFail)
-          articleFail.getMessage.asLeft
+          logger.warn(s"Indexing of articles failed: ${articleFail.getMessage}", articleFail)
+          articleFail.getMessage.toOption.getOrElse("Indexing of articles failed").asLeft
       }
     })
 
@@ -96,7 +96,7 @@ class InternController(using
       }
 
       Await.result(articleIndex, Duration(10, TimeUnit.MINUTES)) match {
-        case Failure(articleFail)    => Left(articleFail.getMessage)
+        case Failure(articleFail)    => Left(articleFail.getMessage.toOption.getOrElse("Unable to find article indexes"))
         case Success(articleIndexes) =>
           val deleteResults = articleIndexes.map(index => {
             logger.info(s"Deleting article index $index")

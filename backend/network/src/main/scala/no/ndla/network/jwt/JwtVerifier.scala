@@ -41,7 +41,7 @@ case class JwtVerifier(
 
   private def process(token: String): Try[JWTClaimsSetWrapper] = for {
     proc <- getProcessor
-    res  <- Try(JWTClaimsSetWrapper(proc.process(token, null)))
+    res  <- Try(JWTClaimsSetWrapper(proc.process(token, null).nn))
   } yield res
 
   private def getProcessor: Try[DefaultJWTProcessor[SecurityContext]] = processor match {
@@ -49,14 +49,15 @@ case class JwtVerifier(
     case None    => synchronized {
         processor match {
           case Some(p) => Success(p)
-          case None    => Try {
-              val jwsKeySelector = jwsKeySelectorFactory.fromIssuer(issuer)
-              val proc           = new DefaultJWTProcessor[SecurityContext]()
-              proc.setJWSKeySelector(jwsKeySelector)
-              proc.setJWTClaimsSetVerifier(MultiIssuerClaimsVerifier(audience, extraIssuers + issuer))
-              processor = Some(proc)
-              proc
-            }
+          case None    => jwsKeySelectorFactory
+              .fromIssuer(issuer)
+              .map { jwsKeySelector =>
+                val proc = new DefaultJWTProcessor[SecurityContext]()
+                proc.setJWSKeySelector(jwsKeySelector)
+                proc.setJWTClaimsSetVerifier(MultiIssuerClaimsVerifier(audience, extraIssuers + issuer))
+                processor = Some(proc)
+                proc
+              }
         }
       }
   }

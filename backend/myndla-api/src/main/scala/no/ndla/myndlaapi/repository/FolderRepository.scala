@@ -14,7 +14,7 @@ import no.ndla.common.errors.NotFoundException
 import no.ndla.common.model.NDLADate
 import no.ndla.common.model.domain.ResourceType
 import no.ndla.common.model.domain.myndla.{FolderStatus, MyNDLAUser}
-import no.ndla.common.{CirceUtil, Clock}
+import no.ndla.common.{CirceUtil, Clock, UUIDUtil}
 import no.ndla.database.DBUtility
 import no.ndla.database.implicits.*
 import no.ndla.myndlaapi.{maybeUuidBinder, uuidBinder, uuidParameterFactory}
@@ -60,7 +60,7 @@ class FolderRepository(using
   def insertFolder(feideId: FeideID, folderData: NewFolderData)(implicit
       session: DBSession = dbUtility.autoSession
   ): Try[Folder] = Try {
-    val newId   = UUID.randomUUID()
+    val newId   = UUIDUtil.randomUUID()
     val created = clock.now()
     val updated = created
     val shared  =
@@ -105,7 +105,7 @@ class FolderRepository(using
       created: NDLADate,
       document: ResourceDocument,
   )(implicit session: DBSession = dbUtility.autoSession): Try[Resource] = Try {
-    val newId  = UUID.randomUUID()
+    val newId  = UUIDUtil.randomUUID()
     val column = dbResource.column.c
 
     val _ = withSQL {

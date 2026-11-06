@@ -151,27 +151,28 @@ class ReadService(using
       } yield api.ArticleDomainDumpDTO(articleCount, pageNo, pageSize, articlesWithUrl)
     }
 
-  private[service] def addUrlOnResource(content: String): String = {
-    val doc = stringToJsoupDocument(content)
-
-    val embedTags = doc.select(EmbedTagName).asScala.toList
-    embedTags.foreach(addUrlOnEmbedTag)
-    jsoupDocumentToString(doc)
-  }
+  private[service] def addUrlOnResource(content: String): String = stringToJsoupDocument(content)
+    .map { doc =>
+      val embedTags = doc.select(EmbedTagName).toOption.toList.flatMap(_.asScala)
+      embedTags.foreach(addUrlOnEmbedTag)
+      jsoupDocumentToString(doc)
+    }
+    .getOrElse(content)
 
   private def addUrlOnEmbedTag(embedTag: Element): Unit = {
-    val typeAndPathOption = embedTag.attr(TagAttribute.DataResource.toString) match {
-      case resourceType
-          if resourceType == EmbedType.File.toString ||
-            resourceType == EmbedType.H5P.toString && embedTag.hasAttr(TagAttribute.DataPath.toString) =>
-        val path = embedTag.attr(TagAttribute.DataPath.toString)
-        Some((resourceType, path))
+    val typeAndPathOption = embedTag
+      .attr(TagAttribute.DataResource.toString)
+      .toOption
+      .flatMap {
+        case resourceType
+            if resourceType == EmbedType.File.toString ||
+              resourceType == EmbedType.H5P.toString && embedTag.hasAttr(TagAttribute.DataPath.toString) =>
+          embedTag.attr(TagAttribute.DataPath.toString).toOption.map(path => (resourceType, path))
 
-      case resourceType if embedTag.hasAttr(TagAttribute.DataResource_Id.toString) =>
-        val id = embedTag.attr(TagAttribute.DataResource_Id.toString)
-        Some((resourceType, id))
-      case _ => None
-    }
+        case resourceType if embedTag.hasAttr(TagAttribute.DataResource_Id.toString) =>
+          embedTag.attr(TagAttribute.DataResource_Id.toString).toOption.map(id => (resourceType, id))
+        case _ => None
+      }
 
     typeAndPathOption match {
       case Some((resourceType, path)) =>
@@ -339,7 +340,7 @@ class ReadService(using
          |  <link>${toNdlaFrontendUrl(article.slug, article.id)}</link>
          |  <pubDate>${article.published.asString}</pubDate>
          |  ${article.metaImage.map(i => s"""<image>${i.url}</image>""").getOrElse("")}
-         |</item>""".stripMargin.indent(4)
+         |</item>""".stripMargin.linesIterator.map(line => s"    $line\n").mkString
   }
 
   private def toNdlaFrontendUrl(slug: Option[String], id: Long) = slug

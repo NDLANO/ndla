@@ -69,7 +69,7 @@ object TestData {
   val today: NDLADate = NDLADate.now().withNano(0)
 
   val revisionMetaSeq = Seq(
-    RevisionMeta(id = UUID.randomUUID(), today.plusYears(5), RevisionMeta.defaultNote, RevisionStatus.NeedsRevision)
+    RevisionMeta(id = UUID.randomUUID().nn, today.plusYears(5), RevisionMeta.defaultNote, RevisionStatus.NeedsRevision)
   )
 
   val (articleId, externalId) = (1L, "751234")

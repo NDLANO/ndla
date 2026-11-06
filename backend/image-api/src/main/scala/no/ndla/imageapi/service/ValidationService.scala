@@ -9,6 +9,7 @@
 package no.ndla.imageapi.service
 
 import no.ndla.common.errors.{ValidationException, ValidationMessage}
+import no.ndla.common.implicits.toOption
 import no.ndla.common.model.domain.{Author, ContributorType, Tag, UploadedFile}
 import no.ndla.common.model.domain as commonDomain
 import no.ndla.imageapi.Props
@@ -50,12 +51,15 @@ class ValidationService(using props: Props) {
     }
   }
 
-  private def getFileExtension(filename: String): String = {
-    val lowerFilename = filename.toLowerCase
-    val dotIndex      = lowerFilename.lastIndexOf('.')
-    if (dotIndex >= 0) lowerFilename.substring(dotIndex)
-    else ""
-  }
+  private def getFileExtension(filename: String): String = filename
+    .toLowerCase
+    .toOption
+    .map { lowerFilename =>
+      val dotIndex = lowerFilename.lastIndexOf('.')
+      if (dotIndex >= 0) lowerFilename.drop(dotIndex)
+      else ""
+    }
+    .getOrElse("")
 
   def validate(image: ImageMetaInformation, oldImage: Option[ImageMetaInformation]): Try[ImageMetaInformation] = {
     val oldTitleLanguages   = oldImage.map(_.titles.map(_.language)).getOrElse(Seq())
@@ -153,7 +157,7 @@ class ValidationService(using props: Props) {
   }
 
   private def validateMinimumLength(fieldPath: String, content: String, minLength: Int): Option[ValidationMessage] =
-    if (content.trim.length < minLength) Some(
+    if (content.trim.toOption.exists(_.length < minLength)) Some(
       ValidationMessage(fieldPath, s"This field does not meet the minimum length requirement of $minLength characters")
     )
     else None

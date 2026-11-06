@@ -17,6 +17,7 @@ import scala.util.Try
 
 class NdlaEmailClient(senderEmail: String, senderName: String, region: Option[String]) {
   lazy val client: SesV2Client = {
+    import scala.language.unsafeNulls
     val builder: SesV2ClientBuilder = SesV2Client.builder()
     region match {
       case Some(value) => builder.region(Region.of(value)).build()
@@ -25,6 +26,7 @@ class NdlaEmailClient(senderEmail: String, senderName: String, region: Option[St
   }
 
   def sendEmail(to: String, subject: String, bodyStr: String): Try[Boolean] = {
+    import scala.language.unsafeNulls
     Try.throwIfInterrupted {
       val destination      = Destination.builder().toAddresses(to).build()
       val content          = Content.builder().data(bodyStr).build()

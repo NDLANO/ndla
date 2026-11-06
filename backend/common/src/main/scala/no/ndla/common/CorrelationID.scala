@@ -12,8 +12,6 @@ import no.ndla.common.configuration.Constants
 import org.apache.logging.log4j.ThreadContext
 import sttp.tapir.model.ServerRequest
 
-import java.util.UUID
-
 object CorrelationID {
   private val correlationID = new ThreadLocal[String]
 
@@ -23,7 +21,7 @@ object CorrelationID {
 
   def getOrGenerate(x: Option[String]): String = x match {
     case Some(x) => x
-    case None    => UUID.randomUUID().toString
+    case None    => UUIDUtil.randomUUID().toString
   }
 
   def set(correlationId: Option[String]): Unit = {

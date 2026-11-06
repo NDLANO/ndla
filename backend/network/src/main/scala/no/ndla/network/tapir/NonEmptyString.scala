@@ -9,6 +9,7 @@
 package no.ndla.network.tapir
 
 import io.circe.{Decoder, DecodingFailure, Encoder, FailedCursor, HCursor, Json}
+import no.ndla.common.implicits.toOption
 import sttp.tapir.CodecFormat.TextPlain
 import sttp.tapir.{Codec, CodecFormat, DecodeResult, Schema}
 
@@ -31,7 +32,7 @@ object NonEmptyString {
   given CanEqual[NonEmptyString, String] = CanEqual.derived
   given CanEqual[String, NonEmptyString] = CanEqual.derived
 
-  private def validateString(underlying: String): Boolean = underlying.trim.nonEmpty
+  private def validateString(underlying: String): Boolean = underlying.trim.toOption.exists(_.nonEmpty)
 
   def fromOptString(s: Option[String]): Option[NonEmptyString] = s
     .filter(validateString)

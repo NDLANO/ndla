@@ -17,7 +17,7 @@ import no.ndla.conceptapi.model.api.{NewConceptDTO, NotFoundException, UpdatedCo
 import no.ndla.conceptapi.{TestData, TestEnvironment, UnitSuite}
 import no.ndla.common.auth.Permission.{CONCEPT_API_ADMIN, CONCEPT_API_WRITE}
 import no.ndla.network.tapir.auth.TokenUser
-import org.mockito.Mockito.when
+import no.ndla.testbase.NullSafeMockito.when
 
 import scala.util.{Failure, Success}
 

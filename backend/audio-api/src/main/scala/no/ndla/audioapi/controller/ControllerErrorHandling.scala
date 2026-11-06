@@ -27,16 +27,17 @@ class ControllerErrorHandling(using props: Props, dataSource: => DataSource, err
   val WINDOW_TOO_LARGE_DESCRIPTION: String =
     s"The result window is too large. Fetching pages above ${props.ElasticSearchIndexMaxResultWindow} results requires scrolling, see query-parameter 'search-context'."
 
-  class ResultWindowTooLargeException(message: String = WINDOW_TOO_LARGE_DESCRIPTION) extends RuntimeException(message)
+  class ResultWindowTooLargeException(val message: String = WINDOW_TOO_LARGE_DESCRIPTION)
+      extends RuntimeException(message)
 
   override def handleErrors: PartialFunction[Throwable, AllErrors] = {
-    case a: AccessDeniedException          => ErrorBody(ACCESS_DENIED, a.getMessage, clock.now(), 403)
+    case a: AccessDeniedException          => ErrorBody(ACCESS_DENIED, a.message, clock.now(), 403)
     case v: ValidationException            => ValidationErrorBody(VALIDATION, "Validation Error", clock.now(), Some(v.errors), 400)
-    case hre: HttpRequestException         => ErrorBody(REMOTE_ERROR, hre.getMessage, clock.now(), 502)
-    case rw: ResultWindowTooLargeException => ErrorBody(WINDOW_TOO_LARGE, rw.getMessage, clock.now(), 422)
-    case i: ImportException                => ErrorBody(IMPORT_FAILED, i.getMessage, clock.now(), 422)
-    case nfe: NotFoundException            => notFoundWithMsg(nfe.getMessage)
-    case o: OptimisticLockException        => ErrorBody(RESOURCE_OUTDATED, o.getMessage, clock.now(), 409)
+    case hre: HttpRequestException         => ErrorBody(REMOTE_ERROR, hre.message, clock.now(), 502)
+    case rw: ResultWindowTooLargeException => ErrorBody(WINDOW_TOO_LARGE, rw.message, clock.now(), 422)
+    case i: ImportException                => ErrorBody(IMPORT_FAILED, i.message, clock.now(), 422)
+    case nfe: NotFoundException            => notFoundWithMsg(nfe.message)
+    case o: OptimisticLockException        => ErrorBody(RESOURCE_OUTDATED, o.message, clock.now(), 409)
     case _: FileTooBigException            => ErrorBody(FILE_TOO_BIG, fileTooBigDescription, clock.now(), 413)
     case _: PSQLException                  =>
       dataSource.connectToDatabase()
@@ -47,6 +48,6 @@ class ControllerErrorHandling(using props: Props, dataSource: => DataSource, err
           .rootCause
           .exists(x => x.`type` == "search_context_missing_exception" || x.reason == "Cannot parse scroll id") =>
       invalidSearchContext
-    case jafe: JobAlreadyFoundException => ErrorBody(JOB_ALREADY_FOUND, jafe.getMessage, clock.now(), 400)
+    case jafe: JobAlreadyFoundException => ErrorBody(JOB_ALREADY_FOUND, jafe.message, clock.now(), 400)
   }
 }

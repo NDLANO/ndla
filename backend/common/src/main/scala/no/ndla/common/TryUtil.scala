@@ -9,6 +9,7 @@
 package no.ndla.common
 
 import com.typesafe.scalalogging.StrictLogging
+import no.ndla.common.implicits.toOption
 
 import scala.annotation.tailrec
 import scala.util.{Failure, Success, Try}
@@ -18,10 +19,10 @@ object TryUtil extends StrictLogging {
   /** Recursively checks if the given `Throwable` or any of its causes is an `InterruptedException`. */
   @tailrec
   def containsInterruptedException(t: Throwable): Boolean = {
-    t match {
-      case _: InterruptedException => true
-      case _ if t.getCause != null => containsInterruptedException(t.getCause)
-      case _                       => false
+    (t, t.getCause.toOption) match {
+      case (_: InterruptedException, _) => true
+      case (_, Some(cause))             => containsInterruptedException(cause)
+      case _                            => false
     }
   }
 
@@ -47,7 +48,7 @@ object TryUtil extends StrictLogging {
       */
     def throwIfInterrupted[T](f: => T): Try[T] = {
 
-      if (Thread.currentThread().isInterrupted) {
+      if (Thread.currentThread().toOption.exists(_.isInterrupted)) {
         rethrowInterruptedWithSuppressed(None)
       }
 
@@ -55,7 +56,7 @@ object TryUtil extends StrictLogging {
         case ex if containsInterruptedException(ex) => rethrowInterruptedWithSuppressed(Some(ex))
       }
 
-      if (Thread.currentThread().isInterrupted) {
+      if (Thread.currentThread().toOption.exists(_.isInterrupted)) {
         rethrowInterruptedWithSuppressed(result.failed.toOption)
       }
 

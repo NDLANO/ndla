@@ -219,7 +219,10 @@ class AudioController(using
     .post
     .summary("Upload a new audio file with meta information")
     .description("Upload a new audio file with meta data")
-    .in(multipartBody[MetaDataAndFileForm])
+    .in {
+      import scala.language.unsafeNulls
+      multipartBody[MetaDataAndFileForm]
+    }
     .out(jsonBody[AudioMetaInformationDTO])
     .errorOut(errorOutputsFor(400, 401, 403, 404, 413))
     .requirePermission(AUDIO_API_WRITE)
@@ -234,7 +237,10 @@ class AudioController(using
     .summary("Upload audio for a different language or update metadata for an existing audio-file")
     .description("Update the metadata for an existing language, or upload metadata for a new language.")
     .in(pathAudioId)
-    .in(multipartBody[MetaDataAndOptFileForm])
+    .in {
+      import scala.language.unsafeNulls
+      multipartBody[MetaDataAndOptFileForm]
+    }
     .errorOut(errorOutputsFor(400, 401, 403, 404, 413))
     .out(jsonBody[AudioMetaInformationDTO])
     .requirePermission(AUDIO_API_WRITE)

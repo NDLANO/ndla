@@ -11,7 +11,7 @@ package no.ndla.searchapi
 import no.ndla.scalatestsuite.UnitTestSuite
 
 trait UnitSuite extends UnitTestSuite {
-  private val pid = ProcessHandle.current().pid()
+  private val pid = ProcessHandle.current().nn.pid()
 
   setPropEnv("NDLA_ENVIRONMENT", "local")
   setPropEnv("SEARCH_SERVER", "some-server")

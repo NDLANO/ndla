@@ -9,6 +9,7 @@
 package no.ndla.imageapi.controller
 
 import com.typesafe.scalalogging.StrictLogging
+import no.ndla.common.UUIDUtil
 import no.ndla.common.auth.Permission.IMAGE_API_BATCH
 import no.ndla.common.errors.{ValidationException, ValidationMessage}
 import no.ndla.common.model.domain.UploadedFile
@@ -62,12 +63,12 @@ class BulkController(using
     * the request handler returns, so the background worker would otherwise be reading from missing inodes.
     */
   private def stageFiles(uploadId: UUID, parts: List[Part[File]]): Try[(Path, List[UploadedFile])] = Try {
-    val stagingDir = Files.createTempDirectory(s"image-bulk-upload-$uploadId-")
+    val stagingDir = Files.createTempDirectory(s"image-bulk-upload-$uploadId-").nn
     val staged     = parts.map { part =>
       val source = part.body.toPath
-      val target = stagingDir.resolve(s"${UUID.randomUUID()}-${part.body.getName}")
+      val target = stagingDir.resolve(s"${UUID.randomUUID()}-${part.body.getName}").nn
       Files.move(source, target, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE)
-      val stagedPart = part.copy(body = target.toFile)
+      val stagedPart = part.copy(body = target.toFile.nn)
       UploadedFile.fromFilePart(stagedPart)
     }
     stagingDir -> staged
@@ -80,14 +81,17 @@ class BulkController(using
     .post
     .summary("Start a bulk image upload session")
     .description("Stages all uploaded images and starts an asynchronous bulk upload.")
-    .in(multipartBody[BatchMetaDataAndFileForm])
+    .in {
+      import scala.language.unsafeNulls
+      multipartBody[BatchMetaDataAndFileForm]
+    }
     .out(jsonBody[BulkUploadStartedDTO])
     .errorOut(errorOutputsFor(400))
     .requirePermission(IMAGE_API_BATCH)
     .serverLogicPure(user =>
       formData => {
         val metas    = formData.metadatas.map(_.body)
-        val uploadId = UUID.randomUUID()
+        val uploadId = UUIDUtil.randomUUID()
         for {
           _                   <- validateSameLength(metas, formData.files)
           _                   <- formData.files.traverseSizeCheck

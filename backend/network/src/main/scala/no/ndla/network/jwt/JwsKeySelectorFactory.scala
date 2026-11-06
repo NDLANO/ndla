@@ -13,15 +13,18 @@ import com.nimbusds.jose.proc.{JWSVerificationKeySelector, SecurityContext}
 import com.nimbusds.oauth2.sdk.id.Issuer
 import com.nimbusds.openid.connect.sdk.op.OIDCProviderMetadata
 
+import scala.util.Try
+
 trait JwsKeySelectorFactory {
-  def fromIssuer(issuerUrl: String): JWSVerificationKeySelector[SecurityContext]
+  def fromIssuer(issuerUrl: String): Try[JWSVerificationKeySelector[SecurityContext]]
 }
 
 case object DefaultJwsKeySelectorFactory extends JwsKeySelectorFactory {
   private val cacheTimeToLive     = 24 * 60 * 60 * 1000L // 1 day
   private val cacheRefreshTimeout = 15 * 1000L           // 15 seconds
 
-  override def fromIssuer(issuerUrl: String): JWSVerificationKeySelector[SecurityContext] = {
+  override def fromIssuer(issuerUrl: String): Try[JWSVerificationKeySelector[SecurityContext]] = Try {
+    import scala.language.unsafeNulls
     val issuer    = new Issuer(issuerUrl)
     val metadata  = OIDCProviderMetadata.resolve(issuer)
     val jwkSource = JWKSourceBuilder
@@ -31,7 +34,7 @@ case object DefaultJwsKeySelectorFactory extends JwsKeySelectorFactory {
       .refreshAheadCache(true)
       .outageTolerantForever()
       .rateLimited(false)
-      .build();
+      .build()
     val algs = new java.util.HashSet(metadata.getIDTokenJWSAlgs)
     new JWSVerificationKeySelector(algs, jwkSource)
   }

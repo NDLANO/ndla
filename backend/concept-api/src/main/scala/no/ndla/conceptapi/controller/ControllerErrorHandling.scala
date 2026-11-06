@@ -26,20 +26,20 @@ class ControllerErrorHandling(using dataSource: => DataSource, errorHelpers: Err
   import errorHelpers.*
 
   override def handleErrors: PartialFunction[Throwable, AllErrors] = {
-    case a: AccessDeniedException          => ErrorBody(ACCESS_DENIED, a.getMessage, clock.now(), 403)
+    case a: AccessDeniedException          => ErrorBody(ACCESS_DENIED, a.message, clock.now(), 403)
     case v: ValidationException            => ValidationErrorBody(VALIDATION, "Validation Error", clock.now(), Some(v.errors), 400)
-    case hre: HttpRequestException         => ErrorBody(REMOTE_ERROR, hre.getMessage, clock.now(), 502)
-    case rw: ResultWindowTooLargeException => ErrorBody(WINDOW_TOO_LARGE, rw.getMessage, clock.now(), 422)
-    case nfe: OldNotFoundException         => ErrorBody(NOT_FOUND, nfe.getMessage, clock.now(), 404)
-    case nfe: NotFoundException            => ErrorBody(NOT_FOUND, nfe.getMessage, clock.now(), 404)
-    case o: OptimisticLockException        => ErrorBody(RESOURCE_OUTDATED, o.getMessage, clock.now(), 409)
+    case hre: HttpRequestException         => ErrorBody(REMOTE_ERROR, hre.message, clock.now(), 502)
+    case rw: ResultWindowTooLargeException => ErrorBody(WINDOW_TOO_LARGE, rw.message, clock.now(), 422)
+    case nfe: OldNotFoundException         => ErrorBody(NOT_FOUND, nfe.message, clock.now(), 404)
+    case nfe: NotFoundException            => ErrorBody(NOT_FOUND, nfe.message, clock.now(), 404)
+    case o: OptimisticLockException        => ErrorBody(RESOURCE_OUTDATED, o.message, clock.now(), 409)
     case _: FileTooBigException            => ErrorBody(FILE_TOO_BIG, "File too big", clock.now(), 413)
     case _: PSQLException                  =>
       dataSource.connectToDatabase()
       ErrorBody(DATABASE_UNAVAILABLE, DATABASE_UNAVAILABLE_DESCRIPTION, clock.now(), 500)
     case _: IndexNotFoundException => ErrorBody(INDEX_MISSING, INDEX_MISSING_DESCRIPTION, clock.now(), 500)
     case e: NdlaSearchException[?] =>
-      logger.error(e.getMessage)
-      ErrorBody(GENERIC, e.getMessage, clock.now(), 500)
+      logger.error(e.message)
+      ErrorBody(GENERIC, e.message, clock.now(), 500)
   }
 }

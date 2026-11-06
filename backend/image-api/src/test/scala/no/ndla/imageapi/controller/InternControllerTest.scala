@@ -24,8 +24,7 @@ import sttp.client4.quick.*
 
 import scala.util.{Failure, Success}
 import no.ndla.mapping.LicenseDefinition
-import org.mockito.ArgumentMatchers.{any, eq as eqTo}
-import org.mockito.Mockito.{doReturn, never, reset, verify, verifyNoMoreInteractions, when}
+import no.ndla.testbase.NullSafeMockito.{any, doReturn, eqTo, never, reset, verify, verifyNoMoreInteractions, when}
 
 class InternControllerTest extends UnitSuite with TestEnvironment with TapirControllerTest {
   override implicit lazy val clock: Clock                       = mock[Clock]

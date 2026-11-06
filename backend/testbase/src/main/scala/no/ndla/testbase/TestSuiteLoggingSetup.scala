@@ -18,7 +18,7 @@ import scala.collection.mutable.ListBuffer
 /** Sets up test environment to keep logs and print them if the test fails */
 trait TestSuiteLoggingSetup extends AnyFunSuite with BeforeAndAfterEach with BeforeAndAfterAll {
   private val appender      = new BufferedLogAppender()
-  private def getNDLALogger = LogManager.getContext(false).asInstanceOf[LoggerContext].getLogger("no.ndla")
+  private def getNDLALogger = LogManager.getContext(false).asInstanceOf[LoggerContext].getLogger("no.ndla").nn
   private val beforeAllLog  = ListBuffer.empty[String]
 
   private def setupLogger(): Unit = {
@@ -53,7 +53,7 @@ trait TestSuiteLoggingSetup extends AnyFunSuite with BeforeAndAfterEach with Bef
   }
 
   private def shutdownLogger(): Unit = {
-    LoggerContext.getContext(false).stop()
+    LoggerContext.getContext(false).nn.stop()
   }
 
   override def withFixture(test: NoArgTest): Outcome = {

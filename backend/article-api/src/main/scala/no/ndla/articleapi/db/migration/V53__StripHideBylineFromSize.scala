@@ -17,13 +17,18 @@ class V53__StripHideBylineFromSize extends HtmlMigration {
   override def convertHtml(doc: Element, language: String): Element = {
     doc
       .select("ndlaembed[data-resource='image']")
-      .forEach(embed => {
+      .nn
+      .forEach(element => {
+        val embed   = element.nn
         val hasSize = embed.hasAttr("data-size")
         if (hasSize) {
-          if (embed.attr("data-size").contains("-")) {
-            embed.attr("data-size", embed.attr("data-size").substring(0, embed.attr("data-size").indexOf("-"))): Unit
+          if (embed.attr("data-size").nn.contains("-")) {
+            embed.attr(
+              "data-size",
+              embed.attr("data-size").nn.substring(0, embed.attr("data-size").nn.indexOf("-")),
+            ): Unit
           }
-          if (embed.attr("data-size").equals("fullbredde") || embed.attr("data-size").equals("fullwidth")) {
+          if (embed.attr("data-size") == "fullbredde" || embed.attr("data-size") == "fullwidth") {
             embed.attr("data-size", "full"): Unit
           }
         }

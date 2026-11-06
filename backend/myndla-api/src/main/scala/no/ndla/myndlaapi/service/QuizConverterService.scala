@@ -8,14 +8,13 @@
 
 package no.ndla.myndlaapi.service
 
+import no.ndla.common.UUIDUtil
 import no.ndla.common.model.NDLADate
 import no.ndla.common.model.domain.{Description, Title}
 import no.ndla.common.model.domain.myndla.MyNDLAUser
 import no.ndla.myndlaapi.model.api.*
 import no.ndla.myndlaapi.model.domain.*
 import no.ndla.network.model.FeideID
-
-import java.util.UUID
 
 class QuizConverterService {
 
@@ -67,10 +66,10 @@ class QuizConverterService {
   }
 
   def toDomainAlternative(a: NewAlternativeDTO): Alternative =
-    Alternative(id = UUID.randomUUID(), text = a.text, isCorrect = a.isCorrect)
+    Alternative(id = UUIDUtil.randomUUID(), text = a.text, isCorrect = a.isCorrect)
 
   def toDomainQuestion(dto: NewQuestionDTO, now: NDLADate, language: String): Question = Question(
-    id = UUID.randomUUID(),
+    id = UUIDUtil.randomUUID(),
     questionType = dto.questionType,
     language = language,
     title = dto.title,
@@ -83,7 +82,7 @@ class QuizConverterService {
   )
 
   def toDomainQuiz(dto: NewQuizDTO, ownerId: FeideID, user: String, now: NDLADate, language: String): Quiz = Quiz(
-    id = UUID.randomUUID(),
+    id = UUIDUtil.randomUUID(),
     ownerId = ownerId,
     revision = None,
     title = Seq(Title(dto.title, language)),

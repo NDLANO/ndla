@@ -13,16 +13,15 @@ import no.ndla.common.model.api as commonApi
 import no.ndla.conceptapi.model.api
 import no.ndla.conceptapi.{TestData, TestEnvironment, UnitSuite}
 import no.ndla.network.tapir.auth.TokenUser
-import org.mockito.invocation.InvocationOnMock
-import org.mockito.{ArgumentCaptor, Mockito}
+import org.mockito.ArgumentCaptor
 import scalikejdbc.DBSession
 
 import scala.util.{Failure, Success, Try}
 import no.ndla.common.model.NDLADate
 import no.ndla.common.model.api.{Missing, ResponsibleDTO, UpdateWith}
 import no.ndla.common.model.domain.concept.{Concept, ConceptContent, ConceptStatus, Status, VisualElement}
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.{reset, times, verify, when}
+import no.ndla.testbase.NullSafeMockito
+import no.ndla.testbase.NullSafeMockito.{any, reset, times, verify, when}
 import org.mockito.stubbing.OngoingStubbing
 
 class WriteServiceTest extends UnitSuite with TestEnvironment {
@@ -50,22 +49,22 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
 
   def mockWithConcept(concept: Concept): OngoingStubbing[NDLADate] = {
     when(draftConceptRepository.withId(conceptId)).thenReturn(Option(concept))
-    when(draftConceptRepository.update(any[Concept])(using any[DBSession])).thenAnswer((invocation: InvocationOnMock) =>
-      Try(invocation.getArgument[Concept](0))
+    when(draftConceptRepository.update(any[Concept])(using any[DBSession])).thenAnswer(invocation =>
+      Try(invocation.nn.getArgument[Concept](0))
     )
 
-    when(contentValidator.validateConcept(any[Concept])).thenAnswer((invocation: InvocationOnMock) =>
-      Try(invocation.getArgument[Concept](0))
+    when(contentValidator.validateConcept(any[Concept])).thenAnswer(invocation =>
+      Try(invocation.nn.getArgument[Concept](0))
     )
 
-    when(draftConceptIndexService.indexDocument(any[Concept])).thenAnswer((invocation: InvocationOnMock) =>
-      Try(invocation.getArgument[Concept](0))
+    when(draftConceptIndexService.indexDocument(any[Concept])).thenAnswer(invocation =>
+      Try(invocation.nn.getArgument[Concept](0))
     )
-    when(clock.now()).thenReturn(today)
+    when(clock.now()).thenReturn(today).nn
   }
 
   override def beforeEach(): Unit = {
-    Mockito.reset(draftConceptRepository)
+    reset(draftConceptRepository)
     mockWithConcept(domainConcept)
   }
 
@@ -194,17 +193,17 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
         visualElement = Seq(VisualElement("VisueltElement", "nb"), VisualElement("VisueltElement", "nn")),
         responsible = Some(Responsible("hei", TestData.today)),
       )
-    val conceptCaptor: ArgumentCaptor[Concept] = ArgumentCaptor.forClass(classOf[Concept])
+    val conceptCaptor: ArgumentCaptor[Concept] = ArgumentCaptor.forClass(classOf[Concept]).nn
 
     when(draftConceptRepository.withId(any)).thenReturn(Some(concept))
 
     val updated = service.deleteLanguage(concept.id.get, "nn", userInfo).get
-    verify(draftConceptRepository).update(conceptCaptor.capture())
+    verify(draftConceptRepository).update(NullSafeMockito.capture(conceptCaptor))
 
-    conceptCaptor.getValue.title.length should be(1)
-    conceptCaptor.getValue.content.length should be(1)
-    conceptCaptor.getValue.tags.length should be(1)
-    conceptCaptor.getValue.visualElement.length should be(1)
+    conceptCaptor.getValue.nn.title.length should be(1)
+    conceptCaptor.getValue.nn.content.length should be(1)
+    conceptCaptor.getValue.nn.tags.length should be(1)
+    conceptCaptor.getValue.nn.visualElement.length should be(1)
     updated.supportedLanguages should not contain "nn"
   }
 
@@ -223,14 +222,14 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     val updatedTitle      = "NyTittelTestJee"
     val updatedApiConcept = TestData.emptyApiUpdatedConcept.copy(language = "en", title = Some(updatedTitle))
 
-    val conceptCaptor: ArgumentCaptor[Concept] = ArgumentCaptor.forClass(classOf[Concept])
+    val conceptCaptor: ArgumentCaptor[Concept] = ArgumentCaptor.forClass(classOf[Concept]).nn
 
     service.updateConcept(conceptId, updatedApiConcept, userInfo)
 
-    verify(draftConceptRepository).update(conceptCaptor.capture())(using any[DBSession])
+    verify(draftConceptRepository).update(NullSafeMockito.capture(conceptCaptor))(using any[DBSession])
 
-    conceptCaptor.getValue.revision should be(Some(951))
-    conceptCaptor.getValue.title should be(Seq(Title(updatedTitle, "en")))
+    conceptCaptor.getValue.nn.revision should be(Some(951))
+    conceptCaptor.getValue.nn.title should be(Seq(Title(updatedTitle, "en")))
   }
 
   test("That update function updates only responsible properly") {

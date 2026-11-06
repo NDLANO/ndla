@@ -37,7 +37,7 @@ class V58__MigrateSavedSearchUrls extends BaseJavaMigration {
     sql"update userdata set document = $dataObject where id = $id".update()
   }
 
-  override def migrate(context: Context): Unit = DB(context.getConnection)
+  override def migrate(context: Context | Null): Unit = DB(context.nn.getConnection.nn)
     .autoClose(false)
     .withinTx { session =>
       migrateRows(using session)
@@ -67,7 +67,7 @@ class V58__MigrateSavedSearchUrls extends BaseJavaMigration {
         .map(el =>
           el.map { value =>
             V58_SavedSearch(
-              value.searchUrl.replace("/concept", "/content").replace("status=", "draft-status="),
+              value.searchUrl.replace("/concept", "/content").nn.replace("status=", "draft-status=").nn,
               value.searchPhrase,
             )
           }

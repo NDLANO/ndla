@@ -129,9 +129,9 @@ class MultiDraftSearchServiceAtomicTest extends ElasticsearchIntegrationSuite wi
       .copy(
         id = Some(1),
         revisionMeta = Seq(
-          RevisionMeta(id = UUID.randomUUID(), today, note = "note", status = RevisionStatus.NeedsRevision),
-          RevisionMeta(id = UUID.randomUUID(), tomorrow, note = "note", status = RevisionStatus.NeedsRevision),
-          RevisionMeta(id = UUID.randomUUID(), yesterday, note = "note", status = RevisionStatus.Revised),
+          RevisionMeta(id = UUID.randomUUID().nn, today, note = "note", status = RevisionStatus.NeedsRevision),
+          RevisionMeta(id = UUID.randomUUID().nn, tomorrow, note = "note", status = RevisionStatus.NeedsRevision),
+          RevisionMeta(id = UUID.randomUUID().nn, yesterday, note = "note", status = RevisionStatus.Revised),
         ),
       )
     val draft2 = TestData
@@ -139,7 +139,12 @@ class MultiDraftSearchServiceAtomicTest extends ElasticsearchIntegrationSuite wi
       .copy(
         id = Some(2),
         revisionMeta = Seq(
-          RevisionMeta(id = UUID.randomUUID(), yesterday.minusDays(10), note = "note", status = RevisionStatus.Revised)
+          RevisionMeta(
+            id = UUID.randomUUID().nn,
+            yesterday.minusDays(10),
+            note = "note",
+            status = RevisionStatus.Revised,
+          )
         ),
       )
     val draft3 = TestData
@@ -147,7 +152,7 @@ class MultiDraftSearchServiceAtomicTest extends ElasticsearchIntegrationSuite wi
       .copy(
         id = Some(3),
         revisionMeta =
-          Seq(RevisionMeta(id = UUID.randomUUID(), yesterday, note = "note", status = RevisionStatus.NeedsRevision)),
+          Seq(RevisionMeta(id = UUID.randomUUID().nn, yesterday, note = "note", status = RevisionStatus.NeedsRevision)),
       )
     val draft4 = TestData.draft1.copy(id = Some(4), revisionMeta = Seq())
 
@@ -156,9 +161,9 @@ class MultiDraftSearchServiceAtomicTest extends ElasticsearchIntegrationSuite wi
       .copy(
         id = Some(5),
         revisionMeta = Seq(
-          RevisionMeta(id = UUID.randomUUID(), today, note = "note", status = RevisionStatus.NeedsRevision),
-          RevisionMeta(id = UUID.randomUUID(), tomorrow, note = "note", status = RevisionStatus.NeedsRevision),
-          RevisionMeta(id = UUID.randomUUID(), yesterday, note = "note", status = RevisionStatus.Revised),
+          RevisionMeta(id = UUID.randomUUID().nn, today, note = "note", status = RevisionStatus.NeedsRevision),
+          RevisionMeta(id = UUID.randomUUID().nn, tomorrow, note = "note", status = RevisionStatus.NeedsRevision),
+          RevisionMeta(id = UUID.randomUUID().nn, yesterday, note = "note", status = RevisionStatus.Revised),
         ),
       )
     val lp2 = TestData
@@ -166,7 +171,12 @@ class MultiDraftSearchServiceAtomicTest extends ElasticsearchIntegrationSuite wi
       .copy(
         id = Some(6),
         revisionMeta = Seq(
-          RevisionMeta(id = UUID.randomUUID(), yesterday.minusDays(10), note = "note", status = RevisionStatus.Revised)
+          RevisionMeta(
+            id = UUID.randomUUID().nn,
+            yesterday.minusDays(10),
+            note = "note",
+            status = RevisionStatus.Revised,
+          )
         ),
       )
     val lp3 = TestData
@@ -174,7 +184,7 @@ class MultiDraftSearchServiceAtomicTest extends ElasticsearchIntegrationSuite wi
       .copy(
         id = Some(7),
         revisionMeta =
-          Seq(RevisionMeta(id = UUID.randomUUID(), yesterday, note = "note", status = RevisionStatus.NeedsRevision)),
+          Seq(RevisionMeta(id = UUID.randomUUID().nn, yesterday, note = "note", status = RevisionStatus.NeedsRevision)),
       )
     val lp4 = TestData.learningPath1.copy(id = Some(8), revisionMeta = Seq())
     draftIndexService.indexDocument(draft1, indexingBundle).get
@@ -212,9 +222,9 @@ class MultiDraftSearchServiceAtomicTest extends ElasticsearchIntegrationSuite wi
       .copy(
         id = Some(1),
         revisionMeta = Seq(
-          RevisionMeta(id = UUID.randomUUID(), today, note = "apekatt", status = RevisionStatus.NeedsRevision),
-          RevisionMeta(id = UUID.randomUUID(), tomorrow, note = "note", status = RevisionStatus.NeedsRevision),
-          RevisionMeta(id = UUID.randomUUID(), yesterday, note = "note", status = RevisionStatus.Revised),
+          RevisionMeta(id = UUID.randomUUID().nn, today, note = "apekatt", status = RevisionStatus.NeedsRevision),
+          RevisionMeta(id = UUID.randomUUID().nn, tomorrow, note = "note", status = RevisionStatus.NeedsRevision),
+          RevisionMeta(id = UUID.randomUUID().nn, yesterday, note = "note", status = RevisionStatus.Revised),
         ),
       )
     val draft2 = TestData
@@ -223,7 +233,7 @@ class MultiDraftSearchServiceAtomicTest extends ElasticsearchIntegrationSuite wi
         id = Some(2),
         revisionMeta = Seq(
           RevisionMeta(
-            id = UUID.randomUUID(),
+            id = UUID.randomUUID().nn,
             yesterday.minusDays(10),
             note = "kinakål",
             status = RevisionStatus.Revised,
@@ -235,7 +245,12 @@ class MultiDraftSearchServiceAtomicTest extends ElasticsearchIntegrationSuite wi
       .copy(
         id = Some(3),
         revisionMeta = Seq(
-          RevisionMeta(id = UUID.randomUUID(), yesterday, note = "trylleformel", status = RevisionStatus.NeedsRevision)
+          RevisionMeta(
+            id = UUID.randomUUID().nn,
+            yesterday,
+            note = "trylleformel",
+            status = RevisionStatus.NeedsRevision,
+          )
         ),
       )
     val draft4 = TestData.draft1.copy(id = Some(4), revisionMeta = Seq())
@@ -245,7 +260,7 @@ class MultiDraftSearchServiceAtomicTest extends ElasticsearchIntegrationSuite wi
         id = Some(5),
         revisionMeta = Seq(
           RevisionMeta(
-            id = UUID.randomUUID(),
+            id = UUID.randomUUID().nn,
             yesterday.minusDays(10),
             note = "pudding",
             status = RevisionStatus.Revised,
@@ -257,7 +272,12 @@ class MultiDraftSearchServiceAtomicTest extends ElasticsearchIntegrationSuite wi
       .copy(
         id = Some(6),
         revisionMeta = Seq(
-          RevisionMeta(id = UUID.randomUUID(), yesterday, note = "trylleformel", status = RevisionStatus.NeedsRevision)
+          RevisionMeta(
+            id = UUID.randomUUID().nn,
+            yesterday,
+            note = "trylleformel",
+            status = RevisionStatus.NeedsRevision,
+          )
         ),
       )
     draftIndexService.indexDocument(draft1, indexingBundle).get
@@ -286,12 +306,12 @@ class MultiDraftSearchServiceAtomicTest extends ElasticsearchIntegrationSuite wi
         id = Some(1),
         revisionMeta = Seq(
           RevisionMeta(
-            id = UUID.randomUUID(),
+            id = UUID.randomUUID().nn,
             today.plusDays(1),
             note = "apekatt",
             status = RevisionStatus.NeedsRevision,
           ),
-          RevisionMeta(id = UUID.randomUUID(), today.plusDays(10), note = "note", status = RevisionStatus.Revised),
+          RevisionMeta(id = UUID.randomUUID().nn, today.plusDays(10), note = "note", status = RevisionStatus.Revised),
         ),
       )
     val draft2 = TestData
@@ -299,7 +319,12 @@ class MultiDraftSearchServiceAtomicTest extends ElasticsearchIntegrationSuite wi
       .copy(
         id = Some(2),
         revisionMeta = Seq(
-          RevisionMeta(id = UUID.randomUUID(), today.minusDays(10), note = "kinakål", status = RevisionStatus.Revised)
+          RevisionMeta(
+            id = UUID.randomUUID().nn,
+            today.minusDays(10),
+            note = "kinakål",
+            status = RevisionStatus.Revised,
+          )
         ),
       )
     val draft3 = TestData
@@ -308,7 +333,7 @@ class MultiDraftSearchServiceAtomicTest extends ElasticsearchIntegrationSuite wi
         id = Some(3),
         revisionMeta = Seq(
           RevisionMeta(
-            id = UUID.randomUUID(),
+            id = UUID.randomUUID().nn,
             today.minusDays(10),
             note = "trylleformel",
             status = RevisionStatus.NeedsRevision,

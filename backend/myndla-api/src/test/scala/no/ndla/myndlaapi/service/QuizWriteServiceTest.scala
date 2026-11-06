@@ -14,9 +14,7 @@ import no.ndla.myndlaapi.TestEnvironment
 import no.ndla.myndlaapi.model.domain.{Quiz, QuizStatus}
 import no.ndla.network.model.{CombinedUser, CombinedUserWithMyNDLAUser, FeideIdToken, FeideUserWrapper}
 import no.ndla.scalatestsuite.UnitTestSuite
-import org.mockito.ArgumentMatchers.{any, eq as eqTo}
-import org.mockito.Mockito.{never, reset, spy, verify, when}
-import org.mockito.invocation.InvocationOnMock
+import no.ndla.testbase.NullSafeMockito.{any, eqTo, never, reset, spy, verify, when}
 import scalikejdbc.DBSession
 
 import scala.util.Success
@@ -47,10 +45,10 @@ class QuizWriteServiceTest extends UnitTestSuite with TestEnvironment {
 
   private def stubCloneQuiz(existing: Quiz, canView: Boolean = true): Unit = {
     when(clock.now()).thenReturn(TestData.today)
-    when(quizRepository.withIdOrError(eqTo(TestData.quizId))(using any[DBSession]())).thenReturn(Success(existing))
-    when(quizRepository.canView(any[Quiz], any[CombinedUser]())).thenReturn(canView)
-    when(quizRepository.insert(any[String], any[Quiz])(using any[DBSession]())).thenAnswer(
-      (invocation: InvocationOnMock) => Success(invocation.getArgument[Quiz](1).copy(revision = Some(1)))
+    when(quizRepository.withIdOrError(eqTo(TestData.quizId))(using any[DBSession])).thenReturn(Success(existing))
+    when(quizRepository.canView(any[Quiz], any[CombinedUser])).thenReturn(canView)
+    when(quizRepository.insert(any[String], any[Quiz])(using any[DBSession])).thenAnswer(invocation =>
+      Success(invocation.nn.getArgument[Quiz](1).nn.copy(revision = Some(1)))
     )
   }
 
@@ -98,9 +96,9 @@ class QuizWriteServiceTest extends UnitTestSuite with TestEnvironment {
   }
 
   private def stubSaveQuiz(existing: Quiz, canView: Boolean = true): Unit = {
-    when(quizRepository.withIdOrError(eqTo(TestData.quizId))(using any[DBSession]())).thenReturn(Success(existing))
-    when(quizRepository.canView(any[Quiz], any[CombinedUser]())).thenReturn(canView)
-    when(quizRepository.saveQuiz(any, any[String])(using any[DBSession]())).thenReturn(Success(()))
+    when(quizRepository.withIdOrError(eqTo(TestData.quizId))(using any[DBSession])).thenReturn(Success(existing))
+    when(quizRepository.canView(any[Quiz], any[CombinedUser])).thenReturn(canView)
+    when(quizRepository.saveQuiz(any, any[String])(using any[DBSession])).thenReturn(Success(()))
   }
 
   test("saveQuiz saves a public quiz owned by someone else") {
@@ -109,7 +107,7 @@ class QuizWriteServiceTest extends UnitTestSuite with TestEnvironment {
     val result = service.saveQuiz(TestData.quizId, notOwner)
 
     result.isSuccess should be(true)
-    verify(quizRepository).saveQuiz(eqTo(TestData.quizId), eqTo("someone-else"))(using any[DBSession]())
+    verify(quizRepository).saveQuiz(eqTo(TestData.quizId), eqTo("someone-else"))(using any[DBSession])
   }
 
   test("saveQuiz saves a quiz owned by the caller") {
@@ -118,7 +116,7 @@ class QuizWriteServiceTest extends UnitTestSuite with TestEnvironment {
     val result = service.saveQuiz(TestData.quizId, owner())
 
     result.isSuccess should be(true)
-    verify(quizRepository).saveQuiz(eqTo(TestData.quizId), eqTo("owner-feide-id"))(using any[DBSession]())
+    verify(quizRepository).saveQuiz(eqTo(TestData.quizId), eqTo("owner-feide-id"))(using any[DBSession])
   }
 
   test("saveQuiz returns Failure for a private quiz the caller cannot view") {
@@ -128,6 +126,6 @@ class QuizWriteServiceTest extends UnitTestSuite with TestEnvironment {
 
     result.isFailure should be(true)
     result.failed.get.getMessage should be(s"Quiz with id ${TestData.quizId} was not found")
-    verify(quizRepository, never()).saveQuiz(any, any[String])(using any[DBSession]())
+    verify(quizRepository, never).saveQuiz(any, any[String])(using any[DBSession])
   }
 }
