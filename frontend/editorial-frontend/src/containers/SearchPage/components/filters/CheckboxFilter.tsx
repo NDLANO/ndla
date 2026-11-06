@@ -15,9 +15,32 @@ import {
   CheckboxLabel,
   CheckboxRoot,
 } from "@ndla/primitives";
-import { useId, type ReactNode } from "react";
+import { useId } from "react";
 import type { SelectOption } from "../../../../components/ObjectSelector";
 import { FilterGroup } from "./FilterGroup";
+
+interface FilterCheckboxGroupProps {
+  options: SelectOption[];
+  value: string[];
+  onChange: (value: string[]) => void;
+  labelledBy: string;
+}
+
+export const FilterCheckboxGroup = ({ options, value, onChange, labelledBy }: FilterCheckboxGroupProps) => (
+  <CheckboxGroup value={value} onValueChange={onChange} aria-labelledby={labelledBy}>
+    {options.map((option) => (
+      <CheckboxRoot key={option.id} value={option.id} disabled={option.disabled}>
+        <CheckboxControl>
+          <CheckboxIndicator asChild>
+            <CheckLine />
+          </CheckboxIndicator>
+        </CheckboxControl>
+        <CheckboxLabel>{option.name}</CheckboxLabel>
+        <CheckboxHiddenInput />
+      </CheckboxRoot>
+    ))}
+  </CheckboxGroup>
+);
 
 interface Props {
   title: string;
@@ -25,28 +48,13 @@ interface Props {
   options: SelectOption[];
   value: string[];
   onChange: (value: string[]) => void;
-  activeCount?: number;
-  children?: ReactNode;
 }
 
-export const CheckboxFilter = ({ title, name, options, value, onChange, activeCount, children }: Props) => {
+export const CheckboxFilter = ({ title, name, options, value, onChange }: Props) => {
   const headingId = useId();
   return (
-    <FilterGroup title={title} name={name} headingId={headingId} activeCount={activeCount ?? value.length}>
-      <CheckboxGroup value={value} onValueChange={onChange} aria-labelledby={headingId}>
-        {options.map((option) => (
-          <CheckboxRoot key={option.id} value={option.id} disabled={option.disabled}>
-            <CheckboxControl>
-              <CheckboxIndicator asChild>
-                <CheckLine />
-              </CheckboxIndicator>
-            </CheckboxControl>
-            <CheckboxLabel>{option.name}</CheckboxLabel>
-            <CheckboxHiddenInput />
-          </CheckboxRoot>
-        ))}
-      </CheckboxGroup>
-      {children}
+    <FilterGroup title={title} name={name} headingId={headingId} activeCount={value.length}>
+      <FilterCheckboxGroup options={options} value={value} onChange={onChange} labelledBy={headingId} />
     </FilterGroup>
   );
 };
