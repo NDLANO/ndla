@@ -116,21 +116,22 @@ class ContentValidator(using articleRepository: ArticleRepository, props: Props)
 
   private def rootElementContainsOnlySectionBlocks(field: String, html: String): Option[ValidationMessage] = {
     val legalTopLevelTag = "section"
-    val topLevelTags     = stringToJsoupDocument(html)
-      .flatMap(_.children().toOption)
-      .toList
-      .flatMap(_.asScala.map(_.tagName()))
+    stringToJsoupDocument(html) match {
+      case None           => Some(ValidationMessage(field, "Unable to parse the content as HTML."))
+      case Some(document) =>
+        val topLevelTags = document.children().toOption.toList.flatMap(_.asScala).map(_.tagName())
 
-    if (topLevelTags.forall(_ == legalTopLevelTag)) {
-      None
-    } else {
-      val illegalTags = topLevelTags.filterNot(_ == legalTopLevelTag).mkString(",")
-      Some(
-        ValidationMessage(
-          field,
-          s"An article must consist of one or more <section> blocks. Illegal tag(s) are $illegalTags ",
-        )
-      )
+        if (topLevelTags.forall(_ == legalTopLevelTag)) {
+          None
+        } else {
+          val illegalTags = topLevelTags.filterNot(_ == legalTopLevelTag).mkString(",")
+          Some(
+            ValidationMessage(
+              field,
+              s"An article must consist of one or more <section> blocks. Illegal tag(s) are $illegalTags ",
+            )
+          )
+        }
     }
   }
 
