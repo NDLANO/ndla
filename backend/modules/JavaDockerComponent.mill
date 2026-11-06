@@ -10,8 +10,17 @@ trait JavaDockerComponent extends DockerComponent {
   // don't collide. It is exposed as `assembly` because the shared Dockerfile copies
   // `assembly.dest/out.jar`.
   override def assembly: T[PathRef] = Task {
-    val dest                 = Task.dest / "out.jar"
-    val dependencies         = resolvedRunMvnDeps().map(_.path.toIO)
+    val dest       = Task.dest / "out.jar"
+    val moduleJars = Task
+      .traverse(transitiveModuleRunModuleDeps)(_.jar)()
+      .zip(transitiveModuleRunModuleDeps)
+      .map { (jar, module) =>
+        // Every module's jar is named `out.jar`, and Repackager names libraries after their file.
+        val named = Task.dest / "modules" / s"${module.moduleSegments.render}.jar"
+        os.copy.over(jar.path, named, createFolders = true)
+        named.toIO
+      }
+    val dependencies         = resolvedRunMvnDeps().map(_.path.toIO) ++ moduleJars
     val libraries: Libraries =
       callback => dependencies.foreach(dependency => callback.library(new Library(dependency, LibraryScope.RUNTIME)))
 
