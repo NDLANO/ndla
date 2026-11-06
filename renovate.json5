@@ -39,11 +39,18 @@
     {
       // The `//| mvnDeps` header bootstraps in the backend/build.mill file
       customType: "regex",
-      description: "Meta-build dependencies in the backend/build.mill header",
+      description: "Scala meta-build dependencies in the backend/build.mill header",
       managerFilePatterns: ["backend/build.mill"],
       matchStrings: ['"(?<depName>[^":]+::[^":]+):(?<currentValue>\\d[^"]*)"'],
       datasourceTemplate: "maven",
       packageNameTemplate: "{{{replace '::' ':' depName}}}_3",
+    },
+    {
+      customType: "regex",
+      description: "Java meta-build dependencies in the backend/build.mill header",
+      managerFilePatterns: ["backend/build.mill"],
+      matchStrings: ['"(?<depName>[^":]+:[^":]+):(?<currentValue>\\d[^"]*)"'],
+      datasourceTemplate: "maven",
     },
     {
       customType: "regex",
@@ -84,6 +91,8 @@
     { matchPackageNames: ["org.scalatest:*", "org.scalatestplus:*"], groupName: "scalatest" },
     { matchPackageNames: ["org.scalameta:*"], groupName: "scalameta" },
     { matchPackageNames: ["org.flywaydb:*"], groupName: "flyway" },
+    // spring-boot-loader-tools in the build.mill header builds taxonomy-api's launcher, so it must match the BOM
+    { matchPackageNames: ["org.springframework.boot:*"], groupName: "spring-boot" },
     { matchPackageNames: ["nl.gn0s1s:*"], groupName: "elastic4s" },
     { matchPackageNames: ["io.prometheus:prometheus-metrics-*"], groupName: "prometheus" },
     { matchPackageNames: ["com.sksamuel.scrimage:*"], groupName: "scrimage" },
