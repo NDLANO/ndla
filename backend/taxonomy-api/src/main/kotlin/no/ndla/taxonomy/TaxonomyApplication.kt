@@ -13,6 +13,7 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.nio.file.Files
 import java.nio.file.Path
+import org.springframework.boot.Banner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.security.autoconfigure.UserDetailsServiceAutoConfiguration
@@ -23,11 +24,16 @@ class TaxonomyApplication {
   companion object {
     @JvmStatic
     fun main(args: Array<String>) {
+      System.setProperty("APPLICATION_NAME", "taxonomy-api")
       if (args.contains("--generate-openapi")) {
         generateOpenApi()
         return
       }
-      SpringApplication.run(TaxonomyApplication::class.java, *args)
+      val app = SpringApplication(TaxonomyApplication::class.java)
+      if (System.getenv("LOG_APPENDER") == "Docker") {
+        app.setBannerMode(Banner.Mode.OFF)
+      }
+      app.run(*args)
     }
 
     private val OPENAPI_PROPERTIES =
