@@ -92,7 +92,7 @@ catalog:
   openapi-fetch: ^0.17.0
   openapi-typescript-helpers: ^0.1.0
   openid-client: ^6.8.9
-  oxfmt: ^0.75.0
+  oxfmt: ^0.76.0
   oxlint: ^1.91.0
   oxlint-tsgolint: ^7.0.2005
   postcss: ^8.5.32
