@@ -50,7 +50,7 @@
   "scalaDependencies": {
     "com.beachape::enumeratum": "1.9.8",
     "com.beachape::enumeratum-circe": "1.9.8",
-    "com.fasterxml.jackson.module::jackson-module-scala": "2.22.4",
+    "com.fasterxml.jackson.module::jackson-module-scala": "2.23.0",
     "com.github.jwt-scala::jwt-circe": "12.0.0",
     "com.indoorvivants::scala-uri": "4.2.0",
     "com.softwaremill.sttp.apispec::openapi-circe-yaml": "0.12.1",
