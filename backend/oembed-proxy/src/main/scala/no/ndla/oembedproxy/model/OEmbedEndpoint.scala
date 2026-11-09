@@ -27,7 +27,11 @@ case class OEmbedEndpoint(
   }
 
   def matches(scheme: String, url: String): Boolean = {
-    val regex = scheme.replace(".", "\\.").replace("*", ".*")
+    val regex = scheme.flatMap {
+      case '.' => "\\."
+      case '*' => ".*"
+      case c   => c.toString
+    }
     url.matches(regex)
   }
 }

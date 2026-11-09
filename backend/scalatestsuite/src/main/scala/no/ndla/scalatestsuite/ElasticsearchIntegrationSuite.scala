@@ -23,8 +23,9 @@ trait ElasticsearchIntegrationSuite extends UnitTestSuite {
   protected object elasticsearchContainer extends ContainerIntegrationSuiteBase[ElasticsearchContainer, String] {
     override protected val containerName: String = "elasticsearch"
 
-    private def esImageName: DockerImageName =
-      DockerImageName.parse(env.getOrElse("SEARCH_ENGINE_IMAGE", ElasticsearchImage))
+    private def esImageName: DockerImageName = DockerImageName
+      .parse(env.getOrElse("SEARCH_ENGINE_IMAGE", ElasticsearchImage))
+      .nn
 
     override protected def createContainer(): ElasticsearchContainer = {
       val container = new ElasticsearchContainer(esImageName)
@@ -61,6 +62,7 @@ trait ElasticsearchIntegrationSuite extends UnitTestSuite {
     }
 
     override protected def healthCheck(url: String): Boolean = Try {
+      import scala.language.unsafeNulls
       val request  = HttpRequest.newBuilder(URI.create(url)).timeout(Duration.ofSeconds(2)).GET().build()
       val response = HttpClient
         .newBuilder()

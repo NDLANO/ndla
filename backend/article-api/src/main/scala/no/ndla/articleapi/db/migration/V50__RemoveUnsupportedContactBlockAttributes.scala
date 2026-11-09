@@ -40,7 +40,7 @@ class V50__RemoveUnsupportedContactBlockAttributes extends BaseJavaMigration {
     sql"update contentdata set document = $dataObject where id = $id".update()
   }
 
-  override def migrate(context: Context): Unit = DB(context.getConnection)
+  override def migrate(context: Context | Null): Unit = DB(context.nn.getConnection.nn)
     .autoClose(false)
     .withinTx { session =>
       migrateRows(using session)
@@ -61,13 +61,13 @@ class V50__RemoveUnsupportedContactBlockAttributes extends BaseJavaMigration {
   }
 
   private def stringToJsoupDocument(htmlString: String): Element = {
-    val document = Jsoup.parseBodyFragment(htmlString)
-    document.outputSettings().escapeMode(EscapeMode.xhtml).prettyPrint(false)
-    document.select("body").first()
+    val document = Jsoup.parseBodyFragment(htmlString).nn
+    document.outputSettings().nn.escapeMode(EscapeMode.xhtml).nn.prettyPrint(false)
+    document.select("body").nn.first().nn
   }
 
   private def jsoupDocumentToString(element: Element): String = {
-    element.select("body").html()
+    element.select("body").nn.html().nn
   }
 
   def convertContent(c: ArticleContent): ArticleContent = {
@@ -75,9 +75,10 @@ class V50__RemoveUnsupportedContactBlockAttributes extends BaseJavaMigration {
 
     doc
       .select("ndlaembed[data-resource='contact-block']")
+      .nn
       .forEach(embed => {
-        embed.removeAttr("data-blob"): Unit
-        embed.removeAttr("data-blob-color"): Unit
+        embed.nn.removeAttr("data-blob"): Unit
+        embed.nn.removeAttr("data-blob-color"): Unit
       })
     c.copy(content = jsoupDocumentToString(doc))
   }

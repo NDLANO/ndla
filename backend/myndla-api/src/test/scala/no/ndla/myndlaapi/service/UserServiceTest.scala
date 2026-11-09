@@ -20,8 +20,7 @@ import no.ndla.network.clients.{FeideExtendedUserInfo, FeideGroup, Membership}
 import no.ndla.network.model.{FeideIdToken, FeideUserWrapper}
 import no.ndla.scalatestsuite.UnitTestSuite
 import no.ndla.tapirtesting.FeideAuthTestData
-import org.mockito.ArgumentMatchers.{any, eq as eqTo}
-import org.mockito.Mockito.*
+import no.ndla.testbase.NullSafeMockito.*
 
 import scala.util.{Failure, Success, Try}
 
@@ -168,7 +167,7 @@ class UserServiceTest extends UnitTestSuite with TestEnvironment {
       Success((feideGroups, "oslo"))
     )
     when(userRepository.insertUser(any, any[MyNDLAUserDocument])(using any)).thenAnswer { i =>
-      Success(i.getArgument[MyNDLAUserDocument](1).toFullUser(feide.user.id, feide.user.feideId, now))
+      Success(i.nn.getArgument[MyNDLAUserDocument](1).nn.toFullUser(feide.user.id, feide.user.feideId, now))
     }
 
     service.createOrUpdateUser(feide.idToken, feideAccessToken).get should be(expectedUser)
@@ -227,7 +226,7 @@ class UserServiceTest extends UnitTestSuite with TestEnvironment {
     when(feideApiClient.getFeideGroupsAndOrganization(eqTo(feideAccessToken))).thenReturn(
       Success((feideGroups, "oslo"))
     )
-    when(userRepository.updateUser(any, any)(using any)).thenAnswer(i => Success(i.getArgument(1)))
+    when(userRepository.updateUser(any, any)(using any)).thenAnswer(i => Success(i.nn.getArgument[MyNDLAUser](1)))
 
     service.createOrUpdateUser(feide.idToken, feideAccessToken).get should be(expectedUser)
 

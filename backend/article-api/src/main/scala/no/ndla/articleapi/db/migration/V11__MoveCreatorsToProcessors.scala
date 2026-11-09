@@ -11,5 +11,5 @@ package no.ndla.articleapi.db.migration
 import org.flywaydb.core.api.migration.{BaseJavaMigration, Context}
 
 class V11__MoveCreatorsToProcessors extends BaseJavaMigration {
-  override def migrate(context: Context): Unit = {}
+  override def migrate(context: Context | Null): Unit = {}
 }

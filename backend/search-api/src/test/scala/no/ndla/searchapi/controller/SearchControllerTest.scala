@@ -21,9 +21,9 @@ import no.ndla.searchapi.model.search.settings.{MultiDraftSearchSettings, Search
 import no.ndla.searchapi.service.ConverterService
 import no.ndla.searchapi.{TestData, TestEnvironment, UnitSuite}
 import no.ndla.tapirtesting.{FeideAuthTestData, NdlaAuthTestTokens, TapirControllerTest}
+import no.ndla.testbase.NullSafeMockito
+import no.ndla.testbase.NullSafeMockito.{any, eqTo, never, reset, times, verify, when}
 import org.mockito.ArgumentCaptor
-import org.mockito.ArgumentMatchers.{any, eq as eqTo}
-import org.mockito.Mockito.{never, reset, times, verify, when}
 import sttp.client4.quick.*
 
 import java.time.Month
@@ -272,11 +272,11 @@ class SearchControllerTest extends UnitSuite with TestEnvironment with TapirCont
     response.code.code should be(200)
     val expectedDate = NDLADate.of(2025, Month.JANUARY, 2, 13, 39, 5)
 
-    val captor: ArgumentCaptor[MultiDraftSearchSettings] = ArgumentCaptor.forClass(classOf[MultiDraftSearchSettings])
-    verify(multiDraftSearchService, times(1)).matchingQuery(captor.capture())
+    val captor: ArgumentCaptor[MultiDraftSearchSettings] = ArgumentCaptor.forClass(classOf[MultiDraftSearchSettings]).nn
+    verify(multiDraftSearchService, times(1)).matchingQuery(NullSafeMockito.capture(captor))
 
-    captor.getValue.revisionDateFilterFrom should be(Some(expectedDate))
-    captor.getValue.revisionDateFilterTo should be(Some(expectedDate))
+    captor.getValue.nn.revisionDateFilterFrom should be(Some(expectedDate))
+    captor.getValue.nn.revisionDateFilterTo should be(Some(expectedDate))
 
   }
 

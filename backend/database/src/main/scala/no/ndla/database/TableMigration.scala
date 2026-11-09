@@ -8,8 +8,12 @@
 
 package no.ndla.database
 
+import cats.implicits.*
 import org.flywaydb.core.api.migration.{BaseJavaMigration, Context}
 import scalikejdbc.*
+
+import scala.annotation.tailrec
+import scala.util.{Failure, Success, Try}
 
 /** Base class for Scala-based migrations.
   *
@@ -25,11 +29,11 @@ abstract class TableMigration[ROW_DATA] extends BaseJavaMigration {
   lazy val tableNameSQL: SQLSyntax = SQLSyntax.createUnsafely(tableName)
   val tableIdType: TableIdType     = TableIdType.Bigint
 
-  override def migrate(context: Context): Unit = DB(context.getConnection)
+  override def migrate(context: Context | Null): Unit = DB(context.nn.getConnection.nn)
     .autoClose(false)
     .withinTx { session =>
       invalidateCachedPlans(using session)
-      migrateRows(using session)
+      migrateRows(using session).get
     }
 
   /** Drops server-side prepared statements cached on Flyway's shared connection so a later `SELECT *` can't hit a plan
@@ -40,23 +44,25 @@ abstract class TableMigration[ROW_DATA] extends BaseJavaMigration {
     val _ = sql"DEALLOCATE ALL".execute()
   }
 
-  protected def migrateRows(implicit session: DBSession): Unit = Iterator
-    .unfold(tableIdType.zeroValueScala) { lastId =>
-      getRowChunk(lastId) match {
-        case Nil   => None
-        case chunk => Some((chunk, chunk.last._1))
-      }
+  protected def migrateRows(implicit session: DBSession): Try[Unit] = {
+    @tailrec
+    def migrateRowsAfter(lastId: tableIdType.ScalaType): Try[Unit] = getRowChunk(lastId) match {
+      case Failure(ex)    => Failure(ex)
+      case Success(Nil)   => Success(())
+      case Success(chunk) =>
+        chunk.foreach((_, rowData) => updateRow(rowData))
+        migrateRowsAfter(chunk.last._1)
     }
-    .takeWhile(_.nonEmpty)
-    .foreach { chunk =>
-      chunk.foreach((_, rowData) => updateRow(rowData))
-    }
+
+    migrateRowsAfter(tableIdType.zeroValueScala)
+  }
 
   private def getRowChunk(
       lastId: tableIdType.ScalaType
-  )(implicit session: DBSession): Seq[(tableIdType.ScalaType, ROW_DATA)] = {
+  )(implicit session: DBSession): Try[Seq[(tableIdType.ScalaType, ROW_DATA)]] = {
     sql"select * from $tableNameSQL where $whereClause and id > $lastId order by id limit $chunkSize"
-      .map(rs => (tableIdType.fromResultSet(rs), extractRowData(rs)))
+      .map(rs => tableIdType.fromResultSet(rs).map(id => (id, extractRowData(rs))))
       .list()
+      .sequence
   }
 }

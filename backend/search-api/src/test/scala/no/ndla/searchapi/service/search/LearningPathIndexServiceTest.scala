@@ -27,8 +27,7 @@ import no.ndla.search.TestUtility.{getFields, getMappingFields}
 import no.ndla.searchapi.model.domain.IndexingBundle
 import no.ndla.searchapi.service.ConverterService
 import no.ndla.searchapi.{TestData, TestEnvironment, UnitSuite}
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.when
+import no.ndla.testbase.NullSafeMockito.{any, when}
 
 import scala.util.Success
 

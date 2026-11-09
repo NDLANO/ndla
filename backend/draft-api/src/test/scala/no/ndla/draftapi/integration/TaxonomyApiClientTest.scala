@@ -12,9 +12,7 @@ import cats.implicits.*
 import no.ndla.common.model.domain.Title
 import no.ndla.draftapi.{TestData, TestEnvironment, UnitSuite}
 import no.ndla.network.tapir.auth.TokenUser
-import org.mockito.ArgumentMatchers.{eq as eqTo, *}
-import org.mockito.Mockito.*
-import org.mockito.invocation.InvocationOnMock
+import no.ndla.testbase.NullSafeMockito.*
 
 import scala.concurrent.TimeoutException
 import scala.util.{Failure, Success}
@@ -40,10 +38,10 @@ class TaxonomyApiClientTest extends UnitSuite with TestEnvironment {
       List(Translation("Outdated name", "nb".some)),
     )
 
-    doAnswer((i: InvocationOnMock) => Success(i.getArgument[Node](1)))
+    doAnswer(i => Success(i.nn.getArgument[Node](1)))
       .when(taxonomyApiClient)
       .putRaw(any[String], any[Node], any)(using any)
-    doAnswer((i: InvocationOnMock) => Success(i.getArgument[Translation](1)))
+    doAnswer(i => Success(i.nn.getArgument[Translation](1)))
       .when(taxonomyApiClient)
       .putRaw(any[String], any[Translation], any)(using any)
     doReturn(Success(List(node)), Success(List.empty)).when(taxonomyApiClient).queryNodes(id)
@@ -78,10 +76,10 @@ class TaxonomyApiClientTest extends UnitSuite with TestEnvironment {
       List(Translation("Outdated other name", "nb".some)),
     )
 
-    doAnswer((i: InvocationOnMock) => Success(i.getArgument[Node](1)))
+    doAnswer(i => Success(i.nn.getArgument[Node](1)))
       .when(taxonomyApiClient)
       .putRaw(any[String], any[Node], any)(using any)
-    doAnswer((i: InvocationOnMock) => Success(i.getArgument[Translation](1)))
+    doAnswer(i => Success(i.nn.getArgument[Translation](1)))
       .when(taxonomyApiClient)
       .putRaw(any[String], any[Translation], any)(using any)
     doReturn(Success(List(node, node2)), Success(List.empty)).when(taxonomyApiClient).queryNodes(id)
@@ -138,13 +136,13 @@ class TaxonomyApiClientTest extends UnitSuite with TestEnvironment {
       List(Translation("Outdated name", "nb".some)),
     )
 
-    doAnswer((i: InvocationOnMock) => Success(i.getArgument[Node](1)))
+    doAnswer(i => Success(i.nn.getArgument[Node](1)))
       .when(taxonomyApiClient)
       .putRaw(any[String], any[Node], any)(using any)
-    doAnswer((i: InvocationOnMock) => Success(i.getArgument[Node](1)))
+    doAnswer(i => Success(i.nn.getArgument[Node](1)))
       .when(taxonomyApiClient)
       .putRaw(any[String], any[Node], any)(using any)
-    doAnswer((i: InvocationOnMock) => Success(i.getArgument[Translation](1)))
+    doAnswer(i => Success(i.nn.getArgument[Translation](1)))
       .when(taxonomyApiClient)
       .putRaw(any[String], any[Translation], any)(using any)
     doReturn(Success(List(resource1, resource2, topic1, topic2)), Success(List.empty))
@@ -226,7 +224,7 @@ class TaxonomyApiClientTest extends UnitSuite with TestEnvironment {
       .when(taxonomyApiClient)
       .queryNodes(id)
 
-    doAnswer((i: InvocationOnMock) => Success(i.getArgument[Node](1)))
+    doAnswer(i => Success(i.nn.getArgument[Node](1)))
       .when(taxonomyApiClient)
       .putRaw(any[String], any[Node], any)(using any)
     doReturn(Failure(new TimeoutException), Failure(new TimeoutException))
@@ -243,10 +241,10 @@ class TaxonomyApiClientTest extends UnitSuite with TestEnvironment {
 
     doReturn(Failure(new RuntimeException("woawiwa")), Success(List.empty)).when(taxonomyApiClient).queryNodes(id)
 
-    doAnswer((i: InvocationOnMock) => Success(i.getArgument[Node](1)))
+    doAnswer(i => Success(i.nn.getArgument[Node](1)))
       .when(taxonomyApiClient)
       .putRaw(any[String], any[Node], any)(using any)
-    doAnswer((i: InvocationOnMock) => Success(i.getArgument[Translation](1)))
+    doAnswer(i => Success(i.nn.getArgument[Translation](1)))
       .when(taxonomyApiClient)
       .putRaw(any[String], any[Translation], any)(using any)
 
@@ -261,10 +259,10 @@ class TaxonomyApiClientTest extends UnitSuite with TestEnvironment {
 
     doReturn(Success(List.empty), Success(List.empty)).when(taxonomyApiClient).queryNodes(id)
 
-    doAnswer((i: InvocationOnMock) => Success(i.getArgument[Node](1)))
+    doAnswer(i => Success(i.nn.getArgument[Node](1)))
       .when(taxonomyApiClient)
       .putRaw(any[String], any[Node], any)(using any)
-    doAnswer((i: InvocationOnMock) => Success(i.getArgument[Translation](1)))
+    doAnswer(i => Success(i.nn.getArgument[Translation](1)))
       .when(taxonomyApiClient)
       .putRaw(any[String], any[Translation], any)(using any)
     doReturn(Success(()), Success(())).when(taxonomyApiClient).delete(any[String], any, any[(String, String)])
@@ -285,10 +283,10 @@ class TaxonomyApiClientTest extends UnitSuite with TestEnvironment {
       List(Translation("Outdated name", "nb".some)),
     )
 
-    doAnswer((i: InvocationOnMock) => Success(i.getArgument[Node](1)))
+    doAnswer(i => Success(i.nn.getArgument[Node](1)))
       .when(taxonomyApiClient)
       .putRaw(any[String], any[Node], any)(using any)
-    doAnswer((i: InvocationOnMock) => Success(i.getArgument[Translation](1)))
+    doAnswer(i => Success(i.nn.getArgument[Translation](1)))
       .when(taxonomyApiClient)
       .putRaw(any[String], any[Translation], any)(using any)
     doReturn(Success(List(resource)), Success(List.empty)).when(taxonomyApiClient).queryNodes(id)

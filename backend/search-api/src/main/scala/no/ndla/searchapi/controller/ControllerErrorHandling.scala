@@ -24,13 +24,13 @@ class ControllerErrorHandling(using errorHelpers: ErrorHelpers, clock: Clock) ex
   val INVALID_BODY_DESCRIPTION = "Unable to index the requested document because body was invalid."
 
   override def handleErrors: PartialFunction[Throwable, AllErrors] = {
-    case rw: ResultWindowTooLargeException => errorBody(WINDOW_TOO_LARGE, rw.getMessage, 422)
+    case rw: ResultWindowTooLargeException => errorBody(WINDOW_TOO_LARGE, rw.message, 422)
     case _: IndexNotFoundException         => errorBody(INDEX_MISSING, INDEX_MISSING_DESCRIPTION, 503)
-    case iibe: InvalidIndexBodyException   => errorBody(INVALID_BODY, iibe.getMessage, 400)
-    case te: TaxonomyException             => errorBody(TAXONOMY_FAILURE, te.getMessage, 500)
+    case iibe: InvalidIndexBodyException   => errorBody(INVALID_BODY, iibe.message, 400)
+    case te: TaxonomyException             => errorBody(TAXONOMY_FAILURE, te.message, 500)
     case v: ValidationException            =>
       ValidationErrorBody(VALIDATION, v.message, clock.now(), messages = v.errors.some, 400)
-    case ade: AccessDeniedException   => forbiddenMsg(ade.getMessage)
+    case ade: AccessDeniedException   => forbiddenMsg(ade.message)
     case _: DocumentConflictException => indexConflict
     case NdlaSearchException(_, Some(rf), _, _)
         if rf

@@ -14,6 +14,7 @@ import io.prometheus.metrics.instrumentation.jvm.JvmMetrics
 import io.prometheus.metrics.model.registry.PrometheusRegistry
 import io.prometheus.metrics.simpleclient.bridge.SimpleclientCollector
 import no.ndla.common.TryUtil
+import no.ndla.common.implicits.toOption
 import sttp.shared.Identity
 import sttp.tapir.server.metrics.MetricLabels
 import sttp.tapir.server.metrics.prometheus.PrometheusMetrics
@@ -21,8 +22,12 @@ import sttp.tapir.server.metrics.prometheus.PrometheusMetrics
 object NdlaPrometheusRegistry extends StrictLogging {
   val registry: PrometheusRegistry = new PrometheusRegistry()
 
-  JvmMetrics.builder().register(registry)
-  SimpleclientCollector.builder().collectorRegistry(CollectorRegistry.defaultRegistry).register(registry)
+  JvmMetrics.builder().toOption.foreach(_.register(registry))
+  SimpleclientCollector
+    .builder()
+    .toOption
+    .flatMap(_.collectorRegistry(CollectorRegistry.defaultRegistry).toOption)
+    .foreach(_.register(registry))
 
   private val tapirClosedErrorMessage    = "Client disconnected, request timed out, or request cancelled"
   private val metricLabels: MetricLabels = MetricLabels(

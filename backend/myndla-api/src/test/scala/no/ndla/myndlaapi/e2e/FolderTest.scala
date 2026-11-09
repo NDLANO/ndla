@@ -22,8 +22,7 @@ import no.ndla.myndlaapi.service.UserService
 import no.ndla.myndlaapi.{ComponentRegistry, MainClass, MyNdlaApiProperties, TestEnvironment, UnitSuite}
 import no.ndla.network.clients.{FeideApiClient, FeideExtendedUserInfo}
 import no.ndla.scalatestsuite.{DatabaseIntegrationSuite, RedisIntegrationSuite}
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.{doNothing, reset, spy, when, withSettings}
+import no.ndla.testbase.NullSafeMockito.{any, doNothing, reset, spy, when, withSettings}
 import org.mockito.quality.Strictness
 import scalikejdbc.DBSession
 import sttp.client4.quick.*
@@ -62,8 +61,8 @@ class FolderTest extends DatabaseIntegrationSuite with RedisIntegrationSuite wit
   val myndlaApi: MainClass = new MainClass(myndlaproperties) {
     override val componentRegistry: ComponentRegistry = new ComponentRegistry(myndlaproperties) {
       override implicit lazy val feideApiClient: FeideApiClient =
-        mock[FeideApiClient](withSettings.strictness(Strictness.LENIENT))
-      override implicit lazy val clock: Clock                       = mock[Clock](withSettings.strictness(Strictness.LENIENT))
+        mock[FeideApiClient](withSettings.strictness(Strictness.LENIENT).nn)
+      override implicit lazy val clock: Clock                       = mock[Clock](withSettings.strictness(Strictness.LENIENT).nn)
       override implicit lazy val folderRepository: FolderRepository = spy(new FolderRepository)
       override implicit lazy val userRepository: UserRepository     = spy(new UserRepository)
       override implicit lazy val userService: UserService           = spy(new UserService)

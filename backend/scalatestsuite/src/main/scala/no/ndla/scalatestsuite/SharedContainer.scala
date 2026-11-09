@@ -30,20 +30,25 @@ object SharedContainerInfo {
 }
 
 object SharedContainer {
-  TestcontainersConfiguration.getInstance().getUserProperties.setProperty("testcontainers.reuse.enable", "true"): Unit
+  TestcontainersConfiguration
+    .getInstance()
+    .nn
+    .getUserProperties
+    .nn
+    .setProperty("testcontainers.reuse.enable", "true"): Unit
 
-  private val coordDir: Path = Paths.get(System.getProperty("java.io.tmpdir"), "ndla-test-containers")
+  private val coordDir: Path = Paths.get(System.getProperty("java.io.tmpdir"), "ndla-test-containers").nn
 
   private case class LocalCache(refCount: AtomicInteger, info: SharedContainerInfo[?])
   private val localCaches: ConcurrentHashMap[String, LocalCache]                    = new ConcurrentHashMap()
   private val nameLocks: ConcurrentHashMap[String, AnyRef]                          = new ConcurrentHashMap()
   private val shutdownHooksRegistered: ConcurrentHashMap[String, java.lang.Boolean] = new ConcurrentHashMap()
 
-  private def lockFile(name: String): Path     = coordDir.resolve(s"$name.lock")
-  private def infoFile(name: String): Path     = coordDir.resolve(s"$name.info")
-  private def refCountFile(name: String): Path = coordDir.resolve(s"$name.refcount")
+  private def lockFile(name: String): Path     = coordDir.resolve(s"$name.lock").nn
+  private def infoFile(name: String): Path     = coordDir.resolve(s"$name.info").nn
+  private def refCountFile(name: String): Path = coordDir.resolve(s"$name.refcount").nn
 
-  private def getNameLock(name: String): AnyRef = nameLocks.computeIfAbsent(name, _ => new AnyRef)
+  private def getNameLock(name: String): AnyRef = nameLocks.computeIfAbsent(name, _ => new AnyRef).nn
 
   def acquire[O: {Encoder, Decoder}](
       name: String,
@@ -80,7 +85,7 @@ object SharedContainer {
   ): SharedContainerInfo[O] = {
     Files.createDirectories(coordDir)
     val raf  = new RandomAccessFile(lockFile(name).toFile, "rw")
-    val lock = raf.getChannel.lock()
+    val lock = raf.getChannel.nn.lock().nn
     try {
       val infoPath     = infoFile(name)
       val refCountPath = refCountFile(name)
@@ -110,7 +115,7 @@ object SharedContainer {
   private def decrementGlobalRefCount(name: String, containerId: String): Unit = {
     Files.createDirectories(coordDir)
     val raf  = new RandomAccessFile(lockFile(name).toFile, "rw")
-    val lock = raf.getChannel.lock()
+    val lock = raf.getChannel.nn.lock().nn
     try {
       val refCountPath = refCountFile(name)
       val current      = readRefCount(refCountPath)
@@ -132,22 +137,27 @@ object SharedContainer {
     if (shutdownHooksRegistered.putIfAbsent(name, true) == null) {
       Runtime
         .getRuntime
+        .nn
         .addShutdownHook(
-          new Thread(() => {
-            val cached = localCaches.get(name)
-            if (cached != null && cached.refCount.get() > 0) {
-              cached.refCount.set(0)
-              localCaches.remove(name)
-              decrementGlobalRefCount(name, cached.info.containerId)
-            }
-          })
+          new Thread(
+            (
+                () => {
+                  val cached = localCaches.get(name)
+                  if (cached != null && cached.refCount.get() > 0) {
+                    cached.refCount.set(0)
+                    localCaches.remove(name)
+                    decrementGlobalRefCount(name, cached.info.containerId)
+                  }
+                }
+            ): Runnable
+          )
         )
     }
   }
 
   private def stopContainer(containerId: String): Unit = {
     Try {
-      val process = new ProcessBuilder("docker", "rm", "-f", containerId).redirectErrorStream(true).start()
+      val process = new ProcessBuilder("docker", "rm", "-f", containerId).redirectErrorStream(true).nn.start().nn
       if (!process.waitFor(1, TimeUnit.MINUTES)) {
         process.destroyForcibly(): Unit
       }
@@ -160,12 +170,12 @@ object SharedContainer {
 
   private def readInfoFile[O: Decoder](path: Path): Option[SharedContainerInfo[O]] = {
     if (!Files.exists(path)) None
-    else Try(Files.readString(path)).toOption.flatMap(content => decode[SharedContainerInfo[O]](content).toOption)
+    else Try(Files.readString(path).nn).toOption.flatMap(content => decode[SharedContainerInfo[O]](content).toOption)
   }
 
   private def readRefCount(path: Path): Int = {
     if (!Files.exists(path)) 0
-    else Try(Files.readString(path).trim.toInt).getOrElse(0)
+    else Try(Files.readString(path).nn.trim.nn.toInt).getOrElse(0)
   }
 
   private def writeRefCount(path: Path, count: Int): Unit = {

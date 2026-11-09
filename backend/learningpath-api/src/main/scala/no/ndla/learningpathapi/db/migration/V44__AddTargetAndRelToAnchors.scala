@@ -43,16 +43,17 @@ class V44__AddTargetAndRelToAnchors extends DocumentMigration {
   }
 
   def convertHtml(str: String): String = {
-    val document = Jsoup.parseBodyFragment(str)
-    document.outputSettings().escapeMode(EscapeMode.xhtml).prettyPrint(false).indentAmount(0)
+    val document = Jsoup.parseBodyFragment(str).nn
+    document.outputSettings().nn.escapeMode(EscapeMode.xhtml).nn.prettyPrint(false).nn.indentAmount(0)
 
     document
       .select("a")
+      .nn
       .forEach(anchor => {
-        anchor.attr("target", "_blank"): Unit
-        anchor.attr("rel", "noopener noreferrer"): Unit
+        anchor.nn.attr("target", "_blank"): Unit
+        anchor.nn.attr("rel", "noopener noreferrer"): Unit
       })
-    document.select("body").first().html()
+    document.select("body").nn.first().nn.html().nn
   }
 
   private def convertDescription(description: OldDescription): OldDescription = {

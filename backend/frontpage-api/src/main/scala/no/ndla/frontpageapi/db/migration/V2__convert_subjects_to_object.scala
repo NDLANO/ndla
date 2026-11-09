@@ -20,7 +20,7 @@ import scalikejdbc.*
 import scala.util.{Failure, Success}
 
 class V2__convert_subjects_to_object extends BaseJavaMigration {
-  override def migrate(context: Context): Unit = DB(context.getConnection)
+  override def migrate(context: Context | Null): Unit = DB(context.nn.getConnection.nn)
     .autoClose(false)
     .withinTx { implicit session =>
       frontPageData.flatMap(convertSubjects).foreach(update)

@@ -19,6 +19,7 @@ import io.opentelemetry.sdk.trace.SdkTracerProvider
 import io.opentelemetry.sdk.trace.`export`.SimpleSpanProcessor
 import no.ndla.common.auth.Permission
 import no.ndla.common.configuration.{BaseProps, Constants}
+import no.ndla.common.implicits.toOption
 import no.ndla.network.tapir.{AllErrors, ErrorHandling, TapirController}
 import no.ndla.scalatestsuite.UnitTestSuite
 import no.ndla.tapirtesting.TapirControllerTest
@@ -71,30 +72,38 @@ class RequestInterceptorsTest extends UnitTestSuite, TapirControllerTest {
   private class CapturingAppender extends AbstractAppender("InterceptorsCapture", null, null, false, Array.empty) {
     val events = new ConcurrentLinkedQueue[CapturedLog]()
 
-    override def append(event: LogEvent): Unit = {
-      val ctx = Span.current().getSpanContext
+    override def append(event: LogEvent | Null): Unit = {
+      val ctx = Span.current().nn.getSpanContext.nn
       val _   = events.add(
         CapturedLog(
-          event.getMessage.getFormattedMessage,
-          Option.when(ctx.isValid)(ctx.getTraceId),
-          event.getContextData.toMap.asScala.toMap,
+          event.nn.getMessage.nn.getFormattedMessage.nn,
+          Option.when(ctx.isValid)(ctx.getTraceId.nn),
+          event.nn.getContextData.nn.toMap.nn.asScala.toMap,
         )
       )
     }
   }
 
-  private val spanExporter = InMemorySpanExporter.create()
+  private val spanExporter = InMemorySpanExporter.create().nn
   private val appender     = new CapturingAppender
 
   override def beforeAll(): Unit = {
     GlobalOpenTelemetry.resetForTest()
+    val tracerProvider = SdkTracerProvider
+      .builder()
+      .nn
+      .addSpanProcessor(SimpleSpanProcessor.create(spanExporter))
+      .nn
+      .build()
     GlobalOpenTelemetry.set(
       OpenTelemetrySdk
         .builder()
-        .setTracerProvider(
-          SdkTracerProvider.builder().addSpanProcessor(SimpleSpanProcessor.create(spanExporter)).build()
-        )
+        .toOption
+        .value
+        .setTracerProvider(tracerProvider)
+        .nn
         .setPropagators(ContextPropagators.create(W3CTraceContextPropagator.getInstance()))
+        .nn
         .build()
     )
     super.beforeAll()
@@ -106,7 +115,7 @@ class RequestInterceptorsTest extends UnitTestSuite, TapirControllerTest {
   }
 
   private def captureLogs[T](f: => T): (T, List[CapturedLog]) = {
-    val ndlaLogger = LogManager.getContext(false).asInstanceOf[LoggerContext].getLogger("no.ndla")
+    val ndlaLogger = LogManager.getContext(false).asInstanceOf[LoggerContext].getLogger("no.ndla").nn
     appender.events.clear()
     appender.start()
     ndlaLogger.addAppender(appender)
@@ -116,7 +125,7 @@ class RequestInterceptorsTest extends UnitTestSuite, TapirControllerTest {
   }
 
   private def traceIdOfRequest: String = {
-    val traceIds = spanExporter.getFinishedSpanItems.asScala.map(_.getTraceId).distinct.toList
+    val traceIds = spanExporter.getFinishedSpanItems.nn.asScala.map(_.getTraceId.nn).distinct.toList
     traceIds.size should be(1)
     traceIds.head
   }

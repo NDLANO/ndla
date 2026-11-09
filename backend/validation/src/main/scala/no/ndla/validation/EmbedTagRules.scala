@@ -10,7 +10,6 @@ package no.ndla.validation
 
 import no.ndla.common.model.{EmbedType, TagAttribute}
 
-import scala.io.Source
 import scala.language.postfixOps
 
 object EmbedTagRules {
@@ -23,9 +22,7 @@ object EmbedTagRules {
   def attributesForResourceType(resourceType: EmbedType): TagRules.TagAttributeRules = attributeRules(resourceType)
 
   private def embedRulesToJson: Map[EmbedType, TagRules.TagAttributeRules] = {
-    val classLoader = getClass.getClassLoader
-    val jsonStr     = Source.fromResource("embed-tag-rules.json", classLoader).mkString
-    val attrs       = TagRules.convertJsonStrToAttributeRules(jsonStr)
+    val attrs = ValidationRules.readResource("embed-tag-rules.json").map(TagRules.convertJsonStrToAttributeRules).get
 
     def strToResourceType(str: String): EmbedType = EmbedType
       .withNameOption(str)

@@ -10,10 +10,11 @@ package no.ndla.validation
 
 import no.ndla.common.configuration.Constants.EmbedTagName
 import no.ndla.common.errors.ValidationMessage
+import no.ndla.common.implicits.toOption
 import org.jsoup.Jsoup
 import org.jsoup.safety.Safelist
 
-import scala.jdk.CollectionConverters.IteratorHasAsScala
+import scala.jdk.CollectionConverters.IterableHasAsScala
 
 object TextValidator {
   private val IllegalContentInBasicText = "The content contains illegal tags and/or attributes. Allowed HTML tags are:"
@@ -54,8 +55,7 @@ object TextValidator {
 
     val errorWith = (msg: String) => Seq(ValidationMessage(fieldPath, msg))
 
-    val body     = HtmlTagRules.stringToJsoupDocument(text)
-    val elemList = body.children().iterator().asScala.toList
+    val elemList = HtmlTagRules.stringToJsoupDocument(text).flatMap(_.children().toOption).toList.flatMap(_.asScala)
 
     elemList match {
       case onlyElement :: Nil =>
@@ -76,7 +76,8 @@ object TextValidator {
       allowedTags: Set[String],
   ): Seq[ValidationMessage] = {
 
-    val whiteList = new Safelist().addTags(allowedTags.toSeq*)
+    val whiteList = new Safelist()
+    whiteList.addTags(allowedTags.toSeq*)
     HtmlTagRules
       .allLegalTags
       .filter(tag => HtmlTagRules.legalAttributesForTag(tag).nonEmpty)

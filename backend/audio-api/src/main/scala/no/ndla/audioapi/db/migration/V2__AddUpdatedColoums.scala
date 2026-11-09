@@ -11,5 +11,5 @@ package no.ndla.audioapi.db.migration
 import org.flywaydb.core.api.migration.{BaseJavaMigration, Context}
 
 class V2__AddUpdatedColoums extends BaseJavaMigration {
-  override def migrate(context: Context): Unit = {}
+  override def migrate(context: Context | Null): Unit = {}
 }

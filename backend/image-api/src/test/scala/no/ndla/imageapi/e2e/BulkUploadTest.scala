@@ -28,8 +28,7 @@ import no.ndla.network.tapir.auth.NdlaAuth
 import no.ndla.scalatestsuite.{DatabaseIntegrationSuite, RedisIntegrationSuite}
 import no.ndla.search.NdlaE4sClient
 import no.ndla.tapirtesting.{NdlaAuthTest, NdlaAuthTestTokens}
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.{when, withSettings}
+import no.ndla.testbase.NullSafeMockito.{any, when, withSettings}
 import org.mockito.quality.Strictness
 import scalikejdbc.{DBSession, scalikejdbcSQLInterpolationImplicitDef}
 import sttp.client4.{multipart, multipartFile}
@@ -66,19 +65,19 @@ class BulkUploadTest extends DatabaseIntegrationSuite with RedisIntegrationSuite
   val imageApi: MainClass = new MainClass(imageApiProperties) {
     override val componentRegistry: ComponentRegistry = new ComponentRegistry(imageApiProperties) {
       override implicit lazy val s3Client: NdlaS3Client =
-        mock[NdlaS3Client](withSettings.strictness(Strictness.LENIENT))
+        mock[NdlaS3Client](withSettings.strictness(Strictness.LENIENT).nn)
       override implicit lazy val e4sClient: NdlaE4sClient =
-        mock[NdlaE4sClient](withSettings.strictness(Strictness.LENIENT))
+        mock[NdlaE4sClient](withSettings.strictness(Strictness.LENIENT).nn)
       override implicit lazy val cloudFrontClient: NdlaCloudFrontClient =
-        mock[NdlaCloudFrontClient](withSettings.strictness(Strictness.LENIENT))
+        mock[NdlaCloudFrontClient](withSettings.strictness(Strictness.LENIENT).nn)
       override implicit lazy val myndlaApiClient: MyNDLAApiClient =
-        mock[MyNDLAApiClient](withSettings.strictness(Strictness.LENIENT))
+        mock[MyNDLAApiClient](withSettings.strictness(Strictness.LENIENT).nn)
       override implicit lazy val ndlaAuth: NdlaAuth = NdlaAuthTest()
 
       override implicit lazy val imageStorage: ImageStorageService = {
-        val m = mock[ImageStorageService](withSettings.strictness(Strictness.LENIENT))
+        val m = mock[ImageStorageService](withSettings.strictness(Strictness.LENIENT).nn)
         when(m.objectExists(any[String])).thenReturn(false)
-        when(m.uploadFromStream(any, any, any, any)).thenAnswer(i => Success(i.getArgument[String](0)))
+        when(m.uploadFromStream(any, any, any, any)).thenAnswer(i => Success(i.nn.getArgument[String](0)))
         when(m.deleteObject(any)).thenReturn(Success(()))
         when(m.deleteObjects(any)).thenReturn(Success(()))
         when(m.checkBucketAccess()).thenReturn(Success(()))
@@ -86,23 +85,23 @@ class BulkUploadTest extends DatabaseIntegrationSuite with RedisIntegrationSuite
       }
 
       override implicit lazy val imageIndexService: ImageIndexService = {
-        val m = mock[ImageIndexService](withSettings.strictness(Strictness.LENIENT))
-        when(m.indexDocument(any)).thenAnswer(i => Success(i.getArgument(0)))
-        when(m.deleteDocument(any[Long])).thenAnswer(i => Success(i.getArgument(0)))
+        val m = mock[ImageIndexService](withSettings.strictness(Strictness.LENIENT).nn)
+        when(m.indexDocument(any)).thenAnswer(i => Success(i.nn.getArgument(0)))
+        when(m.deleteDocument(any[Long])).thenAnswer(i => Success(i.nn.getArgument(0)))
         m
       }
 
       override implicit lazy val tagIndexService: TagIndexService = {
-        val m = mock[TagIndexService](withSettings.strictness(Strictness.LENIENT))
-        when(m.indexDocument(any)).thenAnswer(i => Success(i.getArgument(0)))
-        when(m.deleteDocument(any[Long])).thenAnswer(i => Success(i.getArgument(0)))
+        val m = mock[TagIndexService](withSettings.strictness(Strictness.LENIENT).nn)
+        when(m.indexDocument(any)).thenAnswer(i => Success(i.nn.getArgument(0)))
+        when(m.deleteDocument(any[Long])).thenAnswer(i => Success(i.nn.getArgument(0)))
         m
       }
 
       override implicit lazy val imageSearchService: ImageSearchService =
-        mock[ImageSearchService](withSettings.strictness(Strictness.LENIENT))
+        mock[ImageSearchService](withSettings.strictness(Strictness.LENIENT).nn)
       override implicit lazy val tagSearchService: TagSearchService =
-        mock[TagSearchService](withSettings.strictness(Strictness.LENIENT))
+        mock[TagSearchService](withSettings.strictness(Strictness.LENIENT).nn)
     }
   }
 
@@ -130,9 +129,9 @@ class BulkUploadTest extends DatabaseIntegrationSuite with RedisIntegrationSuite
   }
 
   private def buildJpegFile(name: String): Path = {
-    val bytes  = getClass.getResourceAsStream("/ndla_logo.jpg").readAllBytes()
-    val tmpDir = Files.createTempDirectory("bulk-upload-test-")
-    val target = tmpDir.resolve(name)
+    val bytes  = getClass.getResourceAsStream("/ndla_logo.jpg").nn.readAllBytes()
+    val tmpDir = Files.createTempDirectory("bulk-upload-test-").nn
+    val target = tmpDir.resolve(name).nn
     Files.write(target, bytes)
     target
   }
@@ -187,8 +186,8 @@ class BulkUploadTest extends DatabaseIntegrationSuite with RedisIntegrationSuite
       .multipartBody(
         multipart("metadatas", CirceUtil.toJsonString(newMeta("First"))).contentType("application/json"),
         multipart("metadatas", CirceUtil.toJsonString(newMeta("Second"))).contentType("application/json"),
-        multipartFile("files", file1.toFile).contentType("image/jpeg"),
-        multipartFile("files", file2.toFile).contentType("image/jpeg"),
+        multipartFile("files", file1.toFile.nn).contentType("image/jpeg"),
+        multipartFile("files", file2.toFile.nn).contentType("image/jpeg"),
       )
       .header("Authorization", authHeaderWithBatchRole)
       .readTimeout(30.seconds)
@@ -217,7 +216,7 @@ class BulkUploadTest extends DatabaseIntegrationSuite with RedisIntegrationSuite
       .multipartBody(
         multipart("metadatas", CirceUtil.toJsonString(newMeta("First"))).contentType("application/json"),
         multipart("metadatas", CirceUtil.toJsonString(newMeta("Second"))).contentType("application/json"),
-        multipartFile("files", file.toFile).contentType("image/jpeg"),
+        multipartFile("files", file.toFile.nn).contentType("image/jpeg"),
       )
       .header("Authorization", authHeaderWithBatchRole)
       .send()
@@ -232,7 +231,7 @@ class BulkUploadTest extends DatabaseIntegrationSuite with RedisIntegrationSuite
       .post(uri"$batchUrl")
       .multipartBody(
         multipart("metadatas", CirceUtil.toJsonString(newMeta("First"))).contentType("application/json"),
-        multipartFile("files", file.toFile).contentType("image/jpeg"),
+        multipartFile("files", file.toFile.nn).contentType("image/jpeg"),
       )
       .send()
     res.code.code should be(401)
@@ -244,7 +243,7 @@ class BulkUploadTest extends DatabaseIntegrationSuite with RedisIntegrationSuite
       .post(uri"$batchUrl")
       .multipartBody(
         multipart("metadatas", CirceUtil.toJsonString(newMeta("First"))).contentType("application/json"),
-        multipartFile("files", file.toFile).contentType("image/jpeg"),
+        multipartFile("files", file.toFile.nn).contentType("image/jpeg"),
       )
       .header("Authorization", authHeaderWithoutAnyRoles)
       .send()
@@ -262,7 +261,7 @@ class BulkUploadTest extends DatabaseIntegrationSuite with RedisIntegrationSuite
   test("Bulk upload rolls back previously stored images and reports Failed when one item fails") {
     val goodFile = buildJpegFile("good.jpg")
     val badFile  = {
-      val tmp = Files.createTempFile("bulk-upload-bad-", ".txt")
+      val tmp = Files.createTempFile("bulk-upload-bad-", ".txt").nn
       Files.write(tmp, "not an image".getBytes)
       tmp
     }
@@ -272,8 +271,8 @@ class BulkUploadTest extends DatabaseIntegrationSuite with RedisIntegrationSuite
       .multipartBody(
         multipart("metadatas", CirceUtil.toJsonString(newMeta("Good"))).contentType("application/json"),
         multipart("metadatas", CirceUtil.toJsonString(newMeta("Bad"))).contentType("application/json"),
-        multipartFile("files", goodFile.toFile).contentType("image/jpeg"),
-        multipartFile("files", badFile.toFile).contentType("text/plain"),
+        multipartFile("files", goodFile.toFile.nn).contentType("image/jpeg"),
+        multipartFile("files", badFile.toFile.nn).contentType("text/plain"),
       )
       .header("Authorization", authHeaderWithBatchRole)
       .readTimeout(30.seconds)

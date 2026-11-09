@@ -8,6 +8,7 @@
 
 package no.ndla.network
 
+import no.ndla.common.implicits.toOption
 import no.ndla.network.model.NdlaHttpRequest
 import scala.util.Properties.propOrNone
 
@@ -33,9 +34,8 @@ object ApplicationUrl {
         val xForwardedProtoHeaderProtocol = request.getHeader(X_FORWARDED_PROTO_HEADER)
         val forwardedHeaderProtocol       = request
           .getHeader(FORWARDED_HEADER)
-          .flatMap(
-            _.replaceAll("\\s", "").split(";").find(_.contains(FORWARDED_PROTO)).map(_.dropWhile(c => c != '=').tail)
-          )
+          .flatMap(_.replaceAll("\\s", "").toOption)
+          .flatMap(_.split(';').find(_.contains(FORWARDED_PROTO)).map(_.dropWhile(c => c != '=').tail))
         val schemeProtocol =
           if (request.serverPort == HTTP_PORT || request.serverPort == HTTPS_PORT) Some(request.getScheme)
           else None
@@ -51,6 +51,6 @@ object ApplicationUrl {
     }
   }
 
-  def get: String   = applicationUrl.get
-  def clear(): Unit = applicationUrl.remove()
+  def get: Option[String] = applicationUrl.get.toOption
+  def clear(): Unit       = applicationUrl.remove()
 }

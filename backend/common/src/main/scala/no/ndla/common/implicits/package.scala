@@ -78,6 +78,10 @@ package object implicits {
     }
   }
 
+  extension [T](self: T | Null) {
+    def toOption: Option[T] = Option(self)
+  }
+
   extension [T](t: Try[T]) {
     def unit: Try[Unit] = t.map(_ => ())
   }

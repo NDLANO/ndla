@@ -18,8 +18,7 @@ import no.ndla.draftapi.{TestData, TestEnvironment, UnitSuite}
 import no.ndla.mapping.License
 import no.ndla.mapping.License.CC_BY_SA
 import scalikejdbc.DBSession
-import org.mockito.Mockito.when
-import org.mockito.ArgumentMatchers.any
+import no.ndla.testbase.NullSafeMockito.{any, when}
 
 import java.util.UUID
 import scala.util.{Failure, Success}
@@ -422,8 +421,8 @@ class ContentValidatorTest extends UnitSuite with TestEnvironment {
         EditorNote("note2", "editor", oldArticle.status, TestData.today),
       ),
       comments = Seq(
-        Comment(UUID.randomUUID(), TestData.today, TestData.today, "Fin kommentar a gitt", true, false),
-        Comment(UUID.randomUUID(), TestData.today, TestData.today, "Fin kommentar igjen a gitt", true, false),
+        Comment(UUID.randomUUID().nn, TestData.today, TestData.today, "Fin kommentar a gitt", true, false),
+        Comment(UUID.randomUUID().nn, TestData.today, TestData.today, "Fin kommentar igjen a gitt", true, false),
       ),
     )
 
@@ -446,8 +445,8 @@ class ContentValidatorTest extends UnitSuite with TestEnvironment {
         EditorNote("note2", "editor", oldArticle.status, TestData.today),
       ),
       comments = Seq(
-        Comment(UUID.randomUUID(), TestData.today, TestData.today, "Fin kommentar a gitt", true, false),
-        Comment(UUID.randomUUID(), TestData.today, TestData.today, "Fin kommentar igjen a gitt", true, false),
+        Comment(UUID.randomUUID().nn, TestData.today, TestData.today, "Fin kommentar a gitt", true, false),
+        Comment(UUID.randomUUID().nn, TestData.today, TestData.today, "Fin kommentar igjen a gitt", true, false),
       ),
     )
 

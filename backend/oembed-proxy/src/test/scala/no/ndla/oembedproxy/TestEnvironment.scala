@@ -22,7 +22,7 @@ import no.ndla.network.tapir.{
 }
 import no.ndla.oembedproxy.controller.OEmbedProxyController
 import no.ndla.oembedproxy.service.{OEmbedService, ProviderService}
-import org.mockito.Mockito.reset
+import no.ndla.testbase.NullSafeMockito.reset
 import org.scalatestplus.mockito.MockitoSugar
 
 trait TestEnvironment extends TapirApplication[OEmbedProxyProperties] with MockitoSugar {

@@ -19,7 +19,7 @@ import no.ndla.imageapi.model.api.bulk.{BulkUploadStateDTO, BulkUploadStatus}
 import no.ndla.imageapi.model.domain.{ImageContentType, ImageFileData, ImageMetaInformation, ModelReleasedStatus}
 import no.ndla.imageapi.model.{InvalidUrlException, api, domain}
 import no.ndla.imageapi.{TestEnvironment, UnitSuite}
-import org.mockito.Mockito.when
+import no.ndla.testbase.NullSafeMockito.when
 
 import java.util.UUID
 import scala.util.{Failure, Success}
@@ -122,7 +122,7 @@ class ReadServiceTest extends UnitSuite with TestEnvironment {
   }
 
   test("getStatusStreamOfBulkUpload returns NotFoundException when no state exists") {
-    val uploadId = UUID.randomUUID()
+    val uploadId = UUID.randomUUID().nn
     when(bulkUploadStore.get(uploadId)).thenReturn(Success(None))
 
     readService.getStatusStreamOfBulkUpload(uploadId) match {
@@ -132,7 +132,7 @@ class ReadServiceTest extends UnitSuite with TestEnvironment {
   }
 
   test("getStatusStreamOfBulkUpload emits a single complete state when the upload is already done") {
-    val uploadId   = UUID.randomUUID()
+    val uploadId   = UUID.randomUUID().nn
     val finalState = BulkUploadStateDTO(
       status = BulkUploadStatus.Complete,
       total = 1,
@@ -150,7 +150,7 @@ class ReadServiceTest extends UnitSuite with TestEnvironment {
   }
 
   test("getStatusStreamOfBulkUpload emits the pending state as the first element") {
-    val uploadId     = UUID.randomUUID()
+    val uploadId     = UUID.randomUUID().nn
     val pendingState = BulkUploadStateDTO(
       status = BulkUploadStatus.Pending,
       total = 2,

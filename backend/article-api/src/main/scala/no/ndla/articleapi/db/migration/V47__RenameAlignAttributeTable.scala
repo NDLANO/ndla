@@ -39,7 +39,7 @@ class V47__RenameAlignAttributeTable extends BaseJavaMigration {
     sql"update contentdata set document = $dataObject where id = $id".update()
   }
 
-  override def migrate(context: Context): Unit = DB(context.getConnection)
+  override def migrate(context: Context | Null): Unit = DB(context.nn.getConnection.nn)
     .autoClose(false)
     .withinTx { session =>
       migrateRows(using session)
@@ -60,20 +60,21 @@ class V47__RenameAlignAttributeTable extends BaseJavaMigration {
   }
 
   private def convertHtml(str: String): String = {
-    val document = Jsoup.parseBodyFragment(str)
-    document.outputSettings().escapeMode(EscapeMode.xhtml).prettyPrint(false).indentAmount(0)
+    val document = Jsoup.parseBodyFragment(str).nn
+    document.outputSettings().nn.escapeMode(EscapeMode.xhtml).nn.prettyPrint(false).nn.indentAmount(0)
 
     document
       .select("td[align],th[align]")
+      .nn
       .forEach(cell => {
-        val attributeValue = cell.attr("align")
-        cell.attr("data-align", attributeValue): Unit
-        cell.removeAttr("align"): Unit
+        val attributeValue = cell.nn.attr("align")
+        cell.nn.attr("data-align", attributeValue): Unit
+        cell.nn.removeAttr("align"): Unit
       })
 
-    document.select("td[valign],th[valign]").forEach(cell => cell.removeAttr("valign"): Unit)
+    document.select("td[valign],th[valign]").nn.forEach(cell => cell.nn.removeAttr("valign"): Unit)
 
-    val result = document.select("body").first().html()
+    val result = document.select("body").nn.first().nn.html().nn
     result
   }
 

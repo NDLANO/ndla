@@ -8,6 +8,7 @@
 
 package no.ndla.network.tapir
 
+import no.ndla.common.implicits.toOption
 import no.ndla.network.model.ServerStatus
 import sttp.model.StatusCode
 import sttp.tapir.EndpointInput
@@ -31,9 +32,10 @@ class TapirHealthController(using errorHelpers: ErrorHelpers, errorHandling: Err
 
   protected def checkAppReadiness(): Either[String, String] = Right("Ready")
 
-  private def checkReadiness(): Either[String, String] = serverStatus.get() match {
-    case ServerStatus.Starting => Left("Service is starting up")
-    case ServerStatus.Running  => checkAppReadiness()
+  private def checkReadiness(): Either[String, String] = serverStatus.get().toOption match {
+    case Some(ServerStatus.Starting) => Left("Service is starting up")
+    case Some(ServerStatus.Running)  => checkAppReadiness()
+    case None                        => Left("Service status is unknown")
   }
 
   override val endpoints: List[ServerEndpoint[Any, Eff]] = List(

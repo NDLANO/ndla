@@ -11,5 +11,5 @@ package no.ndla.conceptapi.db.migration
 import org.flywaydb.core.api.migration.{BaseJavaMigration, Context}
 
 class V11__RemoveEmptyStringMetaImages extends BaseJavaMigration {
-  override def migrate(context: Context): Unit = {}
+  override def migrate(context: Context | Null): Unit = {}
 }

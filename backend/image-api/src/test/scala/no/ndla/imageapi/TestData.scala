@@ -351,7 +351,7 @@ class TestData(using imageConverter: ImageConverter) {
   val testdata: List[ImageMetaInformation] = List(elg, bjorn, jerv, mink, rein)
 
   def mockS3ObjectFromDisk(fileName: String, contentType: ImageContentType): NdlaS3Object = {
-    val bytes  = getClass.getResourceAsStream(s"/$fileName").readAllBytes()
+    val bytes  = getClass.getResourceAsStream(s"/$fileName").nn.readAllBytes().nn
     val stream = new ByteArrayInputStream(bytes)
     NdlaS3Object("", fileName, stream, contentType.toString, bytes.length)
   }
@@ -385,7 +385,7 @@ class TestData(using imageConverter: ImageConverter) {
   val ChildrensImage: ProcessableImage = ProcessableImage.fromStream(childrensImageStream).get
 
   val childrensImageUploadedFile: UploadedFile = {
-    val file = new File(getClass.getResource(s"/$childrensImageFileName").toURI)
+    val file = new File(getClass.getResource(s"/$childrensImageFileName").nn.toURI)
     UploadedFile("file", Some(childrensImageFileName), file.length(), Some(ImageContentType.Jpeg.toString), file)
   }
 

@@ -19,8 +19,7 @@ import no.ndla.common.model.domain.{Author, ContributorType, Tag, Title}
 import no.ndla.mapping.License
 import no.ndla.scalatestsuite.ElasticsearchIntegrationSuite
 import no.ndla.search.{Elastic4sClientFactory, NdlaE4sClient, SearchLanguage}
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.when
+import no.ndla.testbase.NullSafeMockito.{any, when}
 
 import scala.util.Success
 

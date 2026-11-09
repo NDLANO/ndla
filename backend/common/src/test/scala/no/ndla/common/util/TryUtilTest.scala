@@ -36,7 +36,7 @@ class TryUtilTest extends UnitTestSuiteBase {
     }
 
     result shouldBe Failure(boom)
-    Thread.currentThread().isInterrupted shouldBe false
+    Thread.currentThread().nn.isInterrupted shouldBe false
   }
 
   test("throwIfInterrupted rethrows when thread was already interrupted") {
@@ -69,13 +69,13 @@ class TryUtilTest extends UnitTestSuiteBase {
       }
     }
 
-    ex.getSuppressed.toSeq should contain(wrapper)
+    ex.getSuppressed.nn.toSeq should contain(wrapper)
   }
 
   test("throwIfInterrupted rethrows when f interrupts the thread even if it succeeds") {
     intercept[InterruptedException] {
       Try.throwIfInterrupted {
-        Thread.currentThread().interrupt()
+        Thread.currentThread().nn.interrupt()
         "ok"
       }
     }

@@ -21,14 +21,14 @@ class V27__SetImagesInactive extends DocumentMigration {
   private val ids: Set[Long] = {
     val stream = getClass.getResourceAsStream("/v27-migration-image-ids.txt")
     try {
-      val content = Source.fromInputStream(stream).mkString.trim
+      val content = Source.fromInputStream(stream.nn).mkString.trim.nn
       content
-        .split(",")
+        .split(',')
         .flatMap { part =>
-          val trimmed = part.trim
+          val trimmed = part.trim.nn
           if (trimmed.contains("-")) {
             // Handle range like "11-14"
-            val Array(start, end) = trimmed.split("-").map(_.toLong)
+            val Array(start, end) = trimmed.split('-').map(_.toLong)
             start to end
           } else {
             // Handle single ID
@@ -62,7 +62,7 @@ class V27__SetImagesInactive extends DocumentMigration {
     val matchesTitleFilter = titlesOpt.exists { titles =>
       titles.exists { titleJson =>
         titleJson.hcursor.downField("title").as[String].toOption match {
-          case Some(title) => title.toLowerCase().contains("ikke bruk")
+          case Some(title) => title.toLowerCase().nn.contains("ikke bruk")
           case None        => false
         }
       }

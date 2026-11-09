@@ -22,7 +22,7 @@ import no.ndla.language.Language
 import no.ndla.network.clients.SearchApiClient
 import scalikejdbc.DBSession
 
-import java.util.concurrent.{ExecutorService, Executors}
+import java.util.concurrent.Executors
 import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService}
 import scala.util.{Failure, Success, Try}
 
@@ -34,8 +34,8 @@ class WriteService(using
     searchApiClient: SearchApiClient,
     dBUtility: DBUtility,
 ) extends StrictLogging {
-  private val executor: ExecutorService            = Executors.newSingleThreadExecutor
-  implicit val ec: ExecutionContextExecutorService = ExecutionContext.fromExecutorService(executor)
+  implicit val ec: ExecutionContextExecutorService =
+    ExecutionContext.fromExecutorService(Executors.newSingleThreadExecutor)
 
   private def performArticleValidation(
       article: Article,

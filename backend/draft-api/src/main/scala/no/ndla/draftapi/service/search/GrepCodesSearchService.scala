@@ -34,7 +34,7 @@ class GrepCodesSearchService(using
     with StrictLogging {
   override val searchIndex: String = props.DraftGrepCodesSearchIndex
 
-  override def hitToApiModel(hit: String, language: String): String = {
+  override def hitToApiModel(hit: String, language: String): Try[String] = Success {
     decode[SearchableGrepCode](hit) match {
       case Right(searchableGrepCode) => searchableGrepCode.grepCode
       case Left(_)                   => hit // fallback to raw hit if parsing fails
@@ -73,14 +73,8 @@ class GrepCodesSearchService(using
         }
 
       e4sClient.execute(searchWithScroll) match {
-        case Success(response) => Success(
-            LanguagelessSearchResult(
-              response.result.totalHits,
-              Some(page),
-              numResults,
-              getHits(response.result, Language.AllLanguages),
-              response.result.scrollId,
-            )
+        case Success(response) => getHits(response.result, Language.AllLanguages).map(hits =>
+            LanguagelessSearchResult(response.result.totalHits, Some(page), numResults, hits, response.result.scrollId)
           )
         case Failure(ex) => errorHandler(ex)
       }
@@ -99,7 +93,7 @@ class GrepCodesSearchService(using
       case Success(reindexResult) => logger.info(
           s"Completed indexing of grepCodes of ${reindexResult.totalIndexed} articles in ${reindexResult.millisUsed} ms."
         )
-      case Failure(ex) => logger.warn(ex.getMessage, ex)
+      case Failure(ex) => logger.warn(s"Unable to index grep codes: ${ex.getMessage}", ex)
     }
   }
 }

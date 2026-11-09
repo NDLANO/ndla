@@ -81,9 +81,10 @@ class NDLADateTest extends DatabaseIntegrationSuite, UnitTestSuite, TestEnvironm
     val objectJsonString = s"""{"date":"$dateString","unrelatedField":"test"}"""
     val parsed           = parse(objectJsonString).toTry.get
 
-    val result         = parsed.as[TestObjectWithDate].toTry.get
-    val timestamp      = 1691042491L
-    val expectedDate   = new NDLADate(ZonedDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneId.systemDefault()))
+    val result       = parsed.as[TestObjectWithDate].toTry.get
+    val timestamp    = 1691042491L
+    val expectedDate =
+      new NDLADate(ZonedDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneId.systemDefault()).nn)
     val expectedObject = TestObjectWithDate(expectedDate, "test")
 
     result should be(expectedObject)

@@ -48,6 +48,7 @@ trait ScalacOptions extends ScalaModule {
       "-Wunused:privates",
       "-Yretain-trees",
       "-Yexplicit-nulls",
+      "-Yno-flexible-types",
       "-Xmax-inlines:50",
     ).filterEnabled(scalaVersion())
   }

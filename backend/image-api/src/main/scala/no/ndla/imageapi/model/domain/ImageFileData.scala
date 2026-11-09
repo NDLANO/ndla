@@ -24,7 +24,7 @@ case class ImageFileData(
   // TODO: Remove after old image variants with file stem are removed
   def getFileStem: String = {
     fileName.lastIndexOf(".") match {
-      case i if i > 0 => fileName.substring(0, i)
+      case i if i > 0 => fileName.take(i)
       case _          => fileName
     }
   }

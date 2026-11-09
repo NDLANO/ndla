@@ -11,6 +11,7 @@ package no.ndla.articleapi.service.search
 import com.typesafe.scalalogging.StrictLogging
 import no.ndla.articleapi.model.api.{ArticleSummaryV2DTO, SearchResultV2DTO}
 import no.ndla.articleapi.model.search.*
+import no.ndla.common.implicits.toOption
 import no.ndla.common.model.api.search.{LanguageValue, SearchableLanguageList, SearchableLanguageValues}
 import no.ndla.common.model.domain.article.Article
 import no.ndla.language.Language.getDefault
@@ -31,7 +32,14 @@ class SearchConverterService extends StrictLogging {
         SearchableLanguageValues(ai.metaDescription.map(meta => LanguageValue(meta.language, meta.content))),
       metaImage = ai.metaImage,
       content = SearchableLanguageValues(
-        ai.content.map(article => LanguageValue(article.language, Jsoup.parseBodyFragment(article.content).text()))
+        ai.content
+          .flatMap(article =>
+            Jsoup
+              .parseBodyFragment(article.content)
+              .toOption
+              .flatMap(_.text().toOption)
+              .map(text => LanguageValue(article.language, text))
+          )
       ),
       tags = SearchableLanguageList(ai.tags.map(tag => LanguageValue(tag.language, tag.tags))),
       lastUpdated = ai.updated,

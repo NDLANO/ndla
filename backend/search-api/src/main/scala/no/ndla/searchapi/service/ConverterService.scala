@@ -92,8 +92,8 @@ class ConverterService(using props: Props) {
   }
 
   private def imageSearchResultToApi(image: ImageApiSearchResult): ImageResultDTO = {
-    val scheme = ApplicationUrl.get.schemeOption.getOrElse("https://")
-    val host   = ApplicationUrl.get.hostOption.map(_.toString).getOrElse(props.Domain)
+    val scheme = ApplicationUrl.get.flatMap(_.schemeOption).getOrElse("https://")
+    val host   = ApplicationUrl.get.flatMap(_.hostOption).map(_.toString).getOrElse(props.Domain)
 
     val previewUrl = image.previewUrl.withHost(host).withScheme(scheme)
     val metaUrl    = image.metaUrl.withHost(host).withScheme(scheme)
@@ -120,8 +120,8 @@ class ConverterService(using props: Props) {
   }
 
   private def audioSearchResultToApi(audio: AudioApiSearchResult): AudioResultDTO = {
-    val scheme = ApplicationUrl.get.schemeOption.getOrElse("https://")
-    val host   = ApplicationUrl.get.hostOption.map(_.toString).getOrElse(props.Domain)
+    val scheme = ApplicationUrl.get.flatMap(_.schemeOption).getOrElse("https://")
+    val host   = ApplicationUrl.get.flatMap(_.hostOption).map(_.toString).getOrElse(props.Domain)
 
     val url = audio.url.withHost(host).withScheme(scheme).toString
     AudioResultDTO(

@@ -17,6 +17,7 @@ import no.ndla.articleapi.model.search.SearchableArticle
 import no.ndla.articleapi.model.{ImportException, NotFoundException, api}
 import no.ndla.common
 import no.ndla.common.{CirceUtil, model}
+import no.ndla.common.implicits.{toOption, toTry}
 import no.ndla.common.model.{RelatedContentLink, api as commonApi}
 import no.ndla.common.model.api.{Delete, DisclaimerDTO, LicenseDTO, Missing, UpdateWith}
 import no.ndla.common.model.domain.{
@@ -91,7 +92,7 @@ class ConverterService(using props: Props) extends StrictLogging {
     * @return
     *   Article summary extracted from hitString in specified language.
     */
-  def hitAsArticleSummaryV2(hitString: String, language: String): ArticleSummaryV2DTO = {
+  def hitAsArticleSummaryV2(hitString: String, language: String): Try[ArticleSummaryV2DTO] = {
     val searchableArticle = CirceUtil.unsafeParseAs[SearchableArticle](hitString)
 
     val titles           = searchableArticle.title.languageValues.map(lv => Title(lv.value, lv.language))
@@ -108,31 +109,36 @@ class ConverterService(using props: Props) extends StrictLogging {
     val supportedLanguages = getSupportedLanguages(titles, visualElements, introductions, metaImages)
 
     val title = findByLanguageOrBestEffort(titles, language)
-      .map(toApiArticleTitle)
+      .flatMap(toApiArticleTitle)
       .getOrElse(api.ArticleTitleDTO("", "", UnknownLanguage.toString))
     val visualElement   = findByLanguageOrBestEffort(visualElements, language).map(toApiVisualElement)
-    val introduction    = findByLanguageOrBestEffort(introductions, language).map(toApiArticleIntroduction)
+    val introduction    = findByLanguageOrBestEffort(introductions, language).flatMap(toApiArticleIntroduction)
     val metaDescription = findByLanguageOrBestEffort(metaDescriptions, language).map(toApiArticleMetaDescription)
     val metaImage       = findByLanguageOrBestEffort(metaImages, language).map(toApiArticleMetaImage)
     val lastUpdated     = searchableArticle.lastUpdated
     val availability    = searchableArticle.availability
 
-    ArticleSummaryV2DTO(
-      id = searchableArticle.id,
-      title = title,
-      visualElement = visualElement,
-      introduction = introduction,
-      metaDescription = metaDescription,
-      metaImage = metaImage,
-      url = ApplicationUrl.get + searchableArticle.id.toString,
-      license = searchableArticle.license,
-      articleType = searchableArticle.articleType,
-      lastUpdated = lastUpdated,
-      supportedLanguages = supportedLanguages,
-      grepCodes = searchableArticle.grepCodes.getOrElse(List.empty),
-      availability = availability,
-      traits = searchableArticle.traits,
-    )
+    ApplicationUrl
+      .get
+      .toTry(IllegalStateException("Application url is not set"))
+      .map(applicationUrl =>
+        ArticleSummaryV2DTO(
+          id = searchableArticle.id,
+          title = title,
+          visualElement = visualElement,
+          introduction = introduction,
+          metaDescription = metaDescription,
+          metaImage = metaImage,
+          url = applicationUrl + searchableArticle.id.toString,
+          license = searchableArticle.license,
+          articleType = searchableArticle.articleType,
+          lastUpdated = lastUpdated,
+          supportedLanguages = supportedLanguages,
+          grepCodes = searchableArticle.grepCodes.getOrElse(List.empty),
+          availability = availability,
+          traits = searchableArticle.traits,
+        )
+      )
   }
 
   private[service] def oldToNewLicenseKey(license: String): String = {
@@ -244,9 +250,9 @@ class ConverterService(using props: Props) extends StrictLogging {
         .map(toApiArticleTag)
         .getOrElse(ArticleTagDTO(Seq(), UnknownLanguage.toString))
       val title = findByLanguageOrBestEffort(article.title, language)
-        .map(toApiArticleTitle)
+        .flatMap(toApiArticleTitle)
         .getOrElse(api.ArticleTitleDTO("", "", UnknownLanguage.toString))
-      val introduction   = findByLanguageOrBestEffort(article.introduction, language).map(toApiArticleIntroduction)
+      val introduction   = findByLanguageOrBestEffort(article.introduction, language).flatMap(toApiArticleIntroduction)
       val visualElement  = findByLanguageOrBestEffort(article.visualElement, language).map(toApiVisualElement)
       val articleContent = findByLanguageOrBestEffort(article.content, language)
         .map(toApiArticleContentV2)
@@ -296,8 +302,14 @@ class ConverterService(using props: Props) extends StrictLogging {
     }
   }
 
-  def toApiArticleTitle(title: Title): api.ArticleTitleDTO = {
-    api.ArticleTitleDTO(Jsoup.parseBodyFragment(title.title).body().text(), title.title, title.language)
+  private def htmlToPlainText(html: String): Option[String] = Jsoup
+    .parseBodyFragment(html)
+    .toOption
+    .flatMap(_.body().toOption)
+    .flatMap(_.text().toOption)
+
+  def toApiArticleTitle(title: Title): Option[api.ArticleTitleDTO] = {
+    htmlToPlainText(title.title).map(api.ArticleTitleDTO(_, title.title, title.language))
   }
 
   private def toApiArticleContentV2(content: ArticleContent): api.ArticleContentV2DTO = {
@@ -344,12 +356,8 @@ class ConverterService(using props: Props) extends StrictLogging {
     api.VisualElementDTO(visual.resource, visual.language)
   }
 
-  def toApiArticleIntroduction(intro: Introduction): api.ArticleIntroductionDTO = {
-    api.ArticleIntroductionDTO(
-      Jsoup.parseBodyFragment(intro.introduction).body().text(),
-      intro.introduction,
-      intro.language,
-    )
+  def toApiArticleIntroduction(intro: Introduction): Option[api.ArticleIntroductionDTO] = {
+    htmlToPlainText(intro.introduction).map(api.ArticleIntroductionDTO(_, intro.introduction, intro.language))
   }
 
   private def toApiArticleMetaDescription(metaDescription: Description): ArticleMetaDescriptionDTO = {

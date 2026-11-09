@@ -18,7 +18,7 @@ case class LanguageTag(language: Iso639, script: Option[Iso15924], region: Optio
     Seq(Some(language.part1.getOrElse(language.id)), script.map(_.code), region.map(_.code))
       .flatten
       .mkString("-")
-      .toLowerCase
+      .map(_.toLower)
 
   }
 
@@ -55,7 +55,7 @@ case class LanguageTag(language: Iso639, script: Option[Iso15924], region: Optio
 object LanguageTag {
 
   def apply(languageTagAsString: String): LanguageTag = {
-    val tag = languageTagAsString.split("-").toList match {
+    val tag = languageTagAsString.split('-').toList match {
       case lang :: Nil                                 => withLanguage(lang)
       case lang :: region :: Nil if region.length == 2 => withLanguageAndRegion(lang, region)
       case lang :: script :: Nil if script.length == 4 => withLanguageAndScript(lang, script)

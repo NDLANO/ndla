@@ -96,19 +96,34 @@ object FeideAuthTestData {
     val now    = new Date()
     val claims = new JWTClaimsSet.Builder()
       .issueTime(now)
+      .nn
       .expirationTime(new Date(System.currentTimeMillis() + 3_600_000))
+      .nn
       .issuer(idToken.iss)
+      .nn
       .audience(idToken.aud.asJava)
+      .nn
       .subject(idToken.sub)
+      .nn
       .jwtID(idToken.jti)
+      .nn
       .claim("email", idToken.email.orNull)
+      .nn
       .claim("name", idToken.name)
+      .nn
       .claim("https://n.feide.no/claims/userid_sec", idToken.userid_sec.asJava)
+      .nn
       .claim("https://n.feide.no/claims/eduPersonPrincipalName", idToken.eduPersonPrincipalName)
+      .nn
       .build()
-    val header = new JWSHeader.Builder(JWSAlgorithm.RS256).keyID(rsaJwk.getKeyID).`type`(JOSEObjectType.JWT).build()
-    val jwt    = new SignedJWT(header, claims)
+    val header = new JWSHeader.Builder(JWSAlgorithm.RS256)
+      .keyID(rsaJwk.getKeyID)
+      .nn
+      .`type`(JOSEObjectType.JWT)
+      .nn
+      .build()
+    val jwt = new SignedJWT(header, claims)
     jwt.sign(signer)
-    jwt.serialize()
+    jwt.serialize().nn
   }
 }

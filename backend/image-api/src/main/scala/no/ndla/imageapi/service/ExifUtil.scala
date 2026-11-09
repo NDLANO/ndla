@@ -10,6 +10,7 @@ package no.ndla.imageapi.service
 
 import com.sksamuel.scrimage.metadata.ImageMetadata
 import com.typesafe.scalalogging.StrictLogging
+import no.ndla.common.implicits.toOption
 
 import java.io.InputStream
 import scala.util.Try
@@ -30,18 +31,16 @@ object ExifUtil extends StrictLogging {
   /** Extracts all EXIF key-value pairs from an ImageMetadata.
     */
   def extractMetadataMap(metadata: ImageMetadata): Option[Map[String, String]] = {
-    val values = metadata
-      .getDirectories
-      .flatMap { directory =>
-        directory
-          .getTags
-          .flatMap { tag =>
-            val name  = s"${directory.getName}:${tag.getName}"
-            val value = tag.getRawValue
-            Option.when(value != null && value.nonEmpty)(name -> value)
-          }
-      }
-      .toMap
+    val values = (
+      for {
+        directories <- metadata.getDirectories.toOption.toList
+        directory   <- directories.toList.flatMap(_.toOption)
+        tags        <- directory.getTags.toOption.toList
+        tag         <- tags.toList.flatMap(_.toOption)
+        value       <- tag.getRawValue.toOption
+        if value.nonEmpty
+      } yield s"${directory.getName}:${tag.getName}" -> value
+    ).toMap
     if (values.isEmpty) None
     else Some(values)
   }
@@ -50,7 +49,7 @@ object ExifUtil extends StrictLogging {
     */
   def extractExifDataFromStream(stream: InputStream): Option[Map[String, String]] = {
     Try {
-      extractMetadataMap(ImageMetadata.fromStream(stream))
+      ImageMetadata.fromStream(stream).toOption.flatMap(extractMetadataMap)
     }.recover { case ex =>
         logger.warn(s"Failed to extract EXIF data from stream: ${ex.getMessage}", ex)
         None

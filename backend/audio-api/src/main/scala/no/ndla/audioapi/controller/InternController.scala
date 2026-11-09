@@ -18,6 +18,7 @@ import no.ndla.audioapi.repository.AudioRepository
 import no.ndla.audioapi.service.search.{AudioIndexService, SeriesIndexService, TagIndexService}
 import no.ndla.audioapi.service.ReadService
 import no.ndla.common.errors.NotFoundException
+import no.ndla.common.implicits.toOption
 import no.ndla.network.tapir.NoNullJsonPrinter.jsonBody
 import no.ndla.network.tapir.{ErrorHandling, TapirController}
 import no.ndla.network.tapir.TapirUtil.errorOutputsFor
@@ -72,14 +73,14 @@ class InternController(using
             logger.info(result)
             result.asRight
           case (Failure(f), _, _) =>
-            logger.warn(f.getMessage, f)
-            f.getMessage.asLeft
+            logger.warn(s"Failed to index audios: ${f.getMessage}", f)
+            f.getMessage.toOption.getOrElse("Failed to index audios").asLeft
           case (_, Failure(f), _) =>
-            logger.warn(f.getMessage, f)
-            f.getMessage.asLeft
+            logger.warn(s"Failed to index tags: ${f.getMessage}", f)
+            f.getMessage.toOption.getOrElse("Failed to index tags").asLeft
           case (_, _, Failure(f)) =>
-            logger.warn(f.getMessage, f)
-            f.getMessage.asLeft
+            logger.warn(s"Failed to index series: ${f.getMessage}", f)
+            f.getMessage.toOption.getOrElse("Failed to index series").asLeft
         }
       },
     endpoint
@@ -92,7 +93,7 @@ class InternController(using
           if (n == 1) "1 index"
           else s"$n indexes"
         audioIndexService.findAllIndexes(props.SearchIndex) match {
-          case Failure(f)       => f.getMessage.asLeft
+          case Failure(f)       => f.getMessage.toOption.getOrElse("Failed to find indexes").asLeft
           case Success(indexes) =>
             val deleteResults = indexes.map(index => {
               logger.info(s"Deleting index $index")

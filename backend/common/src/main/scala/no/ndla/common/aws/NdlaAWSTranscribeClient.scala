@@ -16,6 +16,7 @@ import scala.util.{Failure, Try}
 
 class NdlaAWSTranscribeClient(region: Option[String]) {
   lazy val client: TranscribeClient = {
+    import scala.language.unsafeNulls
     val builder: TranscribeClientBuilder = TranscribeClient.builder()
     region match {
       case Some(value) => builder.region(Region.of(value)).build()
@@ -34,6 +35,7 @@ class NdlaAWSTranscribeClient(region: Option[String]) {
       includeSubtitles: Boolean = true,
       outputSubtitleFormat: String = "VTT",
   ): Try[StartTranscriptionJobResponse] = Try {
+    import scala.language.unsafeNulls
     val requestBuilder = StartTranscriptionJobRequest
       .builder()
       .transcriptionJobName(jobName)
@@ -55,6 +57,7 @@ class NdlaAWSTranscribeClient(region: Option[String]) {
   }
 
   def getTranscriptionJob(jobName: String): Try[GetTranscriptionJobResponse] = {
+    import scala.language.unsafeNulls
     Try {
       val request = GetTranscriptionJobRequest.builder().transcriptionJobName(jobName).build()
       client.getTranscriptionJob(request)
@@ -65,6 +68,7 @@ class NdlaAWSTranscribeClient(region: Option[String]) {
   }
 
   def listTranscriptionJobs(status: Option[String] = None): Try[ListTranscriptionJobsResponse] = Try {
+    import scala.language.unsafeNulls
     val requestBuilder = ListTranscriptionJobsRequest.builder()
     val request        = status match {
       case Some(jobStatus) => requestBuilder.status(jobStatus).build()
@@ -75,6 +79,7 @@ class NdlaAWSTranscribeClient(region: Option[String]) {
   }
 
   def deleteTranscriptionJob(jobName: String): Try[DeleteTranscriptionJobResponse] = Try {
+    import scala.language.unsafeNulls
     val request = DeleteTranscriptionJobRequest.builder().transcriptionJobName(jobName).build()
 
     client.deleteTranscriptionJob(request)

@@ -75,7 +75,7 @@ class BasePropsTest extends UnitTestSuiteBase {
       result.unsafeGet
     }
     ex.getMessage should be("Unable to load property NDLA_SOME_REQUIRED_TEST_PROP")
-    ex.getCause.getMessage should be("For input string: \"hei\"")
+    ex.getCause.nn.getMessage should be("For input string: \"hei\"")
     ex.getCause shouldBe a[NumberFormatException]
     System.clearProperty("NDLA_SOME_REQUIRED_TEST_PROP")
     System.clearProperty("NDLA_SOME_OTHER_REQUIRED_TEST_PROP")

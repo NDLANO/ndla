@@ -24,7 +24,7 @@ import no.ndla.scalatestsuite.{DatabaseIntegrationSuite, ElasticsearchIntegratio
 import no.ndla.tapirtesting.{FeideAuthTest, NdlaAuthTest, TokenUserTestData}
 import no.ndla.validation.HtmlTagRules
 import no.ndla.{articleapi, draftapi}
-import org.mockito.Mockito.when
+import no.ndla.testbase.NullSafeMockito.when
 
 import java.util.UUID
 import java.util.concurrent.Executors
@@ -129,7 +129,7 @@ class ArticleApiClientTest
     relatedContent = Seq.empty,
     revisionMeta = Seq(
       common.RevisionMeta(
-        id = UUID.randomUUID(),
+        id = UUID.randomUUID().nn,
         note = "Revision",
         revisionDate = NDLADate.now(),
         status = common.RevisionStatus.NeedsRevision,

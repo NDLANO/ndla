@@ -44,8 +44,7 @@ object ConceptStatus       extends Enum[ConceptStatus] with CirceEnum[ConceptSta
   val thatDoesNotRequireResponsible: Seq[ConceptStatus] = Seq(PUBLISHED, UNPUBLISHED, ARCHIVED)
   val thatRequiresResponsible: Set[ConceptStatus]       = this.values.filterNot(thatDoesNotRequireResponsible.contains).toSet
 
-  implicit def ordering[A <: ConceptStatus]: Ordering[ConceptStatus] =
-    (x: ConceptStatus, y: ConceptStatus) => indexOf(x) - indexOf(y)
+  implicit def ordering[A <: ConceptStatus]: Ordering[ConceptStatus] = Ordering.by(indexOf)
 
   implicit val schema: Schema[ConceptStatus]    = schemaForEnumEntry[ConceptStatus]
   implicit val codec: PlainCodec[ConceptStatus] = plainCodecEnumEntry[ConceptStatus]

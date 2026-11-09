@@ -13,11 +13,14 @@ import no.ndla.network.{ApplicationUrl, TaxonomyData}
 import sttp.tapir.model.ServerRequest
 
 /** Helper class to help keep Thread specific request information in futures. */
-case class RequestInfo(correlationId: Option[String], taxonomyVersion: String, applicationUrl: String) {
+case class RequestInfo(correlationId: Option[String], taxonomyVersion: String, applicationUrl: Option[String]) {
   def setThreadContextRequestInfo(): Unit = {
     TaxonomyData.set(taxonomyVersion)
     CorrelationID.set(correlationId)
-    ApplicationUrl.set(applicationUrl)
+    applicationUrl match {
+      case Some(url) => ApplicationUrl.set(url)
+      case None      => ApplicationUrl.clear()
+    }
   }
 }
 
@@ -27,7 +30,7 @@ object RequestInfo {
     new RequestInfo(
       correlationId = Some(CorrelationID.fromRequest(request)),
       taxonomyVersion = TaxonomyData.fromRequest(ndlaRequest),
-      applicationUrl = ApplicationUrl.fromRequest(ndlaRequest),
+      applicationUrl = Some(ApplicationUrl.fromRequest(ndlaRequest)),
     )
   }
 

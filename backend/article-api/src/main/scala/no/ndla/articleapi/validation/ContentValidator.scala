@@ -11,6 +11,7 @@ package no.ndla.articleapi.validation
 import no.ndla.articleapi.Props
 import no.ndla.articleapi.repository.ArticleRepository
 import no.ndla.common.errors.{ValidationException, ValidationMessage}
+import no.ndla.common.implicits.toOption
 import no.ndla.common.model.NDLADate
 import no.ndla.common.model.domain.article.{Article, Copyright}
 import no.ndla.common.model.domain.*
@@ -115,18 +116,22 @@ class ContentValidator(using articleRepository: ArticleRepository, props: Props)
 
   private def rootElementContainsOnlySectionBlocks(field: String, html: String): Option[ValidationMessage] = {
     val legalTopLevelTag = "section"
-    val topLevelTags     = stringToJsoupDocument(html).children().asScala.map(_.tagName())
+    stringToJsoupDocument(html) match {
+      case None           => Some(ValidationMessage(field, "Unable to parse the content as HTML."))
+      case Some(document) =>
+        val topLevelTags = document.children().toOption.toList.flatMap(_.asScala).map(_.tagName())
 
-    if (topLevelTags.forall(_ == legalTopLevelTag)) {
-      None
-    } else {
-      val illegalTags = topLevelTags.filterNot(_ == legalTopLevelTag).mkString(",")
-      Some(
-        ValidationMessage(
-          field,
-          s"An article must consist of one or more <section> blocks. Illegal tag(s) are $illegalTags ",
-        )
-      )
+        if (topLevelTags.forall(_ == legalTopLevelTag)) {
+          None
+        } else {
+          val illegalTags = topLevelTags.filterNot(_ == legalTopLevelTag).mkString(",")
+          Some(
+            ValidationMessage(
+              field,
+              s"An article must consist of one or more <section> blocks. Illegal tag(s) are $illegalTags ",
+            )
+          )
+        }
     }
   }
 

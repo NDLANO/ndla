@@ -17,6 +17,7 @@ import no.ndla.common.model.domain.*
 import no.ndla.common.model.domain.article.Copyright
 import no.ndla.language.Language
 import no.ndla.mapping.License.{CC_BY_NC_SA, Copyrighted, PublicDomain}
+import no.ndla.network.ApplicationUrl
 import no.ndla.scalatestsuite.ElasticsearchIntegrationSuite
 import no.ndla.search.{Elastic4sClientFactory, NdlaE4sClient, SearchLanguage}
 
@@ -267,6 +268,8 @@ class ArticleSearchServiceTest extends ElasticsearchIntegrationSuite with UnitSu
     articleIndexService.indexDocument(article11).get
     articleIndexService.indexDocument(article12).get
     articleIndexService.indexDocument(article13).get
+
+    ApplicationUrl.set("http://localhost/article-api/v2/articles/")
 
     blockUntil(() => articleSearchService.countDocuments == 13)
   }

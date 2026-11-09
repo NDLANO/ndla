@@ -11,6 +11,7 @@ package no.ndla.frontpageapi.controller
 import cats.implicits.*
 import io.circe.generic.auto.*
 import no.ndla.common.errors.ValidationException
+import no.ndla.common.implicits.toOption
 import no.ndla.frontpageapi.model.api.*
 import no.ndla.frontpageapi.service.{ReadService, WriteService}
 import no.ndla.network.tapir.auth.NdlaAuth
@@ -56,7 +57,7 @@ class FilmPageController(using
         writeService
           .updateFilmFrontPage(filmFrontPage)
           .partialOverride { case ex: ValidationException =>
-            errorHelpers.unprocessableEntity(ex.getMessage)
+            errorHelpers.unprocessableEntity(ex.getMessage.toOption.getOrElse(ex.message))
           }
       },
     endpoint

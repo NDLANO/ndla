@@ -12,8 +12,7 @@ import no.ndla.common.aws.NdlaS3Object
 import no.ndla.imageapi.model.domain.{ImageContentType, ImageMetaInformation}
 import no.ndla.imageapi.service.ImageStorageService
 import no.ndla.imageapi.{TestEnvironment, UnitSuite}
-import org.mockito.ArgumentMatchers.{any, eq as eqTo}
-import org.mockito.Mockito.{reset, times, verify, when}
+import no.ndla.testbase.NullSafeMockito.{any, eqTo, reset, times, verify, when}
 import software.amazon.awssdk.services.s3.model.{CopyObjectResponse, NoSuchKeyException}
 
 import scala.util.{Failure, Success}
@@ -50,7 +49,7 @@ class ImageStorageServiceTest extends UnitSuite with TestEnvironment {
   }
 
   test("That AmazonImageStorage.get returns None when the key does not exist") {
-    when(s3Client.getObject(any)).thenReturn(Failure(NoSuchKeyException.builder().build()))
+    when(s3Client.getObject(any)).thenReturn(Failure(NoSuchKeyException.builder().nn.build().nn))
     assert(imageStorage.get("nonexisting").isFailure)
   }
 

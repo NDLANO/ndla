@@ -9,6 +9,7 @@
 package no.ndla.common.caching
 
 import com.typesafe.scalalogging.StrictLogging
+import no.ndla.common.implicits.toOption
 
 import java.util.concurrent.atomic.AtomicReference
 import scala.util.{Failure, Try, Success}
@@ -30,11 +31,13 @@ class Memoize[R](maxCacheAgeMs: Long, f: () => Try[R], retryOnErrorMs: Option[Lo
   }
 
   private def setCacheTime(cacheTime: Long): Unit = {
-    cache.updateAndGet {
-      case Some(cacheValue) => Some(cacheValue.copy(lastUpdated = cacheTime))
-      case None             =>
-        logger.warn(s"Attempted to set cache time to $cacheTime, but no cached value exists.")
-        None
+    cache.updateAndGet { current =>
+      current.toOption.flatten match {
+        case Some(cacheValue) => Some(cacheValue.copy(lastUpdated = cacheTime))
+        case None             =>
+          logger.warn(s"Attempted to set cache time to $cacheTime, but no cached value exists.")
+          None
+      }
     }: Unit
   }
 
