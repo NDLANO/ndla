@@ -20,7 +20,8 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { toIntlLanguage } from "@ndla/util";
-import { type ComponentPropsWithoutRef, type ReactNode, forwardRef, useCallback, useEffect, useRef } from "react";
+import { type ReactNode, forwardRef, useCallback, useEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import { useTranslation } from "react-i18next";
 import type { FootNote } from "../types";
 import { ArticleFootNotes } from "./ArticleFootNotes";
@@ -154,12 +155,27 @@ export const ArticleByline = ({
 
 interface ArticleBylineAccordionprops extends AccordionItemProps {
   accordionTitle: ReactNode;
-  expandOnPrint?: boolean;
 }
 
 interface ArticleBylineFootnotesProps {
   footnotes: FootNote[];
 }
+
+const useIsPrinting = () => {
+  const [isPrinting, setIsPrinting] = useState(false);
+  useEffect(() => {
+    // The browser lays out the printed page right after beforeprint, so the update must be committed synchronously.
+    const onBeforePrint = () => flushSync(() => setIsPrinting(true));
+    const onAfterPrint = () => setIsPrinting(false);
+    window.addEventListener("beforeprint", onBeforePrint);
+    window.addEventListener("afterprint", onAfterPrint);
+    return () => {
+      window.removeEventListener("beforeprint", onBeforePrint);
+      window.removeEventListener("afterprint", onAfterPrint);
+    };
+  }, []);
+  return isPrinting;
+};
 
 export const ArticleBylineFootnotes = ({ footnotes }: ArticleBylineFootnotesProps) => {
   const { t } = useTranslation();
@@ -187,32 +203,30 @@ export const ArticleBylineFootnotes = ({ footnotes }: ArticleBylineFootnotesProp
     return () => window.removeEventListener("hashchange", onHashChange);
   }, [onHashChange]);
 
+  const isPrinting = useIsPrinting();
+
+  if (isPrinting) {
+    return (
+      <section>
+        <Heading asChild consumeCss textStyle="label.medium" fontWeight="bold">
+          <h2>{t("article.footnotes")}</h2>
+        </Heading>
+        <ArticleFootNotes footNotes={footnotes} />
+      </section>
+    );
+  }
+
   return (
-    <ArticleBylineAccordionItem
-      ref={ref}
-      value={footnotesAccordionId}
-      accordionTitle={t("article.footnotes")}
-      expandOnPrint
-    >
+    <ArticleBylineAccordionItem ref={ref} value={footnotesAccordionId} accordionTitle={t("article.footnotes")}>
       <ArticleFootNotes footNotes={footnotes} />
     </ArticleBylineAccordionItem>
   );
 };
 
-// Ark's AccordionItem forwards these to its CollapsibleRoot, but they are not part of the item's prop types.
-// Keeping the content mounted lets the footnotes be shown when printing.
-const keepContentMounted: object = { lazyMount: false, unmountOnExit: false };
-
-// Zag hides fully collapsed content with the hidden attribute, which the global reset forces to display: none !important.
-// Expose it as a data attribute instead, so print styles can override it while the closing animation still runs.
-const CollapsedAsDataAttribute = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<"div">>(
-  ({ hidden, ...props }, ref) => <div ref={ref} data-collapsed={hidden ? "" : undefined} {...props} />,
-);
-
 export const ArticleBylineAccordionItem = forwardRef<HTMLDivElement, ArticleBylineAccordionprops>(
-  ({ value, accordionTitle, expandOnPrint, children, ...props }, ref) => {
+  ({ value, accordionTitle, children, ...props }, ref) => {
     return (
-      <AccordionItem value={value} ref={ref} {...(expandOnPrint ? keepContentMounted : {})} {...props}>
+      <AccordionItem value={value} ref={ref} {...props}>
         <Heading asChild consumeCss textStyle="label.medium" fontWeight="bold">
           <h2>
             <AccordionItemTrigger>
@@ -223,13 +237,7 @@ export const ArticleBylineAccordionItem = forwardRef<HTMLDivElement, ArticleByli
             </AccordionItemTrigger>
           </h2>
         </Heading>
-        {expandOnPrint ? (
-          <PrintExpandedAccordionItemContent asChild consumeCss>
-            <CollapsedAsDataAttribute>{children}</CollapsedAsDataAttribute>
-          </PrintExpandedAccordionItemContent>
-        ) : (
-          <AccordionItemContent>{children}</AccordionItemContent>
-        )}
+        <AccordionItemContent>{children}</AccordionItemContent>
       </AccordionItem>
     );
   },
@@ -239,22 +247,6 @@ const StyledAccordionItem = styled(ArticleBylineAccordionItem, {
   base: {
     _print: {
       display: "none",
-    },
-  },
-});
-
-const PrintExpandedAccordionItemContent = styled(AccordionItemContent, {
-  base: {
-    "&[data-collapsed]": {
-      display: "none",
-      _print: {
-        display: "block",
-      },
-    },
-    _closed: {
-      _print: {
-        animation: "[none]",
-      },
     },
   },
 });
