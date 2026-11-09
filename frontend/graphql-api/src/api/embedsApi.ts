@@ -383,9 +383,9 @@ export const transformEmbed = async (
     } else if (embedData.resource === "related-content") {
       meta = await relatedContentMeta({ embedData, context, index, opts });
       const resource = meta?.resource;
-      const ctx = resource?.contexts?.find((c) => c.rootId === opts.subject) ?? resource?.context;
-      // Do not link to articles that are only placed in archived taxonomy contexts.
-      if (ctx?.isArchived) {
+      const subjectCtx = resource?.contexts?.find((c) => c.rootId === opts.subject);
+      // If related is not in this subject, remove if archived.
+      if (!subjectCtx && resource?.context?.isArchived) {
         embed.embed.replaceWith("");
         return;
       }
