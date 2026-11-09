@@ -144,7 +144,7 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
           </Text>
           {articles.map((element) => (
             <ListResource
-              key={element.id}
+              key={getResourceKey(element)}
               title={element.title.title}
               metaImage={element.metaImage}
               url={routes.editArticle(element.id, element.learningResourceType ?? "standard", i18n.language)}
