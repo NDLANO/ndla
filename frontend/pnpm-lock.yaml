@@ -376,8 +376,8 @@ catalogs:
       specifier: ^11.5.3
       version: 11.5.3
     nock:
-      specifier: ^15.0.5
-      version: 15.0.5
+      specifier: ^15.0.6
+      version: 15.0.6
     nx:
       specifier: 24.0.4
       version: 24.0.4
@@ -1118,7 +1118,7 @@ importers:
         version: 30.1.3
       nock:
         specifier: 'catalog:'
-        version: 15.0.5(supports-color@10.2.2)
+        version: 15.0.6(supports-color@10.2.2)
       openapi-typescript-helpers:
         specifier: 'catalog:'
         version: 0.1.0
@@ -1525,7 +1525,7 @@ importers:
         version: 30.1.3
       nock:
         specifier: 'catalog:'
-        version: 15.0.5(supports-color@10.2.2)
+        version: 15.0.6(supports-color@10.2.2)
       oxfmt:
         specifier: 'catalog:'
         version: 0.75.0
@@ -3863,8 +3863,8 @@ packages:
       '@types/react': '>=16'
       react: '>=16'
 
-  '@mswjs/interceptors@0.44.0':
-    resolution: {integrity: sha512-IYHevRStF4ijM20GI9c9Ndhw483NSAjCydQhUr4/zIB0BNLsTVw3vFAxTo6TlvX4QnV60wEHttUa9539TTAq+A==}
+  '@mswjs/interceptors@0.45.11':
+    resolution: {integrity: sha512-+ISPERIRIHhSVnFQRGCP9jDJXxn0/z2+pWWbXUym6JUfpUCRW2Pvro4P9RBKGYUKTKAULszKurKMTQIsaJUIgQ==}
     engines: {node: '>=22'}
 
   '@napi-rs/wasm-runtime@0.2.4':
@@ -9711,8 +9711,8 @@ packages:
     resolution: {integrity: sha512-WmmLty1YWwJl9yZi77v2dVIV6X2kuYV8YYBI/G3LWGKdGHmHUvL1z7FW0iDvEvGAwNEoc5x1tOOOyDnf5jJw/w==}
     engines: {node: '>= 10'}
 
-  nock@15.0.5:
-    resolution: {integrity: sha512-nVeuZGS2we1PyvqbW082Qj0EB4bd//6pZk/zOPDlaTPU72qcWrqfHg3kx9JcBcH1fJxwJHjmsfuQ4mss42su4w==}
+  nock@15.0.6:
+    resolution: {integrity: sha512-eyOJ1wemcgJZ+PQC3lecfF3gQc2SAmGlQ4mHGfFXcOa/+7v0qjnX+ft/NV2F+4vCwzkXZqik3gS6ZIjh+QcigQ==}
     engines: {node: '>=22.20.0'}
 
   node-abort-controller@3.1.1:
@@ -14054,7 +14054,7 @@ snapshots:
       '@types/react': 19.3.0
       react: 19.3.1
 
-  '@mswjs/interceptors@0.44.0(supports-color@10.2.2)':
+  '@mswjs/interceptors@0.45.11(supports-color@10.2.2)':
     dependencies:
       '@open-draft/until': 3.0.1
       '@types/debug': 4.1.13
@@ -20543,9 +20543,9 @@ snapshots:
 
   neotraverse@1.0.1: {}
 
-  nock@15.0.5(supports-color@10.2.2):
+  nock@15.0.6(supports-color@10.2.2):
     dependencies:
-      '@mswjs/interceptors': 0.44.0(supports-color@10.2.2)
+      '@mswjs/interceptors': 0.45.11(supports-color@10.2.2)
     transitivePeerDependencies:
       - supports-color
 
