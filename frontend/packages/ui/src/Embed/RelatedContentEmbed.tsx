@@ -26,7 +26,11 @@ export const RelatedContentEmbed = ({ embed, isOembed, subject, ndlaFrontendDoma
   const { data, embedData } = embed;
 
   if (embedData.articleId && data) {
-    const context = data.resource?.contexts.find((c) => c.rootId === subject);
+    const contexts = data.resource?.contexts ?? [];
+    const context =
+      contexts.find((c) => c.rootId === subject) ??
+      contexts.find((c) => c.isPrimary && !c.isArchived) ??
+      contexts.find((c) => !c.isArchived);
     const url = context?.url ?? data.resource?.url ?? `/article/${embedData.articleId}`;
     return (
       <RelatedArticle
