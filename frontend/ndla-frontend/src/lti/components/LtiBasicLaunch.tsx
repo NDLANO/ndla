@@ -32,7 +32,7 @@ const getReturnType = (ltiData: LtiData) => {
   return "lti_launch_url";
 };
 const getQuery = (ltiData: LtiData, item: LtiItem) => {
-  const baseUrl = config.ndlaEnvironment === "dev" ? "http://localhost:3000" : config.ndlaFrontendDomain;
+  const baseUrl = config.ndlaEnvironment === "dev" ? `http://localhost:${config.port}` : config.ndlaFrontendDomain;
   const returnType = getReturnType(ltiData);
   const params = new URLSearchParams({
     url: `${baseUrl}/article-iframe/article/${item.id}`,

@@ -13,7 +13,7 @@ import { TRANFSFORM_ARTICLE } from "../../queryKeys";
 import { apiResourceUrl } from "../../util/apiHelpers";
 
 const gqlEndpoint = config.localGraphqlApi
-  ? "http://localhost:4000/graphql-api/graphql"
+  ? `http://localhost:${config.graphqlApiPort}/graphql-api/graphql`
   : apiResourceUrl("/graphql-api/graphql");
 
 interface UseTransformArticle extends Variables {

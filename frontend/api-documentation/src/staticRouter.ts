@@ -10,6 +10,7 @@ import { createRequire } from "node:module";
 import path from "node:path";
 import { onBeforeFullReload } from "@ndla/shared/devReload";
 import express, { type Request, type Response } from "express";
+import { server } from "./httpServer.js";
 
 const STATIC_MAX_AGE_MS = 5 * 60 * 1000;
 const ASSET_MAX_AGE_MS = 365 * 24 * 60 * 60 * 1000; // Only use long TTL for assets, since they have hash in filename;
@@ -25,7 +26,7 @@ if (import.meta.env.PROD) {
   // oxlint-disable-next-line import-js/no-extraneous-dependencies
   const { createServer } = await import("vite");
   const vite = await createServer({
-    server: { middlewareMode: true },
+    server: { middlewareMode: true, ws: { server } },
     appType: "custom",
     base: "/",
   });

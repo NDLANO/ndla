@@ -20,7 +20,7 @@
     "build": "pnpm exec storybook build",
     "type-check": "tsc --noEmit",
     "watch:types": "tsc --noEmit -w --preserveWatchOutput",
-    "dev": "storybook dev -p 6006 --no-open"
+    "dev": "storybook dev -p ${SBCONFIG_PORT:-6006} --no-open"
   },
   "devDependencies": {
     "@fontsource-variable/source-code-pro": "catalog:",

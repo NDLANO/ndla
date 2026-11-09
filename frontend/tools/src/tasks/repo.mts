@@ -21,6 +21,17 @@ export const run = (dir: string, ...command: string[]): number =>
 
 export const mill = (...command: string[]): number => run(backend, "./mill", ...command);
 export const nx = (...command: string[]): number => run(frontend, "pnpm", "exec", "nx", ...command);
+/** `mise exec` overwrites inherited variables with the ones from `.mise.toml`, so these are set after it with `env` */
+export const nxWithEnv = (env: Record<string, string>, ...command: string[]): number =>
+  run(
+    frontend,
+    "env",
+    ...Object.entries(env).map(([key, value]) => `${key}=${value}`),
+    "pnpm",
+    "exec",
+    "nx",
+    ...command,
+  );
 
 const find = (dir: string, file: string, needle: string): string[] =>
   readdirSync(dir)
@@ -55,7 +66,11 @@ export const frontendProjects = (scope: string): string[] =>
 export const backendProjects = (scope: string): string[] => (scope === "dev" ? services() : testable());
 
 /** Sends `project` to mill or to nx, whichever half of the repo it lives in. */
-export const dispatch = (scope: string, onBackend: () => number, onFrontend: () => number): number => {
+export const dispatch = <T extends number | Promise<number>>(
+  scope: string,
+  onBackend: () => T,
+  onFrontend: () => T,
+): T | number => {
   const backendCandidates = backendProjects(scope);
   if (backendCandidates.includes(project)) return onBackend();
   const frontendCandidates = frontendProjects(scope);

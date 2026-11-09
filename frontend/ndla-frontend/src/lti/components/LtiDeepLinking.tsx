@@ -71,7 +71,7 @@ interface LtiPostData {
 }
 
 const getLtiPostData = async (ltiData: LtiData, item: LtiItem): Promise<LtiPostData> => {
-  const baseUrl = config.ndlaEnvironment === "dev" ? "http://localhost:3000" : config.ndlaFrontendDomain;
+  const baseUrl = config.ndlaEnvironment === "dev" ? `http://localhost:${config.port}` : config.ndlaFrontendDomain;
   const iframeurl = `${baseUrl}/article-iframe/article/${item.id}`;
   const postData = {
     oauth_callback: ltiData.oauth_callback || "",
