@@ -70,6 +70,8 @@ class ComponentRegistry(properties: ImageApiProperties) extends TapirApplication
   given healthController: HealthController   = new HealthController
   given bulkController: BulkController       = new BulkController
 
+  implicit lazy val standaloneVariantGeneration: StandaloneVariantGeneration = new StandaloneVariantGeneration
+
   given swaggerInfo: SwaggerInfo = SwaggerInfo(
     prefix = "image-api",
     description = "Searching and fetching all images used in the NDLA platform.\n\n" +

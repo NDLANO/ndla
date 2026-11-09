@@ -12,6 +12,7 @@ import com.typesafe.scalalogging.StrictLogging
 import no.ndla.common.Environment.setPropsFromEnv
 import no.ndla.common.configuration.BaseProps
 import no.ndla.common.implicits.toOption
+import no.ndla.common.job.StandaloneJob
 import org.apache.logging.log4j.core.LoggerContext
 import org.apache.logging.log4j.jul.Log4jBridgeHandler
 import sttp.tapir.server.netty.sync.NettySyncServerBinding
@@ -26,8 +27,14 @@ trait NdlaTapirMain[T <: TapirApplication[?]] extends StrictLogging {
   val props: BaseProps
   val componentRegistry: T
   def warmup(): Unit
+
+  /** Runs before the server is started, and before a standalone job is run */
   def beforeStart(): Unit
+
   var serverBinding: Option[NettySyncServerBinding] = None
+
+  /** Jobs that can be run instead of the server, see [[StandaloneJob]] */
+  def standaloneJobs: Seq[StandaloneJob] = Seq.empty
 
   private def logCopyrightHeader(): Unit = {
     if (!props.DisableLicense) {
@@ -122,7 +129,12 @@ trait NdlaTapirMain[T <: TapirApplication[?]] extends StrictLogging {
       componentRegistry.swagger.saveSwagger()
     } else {
       props.throwIfFailedProps()
-      runServer()
+      StandaloneJob
+        .select(standaloneJobs)
+        .flatMap {
+          case Some(job) => job.run(setup = beforeStart())
+          case None      => runServer()
+        }
     }
   }
 }

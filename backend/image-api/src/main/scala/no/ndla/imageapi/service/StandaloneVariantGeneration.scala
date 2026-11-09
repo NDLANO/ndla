@@ -11,7 +11,9 @@ package no.ndla.imageapi.service
 import cats.implicits.*
 import com.typesafe.scalalogging.StrictLogging
 import no.ndla.common.errors.MissingBucketKeyException
-import no.ndla.database.DBUtility
+import no.ndla.common.job.StandaloneJob
+import no.ndla.database.{DBMigrator, DBUtility}
+import no.ndla.imageapi.Props
 import no.ndla.imageapi.model.{ImageDeleteException, ImageUnprocessableFormatException}
 import no.ndla.imageapi.model.domain.*
 import no.ndla.imageapi.repository.ImageRepository
@@ -22,39 +24,38 @@ import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.util.Properties.propOrNone
 import scala.util.{Failure, Success, Try, Using}
 
-class StandaloneVariantGeneration(
+class StandaloneVariantGeneration(using
+    props: Props,
     imageConverter: ImageConverter,
     writeService: WriteService,
     imageStorage: ImageStorageService,
     imageRepository: ImageRepository,
     dbUtility: DBUtility,
-) extends StrictLogging {
+    migrator: DBMigrator,
+) extends StandaloneJob,
+      StrictLogging {
   private val ProcessableContentTypes: Set[ImageContentType] = Set(ImageContentType.Png, ImageContentType.Jpeg)
   private val BatchSize                                      = 20
   // The S3 DeleteObjects API accepts at most 1000 keys per request
   private val DeleteBatchSize = 1000
 
-  def doStandaloneVariantGeneration(): Nothing = {
-    val mode = propOrNone("STANDALONE_VARIANT_GENERATION_MODE")
+  override val name: String                      = "variant-generation"
+  override val legacyEnabledFlag: Option[String] = Some("STANDALONE_VARIANT_GENERATION_ENABLED")
+
+  override def execute(): Try[Unit] = for {
+    mode <- propOrNone("STANDALONE_VARIANT_GENERATION_MODE")
       .flatMap(ImageVariantGenerationMode.withNameOption)
-      .getOrElse {
-        throw IllegalArgumentException(
+      .toRight(
+        IllegalArgumentException(
           s"Invalid or missing STANDALONE_VARIANT_GENERATION_MODE. Expected one of: " +
             ImageVariantGenerationMode.values.map(_.entryName).mkString(", ")
         )
-      }
-
-    logger.info(s"Starting standalone image variant generation in '${mode.entryName}' mode")
-
-    run(mode) match {
-      case Success(_) =>
-        logger.info("Standalone image variant generation finished successfully")
-        sys.exit(0)
-      case Failure(ex) =>
-        logger.error("Standalone image variant generation failed", ex)
-        sys.exit(1)
-    }
-  }
+      )
+      .toTry
+    _  = logger.info(s"Starting standalone image variant generation in '${mode.entryName}' mode")
+    _ <- Try(migrator.migrate())
+    _ <- run(mode)
+  } yield ()
 
   def run(mode: ImageVariantGenerationMode): Try[Unit] = mode match {
     case generatingMode: ImageVariantGenerationMode.Generating => generateVariantsForExistingImages(generatingMode)

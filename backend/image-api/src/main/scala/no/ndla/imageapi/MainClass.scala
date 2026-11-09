@@ -8,11 +8,9 @@
 
 package no.ndla.imageapi
 
-import no.ndla.common.Environment.booleanPropOrFalse
 import no.ndla.common.Warmup
+import no.ndla.common.job.StandaloneJob
 import no.ndla.network.tapir.NdlaTapirMain
-import no.ndla.imageapi.service.StandaloneVariantGeneration
-import sttp.tapir.server.netty.sync.NettySyncServerBinding
 
 class MainClass(override val props: ImageApiProperties) extends NdlaTapirMain[ComponentRegistry] {
   val componentRegistry = new ComponentRegistry(props)
@@ -33,18 +31,5 @@ class MainClass(override val props: ImageApiProperties) extends NdlaTapirMain[Co
     componentRegistry.migrator.migrate()
   }
 
-  override def startServerAndWait(name: String, port: Int)(onStartup: NettySyncServerBinding => Unit): Unit = {
-    if (booleanPropOrFalse("STANDALONE_VARIANT_GENERATION_ENABLED")) {
-      beforeStart()
-      StandaloneVariantGeneration(
-        componentRegistry.imageConverter,
-        componentRegistry.writeService,
-        componentRegistry.imageStorage,
-        componentRegistry.imageRepository,
-        componentRegistry.dbUtility,
-      ).doStandaloneVariantGeneration()
-    } else {
-      super.startServerAndWait(name, port)(onStartup)
-    }
-  }
+  override def standaloneJobs: Seq[StandaloneJob] = Seq(componentRegistry.standaloneVariantGeneration)
 }

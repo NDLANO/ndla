@@ -21,8 +21,7 @@ import scala.util.{Failure, Success}
 class StandaloneVariantGenerationTest extends UnitSuite with TestEnvironment {
   override implicit lazy val dbUtility: DBUtility       = DBUtilityStub()
   override implicit lazy val writeService: WriteService = WriteService()
-  val standaloneVariantGeneration                       =
-    StandaloneVariantGeneration(imageConverter, writeService, imageStorage, imageRepository, dbUtility)
+  val standaloneVariantGeneration                       = StandaloneVariantGeneration()
 
   override def beforeEach(): Unit = {
     reset(imageRepository, imageStorage)
