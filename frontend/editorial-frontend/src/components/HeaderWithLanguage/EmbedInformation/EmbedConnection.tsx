@@ -68,7 +68,7 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
     if (id) {
       const embedId = type === "article" ? `article:${id}` : id.toString();
       const embedResource = convertToSearchEmbedTypes(type);
-      Promise.all([
+      Promise.allSettled([
         searchDraft({
           embedId,
           embedResource,
@@ -83,7 +83,10 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
           resultTypes: ["article", "learningpath"],
         }),
       ]).then(([draftResult, publishedResult]) => {
-        if (shouldUpdateState) setArticles(mergeResults(draftResult.results, publishedResult.results));
+        if (!shouldUpdateState) return;
+        const drafts = draftResult.status === "fulfilled" ? draftResult.value.results : [];
+        const published = publishedResult.status === "fulfilled" ? publishedResult.value.results : [];
+        setArticles(mergeResults(drafts, published));
       });
       if (type === "image" || type === "audio") {
         postSearchConcepts({
