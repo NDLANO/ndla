@@ -1000,6 +1000,8 @@ const translations = {
     otherResources: "Other resources",
     programme: "Programmes",
     grades: "Grades",
+    occupationalCategory: "Education",
+    programPrerequisites: "Completed lower secondary school",
   },
   aboutPage: {
     menuItems: "Subpages",
