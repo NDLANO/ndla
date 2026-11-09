@@ -38,7 +38,7 @@ import { GREP_CODE_FORMATS } from "../../constants";
 import { searchGrepCodesQueryOptions } from "../../modules/search/searchQueries";
 import { isGrepCodeValid } from "../../util/articleUtil";
 import { DialogCloseButton } from "../DialogCloseButton";
-import { getCompetenceGoalCodes, groupCompetenceGoals } from "./competenceGoalsUtil";
+import { countSelectedCompetenceGoals, getCompetenceGoalCodes, groupCompetenceGoals } from "./competenceGoalsUtil";
 
 const ContentWrapper = styled("div", {
   base: {
@@ -63,27 +63,70 @@ const StyledAlertLine = styled(AlertLine, {
   },
 });
 
+const TriggerButton = styled(Button, {
+  variants: {
+    selected: {
+      true: {
+        background: "surface.successSubtle",
+        boxShadowColor: "stroke.success",
+        _hover: { background: "surface.successSubtle.hover" },
+        _active: { background: "surface.successSubtle.active" },
+        "& svg": { color: "stroke.success" },
+      },
+    },
+  },
+});
+
+const SelectedCount = styled("span", {
+  base: {
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    minWidth: "8",
+    height: "8",
+    paddingInline: "1",
+    borderRadius: "large",
+    background: "surface.success",
+    color: "text.onAction",
+    textStyle: "label.xsmall",
+    fontWeight: "bold",
+  },
+});
+
 interface Props {
   subject: Node;
 }
 
 export const CompetenceGoalsDialog = ({ subject }: Props) => {
   const { t } = useTranslation();
+  const [field] = useField<string[]>("grepCodes");
   const setCodes = useMemo(
     () => subject.metadata.grepCodes.filter((code) => isGrepCodeValid(code, [GREP_CODE_FORMATS.KOMPETANSEMALSETT])),
     [subject.metadata.grepCodes],
   );
+  const setsQuery = useQuery({
+    ...searchGrepCodesQueryOptions({ codes: setCodes, pageSize: setCodes.length }),
+    enabled: !!setCodes.length,
+  });
+  const selectedCount = useMemo(
+    () => countSelectedCompetenceGoals(setsQuery.data?.results ?? [], field.value),
+    [setsQuery.data, field.value],
+  );
 
   if (!setCodes.length) return null;
 
-  const label = t("taxonomy.competenceGoals.buttonLabel", { subject: subject.name });
+  const label = selectedCount
+    ? t("taxonomy.competenceGoals.buttonLabelSelected", { subject: subject.name, count: selectedCount })
+    : t("taxonomy.competenceGoals.buttonLabel", { subject: subject.name });
 
   return (
     <DialogRoot size="large" position="top">
       <DialogTrigger asChild>
-        <Button size="small" variant="secondary" aria-label={label} title={label}>
+        <TriggerButton size="small" variant="secondary" selected={!!selectedCount} aria-label={label} title={label}>
+          {!!selectedCount && <CheckLine />}
           {t("taxonomy.competenceGoals.button")}
-        </Button>
+          {!!selectedCount && <SelectedCount>{selectedCount}</SelectedCount>}
+        </TriggerButton>
       </DialogTrigger>
       <Portal>
         <DialogContent>

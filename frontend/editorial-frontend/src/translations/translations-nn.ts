@@ -1992,6 +1992,7 @@ const translations = {
     competenceGoals: {
       button: "Kompetansemål",
       buttonLabel: "Vel kompetansemål frå {{subject}}",
+      buttonLabelSelected: "Vel kompetansemål frå {{subject}} ({{count}} valt)",
       title: "Kompetansemål i {{subject}}",
       description: "Kryss av for kompetansemåla som skal knytast til ressursen.",
       empty: "Fann ingen kompetansemål for faget",
