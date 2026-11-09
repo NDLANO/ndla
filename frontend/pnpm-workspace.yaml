@@ -29,11 +29,11 @@ catalog:
   "@graphql-eslint/eslint-plugin": ^4.4.2
   "@internationalized/date": 3.12.4
   "@opentelemetry/api": ^1.10.0
-  "@opentelemetry/auto-instrumentations-node": ^0.82.0
-  "@opentelemetry/core": ^3.0.0
-  "@opentelemetry/exporter-trace-otlp-proto": ^0.300.0
-  "@opentelemetry/sdk-node": ^0.300.0
-  "@opentelemetry/sdk-trace": ^3.0.0
+  "@opentelemetry/auto-instrumentations-node": ^0.83.0
+  "@opentelemetry/core": ^3.1.0
+  "@opentelemetry/exporter-trace-otlp-proto": ^0.301.0
+  "@opentelemetry/sdk-node": ^0.301.0
+  "@opentelemetry/sdk-trace": ^3.1.0
   "@pandacss/config": ^2.5.0
   "@pandacss/dev": ^2.5.0
   "@pandacss/mcp": ^2.5.0
