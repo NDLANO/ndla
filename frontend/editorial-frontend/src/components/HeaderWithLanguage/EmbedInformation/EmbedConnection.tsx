@@ -80,7 +80,7 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
           embedResource,
           pageSize: 50,
           license: "all",
-          resultTypes: ["article", "learningpath"],
+          resultTypes: ["article"],
         }),
       ]).then(([draftResult, publishedResult]) => {
         if (!shouldUpdateState) return;
