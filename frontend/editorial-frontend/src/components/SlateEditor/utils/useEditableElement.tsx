@@ -8,7 +8,7 @@
 
 import type { PopoverInteractOutsideEvent } from "@ark-ui/react/popover";
 import { useCallback, useRef, useState } from "react";
-import { type BaseSelection, type Editor, type Element, type Path, Range, Transforms } from "slate";
+import { type BaseSelection, type Editor, type Element, Path, Range, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
 
 export type FinalFocusElementFunction = (element: Element, path: Path) => Path;
@@ -51,6 +51,15 @@ export const useEditableElement = <T extends Element>(
 
   const handleRemove = useCallback(() => _handleRemove(), [_handleRemove]);
   const handleUnwrap = useCallback(() => _handleRemove(true), [_handleRemove]);
+
+  /**
+   * Inserts a copy of the element directly after it. The element is deep cloned so the copy doesn't share
+   * node references with the original. The id plugin assigns new ids to the inserted nodes.
+   */
+  const handleDuplicate = useCallback(() => {
+    const path = ReactEditor.findPath(editor, element);
+    Transforms.insertNodes(editor, structuredClone(element), { at: Path.next(path), select: false });
+  }, [editor, element]);
 
   const handleSave = useCallback(
     (properties: Partial<T>) => {
@@ -158,6 +167,7 @@ export const useEditableElement = <T extends Element>(
     isEditing,
     handleRemove,
     handleUnwrap,
+    handleDuplicate,
     handleSave,
     handleEditingChange,
     onEditingExit,

@@ -866,6 +866,7 @@ const translations = {
     lowQualityEvaluation:
       "You have published a resource with a quality rating between 3-5. Evaluate whether the republishing leads to a better grade.",
     moveContent: "Move content into the text",
+    duplicate: "Duplicate",
     open: "Open",
     close: "Close",
     comment: {

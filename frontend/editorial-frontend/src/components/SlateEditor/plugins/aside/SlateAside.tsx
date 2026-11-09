@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import type { Editor } from "slate";
 import type { RenderElementProps } from "slate-react";
 import { DeleteButton } from "../../../DeleteButton";
+import { DuplicateButton } from "../../../DuplicateButton";
 import { MoveContentButton } from "../../../MoveContentButton";
 import { useEditableElement } from "../../utils/useEditableElement";
 import type { AsideElement } from "./asideTypes";
@@ -35,11 +36,12 @@ const ButtonContainer = styled("div", {
 
 const SlateAside = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
-  const { handleRemove, handleUnwrap } = useEditableElement(element, editor);
+  const { handleRemove, handleUnwrap, handleDuplicate } = useEditableElement(element, editor);
 
   return (
     <EmbedWrapper>
       <ButtonContainer contentEditable={false}>
+        <DuplicateButton onClick={handleDuplicate} aria-label={t("form.duplicate")} />
         <MoveContentButton onClick={handleUnwrap} aria-label={t("form.moveContent")} />
         <DeleteButton aria-label={t("form.remove")} onMouseDown={handleRemove} data-testid="remove-fact-aside" />
       </ButtonContainer>
