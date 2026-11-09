@@ -15,7 +15,7 @@ import type {
 } from "@ndla/types-backend/search-api";
 import { queryOptions } from "@tanstack/react-query";
 import { SEARCH, SEARCH_GREP_CODES, SEARCH_RESOURCES, SEARCH_SUBJECT_STATS } from "../../queryKeys";
-import { postSearch, searchGrepCodes, searchResources, searchSubjectStats } from "./searchApi";
+import { searchDraft, searchGrepCodes, searchPublic, searchSubjectStats } from "./searchApi";
 import type { NoNodeDraftSearchParams, NoNodeSearchParams } from "./searchApiInterfaces";
 
 export const searchQueryKeys = {
@@ -28,7 +28,7 @@ export const searchQueryKeys = {
 export const searchQueryOptions = (params: NoNodeDraftSearchParams) => {
   return queryOptions({
     queryKey: searchQueryKeys.search(params),
-    queryFn: () => postSearch(params),
+    queryFn: () => searchDraft(params),
   });
 };
 
@@ -42,7 +42,7 @@ export const searchSubjectStatsQueryOptions = (body: SubjectAggsInputDTO) => {
 export const searchResourcesQueryOptions = (query: NoNodeSearchParams) => {
   return queryOptions({
     queryKey: searchQueryKeys.searchResources(query),
-    queryFn: () => searchResources(query),
+    queryFn: () => searchPublic(query),
   });
 };
 

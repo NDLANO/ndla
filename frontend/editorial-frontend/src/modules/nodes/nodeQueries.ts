@@ -13,7 +13,7 @@ import type { NodeTree } from "../../containers/NodeDiff/diffUtils";
 import type { WithTaxonomyVersion } from "../../interfaces";
 import { CHILD_NODES, NODE, NODE_RESOURCES, NODES, ROOT_NODE_WITH_CHILDREN, SEARCH_NODES } from "../../queryKeys";
 import { getContentUriInfo } from "../../util/taxonomyHelpers";
-import { postSearch } from "../search/searchApi";
+import { searchDraft } from "../search/searchApi";
 import type { NoNodeResultTypes } from "../search/searchApiInterfaces";
 import { fetchChildNodes, fetchNode, fetchNodes, postSearchNodes } from "./nodeApi";
 import { type GetChildNodesParams, type GetNodesParams, RESOURCE_NODE, TOPIC_NODE } from "./nodeApiTypes";
@@ -91,7 +91,7 @@ const fetchNodeResourceMetas = async (params: UseNodeResourceMetas): Promise<Mul
   }
   const { ids, resultTypes } = getIdsAndResultTypes(params.contentUris);
 
-  const search = await postSearch({
+  const search = await searchDraft({
     resultTypes: Array.from(resultTypes),
     ids: Array.from(ids),
     pageSize: ids.size * resultTypes.size,
