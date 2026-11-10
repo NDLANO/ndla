@@ -9,7 +9,7 @@
 import { AlertLine, DeleteBinLine } from "@ndla/icons";
 import { FieldHelper, FieldLabel, FieldRoot, IconButton, ListItemContent, ListItemRoot, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import type { GrepResultDTO } from "@ndla/types-backend/search-api";
+import type { GrepResultDTO, GrepSearchResultsDTO } from "@ndla/types-backend/search-api";
 import { useQuery } from "@tanstack/react-query";
 import { useField } from "formik";
 import { memo, useMemo, useState } from "react";
@@ -86,7 +86,7 @@ const GrepCodesField = ({ prefixFilter }: Props) => {
     enabled: !!missingCodes.length,
   });
 
-  const [prevMissingGrepCodes, setPrevMissingGrepCodes] = useState(missingGrepCodesQuery.data);
+  const [prevMissingGrepCodes, setPrevMissingGrepCodes] = useState<GrepSearchResultsDTO>();
 
   if (missingGrepCodesQuery.data !== prevMissingGrepCodes) {
     setPrevMissingGrepCodes(missingGrepCodesQuery.data);
