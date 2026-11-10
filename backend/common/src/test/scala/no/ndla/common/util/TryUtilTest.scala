@@ -10,14 +10,15 @@ package no.ndla.common.util
 
 import no.ndla.common.TryUtil.*
 import no.ndla.testbase.UnitTestSuiteBase
+import org.scalatest.Outcome
 
 import scala.util.{Failure, Success, Try}
 
 class TryUtilTest extends UnitTestSuiteBase {
 
-  override def afterEach(): Unit = {
-    super.afterEach()
-    Thread.interrupted() // Make sure interrupt status is cleared after each test
+  override def withFixture(test: NoArgTest): Outcome = {
+    try super.withFixture(test)
+    finally Thread.interrupted(): Unit // Make sure interrupt status is cleared before the result is reported
   }
 
   test("throwIfInterrupted returns Success when not interrupted") {
