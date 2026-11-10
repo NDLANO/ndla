@@ -7,70 +7,87 @@
 
 package no.ndla.taxonomy.domain
 
+import no.ndla.taxonomy.rest.v1.dtos.MetadataPUT
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.mock
-import org.springframework.test.util.ReflectionTestUtils
 
 class MetadataTest {
-  private lateinit var metadata: Metadata
+  private lateinit var node: Node
 
   @BeforeEach
   fun setUp() {
-    val parent = Node(NodeType.RESOURCE)
-    metadata = Metadata(parent)
+    node = Node(NodeType.RESOURCE)
   }
 
   @Test
   fun addGetAndRemoveGrepCode() {
-    val grepCode1 = mock(JsonGrepCode::class.java)
-    val grepCode2 = mock(JsonGrepCode::class.java)
+    val grepCode1 = JsonGrepCode("KM1")
+    val grepCode2 = JsonGrepCode("KM2")
 
-    assertEquals(0, metadata.getGrepCodes().size)
+    assertEquals(emptySet<JsonGrepCode>(), node.metadata.grepCodes)
 
-    metadata.addGrepCode(grepCode1)
+    node.addGrepCode(grepCode1)
+    assertEquals(setOf(grepCode1), node.metadata.grepCodes)
 
-    assertEquals(1, metadata.getGrepCodes().size)
-    assertTrue(metadata.getGrepCodes().contains(grepCode1))
+    node.addGrepCode(grepCode2)
+    assertEquals(setOf(grepCode1, grepCode2), node.metadata.grepCodes)
 
-    metadata.addGrepCode(grepCode2)
+    node.removeGrepCode(grepCode1)
+    assertEquals(setOf(grepCode2), node.metadata.grepCodes)
 
-    assertEquals(2, metadata.getGrepCodes().size)
-    assertTrue(metadata.getGrepCodes().contains(grepCode1))
-    assertTrue(metadata.getGrepCodes().contains(grepCode2))
-
-    metadata.removeGrepCode(grepCode1)
-
-    assertEquals(1, metadata.getGrepCodes().size)
-    assertTrue(metadata.getGrepCodes().contains(grepCode2))
-
-    metadata.removeGrepCode(grepCode2)
-
-    assertEquals(0, metadata.getGrepCodes().size)
+    node.removeGrepCode(grepCode2)
+    assertEquals(emptySet<JsonGrepCode>(), node.metadata.grepCodes)
   }
 
   @Test
-  fun isVisible() {
-    assertTrue(metadata.isVisible())
+  fun visibilityIsReflectedInMetadata() {
+    assertTrue(node.metadata.isVisible)
 
-    ReflectionTestUtils.setField(metadata, "visible", false)
-    assertFalse(metadata.isVisible())
+    node.isVisible = false
+    assertFalse(node.metadata.isVisible)
 
-    ReflectionTestUtils.setField(metadata, "visible", true)
-    assertTrue(metadata.isVisible())
+    node.isVisible = true
+    assertTrue(node.metadata.isVisible)
   }
 
   @Test
-  fun setVisible() {
-    assertTrue(ReflectionTestUtils.getField(metadata, "visible") as Boolean)
+  fun metadataIsASnapshot() {
+    val before = node.metadata
+    node.isVisible = false
+    node.addGrepCode(JsonGrepCode("KM1"))
 
-    metadata.setVisible(false)
-    assertFalse(ReflectionTestUtils.getField(metadata, "visible") as Boolean)
+    assertTrue(before.isVisible)
+    assertTrue(before.grepCodes.isEmpty())
+  }
 
-    metadata.setVisible(true)
-    assertTrue(ReflectionTestUtils.getField(metadata, "visible") as Boolean)
+  @Test
+  fun updateMetadataOnlyChangesPresentFields() {
+    node.setCustomField("key", "value")
+    node.addGrepCode(JsonGrepCode("KM1"))
+
+    val result = node.updateMetadata(MetadataPUT(visible = false))
+
+    assertFalse(result.isVisible)
+    assertEquals(setOf("KM1"), result.grepCodes.map { it.code }.toSet())
+    assertEquals(mapOf("key" to "value"), result.customFields)
+
+    val replaced = node.updateMetadata(MetadataPUT(grepCodes = setOf("KM2", "KM3")))
+    assertEquals(setOf("KM2", "KM3"), replaced.grepCodes.map { it.code }.toSet())
+    assertEquals(replaced, node.metadata)
+  }
+
+  @Test
+  fun setMetadataCopiesAllFields() {
+    node.isVisible = false
+    node.addGrepCode(JsonGrepCode("KM1"))
+    node.setCustomField("key", "value")
+
+    val copy = Node(NodeType.RESOURCE)
+    copy.setMetadata(node.metadata)
+
+    assertEquals(node.metadata, copy.metadata)
   }
 }

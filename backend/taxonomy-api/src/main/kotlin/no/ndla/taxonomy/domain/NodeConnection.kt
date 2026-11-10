@@ -68,7 +68,7 @@ class NodeConnection :
     this.connectionType = nodeConnection.connectionType
     publicId = nodeConnection.publicId
     isPrimary = nodeConnection.isPrimary
-    setMetadata(Metadata(nodeConnection.metadata))
+    setMetadata(nodeConnection.metadata)
   }
 
   // Special constructor for rankable test
@@ -102,9 +102,6 @@ class NodeConnection :
   fun preRemove() {
     disassociate()
   }
-
-  override val metadata: Metadata
-    get() = Metadata(this)
 
   override fun compareTo(other: NodeConnection): Int = publicId.compareTo(other.publicId)
 

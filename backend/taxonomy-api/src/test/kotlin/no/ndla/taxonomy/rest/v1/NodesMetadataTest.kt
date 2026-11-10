@@ -50,10 +50,10 @@ class NodesMetadataTest : RestTest() {
 
     val node = nodeRepository.getByPublicId(publicId)
     assertNotNull(node.metadata)
-    assertFalse(node.metadata.isVisible())
-    val codes = node.metadata.getGrepCodes().mapTo(HashSet()) { it.code }
+    assertFalse(node.metadata.isVisible)
+    val codes = node.metadata.grepCodes.mapTo(HashSet()) { it.code }
     assertTrue(codes.contains("KM123"))
-    val customFieldValues = node.metadata.getCustomFields()
+    val customFieldValues = node.metadata.customFields
     assertTrue(customFieldValues.containsKey("key"))
     assertTrue(customFieldValues.containsValue("value"))
   }
@@ -70,8 +70,8 @@ class NodesMetadataTest : RestTest() {
 
     val node = nodeRepository.getByPublicId(publicId)
     assertNotNull(node.metadata)
-    assertTrue(node.metadata.isVisible())
-    assertTrue(node.metadata.getGrepCodes().isEmpty())
+    assertTrue(node.metadata.isVisible)
+    assertTrue(node.metadata.grepCodes.isEmpty())
     assertTrue(node.customFields.isEmpty())
   }
 }

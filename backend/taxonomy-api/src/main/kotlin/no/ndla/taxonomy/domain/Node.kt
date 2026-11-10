@@ -143,7 +143,7 @@ class Node : DomainObject, EntityWithMetadata {
 
     this.translations = node.translations.mapTo(ArrayList()) { JsonTranslation(it) }
     this.resourceTypeIds = HashSet(node.resourceTypeIds)
-    setMetadata(Metadata(node.metadata))
+    setMetadata(node.metadata)
     name = node.name
   }
 
@@ -489,9 +489,6 @@ class Node : DomainObject, EntityWithMetadata {
       ident = idParts.copyOfRange(2, idParts.size).joinToString(":")
     }
 
-  override val metadata: Metadata
-    get() = Metadata(this)
-
   @PreRemove
   fun preRemove() {
     childConnections.toList().forEach { it.disassociate() }
@@ -522,8 +519,7 @@ class Node : DomainObject, EntityWithMetadata {
 
   fun addGrepCode(code: String) {
     val now = Instant.now().toString()
-    val newGrepCode = JsonGrepCode(code, now, now)
-    this.grepCodes += newGrepCode
+    addGrepCode(JsonGrepCode(code, now, now))
   }
 
   fun translatedPrettyNames(): Set<String> {

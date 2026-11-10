@@ -337,8 +337,8 @@ class NodeConnectionsTest : RestTest() {
         status().isOk(),
     )
     val connection = nodeConnectionRepository.getByPublicId(id)
-    assertFalse(connection.metadata.isVisible())
-    val codes = connection.metadata.getGrepCodes().mapTo(HashSet()) { it.code }
+    assertFalse(connection.metadata.isVisible)
+    val codes = connection.metadata.grepCodes.mapTo(HashSet()) { it.code }
     assertTrue(codes.contains("KM123"))
     val customFieldValues = connection.customFields
     assertTrue(customFieldValues.containsKey("key"))

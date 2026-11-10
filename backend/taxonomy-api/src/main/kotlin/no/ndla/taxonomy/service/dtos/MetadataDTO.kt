@@ -19,8 +19,8 @@ data class MetadataDTO(
   constructor(
       metadata: Metadata
   ) : this(
-      grepCodes = metadata.getGrepCodes().mapTo(mutableSetOf()) { it.code },
-      visible = metadata.isVisible(),
-      customFields = metadata.getCustomFields(),
+      grepCodes = metadata.grepCodes.mapTo(mutableSetOf()) { it.code },
+      visible = metadata.isVisible,
+      customFields = metadata.customFields,
   )
 }

@@ -168,7 +168,7 @@ class Builder(
       contextUpdaterService.updateContexts(node)
     }
 
-    fun isVisible(visible: Boolean): NodeBuilder = apply { node.metadata.setVisible(visible) }
+    fun isVisible(visible: Boolean): NodeBuilder = apply { node.isVisible = visible }
 
     fun grepCode(code: String): NodeBuilder = apply {
       node.addGrepCode(code)

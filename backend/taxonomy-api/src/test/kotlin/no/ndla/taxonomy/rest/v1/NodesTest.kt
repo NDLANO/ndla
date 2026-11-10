@@ -1041,8 +1041,8 @@ class NodesTest : RestTest() {
     assertEquals("physics", node.name)
     assertEquals(URI.create("urn:article:1"), node.contentUri)
 
-    assertFalse(node.metadata.isVisible())
-    assertTrue(node.metadata.getGrepCodes().map { it.code }.contains("KM123"))
+    assertFalse(node.metadata.isVisible)
+    assertTrue(node.metadata.grepCodes.map { it.code }.contains("KM123"))
     assertTrue(node.customFields.containsValue("value"))
   }
 
