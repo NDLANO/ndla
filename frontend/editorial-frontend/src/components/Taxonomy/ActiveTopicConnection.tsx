@@ -51,6 +51,7 @@ interface Props {
   subject?: Node;
   hasNoGoalsFromSubject?: boolean;
   readOnly?: boolean;
+  isOnlyPlacement?: boolean;
 }
 
 const ActiveTopicConnection = ({
@@ -62,6 +63,7 @@ const ActiveTopicConnection = ({
   subject,
   hasNoGoalsFromSubject,
   readOnly,
+  isOnlyPlacement,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -80,6 +82,9 @@ const ActiveTopicConnection = ({
       </ListItemRoot>
     );
   }
+
+  const deleteDisabled = node.isPrimary && !isOnlyPlacement;
+
   return (
     <ListItemRoot asChild consumeCss>
       <li>
@@ -114,11 +119,11 @@ const ActiveTopicConnection = ({
             {!!subject && <CompetenceGoalsDialog subject={subject} hasNoGoalsFromSubject={hasNoGoalsFromSubject} />}
             {!readOnly && (
               <IconButton
-                aria-label={!node.isPrimary ? t("taxonomy.removeResource") : t("taxonomy.removeResourceDisabled")}
-                title={!node.isPrimary ? t("taxonomy.removeResource") : t("taxonomy.removeResourceDisabled")}
+                aria-label={deleteDisabled ? t("taxonomy.removeResourceDisabled") : t("taxonomy.removeResource")}
+                title={deleteDisabled ? t("taxonomy.removeResourceDisabled") : t("taxonomy.removeResource")}
                 variant="danger"
                 size="small"
-                disabled={node.isPrimary}
+                disabled={deleteDisabled}
                 onClick={() => removeConnection?.(node.connectionId)}
               >
                 <DeleteBinLine />

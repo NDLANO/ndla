@@ -248,6 +248,10 @@ export const TaxonomyConnections = ({
     [i18n.language, structure, taxonomyVersion],
   );
 
+  // Count all of the node's contexts, not just the subject-rooted placements shown here, so this
+  // agrees with the structure page.
+  const isOnlyPlacement = (node?.contexts.length ?? placements.length) <= 1;
+
   return (
     <Wrapper>
       <Text textStyle="label.medium" fontWeight="bold">
@@ -276,6 +280,7 @@ export const TaxonomyConnections = ({
             subject={subjectsQuery.data?.find((subject) => subject.id === node.context?.rootId)}
             hasNoGoalsFromSubject={!!node.context && subjectsWithoutGoals.has(node.context.rootId)}
             readOnly={isReadOnly}
+            isOnlyPlacement={isOnlyPlacement}
             matomoStats={
               showMatomoStats
                 ? {
