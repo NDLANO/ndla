@@ -50,6 +50,7 @@ interface Props {
   matomoStats?: ComponentProps<typeof MatomoStats>;
   subject?: Node;
   readOnly?: boolean;
+  isOnlyPlacement?: boolean;
 }
 
 const ActiveTopicConnection = ({
@@ -60,6 +61,7 @@ const ActiveTopicConnection = ({
   matomoStats,
   subject,
   readOnly,
+  isOnlyPlacement,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -78,6 +80,9 @@ const ActiveTopicConnection = ({
       </ListItemRoot>
     );
   }
+
+  const deleteDisabled = node.isPrimary && !isOnlyPlacement;
+
   return (
     <ListItemRoot asChild consumeCss>
       <li>
@@ -112,11 +117,11 @@ const ActiveTopicConnection = ({
             {!!subject && <CompetenceGoalsDialog subject={subject} />}
             {!readOnly && (
               <IconButton
-                aria-label={!node.isPrimary ? t("taxonomy.removeResource") : t("taxonomy.removeResourceDisabled")}
-                title={!node.isPrimary ? t("taxonomy.removeResource") : t("taxonomy.removeResourceDisabled")}
+                aria-label={deleteDisabled ? t("taxonomy.removeResourceDisabled") : t("taxonomy.removeResource")}
+                title={deleteDisabled ? t("taxonomy.removeResourceDisabled") : t("taxonomy.removeResource")}
                 variant="danger"
                 size="small"
-                disabled={node.isPrimary}
+                disabled={deleteDisabled}
                 onClick={() => removeConnection?.(node.connectionId)}
               >
                 <DeleteBinLine />
