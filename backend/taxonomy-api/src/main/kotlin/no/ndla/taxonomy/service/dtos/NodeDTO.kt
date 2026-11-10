@@ -7,6 +7,7 @@
 
 package no.ndla.taxonomy.service.dtos
 
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import io.swagger.v3.oas.annotations.media.Schema
@@ -47,7 +48,7 @@ import no.ndla.taxonomy.util.PrettyUrlUtil
             "paths",
         ],
 )
-open class NodeDTO() {
+open class NodeDTO @JsonCreator constructor() {
   @field:Schema(
       description = "Node id",
       example = "urn:topic:234",
@@ -213,7 +214,6 @@ open class NodeDTO() {
   var updatedAt: Instant? = null
     private set
 
-  @JvmOverloads
   constructor(
       root: Node?,
       parent: Node?,

@@ -16,7 +16,6 @@ class LanguageField<V> : HashMap<String, V>() {
       if (containsKey(language)) this[language] else this[Constants.DefaultLanguage]
 
   companion object {
-    @JvmStatic
     fun fromNode(node: DomainObject): LanguageField<String> {
       val languageField = LanguageField<String>()
       val defaultName = node.name ?: ""
@@ -31,7 +30,6 @@ class LanguageField<V> : HashMap<String, V>() {
       return languageField
     }
 
-    @JvmStatic
     fun fromRelevance(relevance: Relevance): LanguageField<String> {
       val languageField = LanguageField<String>()
       val defaultName = relevance.translations.firstOrNull { it.languageCode == "nb" }?.name ?: ""
@@ -46,7 +44,6 @@ class LanguageField<V> : HashMap<String, V>() {
       return languageField
     }
 
-    @JvmStatic
     fun listFromNode(node: DomainObject): LanguageField<MutableList<String>> {
       val breadcrumbs = LanguageField<MutableList<String>>()
       val langs = node.translations.mapNotNullTo(mutableSetOf()) { it.languageCode }
@@ -62,7 +59,6 @@ class LanguageField<V> : HashMap<String, V>() {
      * appended so all languageLists have the same number of elements. If a language variant is not
      * present, default value is used.
      */
-    @JvmStatic
     fun listFromLists(
         listLanguageField: LanguageField<MutableList<String>>,
         languageField: LanguageField<String>,

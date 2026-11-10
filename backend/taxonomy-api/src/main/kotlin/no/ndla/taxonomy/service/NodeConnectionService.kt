@@ -74,7 +74,6 @@ class NodeConnectionService(
   ): NodeConnection =
       doCreateConnection(parent, child, isPrimary ?: true, relevance, rank, connectionType)
 
-  @JvmOverloads
   fun connectParentChild(
       parent: Node,
       child: Node,

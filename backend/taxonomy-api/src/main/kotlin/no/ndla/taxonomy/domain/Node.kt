@@ -105,9 +105,6 @@ class Node : DomainObject, EntityWithMetadata {
 
   @Column(name = "technical_evaluation_comment") var technicalEvaluationComment: String? = null
 
-  // Needed for hibernate
-  constructor()
-
   constructor(nodeType: NodeType) {
     this.nodeType = nodeType
     ident = UUID.randomUUID().toString()

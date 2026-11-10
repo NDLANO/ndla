@@ -117,8 +117,6 @@ class NodeConnection :
   }
 
   companion object {
-    @JvmStatic
-    @JvmOverloads
     fun create(
         parent: Node,
         child: Node,

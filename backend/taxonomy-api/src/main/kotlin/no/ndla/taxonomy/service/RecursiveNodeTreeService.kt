@@ -62,7 +62,6 @@ class RecursiveNodeTreeService(private val nodeConnectionRepository: NodeConnect
     }
   }
 
-  @JvmOverloads
   fun getRecursiveNodes(
       node: Node,
       nodeTypes: List<NodeType> = NodeType.entries,
