@@ -996,7 +996,6 @@ const translations = {
     otherResources: "Andre ressurser",
     programme: "Utdanningsprogram",
     grades: "Trinn",
-    occupationalCategory: "Utdanning",
     programPrerequisites: "Fullført grunnskole",
   },
   subjectPage: {

@@ -248,7 +248,6 @@ export const ProgrammeContainer = ({ programme }: Props) => {
           inLanguage: i18n.language,
           provider: NDLA,
           educationalProgramMode: "online",
-          occupationalCategory: t("programmePage.occupationalCategory"),
           programPrerequisites: t("programmePage.programPrerequisites"),
         },
         {
