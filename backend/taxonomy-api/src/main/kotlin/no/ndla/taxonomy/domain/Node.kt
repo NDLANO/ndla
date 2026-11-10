@@ -67,13 +67,13 @@ class Node : DomainObject, EntityWithMetadata {
 
   @JdbcTypeCode(SqlTypes.ARRAY)
   @Column(name = "resource_type_ids", columnDefinition = "text[]")
-  private var resourceTypeIds: MutableSet<String> = HashSet()
+  private var resourceTypeIds: MutableSet<String> = mutableSetOf()
 
   @Column(name = "visible") override var isVisible: Boolean = true
 
   @Type(JsonBinaryType::class)
   @Column(name = "translations", columnDefinition = "jsonb")
-  override var translations: MutableList<JsonTranslation> = ArrayList()
+  override var translations: MutableList<JsonTranslation> = mutableListOf()
 
   @Type(JsonBinaryType::class)
   @Column(name = "grepcodes", columnDefinition = "jsonb")
@@ -85,11 +85,11 @@ class Node : DomainObject, EntityWithMetadata {
 
   @Type(JsonBinaryType::class)
   @Column(name = "contexts", columnDefinition = "jsonb")
-  var contexts: Set<TaxonomyContext> = HashSet()
+  var contexts: Set<TaxonomyContext> = emptySet()
 
   @Type(JsonBinaryType::class)
   @Column(name = "contextids", columnDefinition = "jsonb")
-  var contextIds: MutableSet<String> = HashSet()
+  var contextIds: MutableSet<String> = mutableSetOf()
 
   @Column(name = "quality_evaluation")
   @Convert(converter = GradeConverter::class)
@@ -141,8 +141,8 @@ class Node : DomainObject, EntityWithMetadata {
       updatePublicID()
     }
 
-    this.translations = node.translations.mapTo(ArrayList()) { JsonTranslation(it) }
-    this.resourceTypeIds = HashSet(node.resourceTypeIds)
+    this.translations = node.translations.mapTo(mutableListOf()) { JsonTranslation(it) }
+    this.resourceTypeIds = node.resourceTypeIds.toMutableSet()
     setMetadata(node.metadata)
     name = node.name
   }
@@ -370,7 +370,7 @@ class Node : DomainObject, EntityWithMetadata {
 
   fun getParentConnections(): Collection<NodeConnection> = this.parentConnections.toList()
 
-  fun getChildConnections(): Collection<NodeConnection> = HashSet(childConnections)
+  fun getChildConnections(): Collection<NodeConnection> = childConnections.toList()
 
   val resourceChildren: Collection<NodeConnection>
     get() = this.childConnections.filterTo(HashSet()) { it.child?.nodeType == NodeType.RESOURCE }
@@ -456,11 +456,9 @@ class Node : DomainObject, EntityWithMetadata {
           connection.child?.takeIf { it.nodeType == NodeType.RESOURCE }
         }
 
-  private fun getAllParentsRecursive(): Collection<Node> {
+  private fun getAllParentsRecursive(): List<Node> {
     val parents = parentNodes
-    val all = ArrayList(parents)
-    parents.forEach { all.addAll(it.getAllParentsRecursive()) }
-    return all
+    return parents + parents.flatMap { it.getAllParentsRecursive() }
   }
 
   fun getAllParentContexts(): Set<TaxonomyContext> =
@@ -522,11 +520,9 @@ class Node : DomainObject, EntityWithMetadata {
     addGrepCode(JsonGrepCode(code, now, now))
   }
 
-  fun translatedPrettyNames(): Set<String> {
-    val pretties =
-        this.translations.mapNotNullTo(HashSet()) { it.name?.let(PrettyUrlUtil::prettyName) }
-    prettyName?.let { pretties.add(it) }
-    return pretties
+  fun translatedPrettyNames(): Set<String> = buildSet {
+    translations.mapNotNullTo(this) { it.name?.let(PrettyUrlUtil::prettyName) }
+    prettyName?.let(::add)
   }
 
   val prettyName: String?

@@ -40,7 +40,7 @@ class RecursiveNodeTreeService(private val nodeConnectionRepository: NodeConnect
           "Recursion limit reached, probably an infinite loop in the structure")
     }
 
-    val idsThisLevel = HashSet<URI>()
+    val idsThisLevel = mutableSetOf<URI>()
 
     for (nodeConnection in
         nodeConnectionRepository.findAllByNodeIdInIncludingTopicAndSubtopic(ids, nodeTypes)) {
@@ -67,8 +67,7 @@ class RecursiveNodeTreeService(private val nodeConnectionRepository: NodeConnect
       node: Node,
       nodeTypes: List<NodeType> = NodeType.entries,
   ): Set<TreeElement> {
-    val toReturn = HashSet<TreeElement>()
-    toReturn.add(TreeElement(node.publicId, null, 0))
+    val toReturn = mutableSetOf(TreeElement(node.publicId, null, 0))
 
     addChildIdsRecursively(toReturn, setOf(node.publicId), 1000, nodeTypes)
 

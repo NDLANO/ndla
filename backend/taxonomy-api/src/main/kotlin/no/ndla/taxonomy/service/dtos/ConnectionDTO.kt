@@ -38,7 +38,7 @@ class ConnectionDTO() {
       example = "/subject:1/topic:1",
       deprecated = true,
   )
-  var paths: Set<String> = HashSet()
+  var paths: Set<String> = emptySet()
     private set
 
   @field:JsonProperty

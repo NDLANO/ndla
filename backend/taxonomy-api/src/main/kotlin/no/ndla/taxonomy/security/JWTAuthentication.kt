@@ -10,7 +10,6 @@ package no.ndla.taxonomy.security
 import com.auth0.jwt.interfaces.Claim
 import com.auth0.jwt.interfaces.DecodedJWT
 import java.io.Serial
-import java.util.Collections
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.GrantedAuthority
@@ -25,39 +24,33 @@ class JWTAuthentication(token: DecodedJWT) : Authentication {
     val scope = token.getClaim("scope")
     val permissions = token.getClaim("permissions")
 
-    val auths = ArrayList<GrantedAuthority>()
-    auths.add(SimpleGrantedAuthority("READONLY"))
-
-    try {
-      if (permissions?.asArray(String::class.java) != null) {
-        auths.addAll(addPermissionsAsAuthorities(permissions.asArray(String::class.java)))
-      } else if (scope?.asString() != null) {
-        auths.addAll(addPermissionsAsAuthorities(scope.asString().split(" ").toTypedArray()))
+    this.authorities = buildList {
+      add(SimpleGrantedAuthority("READONLY"))
+      try {
+        if (permissions?.asArray(String::class.java) != null) {
+          addAll(addPermissionsAsAuthorities(permissions.asArray(String::class.java)))
+        } else if (scope?.asString() != null) {
+          addAll(addPermissionsAsAuthorities(scope.asString().split(" ").toTypedArray()))
+        }
+      } catch (e: Exception) {
+        LOGGER.error("JWT Authentication failed", e)
       }
-    } catch (e: Exception) {
-      LOGGER.error("JWT Authentication failed", e)
     }
-
-    this.authorities = Collections.unmodifiableList(auths)
     this.claims = token.claims
     authenticated = true
   }
 
-  private fun addPermissionsAsAuthorities(allPermissions: Array<String>): List<GrantedAuthority> {
-    val authorities = ArrayList<GrantedAuthority>()
-    for (jwtPermissionString in allPermissions) {
-      val jwtPermission = JWTPermission(jwtPermissionString)
-      if (jwtPermission.api != null &&
-          jwtPermission.permission != null &&
-          TAXONOMY_API == jwtPermission.api) {
-        if (WRITE_PERMISSION == jwtPermission.permission)
-            authorities.add(SimpleGrantedAuthority("TAXONOMY_WRITE"))
-        if (ADMIN_PERMISSION == jwtPermission.permission)
-            authorities.add(SimpleGrantedAuthority("TAXONOMY_ADMIN"))
+  private fun addPermissionsAsAuthorities(allPermissions: Array<String>): List<GrantedAuthority> =
+      buildList {
+        for (jwtPermissionString in allPermissions) {
+          val jwtPermission = JWTPermission(jwtPermissionString)
+          if (TAXONOMY_API != jwtPermission.api) continue
+          if (WRITE_PERMISSION == jwtPermission.permission)
+              add(SimpleGrantedAuthority("TAXONOMY_WRITE"))
+          if (ADMIN_PERMISSION == jwtPermission.permission)
+              add(SimpleGrantedAuthority("TAXONOMY_ADMIN"))
+        }
       }
-    }
-    return authorities
-  }
 
   override fun getCredentials(): Any = ""
 

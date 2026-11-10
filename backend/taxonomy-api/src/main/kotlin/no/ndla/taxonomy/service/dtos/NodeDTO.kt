@@ -101,21 +101,21 @@ open class NodeDTO() {
       description = "All translations of this node",
       requiredMode = Schema.RequiredMode.NOT_REQUIRED,
   )
-  var translations: Set<TranslationDTO> = TreeSet()
+  var translations: Set<TranslationDTO> = emptySet()
     private set
 
   @field:Schema(
       description = "List of language codes supported by translations",
       requiredMode = Schema.RequiredMode.NOT_REQUIRED,
   )
-  var supportedLanguages: Set<String> = TreeSet()
+  var supportedLanguages: Set<String> = emptySet()
     private set
 
   @field:Schema(
       description = "List of names in the path",
       requiredMode = Schema.RequiredMode.NOT_REQUIRED,
   )
-  var breadcrumbs: List<String> = ArrayList()
+  var breadcrumbs: List<String> = emptyList()
     private set
 
   @field:JsonProperty
@@ -124,7 +124,7 @@ open class NodeDTO() {
       example = "[{\"id\": \"urn:resourcetype:1\",\"name\":\"lecture\"}]",
       requiredMode = Schema.RequiredMode.NOT_REQUIRED,
   )
-  var resourceTypes: Set<ResourceTypeWithConnectionDTO> = TreeSet()
+  var resourceTypes: Set<ResourceTypeWithConnectionDTO> = emptySet()
     private set
 
   @field:JsonProperty
@@ -155,7 +155,7 @@ open class NodeDTO() {
       description = "A list of all contexts this node is part of",
       requiredMode = Schema.RequiredMode.NOT_REQUIRED,
   )
-  var contexts: List<TaxonomyContextDTO> = ArrayList()
+  var contexts: List<TaxonomyContextDTO> = emptyList()
     private set
 
   @field:JsonProperty
@@ -163,7 +163,7 @@ open class NodeDTO() {
       description = "A list of all contextids this node has ever had",
       requiredMode = Schema.RequiredMode.NOT_REQUIRED,
   )
-  var contextids: Set<String> = HashSet()
+  var contextids: Set<String> = emptySet()
     private set
 
   @field:JsonProperty
@@ -200,7 +200,7 @@ open class NodeDTO() {
       description = "Url safe names for the node.",
       requiredMode = Schema.RequiredMode.NOT_REQUIRED,
   )
-  var urlName: Set<String> = TreeSet()
+  var urlName: Set<String> = emptySet()
     private set
 
   @field:JsonProperty

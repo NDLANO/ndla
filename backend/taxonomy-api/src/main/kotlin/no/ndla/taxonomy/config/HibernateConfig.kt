@@ -33,7 +33,7 @@ class HibernateConfig(private val jpaProperties: JpaProperties) {
       versionConnectionProvider: VersionConnectionProvider,
       versionIdentifierResolver: VersionIdentifierResolver,
   ): LocalContainerEntityManagerFactoryBean {
-    val properties = HashMap<String, Any>(jpaProperties.properties)
+    val properties = jpaProperties.properties.toMutableMap<String, Any>()
     // Hibernate 7's snake case strategy skips quoted identifiers, and we quote all of them.
     properties[AvailableSettings.PHYSICAL_NAMING_STRATEGY] =
         object : PhysicalNamingStrategySnakeCaseImpl() {

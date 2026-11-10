@@ -41,11 +41,10 @@ class LiquibaseConfig(
 
   override fun afterPropertiesSet() {
     try {
-      val schemas = ArrayList<String>()
       val resultSet =
           dataSource.connection.prepareStatement("SELECT hash FROM version").executeQuery()
-      while (resultSet.next()) {
-        schemas.add(String.format("%s_%s", defaultSchema, resultSet.getString(1)))
+      val schemas = buildList {
+        while (resultSet.next()) add("${defaultSchema}_${resultSet.getString(1)}")
       }
       this.runOnAllSchemas(dataSource, schemas)
     } catch (exception: Exception) {

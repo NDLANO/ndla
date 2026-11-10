@@ -27,7 +27,7 @@ class NodeWithParents : NodeDTO {
               "\"path\": \"/subject:2/topic:1:181900\"," +
               "\"primary\": \"true\"}]",
   )
-  val parents: MutableSet<NodeChildDTO> = HashSet()
+  val parents: MutableSet<NodeChildDTO> = mutableSetOf()
 
   @JsonCreator constructor() : super()
 

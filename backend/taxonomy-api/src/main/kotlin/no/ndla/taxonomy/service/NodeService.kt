@@ -190,7 +190,7 @@ class NodeService(
 
     // Add both topics and resourceTopics to a common list that will be sorted in a tree-structure
     // based on rank at each level
-    val resourcesToSort = HashSet<ResourceTreeSortable>()
+    val resourcesToSort = mutableSetOf<ResourceTreeSortable>()
 
     // Populate a list of topic IDs we are going to fetch first, and then fetch the actual topics
     // later
