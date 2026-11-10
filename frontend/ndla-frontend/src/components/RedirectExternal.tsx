@@ -7,6 +7,7 @@
  */
 
 import { useContext } from "react";
+import { replaceLocation } from "../util/browserLocation";
 import { RedirectContext } from "./RedirectContext";
 /**
  * The react-router Redirect component does'nt work with external
@@ -25,7 +26,7 @@ export const RedirectExternal = ({ to }: Props) => {
   if (setRedirect) {
     setRedirect({ url: to });
   } else {
-    window.location.replace(to);
+    replaceLocation(to);
   }
   return null;
 };

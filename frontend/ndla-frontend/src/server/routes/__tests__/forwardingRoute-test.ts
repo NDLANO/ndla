@@ -20,6 +20,10 @@ vi.mock("../../../config", () => {
   };
 });
 
+afterAll(() => {
+  nock.restore();
+});
+
 function prepareNock(status: number, nodeId = "1337", contentUri = "urn:article:233", subjectId = "subject:3") {
   if (status === 200) {
     nock("http://ndla-api")
