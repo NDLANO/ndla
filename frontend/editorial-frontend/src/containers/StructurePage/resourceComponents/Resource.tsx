@@ -23,12 +23,11 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import type { NodeChild } from "@ndla/types-backend/taxonomy-api";
 import { useQuery } from "@tanstack/react-query";
-import { useMemo, useRef } from "react";
+import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import MatomoStats from "../../../components/MatomoStats";
 import config from "../../../config";
 import { matomoStatusQueryOptions } from "../../../modules/matomo/matomoQueries";
-import { transformMatomoData } from "../../../modules/matomo/matomoUtil";
 import { useBadges } from "../../../util/getBadges";
 import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
 import { routes } from "../../../util/routeHelpers";
@@ -197,13 +196,6 @@ const Resource = ({
     staleTime: Infinity,
   });
 
-  const matomoStats = useMemo(() => {
-    if (!matomoStatsData || !showMatomoStats || !resource.contextId) return;
-    const transformed = transformMatomoData(matomoStatsData);
-    if (!transformed) return;
-    return transformed;
-  }, [matomoStatsData, resource.contextId, showMatomoStats]);
-
   const badges = useBadges({
     resourceTypes: resource.resourceTypes,
     relevanceId: resource.relevanceId ?? undefined,
@@ -248,8 +240,8 @@ const Resource = ({
           <InfoItems>
             {showMatomoStats ? (
               <MatomoStats
-                stats={resource.contextId ? matomoStats?.[resource.contextId] : undefined}
-                allStats={resource.contextids.map((cId) => matomoStats?.[cId])}
+                stats={resource.contextId ? matomoStatsData?.[resource.contextId] : undefined}
+                allStats={resource.contextids.map((cId) => matomoStatsData?.[cId])}
                 isPending={matomoStatsIsPending}
                 isError={matomoStatsIsError}
                 contentMeta={contentMeta}

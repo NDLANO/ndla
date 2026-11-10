@@ -20,7 +20,7 @@ import {
 } from "@ndla/primitives";
 import type { MultiSearchSummaryDTO } from "@ndla/types-backend/search-api";
 import { useTranslation } from "react-i18next";
-import type { ResourceStats } from "../modules/matomo/matomoUtil";
+import type { ResourceStats } from "../modules/matomo/matomoApi";
 
 interface Props {
   stats: ResourceStats | undefined;
