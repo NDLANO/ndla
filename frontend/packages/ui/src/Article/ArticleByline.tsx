@@ -7,6 +7,7 @@
  */
 
 import { useAccordionContext } from "@ark-ui/react/accordion";
+import { useIsPrinting } from "@ndla/hooks";
 import { ArrowDownShortLine } from "@ndla/icons";
 import {
   AccordionItem,
@@ -20,8 +21,7 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { toIntlLanguage } from "@ndla/util";
-import { type ReactNode, forwardRef, useCallback, useEffect, useRef, useState } from "react";
-import { flushSync } from "react-dom";
+import { type ReactNode, forwardRef, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import type { FootNote } from "../types";
 import { ArticleFootNotes } from "./ArticleFootNotes";
@@ -160,22 +160,6 @@ interface ArticleBylineAccordionprops extends AccordionItemProps {
 interface ArticleBylineFootnotesProps {
   footnotes: FootNote[];
 }
-
-const useIsPrinting = () => {
-  const [isPrinting, setIsPrinting] = useState(false);
-  useEffect(() => {
-    // The browser lays out the printed page right after beforeprint, so the update must be committed synchronously.
-    const onBeforePrint = () => flushSync(() => setIsPrinting(true));
-    const onAfterPrint = () => setIsPrinting(false);
-    window.addEventListener("beforeprint", onBeforePrint);
-    window.addEventListener("afterprint", onAfterPrint);
-    return () => {
-      window.removeEventListener("beforeprint", onBeforePrint);
-      window.removeEventListener("afterprint", onAfterPrint);
-    };
-  }, []);
-  return isPrinting;
-};
 
 export const ArticleBylineFootnotes = ({ footnotes }: ArticleBylineFootnotesProps) => {
   const { t } = useTranslation();

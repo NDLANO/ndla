@@ -9,3 +9,4 @@
 export { useComponentSize } from "./useComponentSize";
 export { useIntersectionObserver } from "./useIntersect";
 export { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
+export { useIsPrinting } from "./useIsPrinting";

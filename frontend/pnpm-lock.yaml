@@ -1885,6 +1885,9 @@ importers:
       react:
         specifier: catalog:peers
         version: 19.3.1
+      react-dom:
+        specifier: catalog:peers
+        version: 19.3.1(react@19.3.1)
     devDependencies:
       tsdown:
         specifier: 'catalog:'
@@ -2127,6 +2130,9 @@ importers:
       '@ndla/core':
         specifier: workspace:^
         version: link:../core
+      '@ndla/hooks':
+        specifier: workspace:^
+        version: link:../hooks
       '@ndla/icons':
         specifier: workspace:^
         version: link:../icons
