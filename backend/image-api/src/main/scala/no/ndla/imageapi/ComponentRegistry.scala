@@ -70,6 +70,7 @@ class ComponentRegistry(properties: ImageApiProperties) extends TapirApplication
   given healthController: HealthController   = new HealthController
   given bulkController: BulkController       = new BulkController
 
+  implicit lazy val standaloneIndexing: StandaloneIndexing                   = new StandaloneIndexing
   implicit lazy val standaloneVariantGeneration: StandaloneVariantGeneration = new StandaloneVariantGeneration
 
   given swaggerInfo: SwaggerInfo = SwaggerInfo(

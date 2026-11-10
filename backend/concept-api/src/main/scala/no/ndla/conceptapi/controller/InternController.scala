@@ -20,10 +20,6 @@ import no.ndla.network.tapir.TapirUtil.errorOutputsFor
 import sttp.model.StatusCode
 import sttp.tapir.server.ServerEndpoint
 
-import java.util.concurrent.Executors
-import scala.concurrent.duration.*
-import scala.concurrent.{Await, ExecutionContext, ExecutionContextExecutorService, Future}
-import scala.language.postfixOps
 import scala.util.{Failure, Success, Try}
 import sttp.tapir.*
 
@@ -40,7 +36,6 @@ class InternController(using
   override val enableSwagger               = false
 
   override val endpoints: List[ServerEndpoint[Any, Eff]] = List(
-    postIndex,
     deleteIndex,
     dumpDraftConcept,
     dumpSingleDraftConcept,
@@ -48,38 +43,6 @@ class InternController(using
     dumpSinglePublishedConcept,
     postDraftConcept,
   )
-
-  def postIndex: ServerEndpoint[Any, Eff] = endpoint
-    .post
-    .in("index")
-    .in(query[Option[Int]]("numShards"))
-    .out(stringBody)
-    .errorOut(errorOutputsFor(400))
-    .serverLogicPure { numShards =>
-      implicit val ec: ExecutionContextExecutorService =
-        ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(2))
-
-      val aggregateFuture = for {
-        draftFuture     <- Future(draftConceptIndexService.indexDocuments(numShards))
-        publishedFuture <- Future(publishedConceptIndexService.indexDocuments(numShards))
-      } yield (draftFuture, publishedFuture)
-
-      Await.result(aggregateFuture, 10 minutes) match {
-        case (Success(draftReindex), Success(publishedReindex)) =>
-          val msg =
-            s"""Completed indexing of ${draftReindex.totalIndexed} draft concepts in ${draftReindex.millisUsed} ms.
-                 |Completed indexing of ${publishedReindex.totalIndexed} published concepts in ${publishedReindex.millisUsed} ms.
-                 |""".stripMargin
-          logger.info(msg)
-          msg.asRight
-        case (Failure(ex), _) =>
-          logger.error(s"Reindexing draft concepts failed with ${ex.getMessage}", ex)
-          returnLeftError(ex)
-        case (_, Failure(ex)) =>
-          logger.error(s"Reindexing published concepts failed with ${ex.getMessage}", ex)
-          returnLeftError(ex)
-      }
-    }
 
   def deleteIndexes[T <: IndexService](indexService: T): Try[String] = {
     def pluralIndex(n: Int) =

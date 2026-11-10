@@ -31,5 +31,6 @@ class MainClass(override val props: ImageApiProperties) extends NdlaTapirMain[Co
     componentRegistry.migrator.migrate()
   }
 
-  override def standaloneJobs: Seq[StandaloneJob] = Seq(componentRegistry.standaloneVariantGeneration)
+  override def standaloneJobs: Seq[StandaloneJob] =
+    Seq(componentRegistry.standaloneIndexing, componentRegistry.standaloneVariantGeneration)
 }

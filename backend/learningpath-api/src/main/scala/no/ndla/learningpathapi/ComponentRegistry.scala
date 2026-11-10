@@ -80,6 +80,8 @@ class ComponentRegistry(properties: LearningpathApiProperties) extends TapirAppl
   given statsController: StatsController                   = new StatsController
   given healthController: TapirHealthController            = new TapirHealthController
 
+  implicit lazy val standaloneIndexing: StandaloneIndexing = new StandaloneIndexing
+
   given swaggerInfo: SwaggerInfo =
     SwaggerInfo(prefix = "learningpath-api", description = "Services for accessing learningpaths")
   given swagger: SwaggerController =
