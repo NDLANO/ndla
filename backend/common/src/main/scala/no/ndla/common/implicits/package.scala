@@ -38,7 +38,7 @@ package object implicits {
 
   case class PermittedTryContext()
 
-  case class ControlFlowException(returnValue: Throwable) extends RuntimeException()
+  case class ControlFlowException(returnValue: Throwable) extends RuntimeException(returnValue)
 
   def permitTry[A](f: PermittedTryContext ?=> Try[A]): Try[A] = {
     try {

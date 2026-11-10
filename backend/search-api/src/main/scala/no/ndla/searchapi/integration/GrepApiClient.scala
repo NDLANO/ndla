@@ -107,15 +107,21 @@ class GrepApiClient(using props: Props) extends StrictLogging {
     def release(resource: File): Unit = deleteDirectory(resource)
   }
 
-  private def getGrepBundleUncached: Try[GrepBundle] = logTaskTime("Fetching grep bundle", 30.seconds) {
-    permitTry {
-      val date        = NDLADate.now().toUTCEpochSecond
-      val tempDirFile = Try(Files.createTempDirectory(s"grep-dump-$date").nn.toFile.nn).?
+  private def getGrepBundleUncached: Try[GrepBundle] = {
+    val date        = NDLADate.now().toUTCEpochSecond
+    val tempDirFile = Try(Files.createTempDirectory(s"grep-dump-$date").nn.toFile.nn) match {
+      case Success(f)  => f
+      case Failure(ex) => return Failure(ex)
+    }
+
+    logTaskTime("Fetching grep bundle", 30.seconds) {
       Using(tempDirFile) { tempDir =>
-        val zippedDump   = fetchDump(tempDir).?
-        val unzippedDump = ZipUtil.unzip(zippedDump, tempDir, deleteArchive = true).?
-        getBundleFromDump(unzippedDump).?
-      }
+        for {
+          zippedDump   <- fetchDump(tempDir)
+          unzippedDump <- ZipUtil.unzip(zippedDump, tempDir, deleteArchive = true)
+          bundle       <- getBundleFromDump(unzippedDump)
+        } yield bundle
+      }.flatten
     }
   }
 
