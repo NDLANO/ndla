@@ -268,14 +268,14 @@ class NodeTest : AbstractIntegrationTest() {
     assertNull(returnedTranslation.parent)
     assertFalse(node.translations.contains(returnedTranslation))
 
-    assertFalse(node.getTranslation("nb").isPresent)
+    assertNull(node.getTranslation("nb"))
 
     node.addTranslation(returnedTranslation)
     assertEquals(node, returnedTranslation.parent)
     assertTrue(node.translations.contains(returnedTranslation))
 
-    assertEquals(returnedTranslation, node.getTranslation("nb").get())
-    assertEquals(returnedTranslation2, node.getTranslation("en").orElse(null))
+    assertEquals(returnedTranslation, node.getTranslation("nb"))
+    assertEquals(returnedTranslation2, node.getTranslation("en"))
   }
 
   @Test

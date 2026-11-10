@@ -7,8 +7,6 @@
 
 package no.ndla.taxonomy.domain
 
-import java.util.Optional
-
 interface Translatable {
 
   var translations: MutableList<JsonTranslation>
@@ -17,8 +15,8 @@ interface Translatable {
     translations = mutableListOf()
   }
 
-  fun getTranslation(languageCode: String): Optional<JsonTranslation> =
-      Optional.ofNullable(translations.firstOrNull { it.languageCode == languageCode })
+  fun getTranslation(languageCode: String): JsonTranslation? =
+      translations.firstOrNull { it.languageCode == languageCode }
 
   fun addTranslation(nodeTranslation: JsonTranslation): JsonTranslation {
     if (nodeTranslation.parent !== this) {
@@ -39,6 +37,6 @@ interface Translatable {
   }
 
   fun removeTranslation(languageCode: String) {
-    getTranslation(languageCode).ifPresent(::removeTranslation)
+    getTranslation(languageCode)?.let(::removeTranslation)
   }
 }
