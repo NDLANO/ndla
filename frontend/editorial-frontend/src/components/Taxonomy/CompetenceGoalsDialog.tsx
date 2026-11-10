@@ -36,7 +36,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { GREP_CODE_FORMATS } from "../../constants";
 import { searchGrepCodesQueryOptions } from "../../modules/search/searchQueries";
-import { isGrepCodeValid } from "../../util/articleUtil";
+import { isGrepCodeInactive, isGrepCodeValid } from "../../util/articleUtil";
 import { DialogCloseButton } from "../DialogCloseButton";
 import { countSelectedCompetenceGoals, getCompetenceGoalCodes, groupCompetenceGoals } from "./competenceGoalsUtil";
 import { CompetenceGoalWarningIcon } from "./CompetenceGoalWarningIcon";
@@ -198,7 +198,7 @@ const CompetenceGoalsContent = ({ setCodes }: { setCodes: string[] }) => {
                       </CheckboxIndicator>
                     </CheckboxControl>
                     <CheckboxLabel textStyle="body.medium">{`${goal.title.title} (${goal.code})`}</CheckboxLabel>
-                    {goal.status !== "Published" && <StyledAlertLine title={t("form.grepCodes.expired")} />}
+                    {isGrepCodeInactive(goal.status) && <StyledAlertLine title={t("form.grepCodes.expired")} />}
                     <CheckboxHiddenInput />
                   </CheckboxRoot>
                 ))}

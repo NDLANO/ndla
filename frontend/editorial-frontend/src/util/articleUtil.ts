@@ -7,6 +7,7 @@
  */
 
 import type { NewArticleDTO, UpdatedArticleDTO } from "@ndla/types-backend/draft-api";
+import type { GrepStatusDTO } from "@ndla/types-backend/search-api";
 import type { GrepFormat } from "../interfaces";
 
 export const convertUpdateToNewDraft = (article: UpdatedArticleDTO): NewArticleDTO => {
@@ -36,6 +37,8 @@ export const convertUpdateToNewDraft = (article: UpdatedArticleDTO): NewArticleD
 export const isGrepCodeValid = (grepCode: string, grepFormats: GrepFormat[]) => {
   return grepFormats.map((gf) => gf.regexp).some((filter) => !!grepCode.match(filter));
 };
+
+export const isGrepCodeInactive = (status: GrepStatusDTO) => status === "Expired" || status === "Invalid";
 
 export const nullOrUndefined = (metaImageId?: unknown | null) => {
   return metaImageId === null ? null : undefined;

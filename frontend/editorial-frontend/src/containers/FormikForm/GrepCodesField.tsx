@@ -20,7 +20,7 @@ import { CompetenceGoalWarningIcon } from "../../components/Taxonomy/CompetenceG
 import type { GrepFormat } from "../../interfaces";
 import { searchGrepCodes } from "../../modules/search/searchApi";
 import { searchGrepCodesQueryOptions } from "../../modules/search/searchQueries";
-import { isGrepCodeValid } from "../../util/articleUtil";
+import { isGrepCodeInactive, isGrepCodeValid } from "../../util/articleUtil";
 import handleError from "../../util/handleError";
 import { usePaginatedQuery } from "../../util/usePaginatedQuery";
 import { useCompetenceGoalTaxonomy } from "./useCompetenceGoalTaxonomy";
@@ -174,7 +174,9 @@ const GrepCodesField = ({ prefixFilter, contentURI, language }: Props) => {
         renderItem={(item) => (
           <GenericComboboxItemContent
             title={grepCodeTitle(item, subjectNames)}
-            child={item.status !== "Published" ? <StyledAlertLine title={t("form.grepCodes.expired")} /> : undefined}
+            child={
+              isGrepCodeInactive(item.status) ? <StyledAlertLine title={t("form.grepCodes.expired")} /> : undefined
+            }
           />
         )}
         closeOnSelect={false}
@@ -204,7 +206,7 @@ const GrepCodesField = ({ prefixFilter, contentURI, language }: Props) => {
                   title={t("form.grepCodes.unmatched")}
                 />
               )}
-              {!!grepCodes[code] && grepCodes[code].status !== "Published" && (
+              {!!grepCodes[code] && isGrepCodeInactive(grepCodes[code].status) && (
                 <StyledAlertLine title={t("form.grepCodes.expired")} />
               )}
               <IconButton
