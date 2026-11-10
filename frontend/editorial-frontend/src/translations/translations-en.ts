@@ -1993,6 +1993,7 @@ const translations = {
     competenceGoals: {
       button: "Competence goals",
       buttonLabel: "Choose competence goals from {{subject}}",
+      buttonLabelSelected: "Choose competence goals from {{subject}} ({{count}} selected)",
       title: "Competence goals in {{subject}}",
       description: "Check the competence goals that should be connected to the resource.",
       empty: "Found no competence goals for this subject",

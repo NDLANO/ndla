@@ -7,7 +7,7 @@
  */
 
 import type { GrepKompetansemaalDTO, GrepKompetansemaalSettDTO, GrepStatusDTO } from "@ndla/types-backend/search-api";
-import { getCompetenceGoalCodes, groupCompetenceGoals } from "../competenceGoalsUtil";
+import { countSelectedCompetenceGoals, getCompetenceGoalCodes, groupCompetenceGoals } from "../competenceGoalsUtil";
 
 const reference = (code: string, title = `Title ${code}`) => ({
   code,
@@ -76,4 +76,17 @@ test("that groupCompetenceGoals skips sets without resolved goals", () => {
   const result = groupCompetenceGoals(["KV1", "KV404", "KV2"], sets, goals.slice(0, 2));
 
   expect(result.map((curriculum) => curriculum.sets.map((set) => set.code))).toStrictEqual([["KV1"]]);
+});
+
+test("that countSelectedCompetenceGoals only counts goals in the sets", () => {
+  expect(countSelectedCompetenceGoals(sets, ["KM1", "KM4", "KM99", "KV1", "KE12"])).toBe(2);
+});
+
+test("that countSelectedCompetenceGoals counts a goal in several sets once", () => {
+  expect(countSelectedCompetenceGoals([goalSet("KV1", ["KM1"]), goalSet("KV2", ["KM1", "KM2"])], ["KM1"])).toBe(1);
+});
+
+test("that countSelectedCompetenceGoals returns 0 for empty input", () => {
+  expect(countSelectedCompetenceGoals([], ["KM1"])).toBe(0);
+  expect(countSelectedCompetenceGoals(sets, [])).toBe(0);
 });
