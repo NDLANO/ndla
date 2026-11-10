@@ -48,12 +48,6 @@ class NodeTest : AbstractIntegrationTest() {
   }
 
   @Test
-  fun name() {
-    assertEquals(node, node.name("test name 1"))
-    assertEquals("test name 1", node.name)
-  }
-
-  @Test
   fun getAddAndRemoveSubjectTopics() {
     val node = spy(this.node)
 
@@ -309,10 +303,10 @@ class NodeTest : AbstractIntegrationTest() {
 
   @Test
   fun pickTheCorrectContext() {
-    val root = Node(NodeType.NODE).name("root")
-    val parent1 = Node(NodeType.NODE).name("parent1")
-    val parent2 = Node(NodeType.NODE).name("parent2")
-    node = node.name("name")
+    val root = Node(NodeType.NODE).apply { name = "root" }
+    val parent1 = Node(NodeType.NODE).apply { name = "parent1" }
+    val parent2 = Node(NodeType.NODE).apply { name = "parent2" }
+    node.name = "name"
     val context1 =
         TaxonomyContext(
             node.publicId.toString(),

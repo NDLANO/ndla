@@ -255,7 +255,7 @@ class QualityEvaluationService(
             node.nodeType,
             node.parentNodesForQualityEvaluation,
             null,
-            node.qualityEvaluationGrade,
+            node.qualityEvaluation,
         )
       }
     }

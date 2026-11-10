@@ -19,11 +19,11 @@ class Metadata(private var parent: EntityWithMetadata) : Serializable {
   @JvmField protected var visible: Boolean = true
 
   init {
-    this.grepCodes = HashSet(parent.getGrepCodes())
-    this.visible = parent.isVisible()
-    this.createdAt = parent.getCreatedAt()
-    this.updatedAt = parent.getUpdatedAt()
-    this.customFields = parent.getCustomFields()
+    this.grepCodes = HashSet(parent.grepCodes)
+    this.visible = parent.isVisible
+    this.createdAt = parent.createdAt
+    this.updatedAt = parent.updatedAt
+    this.customFields = parent.customFields
   }
 
   constructor(metadata: Metadata) : this(metadata.parent) {
@@ -47,23 +47,23 @@ class Metadata(private var parent: EntityWithMetadata) : Serializable {
 
   fun addGrepCode(grepCode: JsonGrepCode) {
     this.grepCodes.add(grepCode)
-    this.parent.setGrepCodes(this.grepCodes)
+    this.parent.grepCodes = this.grepCodes
   }
 
   fun setGrepCodes(grepCodes: Set<String>) {
     val newJsonGrepCodes = grepCodes.mapTo(mutableSetOf()) { JsonGrepCode(it) }
     this.grepCodes = newJsonGrepCodes
-    this.parent.setGrepCodes(newJsonGrepCodes)
+    this.parent.grepCodes = newJsonGrepCodes
   }
 
   fun setCustomFields(customFields: Map<String, String>) {
     this.customFields = customFields
-    this.parent.setCustomFields(customFields)
+    this.parent.customFields = customFields
   }
 
   fun removeGrepCode(grepCode: JsonGrepCode) {
     this.grepCodes.remove(grepCode)
-    this.parent.setGrepCodes(this.grepCodes)
+    this.parent.grepCodes = this.grepCodes
   }
 
   fun getGrepCodes(): Set<JsonGrepCode> = HashSet(this.grepCodes)
@@ -78,7 +78,7 @@ class Metadata(private var parent: EntityWithMetadata) : Serializable {
 
   fun setVisible(visible: Boolean) {
     this.visible = visible
-    this.parent.setVisible(visible)
+    this.parent.isVisible = visible
   }
 
   override fun equals(other: Any?): Boolean {

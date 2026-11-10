@@ -34,7 +34,7 @@ interface NodeRepository : TaxonomyRepository<Node> {
   )
   fun clearContextsForInvisibleNodes()
 
-  @Query("SELECT DISTINCT n FROM Node n WHERE n.context = :isContext")
+  @Query("SELECT DISTINCT n FROM Node n WHERE n.isContext = :isContext")
   fun findAllByContextIncludingCachedUrlsAndTranslations(isContext: Boolean): List<Node>
 
   fun findFirstByPublicId(publicId: URI): Node?
@@ -83,11 +83,11 @@ interface NodeRepository : TaxonomyRepository<Node> {
       LEFT JOIN n.parentConnections pc
       WHERE ((:#{#nodeTypes == null} = true) OR n.nodeType in (:nodeTypes))
       AND ((:#{#publicIds == null} = true) OR n.publicId in (:publicIds))
-      AND (:metadataFilterKey IS NULL OR jsonb_extract_path_text(n.customfields, cast(:metadataFilterKey as text)) IS NOT NULL)
-      AND (:metadataFilterValue IS NULL OR cast(jsonb_path_query_array(n.customfields, '$.*') as text) like :metadataFilterValue)
+      AND (:metadataFilterKey IS NULL OR jsonb_extract_path_text(n.customFields, cast(:metadataFilterKey as text)) IS NOT NULL)
+      AND (:metadataFilterValue IS NULL OR cast(jsonb_path_query_array(n.customFields, '$.*') as text) like :metadataFilterValue)
       AND (:contentUri IS NULL OR n.contentUri = :contentUri)
-      AND (:isContext IS NULL OR n.context = :isContext)
-      AND (:isRoot IS NULL OR (pc IS NULL AND n.context = true))
+      AND (:isContext IS NULL OR n.isContext = :isContext)
+      AND (:isRoot IS NULL OR (pc IS NULL AND n.isContext = true))
       """)
   fun findIdsFiltered(
       nodeTypes: List<NodeType>?,
@@ -131,7 +131,7 @@ interface NodeRepository : TaxonomyRepository<Node> {
       LEFT JOIN FETCH n.parentConnections pc
       LEFT JOIN FETCH n.childConnections cc
       WHERE n.nodeType = "PROGRAMME"
-      AND n.context = true
+      AND n.isContext = true
       """)
   fun findProgrammes(): List<Node>
 

@@ -150,7 +150,7 @@ class Builder(
 
     fun resourceType(rt: ResourceType): NodeBuilder = apply { node.addResourceType(rt) }
 
-    fun qualityEvaluation(grade: Grade): NodeBuilder = apply { node.setQualityEvaluation(grade) }
+    fun qualityEvaluation(grade: Grade): NodeBuilder = apply { node.qualityEvaluation = grade }
 
     fun contentUri(contentUri: String): NodeBuilder = contentUri(URI.create(contentUri))
 

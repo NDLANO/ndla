@@ -268,7 +268,7 @@ open class NodeDTO() {
 
     this.nodeType = entity.nodeType
     this.contextids = entity.contextIds
-    this.updatedAt = entity.getUpdatedAt()
+    this.updatedAt = entity.updatedAt
 
     val parentContexts =
         if (includeParents) prefetchedParentContexts ?: entity.getAllParentContexts() else setOf()

@@ -347,7 +347,7 @@ class Nodes(
       val entity = Node(command.nodeType ?: throw NullPointerException("nodeType must not be null"))
       val locked = qualityEvaluationService.lockQualityEvaluationIfNeeded(command)
       validateAndAssignId(entity, command)
-      val oldGrade = entity.qualityEvaluationGrade
+      val oldGrade = entity.qualityEvaluation
       command.apply(entity)
       nodeRepository.saveAndFlush(entity)
       contextUpdaterService.updateContexts(entity)
@@ -384,7 +384,7 @@ class Nodes(
     val locked = qualityEvaluationService.lockQualityEvaluationIfNeeded(command)
     val entity = nodeRepository.getByPublicId(id)
     validateUrn(id, entity)
-    val oldGrade = entity.qualityEvaluationGrade
+    val oldGrade = entity.qualityEvaluation
     command.apply(entity)
     contextUpdaterService.updateContexts(entity)
     if (locked) {

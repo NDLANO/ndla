@@ -787,8 +787,8 @@ class NodesTest : RestTest() {
     assertEquals("node", node.name)
     assertEquals(URI.create("urn:article:1"), node.contentUri)
     assertTrue(node.isContext)
-    assertNotNull(node.getCreatedAt())
-    assertNotNull(node.getUpdatedAt())
+    assertNotNull(node.createdAt)
+    assertNotNull(node.updatedAt)
   }
 
   @Test
@@ -810,7 +810,7 @@ class NodesTest : RestTest() {
     assertEquals("node", node.name)
     assertEquals(URI.create("urn:article:1"), node.contentUri)
     assertTrue(node.isContext)
-    assertFalse(node.isVisible())
+    assertFalse(node.isVisible)
   }
 
   @Test
@@ -919,8 +919,8 @@ class NodesTest : RestTest() {
       assertEquals("Resource", node.name)
       assertEquals(URI.create("urn:article:1"), node.contentUri)
       assertTrue(node.isContext)
-      assertNotNull(node.getCreatedAt())
-      assertNotNull(node.getUpdatedAt())
+      assertNotNull(node.createdAt)
+      assertNotNull(node.updatedAt)
       assertEquals(1, node.resourceTypes.size)
     }
     run {
@@ -942,8 +942,8 @@ class NodesTest : RestTest() {
       assertEquals("Node", node.name)
       assertEquals(URI.create("urn:article:1"), node.contentUri)
       assertTrue(node.isContext)
-      assertNotNull(node.getCreatedAt())
-      assertNotNull(node.getUpdatedAt())
+      assertNotNull(node.createdAt)
+      assertNotNull(node.updatedAt)
       assertEquals(0, node.resourceTypes.size)
     }
   }
@@ -1043,7 +1043,7 @@ class NodesTest : RestTest() {
 
     assertFalse(node.metadata.isVisible())
     assertTrue(node.metadata.getGrepCodes().map { it.code }.contains("KM123"))
-    assertTrue(node.getCustomFields().containsValue("value"))
+    assertTrue(node.customFields.containsValue("value"))
   }
 
   @Test
@@ -1248,21 +1248,21 @@ class NodesTest : RestTest() {
         """{"nodeType":"TOPIC","name":"some-name","contentUri":"urn:article:1","qualityEvaluation": {"grade": 5}}""",
     )
     val found = nodeRepository.getByPublicId(publicId)
-    assertEquals(found.qualityEvaluationGrade, Grade.Five)
+    assertEquals(found.qualityEvaluation, Grade.Five)
 
     testUtils.updateResourceRawInput(
         "/v1/nodes/$publicId",
         """{"nodeType":"TOPIC","name":"some-name","contentUri":"urn:article:1"}""",
     )
     val found2 = nodeRepository.getByPublicId(publicId)
-    assertEquals(found2.qualityEvaluationGrade, Grade.Five)
+    assertEquals(found2.qualityEvaluation, Grade.Five)
 
     testUtils.updateResourceRawInput(
         "/v1/nodes/$publicId",
         """{"nodeType":"TOPIC","name":"some-name","contentUri":"urn:article:1","qualityEvaluation": null}""",
     )
     val found3 = nodeRepository.getByPublicId(publicId)
-    assertNull(found3.qualityEvaluationGrade)
+    assertNull(found3.qualityEvaluation)
   }
 
   @Test
@@ -1285,7 +1285,7 @@ class NodesTest : RestTest() {
       val dbResource = nodeRepository.getByPublicId(URI.create(resourceId))
       val dbTopic = nodeRepository.getByPublicId(URI.create(topicId))
       val dbSuject = nodeRepository.getByPublicId(URI.create(subjectId))
-      assertEquals(dbResource.qualityEvaluationGrade, Grade.Five)
+      assertEquals(dbResource.qualityEvaluation, Grade.Five)
       val expectedFive = GradeAverage(5, 1)
       assertEquals(dbSuject.childQualityEvaluationAverage, expectedFive)
       assertEquals(dbTopic.childQualityEvaluationAverage, expectedFive)
@@ -1297,7 +1297,7 @@ class NodesTest : RestTest() {
       val dbResource = nodeRepository.getByPublicId(URI.create(resourceId))
       val dbTopic = nodeRepository.getByPublicId(URI.create(topicId))
       val dbSuject = nodeRepository.getByPublicId(URI.create(subjectId))
-      assertNull(dbResource.qualityEvaluationGrade)
+      assertNull(dbResource.qualityEvaluation)
       val actualSubject = dbSuject.childQualityEvaluationAverage
       assertNull(actualSubject)
       val actualTopic = dbTopic.childQualityEvaluationAverage
@@ -1370,9 +1370,9 @@ class NodesTest : RestTest() {
     val cloned1 = nodeRepository.getByPublicId(cloned1Id)
     val cloned2 = nodeRepository.getByPublicId(cloned2Id)
     val cloned3 = nodeRepository.getByPublicId(cloned3Id)
-    assertEquals(Grade.Five, cloned1.qualityEvaluationGrade)
-    assertEquals(Grade.Four, cloned2.qualityEvaluationGrade)
-    assertEquals(Grade.One, cloned3.qualityEvaluationGrade)
+    assertEquals(Grade.Five, cloned1.qualityEvaluation)
+    assertEquals(Grade.Four, cloned2.qualityEvaluation)
+    assertEquals(Grade.One, cloned3.qualityEvaluation)
 
     run { // Connect cloned resources to urn:topic:2
       val connectBody1 = NodeConnectionPOST()
@@ -1654,7 +1654,7 @@ class NodesTest : RestTest() {
   }
 
   fun getQualityEvaluationGradesOf(ids: List<URI>): List<Int> =
-      ids.map { id -> nodeRepository.getByPublicId(id).qualityEvaluationGrade!!.toInt() }
+      ids.map { id -> nodeRepository.getByPublicId(id).qualityEvaluation!!.toInt() }
 
   fun getQEAverageGradesOf(ids: List<URI>): List<GradeAverage?> =
       ids.map { id -> nodeRepository.getByPublicId(id).childQualityEvaluationAverage }

@@ -72,6 +72,6 @@ class NodesMetadataTest : RestTest() {
     assertNotNull(node.metadata)
     assertTrue(node.metadata.isVisible())
     assertTrue(node.metadata.getGrepCodes().isEmpty())
-    assertTrue(node.getCustomFields().isEmpty())
+    assertTrue(node.customFields.isEmpty())
   }
 }

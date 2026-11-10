@@ -59,17 +59,17 @@ class Node : DomainObject, EntityWithMetadata {
       updatePublicID()
     }
 
-  @Column private var created_at: Instant? = null
+  @Column(name = "created_at") override var createdAt: Instant? = null
 
-  @Column private var updated_at: Instant? = null
+  @Column(name = "updated_at") override var updatedAt: Instant? = null
 
-  @Column private var context: Boolean = false
+  @Column(name = "context") var isContext: Boolean = false
 
   @JdbcTypeCode(SqlTypes.ARRAY)
   @Column(name = "resource_type_ids", columnDefinition = "text[]")
   private var resourceTypeIds: MutableSet<String> = HashSet()
 
-  @Column private var visible: Boolean = true
+  @Column(name = "visible") override var isVisible: Boolean = true
 
   @Type(JsonBinaryType::class)
   @Column(name = "translations", columnDefinition = "jsonb")
@@ -77,11 +77,11 @@ class Node : DomainObject, EntityWithMetadata {
 
   @Type(JsonBinaryType::class)
   @Column(name = "grepcodes", columnDefinition = "jsonb")
-  private var grepcodes: Set<JsonGrepCode> = HashSet()
+  override var grepCodes: Set<JsonGrepCode> = emptySet()
 
   @Type(JsonBinaryType::class)
   @Column(name = "customfields", columnDefinition = "jsonb")
-  private var customfields: Map<String, String> = HashMap()
+  override var customFields: Map<String, String> = emptyMap()
 
   @Type(JsonBinaryType::class)
   @Column(name = "contexts", columnDefinition = "jsonb")
@@ -93,7 +93,7 @@ class Node : DomainObject, EntityWithMetadata {
 
   @Column(name = "quality_evaluation")
   @Convert(converter = GradeConverter::class)
-  private var qualityEvaluation: Grade? = null
+  var qualityEvaluation: Grade? = null
 
   @Column(name = "quality_evaluation_comment") var qualityEvaluationComment: String? = null
 
@@ -117,21 +117,21 @@ class Node : DomainObject, EntityWithMetadata {
   @PrePersist
   fun prePersist() {
     val now = Instant.now()
-    setCreatedAt(now)
-    setUpdatedAt(now)
+    createdAt = now
+    updatedAt = now
   }
 
   @PreUpdate
   fun preUpdate() {
-    setUpdatedAt(Instant.now())
+    updatedAt = Instant.now()
   }
 
   constructor(node: Node, keepPublicId: Boolean = true) {
     this.contentUri = node.contentUri
     this.nodeType = node.nodeType
     this.ident = node.ident
-    this.context = node.context
-    this.qualityEvaluation = node.qualityEvaluationGrade
+    this.isContext = node.isContext
+    this.qualityEvaluation = node.qualityEvaluation
     this.qualityEvaluationComment = node.qualityEvaluationComment
 
     if (keepPublicId) {
@@ -146,12 +146,6 @@ class Node : DomainObject, EntityWithMetadata {
     setMetadata(Metadata(node.metadata))
     name = node.name
   }
-
-  val qualityEvaluationGrade: Grade?
-    get() = qualityEvaluation
-
-  val qualityEvaluationNote: String?
-    get() = qualityEvaluationComment
 
   val childQualityEvaluationAverage: GradeAverage?
     get() {
@@ -279,13 +273,9 @@ class Node : DomainObject, EntityWithMetadata {
     for (child in childNodesForQualityEvaluation) {
       addAll(child.getChildGradesRecursively())
       if (child.nodeType == NodeType.RESOURCE) {
-        add(child.qualityEvaluationGrade)
+        add(child.qualityEvaluation)
       }
     }
-  }
-
-  fun setQualityEvaluation(qualityEvaluation: Grade?) {
-    this.qualityEvaluation = qualityEvaluation
   }
 
   val pathPart: String
@@ -485,12 +475,6 @@ class Node : DomainObject, EntityWithMetadata {
       return null
     }
 
-  var isContext: Boolean
-    get() = context
-    set(context) {
-      this.context = context
-    }
-
   fun addContextIds(contextId: Set<String>) {
     this.contextIds.addAll(contextId)
   }
@@ -505,49 +489,8 @@ class Node : DomainObject, EntityWithMetadata {
       ident = idParts.copyOfRange(2, idParts.size).joinToString(":")
     }
 
-  fun name(name: String?): Node {
-    this.name = name
-    return this
-  }
-
   override val metadata: Metadata
     get() = Metadata(this)
-
-  override fun getGrepCodes(): Set<JsonGrepCode> = this.grepcodes
-
-  override fun setCustomField(key: String, value: String) {
-    this.customfields += key to value
-  }
-
-  override fun unsetCustomField(key: String) {
-    this.customfields -= key
-  }
-
-  override fun setGrepCodes(codes: Set<JsonGrepCode>) {
-    this.grepcodes = codes
-  }
-
-  override fun setCustomFields(customFields: Map<String, String>) {
-    this.customfields = customFields
-  }
-
-  override fun setVisible(visible: Boolean) {
-    this.visible = visible
-  }
-
-  override fun setUpdatedAt(updatedAt: Instant?) {
-    this.updated_at = updatedAt
-  }
-
-  override fun setCreatedAt(createdAt: Instant?) {
-    this.created_at = createdAt
-  }
-
-  override fun isVisible(): Boolean = this.visible
-
-  override fun getCreatedAt(): Instant? = this.created_at
-
-  override fun getUpdatedAt(): Instant? = this.updated_at
 
   @PreRemove
   fun preRemove() {
@@ -559,14 +502,14 @@ class Node : DomainObject, EntityWithMetadata {
     if (this === other) return true
     if (other == null || javaClass != other.javaClass) return false
     val that = other as Node
-    return context == that.context &&
+    return isContext == that.isContext &&
         contentUri == that.contentUri &&
         nodeType == that.nodeType &&
         ident == that.ident &&
         translations == that.translations &&
-        this.customfields == that.customfields &&
-        this.visible == that.visible &&
-        this.grepcodes == that.grepcodes
+        this.customFields == that.customFields &&
+        this.isVisible == that.isVisible &&
+        this.grepCodes == that.grepCodes
   }
 
   val primaryNode: Node?
@@ -577,12 +520,10 @@ class Node : DomainObject, EntityWithMetadata {
       return null
     }
 
-  override fun getCustomFields(): Map<String, String> = this.customfields
-
   fun addGrepCode(code: String) {
     val now = Instant.now().toString()
     val newGrepCode = JsonGrepCode(code, now, now)
-    this.grepcodes += newGrepCode
+    this.grepCodes += newGrepCode
   }
 
   fun translatedPrettyNames(): Set<String> {

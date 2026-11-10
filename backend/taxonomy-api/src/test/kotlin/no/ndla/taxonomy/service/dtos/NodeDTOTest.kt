@@ -22,7 +22,7 @@ class NodeDTOTest {
     val node = Node(NodeType.TOPIC)
     node.name = "English base name"
     node.addTranslation("Bokmal default name", "nb")
-    node.setUpdatedAt(Instant.now())
+    node.updatedAt = Instant.now()
 
     val dto =
         NodeDTO(null, null, node, NodeConnectionType.BRANCH, "en", null, false, false, true, false)

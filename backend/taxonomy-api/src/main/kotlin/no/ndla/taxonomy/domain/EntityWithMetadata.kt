@@ -12,12 +12,26 @@ import java.time.Instant
 interface EntityWithMetadata {
   val metadata: Metadata
 
+  var grepCodes: Set<JsonGrepCode>
+  var customFields: Map<String, String>
+  var isVisible: Boolean
+  var createdAt: Instant?
+  var updatedAt: Instant?
+
+  fun setCustomField(key: String, value: String) {
+    customFields += key to value
+  }
+
+  fun unsetCustomField(key: String) {
+    customFields -= key
+  }
+
   fun setMetadata(metadata: Metadata, changeOwner: Boolean) {
-    setCustomFields(metadata.getCustomFields())
-    setGrepCodes(metadata.getGrepCodes())
-    setVisible(metadata.isVisible())
-    setUpdatedAt(metadata.getUpdatedAt())
-    setCreatedAt(metadata.getCreatedAt())
+    customFields = metadata.getCustomFields()
+    grepCodes = metadata.getGrepCodes()
+    isVisible = metadata.isVisible()
+    updatedAt = metadata.getUpdatedAt()
+    createdAt = metadata.getCreatedAt()
     if (changeOwner) {
       metadata.setParent(this)
     }
@@ -26,28 +40,4 @@ interface EntityWithMetadata {
   fun setMetadata(metadata: Metadata) {
     this.setMetadata(metadata, true)
   }
-
-  fun getGrepCodes(): Set<JsonGrepCode>
-
-  fun isVisible(): Boolean
-
-  fun getCreatedAt(): Instant?
-
-  fun getUpdatedAt(): Instant?
-
-  fun getCustomFields(): Map<String, String>
-
-  fun setCustomField(key: String, value: String)
-
-  fun unsetCustomField(key: String)
-
-  fun setGrepCodes(codes: Set<JsonGrepCode>)
-
-  fun setCustomFields(customFields: Map<String, String>)
-
-  fun setVisible(visible: Boolean)
-
-  fun setUpdatedAt(updatedAt: Instant?)
-
-  fun setCreatedAt(createdAt: Instant?)
 }
