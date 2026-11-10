@@ -86,13 +86,13 @@ class NodeServiceTest : AbstractIntegrationTest() {
 
           parentConnectionsToReturn
         }
-    `when`(nodeConnectionService.getChildConnections(any(Node::class.java) ?: Node(NodeType.NODE))).thenAnswer {
-        invocationOnMock ->
-      val topic = invocationOnMock.getArgument<Node>(0)
-      assertEquals(topicId, topic.publicId)
+    `when`(nodeConnectionService.getChildConnections(any(Node::class.java) ?: Node(NodeType.NODE)))
+        .thenAnswer { invocationOnMock ->
+          val topic = invocationOnMock.getArgument<Node>(0)
+          assertEquals(topicId, topic.publicId)
 
-      childConnectionsToReturn
-    }
+          childConnectionsToReturn
+        }
 
     val returnedConnections = nodeService.getAllConnections(topicId)
 

@@ -46,7 +46,7 @@ class SearchService(val nodeRepository: NodeRepository) {
                       cb.function(
                           "jsonb_extract_path_text",
                           String::class.java,
-                          r.get<Map<String, String>>("customfields"),
+                          r.get<Map<String, String>>("customFields"),
                           cb.literal(k),
                       ),
                       v,

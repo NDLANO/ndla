@@ -21,8 +21,8 @@ interface EntityWithMetadata {
     get() = Metadata(grepCodes, customFields, isVisible, createdAt, updatedAt)
 
   fun setMetadata(metadata: Metadata) {
-    grepCodes = metadata.grepCodes
-    customFields = metadata.customFields
+    grepCodes = metadata.grepCodes.toSet()
+    customFields = metadata.customFields.toMap()
     isVisible = metadata.isVisible
     createdAt = metadata.createdAt
     updatedAt = metadata.updatedAt
@@ -31,7 +31,10 @@ interface EntityWithMetadata {
   /** Applies the fields present in [update] and returns the resulting metadata. */
   fun updateMetadata(update: MetadataPUT): Metadata {
     update.visible?.let { isVisible = it }
-    update.grepCodes?.let { codes -> grepCodes = codes.mapTo(mutableSetOf()) { JsonGrepCode(it) } }
+    update.grepCodes?.let { codes ->
+      val existing = grepCodes.associateBy { it.code }
+      grepCodes = codes.mapTo(mutableSetOf()) { existing[it] ?: JsonGrepCode(it) }
+    }
     update.customFields?.let { customFields = it }
     return metadata
   }

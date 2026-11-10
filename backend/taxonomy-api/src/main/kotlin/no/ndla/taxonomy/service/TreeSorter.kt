@@ -17,10 +17,13 @@ class TreeSorter {
       elementsToAddFrom: Map<URI?, Collection<T>>,
       parentId: URI?,
   ): List<T> = buildList {
-    elementsToAddFrom[parentId].orEmpty().sortedBy { it.sortableRank }.forEach { element ->
-      add(element)
-      addAll(addElements(elementsToAddFrom, element.sortableId))
-    }
+    elementsToAddFrom[parentId]
+        .orEmpty()
+        .sortedBy { it.sortableRank }
+        .forEach { element ->
+          add(element)
+          addAll(addElements(elementsToAddFrom, element.sortableId))
+        }
   }
 
   /**

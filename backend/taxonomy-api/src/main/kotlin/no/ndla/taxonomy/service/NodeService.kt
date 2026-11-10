@@ -18,7 +18,6 @@ import no.ndla.taxonomy.domain.Relevance
 import no.ndla.taxonomy.domain.TaxonomyContext
 import no.ndla.taxonomy.repositories.NodeConnectionRepository
 import no.ndla.taxonomy.repositories.NodeRepository
-import no.ndla.taxonomy.rest.NotFoundHttpResponseException
 import no.ndla.taxonomy.rest.v1.dtos.searchapi.LanguageFieldDTO
 import no.ndla.taxonomy.rest.v1.dtos.searchapi.SearchableTaxonomyResourceType
 import no.ndla.taxonomy.rest.v1.dtos.searchapi.TaxonomyContextDTO

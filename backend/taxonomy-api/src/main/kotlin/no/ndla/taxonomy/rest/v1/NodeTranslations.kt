@@ -48,9 +48,8 @@ class NodeTranslations(val nodeRepository: NodeRepository) {
       @PathVariable("language")
       language: String,
   ): TranslationDTO {
-    return nodeRepository.getByPublicId(id).getTranslation(language)?.let {
-      TranslationDTO(it)
-    } ?: throw NotFoundException("translation with language code $language for node $id")
+    return nodeRepository.getByPublicId(id).getTranslation(language)?.let { TranslationDTO(it) }
+        ?: throw NotFoundException("translation with language code $language for node $id")
   }
 
   @PutMapping("/{language}")

@@ -14,6 +14,5 @@ import jakarta.persistence.MappedSuperclass
 abstract class DomainObject : DomainEntity(), Translatable {
   @Column var name: String? = null
 
-  fun getTranslatedName(languageCode: String): String? =
-      getTranslation(languageCode)?.name ?: name
+  fun getTranslatedName(languageCode: String): String? = getTranslation(languageCode)?.name ?: name
 }
