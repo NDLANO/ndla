@@ -9,7 +9,6 @@ package no.ndla.taxonomy.service.dtos
 
 import java.time.Instant
 import no.ndla.taxonomy.domain.Node
-import no.ndla.taxonomy.domain.NodeConnectionType
 import no.ndla.taxonomy.domain.NodeType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -25,7 +24,13 @@ class NodeDTOTest {
     node.updatedAt = Instant.now()
 
     val dto =
-        NodeDTO(null, null, node, NodeConnectionType.BRANCH, "en", null, false, false, true, false)
+        NodeDTO(
+            entity = node,
+            languageCode = "en",
+            includeContexts = false,
+            filterProgrammes = false,
+            isVisible = true,
+        )
 
     assertEquals("bokmal-default-name", getField(dto, "defaultUrlName"))
   }

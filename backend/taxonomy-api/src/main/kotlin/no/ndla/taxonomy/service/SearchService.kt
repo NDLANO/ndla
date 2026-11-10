@@ -9,7 +9,6 @@ package no.ndla.taxonomy.service
 
 import java.net.URI
 import no.ndla.taxonomy.domain.Node
-import no.ndla.taxonomy.domain.NodeConnectionType
 import no.ndla.taxonomy.domain.NodeType
 import no.ndla.taxonomy.repositories.NodeRepository
 import no.ndla.taxonomy.service.dtos.NodeDTO
@@ -91,16 +90,13 @@ class SearchService(val nodeRepository: NodeRepository) {
     val dtos =
         fetched.content.map { r ->
           NodeDTO(
-              rootNode,
-              parentNode,
-              r,
-              NodeConnectionType.BRANCH,
-              language,
-              null,
-              includeContexts,
-              filterProgrammes,
-              false,
-              false,
+              entity = r,
+              languageCode = language,
+              includeContexts = includeContexts,
+              filterProgrammes = filterProgrammes,
+              isVisible = false,
+              root = rootNode,
+              parent = parentNode,
           )
         }
 

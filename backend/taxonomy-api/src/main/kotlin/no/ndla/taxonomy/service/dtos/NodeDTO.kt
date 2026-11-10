@@ -214,17 +214,28 @@ open class NodeDTO @JsonCreator constructor() {
   var updatedAt: Instant? = null
     private set
 
+  /**
+   * @param root Preferred root when picking the selected context
+   * @param parent Preferred parent when picking the selected context
+   * @param contextId Context to select, if present
+   * @param includeContexts Include all (filtered) contexts in [contexts]
+   * @param filterProgrammes Drop contexts rooted in a programme
+   * @param isVisible Drop invisible contexts
+   * @param includeParents Resolve parent crumbs for each context
+   * @param prefetchedParentContexts Parent contexts already loaded in bulk; fetched from [entity]
+   *   when null and [includeParents] is set
+   */
   constructor(
-      root: Node?,
-      parent: Node?,
       entity: Node,
-      connectionType: NodeConnectionType,
       languageCode: String,
-      contextId: String?,
       includeContexts: Boolean,
       filterProgrammes: Boolean,
       isVisible: Boolean,
-      includeParents: Boolean,
+      root: Node? = null,
+      parent: Node? = null,
+      connectionType: NodeConnectionType = NodeConnectionType.BRANCH,
+      contextId: String? = null,
+      includeParents: Boolean = false,
       prefetchedParentContexts: Set<TaxonomyContext>? = null,
   ) : this() {
     val contexts = entity.contexts

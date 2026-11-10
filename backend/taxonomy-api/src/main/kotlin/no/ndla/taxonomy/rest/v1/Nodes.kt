@@ -281,16 +281,11 @@ class Nodes(
     val contents =
         results.map { node ->
           NodeDTO(
-              null,
-              null,
-              node,
-              NodeConnectionType.BRANCH,
-              language,
-              null,
-              includeContexts,
-              filterProgrammes,
-              isVisible,
-              false,
+              entity = node,
+              languageCode = language,
+              includeContexts = includeContexts,
+              filterProgrammes = filterProgrammes,
+              isVisible = isVisible,
           )
         }
     return SearchResultDTO(ids.totalElements, page, pageSize, contents)

@@ -98,17 +98,16 @@ class NodeService(
       val parentContexts = if (includeParents) prefetchParentContexts(nodes) else null
       nodes.mapTo(listToReturn) { node ->
         NodeDTO(
-            root,
-            parent,
-            node,
-            NodeConnectionType.BRANCH,
-            language,
-            contextId,
-            includeContexts,
-            filterProgrammes,
-            metadataFilters.visible ?: false,
-            includeParents,
-            parentContexts,
+            entity = node,
+            languageCode = language,
+            includeContexts = includeContexts,
+            filterProgrammes = filterProgrammes,
+            isVisible = metadataFilters.visible ?: false,
+            root = root,
+            parent = parent,
+            contextId = contextId,
+            includeParents = includeParents,
+            prefetchedParentContexts = parentContexts,
         )
       }
     }
@@ -155,17 +154,15 @@ class NodeService(
     val root = rootId?.let { getMaybeNode(it) }
     val parent = parentId?.let { getMaybeNode(it) }
     return NodeDTO(
-        root,
-        parent,
-        node,
-        NodeConnectionType.BRANCH,
-        language,
-        null,
-        includeContexts,
-        filterProgrammes,
-        isVisible,
-        true,
-        prefetchParentContexts(listOf(node)),
+        entity = node,
+        languageCode = language,
+        includeContexts = includeContexts,
+        filterProgrammes = filterProgrammes,
+        isVisible = isVisible,
+        root = root,
+        parent = parent,
+        includeParents = true,
+        prefetchedParentContexts = prefetchParentContexts(listOf(node)),
     )
   }
 
