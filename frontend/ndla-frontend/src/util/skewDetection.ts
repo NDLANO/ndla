@@ -6,6 +6,8 @@
  *
  */
 
+import { assignLocation, reloadPage } from "./browserLocation";
+
 const SKEW_RELOAD_KEY = "ndla_skew_reloaded";
 const RELOAD_GUARD_MS = 60_000;
 
@@ -26,7 +28,7 @@ export function hadChunkReloadAttempt(): boolean {
 
 export function triggerCrashReload(): void {
   sessionStorage.setItem(SKEW_RELOAD_KEY, String(Date.now()));
-  window.location.reload();
+  reloadPage();
 }
 
 export function initSkewDetection(localBuildId: string, signal?: AbortSignal) {
@@ -66,7 +68,7 @@ export function initSkewDetection(localBuildId: string, signal?: AbortSignal) {
   const originalPushState = history.pushState.bind(history);
   history.pushState = function (state: unknown, title: string, url?: string | URL | null) {
     if (skewDetected && url != null) {
-      window.location.href = url.toString();
+      assignLocation(url.toString());
       return;
     }
     originalPushState(state, title, url);
@@ -77,7 +79,7 @@ export function initSkewDetection(localBuildId: string, signal?: AbortSignal) {
   window.addEventListener(
     "popstate",
     () => {
-      if (skewDetected) window.location.reload();
+      if (skewDetected) reloadPage();
     },
     { signal },
   );

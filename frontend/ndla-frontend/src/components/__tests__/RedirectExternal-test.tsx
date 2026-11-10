@@ -8,8 +8,11 @@
 
 import { render } from "@testing-library/react";
 import { MemoryRouter, StaticRouter } from "react-router";
+import { replaceLocation } from "../../util/browserLocation";
 import { RedirectContext } from "../RedirectContext";
 import { RedirectExternal } from "../RedirectExternal";
+
+vi.mock("../../util/browserLocation", () => ({ replaceLocation: vi.fn() }));
 
 test("External redirect for static router", () => {
   const context = {};
@@ -42,17 +45,11 @@ test("External redirect for static router with basename", () => {
 });
 
 test("External redirect for (memory/dom) router", () => {
-  // @ts-expect-error - This is a workaround
-  delete window.location;
-  const replace = vi.fn();
-  // @ts-expect-error - This is a workaround
-  window.location = { replace };
-
   render(
     <MemoryRouter basename="nb" initialEntries={["/nb"]}>
       <RedirectExternal to="https://google.com/" />
     </MemoryRouter>,
   );
 
-  expect(replace).toHaveBeenCalledWith("https://google.com/");
+  expect(replaceLocation).toHaveBeenCalledWith("https://google.com/");
 });

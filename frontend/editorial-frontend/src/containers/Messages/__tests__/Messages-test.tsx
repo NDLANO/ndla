@@ -20,12 +20,6 @@ import type { MessageType } from "../types";
 
 const router = createMemoryRouter([{ path: "*", element: <Messages /> }]);
 
-beforeEach(() => {
-  const reload = vi.fn();
-
-  vi.spyOn(window, "location", "get").mockImplementation(() => ({ reload }) as unknown as Location);
-});
-
 const wrapper = (messages: MessageType[]) => (
   <IntlWrapper>
     <MessagesProvider initialValues={messages}>

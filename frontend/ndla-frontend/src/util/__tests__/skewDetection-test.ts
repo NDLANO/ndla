@@ -7,13 +7,10 @@
  */
 
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { assignLocation, reloadPage } from "../browserLocation";
 import { hadChunkReloadAttempt, initSkewDetection, isChunkLoadError, triggerCrashReload } from "../skewDetection";
 
-// Replace window.location with a plain object so reload/href are writable.
-// jsdom's Location is non-configurable on individual properties, but the
-// window.location property itself is configurable.
-const mockLocation = { reload: vi.fn(), href: "http://localhost/" };
-Object.defineProperty(window, "location", { configurable: true, value: mockLocation });
+vi.mock("../browserLocation", () => ({ assignLocation: vi.fn(), reloadPage: vi.fn() }));
 
 const jsonResponse = (buildId: string) =>
   Promise.resolve({
@@ -62,7 +59,7 @@ describe("isChunkLoadError", () => {
 describe("reload guard", () => {
   beforeEach(() => {
     sessionStorage.clear();
-    mockLocation.reload.mockReset();
+    vi.mocked(reloadPage).mockReset();
   });
 
   it("hadChunkReloadAttempt returns false when no guard is set", () => {
@@ -73,7 +70,7 @@ describe("reload guard", () => {
     const before = Date.now();
     triggerCrashReload();
     expect(Number(sessionStorage.getItem("ndla_skew_reloaded"))).toBeGreaterThanOrEqual(before);
-    expect(mockLocation.reload).toHaveBeenCalledOnce();
+    expect(reloadPage).toHaveBeenCalledOnce();
   });
 
   it("hadChunkReloadAttempt returns true after triggerCrashReload", () => {
@@ -95,8 +92,8 @@ describe("initSkewDetection", () => {
     controller = new AbortController();
     originalPushState = history.pushState;
     vi.stubGlobal("fetch", vi.fn());
-    mockLocation.reload.mockReset();
-    mockLocation.href = "http://localhost/";
+    vi.mocked(reloadPage).mockReset();
+    vi.mocked(assignLocation).mockReset();
   });
 
   afterEach(() => {
@@ -149,7 +146,7 @@ describe("initSkewDetection", () => {
 
     history.pushState({}, "", "/some-page");
     expect(originalSpy).toHaveBeenCalledWith({}, "", "/some-page");
-    expect(mockLocation.href).toBe("http://localhost/");
+    expect(assignLocation).not.toHaveBeenCalled();
   });
 
   it("redirects via location.href instead of pushState when skew is detected", async () => {
@@ -163,7 +160,7 @@ describe("initSkewDetection", () => {
     await flush();
 
     history.pushState({}, "", "/next-page");
-    expect(mockLocation.href).toBe("/next-page");
+    expect(assignLocation).toHaveBeenCalledWith("/next-page");
   });
 
   it("reloads on popstate when skew is detected", async () => {
@@ -177,7 +174,7 @@ describe("initSkewDetection", () => {
     await flush();
 
     window.dispatchEvent(new PopStateEvent("popstate"));
-    expect(mockLocation.reload).toHaveBeenCalledOnce();
+    expect(reloadPage).toHaveBeenCalledOnce();
   });
 
   it("ignores fetch errors and does not set skewDetected", async () => {
@@ -191,6 +188,6 @@ describe("initSkewDetection", () => {
 
     history.pushState({}, "", "/some-page");
     expect(originalSpy).toHaveBeenCalled();
-    expect(mockLocation.href).toBe("http://localhost/");
+    expect(assignLocation).not.toHaveBeenCalled();
   });
 });

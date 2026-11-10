@@ -15,6 +15,10 @@ const validArticleUrl2 = "https://test.ndla.no/subjects/subject:3/topic:1:55163/
 const unvalidArticleUrl = "https://test.ndla.no/subject:3";
 const validLearningpathUrl = "https://test.ndla.no/subject:3/topic:1:55163/topic:1:168398/resource:1:9876";
 
+afterAll(() => {
+  nock.restore();
+});
+
 test("oembedArticleRoute success", async () => {
   nock("http://ndla-api").get("/taxonomy/v1/nodes/urn:resource:1:1682?language=nb").times(2).reply(200, {
     id: "urn:resource:1",

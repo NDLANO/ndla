@@ -6,8 +6,12 @@
  *
  */
 
+import { ReadableStream, TransformStream, WritableStream } from "node:stream/web";
 import { ResizeObserver } from "@juggle/resize-observer";
 import { cleanup } from "@testing-library/react";
+
+// The vmThreads jsdom context lacks web streams, which nock's fetch interceptor needs
+Object.assign(globalThis, { ReadableStream, TransformStream, WritableStream });
 
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver;
