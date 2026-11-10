@@ -172,7 +172,7 @@ class NodeService(
   fun getMaybeNode(publicId: URI): Node? = nodeRepository.findFirstByPublicId(publicId)
 
   fun getNode(publicId: URI): Node =
-      getMaybeNode(publicId) ?: throw NotFoundHttpResponseException("Node was not found")
+      getMaybeNode(publicId) ?: throw NotFoundServiceException("Node was not found")
 
   fun getResourcesByNodeId(
       nodePublicId: URI,
