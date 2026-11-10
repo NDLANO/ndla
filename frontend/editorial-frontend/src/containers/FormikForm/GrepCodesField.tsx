@@ -16,13 +16,13 @@ import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../components/Form/GenericSearchCombobox";
+import { CompetenceGoalWarningIcon } from "../../components/Taxonomy/CompetenceGoalWarningIcon";
 import type { GrepFormat } from "../../interfaces";
 import { searchGrepCodes } from "../../modules/search/searchApi";
 import { searchGrepCodesQueryOptions } from "../../modules/search/searchQueries";
 import { isGrepCodeValid } from "../../util/articleUtil";
 import handleError from "../../util/handleError";
 import { usePaginatedQuery } from "../../util/usePaginatedQuery";
-import { UnmatchedGoalIcon } from "./GrepCodesPanelTitle";
 import { useCompetenceGoalTaxonomy } from "./useCompetenceGoalTaxonomy";
 
 const StyledList = styled("ul", {
@@ -199,7 +199,10 @@ const GrepCodesField = ({ prefixFilter, contentURI, language }: Props) => {
             <li>
               <ListItemContent>{grepCodes[code] ? grepCodeTitle(grepCodes[code], subjectNames) : code}</ListItemContent>
               {unmatchedGoals.has(code) && (
-                <UnmatchedGoalIcon aria-label={t("form.grepCodes.unmatched")} title={t("form.grepCodes.unmatched")} />
+                <CompetenceGoalWarningIcon
+                  aria-label={t("form.grepCodes.unmatched")}
+                  title={t("form.grepCodes.unmatched")}
+                />
               )}
               {!!grepCodes[code] && grepCodes[code].status !== "Published" && (
                 <StyledAlertLine title={t("form.grepCodes.expired")} />

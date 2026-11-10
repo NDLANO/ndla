@@ -9,7 +9,11 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { getSubjectNamesByGoalSet, getUnmatchedCompetenceGoals } from "../../components/Taxonomy/competenceGoalsUtil";
+import {
+  getSubjectNamesByGoalSet,
+  getSubjectsWithoutCompetenceGoals,
+  getUnmatchedCompetenceGoals,
+} from "../../components/Taxonomy/competenceGoalsUtil";
 import { GREP_CODE_FORMATS } from "../../constants";
 import { nodesQueryOptions } from "../../modules/nodes/nodeQueries";
 import { searchGrepCodesQueryOptions } from "../../modules/search/searchQueries";
@@ -50,15 +54,20 @@ export const useCompetenceGoalTaxonomy = ({ grepCodes, contentURI, language }: P
     [subjectsQuery.data, t],
   );
 
-  const unmatchedGoals = useMemo(() => {
-    if (!subjectsQuery.data || !placementsQuery.data || !goalCodes.length || !goalsQuery.data) {
-      return new Set<string>();
+  const { unmatchedGoals, subjectsWithoutGoals } = useMemo(() => {
+    const goalResults = goalCodes.length
+      ? goalsQuery.data?.results.filter((result) => goalCodes.includes(result.code))
+      : [];
+    if (!subjectsQuery.data || !placementsQuery.data || !goalResults) {
+      return { unmatchedGoals: new Set<string>(), subjectsWithoutGoals: new Set<string>() };
     }
     const rootIds = new Set(placementsQuery.data.flatMap((node) => node.contexts.map((context) => context.rootId)));
     const placementSubjects = subjectsQuery.data.filter((subject) => rootIds.has(subject.id));
-    const goalResults = goalsQuery.data.results.filter((result) => goalCodes.includes(result.code));
-    return getUnmatchedCompetenceGoals(goalResults, placementSubjects);
+    return {
+      unmatchedGoals: getUnmatchedCompetenceGoals(goalResults, placementSubjects),
+      subjectsWithoutGoals: getSubjectsWithoutCompetenceGoals(goalResults, placementSubjects),
+    };
   }, [goalCodes, goalsQuery.data, placementsQuery.data, subjectsQuery.data]);
 
-  return { subjectNames, unmatchedGoals };
+  return { subjectNames, unmatchedGoals, subjectsWithoutGoals };
 };

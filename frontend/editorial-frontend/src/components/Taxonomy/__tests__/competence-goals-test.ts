@@ -11,8 +11,10 @@ import {
   countSelectedCompetenceGoals,
   getCompetenceGoalCodes,
   getSubjectNamesByGoalSet,
+  getSubjectsWithoutCompetenceGoals,
   getUnmatchedCompetenceGoals,
   groupCompetenceGoals,
+  isExemptFromCompetenceGoalCheck,
 } from "../competenceGoalsUtil";
 
 const reference = (code: string, title = `Title ${code}`) => ({
@@ -109,8 +111,36 @@ test("that getUnmatchedCompetenceGoals returns all goals when there are no place
   expect(Array.from(getUnmatchedCompetenceGoals(goals.slice(0, 2), []))).toStrictEqual(["KM1", "KM2"]);
 });
 
+test("that isExemptFromCompetenceGoalCheck is true only with an other resources subject", () => {
+  expect(isExemptFromCompetenceGoalCheck([subject("S1", ["KV1"]), subject("S2", [], "otherResources")])).toBe(true);
+  expect(isExemptFromCompetenceGoalCheck([subject("S1", ["KV1"]), subject("S2", [], "archive")])).toBe(false);
+  expect(isExemptFromCompetenceGoalCheck([])).toBe(false);
+});
+
 test("that getUnmatchedCompetenceGoals ignores resources placed in other resources subjects", () => {
   const result = getUnmatchedCompetenceGoals(goals, [subject("S1", ["KV1"]), subject("S2", [], "otherResources")]);
+
+  expect(result.size).toBe(0);
+});
+
+test("that getSubjectsWithoutCompetenceGoals returns placement subjects with no goals from their sets", () => {
+  const result = getSubjectsWithoutCompetenceGoals(goals.slice(0, 2), [
+    subject("S1", ["KV1"]),
+    subject("S2", ["KV2", "KV3"]),
+    subject("S3", []),
+  ]);
+
+  expect(Array.from(result)).toStrictEqual(["S2"]);
+});
+
+test("that getSubjectsWithoutCompetenceGoals returns every subject with sets when there are no goals", () => {
+  expect(Array.from(getSubjectsWithoutCompetenceGoals([], [subject("S1", ["KV1"]), subject("S2", [])]))).toStrictEqual([
+    "S1",
+  ]);
+});
+
+test("that getSubjectsWithoutCompetenceGoals ignores resources placed in other resources subjects", () => {
+  const result = getSubjectsWithoutCompetenceGoals([], [subject("S1", ["KV1"]), subject("S2", [], "otherResources")]);
 
   expect(result.size).toBe(0);
 });

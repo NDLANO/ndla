@@ -9,10 +9,10 @@
 import { Spinner } from "@ndla/primitives";
 import type { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
 import { useQuery } from "@tanstack/react-query";
-import { useTranslation } from "react-i18next";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import { nodesQueryOptions } from "../../../modules/nodes/nodeQueries";
 import { versionsQueryOptions } from "../../../modules/taxonomy/versions/versionQueries";
+import { TaxonomyPanelTitle } from "../../FormikForm/CompetenceGoalPanelTitles";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { LearningpathTaxonomy } from "./LearningpathTaxonomy";
 
@@ -22,7 +22,6 @@ interface Props {
 }
 
 export const LearningpathTaxonomyPart = ({ learningpath, language }: Props) => {
-  const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const nodesQuery = useQuery(
@@ -40,7 +39,11 @@ export const LearningpathTaxonomyPart = ({ learningpath, language }: Props) => {
   }
 
   return (
-    <FormAccordion id="taxonomy" title={t("form.taxonomySection")} hasError={!nodesQuery.data?.[0]?.contexts?.length}>
+    <FormAccordion
+      id="taxonomy"
+      title={<TaxonomyPanelTitle contentURI={`urn:learningpath:${learningpath.id}`} language={language} />}
+      hasError={!nodesQuery.data?.[0]?.contexts?.length}
+    >
       <LearningpathTaxonomy
         learningpath={learningpath}
         resourceLanguage={language}

@@ -49,8 +49,8 @@ import config from "../../../../config";
 import { GREP_CODE_FORMATS, STORED_HIDE_COMMENTS, TAXONOMY_WRITE_SCOPE } from "../../../../constants";
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../../FormikForm";
 import type { ArticleFormType, HandleSubmitFunc, LearningResourceFormType } from "../../../FormikForm/articleFormHooks";
+import { GrepCodesPanelTitle, TaxonomyPanelTitle } from "../../../FormikForm/CompetenceGoalPanelTitles";
 import GrepCodesField from "../../../FormikForm/GrepCodesField";
-import { GrepCodesPanelTitle } from "../../../FormikForm/GrepCodesPanelTitle";
 import { useSession } from "../../../Session/SessionProvider";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import { useLocalStorageBooleanState } from "../../../WelcomePage/hooks/storedFilterHooks";
@@ -223,7 +223,7 @@ const LearningResourcePanels = ({
           {!!article && !!taxonomy && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
             <FormAccordion
               id={"learning-resource-taxonomy"}
-              title={t("form.taxonomySection")}
+              title={<TaxonomyPanelTitle contentURI={contentURI} language={articleLanguage} />}
               hasError={!contexts?.length || taxonomy.some((node) => !node.resourceTypes.length)}
             >
               <LearningResourceTaxonomy

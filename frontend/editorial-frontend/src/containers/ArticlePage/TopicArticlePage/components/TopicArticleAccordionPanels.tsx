@@ -18,8 +18,8 @@ import config from "../../../../config";
 import { GREP_CODE_FORMATS, STORED_HIDE_COMMENTS, TAXONOMY_WRITE_SCOPE } from "../../../../constants";
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../../FormikForm";
 import type { TopicArticleFormType } from "../../../FormikForm/articleFormHooks";
+import { GrepCodesPanelTitle, TaxonomyPanelTitle } from "../../../FormikForm/CompetenceGoalPanelTitles";
 import GrepCodesField from "../../../FormikForm/GrepCodesField";
-import { GrepCodesPanelTitle } from "../../../FormikForm/GrepCodesPanelTitle";
 import { onSaveAsVisualElement } from "../../../FormikForm/utils";
 import { useSession } from "../../../Session/SessionProvider";
 import { useLocalStorageBooleanState } from "../../../WelcomePage/hooks/storedFilterHooks";
@@ -114,7 +114,7 @@ const TopicArticleAccordionPanels = ({
           {!!article && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
             <FormAccordion
               id={"topic-article-taxonomy"}
-              title={t("form.taxonomySection")}
+              title={<TaxonomyPanelTitle contentURI={contentURI} language={articleLanguage} />}
               hasError={!hasTaxonomyEntries}
             >
               <TopicArticleTaxonomy

@@ -49,6 +49,7 @@ interface Props {
   type: "resource" | "topic";
   matomoStats?: ComponentProps<typeof MatomoStats>;
   subject?: Node;
+  hasNoGoalsFromSubject?: boolean;
   readOnly?: boolean;
 }
 
@@ -59,6 +60,7 @@ const ActiveTopicConnection = ({
   updateConnection,
   matomoStats,
   subject,
+  hasNoGoalsFromSubject,
   readOnly,
 }: Props) => {
   const { t } = useTranslation();
@@ -71,7 +73,7 @@ const ActiveTopicConnection = ({
             <Breadcrumb node={node} />
             <StyledWrapper>
               {!!matomoStats && <MatomoStats {...matomoStats} />}
-              {!!subject && <CompetenceGoalsDialog subject={subject} />}
+              {!!subject && <CompetenceGoalsDialog subject={subject} hasNoGoalsFromSubject={hasNoGoalsFromSubject} />}
             </StyledWrapper>
           </ListItemContent>
         </li>
@@ -109,7 +111,7 @@ const ActiveTopicConnection = ({
               }
             />
             {!!matomoStats && <MatomoStats {...matomoStats} />}
-            {!!subject && <CompetenceGoalsDialog subject={subject} />}
+            {!!subject && <CompetenceGoalsDialog subject={subject} hasNoGoalsFromSubject={hasNoGoalsFromSubject} />}
             {!readOnly && (
               <IconButton
                 aria-label={!node.isPrimary ? t("taxonomy.removeResource") : t("taxonomy.removeResourceDisabled")}
