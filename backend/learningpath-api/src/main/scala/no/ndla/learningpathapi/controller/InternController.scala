@@ -43,7 +43,6 @@ class InternController(using
 
   override val endpoints: List[ServerEndpoint[Any, Eff]] = List(
     getByExternalId,
-    postIndex,
     deleteIndex(),
     dumpLearningpaths,
     dumpSingleLearningPath,
@@ -62,25 +61,6 @@ class InternController(using
         case None     => notFound.asLeft
       }
 
-    }
-
-  private def postIndex: ServerEndpoint[Any, Eff] = endpoint
-    .post
-    .in("index")
-    .in(query[Option[Int]]("numShards"))
-    .out(stringBody)
-    .errorOut(stringInternalServerError)
-    .serverLogicPure { numShards =>
-      searchIndexService.indexDocuments(numShards) match {
-        case Success(reindexResult) =>
-          val result =
-            s"Completed indexing of ${reindexResult.totalIndexed} learningpaths in ${reindexResult.millisUsed} ms."
-          logger.info(result)
-          result.asRight
-        case Failure(f) =>
-          logger.warn(s"Failed to index learningpaths: ${f.getMessage}", f)
-          f.getMessage.toOption.getOrElse("Failed to index learningpaths").asLeft
-      }
     }
 
   private def deleteIndex(): ServerEndpoint[Any, Eff] = endpoint

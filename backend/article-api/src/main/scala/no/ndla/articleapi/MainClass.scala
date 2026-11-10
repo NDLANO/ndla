@@ -9,6 +9,7 @@
 package no.ndla.articleapi
 
 import no.ndla.common.Warmup
+import no.ndla.common.job.StandaloneJob
 import no.ndla.network.tapir.NdlaTapirMain
 
 class MainClass(override val props: ArticleApiProperties) extends NdlaTapirMain[ComponentRegistry] {
@@ -29,4 +30,6 @@ class MainClass(override val props: ArticleApiProperties) extends NdlaTapirMain[
   override def beforeStart(): Unit = {
     componentRegistry.migrator.migrate()
   }
+
+  override def standaloneJobs: Seq[StandaloneJob] = Seq(componentRegistry.standaloneIndexing)
 }

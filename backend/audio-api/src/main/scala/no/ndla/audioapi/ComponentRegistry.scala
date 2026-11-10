@@ -74,6 +74,8 @@ class ComponentRegistry(properties: AudioApiProperties) extends TapirApplication
   given healthController: HealthController               = new HealthController
   given transcriptionController: TranscriptionController = new TranscriptionController
 
+  implicit lazy val standaloneIndexing: StandaloneIndexing = new StandaloneIndexing
+
   given swaggerInfo: SwaggerInfo = SwaggerInfo(
     prefix = "audio-api",
     description = "Searching and fetching all audio used in the NDLA platform.\n\n" +
