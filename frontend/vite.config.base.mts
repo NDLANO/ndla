@@ -76,6 +76,7 @@ type TestOptions = NonNullable<ViteUserConfig["test"]>;
 export const ndlaJsdomTest = (overrides?: TestOptions): TestOptions => ({
   include: ["src/**/__tests__/**/*-test.(js|jsx|ts|tsx)"],
   environment: "jsdom",
+  pool: "vmThreads",
   globals: true,
   setupFiles: "./src/__tests__/vitest.setup.ts",
   ...overrides,
