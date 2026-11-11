@@ -121,3 +121,8 @@ export const getSubjectsWithoutCompetenceGoals = (
     }),
   );
 };
+
+export const removeCompetenceGoals = (setResults: GrepResultDTO[], selectedCodes: string[]): string[] => {
+  const goalCodes = new Set(getCompetenceGoalCodes(setResults));
+  return selectedCodes.filter((code) => !goalCodes.has(code));
+};
