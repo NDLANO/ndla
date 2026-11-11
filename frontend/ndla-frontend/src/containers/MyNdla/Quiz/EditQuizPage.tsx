@@ -14,6 +14,9 @@ import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage
 import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import type { GQLQuizFragment } from "../../../graphqlTypes";
 import { quizQuery } from "../../../mutations/quiz/quizQueries";
+import { hasAccessDeniedStatus, hasNotFoundStatus } from "../../../util/handleError";
+import { AccessDeniedPage } from "../../AccessDeniedPage/AccessDeniedPage";
+import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
@@ -41,7 +44,15 @@ export const EditQuizPage = () => (
 
 const EditQuizPageContent = () => {
   const { quizId } = useParams();
-  const { data } = useSuspenseQuery(quizQuery, !quizId ? skipToken : { variables: { id: quizId } });
+  const { data, error } = useSuspenseQuery(quizQuery, !quizId ? skipToken : { variables: { id: quizId } });
+
+  if (hasNotFoundStatus(error)) {
+    return <NotFoundPage />;
+  }
+
+  if (hasAccessDeniedStatus(error)) {
+    return <AccessDeniedPage />;
+  }
 
   if (!data?.quiz) {
     return <DefaultErrorMessagePage />;
