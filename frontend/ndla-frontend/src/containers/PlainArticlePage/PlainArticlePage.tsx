@@ -8,17 +8,15 @@
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
 import { skipToken, useSuspenseQuery } from "@apollo/client/react";
-import { Suspense, useContext } from "react";
+import { Suspense } from "react";
 import { useParams, useSearchParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
-import { RedirectContext } from "../../components/RedirectContext";
 import { useServerResponseStatus } from "../../components/ResponseContext";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import type { GQLPlainArticlePageQuery, GQLPlainArticlePageQueryVariables } from "../../graphqlTypes";
-import { hasAccessDeniedStatus, hasGoneStatus, hasNotFoundStatus } from "../../util/handleError";
+import { NDLAError } from "../../util/error/NDLAError";
 import { useRawLocation } from "../../util/localePath";
-import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { UnpublishedResourcePage } from "../UnpublishedResourcePage/UnpublishedResourcePage";
 import { PlainArticleContainer, plainArticleContainerFragments } from "./PlainArticleContainer";
@@ -43,7 +41,6 @@ const PlainArticlePageContent = () => {
   const { pathname } = useRawLocation();
   const [searchParams] = useSearchParams();
   const revision = searchParams.get("revision");
-  const setRedirect = useContext(RedirectContext);
   const serverResponseStatus = useServerResponseStatus();
   const parsedRevision = revision ? Number(revision) : undefined;
   const { data, error } = useSuspenseQuery(
@@ -63,27 +60,12 @@ const PlainArticlePageContent = () => {
         },
   );
 
-  if (hasGoneStatus(error)) {
-    setRedirect?.({ status: 410 });
-    return <UnpublishedResourcePage />;
-  }
-
   if (serverResponseStatus === 410) {
     return <UnpublishedResourcePage />;
   }
 
-  if (error) {
-    if (hasAccessDeniedStatus(error)) {
-      return <AccessDeniedPage />;
-    }
-    if (hasNotFoundStatus(error)) {
-      return <NotFoundPage />;
-    }
-    return <DefaultErrorMessagePage />;
-  }
-
-  if (!data) {
-    return <DefaultErrorMessagePage />;
+  if (error || !data) {
+    return <DefaultErrorMessagePage error={error ?? new NDLAError("Missing data in plainArticlePage response")} />;
   }
 
   if (!data.article || parsedRevision === 0 || (revision && !parsedRevision)) {

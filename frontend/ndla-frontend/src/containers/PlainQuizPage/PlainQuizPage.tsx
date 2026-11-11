@@ -21,11 +21,9 @@ import { useToast } from "../../components/ToastContext";
 import type { GQLCheckQuizMutation } from "../../graphqlTypes";
 import { useCheckQuizMutation } from "../../mutations/quiz/quizMutations";
 import { quizQuery } from "../../mutations/quiz/quizQueries";
-import { hasAccessDeniedStatus, hasNotFoundStatus } from "../../util/handleError";
-import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
+import { NDLAError } from "../../util/error/NDLAError";
 import { FavoritesHeart } from "../MyNdla/components/FavoritesHeart";
 import { buildQuizSession } from "../MyNdla/Quiz/utils";
-import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { QuizQuestionScreen } from "./components/QuizQuestionScreen";
 import { QuizResultScreen } from "./components/QuizResultScreen";
 import { QuizStartScreen } from "./components/QuizStartScreen";
@@ -57,16 +55,8 @@ const PlainQuizPageContent = () => {
   const [result, setResult] = useState<GQLCheckQuizMutation["checkQuiz"] | null>(null);
   const [checkQuiz, { loading: checking }] = useCheckQuizMutation();
 
-  if (hasNotFoundStatus(error)) {
-    return <NotFoundPage />;
-  }
-
-  if (hasAccessDeniedStatus(error)) {
-    return <AccessDeniedPage />;
-  }
-
   if (error || !quiz) {
-    return <DefaultErrorMessagePage />;
+    return <DefaultErrorMessagePage error={error ?? new NDLAError("Missing quiz in quiz response")} />;
   }
 
   const onStart = () => {

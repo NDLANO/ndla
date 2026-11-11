@@ -25,6 +25,7 @@ import { MobileLaunchpadMenu } from "../../../components/Resource/Launchpad";
 import { ResourceContentContainer } from "../../../components/Resource/ResourceLayout";
 import type { GQLPreviewLearningpathQuery, GQLPreviewLearningpathQueryVariables } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
+import { NDLAError } from "../../../util/error/NDLAError";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageSection, MyNdlaPageContent } from "../components/MyNdlaPageSection";
@@ -92,7 +93,11 @@ const PreviewLearningpathPageContent = () => {
   );
 
   if (!learningpathQuery.data?.myNdlaLearningpath || (stepId && isNaN(Number(stepId)))) {
-    return <DefaultErrorMessagePage />;
+    return (
+      <DefaultErrorMessagePage
+        error={learningpathQuery.error ?? new NDLAError("Missing myNdlaLearningpath in response or invalid stepId")}
+      />
+    );
   }
 
   const learningpath = learningpathQuery.data.myNdlaLearningpath;

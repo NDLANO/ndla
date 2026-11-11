@@ -23,11 +23,8 @@ import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import type { GQLRevisionsQuery, GQLRevisionsQueryVariables } from "../../graphqlTypes";
 import { toRevision } from "../../routeHelpers";
+import { NDLAError } from "../../util/error/NDLAError";
 import { formatDate } from "../../util/formatDate";
-import { hasAccessDeniedStatus, hasGoneStatus, hasNotFoundStatus } from "../../util/handleError";
-import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
-import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
-import { UnpublishedResourcePage } from "../UnpublishedResourcePage/UnpublishedResourcePage";
 
 const queryDef: TypedDocumentNode<GQLRevisionsQuery, GQLRevisionsQueryVariables> = gql`
   query revisions($articleId: Int!, $articleIdString: String!) {
@@ -124,21 +121,8 @@ const RevisionsPageContent = () => {
     return sortBy(filtered, (rev) => -rev.revision);
   }, [query.data]);
 
-  if (hasGoneStatus(query.error)) {
-    return <UnpublishedResourcePage />;
-  }
-
-  if (query.error) {
-    if (hasAccessDeniedStatus(query.error)) {
-      return <AccessDeniedPage />;
-    }
-    if (hasNotFoundStatus(query.error)) {
-      return <NotFoundPage />;
-    }
-    return <DefaultErrorMessagePage />;
-  }
-  if (!query.data?.article) {
-    return <DefaultErrorMessagePage />;
+  if (query.error || !query.data?.article) {
+    return <DefaultErrorMessagePage error={query.error ?? new NDLAError("Missing article in revisions response")} />;
   }
 
   const article = query.data.article;

@@ -8,15 +8,12 @@
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
 import { skipToken, useSuspenseQuery } from "@apollo/client/react";
-import { Suspense, useContext } from "react";
+import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
-import { RedirectContext } from "../../components/RedirectContext";
 import type { GQLAboutPageQuery, GQLAboutPageQueryVariables } from "../../graphqlTypes";
-import { GONE } from "../../statusCodes";
-import { hasGoneStatus } from "../../util/handleError";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { AboutPageLeaf } from "./AboutPageLeaf";
 import { AboutPageNode } from "./AboutPageNode";
@@ -51,16 +48,12 @@ const AboutPageContent = () => {
   const { slug } = useParams();
   const { error, data } = useSuspenseQuery(aboutPageQuery, !slug ? skipToken : { variables: { slug } });
 
-  const setRedirect = useContext(RedirectContext);
-
-  if (hasGoneStatus(error)) {
-    setRedirect?.({ status: GONE });
+  if (error) {
+    return <DefaultErrorMessagePage error={error} />;
   }
 
   if (!data?.article || !data.frontpage) {
     return <NotFoundPage />;
-  } else if (error) {
-    return <DefaultErrorMessagePage />;
   }
 
   const crumb = findBreadcrumb(data.frontpage.menu, slug);
