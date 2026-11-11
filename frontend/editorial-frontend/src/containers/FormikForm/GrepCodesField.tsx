@@ -41,11 +41,11 @@ const StyledAlertLine = styled(AlertLine, {
 });
 
 const grepCodeTitle = (grepResult: GrepResultDTO, subjectNames: Map<string, string>) => {
+  const laereplan = "laereplan" in grepResult ? ` (${grepResult.laereplan.code})` : "";
   if (grepResult.typename === "GrepKompetansemaalDTO") {
     const subjectName = subjectNames.get(grepResult.kompetansemaalSett.code);
-    if (subjectName) return `${grepResult.code} (${subjectName}) - ${grepResult.title.title}`;
+    if (subjectName) return `${grepResult.code}${laereplan} (${subjectName}) - ${grepResult.title.title}`;
   }
-  const laereplan = "laereplan" in grepResult ? ` (${grepResult.laereplan.code})` : "";
   const kompetansesett = "kompetansemaalSett" in grepResult ? ` (${grepResult.kompetansemaalSett.code})` : "";
   return `${grepResult.code}${laereplan}${kompetansesett} - ${grepResult.title.title}`;
 };
