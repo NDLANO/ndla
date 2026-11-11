@@ -31,11 +31,6 @@ class MainClass(override val props: ImageApiProperties) extends NdlaTapirMain[Co
 
   override def beforeStart(): Unit = {
     componentRegistry.migrator.migrate()
-
-    if (!booleanPropOrFalse("STANDALONE_VARIANT_GENERATION_ENABLED")) {
-      componentRegistry.imageSearchService.createEmptyIndexIfNoIndexesExist()
-      componentRegistry.tagSearchService.createEmptyIndexIfNoIndexesExist()
-    }
   }
 
   override def startServerAndWait(name: String, port: Int)(onStartup: NettySyncServerBinding => Unit): Unit = {

@@ -49,20 +49,6 @@ abstract class SearchService[T](using
       )
     })
 
-  def createEmptyIndexIfNoIndexesExist(): Unit = {
-    val noIndexesExist = indexService.findAllIndexes(searchIndex).map(_.isEmpty).getOrElse(true)
-    if (noIndexesExist) {
-      indexService.createIndexWithGeneratedName match {
-        case Success(_) =>
-          logger.info("Created empty index")
-          scheduleIndexDocuments()
-        case Failure(f) => logger.error(s"Failed to create empty index: $f")
-      }
-    } else {
-      logger.info("Existing index(es) kept intact")
-    }
-  }
-
   def getHits(response: SearchResponse, language: String): Try[Seq[T]] = {
     response.totalHits match {
       case count if count > 0 =>
