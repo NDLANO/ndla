@@ -40,6 +40,7 @@
   "dependencies": {
     "@ark-ui/react": "catalog:",
     "@ndla/core": "workspace:^",
+    "@ndla/hooks": "workspace:^",
     "@ndla/icons": "workspace:^",
     "@ndla/licenses": "workspace:^",
     "@ndla/locales": "workspace:^",

@@ -7,6 +7,7 @@
  */
 
 import { useAccordionContext } from "@ark-ui/react/accordion";
+import { useIsPrinting } from "@ndla/hooks";
 import { ArrowDownShortLine } from "@ndla/icons";
 import {
   AccordionItem,
@@ -88,9 +89,6 @@ function formatList(list: SupplierProps[], listFormatter: Intl.ListFormat) {
 const StyledAccordionRoot = styled(AccordionRoot, {
   base: {
     paddingBlockStart: "xxlarge",
-    _print: {
-      display: "none",
-    },
   },
 });
 
@@ -144,9 +142,9 @@ export const ArticleByline = ({
       {(!!licenseBox || !!footnotes?.length) && (
         <StyledAccordionRoot multiple>
           {!!licenseBox && (
-            <ArticleBylineAccordionItem value={accordionItemValue} accordionTitle={t("article.useContent")}>
+            <StyledAccordionItem value={accordionItemValue} accordionTitle={t("article.useContent")}>
               {licenseBox}
-            </ArticleBylineAccordionItem>
+            </StyledAccordionItem>
           )}
           {!!footnotes?.length && <ArticleBylineFootnotes footnotes={footnotes} />}
         </StyledAccordionRoot>
@@ -189,6 +187,19 @@ export const ArticleBylineFootnotes = ({ footnotes }: ArticleBylineFootnotesProp
     return () => window.removeEventListener("hashchange", onHashChange);
   }, [onHashChange]);
 
+  const isPrinting = useIsPrinting();
+
+  if (isPrinting) {
+    return (
+      <section>
+        <Heading asChild consumeCss textStyle="label.medium" fontWeight="bold">
+          <h2>{t("article.footnotes")}</h2>
+        </Heading>
+        <ArticleFootNotes footNotes={footnotes} />
+      </section>
+    );
+  }
+
   return (
     <ArticleBylineAccordionItem ref={ref} value={footnotesAccordionId} accordionTitle={t("article.footnotes")}>
       <ArticleFootNotes footNotes={footnotes} />
@@ -215,3 +226,11 @@ export const ArticleBylineAccordionItem = forwardRef<HTMLDivElement, ArticleByli
     );
   },
 );
+
+const StyledAccordionItem = styled(ArticleBylineAccordionItem, {
+  base: {
+    _print: {
+      display: "none",
+    },
+  },
+});

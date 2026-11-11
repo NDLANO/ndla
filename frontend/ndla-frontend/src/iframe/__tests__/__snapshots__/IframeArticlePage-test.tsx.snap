@@ -71,7 +71,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
             </div>
           </div>
           <div
-            class="d_flex flex-d_column gap_3xsmall pbs_xxlarge print:d_none"
+            class="d_flex flex-d_column gap_3xsmall pbs_xxlarge"
             data-orientation="vertical"
             data-part="root"
             data-scope="accordion"
@@ -80,7 +80,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
             id="accordion:_r_0_"
           >
             <div
-              class="w_full"
+              class="w_full print:d_none"
               data-orientation="vertical"
               data-part="item"
               data-scope="accordion"
