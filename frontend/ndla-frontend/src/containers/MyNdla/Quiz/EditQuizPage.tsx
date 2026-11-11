@@ -14,9 +14,7 @@ import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage
 import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import type { GQLQuizFragment } from "../../../graphqlTypes";
 import { quizQuery } from "../../../mutations/quiz/quizQueries";
-import { hasAccessDeniedStatus, hasNotFoundStatus } from "../../../util/handleError";
-import { AccessDeniedPage } from "../../AccessDeniedPage/AccessDeniedPage";
-import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
+import { NDLAError } from "../../../util/error/NDLAError";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
@@ -46,16 +44,8 @@ const EditQuizPageContent = () => {
   const { quizId } = useParams();
   const { data, error } = useSuspenseQuery(quizQuery, !quizId ? skipToken : { variables: { id: quizId } });
 
-  if (hasNotFoundStatus(error)) {
-    return <NotFoundPage />;
-  }
-
-  if (hasAccessDeniedStatus(error)) {
-    return <AccessDeniedPage />;
-  }
-
   if (!data?.quiz) {
-    return <DefaultErrorMessagePage />;
+    return <DefaultErrorMessagePage error={error ?? new NDLAError("Missing quiz in quiz response")} />;
   }
 
   return <EditQuizForm quiz={data.quiz} key={data.quiz.id} />;

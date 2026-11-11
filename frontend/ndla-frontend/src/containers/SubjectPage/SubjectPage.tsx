@@ -22,7 +22,6 @@ import type {
   GQLSubjectVideoSearchQueryVariables,
 } from "../../graphqlTypes";
 import { getSubjectType } from "../../routeHelpers";
-import { hasNotFoundStatus } from "../../util/handleError";
 import { LocaleNavigate, useRawLocation } from "../../util/localePath";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
@@ -78,10 +77,7 @@ const SubjectPageContent = () => {
   );
 
   if (error) {
-    if (hasNotFoundStatus(error)) {
-      return <NotFoundPage />;
-    }
-    return <DefaultErrorMessagePage />;
+    return <DefaultErrorMessagePage error={error} />;
   }
 
   if (!data) {

@@ -26,6 +26,7 @@ import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { type CollectionLanguage, isCollectionLanguage, SKIP_TO_CONTENT_ID } from "../../constants";
 import type { GQLCollectionPageQuery, GQLCollectionPageQueryVariables } from "../../graphqlTypes";
+import { NDLAError } from "../../util/error/NDLAError";
 import { htmlTitle } from "../../util/titleHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
@@ -96,7 +97,11 @@ const CollectionPageQuery = ({ collectionLanguage }: { collectionLanguage: Colle
   });
 
   if (!collectionQuery.data) {
-    return <DefaultErrorMessagePage />;
+    return (
+      <DefaultErrorMessagePage
+        error={collectionQuery.error ?? new NDLAError("Missing data in collectionPage response")}
+      />
+    );
   }
 
   return (
