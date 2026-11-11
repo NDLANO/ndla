@@ -1998,6 +1998,7 @@ const translations = {
       title: "Competence goals in {{subject}}",
       description: "Check the competence goals that should be connected to the resource.",
       empty: "Found no competence goals for this subject",
+      deleteWithGoals: "Delete and remove competence goals",
     },
     copyRevisionDates: {
       text: "Are you sure you want to copy this revision date? This will apply for all nodes and resources underneath this node",

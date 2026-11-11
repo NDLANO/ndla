@@ -1997,6 +1997,7 @@ const translations = {
       title: "Kompetansemål i {{subject}}",
       description: "Kryss av for kompetansemåla som skal knytast til ressursen.",
       empty: "Fann ingen kompetansemål for faget",
+      deleteWithGoals: "Slett og fjern kompetansemål",
     },
     copyRevisionDates: {
       text: "Er du heilt sikker på at du ønsker å kopiere denne revisjonsdatoen? Dette vil sette alle revisjonsdatoar frå denne noden til alle undernoder og ressursar.",
