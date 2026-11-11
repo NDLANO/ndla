@@ -89,7 +89,7 @@ const PodcastSeriesPageContent = () => {
   }
 
   if (error) {
-    return <DefaultErrorMessagePage />;
+    return <DefaultErrorMessagePage error={error} />;
   }
 
   const url = `${config?.ndlaFrontendDomain}/podkast/${podcastSeries.id}`;

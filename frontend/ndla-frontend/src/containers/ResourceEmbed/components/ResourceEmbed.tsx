@@ -30,10 +30,9 @@ import type {
   GQLResourceEmbedQuery,
   GQLResourceEmbedQueryVariables,
 } from "../../../graphqlTypes";
-import { hasNotFoundStatus } from "../../../util/handleError";
+import { NDLAError } from "../../../util/error/NDLAError";
 import { useListItemTraits } from "../../../util/listItemTraits";
 import { useRawLocation } from "../../../util/localePath";
-import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 import { ResourceEmbedLicenseContent } from "./ResourceEmbedLicenseContent";
 
 export type StandaloneEmbed = "image" | "audio" | "video" | "h5p" | "concept";
@@ -165,12 +164,10 @@ const ResourceEmbedContent = ({ id, type, isOembed }: Props) => {
     });
   }, [content, pathname]);
 
-  if (hasNotFoundStatus(error)) {
-    return <NotFoundPage />;
-  }
-
   if (error || !transformedContent || !properties) {
-    return <DefaultErrorMessagePage />;
+    return (
+      <DefaultErrorMessagePage error={error ?? new NDLAError("Missing content or meta in resourceEmbed response")} />
+    );
   }
   const socialMediaTitle = `${properties.title} - ${t(`embed.type.${properties.type}`)}`;
   const path = `/${type}/${id}`;

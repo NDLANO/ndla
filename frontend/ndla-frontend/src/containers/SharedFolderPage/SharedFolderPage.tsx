@@ -28,11 +28,10 @@ import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import type { GQLFolderFragment, GQLMyNdlaResourceFragment, GQLSharedFolderFragment } from "../../graphqlTypes";
 import { myNdlaResourceMetaSearchQuery, sharedFolderQueryDef } from "../../mutations/folder/folderQueries";
 import { routes } from "../../routeHelpers";
-import { hasNotFoundStatus } from "../../util/handleError";
+import { NDLAError } from "../../util/error/NDLAError";
 import { useStableSearchParams } from "../../util/useStableSearchParams";
 import { ResourceSortOption } from "../MyNdla/Folders/components/ResourceSortOption";
 import { keyId, sortAndFilterResources } from "../MyNdla/Folders/util";
-import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { SaveLink } from "./components/SaveLink";
 
 const StyledPageContainer = styled(PageContainer, {
@@ -135,11 +134,12 @@ const SharedFolderPageContent = () => {
       ? `/${resource.resourceType}${resource.resourceType === "learningpath" ? "s" : ""}/${resource.resourceId}`
       : resource.path;
 
-  if (hasNotFoundStatus(sharedFolderQuery.error)) {
-    return <NotFoundPage />;
-  }
   if (sharedFolderQuery.error || !sharedFolderQuery.data?.sharedFolder) {
-    return <DefaultErrorMessagePage />;
+    return (
+      <DefaultErrorMessagePage
+        error={sharedFolderQuery.error ?? new NDLAError("Missing sharedFolder in sharedFolder query response")}
+      />
+    );
   }
 
   const folder = sharedFolderQuery.data.sharedFolder;

@@ -13,7 +13,7 @@ import { useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import type { GQLPlainLearningpathPageQuery, GQLPlainLearningpathPageQueryVariables } from "../../graphqlTypes";
-import { hasNotFoundStatus } from "../../util/handleError";
+import { NDLAError } from "../../util/error/NDLAError";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { PlainLearningpathContainer, plainLearningpathContainerFragments } from "./PlainLearningpathContainer";
 
@@ -56,12 +56,12 @@ const PlainLearningpathPageContent = () => {
     !learningpathId ? skipToken : { variables: { pathId: learningpathId } },
   );
 
-  if (hasNotFoundStatus(error)) {
-    return <NotFoundPage />;
-  }
-
   if (!data?.learningpath) {
-    return <DefaultErrorMessagePage />;
+    return (
+      <DefaultErrorMessagePage
+        error={error ?? new NDLAError("Missing learningpath in plainLearningpathPage response")}
+      />
+    );
   }
 
   if (!data.learningpath.learningsteps.length && (stepId || !data.learningpath.introduction?.length)) {

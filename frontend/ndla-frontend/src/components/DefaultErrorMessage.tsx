@@ -6,6 +6,7 @@
  *
  */
 
+import type { ErrorLike } from "@apollo/client";
 import {
   ErrorMessageDescription,
   ErrorMessageRoot,
@@ -14,10 +15,17 @@ import {
   ErrorMessageActions,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
+import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Status } from "../components/Status";
 import { SKIP_TO_CONTENT_ID } from "../constants";
+import { AccessDeniedPage } from "../containers/AccessDeniedPage/AccessDeniedPage";
+import { NotFoundPage } from "../containers/NotFoundPage/NotFoundPage";
+import { UnpublishedResourcePage } from "../containers/UnpublishedResourcePage/UnpublishedResourcePage";
 import { INTERNAL_SERVER_ERROR } from "../statusCodes";
+import { NDLAError } from "../util/error/NDLAError";
+import { handleError, hasAccessDeniedStatus, hasGoneStatus, hasNotFoundStatus } from "../util/handleError";
+import { log } from "../util/logger/logger";
 import { ErrorNotice, ErrorNoticeMain } from "./ErrorNotice";
 import { PageTitle } from "./PageTitle";
 
@@ -53,8 +61,51 @@ export const InternalServerError = ({ applySkipToContentId }: MessageRootProps) 
   </Status>
 );
 
-export const DefaultErrorMessagePage = () => {
+type ErrorPageKind = "gone" | "accessDenied" | "notFound" | "internal";
+
+const getErrorPageKind = (error: ErrorLike): ErrorPageKind => {
+  if (hasGoneStatus(error)) return "gone";
+  if (hasAccessDeniedStatus(error)) return "accessDenied";
+  if (hasNotFoundStatus(error)) return "notFound";
+  return "internal";
+};
+
+const logErrorPage = (error: ErrorLike, kind: ErrorPageKind) => {
+  const pageError = new NDLAError(`DefaultErrorMessagePage rendered ${kind} page`, { cause: error });
+  if (kind === "internal") {
+    handleError(pageError);
+  } else {
+    log.info(pageError);
+  }
+};
+
+const useLogErrorPage = (error: ErrorLike, kind: ErrorPageKind) => {
+  const loggedKeyRef = useRef<string>(undefined);
+  if (import.meta.env.SSR) {
+    logErrorPage(error, kind);
+  }
+  useEffect(() => {
+    // Callers may construct a new error on every render, so dedupe on content rather than identity
+    const key = `${kind}:${error.message}`;
+    if (loggedKeyRef.current === key) return;
+    loggedKeyRef.current = key;
+    logErrorPage(error, kind);
+  }, [error, kind]);
+};
+
+interface DefaultErrorMessagePageProps {
+  error: ErrorLike;
+}
+
+export const DefaultErrorMessagePage = ({ error }: DefaultErrorMessagePageProps) => {
   const { t } = useTranslation();
+  const kind = getErrorPageKind(error);
+  useLogErrorPage(error, kind);
+
+  if (kind === "gone") return <UnpublishedResourcePage />;
+  if (kind === "accessDenied") return <AccessDeniedPage />;
+  if (kind === "notFound") return <NotFoundPage />;
+
   return (
     <ErrorNoticeMain>
       <PageTitle title={t("htmlTitles.errorPage")} useLocationForCustomPath={true} />

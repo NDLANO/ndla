@@ -28,13 +28,12 @@ import {
   sharedFolderQueryDef,
   useFolder,
 } from "../../mutations/folder/folderQueries";
+import { NDLAError } from "../../util/error/NDLAError";
 import { formatDate, formatTime } from "../../util/formatDate";
-import { hasNotFoundStatus } from "../../util/handleError";
 import { getListItemTraits } from "../../util/listItemTraits";
 import { useStableSearchParams } from "../../util/useStableSearchParams";
 import { ResourceSortOption } from "../MyNdla/Folders/components/ResourceSortOption";
 import { keyId, sortAndFilterResources } from "../MyNdla/Folders/util";
-import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { isPrintableResource, PrintResource, printResourceId, useTypesetQueue } from "./components/PrintResource";
 import { type FolderWithResources, getAllResources } from "./folderPrintUtil";
 
@@ -164,11 +163,10 @@ const OwnFolderPrint = ({ folderId }: FolderIdProps) => {
 const SharedFolderPrint = ({ folderId }: FolderIdProps) => {
   const { data, error } = useSuspenseQuery(sharedFolderQueryDef, { variables: { id: folderId } });
 
-  if (hasNotFoundStatus(error)) {
-    return <NotFoundPage />;
-  }
   if (error || !data?.sharedFolder) {
-    return <DefaultErrorMessagePage />;
+    return (
+      <DefaultErrorMessagePage error={error ?? new NDLAError("Missing sharedFolder in sharedFolder query response")} />
+    );
   }
 
   return <FolderPrint folder={data.sharedFolder} />;

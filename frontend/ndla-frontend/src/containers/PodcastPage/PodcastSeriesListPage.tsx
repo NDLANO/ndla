@@ -111,7 +111,7 @@ export const PodcastSeriesListPage = () => {
   }
 
   if (error) {
-    return <DefaultErrorMessagePage />;
+    return <DefaultErrorMessagePage error={error} />;
   }
 
   return (
