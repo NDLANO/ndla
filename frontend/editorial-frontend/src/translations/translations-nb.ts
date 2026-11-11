@@ -1940,6 +1940,7 @@ const translations = {
     setPrimary: "Sett til primærkobling",
     addResource: "Legg til ressurs",
     removeResource: "Fjern ressurs fra emne",
+    removeConnectionConfirm: "Er du sikker på at du vil fjerne denne plasseringen?",
     removeResourceDisabled: "Du kan ikke slette en primærkobling",
     searchResource: "Søk etter ressurs",
     searchArticle: "Søk etter emneartikkel",
