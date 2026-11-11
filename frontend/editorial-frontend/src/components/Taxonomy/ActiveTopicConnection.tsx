@@ -10,8 +10,10 @@ import { DeleteBinLine } from "@ndla/icons";
 import { Button, IconButton, ListItemContent, ListItemHeading, ListItemRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { Node, NodeConnection } from "@ndla/types-backend/taxonomy-api";
-import type { ComponentProps } from "react";
+import { type ComponentProps, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { AlertDialog } from "../AlertDialog/AlertDialog";
+import { FormActionsContainer } from "../FormikForm";
 import MatomoStats from "../MatomoStats";
 import Breadcrumb from "./Breadcrumb";
 import { CompetenceGoalsDialog } from "./CompetenceGoalsDialog";
@@ -64,6 +66,7 @@ const ActiveTopicConnection = ({
   isOnlyPlacement,
 }: Props) => {
   const { t } = useTranslation();
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   if (type === "topic" || !("connectionId" in node)) {
     return (
@@ -122,13 +125,35 @@ const ActiveTopicConnection = ({
                 variant="danger"
                 size="small"
                 disabled={deleteDisabled}
-                onClick={() => removeConnection?.(node.connectionId)}
+                onClick={() => setShowDeleteConfirm(true)}
               >
                 <DeleteBinLine />
               </IconButton>
             )}
           </StyledWrapper>
         </ListItemContent>
+        <AlertDialog
+          title={t("taxonomy.removeResource")}
+          label={t("taxonomy.removeResource")}
+          show={showDeleteConfirm}
+          text={t("taxonomy.removeConnectionConfirm")}
+          onCancel={() => setShowDeleteConfirm(false)}
+        >
+          <FormActionsContainer>
+            <Button onClick={() => setShowDeleteConfirm(false)} variant="secondary">
+              {t("form.abort")}
+            </Button>
+            <Button
+              onClick={() => {
+                setShowDeleteConfirm(false);
+                removeConnection?.(node.connectionId);
+              }}
+              variant="danger"
+            >
+              {t("alertDialog.delete")}
+            </Button>
+          </FormActionsContainer>
+        </AlertDialog>
       </li>
     </ListItemRoot>
   );

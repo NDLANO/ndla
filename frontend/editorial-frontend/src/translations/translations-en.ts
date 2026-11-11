@@ -1888,6 +1888,7 @@ const translations = {
     setPrimary: "Set as primary link",
     addResource: "Add resource",
     removeResource: "Remove resource from topic",
+    removeConnectionConfirm: "Are you sure you want to remove this placement?",
     removeResourceDisabled: "You cannot remove a primary connection",
     searchResource: "Search for resource",
     searchArticle: "Search for topic article",
