@@ -59,6 +59,11 @@ export const groupCompetenceGoals = (
   return Array.from(curriculums.values());
 };
 
+export const removeCompetenceGoals = (setResults: GrepResultDTO[], selectedCodes: string[]): string[] => {
+  const goalCodes = new Set(getCompetenceGoalCodes(setResults));
+  return selectedCodes.filter((code) => !goalCodes.has(code));
+};
+
 type SubjectWithGrepCodes = Pick<Node, "id" | "name" | "metadata">;
 
 const getGoalSetCodes = (subject: SubjectWithGrepCodes) =>
