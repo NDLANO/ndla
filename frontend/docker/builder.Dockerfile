@@ -17,7 +17,6 @@ COPY mise.toml .
 RUN mise install && cp -a "$(mise where node)" /opt/node
 
 COPY frontend/pnpm-lock.yaml frontend/pnpm-workspace.yaml ./
-COPY frontend/patches patches
 RUN pnpm fetch
 
 # Copy the whole frontend workspace so the workspace dependency graph resolves.
