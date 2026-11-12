@@ -1198,6 +1198,7 @@ export type GQLMutationUpdateQuizArgs = {
   description?: InputMaybe<Scalars['String']['input']>;
   displaySettings?: InputMaybe<GQLQuizDisplaySettingsInput>;
   id: Scalars['String']['input'];
+  questionOrder?: InputMaybe<Array<Scalars['String']['input']>>;
   revision: Scalars['Int']['input'];
   title?: InputMaybe<Scalars['String']['input']>;
 };

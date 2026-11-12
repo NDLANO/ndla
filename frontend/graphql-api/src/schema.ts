@@ -1705,6 +1705,7 @@ export const typeDefs = gql`
       title: String
       description: String
       displaySettings: QuizDisplaySettingsInput
+      questionOrder: [String!]
     ): Quiz!
     updateQuizStatus(id: String!, status: QuizStatus!): Quiz!
     addQuizQuestion(
