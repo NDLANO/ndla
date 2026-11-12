@@ -18,7 +18,7 @@ import no.ndla.network.tapir.*
 import no.ndla.search.{Elastic4sClientFactory, NdlaE4sClient, SearchLanguage}
 import no.ndla.searchapi.controller.{ControllerErrorHandling, InternController, SearchController}
 import no.ndla.searchapi.integration.*
-import no.ndla.searchapi.service.ConverterService
+import no.ndla.searchapi.service.{ConverterService, StandaloneIndexing}
 import no.ndla.searchapi.service.search.*
 
 class ComponentRegistry(properties: SearchApiProperties) extends TapirApplication[SearchApiProperties] {
@@ -58,6 +58,8 @@ class ComponentRegistry(properties: SearchApiProperties) extends TapirApplicatio
   given searchController: SearchController      = new SearchController
   given healthController: TapirHealthController = new TapirHealthController
   given internController: InternController      = new InternController
+
+  implicit lazy val standaloneIndexing: StandaloneIndexing = new StandaloneIndexing
 
   given swaggerInfo: SwaggerInfo = SwaggerInfo(
     prefix = "search-api",
