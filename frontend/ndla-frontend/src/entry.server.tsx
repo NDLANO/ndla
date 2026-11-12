@@ -12,6 +12,8 @@ import type { ReactNode } from "react";
 import { prerenderToNodeStream } from "react-dom/static";
 import { type EntryContext, type HandleErrorFunction, type RouterContextProvider, ServerRouter } from "react-router";
 import { AppShell } from "./AppShell";
+import { logErrorPage } from "./components/DefaultErrorMessage";
+import type { ErrorPageInfo } from "./components/ErrorPageContext";
 import type { RedirectInfo } from "./components/RedirectContext";
 import config from "./config";
 import type { WindowData } from "./interfaces";
@@ -99,6 +101,7 @@ export default async function handleRequest(
   const client = createApolloClient(locale, isDefaultApp ? versionHash : undefined, signal);
   const i18n = initializeI18n(locale);
   const redirect: RedirectInfo = {};
+  const errorPage: { info?: ErrorPageInfo } = {};
 
   const { RenderRouter, renderFunction } = await createRenderRouter(routerContext, request.url, signal);
 
@@ -113,6 +116,9 @@ export default async function handleRequest(
         siteTheme={isDefaultApp ? siteTheme : undefined}
         versionHash={isDefaultApp ? versionHash : undefined}
         setRedirect={(info) => Object.assign(redirect, info)}
+        setErrorPage={(info) => {
+          errorPage.info = info;
+        }}
         disableSSR={disableSSR}
         ltiData={ltiData}
       >
@@ -132,6 +138,10 @@ export default async function handleRequest(
       status: redirect.status || MOVED_PERMANENTLY,
       headers: { Location: redirect.url },
     });
+  }
+
+  if (errorPage.info) {
+    logErrorPage(errorPage.info);
   }
 
   const status = redirect.status ?? responseStatusCode;
