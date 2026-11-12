@@ -86,7 +86,7 @@ class QuizReadService(using
       } yield evaluateAnswer(question, answer)
     }
 
-  def checkQuiz(quizId: UUID, dto: CheckQuizDTO, user: CombinedUser): Try[QuizResultDTO] = dbUtil.readOnly {
+  def checkQuiz(quizId: UUID, dto: CheckQuizDTO, user: CombinedUser): Try[QuizResultDTO] = dbUtil.rollbackOnFailure {
     implicit session =>
       for {
         quiz <- quizRepository.withIdOrError(quizId)
@@ -103,6 +103,7 @@ class QuizReadService(using
               case None    => QuestionResultDTO(answer.questionId, isCorrect = false, 0, 0, Seq.empty, Seq.empty)
             }
           }
+        _ <- quizRepository.incrementCompletedCount(quizId)
       } yield QuizResultDTO(
         totalScore = results.map(_.score).sum,
         maxScore = results.map(_.maxScore).sum,

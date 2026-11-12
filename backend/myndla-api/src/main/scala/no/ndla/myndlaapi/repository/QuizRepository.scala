@@ -30,7 +30,7 @@ class QuizRepository(using dbQuiz: DBQuiz, dbSavedQuiz: DBSavedQuiz) extends Str
   def insert(ownerId: String, quiz: Quiz)(using session: DBSession): Try[Quiz] = {
     val dataObject = new PGobject()
     dataObject.setType("jsonb")
-    dataObject.setValue(CirceUtil.toJsonString(quiz))
+    dataObject.setValue(CirceUtil.toJsonString(quiz.copy(completedCount = None)))
 
     tsql"""
       insert into ${dbQuiz.table} (id, owner_id, document, revision)
@@ -46,7 +46,7 @@ class QuizRepository(using dbQuiz: DBQuiz, dbSavedQuiz: DBSavedQuiz) extends Str
   def update(quiz: Quiz)(using session: DBSession): Try[Quiz] = {
     val dataObject = new PGobject()
     dataObject.setType("jsonb")
-    dataObject.setValue(CirceUtil.toJsonString(quiz))
+    dataObject.setValue(CirceUtil.toJsonString(quiz.copy(completedCount = None)))
     val oldRevision = quiz.revision.getOrElse(1)
     val newRevision = oldRevision + 1
 
@@ -61,6 +61,17 @@ class QuizRepository(using dbQuiz: DBQuiz, dbSavedQuiz: DBSavedQuiz) extends Str
         case _ => Failure(QuizErrors.revisionMismatch(quiz.id))
       }
   }
+
+  def incrementCompletedCount(id: UUID)(using session: DBSession): Try[Unit] = tsql"""
+      update ${dbQuiz.table}
+      set completed_count = completed_count + 1
+      where id = $id
+    """
+    .update()
+    .flatMap {
+      case 1 => Success(())
+      case _ => Failure(QuizErrors.quizNotFound(id))
+    }
 
   def withId(id: UUID)(using session: DBSession): Try[Option[Quiz]] = {
     val qz = dbQuiz.syntax("qz")
