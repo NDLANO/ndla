@@ -252,7 +252,7 @@ export const QuizBuilder = ({
     <MyNdlaPageWrapper css={{ gap: "xlarge" }}>
       <PageTitle title={pageTitle} useLocationForCustomPath={true} />
       <MyNdlaPageContent quiz={true} css={{ gap: "medium" }}>
-        <MyNdlaBreadcrumb breadcrumbs={[{ id: "quiz", name: breadcrumbName }]} page="quiz" />
+        <MyNdlaBreadcrumb breadcrumbs={[{ id: "quiz", name: breadcrumbName }]} page="kviss" />
         <MyNdlaTitle title={state.title || t("myNdla.quiz.newQuiz")} />
       </MyNdlaPageContent>
       {isShared ? (

@@ -82,7 +82,7 @@ export const routes = {
   folder: (folderId: string) => `/folder/${folderId}`,
   folderPrint: (folderId: string) => `/folder/${folderId}/print`,
   learningpath: (learningpathId: number) => `/learningpaths/${learningpathId}`,
-  quiz: (quizId: string) => `/quiz/${quizId}`,
+  quiz: (quizId: string) => `/kviss/${quizId}`,
   myNdla: {
     root: "/minndla",
     profile: "/minndla/profile",
@@ -99,8 +99,8 @@ export const routes = {
       return stepId ? `${path}/${stepId}` : path;
     },
     learningpathSave: (learningpathId: number) => `/minndla/learningpaths/${learningpathId}/save`,
-    quiz: "/minndla/quiz",
-    quizNew: "/minndla/quiz/new",
-    quizEdit: (quizId: string) => `/minndla/quiz/${quizId}/edit`,
+    quiz: "/minndla/kviss",
+    quizNew: "/minndla/kviss/new",
+    quizEdit: (quizId: string) => `/minndla/kviss/${quizId}/edit`,
   },
 };

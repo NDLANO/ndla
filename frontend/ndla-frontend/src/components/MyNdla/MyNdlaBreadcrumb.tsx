@@ -18,7 +18,7 @@ interface Props {
   page: PageType;
 }
 
-type PageType = "favorites" | "subjects" | "learningpath" | "quiz";
+type PageType = "favorites" | "subjects" | "learningpath" | "kviss";
 
 const types: Record<Props["page"], { to: string; name: ParseKeys }> = {
   favorites: {
@@ -33,7 +33,7 @@ const types: Record<Props["page"], { to: string; name: ParseKeys }> = {
     to: routes.myNdla.learningpath,
     name: "myNdla.learningpath.title",
   },
-  quiz: {
+  kviss: {
     to: routes.myNdla.quiz,
     name: "myNdla.quiz.title",
   },

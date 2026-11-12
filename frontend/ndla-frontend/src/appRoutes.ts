@@ -46,7 +46,7 @@ export const routes: AppRoute[] = [
         ],
       },
       {
-        path: "quiz/:quizId",
+        path: "kviss/:quizId",
         file: "containers/MyNdla/Quiz/QuizFeatureGate.tsx",
         children: [{ index: true, file: "containers/PlainQuizPage/PlainQuizPage.tsx" }],
       },
@@ -121,7 +121,7 @@ export const routes: AppRoute[] = [
             ],
           },
           {
-            path: "quiz",
+            path: "kviss",
             file: "containers/MyNdla/Quiz/QuizFeatureGate.tsx",
             children: [
               { index: true, file: "containers/MyNdla/Quiz/QuizPage.tsx" },
