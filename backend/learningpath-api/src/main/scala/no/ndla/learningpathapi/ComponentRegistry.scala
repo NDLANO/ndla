@@ -10,6 +10,7 @@ package no.ndla.learningpathapi
 
 import no.ndla.common.converter.CommonConverter
 import no.ndla.common.{Clock, UUIDUtil}
+import no.ndla.common.job.StandaloneJob
 import no.ndla.database.{DBMigrator, DBUtility, DataSource}
 import no.ndla.learningpathapi.controller.{
   ControllerErrorHandling,
@@ -82,10 +83,18 @@ class ComponentRegistry(properties: LearningpathApiProperties) extends TapirAppl
 
   implicit lazy val standaloneIndexing: StandaloneIndexing = new StandaloneIndexing
 
+  override lazy val standaloneJobs: Seq[StandaloneJob]   = Seq(standaloneIndexing)
+  given standaloneJobController: StandaloneJobController = new StandaloneJobController(standaloneJobs)
+
   given swaggerInfo: SwaggerInfo =
     SwaggerInfo(prefix = "learningpath-api", description = "Services for accessing learningpaths")
-  given swagger: SwaggerController =
-    new SwaggerController(learningpathControllerV2, internController, statsController, healthController)
+  given swagger: SwaggerController = new SwaggerController(
+    learningpathControllerV2,
+    internController,
+    statsController,
+    standaloneJobController,
+    healthController,
+  )
 
   given services: List[TapirController] = swagger.allServices
   given ndlaServer: NdlaServer          = new NdlaServer

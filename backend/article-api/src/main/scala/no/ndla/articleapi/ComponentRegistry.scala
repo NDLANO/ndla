@@ -30,6 +30,7 @@ import no.ndla.articleapi.service.search.*
 import no.ndla.articleapi.validation.ContentValidator
 import no.ndla.common.Clock
 import no.ndla.common.util.TraitUtil
+import no.ndla.common.job.StandaloneJob
 import no.ndla.database.{DBMigrator, DBUtility, DataSource}
 import no.ndla.network.NdlaClient
 import no.ndla.network.tapir.auth.{FeideAuth, NdlaAuth}
@@ -38,6 +39,7 @@ import no.ndla.network.tapir.{
   ErrorHelpers,
   NdlaServer,
   SwaggerController,
+  StandaloneJobController,
   SwaggerInfo,
   TapirApplication,
   TapirController,
@@ -97,6 +99,9 @@ class ComponentRegistry(properties: ArticleApiProperties) extends TapirApplicati
 
   implicit lazy val standaloneIndexing: StandaloneIndexing = new StandaloneIndexing
 
+  override lazy val standaloneJobs: Seq[StandaloneJob]   = Seq(standaloneIndexing)
+  given standaloneJobController: StandaloneJobController = new StandaloneJobController(standaloneJobs)
+
   given swaggerInfo: SwaggerInfo = SwaggerInfo(
     prefix = "article-api",
     description = "Searching and fetching all articles published on the NDLA platform.\n\n" +
@@ -104,7 +109,8 @@ class ComponentRegistry(properties: ArticleApiProperties) extends TapirApplicati
       "returned articles, and typical examples of this are language and license.\n" +
       "Includes endpoints to filter Articles on different levels, and retrieve single articles.",
   )
-  given swagger: SwaggerController = new SwaggerController(internController, articleControllerV2, healthController)
+  given swagger: SwaggerController =
+    new SwaggerController(internController, articleControllerV2, standaloneJobController, healthController)
 
   given services: List[TapirController] = swagger.allServices
   given ndlaServer: NdlaServer          = new NdlaServer

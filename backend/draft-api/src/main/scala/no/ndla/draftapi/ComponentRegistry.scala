@@ -12,6 +12,7 @@ import no.ndla.common.aws.NdlaS3Client
 import no.ndla.common.converter.CommonConverter
 import no.ndla.common.util.TraitUtil
 import no.ndla.common.{Clock, UUIDUtil}
+import no.ndla.common.job.StandaloneJob
 import no.ndla.database.{DBMigrator, DBUtility, DataSource}
 import no.ndla.draftapi.controller.*
 import no.ndla.draftapi.db.migrationwithdependencies.*
@@ -97,10 +98,19 @@ class ComponentRegistry(properties: DraftApiProperties) extends TapirApplication
 
   implicit lazy val standaloneIndexing: StandaloneIndexing = new StandaloneIndexing
 
+  override lazy val standaloneJobs: Seq[StandaloneJob]   = Seq(standaloneIndexing)
+  given standaloneJobController: StandaloneJobController = new StandaloneJobController(standaloneJobs)
+
   given swaggerInfo: SwaggerInfo =
     SwaggerInfo(prefix = "draft-api", description = "Services for accessing draft articles.")
-  implicit lazy val swagger: SwaggerController =
-    new SwaggerController(internController, draftController, fileController, userDataController, healthController)
+  implicit lazy val swagger: SwaggerController = new SwaggerController(
+    internController,
+    draftController,
+    fileController,
+    userDataController,
+    standaloneJobController,
+    healthController,
+  )
 
   implicit lazy val services: List[TapirController] = swagger.allServices
   implicit lazy val ndlaServer: NdlaServer          = new NdlaServer

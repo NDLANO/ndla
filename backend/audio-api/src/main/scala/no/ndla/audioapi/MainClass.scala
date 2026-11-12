@@ -9,7 +9,6 @@
 package no.ndla.audioapi
 
 import no.ndla.common.Warmup
-import no.ndla.common.job.StandaloneJob
 import no.ndla.network.tapir.NdlaTapirMain
 
 class MainClass(val props: AudioApiProperties) extends NdlaTapirMain[ComponentRegistry] {
@@ -29,6 +28,4 @@ class MainClass(val props: AudioApiProperties) extends NdlaTapirMain[ComponentRe
   def beforeStart(): Unit = {
     componentRegistry.migrator.migrate()
   }
-
-  override def standaloneJobs: Seq[StandaloneJob] = Seq(componentRegistry.standaloneIndexing)
 }

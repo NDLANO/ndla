@@ -10,6 +10,7 @@ package no.ndla.searchapi
 
 import no.ndla.common.Clock
 import no.ndla.common.util.TraitUtil
+import no.ndla.common.job.StandaloneJob
 import no.ndla.network.NdlaClient
 import no.ndla.network.clients.{FeideApiClient, FrontpageApiClient, MyNDLAApiClient, TaxonomyApiClient}
 import no.ndla.network.jwt.{DefaultJwsKeySelectorFactory, JwsKeySelectorFactory}
@@ -61,6 +62,9 @@ class ComponentRegistry(properties: SearchApiProperties) extends TapirApplicatio
 
   implicit lazy val standaloneIndexing: StandaloneIndexing = new StandaloneIndexing
 
+  override lazy val standaloneJobs: Seq[StandaloneJob]   = Seq(standaloneIndexing)
+  given standaloneJobController: StandaloneJobController = new StandaloneJobController(standaloneJobs)
+
   given swaggerInfo: SwaggerInfo = SwaggerInfo(
     prefix = "search-api",
     description = "A common endpoint for searching across article, draft, learningpath, image and audio APIs.\n\n" +
@@ -70,7 +74,8 @@ class ComponentRegistry(properties: SearchApiProperties) extends TapirApplicatio
       "Note that the query parameter is based on the Elasticsearch simple search language. For more information, see " +
       "https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-simple-query-string-query.html",
   )
-  given swagger: SwaggerController = new SwaggerController(searchController, healthController, internController)
+  given swagger: SwaggerController =
+    new SwaggerController(searchController, standaloneJobController, healthController, internController)
 
   given services: List[TapirController] = swagger.allServices
   given ndlaServer: NdlaServer          = new NdlaServer
