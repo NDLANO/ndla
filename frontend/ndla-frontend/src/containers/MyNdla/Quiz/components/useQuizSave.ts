@@ -168,6 +168,24 @@ export const useQuizSave = ({ state, quiz, onQuizSynced, onQuestionSynced }: Pro
         knownServerIdsRef.current.delete(snapshot.serverId);
       }
 
+      const desiredOrder = state.questions
+        .map((q) => snapshotRef.current[q.id]?.serverId ?? q.serverId)
+        .filter((id): id is string => !!id);
+      const serverOrder = current.questions.map((q) => q.id);
+      const orderMatches =
+        desiredOrder.length === serverOrder.length && desiredOrder.every((id, i) => id === serverOrder[i]);
+      if (!orderMatches) {
+        const res = await updateQuiz({
+          variables: { id: current.id, revision: current.revision, questionOrder: desiredOrder },
+        });
+        if (res.data?.updateQuiz) {
+          current = res.data.updateQuiz;
+          onQuizSynced(current);
+        } else {
+          failed = true;
+        }
+      }
+
       return { quiz: current, failed };
     } catch (error) {
       handleError(ensureError(error), { quizId: current?.id });

@@ -74,6 +74,7 @@ const updateQuizMutation: TypedDocumentNode<GQLUpdateQuizMutation, GQLUpdateQuiz
     $title: String
     $description: String
     $displaySettings: QuizDisplaySettingsInput
+    $questionOrder: [String!]
   ) {
     updateQuiz(
       id: $id
@@ -81,6 +82,7 @@ const updateQuizMutation: TypedDocumentNode<GQLUpdateQuizMutation, GQLUpdateQuiz
       title: $title
       description: $description
       displaySettings: $displaySettings
+      questionOrder: $questionOrder
     ) {
       ...Quiz
     }
