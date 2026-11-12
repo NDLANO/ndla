@@ -30,10 +30,10 @@ catalog:
   "@internationalized/date": 3.12.4
   "@opentelemetry/api": ^1.10.0
   "@opentelemetry/auto-instrumentations-node": ^0.83.0
-  "@opentelemetry/core": ^3.1.0
-  "@opentelemetry/exporter-trace-otlp-proto": ^0.301.0
-  "@opentelemetry/sdk-node": ^0.301.0
-  "@opentelemetry/sdk-trace": ^3.1.0
+  "@opentelemetry/core": ^3.1.1
+  "@opentelemetry/exporter-trace-otlp-proto": ^0.301.1
+  "@opentelemetry/sdk-node": ^0.301.1
+  "@opentelemetry/sdk-trace": ^3.1.1
   "@pandacss/config": ^2.5.0
   "@pandacss/dev": ^2.5.0
   "@pandacss/mcp": ^2.5.0
