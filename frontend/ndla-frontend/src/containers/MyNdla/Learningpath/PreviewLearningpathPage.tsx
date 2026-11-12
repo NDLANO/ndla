@@ -92,10 +92,14 @@ const PreviewLearningpathPageContent = () => {
     !learningpathId ? skipToken : { variables: { pathId: learningpathId }, fetchPolicy: "network-only" },
   );
 
-  if (!learningpathQuery.data?.myNdlaLearningpath || (stepId && isNaN(Number(stepId)))) {
+  if (stepId && isNaN(Number(stepId))) {
+    return <NotFoundPage />;
+  }
+
+  if (!learningpathQuery.data?.myNdlaLearningpath) {
     return (
       <DefaultErrorMessagePage
-        error={learningpathQuery.error ?? new NDLAError("Missing myNdlaLearningpath in response or invalid stepId")}
+        error={learningpathQuery.error ?? new NDLAError("Missing myNdlaLearningpath in previewLearningpath response")}
       />
     );
   }
