@@ -72,6 +72,8 @@ const createRenderRouter = async (context: EntryContext, url: string, signal: Ab
     renderContext = { ...context, serverHandoffStream: handoffChunks && replayStream(handoffChunks) };
     return prerenderToNodeStream(tree, {
       signal,
+      // Keep Suspense content in place instead of moving it to hidden divs, since the document is sent in one piece
+      progressiveChunkSize: Number.POSITIVE_INFINITY,
       onError: (error) => {
         if (!signal.aborted) logError(ensureError(error));
       },
