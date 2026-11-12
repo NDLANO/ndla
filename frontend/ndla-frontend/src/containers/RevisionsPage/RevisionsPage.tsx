@@ -25,6 +25,7 @@ import type { GQLRevisionsQuery, GQLRevisionsQueryVariables } from "../../graphq
 import { toRevision } from "../../routeHelpers";
 import { NDLAError } from "../../util/error/NDLAError";
 import { formatDate } from "../../util/formatDate";
+import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 const queryDef: TypedDocumentNode<GQLRevisionsQuery, GQLRevisionsQueryVariables> = gql`
   query revisions($articleId: Int!, $articleIdString: String!) {
@@ -120,6 +121,10 @@ const RevisionsPageContent = () => {
     const filtered = history.filter((rev) => rev.revision !== article.revision);
     return sortBy(filtered, (rev) => -rev.revision);
   }, [query.data]);
+
+  if (!parsedArticleId) {
+    return <NotFoundPage />;
+  }
 
   if (query.error || !query.data?.article) {
     return <DefaultErrorMessagePage error={query.error ?? new NDLAError("Missing article in revisions response")} />;

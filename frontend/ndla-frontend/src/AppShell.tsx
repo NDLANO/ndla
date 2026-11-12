@@ -14,6 +14,7 @@ import { StrictMode, type ReactNode, useMemo } from "react";
 import { I18nextProvider } from "react-i18next";
 import { AuthenticationContext } from "./components/AuthenticationContext";
 import { DisableSSRContext } from "./components/DisableSSRContext";
+import { ErrorPageContext, type SetErrorPageInfo } from "./components/ErrorPageContext";
 import { LtiContextProvider } from "./components/LtiContext";
 import { RedirectContext, type SetRedirectInfo } from "./components/RedirectContext";
 import { ResponseContext, type ResponseInfo } from "./components/ResponseContext";
@@ -29,6 +30,7 @@ interface Props {
   appType: AppType;
   language: PathLocale;
   setRedirect?: SetRedirectInfo;
+  setErrorPage?: SetErrorPageInfo;
   response?: ResponseInfo;
   restrictedMode?: RestrictedModeState;
   versionHash?: string | null;
@@ -44,6 +46,7 @@ export const AppShell = ({
   appType,
   language,
   setRedirect,
+  setErrorPage,
   response,
   restrictedMode,
   versionHash,
@@ -59,25 +62,27 @@ export const AppShell = ({
   return (
     <StrictMode>
       <RedirectContext value={setRedirect}>
-        <ResponseContext value={response}>
-          <RestrictedModeProvider value={restrictedMode}>
-            <VersionHashProvider value={versionHash}>
-              <SiteThemeProvider value={siteTheme}>
-                <I18nextProvider i18n={i18n}>
-                  <LinkPathContext value={resolveLinkPath}>
-                    <DisableSSRContext value={disableSSR}>
-                      <ApolloProvider client={client}>
-                        <AppTypeContext appType={appType} ltiData={ltiData}>
-                          {children}
-                        </AppTypeContext>
-                      </ApolloProvider>
-                    </DisableSSRContext>
-                  </LinkPathContext>
-                </I18nextProvider>
-              </SiteThemeProvider>
-            </VersionHashProvider>
-          </RestrictedModeProvider>
-        </ResponseContext>
+        <ErrorPageContext value={setErrorPage}>
+          <ResponseContext value={response}>
+            <RestrictedModeProvider value={restrictedMode}>
+              <VersionHashProvider value={versionHash}>
+                <SiteThemeProvider value={siteTheme}>
+                  <I18nextProvider i18n={i18n}>
+                    <LinkPathContext value={resolveLinkPath}>
+                      <DisableSSRContext value={disableSSR}>
+                        <ApolloProvider client={client}>
+                          <AppTypeContext appType={appType} ltiData={ltiData}>
+                            {children}
+                          </AppTypeContext>
+                        </ApolloProvider>
+                      </DisableSSRContext>
+                    </LinkPathContext>
+                  </I18nextProvider>
+                </SiteThemeProvider>
+              </VersionHashProvider>
+            </RestrictedModeProvider>
+          </ResponseContext>
+        </ErrorPageContext>
       </RedirectContext>
     </StrictMode>
   );
