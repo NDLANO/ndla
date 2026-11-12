@@ -16,6 +16,7 @@ import no.ndla.conceptapi.repository.{DraftConceptRepository, PublishedConceptRe
 import no.ndla.conceptapi.service.*
 import no.ndla.conceptapi.service.search.*
 import no.ndla.conceptapi.validation.ContentValidator
+import no.ndla.common.job.StandaloneJob
 import no.ndla.database.{DBMigrator, DBUtility, DataSource}
 import no.ndla.network.NdlaClient
 import no.ndla.network.clients.{MyNDLAApiClient, SearchApiClient}
@@ -69,9 +70,17 @@ class ComponentRegistry(properties: ConceptApiProperties) extends TapirApplicati
 
   implicit lazy val standaloneIndexing: StandaloneIndexing = new StandaloneIndexing
 
+  override lazy val standaloneJobs: Seq[StandaloneJob]   = Seq(standaloneIndexing)
+  given standaloneJobController: StandaloneJobController = new StandaloneJobController(standaloneJobs)
+
   given swaggerInfo: SwaggerInfo   = SwaggerInfo(prefix = "concept-api", description = "Services for accessing concepts")
-  given swagger: SwaggerController =
-    new SwaggerController(draftConceptController, publishedConceptController, healthController, internController)
+  given swagger: SwaggerController = new SwaggerController(
+    draftConceptController,
+    publishedConceptController,
+    standaloneJobController,
+    healthController,
+    internController,
+  )
 
   given services: List[TapirController] = swagger.allServices
   given ndlaServer: NdlaServer          = new NdlaServer
