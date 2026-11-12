@@ -125,7 +125,10 @@ export default async function handleRequest(
         <RenderRouter />
       </AppShell>
     ),
-    renderFunction,
+    renderFunction: (tree) => {
+      errorPage.info = undefined;
+      return renderFunction(tree);
+    },
     signal,
   });
 

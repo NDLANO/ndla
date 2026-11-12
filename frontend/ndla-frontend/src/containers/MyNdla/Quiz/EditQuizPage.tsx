@@ -45,7 +45,7 @@ const EditQuizPageContent = () => {
   const { data, error } = useSuspenseQuery(quizQuery, !quizId ? skipToken : { variables: { id: quizId } });
 
   if (!data?.quiz) {
-    return <DefaultErrorMessagePage error={error ?? new NDLAError("Missing quiz in quiz response")} />;
+    return <DefaultErrorMessagePage error={error ?? new NDLAError("Missing quiz in quiz response for EditQuizPage")} />;
   }
 
   return <EditQuizForm quiz={data.quiz} key={data.quiz.id} />;

@@ -56,7 +56,9 @@ const PlainQuizPageContent = () => {
   const [checkQuiz, { loading: checking }] = useCheckQuizMutation();
 
   if (error || !quiz) {
-    return <DefaultErrorMessagePage error={error ?? new NDLAError("Missing quiz in quiz response")} />;
+    return (
+      <DefaultErrorMessagePage error={error ?? new NDLAError("Missing quiz in quiz response for PlainQuizPage")} />
+    );
   }
 
   const onStart = () => {

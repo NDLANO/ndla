@@ -165,7 +165,9 @@ const SharedFolderPrint = ({ folderId }: FolderIdProps) => {
 
   if (error || !data?.sharedFolder) {
     return (
-      <DefaultErrorMessagePage error={error ?? new NDLAError("Missing sharedFolder in sharedFolder query response")} />
+      <DefaultErrorMessagePage
+        error={error ?? new NDLAError("Missing sharedFolder in sharedFolder query response for FolderPrintPage")}
+      />
     );
   }
 
