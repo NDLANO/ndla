@@ -119,8 +119,15 @@ class QuizConverterService {
           )
       case None => existing.displaySettings
     }
+    val updatedQuestions = dto.questionOrder match {
+      case Some(order) =>
+        val positions = order.zipWithIndex.toMap
+        existing.questions.sortBy(q => positions.getOrElse(q.id, order.size))
+      case None => existing.questions
+    }
     existing.copy(
       revision = Some(dto.revision),
+      questions = updatedQuestions,
       title = updatedTitle,
       description = updatedDesc,
       displaySettings = updatedDisplaySettings,
