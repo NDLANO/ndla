@@ -152,7 +152,6 @@ const AlternativeLetter = styled(Text, {
 });
 
 const selectableAlternativeStyle = css.raw({
-  "--alternative-bg": "token(colors.background.default)",
   width: "full",
   gap: "xxsmall",
   justifyContent: "space-between",
@@ -160,18 +159,18 @@ const selectableAlternativeStyle = css.raw({
   borderRadius: "xsmall",
   border: "1px solid",
   borderColor: "stroke.subtle",
-  backgroundColor: "var(--alternative-bg)",
+  backgroundColor: "background.default",
   cursor: "pointer",
   transitionDuration: "normal",
   transitionProperty: "[background-color, border-color]",
   _hover: {
-    "--alternative-bg": "token(colors.surface.action.brand.1.selected)",
+    backgroundColor: "surface.action.brand.1.selected",
   },
   _checked: {
-    "--alternative-bg": "token(colors.surface.action.brand.1.selected)",
+    backgroundColor: "surface.action.brand.1.selected",
   },
   _active: {
-    "--alternative-bg": "token(colors.surface.action.brand.1.selected)",
+    backgroundColor: "surface.action.brand.1.selected",
   },
   "&:has(input:focus-visible)": {
     outline: "3px solid",
@@ -186,12 +185,21 @@ const AlternativeRadioItem = styled(RadioGroupItem, {
 
 const AlternativeRadioControl = styled(RadioGroupItemControl, {
   base: {
-    background: "var(--alternative-bg)",
-    outlineColor: "var(--alternative-bg)",
+    _groupActive: {
+      background: "surface.action.brand.1.selected",
+      outlineColor: "surface.action.brand.1.selected",
+    },
+    _groupChecked: {
+      outlineColor: "surface.action.brand.1.selected",
+    },
     _checked: {
       background: "stroke.default",
     },
   },
+});
+
+const AlternativeCheckboxRoot = styled(CheckboxRoot, {
+  base: selectableAlternativeStyle,
 });
 
 const AlternativeContent = styled("span", {
@@ -200,10 +208,6 @@ const AlternativeContent = styled("span", {
     alignItems: "center",
     gap: "xsmall",
   },
-});
-
-const AlternativeCheckboxRoot = styled(CheckboxRoot, {
-  base: selectableAlternativeStyle,
 });
 
 const NavigationRow = styled("div", {
@@ -336,6 +340,7 @@ export const QuizQuestionScreen = ({
             {isMultiChoice ? (
               question.alternatives.map((alt, index) => (
                 <AlternativeCheckboxRoot
+                  className="group"
                   key={alt.id}
                   checked={selectedIds.includes(alt.id)}
                   onCheckedChange={(details) => onCheckboxChange(alt.id, !!details.checked)}
@@ -361,7 +366,7 @@ export const QuizQuestionScreen = ({
                 }}
               >
                 {question.alternatives.map((alt, index) => (
-                  <AlternativeRadioItem key={alt.id} value={alt.id} onKeyDown={onAlternativeKeyDown}>
+                  <AlternativeRadioItem className="group" key={alt.id} value={alt.id} onKeyDown={onAlternativeKeyDown}>
                     <AlternativeLabel index={index} text={alt.text} />
                     <AlternativeRadioControl />
                     <RadioGroupItemHiddenInput />
