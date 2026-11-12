@@ -7,9 +7,9 @@
  */
 
 import { CombinedGraphQLErrors, type ErrorLike } from "@apollo/client";
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import { I18nextProvider } from "react-i18next";
-import { MemoryRouter } from "react-router";
+import { createMemoryRouter, MemoryRouter, RouterProvider } from "react-router";
 import { initializeI18n } from "../../server/locales/locales";
 import { NDLAError } from "../../util/error/NDLAError";
 import { NotFoundError, StatusError } from "../../util/error/StatusError";
@@ -94,17 +94,48 @@ test("a gone error renders the unpublished page", () => {
   );
 });
 
-test("an unknown error renders the internal error page and is reported", () => {
-  const error = new Error("boom");
+test("an NDLAError renders the internal error page and is reported", () => {
+  const error = new NDLAError("Missing quiz in quiz response");
   const status = renderErrorPage(error);
 
   expect(status).toBe(500);
   expect(screen.getByText("500")).toBeTruthy();
   expect(handleError).toHaveBeenCalledTimes(1);
   expect(handleError).toHaveBeenCalledWith(
-    expect.objectContaining({ message: "DefaultErrorMessagePage rendered internal page", cause: error }),
+    expect.objectContaining({
+      message: "DefaultErrorMessagePage rendered internal page",
+      cause: error,
+      logLevel: "error",
+    }),
   );
   expect(log.info).not.toHaveBeenCalled();
+});
+
+test("the reported error keeps the log level of its cause", () => {
+  const error = new NDLAError("Unexpected but harmless");
+  error.logLevel = "warn";
+  renderErrorPage(error);
+
+  expect(handleError).toHaveBeenCalledWith(expect.objectContaining({ logLevel: "warn", cause: error }));
+});
+
+test("an apollo error renders the internal error page without reporting it again", () => {
+  const error = new CombinedGraphQLErrors({ errors: [{ message: "Bad request", extensions: { status: 400 } }] });
+  const status = renderErrorPage(error);
+
+  expect(status).toBe(500);
+  expect(handleError).not.toHaveBeenCalled();
+  expect(log.info).toHaveBeenCalledWith(
+    expect.objectContaining({ message: "DefaultErrorMessagePage rendered internal page", cause: error }),
+  );
+});
+
+test("a network error from apollo renders the internal error page without reporting it again", () => {
+  const error = new TypeError("fetch failed");
+  const status = renderErrorPage(error);
+
+  expect(status).toBe(500);
+  expect(handleError).not.toHaveBeenCalled();
 });
 
 test("re-rendering with an equivalent newly constructed error is only reported once", () => {
@@ -115,4 +146,19 @@ test("re-rendering with an equivalent newly constructed error is only reported o
   rerender(<ErrorPageWithProviders error={new NDLAError("Missing quiz in quiz response")} redirect={redirect} />);
 
   expect(handleError).toHaveBeenCalledTimes(1);
+});
+
+test("the same error on a new path is reported again", async () => {
+  const error = new NDLAError("Missing quiz in quiz response");
+  const router = createMemoryRouter([{ path: "*", element: <DefaultErrorMessagePage error={error} /> }], {
+    initialEntries: ["/quiz/1"],
+  });
+  render(
+    <I18nextProvider i18n={i18n}>
+      <RouterProvider router={router} />
+    </I18nextProvider>,
+  );
+  await act(() => router.navigate("/quiz/2"));
+
+  expect(handleError).toHaveBeenCalledTimes(2);
 });

@@ -25,6 +25,7 @@ import { UnpublishedResourcePage } from "../containers/UnpublishedResourcePage/U
 import { INTERNAL_SERVER_ERROR } from "../statusCodes";
 import { NDLAError } from "../util/error/NDLAError";
 import { handleError, hasAccessDeniedStatus, hasGoneStatus, hasNotFoundStatus } from "../util/handleError";
+import { useRawLocation } from "../util/localePath";
 import { log } from "../util/logger/logger";
 import { ErrorNotice, ErrorNoticeMain } from "./ErrorNotice";
 import { PageTitle } from "./PageTitle";
@@ -72,7 +73,9 @@ const getErrorPageKind = (error: ErrorLike): ErrorPageKind => {
 
 const logErrorPage = (error: ErrorLike, kind: ErrorPageKind) => {
   const pageError = new NDLAError(`DefaultErrorMessagePage rendered ${kind} page`, { cause: error });
-  if (kind === "internal") {
+  // Errors that are not NDLAErrors come from Apollo queries, and the ErrorLink in createApolloLinks has already reported them
+  if (kind === "internal" && error instanceof NDLAError) {
+    pageError.logLevel = error.logLevel;
     handleError(pageError);
   } else {
     log.info(pageError);
@@ -80,17 +83,18 @@ const logErrorPage = (error: ErrorLike, kind: ErrorPageKind) => {
 };
 
 const useLogErrorPage = (error: ErrorLike, kind: ErrorPageKind) => {
+  const { pathname } = useRawLocation();
   const loggedKeyRef = useRef<string>(undefined);
   if (import.meta.env.SSR) {
     logErrorPage(error, kind);
   }
   useEffect(() => {
     // Callers may construct a new error on every render, so dedupe on content rather than identity
-    const key = `${kind}:${error.message}`;
+    const key = `${kind}:${error.message}:${pathname}`;
     if (loggedKeyRef.current === key) return;
     loggedKeyRef.current = key;
     logErrorPage(error, kind);
-  }, [error, kind]);
+  }, [error, kind, pathname]);
 };
 
 interface DefaultErrorMessagePageProps {
