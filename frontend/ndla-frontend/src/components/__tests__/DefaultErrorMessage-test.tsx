@@ -16,6 +16,7 @@ import { NotFoundError, StatusError } from "../../util/error/StatusError";
 import { handleError } from "../../util/handleError";
 import { log } from "../../util/logger/logger";
 import { DefaultErrorMessagePage } from "../DefaultErrorMessage";
+import { ErrorPageContext } from "../ErrorPageContext";
 import { type RedirectInfo, RedirectContext } from "../RedirectContext";
 
 vi.mock("../../util/handleError", async (importOriginal) => ({
@@ -48,6 +49,7 @@ const renderErrorPage = (error: ErrorLike) => {
 beforeEach(() => {
   vi.mocked(handleError).mockClear();
   vi.mocked(log.info).mockClear();
+  vi.mocked(log.warn).mockClear();
 });
 
 test("a not found error renders the not found page and is logged as info", () => {
@@ -111,12 +113,15 @@ test("an NDLAError renders the internal error page and is reported", () => {
   expect(log.info).not.toHaveBeenCalled();
 });
 
-test("the reported error keeps the log level of its cause", () => {
+test("an NDLAError below error level is logged at its own level instead of reported", () => {
   const error = new NDLAError("Unexpected but harmless");
   error.logLevel = "warn";
   renderErrorPage(error);
 
-  expect(handleError).toHaveBeenCalledWith(expect.objectContaining({ logLevel: "warn", cause: error }));
+  expect(log.warn).toHaveBeenCalledWith(
+    expect.objectContaining({ message: "DefaultErrorMessagePage rendered internal page", cause: error }),
+  );
+  expect(handleError).not.toHaveBeenCalled();
 });
 
 test("an apollo error renders the internal error page without reporting it again", () => {
@@ -146,6 +151,18 @@ test("re-rendering with an equivalent newly constructed error is only reported o
   rerender(<ErrorPageWithProviders error={new NDLAError("Missing quiz in quiz response")} redirect={redirect} />);
 
   expect(handleError).toHaveBeenCalledTimes(1);
+});
+
+test("the rendered error page is handed to ErrorPageContext", () => {
+  const error = new NDLAError("Missing quiz in quiz response");
+  const setErrorPage = vi.fn();
+  render(
+    <ErrorPageContext value={setErrorPage}>
+      <ErrorPageWithProviders error={error} redirect={{}} />
+    </ErrorPageContext>,
+  );
+
+  expect(setErrorPage).toHaveBeenCalledWith({ error, kind: "internal" });
 });
 
 test("the same error on a new path is reported again", async () => {

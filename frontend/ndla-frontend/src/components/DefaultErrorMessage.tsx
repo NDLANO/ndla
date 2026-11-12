@@ -15,7 +15,7 @@ import {
   ErrorMessageActions,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Status } from "../components/Status";
 import { SKIP_TO_CONTENT_ID } from "../constants";
@@ -28,6 +28,7 @@ import { handleError, hasAccessDeniedStatus, hasGoneStatus, hasNotFoundStatus } 
 import { useRawLocation } from "../util/localePath";
 import { log } from "../util/logger/logger";
 import { ErrorNotice, ErrorNoticeMain } from "./ErrorNotice";
+import { ErrorPageContext, type ErrorPageInfo, type ErrorPageKind } from "./ErrorPageContext";
 import { PageTitle } from "./PageTitle";
 
 interface MessageRootProps {
@@ -62,8 +63,6 @@ export const InternalServerError = ({ applySkipToContentId }: MessageRootProps) 
   </Status>
 );
 
-type ErrorPageKind = "gone" | "accessDenied" | "notFound" | "internal";
-
 const getErrorPageKind = (error: ErrorLike): ErrorPageKind => {
   if (hasGoneStatus(error)) return "gone";
   if (hasAccessDeniedStatus(error)) return "accessDenied";
@@ -71,33 +70,36 @@ const getErrorPageKind = (error: ErrorLike): ErrorPageKind => {
   return "internal";
 };
 
-const logErrorPage = (error: ErrorLike, kind: ErrorPageKind) => {
+export const logErrorPage = ({ error, kind }: ErrorPageInfo) => {
   const pageError = new NDLAError(`DefaultErrorMessagePage rendered ${kind} page`, { cause: error });
-  // Errors that are not NDLAErrors come from Apollo queries, and the ErrorLink in createApolloLinks has already reported them
-  if (kind === "internal" && error instanceof NDLAError) {
-    pageError.logLevel = error.logLevel;
+  const logLevel = kind === "internal" && error instanceof NDLAError ? error.logLevel : "info";
+  if (logLevel === "error") {
     handleError(pageError);
   } else {
-    log.info(pageError);
+    log[logLevel](pageError);
   }
 };
 
 const useLogErrorPage = (error: ErrorLike, kind: ErrorPageKind) => {
   const { pathname } = useRawLocation();
+  const setErrorPage = useContext(ErrorPageContext);
   const loggedKeyRef = useRef<string>(undefined);
-  if (import.meta.env.SSR) {
-    logErrorPage(error, kind);
-  }
+  // The server may render the tree several times per request, so it logs the rendered error page once afterwards
+  setErrorPage?.({ error, kind });
   useEffect(() => {
     // Callers may construct a new error on every render, so dedupe on content rather than identity
     const key = `${kind}:${error.message}:${pathname}`;
     if (loggedKeyRef.current === key) return;
     loggedKeyRef.current = key;
-    logErrorPage(error, kind);
+    logErrorPage({ error, kind });
   }, [error, kind, pathname]);
 };
 
 interface DefaultErrorMessagePageProps {
+  /**
+   * The error from an Apollo query, or an NDLAError describing what went wrong. Apollo errors are already reported by
+   * the ErrorLink in createApolloLinks, so only NDLAErrors are reported from here. Everything else is logged as info.
+   */
   error: ErrorLike;
 }
 
