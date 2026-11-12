@@ -30,7 +30,7 @@ export const getCompetenceGoalCodes = (setResults: GrepResultDTO[]): string[] =>
 
 export const countSelectedCompetenceGoals = (setResults: GrepResultDTO[], selectedCodes: string[]): number => {
   const selected = new Set(selectedCodes);
-  return new Set(getCompetenceGoalCodes(setResults).filter((code) => selected.has(code))).size;
+  return getCompetenceGoalCodes(setResults).filter((code) => selected.has(code)).length;
 };
 
 export const groupCompetenceGoals = (

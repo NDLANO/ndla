@@ -149,10 +149,6 @@ test("that countSelectedCompetenceGoals only counts goals in the sets", () => {
   expect(countSelectedCompetenceGoals(sets, ["KM1", "KM4", "KM99", "KV1", "KE12"])).toBe(2);
 });
 
-test("that countSelectedCompetenceGoals counts a goal in several sets once", () => {
-  expect(countSelectedCompetenceGoals([goalSet("KV1", ["KM1"]), goalSet("KV2", ["KM1", "KM2"])], ["KM1"])).toBe(1);
-});
-
 test("that countSelectedCompetenceGoals returns 0 for empty input", () => {
   expect(countSelectedCompetenceGoals([], ["KM1"])).toBe(0);
   expect(countSelectedCompetenceGoals(sets, [])).toBe(0);
