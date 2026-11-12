@@ -13592,6 +13592,7 @@ export type GQLUpdateQuizMutationVariables = Exact<{
   title?: string | null | undefined;
   description?: string | null | undefined;
   displaySettings?: GQLQuizDisplaySettingsInput | null | undefined;
+  questionOrder?: Array<string> | string | null | undefined;
 }>;
 
 export type GQLUpdateQuizMutation = {
