@@ -460,7 +460,7 @@ catalogs:
       specifier: ^7.0.2
       version: 7.0.2
     typescript-eslint:
-      specifier: ^8.72.1
+      specifier: ^8.72.2
       version: 8.72.2
     typescript7:
       specifier: npm:typescript@^7.0.2
