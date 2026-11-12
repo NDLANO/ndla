@@ -11,7 +11,7 @@ package no.ndla.myndlaapi.controller
 import no.ndla.common.Clock
 import no.ndla.common.model.api.SingleResourceStatsDTO
 import no.ndla.common.model.domain.TryMaybe
-import no.ndla.myndlaapi.model.api.{StatsDTO, UserStatsDTO}
+import no.ndla.myndlaapi.model.api.{QuizStatsDTO, StatsDTO, UserStatsDTO}
 import no.ndla.myndlaapi.TestEnvironment
 import no.ndla.network.tapir.{ErrorHelpers, NdlaServer, TapirController}
 import no.ndla.scalatestsuite.UnitTestSuite
@@ -31,7 +31,21 @@ class StatsControllerTest extends UnitTestSuite with TestEnvironment with TapirC
 
   test("That getting stats returns in fact stats") {
     when(folderReadService.getStats).thenReturn(
-      TryMaybe.from(StatsDTO(1, 2, 3, 4, 5, 6, 7, List.empty, Map.empty, UserStatsDTO(1, 2, 3, 4, 5, 6, 7)))
+      TryMaybe.from(
+        StatsDTO(
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          List.empty,
+          Map.empty,
+          UserStatsDTO(1, 2, 3, 4, 5, 6, 7),
+          QuizStatsDTO(1, 2, 3, 4, 5, 6),
+        )
+      )
     )
 
     val response = quickRequest.get(uri"http://localhost:$serverPort/myndla-api/v1/stats").send()

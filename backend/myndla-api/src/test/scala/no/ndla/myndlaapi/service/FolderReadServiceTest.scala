@@ -13,7 +13,7 @@ import no.ndla.common.model.api.learningpath.LearningPathStatsDTO
 import no.ndla.common.model.domain.ResourceType
 import no.ndla.common.model.domain.myndla.{FolderStatus, MyNDLAGroup, MyNDLAUser, UserRole}
 import no.ndla.myndlaapi.TestData.{emptyApiFolder, emptyDomainFolder, emptyDomainResource, emptyMyNDLAUser}
-import no.ndla.myndlaapi.model.api.{FolderDTO, OwnerDTO, ResourceStatsDTO, UserStatsDTO}
+import no.ndla.myndlaapi.model.api.{FolderDTO, OwnerDTO, QuizStatsDTO, ResourceStatsDTO, UserStatsDTO}
 import no.ndla.myndlaapi.model.{api, domain}
 import no.ndla.myndlaapi.model.domain.Resource
 import no.ndla.myndlaapi.{TestData, TestEnvironment}
@@ -374,6 +374,7 @@ class FolderReadServiceTest extends UnitTestSuite with TestEnvironment {
     when(folderRepository.numberOfUsersWithFavourites(using any)).thenReturn(Success(Some(3L)))
     when(folderRepository.numberOfUsersWithoutFavourites(using any)).thenReturn(Success(Some(2L)))
     when(userRepository.numberOfUsersInArena(using any)).thenReturn(Success(Some(4L)))
+    when(quizRepository.getStats(using any)).thenReturn(Success(QuizStatsDTO(6, 3, 8, 4, 2, 5)))
 
     service.getStats.unsafeGet should be(
       api.StatsDTO(
@@ -387,6 +388,7 @@ class FolderReadServiceTest extends UnitTestSuite with TestEnvironment {
         List(ResourceStatsDTO("article", 1), ResourceStatsDTO("learningpath", 2), ResourceStatsDTO("video", 3)),
         Map("article" -> 1, "learningpath" -> 2, "video" -> 3),
         UserStatsDTO(5, 2, 3, 3, 2, 2, 4),
+        QuizStatsDTO(6, 3, 8, 4, 2, 5),
       )
     )
   }
