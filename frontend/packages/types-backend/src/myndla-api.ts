@@ -1734,6 +1734,8 @@ export type components = {
             /** @description Quiz description */
             description?: string;
             displaySettings?: components["schemas"]["UpdatedDisplaySettingsDTO"];
+            /** @description Ids of the questions in the desired order. Questions not listed are placed last in their existing order */
+            questionOrder?: string[];
         };
         /** UpdatedResourceDTO */
         UpdatedResourceDTO: {
