@@ -79,17 +79,16 @@ export const getSubjectNamesByGoalSet = (subjects: SubjectWithGrepCodes[], share
   return subjectNames;
 };
 
-export const isExemptFromCompetenceGoalCheck = (placementSubjects: SubjectWithGrepCodes[]) =>
-  placementSubjects.some(
-    (subject) => subject.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] === subjectCategories.OTHER,
-  );
+const isOtherResourcesSubject = (subject: SubjectWithGrepCodes) =>
+  subject.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] === subjectCategories.OTHER;
 
 export const getUnmatchedCompetenceGoals = (
   goalResults: GrepResultDTO[],
   placementSubjects: SubjectWithGrepCodes[],
 ): Set<string> => {
-  if (isExemptFromCompetenceGoalCheck(placementSubjects)) return new Set();
-  const goalSetCodes = new Set(placementSubjects.flatMap(getGoalSetCodes));
+  const checkedSubjects = placementSubjects.filter((subject) => !isOtherResourcesSubject(subject));
+  if (placementSubjects.length && !checkedSubjects.length) return new Set();
+  const goalSetCodes = new Set(checkedSubjects.flatMap(getGoalSetCodes));
   return new Set(
     goalResults.flatMap((result) =>
       result.typename === "GrepKompetansemaalDTO" && !goalSetCodes.has(result.kompetansemaalSett.code)
@@ -103,7 +102,6 @@ export const getSubjectsWithoutCompetenceGoals = (
   goalResults: GrepResultDTO[],
   placementSubjects: SubjectWithGrepCodes[],
 ): Set<string> => {
-  if (isExemptFromCompetenceGoalCheck(placementSubjects)) return new Set();
   const goalSetCodes = new Set(
     goalResults.flatMap((result) =>
       result.typename === "GrepKompetansemaalDTO" ? [result.kompetansemaalSett.code] : [],
@@ -111,6 +109,7 @@ export const getSubjectsWithoutCompetenceGoals = (
   );
   return new Set(
     placementSubjects.flatMap((subject) => {
+      if (isOtherResourcesSubject(subject)) return [];
       const codes = getGoalSetCodes(subject);
       return codes.length && !codes.some((code) => goalSetCodes.has(code)) ? [subject.id] : [];
     }),

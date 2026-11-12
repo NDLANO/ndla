@@ -14,7 +14,6 @@ import {
   getSubjectsWithoutCompetenceGoals,
   getUnmatchedCompetenceGoals,
   groupCompetenceGoals,
-  isExemptFromCompetenceGoalCheck,
 } from "../competenceGoalsUtil";
 
 const reference = (code: string, title = `Title ${code}`) => ({
@@ -111,16 +110,23 @@ test("that getUnmatchedCompetenceGoals returns all goals when there are no place
   expect(Array.from(getUnmatchedCompetenceGoals(goals.slice(0, 2), []))).toStrictEqual(["KM1", "KM2"]);
 });
 
-test("that isExemptFromCompetenceGoalCheck is true only with an other resources subject", () => {
-  expect(isExemptFromCompetenceGoalCheck([subject("S1", ["KV1"]), subject("S2", [], "otherResources")])).toBe(true);
-  expect(isExemptFromCompetenceGoalCheck([subject("S1", ["KV1"]), subject("S2", [], "archive")])).toBe(false);
-  expect(isExemptFromCompetenceGoalCheck([])).toBe(false);
-});
-
-test("that getUnmatchedCompetenceGoals ignores resources placed in other resources subjects", () => {
-  const result = getUnmatchedCompetenceGoals(goals, [subject("S1", ["KV1"]), subject("S2", [], "otherResources")]);
+test("that getUnmatchedCompetenceGoals ignores resources placed only in other resources subjects", () => {
+  const result = getUnmatchedCompetenceGoals(goals, [
+    subject("S1", ["KV1"], "otherResources"),
+    subject("S2", [], "otherResources"),
+  ]);
 
   expect(result.size).toBe(0);
+});
+
+test("that getUnmatchedCompetenceGoals only matches goals against placements outside other resources subjects", () => {
+  const result = getUnmatchedCompetenceGoals(goals, [
+    subject("S1", ["KV1"]),
+    subject("S2", ["KV2"], "otherResources"),
+    subject("S3", [], "archive"),
+  ]);
+
+  expect(Array.from(result)).toStrictEqual(["KM3", "KM4", "KM5"]);
 });
 
 test("that getSubjectsWithoutCompetenceGoals returns placement subjects with no goals from their sets", () => {
@@ -139,10 +145,13 @@ test("that getSubjectsWithoutCompetenceGoals returns every subject with sets whe
   ]);
 });
 
-test("that getSubjectsWithoutCompetenceGoals ignores resources placed in other resources subjects", () => {
-  const result = getSubjectsWithoutCompetenceGoals([], [subject("S1", ["KV1"]), subject("S2", [], "otherResources")]);
+test("that getSubjectsWithoutCompetenceGoals ignores other resources subjects but still checks the other placements", () => {
+  const result = getSubjectsWithoutCompetenceGoals(
+    [],
+    [subject("S1", ["KV1"]), subject("S2", ["KV2"], "otherResources")],
+  );
 
-  expect(result.size).toBe(0);
+  expect(Array.from(result)).toStrictEqual(["S1"]);
 });
 
 test("that countSelectedCompetenceGoals only counts goals in the sets", () => {
