@@ -71,12 +71,13 @@ const getErrorPageKind = (error: ErrorLike): ErrorPageKind => {
 };
 
 export const logErrorPage = ({ error, kind }: ErrorPageInfo) => {
-  const pageError = new NDLAError(`DefaultErrorMessagePage rendered ${kind} page`, { cause: error });
-  const logLevel = kind === "internal" && error instanceof NDLAError ? error.logLevel : "info";
+  const ndlaError = error instanceof NDLAError ? error : undefined;
+  const context = { ...ndlaError?.logContext, errorPage: kind };
+  const logLevel = kind === "internal" && ndlaError ? ndlaError.logLevel : "info";
   if (logLevel === "error") {
-    handleError(pageError);
+    handleError(error, context);
   } else {
-    log[logLevel](pageError);
+    log[logLevel](error, context);
   }
 };
 

@@ -58,9 +58,7 @@ test("a not found error renders the not found page and is logged as info", () =>
 
   expect(status).toBe(404);
   expect(screen.getByText("404")).toBeTruthy();
-  expect(log.info).toHaveBeenCalledWith(
-    expect.objectContaining({ message: "DefaultErrorMessagePage rendered notFound page", cause: error }),
-  );
+  expect(log.info).toHaveBeenCalledWith(error, { errorPage: "notFound" });
   expect(handleError).not.toHaveBeenCalled();
 });
 
@@ -69,9 +67,7 @@ test("a graphql error with not found status renders the not found page", () => {
   const status = renderErrorPage(error);
 
   expect(status).toBe(404);
-  expect(log.info).toHaveBeenCalledWith(
-    expect.objectContaining({ message: "DefaultErrorMessagePage rendered notFound page", cause: error }),
-  );
+  expect(log.info).toHaveBeenCalledWith(error, { errorPage: "notFound" });
 });
 
 test("an access denied error renders the access denied page", () => {
@@ -79,9 +75,7 @@ test("an access denied error renders the access denied page", () => {
   const status = renderErrorPage(error);
 
   expect(status).toBe(401);
-  expect(log.info).toHaveBeenCalledWith(
-    expect.objectContaining({ message: "DefaultErrorMessagePage rendered accessDenied page", cause: error }),
-  );
+  expect(log.info).toHaveBeenCalledWith(error, { errorPage: "accessDenied" });
   expect(handleError).not.toHaveBeenCalled();
 });
 
@@ -91,9 +85,7 @@ test("a gone error renders the unpublished page", () => {
 
   expect(status).toBe(410);
   expect(screen.getByText("410")).toBeTruthy();
-  expect(log.info).toHaveBeenCalledWith(
-    expect.objectContaining({ message: "DefaultErrorMessagePage rendered gone page", cause: error }),
-  );
+  expect(log.info).toHaveBeenCalledWith(error, { errorPage: "gone" });
 });
 
 test("an NDLAError renders the internal error page and is reported", () => {
@@ -103,14 +95,16 @@ test("an NDLAError renders the internal error page and is reported", () => {
   expect(status).toBe(500);
   expect(screen.getByText("500")).toBeTruthy();
   expect(handleError).toHaveBeenCalledTimes(1);
-  expect(handleError).toHaveBeenCalledWith(
-    expect.objectContaining({
-      message: "DefaultErrorMessagePage rendered internal page",
-      cause: error,
-      logLevel: "error",
-    }),
-  );
+  expect(handleError).toHaveBeenCalledWith(error, { errorPage: "internal" });
   expect(log.info).not.toHaveBeenCalled();
+});
+
+test("an NDLAError is reported with its own log context", () => {
+  const error = new NDLAError("Missing quiz in quiz response");
+  error.logContext = { quizId: "1" };
+  renderErrorPage(error);
+
+  expect(handleError).toHaveBeenCalledWith(error, { quizId: "1", errorPage: "internal" });
 });
 
 test("an NDLAError below error level is logged at its own level instead of reported", () => {
@@ -118,9 +112,7 @@ test("an NDLAError below error level is logged at its own level instead of repor
   error.logLevel = "warn";
   renderErrorPage(error);
 
-  expect(log.warn).toHaveBeenCalledWith(
-    expect.objectContaining({ message: "DefaultErrorMessagePage rendered internal page", cause: error }),
-  );
+  expect(log.warn).toHaveBeenCalledWith(error, { errorPage: "internal" });
   expect(handleError).not.toHaveBeenCalled();
 });
 
@@ -130,9 +122,7 @@ test("an apollo error renders the internal error page without reporting it again
 
   expect(status).toBe(500);
   expect(handleError).not.toHaveBeenCalled();
-  expect(log.info).toHaveBeenCalledWith(
-    expect.objectContaining({ message: "DefaultErrorMessagePage rendered internal page", cause: error }),
-  );
+  expect(log.info).toHaveBeenCalledWith(error, { errorPage: "internal" });
 });
 
 test("a network error from apollo renders the internal error page without reporting it again", () => {

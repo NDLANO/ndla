@@ -137,7 +137,10 @@ const SharedFolderPageContent = () => {
   if (sharedFolderQuery.error || !sharedFolderQuery.data?.sharedFolder) {
     return (
       <DefaultErrorMessagePage
-        error={sharedFolderQuery.error ?? new NDLAError("Missing sharedFolder in sharedFolder query response")}
+        error={
+          sharedFolderQuery.error ??
+          new NDLAError("Missing sharedFolder in sharedFolder query response for SharedFolderPage")
+        }
       />
     );
   }
