@@ -241,17 +241,31 @@ export const ProgrammeContainer = ({ programme }: Props) => {
       "@context": "https://schema.org",
       "@graph": [
         {
-          "@type": "EducationalOccupationalProgram",
+          "@type": "CollectionPage",
+          "@id": `${programmeUrl}#webpage`,
           name: heading,
           description: metaDescription,
           url: programmeUrl,
           inLanguage: i18n.language,
-          provider: NDLA,
-          educationalProgramMode: "online",
+          about: { "@id": `${programmeUrl}#program` },
+          breadcrumb: { "@id": `${programmeUrl}#breadcrumb` },
+          publisher: { "@id": "https://ndla.no/#organization" },
+        },
+        {
+          "@type": "EducationalOccupationalProgram",
+          "@id": `${programmeUrl}#program`,
+          name: heading,
+          description: metaDescription,
+          url: programmeUrl,
+          programType: t("programmePage.programType"),
           programPrerequisites: t("programmePage.programPrerequisites"),
         },
         {
+          ...NDLA,
+        },
+        {
           "@type": "BreadcrumbList",
+          "@id": `${programmeUrl}#breadcrumb`,
           itemListElement: [
             {
               "@type": "ListItem",

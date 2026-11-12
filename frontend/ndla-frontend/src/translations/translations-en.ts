@@ -1001,6 +1001,7 @@ const translations = {
     programme: "Programmes",
     grades: "Grades",
     programPrerequisites: "Completed lower secondary school",
+    programType: "Educational programme in upper secondary education.",
   },
   aboutPage: {
     menuItems: "Subpages",

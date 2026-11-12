@@ -997,6 +997,7 @@ const translations = {
     programme: "Utdanningsprogram",
     grades: "Trinn",
     programPrerequisites: "Fullført grunnskole",
+    programType: "Utdanningsprogram i vidaregåande opplæring",
   },
   aboutPage: {
     menuItems: "Undersider",
