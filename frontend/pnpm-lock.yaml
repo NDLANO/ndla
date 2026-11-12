@@ -397,7 +397,7 @@ catalogs:
       specifier: ^0.77.0
       version: 0.77.0
     oxlint:
-      specifier: ^1.92.0
+      specifier: ^1.93.0
       version: 1.93.0
     oxlint-tsgolint:
       specifier: ^7.0.2006
