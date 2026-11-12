@@ -22,6 +22,7 @@ import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { SubjectMessageBox } from "../../components/SubjectMessageBox";
 import type { GQLLearningpathPage_NodeFragment } from "../../graphqlTypes";
 import type { Breadcrumb } from "../../interfaces";
+import { toLearningPath } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
@@ -56,6 +57,14 @@ export const LearningpathPage = ({ node, skipToContentId, stepId, loading }: Pro
     return htmlTitle(learningpath?.title, [learningpathStep?.title, node.context?.parents?.[0]?.name]);
   }, [learningpath?.title, learningpathStep?.title, node.context?.parents]);
 
+  const trackingProps = useMemo(() => {
+    const defaultUrl = node.context?.defaultUrl;
+    return {
+      rootId: node.context?.rootId ?? null,
+      defaultUrl: defaultUrl ? toLearningPath(undefined, stepId, defaultUrl) : null,
+    };
+  }, [node.context?.defaultUrl, node.context?.rootId, stepId]);
+
   if (!learningpath) {
     return <DefaultErrorMessagePage />;
   }
@@ -70,7 +79,7 @@ export const LearningpathPage = ({ node, skipToContentId, stepId, loading }: Pro
 
   return (
     <>
-      <PageTitle title={htmlTitle(title, [t("htmlTitles.titleTemplate")])} trackingProps={node.context} />
+      <PageTitle title={htmlTitle(title, [t("htmlTitles.titleTemplate")])} trackingProps={trackingProps} />
       <SocialMediaMetadata
         title={title}
         trackableContent={learningpath}
