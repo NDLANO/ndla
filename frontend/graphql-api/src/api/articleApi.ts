@@ -29,6 +29,7 @@ export const fetchTransformedContent = async (
   const params = _params.transformArgs ?? {};
   let subjectId = params.subjectId;
   if (params.contextId && !subjectId) {
+    // Fetch context and use root-id for subjectId for transformation
     const contextNode = await context.loaders.nodesLoader.load({
       contextId: params.contextId,
     });
