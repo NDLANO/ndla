@@ -143,6 +143,13 @@ const SearchSaveButton = ({ filters, searchContentType, userData, size, variant 
   const savedIndex = savedSearches.findIndex((s) => s.searchUrl === currentSearch);
   const isSaved = savedIndex !== -1;
 
+  const getButtonText = () => {
+    if (userDataMutation.isPending) return t("form.saving");
+    if (success) return t("form.saved");
+    if (isSaved) return t("form.alreadySaved");
+    return t("form.saveSearch");
+  };
+
   return (
     <ButtonWrapper>
       {!!isSaved && (
@@ -159,13 +166,7 @@ const SearchSaveButton = ({ filters, searchContentType, userData, size, variant 
           disabled={isSaved || success}
         >
           {isSaved || success ? <HeartFill /> : <HeartLine />}
-          {userDataMutation.isPending
-            ? t("form.saving")
-            : success
-              ? t("form.saved")
-              : isSaved
-                ? t("form.alreadySaved")
-                : t("form.saveSearch")}
+          {getButtonText()}
         </Button>
         {!!error && <Text>{t(`searchPage.save.${error}`)}</Text>}
       </StyledWrapper>
