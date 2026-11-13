@@ -106,7 +106,6 @@ class DraftController(using
   override val endpoints: List[ServerEndpoint[Any, Eff]] = List(
     getLicenses,
     getTagSearch,
-    getGrepCodes,
     getAllArticles,
     postSearch,
     getStatusStateMachine,
@@ -229,25 +228,6 @@ class DraftController(using
       case Failure(ex) => Failure(ex)
     }
   }
-
-  def getGrepCodes: ServerEndpoint[Any, Eff] = endpoint
-    .get
-    .in("grep-codes")
-    .summary("Retrieves a list of all previously used grepCodes in articles")
-    .description("Retrieves a list of all previously used grepCodes in articles")
-    .deprecated()
-    .in(queryParam)
-    .in(pageSize)
-    .in(pageNo)
-    .errorOut(errorOutputsFor(401, 403))
-    .out(jsonBody[GrepCodesSearchResultDTO])
-    .requirePermission(DRAFT_API_WRITE)
-    .serverLogicPure { _ =>
-      { case (maybeQuery, pageSize, pageNo) =>
-        val query = maybeQuery.getOrElse("")
-        readService.getAllGrepCodes(query, pageSize, pageNo)
-      }
-    }
 
   def getAllArticles: ServerEndpoint[Any, Eff] = endpoint
     .get

@@ -171,8 +171,4 @@ class SearchConverterService(using converterService: ConverterService) extends S
       .tags
       .flatMap(articleTags => articleTags.tags.map(tag => SearchableTag(tag = tag, language = articleTags.language)))
   }
-
-  def asSearchableGrepCodes(article: Draft): Seq[SearchableGrepCode] = article
-    .grepCodes
-    .map(code => SearchableGrepCode(code))
 }

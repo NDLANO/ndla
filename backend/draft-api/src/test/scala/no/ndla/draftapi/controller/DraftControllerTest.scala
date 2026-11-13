@@ -316,30 +316,6 @@ class DraftControllerTest extends UnitSuite with TestEnvironment with TapirContr
     verify(articleSearchService, times(1)).scroll(eqTo(scrollId), any[String])
   }
 
-  test("grepCodes should return 200 OK if the result was not empty") {
-    when(readService.getAllGrepCodes(anyString, anyInt, anyInt)).thenReturn(
-      Success(TestData.sampleApiGrepCodesSearchResult)
-    )
-
-    val resp = quickRequest
-      .get(uri"http://localhost:$serverPort/draft-api/v1/drafts/grep-codes/")
-      .headers(Map("Authorization" -> authHeaderWithWriteRole))
-      .send()
-    resp.code.code should be(200)
-  }
-
-  test("grepCodes should return 200 OK if the results are empty") {
-    when(readService.getAllGrepCodes(anyString, anyInt, anyInt)).thenReturn(
-      Success(TestData.sampleApiGrepCodesSearchResult.copy(results = Seq.empty))
-    )
-
-    val resp = quickRequest
-      .get(uri"http://localhost:$serverPort/draft-api/v1/drafts/grep-codes/")
-      .headers(Map("Authorization" -> authHeaderWithWriteRole))
-      .send()
-    resp.code.code should be(200)
-  }
-
   test("tags should return 200 OK if the result was not empty") {
     when(readService.getAllTags(anyString, anyInt, anyInt, anyString)).thenReturn(
       Success(TestData.sampleApiTagsSearchResult)

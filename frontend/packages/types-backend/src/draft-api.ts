@@ -39,27 +39,6 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
-    "/draft-api/v1/drafts/grep-codes": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Retrieves a list of all previously used grepCodes in articles
-         * @deprecated
-         * @description Retrieves a list of all previously used grepCodes in articles
-         */
-        get: operations["getDraft-apiV1DraftsGrep-codes"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/draft-api/v1/drafts": {
         parameters: {
             query?: never;
@@ -928,29 +907,6 @@ export type components = {
          * @enum {integer}
          */
         Grade: 1 | 2 | 3 | 4 | 5;
-        /**
-         * GrepCodesSearchResultDTO
-         * @description Information and metadata about codes from GREP API
-         */
-        GrepCodesSearchResultDTO: {
-            /**
-             * Format: int64
-             * @description The total number of codes from GREP API matching this query
-             */
-            totalCount: number;
-            /**
-             * Format: int32
-             * @description For which page results are shown from
-             */
-            page: number;
-            /**
-             * Format: int32
-             * @description The number of results per page
-             */
-            pageSize: number;
-            /** @description The search results */
-            results: string[];
-        };
         /** LicenseDTO */
         LicenseDTO: {
             /** @description The name of the license */
@@ -1400,7 +1356,6 @@ export type EditorNoteDTO = components['schemas']['EditorNoteDTO'];
 export type ErrorBody = components['schemas']['ErrorBody'];
 export type FileForm = components['schemas']['FileForm'];
 export type Grade = components['schemas']['Grade'];
-export type GrepCodesSearchResultDTO = components['schemas']['GrepCodesSearchResultDTO'];
 export type LicenseDTO = components['schemas']['LicenseDTO'];
 export type Map_DraftStatus_List_DraftStatus = components['schemas']['Map_DraftStatus_List_DraftStatus'];
 export type MultiPartialPublishResultDTO = components['schemas']['MultiPartialPublishResultDTO'];
@@ -1519,72 +1474,6 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["TagsSearchResultDTO"];
-                };
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["AllErrors"];
-                };
-            };
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["AllErrors"];
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["AllErrors"];
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["AllErrors"];
-                };
-            };
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["AllErrors"];
-                };
-            };
-        };
-    };
-    "getDraft-apiV1DraftsGrep-codes": {
-        parameters: {
-            query?: {
-                /** @description Return only articles with content matching the specified query. */
-                query?: string;
-                /** @description The number of search hits to display for each page. */
-                "page-size"?: number;
-                /** @description The page number of the search hits to display. */
-                page?: number;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["GrepCodesSearchResultDTO"];
                 };
             };
             400: {

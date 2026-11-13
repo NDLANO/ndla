@@ -72,8 +72,6 @@ class ComponentRegistry(properties: DraftApiProperties) extends TapirApplication
   implicit lazy val articleIndexService: ArticleIndexService       = new ArticleIndexService
   implicit lazy val tagSearchService: TagSearchService             = new TagSearchService
   implicit lazy val tagIndexService: TagIndexService               = new TagIndexService
-  implicit lazy val grepCodesSearchService: GrepCodesSearchService = new GrepCodesSearchService
-  implicit lazy val grepCodesIndexService: GrepCodesIndexService   = new GrepCodesIndexService
   implicit lazy val internController: InternController             = new InternController
   implicit lazy val draftController: DraftController               = new DraftController
   implicit lazy val fileController: FileController                 = new FileController

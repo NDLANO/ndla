@@ -107,7 +107,7 @@ class InternControllerTest extends UnitSuite with TestEnvironment with TapirCont
   }
 
   test("That DELETE /index fails if at least one index isn't found, and no indexes are deleted") {
-    reset(articleIndexService, tagIndexService, grepCodesIndexService)
+    reset(articleIndexService, tagIndexService)
 
     doReturn(Failure(new RuntimeException("Failed to find indexes")), Nil*)
       .when(articleIndexService)
