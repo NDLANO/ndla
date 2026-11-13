@@ -1252,7 +1252,6 @@ const translations = {
       queued_for_publishing_delayed: "Publ-utsatt",
       publish_delayed: "Publ-utsatt",
       published: "Publisert",
-      has_published: "Har publisert versjon",
       unlisted: "Lenkedelt",
       unpublished: "Avpublisert",
       awaiting_unpublishing: "Til avpublisering",

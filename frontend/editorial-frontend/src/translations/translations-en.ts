@@ -1253,7 +1253,6 @@ const translations = {
       queued_for_publishing_delayed: "Queue for publishing-delayed",
       publish_delayed: "Publish-delayed",
       published: "Published",
-      has_published: "Has published version",
       unlisted: "Link shared",
       unpublished: "Unpublished",
       awaiting_unpublishing: "Awaiting unpublishing",

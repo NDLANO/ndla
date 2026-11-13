@@ -212,7 +212,7 @@ const SearchContentForm = ({ subjects, userData, children, summary }: Props) => 
 
   const draftStatuses: SelectOption[] = useMemo(() => {
     const arr = Object.keys(statuses ?? []) ?? [];
-    arr.push("HAS_PUBLISHED", "UNLISTED", "PRIVATE");
+    arr.push("UNLISTED", "PRIVATE");
     return sortBy(
       arr.map((s) => ({ id: s, name: tDynamic(t, `form.status.${lowerCased(s)}`) })),
       (s) => s.name,
