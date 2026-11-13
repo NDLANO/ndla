@@ -34,25 +34,31 @@ export const applyMarkdownShortcut = (editor: Editor, char: string): boolean => 
   if (!Text.isText(node) || node.code) return false;
 
   const before = node.text.slice(0, offset);
-  const openIndex = before.lastIndexOf(char);
+  const isDouble = before.endsWith(char);
+  const delimiter = isDouble ? char + char : char;
+  const search = isDouble ? before.slice(0, -1) : before;
+  const openIndex = search.lastIndexOf(delimiter);
   if (openIndex === -1) return false;
 
-  const content = before.slice(openIndex + 1);
+  const content = search.slice(openIndex + delimiter.length);
   if (!content.length || WHITESPACE.test(content.charAt(0)) || WHITESPACE.test(content.charAt(content.length - 1))) {
     return false;
   }
 
   // Avoid triggering in the middle of words, such as snake_case or 2*3*4.
-  const charBeforeOpen = before[openIndex - 1];
-  if (charBeforeOpen && WORD_CHAR.test(charBeforeOpen)) return false;
+  const charBeforeOpen = search[openIndex - 1];
+  if (charBeforeOpen && (WORD_CHAR.test(charBeforeOpen) || charBeforeOpen === char)) return false;
 
   editor.withoutNormalizing(() => {
+    if (isDouble) {
+      Transforms.delete(editor, { at: { path, offset: offset - 1 }, distance: 1, unit: "character" });
+    }
     Transforms.delete(editor, {
       at: { path, offset: openIndex },
-      distance: 1,
+      distance: delimiter.length,
       unit: "character",
     });
-    const markRange = { anchor: { path, offset: openIndex }, focus: { path, offset: offset - 1 } };
+    const markRange = { anchor: { path, offset: openIndex }, focus: { path, offset: openIndex + content.length } };
     const rangeRef = Editor.rangeRef(editor, markRange);
     Transforms.setNodes(editor, { [mark]: true }, { at: markRange, match: Text.isText, split: true });
     const range = rangeRef.unref();

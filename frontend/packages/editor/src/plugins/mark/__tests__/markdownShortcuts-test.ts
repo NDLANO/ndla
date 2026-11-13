@@ -60,6 +60,19 @@ describe("markdown shortcuts", () => {
     expect(editor.children).toEqual(wrap([{ text: "a " }, { text: "bold text", bold: true }, { text: " b" }]));
   });
 
+  test.each([
+    ["**", "bold"],
+    ["__", "italic"],
+  ])("%s works like a single delimiter", (delimiter, mark) => {
+    const editor = setup(`a ${delimiter}text${delimiter} b`);
+    expect(editor.children).toEqual(wrap([{ text: "a " }, { text: "text", [mark]: true }, { text: " b" }]));
+  });
+
+  test("does not trigger on doubled delimiters inside words", () => {
+    const editor = setup("2**3*");
+    expect(editor.children).toEqual(wrap([{ text: "2**3*" }]));
+  });
+
   test("text typed after the shortcut is not marked", () => {
     const editor = setup("*bold*x");
     expect(editor.children).toEqual(wrap([{ text: "bold", bold: true }, { text: "x" }]));
