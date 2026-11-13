@@ -1893,6 +1893,7 @@ object TestData {
     tags = List.empty,
     isRepublished = None,
     isPrimary = None,
+    hasPublishedVersion = None,
   )
 
   val searchableResourceTypes: List[ContextResourceType] = List(

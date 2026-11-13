@@ -113,6 +113,10 @@ case class DraftSearchParamsDTO(
     isRepublished: Option[Boolean],
     @description("Only return results with isPrimary context flag. Only works combined with subjects filter")
     isPrimary: Option[Boolean],
+    @description(
+      "Only return results that have (true) or do not have (false) a published version. A result has a published version if its current status is PUBLISHED or PUBLISHED is one of its other statuses."
+    )
+    hasPublishedVersion: Option[Boolean],
 )
 
 object DraftSearchParamsDTO {

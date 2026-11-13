@@ -401,6 +401,7 @@ class SearchController(using
             tags = stringListParam("tags").some,
             isRepublished = booleanParamOrNone("is-republished"),
             isPrimary = booleanParamOrNone("is-primary"),
+            hasPublishedVersion = booleanParamOrNone("has-published-version"),
           )
         )
 
@@ -555,6 +556,7 @@ class SearchController(using
           tags = params.tags.getOrElse(List.empty),
           isRepublished = params.isRepublished,
           isPrimary = params.isPrimary,
+          hasPublishedVersion = params.hasPublishedVersion,
         )
     }
   }
