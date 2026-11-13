@@ -1363,6 +1363,9 @@ const translations = {
       description:
         "Skriv inn koder som starter på riktig format ({{ codes }}) fulgt av ett eller flere siffer. Koder som ikke finnes vil ikke bli opprettet. Separer flere koder med komma. Tekstene vises på bokmål i ed men korrekt i artikkelvisning. Du kan også filtrere på læreplankoder.",
       expired: "Denne koden er ikke lenger aktiv",
+      unmatched: "Kompetansemålet hører ikke til noen av fagene ressursen er plassert i",
+      unmatchedSection: "Ett eller flere kompetansemål hører ikke til fagene ressursen er plassert i",
+      foreignLanguages: "Fremmedspråk",
     },
     articleDisclaimer: {
       title: "Informasjon om tilgjengelighet for hele artikkelen",
@@ -1989,6 +1992,8 @@ const translations = {
       button: "Kompetansemål",
       buttonLabel: "Velg kompetansemål fra {{subject}}",
       buttonLabelSelected: "Velg kompetansemål fra {{subject}} ({{count}} valgt)",
+      buttonLabelMissing: "Velg kompetansemål fra {{subject}}. Ressursen har ingen kompetansemål fra faget.",
+      missingSection: "Ressursen mangler kompetansemål fra ett eller flere av fagene den er plassert i",
       title: "Kompetansemål i {{subject}}",
       description: "Kryss av for kompetansemålene som skal knyttes til ressursen.",
       empty: "Fant ingen kompetansemål for faget",

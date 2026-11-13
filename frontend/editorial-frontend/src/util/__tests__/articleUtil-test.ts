@@ -7,7 +7,7 @@
  */
 
 import { GREP_CODE_FORMATS } from "../../constants";
-import { isGrepCodeValid, getSlugFromTitle } from "../articleUtil";
+import { isGrepCodeValid, getSlugFromTitle, isGrepCodeInactive } from "../articleUtil";
 
 test("isGrepCodeValid correct behavior", () => {
   const grepCodes = new Map();
@@ -30,6 +30,14 @@ test("isGrepCodeValid correct behavior", () => {
   grepCodes.forEach((value, key) => {
     expect(isGrepCodeValid(key, Object.values(GREP_CODE_FORMATS))).toBe(value);
   });
+});
+
+test("isGrepCodeInactive is true only for expired and invalid codes", () => {
+  expect(isGrepCodeInactive("Expired")).toBe(true);
+  expect(isGrepCodeInactive("Invalid")).toBe(true);
+  expect(isGrepCodeInactive("Published")).toBe(false);
+  expect(isGrepCodeInactive("InProgress")).toBe(false);
+  expect(isGrepCodeInactive("ToRevision")).toBe(false);
 });
 
 test("getSlugFromTitle filters away correct illegal characters", () => {

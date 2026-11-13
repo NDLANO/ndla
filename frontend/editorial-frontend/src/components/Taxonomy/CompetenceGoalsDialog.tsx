@@ -36,9 +36,10 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { GREP_CODE_FORMATS } from "../../constants";
 import { searchGrepCodesQueryOptions } from "../../modules/search/searchQueries";
-import { isGrepCodeValid } from "../../util/articleUtil";
+import { isGrepCodeInactive, isGrepCodeValid } from "../../util/articleUtil";
 import { DialogCloseButton } from "../DialogCloseButton";
 import { countSelectedCompetenceGoals, getCompetenceGoalCodes, groupCompetenceGoals } from "./competenceGoalsUtil";
+import { CompetenceGoalWarningIcon } from "./CompetenceGoalWarningIcon";
 
 const ContentWrapper = styled("div", {
   base: {
@@ -95,9 +96,10 @@ const SelectedCount = styled("span", {
 
 interface Props {
   subject: Node;
+  hasNoGoalsFromSubject?: boolean;
 }
 
-export const CompetenceGoalsDialog = ({ subject }: Props) => {
+export const CompetenceGoalsDialog = ({ subject, hasNoGoalsFromSubject }: Props) => {
   const { t } = useTranslation();
   const [field] = useField<string[]>("grepCodes");
   const setCodes = useMemo(
@@ -115,15 +117,20 @@ export const CompetenceGoalsDialog = ({ subject }: Props) => {
 
   if (!setCodes.length) return null;
 
-  const label = selectedCount
-    ? t("taxonomy.competenceGoals.buttonLabelSelected", { subject: subject.name, count: selectedCount })
-    : t("taxonomy.competenceGoals.buttonLabel", { subject: subject.name });
+  const showNoGoalsWarning = !!hasNoGoalsFromSubject && !selectedCount;
+  let label = t("taxonomy.competenceGoals.buttonLabel", { subject: subject.name });
+  if (selectedCount) {
+    label = t("taxonomy.competenceGoals.buttonLabelSelected", { subject: subject.name, count: selectedCount });
+  } else if (showNoGoalsWarning) {
+    label = t("taxonomy.competenceGoals.buttonLabelMissing", { subject: subject.name });
+  }
 
   return (
     <DialogRoot size="large" position="top">
       <DialogTrigger asChild>
         <TriggerButton size="small" variant="secondary" selected={!!selectedCount} aria-label={label} title={label}>
           {!!selectedCount && <CheckLine />}
+          {!!showNoGoalsWarning && <CompetenceGoalWarningIcon />}
           {t("taxonomy.competenceGoals.button")}
           {!!selectedCount && <SelectedCount>{selectedCount}</SelectedCount>}
         </TriggerButton>
@@ -191,7 +198,7 @@ const CompetenceGoalsContent = ({ setCodes }: { setCodes: string[] }) => {
                       </CheckboxIndicator>
                     </CheckboxControl>
                     <CheckboxLabel textStyle="body.medium">{`${goal.title.title} (${goal.code})`}</CheckboxLabel>
-                    {goal.status !== "Published" && <StyledAlertLine title={t("form.grepCodes.expired")} />}
+                    {isGrepCodeInactive(goal.status) && <StyledAlertLine title={t("form.grepCodes.expired")} />}
                     <CheckboxHiddenInput />
                   </CheckboxRoot>
                 ))}

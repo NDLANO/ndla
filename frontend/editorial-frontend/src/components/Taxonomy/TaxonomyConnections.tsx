@@ -11,9 +11,11 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { Node, NodeChild, NodeConnection } from "@ndla/types-backend/taxonomy-api";
 import { sortBy } from "@ndla/util";
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useField } from "formik";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { REMEMBER_MATOMO, TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../constants";
+import { useCompetenceGoalTaxonomy } from "../../containers/FormikForm/useCompetenceGoalTaxonomy";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
 import { useLocalStorageBooleanState } from "../../containers/WelcomePage/hooks/storedFilterHooks";
@@ -122,6 +124,13 @@ export const TaxonomyConnections = ({
         subject.filter((s) => !!s.name),
         (s) => s.name,
       ),
+  });
+
+  const [grepCodesField] = useField<string[]>("grepCodes");
+  const { subjectsWithoutGoals } = useCompetenceGoalTaxonomy({
+    grepCodes: grepCodesField.value,
+    contentURI: `urn:${resourceType}:${resourceId}`,
+    language,
   });
 
   const [structure, setStructure] = useState<NodeWithChildren[]>(subjectsQuery.data ?? []);
@@ -265,6 +274,7 @@ export const TaxonomyConnections = ({
             type={type}
             updateConnection={updateNodeConnection}
             subject={subjectsQuery.data?.find((subject) => subject.id === node.context?.rootId)}
+            hasNoGoalsFromSubject={!!node.context && subjectsWithoutGoals.has(node.context.rootId)}
             readOnly={isReadOnly}
             matomoStats={
               showMatomoStats

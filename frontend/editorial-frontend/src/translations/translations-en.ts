@@ -1364,6 +1364,9 @@ const translations = {
       description:
         "Type in codes using the correct format ({{ codes }}) followed by one or more digits. Non existing codes will not be created. Separate multiple codes with comma. Texts will be displayed in norwegian here but will be shown correct in frontend. You can also filter on learningplan codes.",
       expired: "This code is no longer active",
+      unmatched: "The competence goal does not belong to any of the subjects the resource is placed in",
+      unmatchedSection: "One or more competence goals do not belong to the subjects the resource is placed in",
+      foreignLanguages: "Foreign languages",
     },
     articleDisclaimer: {
       title: "Information about availability for the entire article",
@@ -1994,6 +1997,9 @@ const translations = {
       button: "Competence goals",
       buttonLabel: "Choose competence goals from {{subject}}",
       buttonLabelSelected: "Choose competence goals from {{subject}} ({{count}} selected)",
+      buttonLabelMissing:
+        "Choose competence goals from {{subject}}. The resource has no competence goals from this subject.",
+      missingSection: "The resource has no competence goals from one or more of the subjects it is placed in",
       title: "Competence goals in {{subject}}",
       description: "Check the competence goals that should be connected to the resource.",
       empty: "Found no competence goals for this subject",
