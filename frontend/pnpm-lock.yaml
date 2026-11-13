@@ -361,8 +361,8 @@ catalogs:
       specifier: ^12.0.0
       version: 12.0.0
     i18next:
-      specifier: ^27.1.0
-      version: 27.1.0
+      specifier: ^27.1.1
+      version: 27.1.1
     is-hotkey:
       specifier: ^0.2.1
       version: 0.2.1
@@ -567,7 +567,7 @@ importers:
         version: 12.0.0
       i18next:
         specifier: 'catalog:'
-        version: 27.1.0(@typescript/typescript6@6.0.2)
+        version: 27.1.1(@typescript/typescript6@6.0.2)
       jsdom:
         specifier: 'catalog:'
         version: 31.0.0
@@ -597,7 +597,7 @@ importers:
         version: 19.3.1(react@19.3.1)
       react-i18next:
         specifier: 'catalog:'
-        version: 18.0.1(@types/react@19.3.0)(@typescript/typescript6@6.0.2)(i18next@27.1.0(@typescript/typescript6@6.0.2))(react@19.3.1)
+        version: 18.0.1(@types/react@19.3.0)(@typescript/typescript6@6.0.2)(i18next@27.1.1(@typescript/typescript6@6.0.2))(react@19.3.1)
       react-router:
         specifier: 'catalog:'
         version: 8.5.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -778,7 +778,7 @@ importers:
         version: 10.14.0(jiti@2.7.0)(supports-color@10.2.2)
       i18next:
         specifier: 'catalog:'
-        version: 27.1.0(typescript@7.0.2)
+        version: 27.1.1(typescript@7.0.2)
       oxlint:
         specifier: 'catalog:'
         version: 1.93.0(oxlint-tsgolint@7.0.2006)
@@ -793,7 +793,7 @@ importers:
         version: 19.3.1(react@19.3.1)
       react-i18next:
         specifier: 'catalog:'
-        version: 18.0.1(@types/react@19.3.0)(i18next@27.1.0(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2)
+        version: 18.0.1(@types/react@19.3.0)(i18next@27.1.1(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2)
       react-router:
         specifier: 'catalog:'
         version: 8.5.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -952,7 +952,7 @@ importers:
         version: 1.0.5
       i18next:
         specifier: 'catalog:'
-        version: 27.1.0(typescript@7.0.2)
+        version: 27.1.1(typescript@7.0.2)
       is-hotkey:
         specifier: 'catalog:'
         version: 0.2.1
@@ -1006,7 +1006,7 @@ importers:
         version: 19.3.1(react@19.3.1)
       react-i18next:
         specifier: 'catalog:'
-        version: 18.0.1(@types/react@19.3.0)(i18next@27.1.0(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2)
+        version: 18.0.1(@types/react@19.3.0)(i18next@27.1.1(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2)
       react-image-crop:
         specifier: ^11.1.2
         version: 11.1.2(react@19.3.1)
@@ -1395,7 +1395,7 @@ importers:
         version: 6.1.9(@types/react@19.3.0)(react@19.3.1)
       i18next:
         specifier: 'catalog:'
-        version: 27.1.0(typescript@7.0.2)
+        version: 27.1.1(typescript@7.0.2)
       ipaddr.js:
         specifier: ^2.5.0
         version: 2.5.0
@@ -1422,7 +1422,7 @@ importers:
         version: 7.91.0(@types/react@19.3.0)(react@19.3.1)
       react-i18next:
         specifier: 'catalog:'
-        version: 18.0.1(@types/react@19.3.0)(i18next@27.1.0(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2)
+        version: 18.0.1(@types/react@19.3.0)(i18next@27.1.1(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2)
       react-router:
         specifier: 'catalog:'
         version: 8.5.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -1646,7 +1646,7 @@ importers:
         version: 12.0.0
       i18next:
         specifier: 'catalog:'
-        version: 27.1.0(typescript@7.0.2)
+        version: 27.1.1(typescript@7.0.2)
       nx:
         specifier: 'catalog:'
         version: 24.0.5
@@ -1667,7 +1667,7 @@ importers:
         version: 19.3.1(react@19.3.1)
       react-i18next:
         specifier: 'catalog:'
-        version: 18.0.1(@types/react@19.3.0)(i18next@27.1.0(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2)
+        version: 18.0.1(@types/react@19.3.0)(i18next@27.1.1(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2)
       react-router:
         specifier: 'catalog:'
         version: 8.5.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -1710,7 +1710,7 @@ importers:
         version: link:../types-embed
       i18next:
         specifier: 'catalog:'
-        version: 27.1.0(typescript@7.0.2)
+        version: 27.1.1(typescript@7.0.2)
       react:
         specifier: 'catalog:'
         version: 19.3.1
@@ -1719,7 +1719,7 @@ importers:
         version: 19.3.1(react@19.3.1)
       react-i18next:
         specifier: 'catalog:'
-        version: 18.0.1(@types/react@19.3.0)(i18next@27.1.0(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2)
+        version: 18.0.1(@types/react@19.3.0)(i18next@27.1.1(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2)
       react-router:
         specifier: 'catalog:'
         version: 8.5.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -1975,7 +1975,7 @@ importers:
     devDependencies:
       i18next:
         specifier: 'catalog:'
-        version: 27.1.0(typescript@7.0.2)
+        version: 27.1.1(typescript@7.0.2)
       tsdown:
         specifier: 'catalog:'
         version: 0.23.7(oxc-resolver@11.21.2)(tsx@4.23.15)(typescript@7.0.2)
@@ -2169,7 +2169,7 @@ importers:
         version: 2.5.0(@emnapi/core@2.0.0-beta.2)(@emnapi/runtime@2.0.0-beta.2)(postcss@8.5.32)
       i18next:
         specifier: 'catalog:'
-        version: 27.1.0(typescript@7.0.2)
+        version: 27.1.1(typescript@7.0.2)
       react:
         specifier: 'catalog:'
         version: 19.3.1
@@ -2178,7 +2178,7 @@ importers:
         version: 19.3.1(react@19.3.1)
       react-i18next:
         specifier: 'catalog:'
-        version: 18.0.1(@types/react@19.3.0)(i18next@27.1.0(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2)
+        version: 18.0.1(@types/react@19.3.0)(i18next@27.1.1(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2)
       react-router:
         specifier: 'catalog:'
         version: 8.5.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -9034,8 +9034,8 @@ packages:
     resolution: {integrity: sha512-eKCa6bwnJhvxj14kZk5NCPc6Hb6BdsU9DZcOnmQKSnO1VKrfV0zCvtttPZUsBvjmNDn8rpcJfpwSYnHBjc95MQ==}
     engines: {node: '>=18.18.0'}
 
-  i18next@27.1.0:
-    resolution: {integrity: sha512-xdjb2OXFRm33rClqknpJmmYBvrPcaoEQ7/4kur5uTrbqckqzkbRO0ns6gFFki5TDmHzbIrFYpNBXhaRafmhJ/Q==}
+  i18next@27.1.1:
+    resolution: {integrity: sha512-Qq3aJizS3RXQ30crhx9BKQLrHoa6GKpgrOJjVZ9vgj3EBxAddrmVfDNUrAMxSUimw5Jc+ld4SSZUAzf1q4nGyQ==}
     engines: {node: '>=22'}
     peerDependencies:
       typescript: ^5 || ^6 || ^7
@@ -20078,11 +20078,11 @@ snapshots:
 
   human-signals@8.0.1: {}
 
-  i18next@27.1.0(@typescript/typescript6@6.0.2):
+  i18next@27.1.1(@typescript/typescript6@6.0.2):
     optionalDependencies:
       typescript: '@typescript/typescript6@6.0.2'
 
-  i18next@27.1.0(typescript@7.0.2):
+  i18next@27.1.1(typescript@7.0.2):
     optionalDependencies:
       typescript: 7.0.2
 
@@ -22213,19 +22213,19 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.3.0
 
-  react-i18next@18.0.1(@types/react@19.3.0)(@typescript/typescript6@6.0.2)(i18next@27.1.0(@typescript/typescript6@6.0.2))(react@19.3.1):
+  react-i18next@18.0.1(@types/react@19.3.0)(@typescript/typescript6@6.0.2)(i18next@27.1.1(@typescript/typescript6@6.0.2))(react@19.3.1):
     dependencies:
       html-parse-stringify: 4.0.1
-      i18next: 27.1.0(@typescript/typescript6@6.0.2)
+      i18next: 27.1.1(@typescript/typescript6@6.0.2)
       react: 19.3.1
     optionalDependencies:
       '@types/react': 19.3.0
       typescript: '@typescript/typescript6@6.0.2'
 
-  react-i18next@18.0.1(@types/react@19.3.0)(i18next@27.1.0(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2):
+  react-i18next@18.0.1(@types/react@19.3.0)(i18next@27.1.1(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2):
     dependencies:
       html-parse-stringify: 4.0.1
-      i18next: 27.1.0(typescript@7.0.2)
+      i18next: 27.1.1(typescript@7.0.2)
       react: 19.3.1
     optionalDependencies:
       '@types/react': 19.3.0
