@@ -358,6 +358,15 @@ const SlateBlockPicker = ({
     ReactEditor.focus(editor);
   }, [editor]);
 
+  // Release a pending PathRef if the picker unmounts while the visual element dialog is open.
+  useEffect(
+    () => () => {
+      insertPathRef.current?.unref();
+      insertPathRef.current = null;
+    },
+    [],
+  );
+
   const onInsertBlock = useCallback(
     (block: Element, selectBlock?: boolean) => {
       const pathRef = insertPathRef.current;
