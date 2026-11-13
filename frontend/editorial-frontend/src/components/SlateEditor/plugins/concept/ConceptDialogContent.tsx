@@ -145,7 +145,6 @@ const ConceptDialogContent = ({
                 searchObject={searchObject}
                 onClearSearch={() => setSearchObject(DEFAULT_PARAMS)}
                 locale={locale}
-                userData={undefined}
               />
               <GenericSearchList
                 type="concept"
