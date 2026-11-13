@@ -353,8 +353,11 @@ const SlateBlockPicker = ({
   const onVisualElementClose = useCallback(() => {
     setVisualElementPickerOpen(false);
     setType("");
-    insertPathRef.current?.unref();
+    const storedPath = insertPathRef.current?.unref();
     insertPathRef.current = null;
+    if (storedPath) {
+      Transforms.select(editor, storedPath);
+    }
     ReactEditor.focus(editor);
   }, [editor]);
 
