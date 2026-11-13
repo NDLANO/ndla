@@ -82,6 +82,7 @@ export const LearningpathTaxonomy = ({ learningpath, resourceLanguage, nodes, ve
             resourceTitle={learningpath.title.title}
             node={node}
             placements={placements ?? []}
+            isPublished={learningpath.status === "PUBLISHED"}
           />
         </>
       )}

@@ -10,11 +10,19 @@ import { DeleteBinLine } from "@ndla/icons";
 import { Button, IconButton, ListItemContent, ListItemHeading, ListItemRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { Node, NodeConnection } from "@ndla/types-backend/taxonomy-api";
-import type { ComponentProps } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useField } from "formik";
+import { type ComponentProps, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { GREP_CODE_FORMATS } from "../../constants";
+import { searchGrepCodesQueryOptions } from "../../modules/search/searchQueries";
+import { isGrepCodeValid } from "../../util/articleUtil";
+import { AlertDialog } from "../AlertDialog/AlertDialog";
+import { FormActionsContainer } from "../FormikForm";
 import MatomoStats from "../MatomoStats";
 import Breadcrumb from "./Breadcrumb";
 import { CompetenceGoalsDialog } from "./CompetenceGoalsDialog";
+import { countSelectedCompetenceGoals, removeCompetenceGoals } from "./competenceGoalsUtil";
 import RelevanceOptionSwitch from "./RelevanceOptionSwitch";
 import type { MinimalNodeChild } from "./types";
 
@@ -50,7 +58,45 @@ interface Props {
   matomoStats?: ComponentProps<typeof MatomoStats>;
   subject?: Node;
   readOnly?: boolean;
+  isOnlyPlacement?: boolean;
+  isPublished?: boolean;
 }
+
+interface DeleteWithCompetenceGoalsButtonProps {
+  subject: Node;
+  onDelete: () => void;
+}
+
+const DeleteWithCompetenceGoalsButton = ({ subject, onDelete }: DeleteWithCompetenceGoalsButtonProps) => {
+  const { t } = useTranslation();
+  const [field, , helpers] = useField<string[]>("grepCodes");
+  const setCodes = useMemo(
+    () => subject.metadata.grepCodes.filter((code) => isGrepCodeValid(code, [GREP_CODE_FORMATS.KOMPETANSEMALSETT])),
+    [subject.metadata.grepCodes],
+  );
+  const setsQuery = useQuery({
+    ...searchGrepCodesQueryOptions({ codes: setCodes, pageSize: setCodes.length }),
+    enabled: !!setCodes.length,
+  });
+  const selectedCount = useMemo(
+    () => countSelectedCompetenceGoals(setsQuery.data?.results ?? [], field.value),
+    [setsQuery.data, field.value],
+  );
+
+  if (!selectedCount) return null;
+
+  return (
+    <Button
+      variant="danger"
+      onClick={() => {
+        helpers.setValue(removeCompetenceGoals(setsQuery.data?.results ?? [], field.value));
+        onDelete();
+      }}
+    >
+      {t("taxonomy.competenceGoals.deleteWithGoals")}
+    </Button>
+  );
+};
 
 const ActiveTopicConnection = ({
   removeConnection,
@@ -60,8 +106,11 @@ const ActiveTopicConnection = ({
   matomoStats,
   subject,
   readOnly,
+  isOnlyPlacement,
+  isPublished,
 }: Props) => {
   const { t } = useTranslation();
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   if (type === "topic" || !("connectionId" in node)) {
     return (
@@ -78,6 +127,15 @@ const ActiveTopicConnection = ({
       </ListItemRoot>
     );
   }
+
+  const deleteDisabledReason =
+    isOnlyPlacement && isPublished
+      ? t("taxonomy.removeLastPublishedPlacementDisabled")
+      : node.isPrimary && !isOnlyPlacement
+        ? t("taxonomy.removeResourceDisabled")
+        : undefined;
+  const deleteDisabled = !!deleteDisabledReason;
+
   return (
     <ListItemRoot asChild consumeCss>
       <li>
@@ -112,18 +170,49 @@ const ActiveTopicConnection = ({
             {!!subject && <CompetenceGoalsDialog subject={subject} />}
             {!readOnly && (
               <IconButton
-                aria-label={!node.isPrimary ? t("taxonomy.removeResource") : t("taxonomy.removeResourceDisabled")}
-                title={!node.isPrimary ? t("taxonomy.removeResource") : t("taxonomy.removeResourceDisabled")}
+                aria-label={deleteDisabledReason ?? t("taxonomy.removeResource")}
+                title={deleteDisabledReason ?? t("taxonomy.removeResource")}
                 variant="danger"
                 size="small"
-                disabled={node.isPrimary}
-                onClick={() => removeConnection?.(node.connectionId)}
+                disabled={deleteDisabled}
+                onClick={() => setShowDeleteConfirm(true)}
               >
                 <DeleteBinLine />
               </IconButton>
             )}
           </StyledWrapper>
         </ListItemContent>
+        <AlertDialog
+          title={t("taxonomy.removeResource")}
+          label={t("taxonomy.removeResource")}
+          show={showDeleteConfirm}
+          text={t("taxonomy.removeConnectionConfirm")}
+          onCancel={() => setShowDeleteConfirm(false)}
+        >
+          <FormActionsContainer>
+            <Button onClick={() => setShowDeleteConfirm(false)} variant="secondary">
+              {t("form.abort")}
+            </Button>
+            <Button
+              onClick={() => {
+                setShowDeleteConfirm(false);
+                removeConnection?.(node.connectionId);
+              }}
+              variant="danger"
+            >
+              {t("alertDialog.delete")}
+            </Button>
+            {!!subject && (
+              <DeleteWithCompetenceGoalsButton
+                subject={subject}
+                onDelete={() => {
+                  setShowDeleteConfirm(false);
+                  removeConnection?.(node.connectionId);
+                }}
+              />
+            )}
+          </FormActionsContainer>
+        </AlertDialog>
       </li>
     </ListItemRoot>
   );

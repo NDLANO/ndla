@@ -93,6 +93,8 @@ const LearningResourceTaxonomy = ({ article, articleLanguage, hasTaxEntries }: P
 
   const versionsQuery = useQuery(versionsQueryOptions());
 
+  const isPublished = article.status.current === "PUBLISHED" || article.status.other.includes("PUBLISHED");
+
   if (nodesQuery.isLoading || allResourceTypesQuery.isLoading || versionsQuery.isLoading) {
     return <Spinner />;
   }
@@ -140,6 +142,7 @@ const LearningResourceTaxonomy = ({ article, articleLanguage, hasTaxEntries }: P
             resourceTitle={article.title?.title ?? ""}
             node={node}
             placements={placements ?? []}
+            isPublished={isPublished}
           />
         </>
       )}

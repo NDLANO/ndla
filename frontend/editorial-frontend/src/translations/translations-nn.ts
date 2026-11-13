@@ -1889,7 +1889,11 @@ const translations = {
     setPrimary: "Sett til primærkobling",
     addResource: "Legg til ressurs",
     removeResource: "Fjern ressurs frå emne",
+    removeConnectionConfirm:
+      "Er du sikker på at du vil fjerne denne plasseringa?\
+    Hugs å fjerne kompetansemål som ikkje er relevante lenger",
     removeResourceDisabled: "Du kan ikkje slette ei primærkopling",
+    removeLastPublishedPlacementDisabled: "Du kan ikkje slette den siste plasseringa til ein publisert ressurs",
     searchResource: "Søk etter ressurs",
     searchArticle: "Søk etter emneartikkel",
     or: "Eller",
@@ -1996,6 +2000,7 @@ const translations = {
       title: "Kompetansemål i {{subject}}",
       description: "Kryss av for kompetansemåla som skal knytast til ressursen.",
       empty: "Fann ingen kompetansemål for faget",
+      deleteWithGoals: "Slett og fjern kompetansemål",
     },
     copyRevisionDates: {
       text: "Er du heilt sikker på at du ønsker å kopiere denne revisjonsdatoen? Dette vil sette alle revisjonsdatoar frå denne noden til alle undernoder og ressursar.",
@@ -2048,7 +2053,6 @@ const translations = {
     warnings: {
       addPrimaryConnectionCompetenceGoals: "Hugs å leggje til kompetansemål",
       newPrimaryConnectionDepartment: "Dersom ny redaksjon overtek primærkoblinga må du seie frå",
-      removeConnectionCompetenceGoals: "Hugs å fjerne kompetansemål som ikkje er relevante lenger",
     },
     core: {
       title: "Læringsressursar",
