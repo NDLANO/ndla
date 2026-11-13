@@ -317,9 +317,6 @@ export const QuizQuestionScreen = ({
                   total: questionCount,
                 })}
               </Text>
-              <Text textStyle="label.xsmall" color="text.subtle">
-                {t("myNdla.quiz.take.percentComplete", { percent })}
-              </Text>
             </ProgressRow>
             <ProgressTrack aria-hidden>
               <ProgressFill style={progressStyle} />
