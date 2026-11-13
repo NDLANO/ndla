@@ -16,6 +16,8 @@ import no.ndla.myndlaapi.model.api.*
 import no.ndla.myndlaapi.model.domain.*
 import no.ndla.network.model.FeideID
 
+import java.util.UUID
+
 class QuizConverterService {
 
   def toApiAlternative(a: Alternative, isOwner: Boolean): AlternativeDTO = AlternativeDTO(
@@ -35,6 +37,7 @@ class QuizConverterService {
     glossaryPairs = q.glossaryPairs.map(p => GlossaryPairDTO(p.word, p.definition)),
     required = q.required,
     alternativesRandomOrder = q.alternativesRandomOrder,
+    sortOrder = q.sortOrder,
     created = q.created,
     updated = q.updated,
   )
@@ -54,7 +57,7 @@ class QuizConverterService {
       title = title,
       description = description,
       language = resolvedLanguage,
-      questions = quiz.questions.map(toApiQuestion(_, isOwner)),
+      questions = quiz.questions.sortBy(_.sortOrder).map(toApiQuestion(_, isOwner)),
       status = quiz.status,
       created = quiz.created,
       updated = quiz.updated,
@@ -68,7 +71,7 @@ class QuizConverterService {
   def toDomainAlternative(a: NewAlternativeDTO): Alternative =
     Alternative(id = UUIDUtil.randomUUID(), text = a.text, isCorrect = a.isCorrect)
 
-  def toDomainQuestion(dto: NewQuestionDTO, now: NDLADate, language: String): Question = Question(
+  def toDomainQuestion(dto: NewQuestionDTO, now: NDLADate, language: String, sortOrder: Int): Question = Question(
     id = UUIDUtil.randomUUID(),
     questionType = dto.questionType,
     language = language,
@@ -77,6 +80,7 @@ class QuizConverterService {
     glossaryPairs = dto.glossaryPairs.map(p => GlossaryPair(p.word, p.definition)),
     required = dto.required,
     alternativesRandomOrder = dto.alternativesRandomOrder,
+    sortOrder = sortOrder,
     created = now,
     updated = now,
   )
@@ -119,15 +123,8 @@ class QuizConverterService {
           )
       case None => existing.displaySettings
     }
-    val updatedQuestions = dto.questionOrder match {
-      case Some(order) =>
-        val positions = order.zipWithIndex.toMap
-        existing.questions.sortBy(q => positions.getOrElse(q.id, order.size))
-      case None => existing.questions
-    }
     existing.copy(
       revision = Some(dto.revision),
-      questions = updatedQuestions,
       title = updatedTitle,
       description = updatedDesc,
       displaySettings = updatedDisplaySettings,
@@ -146,4 +143,22 @@ class QuizConverterService {
     alternativesRandomOrder = dto.alternativesRandomOrder.getOrElse(existing.alternativesRandomOrder),
     updated = now,
   )
+
+  def normalizeSortOrder(questions: Seq[Question]): Seq[Question] = renumber(questions.sortBy(_.sortOrder))
+
+  private def renumber(inOrder: Seq[Question]): Seq[Question] = inOrder
+    .zipWithIndex
+    .map { case (q, idx) =>
+      q.copy(sortOrder = idx)
+    }
+
+  def moveQuestion(questions: Seq[Question], questionId: UUID, position: Int): Seq[Question] = {
+    val sorted = questions.sortBy(_.sortOrder)
+    sorted.find(_.id == questionId) match {
+      case Some(moved) =>
+        val (before, after) = sorted.filterNot(_.id == questionId).splitAt(position.max(0).min(sorted.size - 1))
+        renumber(before ++ Seq(moved) ++ after)
+      case None => questions
+    }
+  }
 }

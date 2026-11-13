@@ -1390,6 +1390,11 @@ export type components = {
             required: boolean;
             /** @description Whether the alternatives should be shown in random order */
             alternativesRandomOrder: boolean;
+            /**
+             * Format: int32
+             * @description Position of the question in the quiz, starting at 0
+             */
+            sortOrder: number;
             /** @description Creation date */
             created: string;
             /** @description Last updated date */
@@ -1713,6 +1718,11 @@ export type components = {
             required?: boolean;
             /** @description Whether the alternatives should be shown in random order */
             alternativesRandomOrder?: boolean;
+            /**
+             * Format: int32
+             * @description New position of the question in the quiz, starting at 0. The other questions are shifted accordingly
+             */
+            sortOrder?: number;
         };
         /**
          * UpdatedQuizDTO
@@ -1729,8 +1739,6 @@ export type components = {
             /** @description Quiz description */
             description?: string;
             displaySettings?: components["schemas"]["UpdatedDisplaySettingsDTO"];
-            /** @description Ids of the questions in the desired order. Questions not listed are placed last in their existing order */
-            questionOrder?: string[];
         };
         /** UpdatedResourceDTO */
         UpdatedResourceDTO: {
