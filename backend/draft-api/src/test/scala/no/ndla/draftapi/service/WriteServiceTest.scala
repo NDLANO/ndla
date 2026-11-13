@@ -65,7 +65,6 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     reset(articleIndexService)
     reset(draftRepository)
     reset(tagIndexService)
-    reset(grepCodesIndexService)
     reset(contentValidator)
 
     when(draftRepository.withId(eqTo(articleId))(using any)).thenReturn(Success(Some(article)))
@@ -73,7 +72,6 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
       Try(invocation.nn.getArgument[Draft](0))
     )
     when(tagIndexService.indexDocument(any[Draft])).thenAnswer(invocation => Try(invocation.nn.getArgument[Draft](0)))
-    when(grepCodesIndexService.indexDocument(any)).thenAnswer(invocation => Try(invocation.nn.getArgument[Draft](0)))
     when(readService.addUrlsOnEmbedResources(any[Draft])).thenAnswer(invocation => invocation.nn.getArgument[Draft](0))
     when(contentValidator.validateArticle(any[Draft])(using any[DBSession])).thenReturn(Success(article))
     when(contentValidator.validateArticle(any, any[Draft])(using any[DBSession])).thenReturn(Success(article))

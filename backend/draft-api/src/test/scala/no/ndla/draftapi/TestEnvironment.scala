@@ -47,13 +47,11 @@ trait TestEnvironment extends TapirApplication[DraftApiProperties] with MockitoS
   implicit lazy val ndlaServer: NdlaServer               = mock[NdlaServer]
   implicit lazy val services: List[TapirController]      = List.empty
 
-  implicit lazy val articleSearchService: ArticleSearchService     = mock[ArticleSearchService]
-  implicit lazy val articleIndexService: ArticleIndexService       = mock[ArticleIndexService]
-  implicit lazy val tagSearchService: TagSearchService             = mock[TagSearchService]
-  implicit lazy val tagIndexService: TagIndexService               = mock[TagIndexService]
-  implicit lazy val grepCodesSearchService: GrepCodesSearchService = mock[GrepCodesSearchService]
-  implicit lazy val grepCodesIndexService: GrepCodesIndexService   = mock[GrepCodesIndexService]
-  implicit lazy val traitUtil: TraitUtil                           = mock[TraitUtil]
+  implicit lazy val articleSearchService: ArticleSearchService = mock[ArticleSearchService]
+  implicit lazy val articleIndexService: ArticleIndexService   = mock[ArticleIndexService]
+  implicit lazy val tagSearchService: TagSearchService         = mock[TagSearchService]
+  implicit lazy val tagIndexService: TagIndexService           = mock[TagIndexService]
+  implicit lazy val traitUtil: TraitUtil                       = mock[TraitUtil]
 
   implicit lazy val internController: InternController      = mock[InternController]
   implicit lazy val draftController: DraftController        = mock[DraftController]

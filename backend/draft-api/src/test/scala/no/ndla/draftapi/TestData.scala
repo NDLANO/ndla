@@ -622,8 +622,7 @@ object TestData {
 
   val sampleLearningPath: LearningPath = LearningPath(1, Title("Title", "nb"))
 
-  val sampleApiGrepCodesSearchResult: GrepCodesSearchResultDTO = api.GrepCodesSearchResultDTO(10, 1, 1, Seq("a", "b"))
-  val sampleApiTagsSearchResult: TagsSearchResultDTO           = api.TagsSearchResultDTO(10, 1, 1, "nb", Seq("a", "b"))
+  val sampleApiTagsSearchResult: TagsSearchResultDTO = api.TagsSearchResultDTO(10, 1, 1, "nb", Seq("a", "b"))
 
   val searchSettings: domain.SearchSettings = domain.SearchSettings(
     query = None,

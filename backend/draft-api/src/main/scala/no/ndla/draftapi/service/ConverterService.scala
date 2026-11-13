@@ -775,10 +775,6 @@ class ConverterService(using
     Success(converted)
   }
 
-  def toApiArticleGrepCodes(result: domain.LanguagelessSearchResult[String]): api.GrepCodesSearchResultDTO = {
-    api.GrepCodesSearchResultDTO(result.totalCount, result.page.getOrElse(1), result.pageSize, result.results)
-  }
-
   def addNote(article: Draft, noteText: String, user: TokenUser): Draft = {
     article.copy(notes = article.notes :+ common.EditorNote(noteText, user.id, article.status, clock.now()))
   }

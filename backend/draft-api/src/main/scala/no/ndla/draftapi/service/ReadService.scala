@@ -23,7 +23,7 @@ import no.ndla.draftapi.model.api
 import no.ndla.draftapi.model.api.{ArticleRevisionHistoryDTO, NotFoundException}
 import no.ndla.draftapi.model.domain.ImportId
 import no.ndla.draftapi.repository.{DraftRepository, UserDataRepository}
-import no.ndla.draftapi.service.search.{GrepCodesSearchService, SearchConverterService, TagSearchService}
+import no.ndla.draftapi.service.search.{SearchConverterService, TagSearchService}
 import no.ndla.validation.*
 import org.jsoup.nodes.Element
 
@@ -35,7 +35,6 @@ class ReadService(using
     draftRepository: DraftRepository,
     converterService: ConverterService,
     tagSearchService: => TagSearchService,
-    grepCodesSearchService: => GrepCodesSearchService,
     searchConverterService: => SearchConverterService,
     userDataRepository: UserDataRepository,
     writeService: => WriteService,
@@ -113,12 +112,6 @@ class ReadService(using
         count   <- draftRepository.articleCount
       } yield api.ArticleDomainDumpDTO(count, pageNo, pageSize, results)
     }
-  }
-
-  def getAllGrepCodes(input: String, pageSize: Int, page: Int): Try[api.GrepCodesSearchResultDTO] = {
-    val result = grepCodesSearchService.matchingQuery(input, page, pageSize)
-    result.map(converterService.toApiArticleGrepCodes)
-
   }
 
   def getAllTags(input: String, pageSize: Int, page: Int, language: String): Try[api.TagsSearchResultDTO] = {

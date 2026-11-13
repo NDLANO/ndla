@@ -21,7 +21,6 @@ trait UnitSuite extends UnitTestSuite {
   private val pid = ProcessHandle.current().nn.pid()
   setPropEnv("SEARCH_INDEX_NAME", s"draft-integration-test-index-$pid")
   setPropEnv("TAG_SEARCH_INDEX_NAME", s"draft-tags-$pid")
-  setPropEnv("GREP_CODES_SEARCH_INDEX_NAME", s"draft-grepcodes-$pid")
 
   setPropEnv("AUDIO_API_URL", "localhost:30014")
   setPropEnv("IMAGE_API_URL", "localhost:30001")

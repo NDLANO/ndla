@@ -35,25 +35,6 @@ object SearchResultDTO {
   implicit def schema: Schema[SearchResultDTO] = DeriveHelpers.getSchema
 }
 
-@description("Information and metadata about codes from GREP API")
-case class GrepCodesSearchResultDTO(
-    @description("The total number of codes from GREP API matching this query")
-    totalCount: Long,
-    @description("For which page results are shown from")
-    page: Int,
-    @description("The number of results per page")
-    pageSize: Int,
-    @description("The search results")
-    results: Seq[String],
-)
-
-object GrepCodesSearchResultDTO {
-  implicit def encoder: Encoder[GrepCodesSearchResultDTO] = deriveEncoder
-  implicit def decoder: Decoder[GrepCodesSearchResultDTO] = deriveDecoder
-  import sttp.tapir.generic.auto.*
-  implicit def schema: Schema[GrepCodesSearchResultDTO] = DeriveHelpers.getSchema
-}
-
 @description("Information about tags-search-results")
 case class TagsSearchResultDTO(
     @description("The total number of tags matching this query")
