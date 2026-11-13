@@ -1156,7 +1156,7 @@ importers:
         specifier: 'catalog:'
         version: 40.0.2(supports-color@10.2.2)
       '@graphql-tools/schema':
-        specifier: ^11.0.8
+        specifier: ^11.0.9
         version: 11.0.9(graphql@17.1.0)
       '@ndla/licenses':
         specifier: workspace:*
@@ -1235,7 +1235,7 @@ importers:
         specifier: ^7.0.0
         version: 7.0.0(graphql@17.1.0)
       '@graphql-tools/mock':
-        specifier: ^10.1.3
+        specifier: ^10.1.4
         version: 10.1.4(graphql@17.1.0)
       '@ndla/types-backend':
         specifier: workspace:*
