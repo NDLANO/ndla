@@ -24,7 +24,9 @@ case class UpdatedQuizDTO(
     description: Option[String],
     @description("Display settings")
     displaySettings: Option[UpdatedDisplaySettingsDTO],
-    @description("Ids of the questions in the desired order. Questions not listed are placed last in their existing order")
+    @description(
+      "Ids of the questions in the desired order. Questions not listed are placed last in their existing order"
+    )
     questionOrder: Option[Seq[UUID]],
 )
 object UpdatedQuizDTO {
