@@ -315,7 +315,8 @@ class MultiDraftSearchService(using
         Some(boolQuery().should(settings.tags.map(q => termQuery(s"tags.${settings.language}.exact", q))))
       } else None
 
-    val isRepublishedFilter = settings.isRepublished.map(isRepublished => termQuery("isRepublished", isRepublished))
+    val isRepublishedFilter       = settings.isRepublished.map(isRepublished => termQuery("isRepublished", isRepublished))
+    val hasPublishedVersionFilter = settings.hasPublishedVersion.map(hasPublishedVersionQuery)
 
     val embedResourceAndIdFilter =
       buildNestedEmbedField(settings.embedResource, settings.embedId, settings.language, settings.fallback)
@@ -364,6 +365,7 @@ class MultiDraftSearchService(using
       traitsFilter,
       tagsFilter,
       isRepublishedFilter,
+      hasPublishedVersionFilter,
       embedResourceAndIdFilter,
       revisionDateFilter,
       publishedDateFilter,
@@ -408,6 +410,15 @@ class MultiDraftSearchService(using
 
       Some(boolQuery().should(draftStatuses.flatMap(ds => statuses.map(s => termQuery(ds, s.toString)))))
     }
+  }
+
+  private def hasPublishedVersionQuery(hasPublishedVersion: Boolean): BoolQuery = {
+    val published = Seq(
+      termQuery("draftStatus.current", DraftStatus.PUBLISHED.toString),
+      termQuery("draftStatus.other", DraftStatus.PUBLISHED.toString),
+    )
+    if (hasPublishedVersion) boolQuery().should(published)
+    else boolQuery().not(published)
   }
 
   private def boolUsersFilter(users: Seq[String]): Option[TermsQuery[String]] =

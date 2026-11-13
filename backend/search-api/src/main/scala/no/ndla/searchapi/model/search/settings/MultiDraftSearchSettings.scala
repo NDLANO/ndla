@@ -59,6 +59,7 @@ case class MultiDraftSearchSettings(
     tags: List[String],
     isRepublished: Option[Boolean],
     isPrimary: Option[Boolean],
+    hasPublishedVersion: Option[Boolean],
 )
 
 object MultiDraftSearchSettings {
@@ -103,5 +104,6 @@ object MultiDraftSearchSettings {
     tags = List.empty,
     isRepublished = None,
     isPrimary = None,
+    hasPublishedVersion = None,
   )
 }
