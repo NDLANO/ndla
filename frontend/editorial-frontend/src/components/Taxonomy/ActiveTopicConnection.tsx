@@ -60,6 +60,7 @@ interface Props {
   hasNoGoalsFromSubject?: boolean;
   readOnly?: boolean;
   isOnlyPlacement?: boolean;
+  isPublished?: boolean;
 }
 
 interface DeleteWithCompetenceGoalsButtonProps {
@@ -108,6 +109,7 @@ const ActiveTopicConnection = ({
   hasNoGoalsFromSubject,
   readOnly,
   isOnlyPlacement,
+  isPublished,
 }: Props) => {
   const { t } = useTranslation();
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -128,7 +130,13 @@ const ActiveTopicConnection = ({
     );
   }
 
-  const deleteDisabled = node.isPrimary && !isOnlyPlacement;
+  const deleteDisabledReason =
+    isOnlyPlacement && isPublished
+      ? t("taxonomy.removeLastPublishedPlacementDisabled")
+      : node.isPrimary && !isOnlyPlacement
+        ? t("taxonomy.removeResourceDisabled")
+        : undefined;
+  const deleteDisabled = !!deleteDisabledReason;
 
   return (
     <ListItemRoot asChild consumeCss>
@@ -164,8 +172,8 @@ const ActiveTopicConnection = ({
             {!!subject && <CompetenceGoalsDialog subject={subject} hasNoGoalsFromSubject={hasNoGoalsFromSubject} />}
             {!readOnly && (
               <IconButton
-                aria-label={deleteDisabled ? t("taxonomy.removeResourceDisabled") : t("taxonomy.removeResource")}
-                title={deleteDisabled ? t("taxonomy.removeResourceDisabled") : t("taxonomy.removeResource")}
+                aria-label={deleteDisabledReason ?? t("taxonomy.removeResource")}
+                title={deleteDisabledReason ?? t("taxonomy.removeResource")}
                 variant="danger"
                 size="small"
                 disabled={deleteDisabled}
