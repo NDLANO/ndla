@@ -53,7 +53,7 @@ const titlePlugins: SlatePlugin[] = [
   textTransformPlugin,
   saveHotkeyPlugin,
   markPlugin.configure({
-    options: { supportedMarks: { value: ["italic", "sup", "sub"], override: true }, markdownShortcuts: true },
+    options: { supportedMarks: { value: ["italic", "sup", "sub"], override: true } },
   }),
   noopPlugin,
   unsupportedPlugin,

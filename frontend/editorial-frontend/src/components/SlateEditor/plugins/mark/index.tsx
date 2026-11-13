@@ -16,6 +16,5 @@ export const markPlugin = _markPlugin.configure({
   options: {
     // Omit underline everywhere.
     supportedMarks: { value: ["bold", "italic", "code", "sup", "sub"], override: true },
-    markdownShortcuts: true,
   },
 });

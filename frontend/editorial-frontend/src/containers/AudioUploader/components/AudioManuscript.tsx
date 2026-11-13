@@ -67,7 +67,7 @@ const manuscriptPlugins: SlatePlugin[] = [
   breakPlugin,
   saveHotkeyPlugin,
   markPlugin.configure({
-    options: { supportedMarks: { value: ["bold", "italic", "sup", "sub"], override: true }, markdownShortcuts: true },
+    options: { supportedMarks: { value: ["bold", "italic", "sup", "sub"], override: true } },
   }),
   noopPlugin,
   unsupportedPlugin,
