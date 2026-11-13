@@ -77,7 +77,7 @@ export async function postQuiz(
 }
 
 export async function putQuiz(
-  { id, revision, title, description, displaySettings, questionOrder }: GQLMutationUpdateQuizArgs,
+  { id, revision, title, description, displaySettings }: GQLMutationUpdateQuizArgs,
   _context: Context,
 ): Promise<QuizDTO> {
   return client
@@ -88,7 +88,6 @@ export async function putQuiz(
         title,
         description,
         displaySettings,
-        questionOrder: questionOrder ?? undefined,
       },
     })
     .then(resolveJsonOATS);
@@ -114,6 +113,7 @@ export async function putQuizQuestion(
     alternatives,
     required,
     alternativesRandomOrder,
+    sortOrder,
   }: GQLMutationUpdateQuizQuestionArgs,
   _context: Context,
 ): Promise<QuizDTO> {
@@ -130,6 +130,7 @@ export async function putQuizQuestion(
         glossaryPairs: undefined,
         required,
         alternativesRandomOrder,
+        sortOrder: sortOrder ?? undefined,
       },
     })
     .then(resolveJsonOATS);

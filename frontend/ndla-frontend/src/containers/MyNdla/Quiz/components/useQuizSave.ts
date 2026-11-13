@@ -171,18 +171,17 @@ export const useQuizSave = ({ state, quiz, onQuizSynced, onQuestionSynced }: Pro
       const desiredOrder = state.questions
         .map((q) => snapshotRef.current[q.id]?.serverId ?? q.serverId)
         .filter((id): id is string => !!id);
-      const serverOrder = current.questions.map((q) => q.id);
-      const orderMatches =
-        desiredOrder.length === serverOrder.length && desiredOrder.every((id, i) => id === serverOrder[i]);
-      if (!orderMatches) {
-        const res = await updateQuiz({
-          variables: { id: current.id, revision: current.revision, questionOrder: desiredOrder },
+      for (const [index, questionId] of desiredOrder.entries()) {
+        if (current.questions[index]?.id === questionId) continue;
+        const res = await updateQuizQuestion({
+          variables: { quizId: current.id, questionId, sortOrder: index },
         });
-        if (res.data?.updateQuiz) {
-          current = res.data.updateQuiz;
+        if (res.data?.updateQuizQuestion) {
+          current = res.data.updateQuizQuestion;
           onQuizSynced(current);
         } else {
           failed = true;
+          break;
         }
       }
 

@@ -13538,6 +13538,7 @@ export type GQLQuizFragment = {
     title: string;
     required: boolean;
     alternativesRandomOrder: boolean;
+    sortOrder: number;
     alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
   }>;
 };
@@ -13581,6 +13582,7 @@ export type GQLAddQuizMutation = {
       title: string;
       required: boolean;
       alternativesRandomOrder: boolean;
+      sortOrder: number;
       alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
     }>;
   };
@@ -13592,7 +13594,6 @@ export type GQLUpdateQuizMutationVariables = Exact<{
   title?: string | null | undefined;
   description?: string | null | undefined;
   displaySettings?: GQLQuizDisplaySettingsInput | null | undefined;
-  questionOrder?: Array<string> | string | null | undefined;
 }>;
 
 export type GQLUpdateQuizMutation = {
@@ -13619,6 +13620,7 @@ export type GQLUpdateQuizMutation = {
       title: string;
       required: boolean;
       alternativesRandomOrder: boolean;
+      sortOrder: number;
       alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
     }>;
   };
@@ -13653,6 +13655,7 @@ export type GQLUpdateQuizStatusMutation = {
       title: string;
       required: boolean;
       alternativesRandomOrder: boolean;
+      sortOrder: number;
       alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
     }>;
   };
@@ -13691,6 +13694,7 @@ export type GQLAddQuizQuestionMutation = {
       title: string;
       required: boolean;
       alternativesRandomOrder: boolean;
+      sortOrder: number;
       alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
     }>;
   };
@@ -13704,6 +13708,7 @@ export type GQLUpdateQuizQuestionMutationVariables = Exact<{
   alternatives?: Array<GQLQuizAlternativeInput> | GQLQuizAlternativeInput | null | undefined;
   required?: boolean | null | undefined;
   alternativesRandomOrder?: boolean | null | undefined;
+  sortOrder?: number | null | undefined;
 }>;
 
 export type GQLUpdateQuizQuestionMutation = {
@@ -13730,6 +13735,7 @@ export type GQLUpdateQuizQuestionMutation = {
       title: string;
       required: boolean;
       alternativesRandomOrder: boolean;
+      sortOrder: number;
       alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
     }>;
   };
@@ -13764,6 +13770,7 @@ export type GQLDeleteQuizQuestionMutation = {
       title: string;
       required: boolean;
       alternativesRandomOrder: boolean;
+      sortOrder: number;
       alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
     }>;
   };
@@ -13824,6 +13831,7 @@ export type GQLCloneQuizMutation = {
       title: string;
       required: boolean;
       alternativesRandomOrder: boolean;
+      sortOrder: number;
       alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
     }>;
   };
@@ -13888,6 +13896,7 @@ export type GQLQuizQuery = {
       title: string;
       required: boolean;
       alternativesRandomOrder: boolean;
+      sortOrder: number;
       alternatives: Array<{ __typename: "QuizAlternative"; id: string; text: string; isCorrect: boolean | null }>;
     }>;
   };
