@@ -58,7 +58,6 @@ export const SearchResultSummary = ({ totalCount = 0, page = 1, pageSize = 0, qu
         i18nKey={query ? "searchPage.resultSummaryWithQuery" : "searchPage.resultSummary"}
         values={{ from, to, count: totalCount, query }}
         components={{ count: <span data-testid="searchTotalCount" /> }}
-        shouldUnescape
       />
     </Text>
   );
