@@ -26,7 +26,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import type { TFunction } from "i18next";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, type Element, Node, Range, Path, Transforms } from "slate";
+import { Editor, type Element, Node, Range, Path, type PathRef, Transforms } from "slate";
 import { ReactEditor, useSlateSelection, useSlateSelector, useSlateStatic } from "slate-react";
 import { BLOCK_PICKER_TRIGGER_ID } from "../../../../constants";
 import { useSession } from "../../../../containers/Session/SessionProvider";
@@ -274,6 +274,8 @@ const SlateBlockPicker = ({
   const [blockPickerOpen, setBlockPickerOpen] = useState(false);
   const [actionsForArea, setActionsForArea] = useState<Action[]>([]);
   const portalRef = useRef<HTMLButtonElement | null>(null);
+  // Ref to remember where block is to be inserted
+  const insertPathRef = useRef<PathRef | null>(null);
   const { userPermissions } = useSession();
 
   const [visualElementPickerOpen, setVisualElementPickerOpen] = useState(false);
@@ -351,15 +353,20 @@ const SlateBlockPicker = ({
   const onVisualElementClose = useCallback(() => {
     setVisualElementPickerOpen(false);
     setType("");
+    insertPathRef.current?.unref();
+    insertPathRef.current = null;
     ReactEditor.focus(editor);
   }, [editor]);
 
   const onInsertBlock = useCallback(
     (block: Element, selectBlock?: boolean) => {
+      const pathRef = insertPathRef.current;
+      insertPathRef.current = null;
       setTimeout(() => {
         Editor.withoutNormalizing(editor, () => {
+          const storedPath = pathRef?.unref();
           const [paragraph] = editor.nodes({ match: isParagraphElement, mode: "lowest" });
-          const selectedParagraphPath = paragraph?.[1];
+          const selectedParagraphPath = storedPath ?? paragraph?.[1];
           if (selectedParagraphPath) {
             Transforms.select(editor, selectedParagraphPath);
             ReactEditor.focus(editor);
@@ -387,11 +394,14 @@ const SlateBlockPicker = ({
       } else if (action.type === "block") {
         onInsertBlock(action.element, action.focus);
       } else if (action.type === "visualElement") {
+        const [paragraph] = editor.nodes({ match: isParagraphElement, mode: "lowest" });
+        insertPathRef.current?.unref();
+        insertPathRef.current = paragraph ? editor.pathRef(paragraph[1]) : null;
         setType(action.elementType);
         setVisualElementPickerOpen(true);
       }
     },
-    [onInsertBlock],
+    [editor, onInsertBlock],
   );
 
   return (
