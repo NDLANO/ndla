@@ -1888,8 +1888,11 @@ const translations = {
     setPrimary: "Set as primary link",
     addResource: "Add resource",
     removeResource: "Remove resource from topic",
-    removeConnectionConfirm: "Are you sure you want to remove this placement?",
+    removeConnectionConfirm:
+      "Are you sure you want to remove this placement?\
+    Remember to remove competence aims that are no longer relevant",
     removeResourceDisabled: "You cannot remove a primary connection",
+    removeLastPublishedPlacementDisabled: "You cannot remove the last placement of a published resource",
     searchResource: "Search for resource",
     searchArticle: "Search for topic article",
     or: "Eller",
@@ -2051,7 +2054,6 @@ const translations = {
       addPrimaryConnectionCompetenceGoals: "Remember to add competence aims",
       newPrimaryConnectionDepartment:
         "If a new editorial team takes over the primary connection, remember to notify them",
-      removeConnectionCompetenceGoals: "Remember to remove competence aims that are no longer relevant",
     },
     core: {
       title: "Learning resources",

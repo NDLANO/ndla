@@ -43,6 +43,7 @@ interface Props {
   resourceTitle: string;
   placements: Node[] | MinimalNodeChild[];
   node: Node | undefined;
+  isPublished?: boolean;
 }
 
 const Wrapper = styled("div", {
@@ -76,6 +77,7 @@ export const TaxonomyConnections = ({
   language,
   placements,
   node,
+  isPublished,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { isReadOnly } = useTaxonomyVersion();
@@ -195,9 +197,8 @@ export const TaxonomyConnections = ({
   const removeConnection = useCallback(
     async (id: string) => {
       await deleteNodeConnectionMutation.mutateAsync({ id, taxonomyVersion });
-      createTaxonomyWarning("taxonomy.warnings.removeConnectionCompetenceGoals");
     },
-    [createTaxonomyWarning, deleteNodeConnectionMutation, taxonomyVersion],
+    [deleteNodeConnectionMutation, taxonomyVersion],
   );
 
   const updateNodeConnection = useCallback(
@@ -271,6 +272,7 @@ export const TaxonomyConnections = ({
             subject={subjectsQuery.data?.find((subject) => subject.id === node.context?.rootId)}
             readOnly={isReadOnly}
             isOnlyPlacement={isOnlyPlacement}
+            isPublished={isPublished}
             matomoStats={
               showMatomoStats
                 ? {

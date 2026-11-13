@@ -1889,8 +1889,11 @@ const translations = {
     setPrimary: "Sett til primærkobling",
     addResource: "Legg til ressurs",
     removeResource: "Fjern ressurs frå emne",
-    removeConnectionConfirm: "Er du sikker på at du vil fjerne denne plasseringa?",
+    removeConnectionConfirm:
+      "Er du sikker på at du vil fjerne denne plasseringa?\
+    Hugs å fjerne kompetansemål som ikkje er relevante lenger",
     removeResourceDisabled: "Du kan ikkje slette ei primærkopling",
+    removeLastPublishedPlacementDisabled: "Du kan ikkje slette den siste plasseringa til ein publisert ressurs",
     searchResource: "Søk etter ressurs",
     searchArticle: "Søk etter emneartikkel",
     or: "Eller",
@@ -2050,7 +2053,6 @@ const translations = {
     warnings: {
       addPrimaryConnectionCompetenceGoals: "Hugs å leggje til kompetansemål",
       newPrimaryConnectionDepartment: "Dersom ny redaksjon overtek primærkoblinga må du seie frå",
-      removeConnectionCompetenceGoals: "Hugs å fjerne kompetansemål som ikkje er relevante lenger",
     },
     core: {
       title: "Læringsressursar",
