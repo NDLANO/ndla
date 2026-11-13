@@ -15,7 +15,6 @@ import { useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { getTagName } from "../../../../components/Form/utils";
 import ObjectSelector, { type SelectOption } from "../../../../components/ObjectSelector";
-import config from "../../../../config";
 import type { CamelToKebab } from "../../../../interfaces";
 import { auth0UsersQueryOptions } from "../../../../modules/auth0/auth0Queries";
 import { licenseQuery } from "../../../../modules/draft/draftQueries";
@@ -265,15 +264,13 @@ const SearchImageForm = ({ userData, children, summary }: Props) => {
             value={filters.width.length ? toSelectorValue(params.get("width-from"), params.get("width-to")) : null}
             onChange={(value) => setSizeRange("width", value)}
           />
-          {config.displayImageHeightFilter ? (
-            <RadioFilter
-              title={t("searchForm.filterHeading.image-height")}
-              name="image-height"
-              options={sizeOptions}
-              value={filters.height.length ? toSelectorValue(params.get("height-from"), params.get("height-to")) : null}
-              onChange={(value) => setSizeRange("height", value)}
-            />
-          ) : undefined}
+          <RadioFilter
+            title={t("searchForm.filterHeading.image-height")}
+            name="image-height"
+            options={sizeOptions}
+            value={filters.height.length ? toSelectorValue(params.get("height-from"), params.get("height-to")) : null}
+            onChange={(value) => setSizeRange("height", value)}
+          />
           <RadioFilter
             title={t("searchForm.filterHeading.model-released")}
             name="model-released"
