@@ -171,17 +171,18 @@ class QuizConverterServiceTest extends UnitTestSuite with TestEnvironment {
     displaySettings = DisplaySettings.default,
   )
 
-  private def orderDto(order: Option[Seq[UUID]]) = UpdatedQuizDTO(
-    revision = 1,
-    title = None,
-    description = None,
-    displaySettings = None,
-    questionOrder = order,
-  )
+  private def orderDto(order: Option[Seq[UUID]]) =
+    UpdatedQuizDTO(revision = 1, title = None, description = None, displaySettings = None, questionOrder = order)
 
   test("mergeQuiz reorders questions according to questionOrder") {
     val ids  = Seq.fill(3)(UUID.randomUUID().nn)
-    val quiz = quizWithQuestions(ids.zipWithIndex.map { case (id, i) => questionWithId(id, s"Spørsmål $i") })
+    val quiz = quizWithQuestions(
+      ids
+        .zipWithIndex
+        .map { case (id, i) =>
+          questionWithId(id, s"Spørsmål $i")
+        }
+    )
 
     val merged = service.mergeQuiz(
       quiz,
@@ -196,7 +197,13 @@ class QuizConverterServiceTest extends UnitTestSuite with TestEnvironment {
 
   test("mergeQuiz keeps question order when questionOrder is not provided") {
     val ids  = Seq.fill(3)(UUID.randomUUID().nn)
-    val quiz = quizWithQuestions(ids.zipWithIndex.map { case (id, i) => questionWithId(id, s"Spørsmål $i") })
+    val quiz = quizWithQuestions(
+      ids
+        .zipWithIndex
+        .map { case (id, i) =>
+          questionWithId(id, s"Spørsmål $i")
+        }
+    )
 
     val merged = service.mergeQuiz(quiz, orderDto(None), user = "feide-owner-1", now = now, language = "nb")
 
@@ -205,7 +212,13 @@ class QuizConverterServiceTest extends UnitTestSuite with TestEnvironment {
 
   test("mergeQuiz places questions missing from questionOrder last and ignores unknown ids") {
     val ids  = Seq.fill(3)(UUID.randomUUID().nn)
-    val quiz = quizWithQuestions(ids.zipWithIndex.map { case (id, i) => questionWithId(id, s"Spørsmål $i") })
+    val quiz = quizWithQuestions(
+      ids
+        .zipWithIndex
+        .map { case (id, i) =>
+          questionWithId(id, s"Spørsmål $i")
+        }
+    )
 
     val merged = service.mergeQuiz(
       quiz,
