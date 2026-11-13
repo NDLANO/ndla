@@ -74,8 +74,8 @@ class ComponentRegistry(properties: ImageApiProperties) extends TapirApplication
   implicit lazy val standaloneIndexing: StandaloneIndexing                   = new StandaloneIndexing
   implicit lazy val standaloneVariantGeneration: StandaloneVariantGeneration = new StandaloneVariantGeneration
 
-  override lazy val standaloneJobs: Seq[StandaloneJob]   = Seq(standaloneIndexing, standaloneVariantGeneration)
-  given standaloneJobController: StandaloneJobController = new StandaloneJobController(standaloneJobs)
+  override implicit lazy val standaloneJobs: Seq[StandaloneJob]      = Seq(standaloneIndexing, standaloneVariantGeneration)
+  implicit lazy val standaloneJobController: StandaloneJobController = new StandaloneJobController
 
   given swaggerInfo: SwaggerInfo = SwaggerInfo(
     prefix = "image-api",

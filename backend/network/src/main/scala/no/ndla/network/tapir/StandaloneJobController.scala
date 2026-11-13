@@ -28,8 +28,10 @@ import scala.util.{Failure, Success, Try}
 /** Runs [[StandaloneJob]]s inside the API server instead of in a separate instance, such as for local development or
   * for testing a live pod. A job can only run once at a time per server.
   */
-class StandaloneJobController(jobs: Seq[StandaloneJob])(using errorHelpers: ErrorHelpers, errorHandling: ErrorHandling)
-    extends TapirController {
+class StandaloneJobController(using jobs: Seq[StandaloneJob])(using
+    errorHelpers: ErrorHelpers,
+    errorHandling: ErrorHandling,
+) extends TapirController {
   import errorHelpers.*
 
   override val enableSwagger: Boolean       = false
