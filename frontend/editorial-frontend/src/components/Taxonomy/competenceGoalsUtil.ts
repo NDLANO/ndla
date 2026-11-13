@@ -64,9 +64,13 @@ type SubjectWithGrepCodes = Pick<Node, "id" | "name" | "metadata">;
 const getGoalSetCodes = (subject: SubjectWithGrepCodes) =>
   subject.metadata.grepCodes.filter((code) => GREP_CODE_FORMATS.KOMPETANSEMALSETT.regexp.test(code));
 
+const isOtherResourcesSubject = (subject: SubjectWithGrepCodes) =>
+  subject.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] === subjectCategories.OTHER;
+
 export const getSubjectNamesByGoalSet = (subjects: SubjectWithGrepCodes[], sharedLabel: string) => {
   const subjectsByGoalSet = new Map<string, Set<string>>();
   for (const subject of subjects) {
+    if (isOtherResourcesSubject(subject)) continue;
     for (const code of getGoalSetCodes(subject)) {
       subjectsByGoalSet.set(code, (subjectsByGoalSet.get(code) ?? new Set()).add(subject.id));
     }
@@ -78,9 +82,6 @@ export const getSubjectNamesByGoalSet = (subjects: SubjectWithGrepCodes[], share
   }
   return subjectNames;
 };
-
-const isOtherResourcesSubject = (subject: SubjectWithGrepCodes) =>
-  subject.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] === subjectCategories.OTHER;
 
 export const getUnmatchedCompetenceGoals = (
   goalResults: GrepResultDTO[],

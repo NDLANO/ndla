@@ -100,6 +100,15 @@ test("that getSubjectNamesByGoalSet maps goal sets to subject names", () => {
   expect(Object.fromEntries(result)).toStrictEqual({ KV1: "Subject S1", KV2: "Shared" });
 });
 
+test("that getSubjectNamesByGoalSet ignores other resources subjects", () => {
+  const result = getSubjectNamesByGoalSet(
+    [subject("S1", ["KV1"]), subject("S2", ["KV1", "KV2"], "otherResources")],
+    "Shared",
+  );
+
+  expect(Object.fromEntries(result)).toStrictEqual({ KV1: "Subject S1" });
+});
+
 test("that getUnmatchedCompetenceGoals returns goals without a matching placement subject", () => {
   const result = getUnmatchedCompetenceGoals([...goals, sets[0]!], [subject("S1", ["KV1"]), subject("S2", ["KV3"])]);
 
