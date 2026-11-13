@@ -20,5 +20,5 @@ trait TapirApplication[PropType <: BaseProps] {
   /** Jobs that can be run instead of the server, see [[StandaloneJob]]. Add a [[StandaloneJobController]] to also let
     * them be triggered in the running server.
     */
-  def standaloneJobs: Seq[StandaloneJob] = Seq.empty
+  implicit lazy val standaloneJobs: Seq[StandaloneJob] = Seq.empty
 }

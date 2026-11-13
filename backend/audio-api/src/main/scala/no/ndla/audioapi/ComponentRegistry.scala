@@ -77,8 +77,8 @@ class ComponentRegistry(properties: AudioApiProperties) extends TapirApplication
 
   implicit lazy val standaloneIndexing: StandaloneIndexing = new StandaloneIndexing
 
-  override lazy val standaloneJobs: Seq[StandaloneJob]   = Seq(standaloneIndexing)
-  given standaloneJobController: StandaloneJobController = new StandaloneJobController(standaloneJobs)
+  override implicit lazy val standaloneJobs: Seq[StandaloneJob]      = Seq(standaloneIndexing)
+  implicit lazy val standaloneJobController: StandaloneJobController = new StandaloneJobController
 
   given swaggerInfo: SwaggerInfo = SwaggerInfo(
     prefix = "audio-api",

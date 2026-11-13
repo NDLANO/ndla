@@ -57,7 +57,7 @@ class StandaloneJobControllerTest extends UnitTestSuite, TapirControllerTest {
   private val abandonedJob  = BlockingJob("abandoned")
 
   override val controller: StandaloneJobController =
-    new StandaloneJobController(Seq(successJob, failingJob, backgroundJob, abandonedJob))
+    new StandaloneJobController(using Seq(successJob, failingJob, backgroundJob, abandonedJob))
 
   private def jobRequest(name: String, runInBackground: Boolean = false) =
     quickRequest.post(uri"http://localhost:$serverPort/intern/jobs/$name?run-in-background=$runInBackground")
