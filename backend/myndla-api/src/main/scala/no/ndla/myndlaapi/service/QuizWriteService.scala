@@ -123,13 +123,12 @@ class QuizWriteService(using
 
   def newQuestion(quizId: UUID, dto: NewQuestionDTO, user: CombinedUserRequired, language: String): Try[QuizDTO] =
     dbUtil.rollbackOnFailure { implicit session =>
-      val now = clock.now()
+      val now      = clock.now()
+      val question = quizConverterService.toDomainQuestion(dto, now, language)
       for {
-        existing     <- quizRepository.withIdOrError(quizId)
-        _            <- requireOwner(existing, user)
-        nextSortOrder = existing.questions.map(_.sortOrder).maxOption.map(_ + 1).getOrElse(0)
-        question      = quizConverterService.toDomainQuestion(dto, now, language, sortOrder = nextSortOrder)
-        updated      <- quizRepository.update(
+        existing <- quizRepository.withIdOrError(quizId)
+        _        <- requireOwner(existing, user)
+        updated  <- quizRepository.update(
           existing.copy(questions = existing.questions :+ question, updated = now, updatedBy = user.id)
         )
       } yield quizConverterService.toApiQuiz(updated, language, isOwner = true)
@@ -175,7 +174,7 @@ class QuizWriteService(using
           else Failure(QuizErrors.questionNotFound(questionId, quizId))
         updated <- quizRepository.update(
           existing.copy(
-            questions = quizConverterService.normalizeSortOrder(existing.questions.filterNot(_.id == questionId)),
+            questions = existing.questions.filterNot(_.id == questionId),
             updated = clock.now(),
             updatedBy = user.id,
           )

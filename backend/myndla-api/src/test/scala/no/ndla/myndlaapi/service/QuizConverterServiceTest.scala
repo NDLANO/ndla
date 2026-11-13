@@ -144,51 +144,37 @@ class QuizConverterServiceTest extends UnitTestSuite with TestEnvironment {
     merged.displaySettings should be(DisplaySettings(randomOrder = false, randomSubset = true, questionCount = Some(5)))
   }
 
-  private def questionWithId(id: UUID, sortOrder: Int) = Question(
+  private def questionWithId(id: UUID, n: Int) = Question(
     id = id,
     questionType = QuestionType.SINGLE_CHOICE,
     language = "nb",
-    title = s"Spørsmål $sortOrder",
+    title = s"Spørsmål $n",
     alternatives = Seq.empty,
     glossaryPairs = Seq.empty,
-    sortOrder = sortOrder,
     created = now,
     updated = now,
   )
 
-  test("moveQuestion moves a question to the given position and renumbers the others") {
-    val ids       = Seq.fill(3)(UUID.randomUUID().nn)
-    val questions = ids
-      .zipWithIndex
-      .map { case (id, i) =>
-        questionWithId(id, i)
-      }
+  private def threeQuestions() = {
+    val ids = Seq.fill(3)(UUID.randomUUID().nn)
+    (
+      ids,
+      ids
+        .zipWithIndex
+        .map { case (id, i) =>
+          questionWithId(id, i)
+        },
+    )
+  }
 
-    val moved = service.moveQuestion(questions, ids(2), 0)
-
-    moved.sortBy(_.sortOrder).map(_.id) should be(Seq(ids(2), ids(0), ids(1)))
-    moved.map(_.sortOrder).sorted should be(Seq(0, 1, 2))
+  test("moveQuestion moves a question to the given position") {
+    val (ids, questions) = threeQuestions()
+    service.moveQuestion(questions, ids(2), 0).map(_.id) should be(Seq(ids(2), ids(0), ids(1)))
   }
 
   test("moveQuestion clamps out-of-range positions") {
-    val ids       = Seq.fill(3)(UUID.randomUUID().nn)
-    val questions = ids
-      .zipWithIndex
-      .map { case (id, i) =>
-        questionWithId(id, i)
-      }
-
-    service.moveQuestion(questions, ids(0), 99).sortBy(_.sortOrder).map(_.id) should be(Seq(ids(1), ids(2), ids(0)))
-    service.moveQuestion(questions, ids(2), -5).sortBy(_.sortOrder).map(_.id) should be(Seq(ids(2), ids(0), ids(1)))
-  }
-
-  test("normalizeSortOrder closes gaps left by deleted questions") {
-    val ids       = Seq.fill(3)(UUID.randomUUID().nn)
-    val questions = Seq(questionWithId(ids(0), 0), questionWithId(ids(2), 2), questionWithId(ids(1), 5))
-
-    val normalized = service.normalizeSortOrder(questions)
-
-    normalized.map(_.id) should be(Seq(ids(0), ids(2), ids(1)))
-    normalized.map(_.sortOrder) should be(Seq(0, 1, 2))
+    val (ids, questions) = threeQuestions()
+    service.moveQuestion(questions, ids(0), 99).map(_.id) should be(Seq(ids(1), ids(2), ids(0)))
+    service.moveQuestion(questions, ids(2), -5).map(_.id) should be(Seq(ids(2), ids(0), ids(1)))
   }
 }

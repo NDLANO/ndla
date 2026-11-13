@@ -28,7 +28,7 @@ class QuizConverterService {
       else None,
   )
 
-  def toApiQuestion(q: Question, isOwner: Boolean): QuestionDTO = QuestionDTO(
+  def toApiQuestion(q: Question, isOwner: Boolean, sortOrder: Int): QuestionDTO = QuestionDTO(
     id = q.id,
     questionType = q.questionType,
     language = q.language,
@@ -37,7 +37,7 @@ class QuizConverterService {
     glossaryPairs = q.glossaryPairs.map(p => GlossaryPairDTO(p.word, p.definition)),
     required = q.required,
     alternativesRandomOrder = q.alternativesRandomOrder,
-    sortOrder = q.sortOrder,
+    sortOrder = sortOrder,
     created = q.created,
     updated = q.updated,
   )
@@ -57,7 +57,12 @@ class QuizConverterService {
       title = title,
       description = description,
       language = resolvedLanguage,
-      questions = quiz.questions.sortBy(_.sortOrder).map(toApiQuestion(_, isOwner)),
+      questions = quiz
+        .questions
+        .zipWithIndex
+        .map { case (q, idx) =>
+          toApiQuestion(q, isOwner, idx)
+        },
       status = quiz.status,
       created = quiz.created,
       updated = quiz.updated,
@@ -71,7 +76,7 @@ class QuizConverterService {
   def toDomainAlternative(a: NewAlternativeDTO): Alternative =
     Alternative(id = UUIDUtil.randomUUID(), text = a.text, isCorrect = a.isCorrect)
 
-  def toDomainQuestion(dto: NewQuestionDTO, now: NDLADate, language: String, sortOrder: Int): Question = Question(
+  def toDomainQuestion(dto: NewQuestionDTO, now: NDLADate, language: String): Question = Question(
     id = UUIDUtil.randomUUID(),
     questionType = dto.questionType,
     language = language,
@@ -80,7 +85,6 @@ class QuizConverterService {
     glossaryPairs = dto.glossaryPairs.map(p => GlossaryPair(p.word, p.definition)),
     required = dto.required,
     alternativesRandomOrder = dto.alternativesRandomOrder,
-    sortOrder = sortOrder,
     created = now,
     updated = now,
   )
@@ -144,21 +148,11 @@ class QuizConverterService {
     updated = now,
   )
 
-  def normalizeSortOrder(questions: Seq[Question]): Seq[Question] = renumber(questions.sortBy(_.sortOrder))
-
-  private def renumber(inOrder: Seq[Question]): Seq[Question] = inOrder
-    .zipWithIndex
-    .map { case (q, idx) =>
-      q.copy(sortOrder = idx)
-    }
-
-  def moveQuestion(questions: Seq[Question], questionId: UUID, position: Int): Seq[Question] = {
-    val sorted = questions.sortBy(_.sortOrder)
-    sorted.find(_.id == questionId) match {
+  def moveQuestion(questions: Seq[Question], questionId: UUID, position: Int): Seq[Question] =
+    questions.find(_.id == questionId) match {
       case Some(moved) =>
-        val (before, after) = sorted.filterNot(_.id == questionId).splitAt(position.max(0).min(sorted.size - 1))
-        renumber(before ++ Seq(moved) ++ after)
+        val (before, after) = questions.filterNot(_.id == questionId).splitAt(position.max(0).min(questions.size - 1))
+        before ++ Seq(moved) ++ after
       case None => questions
     }
-  }
 }

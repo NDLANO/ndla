@@ -23,13 +23,15 @@ case class Question(
     glossaryPairs: Seq[GlossaryPair],
     required: Boolean = false,
     alternativesRandomOrder: Boolean = false,
-    sortOrder: Int = 0,
     created: NDLADate,
     updated: NDLADate,
 )
 
 object Question {
   implicit val encoder: Encoder[Question] = deriveEncoder
+  // NOTE: Scala 3 circe derivation does not honor default values for missing fields, so
+  // `required` and `alternativesRandomOrder` are decoded manually to stay backwards
+  // compatible with rows persisted before these fields existed.
   implicit val decoder: Decoder[Question] = Decoder.instance { c =>
     for {
       id                      <- c.get[UUID]("id")
@@ -40,7 +42,6 @@ object Question {
       glossaryPairs           <- c.get[Seq[GlossaryPair]]("glossaryPairs")
       required                <- c.getOrElse[Boolean]("required")(false)
       alternativesRandomOrder <- c.getOrElse[Boolean]("alternativesRandomOrder")(false)
-      sortOrder               <- c.getOrElse[Int]("sortOrder")(0)
       created                 <- c.get[NDLADate]("created")
       updated                 <- c.get[NDLADate]("updated")
     } yield Question(
@@ -52,7 +53,6 @@ object Question {
       glossaryPairs,
       required,
       alternativesRandomOrder,
-      sortOrder,
       created,
       updated,
     )
