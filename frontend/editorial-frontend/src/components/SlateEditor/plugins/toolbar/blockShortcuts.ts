@@ -14,7 +14,7 @@ import {
   toggleList,
   type ListType,
 } from "@ndla/editor";
-import { Editor, Range, Transforms } from "slate";
+import { Editor, Element, Range, Transforms } from "slate";
 import toggleBlock from "../../utils/toggleBlock";
 import { BLOCK_QUOTE_ELEMENT_TYPE } from "../blockquote/blockquoteTypes";
 import { getSelectionElements, type TextType } from "./toolbarState";
@@ -52,6 +52,8 @@ export const applyBlockShortcut = (editor: Editor, opts: ToolbarPluginOptions): 
   const prefixRange = { anchor: editor.start(paragraphEntry[1]), focus: selection.anchor };
   const shortcut = blockShortcuts[editor.string(prefixRange)];
   if (!shortcut || !editor.shouldShowToolbar?.()) return false;
+  const [inlineInPrefix] = editor.nodes({ at: prefixRange, match: (n) => Element.isElement(n) && editor.isInline(n) });
+  if (inlineInPrefix) return false;
   if (shortcut.value === BLOCK_QUOTE_ELEMENT_TYPE) {
     // toggleBlock would unwrap an existing quote.
     if (editor.above({ match: (n) => isElementOfType(n, BLOCK_QUOTE_ELEMENT_TYPE) })) return false;
