@@ -50,6 +50,7 @@ import { CheckboxFilter } from "../filters/CheckboxFilter";
 import { FilterAccordion } from "../filters/FilterAccordion";
 import { RadioFilter } from "../filters/RadioFilter";
 import { SearchableCheckboxFilter } from "../filters/SearchableCheckboxFilter";
+import { StatusFilter } from "../filters/StatusFilter";
 import { countActiveFilters, SearchLayout } from "../SearchLayout";
 import { SearchQueryStack } from "../SearchQueryStack";
 import { SearchSummaryRow } from "../SearchSummaryRow";
@@ -94,6 +95,11 @@ const getArticleTraits = (t: TFunction) => [
 const getPriorityOptions = (t: TFunction) => [
   { id: "prioritized", name: t("editorFooter.prioritized") },
   { id: "on-hold", name: t("welcomePage.workList.onHold") },
+];
+
+const getPublishedVersionOptions = (t: TFunction) => [
+  { id: "true", name: t("searchForm.publishedVersion.true") },
+  { id: "false", name: t("searchForm.publishedVersion.false") },
 ];
 
 const SHORTCUT_SUBJECT_IDS = [FAVOURITES_SUBJECT_ID, LMA_SUBJECT_ID, SA_SUBJECT_ID, DA_SUBJECT_ID, NO_SUBJECT_ID];
@@ -182,6 +188,7 @@ const SearchContentForm = ({ subjects, userData, children, summary }: Props) => 
   const emptySearch = () => {
     setParams({
       "draft-status": null,
+      "has-published-version": null,
       "resource-types": null,
       page: null,
       "page-size": null,
@@ -279,6 +286,7 @@ const SearchContentForm = ({ subjects, userData, children, summary }: Props) => 
       ?.split(",")
       .map((f) => f.toLowerCase())
       .filter((t): t is string => !!t),
+    "has-published-version": getTagName(params.get("has-published-version"), getPublishedVersionOptions(t)),
     priority: params
       .get("priority")
       ?.split(",")
@@ -328,12 +336,15 @@ const SearchContentForm = ({ subjects, userData, children, summary }: Props) => 
               onCheckedChange={(value) => setParams({ "is-primary": value ? "true" : undefined })}
             />
           </SearchableCheckboxFilter>
-          <CheckboxFilter
+          <StatusFilter
             title={t("searchForm.filterHeading.draft-status")}
             name="draft-status"
             options={draftStatuses}
             value={getValues("draft-status")}
             onChange={(values) => setValues("draft-status", values)}
+            publishedVersionOptions={getPublishedVersionOptions(t)}
+            publishedVersion={params.get("has-published-version")}
+            onPublishedVersionChange={(value) => setParams({ "has-published-version": value })}
           />
           <CheckboxFilter
             title={t("searchForm.filterHeading.resource-types")}
