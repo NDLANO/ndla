@@ -8,6 +8,7 @@
 
 package no.ndla.network.tapir
 
+import no.ndla.common.CirceUtil
 import no.ndla.common.auth.Permission
 import no.ndla.common.configuration.BaseProps
 import no.ndla.common.job.StandaloneJob
@@ -63,6 +64,18 @@ class StandaloneJobControllerTest extends UnitTestSuite, TapirControllerTest {
 
   private def runJob(name: String, runInBackground: Boolean = false) = jobRequest(name, runInBackground).send()
 
+  private def listJobs(): List[StandaloneJobDTO] = {
+    val response = quickRequest.get(uri"http://localhost:$serverPort/intern/jobs").send()
+    response.code.code should be(200)
+    CirceUtil.unsafeParseAs[List[StandaloneJobDTO]](response.body)
+  }
+
+  private def isRunning(name: String): Boolean = listJobs().find(_.name == name).exists(_.running)
+
+  test("That all available jobs are listed") {
+    listJobs().map(_.name) should be(List("success", "failing", "background", "abandoned"))
+  }
+
   test("That a job is run and the endpoint responds when it is done") {
     val response = runJob("success")
 
@@ -91,11 +104,13 @@ class StandaloneJobControllerTest extends UnitTestSuite, TapirControllerTest {
     val started = runJob("background", runInBackground = true)
     started.code.code should be(202)
     blockUntil(() => backgroundJob.started.get() == 1)
+    isRunning("background") should be(true)
 
     runJob("background", runInBackground = true).code.code should be(409)
     runJob("background").code.code should be(409)
 
     backgroundJob.release()
+    blockUntil(() => !isRunning("background"))
     blockUntil(() => runJob("background").code.code == 200)
     backgroundJob.finished.get() should be(2)
   }

@@ -9,10 +9,15 @@
 package no.ndla.network.tapir
 
 import cats.implicits.*
+import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+import io.circe.{Decoder, Encoder}
+import no.ndla.common.DeriveHelpers
 import no.ndla.common.job.StandaloneJob
+import no.ndla.network.tapir.NoNullJsonPrinter.jsonBody
 import no.ndla.network.tapir.TapirUtil.errorOutputsFor
 import sttp.model.StatusCode
 import sttp.tapir.*
+import sttp.tapir.Schema.annotations.description
 import sttp.tapir.server.ServerEndpoint
 
 import java.util.concurrent.ConcurrentHashMap
@@ -32,7 +37,14 @@ class StandaloneJobController(jobs: Seq[StandaloneJob])(using errorHelpers: Erro
 
   private val runningJobs = ConcurrentHashMap.newKeySet[String]().nn
 
-  override val endpoints: List[ServerEndpoint[Any, Eff]] = List(runJob)
+  override val endpoints: List[ServerEndpoint[Any, Eff]] = List(listJobs, runJob)
+
+  private def listJobs: ServerEndpoint[Any, Eff] = endpoint
+    .get
+    .out(jsonBody[List[StandaloneJobDTO]])
+    .serverLogicPure { _ =>
+      jobs.map(job => StandaloneJobDTO(job.name, runningJobs.contains(job.name))).toList.asRight
+    }
 
   private def runJob: ServerEndpoint[Any, Eff] = endpoint
     .post
@@ -81,4 +93,18 @@ class StandaloneJobController(jobs: Seq[StandaloneJob])(using errorHelpers: Erro
       }
     promise.future
   }
+}
+
+@description("A standalone job that can be run on this server")
+case class StandaloneJobDTO(
+    @description("Name of the job, used to run it")
+    name: String,
+    @description("Whether the job is currently running on this server")
+    running: Boolean,
+)
+
+object StandaloneJobDTO {
+  implicit val encoder: Encoder[StandaloneJobDTO] = deriveEncoder
+  implicit val decoder: Decoder[StandaloneJobDTO] = deriveDecoder
+  implicit val schema: Schema[StandaloneJobDTO]   = DeriveHelpers.getSchema
 }
