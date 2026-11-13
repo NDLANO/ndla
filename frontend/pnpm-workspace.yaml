@@ -47,10 +47,10 @@ catalog:
   "@react-router/node": ^8.5.1
   "@sentry/react": ^11.11.0
   "@sentry/vite-plugin": ^11.11.0
-  "@storybook/addon-a11y": ^10.6.6
-  "@storybook/addon-docs": ^10.6.6
-  "@storybook/addon-links": ^10.6.6
-  "@storybook/react-vite": ^10.6.6
+  "@storybook/addon-a11y": ^10.6.7
+  "@storybook/addon-docs": ^10.6.7
+  "@storybook/addon-links": ^10.6.7
+  "@storybook/react-vite": ^10.6.7
   "@testing-library/dom": ^10.4.2
   "@testing-library/react": ^16.3.3
   "@types/compression": ^1.8.1
@@ -110,7 +110,7 @@ catalog:
   slate-history: ^0.144.0
   slate-hyperscript: ^0.138.3
   slate-react: ^0.147.5
-  storybook: ^10.6.6
+  storybook: ^10.6.7
   svgo: ^4.1.0
   tsdown: ^0.23.7
   typescript: ^7.0.2
@@ -120,7 +120,7 @@ catalog:
   vite-node: ^6.0.0
   vitest: ^5.1.0
   winston: ^3.19.0
-  "@storybook/react": ^10.6.6
+  "@storybook/react": ^10.6.7
 
 catalogs:
   ts6:
