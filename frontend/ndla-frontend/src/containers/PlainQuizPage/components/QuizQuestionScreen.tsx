@@ -6,13 +6,16 @@
  *
  */
 
-import { ArrowRightLine } from "@ndla/icons";
+import { ArrowRightLine, CheckLine } from "@ndla/icons";
 import {
   Button,
+  CheckboxControl,
   CheckboxHiddenInput,
+  CheckboxIndicator,
   CheckboxRoot,
   Heading,
   RadioGroupItem,
+  RadioGroupItemControl,
   RadioGroupItemHiddenInput,
   RadioGroupRoot,
   Text,
@@ -151,6 +154,7 @@ const AlternativeLetter = styled(Text, {
 const selectableAlternativeStyle = css.raw({
   width: "full",
   gap: "xxsmall",
+  justifyContent: "space-between",
   padding: "xsmall",
   borderRadius: "xsmall",
   border: "1px solid",
@@ -160,20 +164,17 @@ const selectableAlternativeStyle = css.raw({
   transitionDuration: "normal",
   transitionProperty: "[background-color, border-color]",
   _hover: {
-    backgroundColor: "surface.brand.1.subtle",
-    borderColor: "stroke.hover",
+    backgroundColor: "surface.action.brand.1.selected",
   },
   _checked: {
-    backgroundColor: "surface.brand.1.moderate",
-    borderColor: "surface.brand.1.strong",
+    backgroundColor: "surface.action.brand.1.selected",
   },
   _active: {
-    backgroundColor: "surface.brand.1.moderate",
-    borderColor: "surface.brand.1.strong",
+    backgroundColor: "surface.action.brand.1.selected",
   },
   "&:has(input:focus-visible)": {
-    outline: "2px solid",
-    outlineOffset: "[2px]",
+    outline: "3px solid",
+    outlineOffset: "[-1px]",
     outlineColor: "stroke.default",
   },
 });
@@ -182,8 +183,31 @@ const AlternativeRadioItem = styled(RadioGroupItem, {
   base: selectableAlternativeStyle,
 });
 
+const AlternativeRadioControl = styled(RadioGroupItemControl, {
+  base: {
+    _groupActive: {
+      background: "surface.action.brand.1.selected",
+      outlineColor: "surface.action.brand.1.selected",
+    },
+    _groupChecked: {
+      outlineColor: "surface.action.brand.1.selected",
+    },
+    _checked: {
+      background: "stroke.default",
+    },
+  },
+});
+
 const AlternativeCheckboxRoot = styled(CheckboxRoot, {
   base: selectableAlternativeStyle,
+});
+
+const AlternativeContent = styled("span", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "xsmall",
+  },
 });
 
 const NavigationRow = styled("div", {
@@ -195,6 +219,21 @@ const NavigationRow = styled("div", {
     width: "full",
   },
 });
+
+interface AlternativeLabelProps {
+  index: number;
+  text: string;
+  multiChoice?: boolean;
+}
+
+const AlternativeLabel = ({ index, text, multiChoice }: AlternativeLabelProps) => (
+  <AlternativeContent>
+    <AlternativeLetter multiChoice={multiChoice} textStyle="label.xsmall" fontWeight="bold" asChild consumeCss>
+      <span>{String.fromCharCode(65 + index)}</span>
+    </AlternativeLetter>
+    <Text textStyle="label.small">{parseSimpleRichText(text)}</Text>
+  </AlternativeContent>
+);
 
 interface Props {
   quizTitle: string;
@@ -301,15 +340,18 @@ export const QuizQuestionScreen = ({
             {isMultiChoice ? (
               question.alternatives.map((alt, index) => (
                 <AlternativeCheckboxRoot
+                  className="group"
                   key={alt.id}
                   checked={selectedIds.includes(alt.id)}
                   onCheckedChange={(details) => onCheckboxChange(alt.id, !!details.checked)}
                   onKeyDown={onAlternativeKeyDown}
                 >
-                  <AlternativeLetter multiChoice textStyle="label.xsmall" fontWeight="bold" asChild consumeCss>
-                    <span>{String.fromCharCode(65 + index)}</span>
-                  </AlternativeLetter>
-                  <Text textStyle="label.small">{parseSimpleRichText(alt.text)}</Text>
+                  <AlternativeLabel index={index} text={alt.text} multiChoice />
+                  <CheckboxControl>
+                    <CheckboxIndicator asChild>
+                      <CheckLine />
+                    </CheckboxIndicator>
+                  </CheckboxControl>
                   <CheckboxHiddenInput />
                 </AlternativeCheckboxRoot>
               ))
@@ -324,11 +366,9 @@ export const QuizQuestionScreen = ({
                 }}
               >
                 {question.alternatives.map((alt, index) => (
-                  <AlternativeRadioItem key={alt.id} value={alt.id} onKeyDown={onAlternativeKeyDown}>
-                    <AlternativeLetter textStyle="label.xsmall" fontWeight="bold" asChild consumeCss>
-                      <span>{String.fromCharCode(65 + index)}</span>
-                    </AlternativeLetter>
-                    <Text textStyle="label.small">{parseSimpleRichText(alt.text)}</Text>
+                  <AlternativeRadioItem className="group" key={alt.id} value={alt.id} onKeyDown={onAlternativeKeyDown}>
+                    <AlternativeLabel index={index} text={alt.text} />
+                    <AlternativeRadioControl />
                     <RadioGroupItemHiddenInput />
                   </AlternativeRadioItem>
                 ))}
