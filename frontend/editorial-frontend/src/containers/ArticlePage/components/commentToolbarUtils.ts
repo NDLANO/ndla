@@ -57,7 +57,7 @@ export const plugins: SlatePlugin[] = [
   breakPlugin,
   saveHotkeyPlugin,
   markPlugin.configure({
-    options: { supportedMarks: { value: ["bold", "italic"], override: true }, markdownShortcuts: true },
+    options: { supportedMarks: { value: ["bold", "italic"], override: true } },
   }),
   noopPlugin,
   contentLinkPlugin,

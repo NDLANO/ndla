@@ -11,6 +11,7 @@ import { isKeyHotkey, isCodeHotkey } from "is-hotkey";
 import { merge } from "lodash-es";
 import { applyBlockShortcut } from "./blockShortcuts";
 import { handleClickBlock, handleClickInline, handleClickText } from "./handleMenuClicks";
+import { applyMarkShortcut } from "./markShortcuts";
 import SlateToolbar from "./SlateToolbar";
 import {
   type ToolbarAction,
@@ -53,6 +54,7 @@ const toolbarPlugin = createPlugin<any, ToolbarPluginOptions>({
 
     editor.insertText = (text, options) => {
       if (text === " " && !options?.at && applyBlockShortcut(editor, opts)) return;
+      if (text.length === 1 && !options?.at && applyMarkShortcut(editor, text)) return;
       insertText(text, options);
     };
 
