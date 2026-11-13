@@ -107,6 +107,9 @@ export const ContentSearch = () => {
       traits: params.get("traits")?.split(",").filter(isOneOf(articleTraitValues)),
       priority: params.get("priority")?.split(",").filter(isOneOf(priorityValues)),
       isPrimary: params.get("is-primary") === "true" || undefined,
+      hasPublishedVersion: params.get("has-published-version")
+        ? params.get("has-published-version") === "true"
+        : undefined,
     };
     return parsed;
   }, [params]);
