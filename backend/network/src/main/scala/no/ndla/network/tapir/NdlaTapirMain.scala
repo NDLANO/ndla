@@ -33,9 +33,6 @@ trait NdlaTapirMain[T <: TapirApplication[?]] extends StrictLogging {
 
   var serverBinding: Option[NettySyncServerBinding] = None
 
-  /** Jobs that can be run instead of the server, see [[StandaloneJob]] */
-  def standaloneJobs: Seq[StandaloneJob] = Seq.empty
-
   private def logCopyrightHeader(): Unit = {
     if (!props.DisableLicense) {
       getClass
@@ -130,7 +127,7 @@ trait NdlaTapirMain[T <: TapirApplication[?]] extends StrictLogging {
     } else {
       props.throwIfFailedProps()
       StandaloneJob
-        .select(standaloneJobs)
+        .select(componentRegistry.standaloneJobs)
         .flatMap {
           case Some(job) => job.run(setup = beforeStart())
           case None      => runServer()

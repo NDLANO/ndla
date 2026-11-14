@@ -18,6 +18,7 @@ import no.ndla.audioapi.service.search.*
 import no.ndla.common.Clock
 import no.ndla.common.aws.NdlaAWSTranscribeClient
 import no.ndla.common.brightcove.NdlaBrightcoveClient
+import no.ndla.common.job.StandaloneJob
 import no.ndla.database.{DBMigrator, DBUtility, DataSource}
 import no.ndla.network.NdlaClient
 import no.ndla.network.clients.MyNDLAApiClient
@@ -76,6 +77,9 @@ class ComponentRegistry(properties: AudioApiProperties) extends TapirApplication
 
   implicit lazy val standaloneIndexing: StandaloneIndexing = new StandaloneIndexing
 
+  override implicit lazy val standaloneJobs: Seq[StandaloneJob]      = Seq(standaloneIndexing)
+  implicit lazy val standaloneJobController: StandaloneJobController = new StandaloneJobController
+
   given swaggerInfo: SwaggerInfo = SwaggerInfo(
     prefix = "audio-api",
     description = "Searching and fetching all audio used in the NDLA platform.\n\n" +
@@ -87,6 +91,7 @@ class ComponentRegistry(properties: AudioApiProperties) extends TapirApplication
     internController,
     audioApiController,
     seriesController,
+    standaloneJobController,
     healthController,
     transcriptionController,
   )
