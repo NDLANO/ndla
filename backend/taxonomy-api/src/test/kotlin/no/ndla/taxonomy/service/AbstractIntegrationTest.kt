@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
+import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
@@ -20,6 +21,9 @@ import org.testcontainers.postgresql.PostgreSQLContainer
 
 @Testcontainers
 @DirtiesContext
+// MockMvc never destroys filters, so JavaMelody's JUL handler outlives the context and stops Spring
+// Boot from bridging JUL to log4j in later contexts in the same JVM.
+@TestPropertySource(properties = ["javamelody.enabled=false"])
 abstract class AbstractIntegrationTest {
 
   @Autowired protected lateinit var entityManager: EntityManager
