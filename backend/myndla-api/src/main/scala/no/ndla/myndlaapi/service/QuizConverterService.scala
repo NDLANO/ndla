@@ -16,6 +16,8 @@ import no.ndla.myndlaapi.model.api.*
 import no.ndla.myndlaapi.model.domain.*
 import no.ndla.network.model.FeideID
 
+import java.util.UUID
+
 class QuizConverterService {
 
   def toApiAlternative(a: Alternative, isOwner: Boolean): AlternativeDTO = AlternativeDTO(
@@ -26,7 +28,7 @@ class QuizConverterService {
       else None,
   )
 
-  def toApiQuestion(q: Question, isOwner: Boolean): QuestionDTO = QuestionDTO(
+  def toApiQuestion(q: Question, isOwner: Boolean, sortOrder: Int): QuestionDTO = QuestionDTO(
     id = q.id,
     questionType = q.questionType,
     language = q.language,
@@ -35,6 +37,7 @@ class QuizConverterService {
     glossaryPairs = q.glossaryPairs.map(p => GlossaryPairDTO(p.word, p.definition)),
     required = q.required,
     alternativesRandomOrder = q.alternativesRandomOrder,
+    sortOrder = sortOrder,
     created = q.created,
     updated = q.updated,
   )
@@ -54,7 +57,12 @@ class QuizConverterService {
       title = title,
       description = description,
       language = resolvedLanguage,
-      questions = quiz.questions.map(toApiQuestion(_, isOwner)),
+      questions = quiz
+        .questions
+        .zipWithIndex
+        .map { case (q, idx) =>
+          toApiQuestion(q, isOwner, idx)
+        },
       status = quiz.status,
       created = quiz.created,
       updated = quiz.updated,
@@ -139,4 +147,12 @@ class QuizConverterService {
     alternativesRandomOrder = dto.alternativesRandomOrder.getOrElse(existing.alternativesRandomOrder),
     updated = now,
   )
+
+  def moveQuestion(questions: Seq[Question], questionId: UUID, position: Int): Seq[Question] =
+    questions.find(_.id == questionId) match {
+      case Some(moved) =>
+        val (before, after) = questions.filterNot(_.id == questionId).splitAt(position.max(0).min(questions.size - 1))
+        before ++ Seq(moved) ++ after
+      case None => questions
+    }
 }

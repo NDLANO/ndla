@@ -149,19 +149,18 @@ class QuizWriteService(using
         case Some(q) => Success(q)
         case None    => Failure(QuizErrors.questionNotFound(questionId, quizId))
       }
-      newQ     = quizConverterService.mergeQuestion(oldQ, dto, now)
-      updated <- quizRepository.update(
-        existing.copy(
-          questions = existing
-            .questions
-            .map(q =>
-              if (q.id == questionId) newQ
-              else q
-            ),
-          updated = now,
-          updatedBy = user.id,
+      newQ   = quizConverterService.mergeQuestion(oldQ, dto, now)
+      merged = existing
+        .questions
+        .map(q =>
+          if (q.id == questionId) newQ
+          else q
         )
-      )
+      reordered = dto.sortOrder match {
+        case Some(position) => quizConverterService.moveQuestion(merged, questionId, position)
+        case None           => merged
+      }
+      updated <- quizRepository.update(existing.copy(questions = reordered, updated = now, updatedBy = user.id))
     } yield quizConverterService.toApiQuiz(updated, language, isOwner = true)
   }
 

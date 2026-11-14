@@ -34,6 +34,8 @@ case class QuestionDTO(
     required: Boolean,
     @description("Whether the alternatives should be shown in random order")
     alternativesRandomOrder: Boolean,
+    @description("Position of the question in the quiz, starting at 0")
+    sortOrder: Int,
     @description("Creation date")
     created: NDLADate,
     @description("Last updated date")
@@ -78,6 +80,8 @@ case class UpdatedQuestionDTO(
     required: Option[Boolean],
     @description("Whether the alternatives should be shown in random order")
     alternativesRandomOrder: Option[Boolean],
+    @description("New position of the question in the quiz, starting at 0. The other questions are shifted accordingly")
+    sortOrder: Option[Int],
 )
 object UpdatedQuestionDTO {
   implicit val encoder: Encoder[UpdatedQuestionDTO] = deriveEncoder

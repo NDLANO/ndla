@@ -143,4 +143,38 @@ class QuizConverterServiceTest extends UnitTestSuite with TestEnvironment {
 
     merged.displaySettings should be(DisplaySettings(randomOrder = false, randomSubset = true, questionCount = Some(5)))
   }
+
+  private def questionWithId(id: UUID, n: Int) = Question(
+    id = id,
+    questionType = QuestionType.SINGLE_CHOICE,
+    language = "nb",
+    title = s"Spørsmål $n",
+    alternatives = Seq.empty,
+    glossaryPairs = Seq.empty,
+    created = now,
+    updated = now,
+  )
+
+  private def threeQuestions() = {
+    val ids = Seq.fill(3)(UUID.randomUUID().nn)
+    (
+      ids,
+      ids
+        .zipWithIndex
+        .map { case (id, i) =>
+          questionWithId(id, i)
+        },
+    )
+  }
+
+  test("moveQuestion moves a question to the given position") {
+    val (ids, questions) = threeQuestions()
+    service.moveQuestion(questions, ids(2), 0).map(_.id) should be(Seq(ids(2), ids(0), ids(1)))
+  }
+
+  test("moveQuestion clamps out-of-range positions") {
+    val (ids, questions) = threeQuestions()
+    service.moveQuestion(questions, ids(0), 99).map(_.id) should be(Seq(ids(1), ids(2), ids(0)))
+    service.moveQuestion(questions, ids(2), -5).map(_.id) should be(Seq(ids(2), ids(0), ids(1)))
+  }
 }
