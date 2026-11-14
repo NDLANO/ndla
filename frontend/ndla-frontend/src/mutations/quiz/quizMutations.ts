@@ -145,6 +145,7 @@ const updateQuizQuestionMutation: TypedDocumentNode<
     $alternatives: [QuizAlternativeInput!]
     $required: Boolean
     $alternativesRandomOrder: Boolean
+    $sortOrder: Int
   ) {
     updateQuizQuestion(
       quizId: $quizId
@@ -154,6 +155,7 @@ const updateQuizQuestionMutation: TypedDocumentNode<
       alternatives: $alternatives
       required: $required
       alternativesRandomOrder: $alternativesRandomOrder
+      sortOrder: $sortOrder
     ) {
       ...Quiz
     }

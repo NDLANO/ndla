@@ -1210,6 +1210,7 @@ export type GQLMutationUpdateQuizQuestionArgs = {
   questionType?: InputMaybe<GQLQuestionType>;
   quizId: Scalars['String']['input'];
   required?: InputMaybe<Scalars['Boolean']['input']>;
+  sortOrder?: InputMaybe<Scalars['Int']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -1997,6 +1998,7 @@ export type GQLQuizQuestion = {
   id: Scalars['String']['output'];
   questionType: GQLQuestionType;
   required: Scalars['Boolean']['output'];
+  sortOrder: Scalars['Int']['output'];
   title: Scalars['String']['output'];
 };
 
@@ -4018,6 +4020,7 @@ export type GQLQuizQuestionResolvers<ContextType = any, ParentType extends GQLRe
   id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   questionType?: Resolver<GQLResolversTypes['QuestionType'], ParentType, ContextType>;
   required?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
+  sortOrder?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
   title?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
 };
 

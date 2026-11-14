@@ -34,6 +34,7 @@ export const quizFragment = gql`
       title
       required
       alternativesRandomOrder
+      sortOrder
       alternatives {
         __typename
         id
