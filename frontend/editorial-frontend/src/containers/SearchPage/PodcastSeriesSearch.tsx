@@ -10,7 +10,6 @@ import type { SearchParamsDTO } from "@ndla/types-backend/audio-api";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import Pagination from "../../components/abstractions/Pagination";
 import config from "../../config";
 import { searchSeriesQueryOptions } from "../../modules/audio/audioQueries";
 import { userDataQueryOptions } from "../../modules/draft/draftQueries";
@@ -18,9 +17,10 @@ import { getAccessToken, isActiveToken } from "../../util/authHelpers";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import SearchPodcastSeriesForm from "./components/form/SearchPodcastSeriesForm";
 import { GenericSearchList } from "./components/GenericSearchList";
-import SearchListOptions from "./components/results/SearchListOptions";
+import { SearchPagination } from "./components/results/SearchPagination";
 import SearchPodcastSeries from "./components/results/SearchPodcastSeries";
 import { SearchPageContainer } from "./components/SearchPageContainer";
+import { SearchResultSummary } from "./components/SearchSummaryRow";
 import SearchSort from "./components/sort/SearchSort";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
 
@@ -63,32 +63,43 @@ export const PodcastSeriesSearch = () => {
     <SearchPageContainer asChild consumeCss>
       <main>
         <title>{t("htmlTitles.search.podcast-series")}</title>
-        <SearchPodcastSeriesForm userData={userDataQuery.data} />
-        <SearchSort
-          value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
-          onValueChange={(value) => setParams({ sort: value === DEFAULT_PARAMS.sort ? null : value })}
-        />
-        <SearchListOptions totalCount={searchQuery.data?.totalCount} defaultValue={DEFAULT_PARAMS.pageSize!} />
-        <GenericSearchList
-          type="podcast-series"
-          loading={searchQuery.isLoading}
-          error={searchQuery.error}
-          query={params.get("query")}
-          resultLength={searchQuery.data?.totalCount ?? 0}
-        >
-          {searchQuery.data?.results.map((series) => (
-            <SearchPodcastSeries series={series} key={series.id} />
-          ))}
-        </GenericSearchList>
-        <Pagination
-          page={Number(params.get("page")) || DEFAULT_PARAMS.page}
-          onPageChange={(details) =>
-            setParams({ page: details.page === DEFAULT_PARAMS.page ? null : details.page.toString() })
+        <SearchPodcastSeriesForm
+          userData={userDataQuery.data}
+          summary={
+            <SearchResultSummary
+              totalCount={searchQuery.data?.totalCount}
+              page={Number(params.get("page")) || DEFAULT_PARAMS.page}
+              pageSize={searchQuery.data?.pageSize}
+              query={params.get("query")}
+            />
           }
-          pageSize={searchQuery.data?.pageSize}
-          count={searchQuery.data?.totalCount ?? 0}
-          siblingCount={1}
-        />
+        >
+          <SearchSort
+            value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
+            onValueChange={(value) => setParams({ sort: value === DEFAULT_PARAMS.sort ? null : value })}
+          />
+          <GenericSearchList
+            type="podcast-series"
+            loading={searchQuery.isLoading}
+            error={searchQuery.error}
+            query={params.get("query")}
+            resultLength={searchQuery.data?.totalCount ?? 0}
+          >
+            {searchQuery.data?.results.map((series) => (
+              <SearchPodcastSeries series={series} key={series.id} />
+            ))}
+          </GenericSearchList>
+          <SearchPagination
+            defaultPageSize={DEFAULT_PARAMS.pageSize!}
+            page={Number(params.get("page")) || DEFAULT_PARAMS.page}
+            onPageChange={(details) =>
+              setParams({ page: details.page === DEFAULT_PARAMS.page ? null : details.page.toString() })
+            }
+            pageSize={searchQuery.data?.pageSize}
+            count={searchQuery.data?.totalCount ?? 0}
+            siblingCount={1}
+          />
+        </SearchPodcastSeriesForm>
       </main>
     </SearchPageContainer>
   );

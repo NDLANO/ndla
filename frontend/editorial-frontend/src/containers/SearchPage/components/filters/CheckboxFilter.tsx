@@ -1,0 +1,60 @@
+/**
+ * Copyright (c) 2026-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { CheckLine } from "@ndla/icons";
+import {
+  CheckboxControl,
+  CheckboxGroup,
+  CheckboxHiddenInput,
+  CheckboxIndicator,
+  CheckboxLabel,
+  CheckboxRoot,
+} from "@ndla/primitives";
+import { useId } from "react";
+import type { SelectOption } from "../../../../components/ObjectSelector";
+import { FilterGroup } from "./FilterGroup";
+
+interface FilterCheckboxGroupProps {
+  options: SelectOption[];
+  value: string[];
+  onChange: (value: string[]) => void;
+  labelledBy: string;
+}
+
+export const FilterCheckboxGroup = ({ options, value, onChange, labelledBy }: FilterCheckboxGroupProps) => (
+  <CheckboxGroup value={value} onValueChange={onChange} aria-labelledby={labelledBy}>
+    {options.map((option) => (
+      <CheckboxRoot key={option.id} value={option.id} disabled={option.disabled}>
+        <CheckboxControl>
+          <CheckboxIndicator asChild>
+            <CheckLine />
+          </CheckboxIndicator>
+        </CheckboxControl>
+        <CheckboxLabel>{option.name}</CheckboxLabel>
+        <CheckboxHiddenInput />
+      </CheckboxRoot>
+    ))}
+  </CheckboxGroup>
+);
+
+interface Props {
+  title: string;
+  name: string;
+  options: SelectOption[];
+  value: string[];
+  onChange: (value: string[]) => void;
+}
+
+export const CheckboxFilter = ({ title, name, options, value, onChange }: Props) => {
+  const headingId = useId();
+  return (
+    <FilterGroup title={title} name={name} headingId={headingId} activeCount={value.length}>
+      <FilterCheckboxGroup options={options} value={value} onChange={onChange} labelledBy={headingId} />
+    </FilterGroup>
+  );
+};

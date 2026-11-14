@@ -13,6 +13,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto("/search/image");
   await expect(page.getByRole("button", { name: "Søk", exact: true })).toBeVisible();
   await expect(page.getByTestId("loading-spinner")).not.toBeVisible();
+  await page.getByRole("button", { name: "Vis filtre" }).click();
 });
 
 test.afterEach(async ({ page }) => {
@@ -41,8 +42,8 @@ test("Can use text input", async ({ page }) => {
 });
 
 test("Can use model released dropdown", async ({ page }) => {
-  await page.getByTestId("model-released-select").click();
-  await page.getByRole("option", { name: "Modellklarert", exact: true }).click();
+  await page.getByTestId("model-released-filter").getByRole("button", { name: "Modellklarering", exact: true }).click();
+  await page.getByTestId("model-released-filter").getByText("Modellklarert", { exact: true }).click();
   await page.waitForURL("**/*model-released=yes*");
   const tagButton = page.getByRole("button", { name: "Modellklarering: Modellklarert" });
   await expect(tagButton).toBeVisible();
@@ -55,8 +56,8 @@ test("Can use model released dropdown", async ({ page }) => {
 });
 
 test("Can use language dropdown", async ({ page }) => {
-  await page.getByTestId("language-select").click();
-  await page.getByRole("option", { name: "Bokmål", exact: true }).click();
+  await page.getByTestId("language-filter").getByRole("button", { name: "Språk" }).click();
+  await page.getByTestId("language-filter").getByText("Bokmål", { exact: true }).click();
   await page.waitForURL("**/*language=nb*");
   const tagButton = page.getByRole("button", { name: "Språk: Bokmål" });
   await expect(tagButton).toBeVisible();
@@ -69,8 +70,11 @@ test("Can use language dropdown", async ({ page }) => {
 });
 
 test("Can use license dropdown", async ({ page }) => {
-  await page.getByTestId("license-select").click();
-  await page.getByRole("option", { name: "CC0 Public domain dedication: Gitt til fellesskapet", exact: true }).click();
+  await page.getByTestId("license-filter").getByRole("button", { name: "Lisens", exact: true }).click();
+  await page
+    .getByTestId("license-filter")
+    .getByText("CC0 Public domain dedication: Gitt til fellesskapet", { exact: true })
+    .click();
   await page.waitForURL("**/*license=CC0-1.0*");
   const tagButton = page.getByRole("button", { name: "Lisens: CC0 Public" });
   await expect(tagButton).toBeVisible();

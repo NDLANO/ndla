@@ -10,7 +10,6 @@ import { tDynamic } from "@ndla/locales";
 import { FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { DraftConceptSearchParamsDTO } from "@ndla/types-backend/concept-api";
-import type { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { sortBy } from "@ndla/util";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
@@ -53,10 +52,9 @@ interface Props {
   searchObject: ConceptSearchParams;
   onClearSearch: () => void;
   locale: string;
-  userData: UserDataDTO | undefined;
 }
 
-const SearchConceptFormContent = ({ onUpdateSearchParam, searchObject, userData, onClearSearch }: Props) => {
+const SearchConceptFormContent = ({ onUpdateSearchParam, searchObject, onClearSearch }: Props) => {
   const { t } = useTranslation();
   const [queryInput, setQueryInput] = useState(searchObject.query ?? "");
   const [prevQuery, setPrevQuery] = useState(searchObject.query);
@@ -121,7 +119,7 @@ const SearchConceptFormContent = ({ onUpdateSearchParam, searchObject, userData,
 
   return (
     <>
-      <SearchHeader type="concept" userData={userData} />
+      <SearchHeader type="concept" />
       <SearchFieldsWrapper>
         <FieldRoot>
           <FieldLabel srOnly>{t("searchForm.types.contentQuery")}</FieldLabel>

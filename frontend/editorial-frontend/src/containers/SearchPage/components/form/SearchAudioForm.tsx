@@ -6,40 +6,33 @@
  *
  */
 
-import { FieldRoot, FieldInput, FieldLabel } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
+import { Heading } from "@ndla/primitives";
 import type { SearchParamsDTO } from "@ndla/types-backend/audio-api";
 import type { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { useQuery } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import SearchControlButtons from "../../../../components/Form/SearchControlButtons";
-import SearchHeader from "../../../../components/Form/SearchHeader";
-import SearchTagGroup from "../../../../components/Form/SearchTagGroup";
 import { getTagName } from "../../../../components/Form/utils";
-import ObjectSelector, { type SelectElement } from "../../../../components/ObjectSelector";
 import type { CamelToKebab } from "../../../../interfaces";
 import { licenseQuery } from "../../../../modules/draft/draftQueries";
 import { getLicensesWithTranslations } from "../../../../util/licenseHelpers";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import { useStableSearchPageParams } from "../../useStableSearchPageParams";
+import { RadioFilter } from "../filters/RadioFilter";
+import { countActiveFilters, SearchLayout } from "../SearchLayout";
+import { SearchQueryStack, SearchSummaryRow } from "../SearchSummaryRow";
+import { SearchActiveFilters } from "./SearchActiveFilters";
+import { SearchQueryField } from "./SearchQueryField";
 
 type SearchParams = { [k in keyof SearchParamsDTO as CamelToKebab<k>]: SearchParamsDTO[k] };
 
-const StyledForm = styled("form", {
-  base: {
-    display: "grid",
-    gridTemplateColumns: "repeat(2, 1fr)",
-    gridGap: "3xsmall",
-    alignItems: "center",
-  },
-});
-
 interface Props {
   userData: UserDataDTO | undefined;
+  children?: ReactNode;
+  summary?: ReactNode;
 }
 
-const SearchAudioForm = ({ userData }: Props) => {
+const SearchAudioForm = ({ userData, children, summary }: Props) => {
   const [params, setParams] = useStableSearchPageParams();
   const queryParam = useMemo(() => params.get("query") || "", [params]);
   const [input, setInput] = useState(queryParam);
@@ -87,45 +80,55 @@ const SearchAudioForm = ({ userData }: Props) => {
     language: params.get("language"),
   };
 
-  const selectElements = [
-    { name: "audio-type", options: getAudioTypes() },
-    { name: "license", options: licenses ?? [] },
-    { name: "language", options: getResourceLanguages(t) },
-  ] satisfies SelectElement<SearchParams>[];
-
   return (
-    <>
-      <SearchHeader type="audio" filters={filters} userData={userData} />
-      <StyledForm
-        onSubmit={(e) => {
-          e.preventDefault();
-          setParams({ query: input });
-        }}
-      >
-        <FieldRoot>
-          <FieldLabel srOnly>{t("searchForm.types.audioQuery")}</FieldLabel>
-          <FieldInput
-            name="query"
-            placeholder={t("searchForm.types.audioQuery")}
-            value={input}
-            onChange={(e) => setInput(e.currentTarget.value)}
+    <SearchLayout
+      activeFilterCount={countActiveFilters(filters)}
+      sidebar={
+        <>
+          <RadioFilter
+            title={t("searchForm.filterHeading.audio-type")}
+            name="audio-type"
+            options={getAudioTypes()}
+            value={params.get("audio-type")}
+            onChange={(value) => setParams({ "audio-type": value })}
           />
-        </FieldRoot>
-        {selectElements.map((selectElement) => (
-          <FieldRoot key={selectElement.name}>
-            <ObjectSelector
-              name={selectElement.name}
-              placeholder={t(`searchForm.types.${selectElement.name}`)}
-              value={params.get(selectElement.name) ?? ""}
-              options={selectElement.options}
-              onChange={(value) => setParams({ [selectElement.name]: value.join(",") })}
-            />
-          </FieldRoot>
-        ))}
-        <SearchControlButtons reset={emptySearch} />
-      </StyledForm>
-      <SearchTagGroup onRemoveTag={removeTagItem} tags={filters} />
-    </>
+          <RadioFilter
+            title={t("searchForm.filterHeading.license")}
+            name="license"
+            options={licenses ?? []}
+            value={params.get("license")}
+            onChange={(value) => setParams({ license: value })}
+          />
+          <RadioFilter
+            title={t("searchForm.filterHeading.language")}
+            name="language"
+            options={getResourceLanguages(t)}
+            value={params.get("language")}
+            onChange={(value) => setParams({ language: value })}
+          />
+        </>
+      }
+    >
+      <Heading textStyle="heading.small">{t("searchPage.header.audio")}</Heading>
+      <SearchQueryStack>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            setParams({ query: input });
+          }}
+        >
+          <SearchQueryField
+            value={input}
+            onClear={() => setParams({ query: null })}
+            onChange={setInput}
+            placeholder={t("searchForm.types.audioQuery")}
+          />
+        </form>
+        <SearchSummaryRow type="audio" summary={summary} filters={filters} userData={userData} />
+      </SearchQueryStack>
+      <SearchActiveFilters onReset={emptySearch} onRemoveTag={removeTagItem} tags={filters} />
+      {children}
+    </SearchLayout>
   );
 };
 

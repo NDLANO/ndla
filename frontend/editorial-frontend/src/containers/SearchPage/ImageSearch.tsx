@@ -15,7 +15,6 @@ import type {
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import Pagination from "../../components/abstractions/Pagination";
 import config from "../../config";
 import { userDataQueryOptions } from "../../modules/draft/draftQueries";
 import { searchImagesQueryOptions } from "../../modules/image/imageQueries";
@@ -24,8 +23,9 @@ import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import SearchImageForm from "./components/form/SearchImageForm";
 import { GenericSearchList } from "./components/GenericSearchList";
 import SearchImage from "./components/results/SearchImage";
-import SearchListOptions from "./components/results/SearchListOptions";
+import { SearchPagination } from "./components/results/SearchPagination";
 import { SearchPageContainer } from "./components/SearchPageContainer";
+import { SearchResultSummary } from "./components/SearchSummaryRow";
 import SearchSort, { type SortType } from "./components/sort/SearchSort";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
 
@@ -80,33 +80,44 @@ export const ImageSearch = () => {
     <SearchPageContainer asChild consumeCss>
       <main>
         <title>{t("htmlTitles.search.image")}</title>
-        <SearchImageForm userData={userDataQuery.data} />
-        <SearchSort
-          sortTypes={SORT_TYPES}
-          value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
-          onValueChange={(value) => setParams({ sort: value === DEFAULT_PARAMS.sort ? null : value })}
-        />
-        <SearchListOptions totalCount={searchQuery.data?.totalCount} defaultValue={DEFAULT_PARAMS.pageSize!} />
-        <GenericSearchList
-          type="image"
-          loading={searchQuery.isLoading}
-          error={searchQuery.error}
-          query={params.get("query")}
-          resultLength={searchQuery.data?.totalCount ?? 0}
-        >
-          {searchQuery.data?.results.map((image) => (
-            <SearchImage image={image} key={image.id} />
-          ))}
-        </GenericSearchList>
-        <Pagination
-          page={Number(params.get("page")) || DEFAULT_PARAMS.page}
-          onPageChange={(details) =>
-            setParams({ page: details.page === DEFAULT_PARAMS.page ? null : details.page.toString() })
+        <SearchImageForm
+          userData={userDataQuery.data}
+          summary={
+            <SearchResultSummary
+              totalCount={searchQuery.data?.totalCount}
+              page={Number(params.get("page")) || DEFAULT_PARAMS.page}
+              pageSize={searchQuery.data?.pageSize}
+              query={params.get("query")}
+            />
           }
-          pageSize={searchQuery.data?.pageSize}
-          count={searchQuery.data?.totalCount ?? 0}
-          siblingCount={1}
-        />
+        >
+          <SearchSort
+            sortTypes={SORT_TYPES}
+            value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
+            onValueChange={(value) => setParams({ sort: value === DEFAULT_PARAMS.sort ? null : value })}
+          />
+          <GenericSearchList
+            type="image"
+            loading={searchQuery.isLoading}
+            error={searchQuery.error}
+            query={params.get("query")}
+            resultLength={searchQuery.data?.totalCount ?? 0}
+          >
+            {searchQuery.data?.results.map((image) => (
+              <SearchImage image={image} key={image.id} />
+            ))}
+          </GenericSearchList>
+          <SearchPagination
+            defaultPageSize={DEFAULT_PARAMS.pageSize!}
+            page={Number(params.get("page")) || DEFAULT_PARAMS.page}
+            onPageChange={(details) =>
+              setParams({ page: details.page === DEFAULT_PARAMS.page ? null : details.page.toString() })
+            }
+            pageSize={searchQuery.data?.pageSize}
+            count={searchQuery.data?.totalCount ?? 0}
+            siblingCount={1}
+          />
+        </SearchImageForm>
       </main>
     </SearchPageContainer>
   );

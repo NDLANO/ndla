@@ -6,20 +6,15 @@
  *
  */
 
-import { FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
+import { Heading } from "@ndla/primitives";
 import type { UserDataDTO } from "@ndla/types-backend/draft-api";
 import type { SearchParamsDTO, ImageSearchField } from "@ndla/types-backend/image-api";
 import { useQuery } from "@tanstack/react-query";
 import type { TFunction } from "i18next";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import SearchControlButtons from "../../../../components/Form/SearchControlButtons";
-import SearchHeader from "../../../../components/Form/SearchHeader";
-import SearchTagGroup from "../../../../components/Form/SearchTagGroup";
 import { getTagName } from "../../../../components/Form/utils";
 import ObjectSelector, { type SelectOption } from "../../../../components/ObjectSelector";
-import config from "../../../../config";
 import type { CamelToKebab } from "../../../../interfaces";
 import { auth0UsersQueryOptions } from "../../../../modules/auth0/auth0Queries";
 import { licenseQuery } from "../../../../modules/draft/draftQueries";
@@ -27,21 +22,12 @@ import { imageEditorsQueryOptions } from "../../../../modules/image/imageQueries
 import { getLicensesWithTranslations } from "../../../../util/licenseHelpers";
 import { getResourceLanguages } from "../../../../util/resourceHelpers";
 import { useStableSearchPageParams } from "../../useStableSearchPageParams";
-
-const StyledForm = styled("form", {
-  base: {
-    display: "grid",
-    gridTemplateColumns: "repeat(4, 1fr)",
-    desktopDown: {
-      gridTemplateColumns: "repeat(3, 1fr)",
-    },
-    gridGap: "3xsmall",
-    alignItems: "center",
-    tabletDown: {
-      gridTemplateColumns: "repeat(2, 1fr)",
-    },
-  },
-});
+import { RadioFilter } from "../filters/RadioFilter";
+import { SearchableCheckboxFilter } from "../filters/SearchableCheckboxFilter";
+import { countActiveFilters, SearchLayout } from "../SearchLayout";
+import { SearchQueryStack, SearchSummaryRow } from "../SearchSummaryRow";
+import { SearchActiveFilters } from "./SearchActiveFilters";
+import { SearchQueryField } from "./SearchQueryField";
 
 type SearchParams = { [k in keyof SearchParamsDTO as CamelToKebab<k>]: SearchParamsDTO[k] } & {
   width: string;
@@ -54,6 +40,8 @@ type SearchParams = { [k in keyof SearchParamsDTO as CamelToKebab<k>]: SearchPar
 
 interface Props {
   userData: UserDataDTO | undefined;
+  children?: ReactNode;
+  summary?: ReactNode;
 }
 
 const getAiGeneratedOptions = (t: TFunction) => [
@@ -141,7 +129,7 @@ const getQueryFieldOptions = (t: TFunction): SelectOption[] =>
     name: t(`searchForm.queryFields.${field}`),
   }));
 
-const SearchImageForm = ({ userData }: Props) => {
+const SearchImageForm = ({ userData, children, summary }: Props) => {
   const [params, setParams] = useStableSearchPageParams();
   const { t, i18n } = useTranslation();
   const [input, setInput] = useState(params.get("query") ?? "");
@@ -169,7 +157,7 @@ const SearchImageForm = ({ userData }: Props) => {
     setInput(queryInput ?? "");
   }
 
-  const removeTagItem = (parameterName: keyof SearchParams) => {
+  const removeTagItem = (parameterName: keyof SearchParams, index: number | undefined) => {
     if (parameterName === "query") setInput("");
     if (parameterName === "width") {
       setParams({ "width-from": null, "width-to": null });
@@ -177,7 +165,12 @@ const SearchImageForm = ({ userData }: Props) => {
     if (parameterName === "height") {
       setParams({ "height-from": null, "height-to": null });
     }
-    setParams({ [parameterName]: null });
+    const values = params.get(parameterName)?.split(",");
+    if (index != null && values && values.length > 1) {
+      setParams({ [parameterName]: values.filter((_, idx) => idx !== index).join(",") });
+    } else {
+      setParams({ [parameterName]: null });
+    }
   };
 
   const emptySearch = () => {
@@ -215,114 +208,122 @@ const SearchImageForm = ({ userData }: Props) => {
     "ai-generated": getTagName(params.get("ai-generated"), getAiGeneratedOptions(t)),
     language: params.get("language"),
     inactive: getTagName(params.get("inactive"), getInactiveOptions(t)),
-    // TODO: This is ugly
-    users: getTagName(params.get("users")?.split(",")?.[0], users),
+    users: params
+      .get("users")
+      ?.split(",")
+      .map((f) => getTagName(f, users))
+      .filter((t): t is string => !!t),
     width: getSizeValue(params.get("width-from") ?? undefined, params.get("width-to") ?? undefined, t),
     height: getSizeValue(params.get("height-from") ?? undefined, params.get("height-to") ?? undefined, t),
     "content-type": getTagName(params.get("content-type"), getContentTypeOptions(t)),
   };
 
+  const setSizeRange = (prefix: "width" | "height", value: string | null) => {
+    const { from, to } = value ? imageSizeToRangeMap[value as ImageSize] : { from: null, to: null };
+    setParams({ [`${prefix}-from`]: from, [`${prefix}-to`]: to });
+  };
+
   return (
-    <>
-      <SearchHeader type="image" filters={filters} userData={userData} />
-      <StyledForm
-        onSubmit={(e) => {
-          setParams({ query: input });
-          e.preventDefault();
-        }}
-      >
-        <FieldRoot>
-          <FieldLabel srOnly>{t("searchForm.types.imageQuery")}</FieldLabel>
-          <FieldInput
-            name="query"
-            placeholder={t("searchForm.types.imageQuery")}
-            value={input}
-            onChange={(e) => setInput(e.currentTarget.value)}
+    <SearchLayout
+      activeFilterCount={countActiveFilters(filters)}
+      sidebar={
+        <>
+          <RadioFilter
+            title={t("searchForm.filterHeading.license")}
+            name="license"
+            options={licenses ?? []}
+            value={params.get("license")}
+            onChange={(value) => setParams({ license: value })}
           />
-        </FieldRoot>
-        <ObjectSelector
-          name="query-fields"
-          value={params.get("query-fields") ?? ""}
-          options={getQueryFieldOptions(t)}
-          multiple
-          onChange={(value) => setParams({ "query-fields": value.join(",") })}
-          placeholder={t("searchForm.types.query-fields")}
-        />
-        <ObjectSelector
-          name="license"
-          value={params.get("license") ?? ""}
-          options={licenses ?? []}
-          onChange={(value) => setParams({ license: value[0] })}
-          placeholder={t("searchForm.types.license")}
-        />
-        <ObjectSelector
-          name="model-released"
-          value={params.get("model-released") ?? ""}
-          options={getModelReleasedValues(t)}
-          onChange={(value) => setParams({ "model-released": value[0] })}
-          placeholder={t("searchForm.types.model-released")}
-        />
-        <ObjectSelector
-          name="ai-generated"
-          value={params.get("ai-generated") ?? ""}
-          options={getAiGeneratedOptions(t)}
-          onChange={(value) => setParams({ "ai-generated": value[0] })}
-          placeholder={t("searchForm.types.ai-generated")}
-        />
-        <ObjectSelector
-          name="language"
-          value={params.get("language") ?? ""}
-          options={getResourceLanguages(t)}
-          onChange={(value) => setParams({ language: value[0] })}
-          placeholder={t("searchForm.types.language")}
-        />
-        <ObjectSelector
-          name="users"
-          value={params.get("users") ?? ""}
-          options={users ?? []}
-          onChange={(value) => setParams({ users: value[0] })}
-          placeholder={t("searchForm.types.users")}
-        />
-        <ObjectSelector
-          name="inactive"
-          value={params.get("inactive") ?? "unspecified"}
-          options={getInactiveOptions(t)}
-          onChange={(value) => setParams({ inactive: value[0] })}
-          placeholder={t("searchForm.types.status")}
-        />
-        <ObjectSelector
-          name="image-width"
-          value={filters.width.length ? toSelectorValue(params.get("width-from"), params.get("width-to")) : ""}
-          options={sizeOptions}
-          onChange={(value) => {
-            const { from, to } = imageSizeToRangeMap[value[0] as ImageSize];
-            setParams({ "width-from": from, "width-to": to });
-          }}
-          placeholder={t("searchForm.types.image-width")}
-        />
-        {config.displayImageHeightFilter ? (
-          <ObjectSelector
-            name="image-height"
-            value={filters.height.length ? toSelectorValue(params.get("height-from"), params.get("height-to")) : ""}
+          <SearchableCheckboxFilter
+            title={t("searchForm.filterHeading.users")}
+            name="users"
+            placeholder={t("searchForm.filterSearch.users")}
+            options={users ?? []}
+            value={params.get("users")?.split(",") ?? []}
+            onChange={(values) => setParams({ users: values.join(",") })}
+          />
+          <RadioFilter
+            title={t("searchForm.filterHeading.language")}
+            name="language"
+            options={getResourceLanguages(t)}
+            value={params.get("language")}
+            onChange={(value) => setParams({ language: value })}
+          />
+          <RadioFilter
+            title={t("searchForm.filterHeading.content-type")}
+            name="content-type"
+            options={getContentTypeOptions(t)}
+            value={params.get("content-type")}
+            onChange={(value) => setParams({ "content-type": value })}
+          />
+          <RadioFilter
+            title={t("searchForm.filterHeading.image-width")}
+            name="image-width"
             options={sizeOptions}
-            onChange={(value) => {
-              const { from, to } = imageSizeToRangeMap[value[0] as ImageSize];
-              setParams({ "height-from": from, "height-to": to });
-            }}
-            placeholder={t("searchForm.types.image-height")}
+            value={filters.width.length ? toSelectorValue(params.get("width-from"), params.get("width-to")) : null}
+            onChange={(value) => setSizeRange("width", value)}
           />
-        ) : undefined}
-        <ObjectSelector
-          name="content-type"
-          value={params.get("content-type") ?? "unspecified"}
-          options={getContentTypeOptions(t)}
-          onChange={(value) => setParams({ "content-type": value[0] })}
-          placeholder={t("searchForm.types.content-type")}
-        />
-        <SearchControlButtons reset={emptySearch} />
-      </StyledForm>
-      <SearchTagGroup onRemoveTag={removeTagItem} tags={filters} />
-    </>
+          <RadioFilter
+            title={t("searchForm.filterHeading.image-height")}
+            name="image-height"
+            options={sizeOptions}
+            value={filters.height.length ? toSelectorValue(params.get("height-from"), params.get("height-to")) : null}
+            onChange={(value) => setSizeRange("height", value)}
+          />
+          <RadioFilter
+            title={t("searchForm.filterHeading.model-released")}
+            name="model-released"
+            options={getModelReleasedValues(t)}
+            value={params.get("model-released")}
+            onChange={(value) => setParams({ "model-released": value })}
+          />
+          <RadioFilter
+            title={t("searchForm.filterHeading.ai-generated")}
+            name="ai-generated"
+            options={getAiGeneratedOptions(t)}
+            value={params.get("ai-generated")}
+            onChange={(value) => setParams({ "ai-generated": value })}
+          />
+          <RadioFilter
+            title={t("searchForm.filterHeading.inactive")}
+            name="inactive"
+            options={getInactiveOptions(t)}
+            value={params.get("inactive")}
+            onChange={(value) => setParams({ inactive: value })}
+          />
+        </>
+      }
+    >
+      <Heading textStyle="heading.small">{t("searchPage.header.image")}</Heading>
+      <SearchQueryStack>
+        <form
+          onSubmit={(e) => {
+            setParams({ query: input });
+            e.preventDefault();
+          }}
+        >
+          <SearchQueryField
+            value={input}
+            onClear={() => setParams({ query: null })}
+            onChange={setInput}
+            placeholder={t("searchForm.types.imageQuery")}
+          >
+            <ObjectSelector
+              name="query-fields"
+              value={params.get("query-fields") ?? ""}
+              options={getQueryFieldOptions(t)}
+              multiple
+              onChange={(value) => setParams({ "query-fields": value.join(",") })}
+              placeholder={t("searchForm.types.query-fields")}
+            />
+          </SearchQueryField>
+        </form>
+        <SearchSummaryRow type="image" summary={summary} filters={filters} userData={userData} />
+      </SearchQueryStack>
+      <SearchActiveFilters onReset={emptySearch} onRemoveTag={removeTagItem} tags={filters} />
+      {children}
+    </SearchLayout>
   );
 };
 

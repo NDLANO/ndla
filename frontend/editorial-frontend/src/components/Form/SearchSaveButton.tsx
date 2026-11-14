@@ -6,8 +6,9 @@
  *
  */
 
+import { HeartFill, HeartLine } from "@ndla/icons";
 import { tDynamic } from "@ndla/locales";
-import { Button, Text } from "@ndla/primitives";
+import { Button, type ButtonProps, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { SearchParamsDTO as AudioSearchParamsDTO } from "@ndla/types-backend/audio-api";
 import type { DraftConceptSearchParamsDTO } from "@ndla/types-backend/concept-api";
@@ -18,7 +19,6 @@ import { useMutation } from "@tanstack/react-query";
 import type { TFunction } from "i18next";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import SaveButton from "../../components/SaveButton";
 import type { CamelToKebab, SearchType } from "../../interfaces";
 import { updateUserDataMutationOptions } from "../../modules/draft/draftQueries";
 import { useRawLocation } from "../../util/localePath";
@@ -82,9 +82,11 @@ interface Props {
   filters: SearchSaveParams;
   searchContentType: SearchType;
   userData?: UserDataDTO | undefined;
+  size?: ButtonProps["size"];
+  variant?: ButtonProps["variant"];
 }
 
-const SearchSaveButton = ({ filters, searchContentType, userData }: Props) => {
+const SearchSaveButton = ({ filters, searchContentType, userData, size, variant }: Props) => {
   const { t } = useTranslation();
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<Error>("");
@@ -141,6 +143,13 @@ const SearchSaveButton = ({ filters, searchContentType, userData }: Props) => {
   const savedIndex = savedSearches.findIndex((s) => s.searchUrl === currentSearch);
   const isSaved = savedIndex !== -1;
 
+  const getButtonText = () => {
+    if (userDataMutation.isPending) return t("form.saving");
+    if (success) return t("form.saved");
+    if (isSaved) return t("form.alreadySaved");
+    return t("form.saveSearch");
+  };
+
   return (
     <ButtonWrapper>
       {!!isSaved && (
@@ -149,13 +158,16 @@ const SearchSaveButton = ({ filters, searchContentType, userData }: Props) => {
         </Button>
       )}
       <StyledWrapper>
-        <SaveButton
+        <Button
+          size={size}
+          variant={userDataMutation.isPending || success ? "success" : variant}
           loading={userDataMutation.isPending}
-          showSaved={success}
-          defaultText={isSaved ? "alreadySaved" : "saveSearch"}
           onClick={saveSearch}
           disabled={isSaved || success}
-        />
+        >
+          {isSaved || success ? <HeartFill /> : <HeartLine />}
+          {getButtonText()}
+        </Button>
         {!!error && <Text>{t(`searchPage.save.${error}`)}</Text>}
       </StyledWrapper>
     </ButtonWrapper>

@@ -79,6 +79,12 @@ export const Disabled: StoryObj<typeof AccordionRoot> = {
   },
 };
 
+export const Subtle: StoryObj<typeof AccordionRoot> = {
+  args: {
+    variant: "subtle",
+  },
+};
+
 const SimpleRender: StoryFn<typeof AccordionRoot> = (args) => (
   <AccordionRoot {...args}>
     <AccordionItem value={"1"}>

@@ -17,7 +17,6 @@ import { keyBy, uniq } from "@ndla/util";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import Pagination from "../../components/abstractions/Pagination";
 import config from "../../config";
 import { DA_SUBJECT_ID, LMA_SUBJECT_ID, NO_RESPONSIBLES, SA_SUBJECT_ID } from "../../constants";
 import { auth0UsersQueryOptions } from "../../modules/auth0/auth0Queries";
@@ -37,8 +36,9 @@ import {
 import SearchContentForm from "./components/form/SearchContentForm";
 import { GenericSearchList } from "./components/GenericSearchList";
 import SearchContent from "./components/results/SearchContent";
-import SearchListOptions from "./components/results/SearchListOptions";
+import { SearchPagination } from "./components/results/SearchPagination";
 import { SearchPageContainer } from "./components/SearchPageContainer";
+import { SearchResultSummary } from "./components/SearchSummaryRow";
 import SearchSort, { type SortType } from "./components/sort/SearchSort";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
 
@@ -179,41 +179,53 @@ export const ContentSearch = () => {
     <SearchPageContainer asChild consumeCss>
       <main>
         <title>{t("htmlTitles.search.content")}</title>
-        <SearchContentForm userData={userDataQuery.data} subjects={subjectsQuery.data ?? []} />
-        <SearchSort
-          sortTypes={SORT_TYPES}
-          value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
-          onValueChange={(value) => setParams({ sort: value === DEFAULT_PARAMS.sort ? null : value })}
-        />
-        <SearchListOptions totalCount={searchQuery.data?.totalCount} defaultValue={DEFAULT_PARAMS.pageSize!} />
-        <GenericSearchList
-          type="content"
-          loading={searchQuery.isLoading}
-          error={searchQuery.error}
-          query={params.get("query")}
-          resultLength={searchQuery.data?.totalCount ?? 0}
-        >
-          {searchQuery.data?.results.map((result) => (
-            <SearchContent
-              key={`${result.id}-${result.learningResourceType}`}
-              content={result}
-              responsibleName={
-                result.responsible ? keyedResponsibles[result.responsible.responsibleId]?.name : undefined
-              }
+        <SearchContentForm
+          userData={userDataQuery.data}
+          subjects={subjectsQuery.data ?? []}
+          summary={
+            <SearchResultSummary
+              totalCount={searchQuery.data?.totalCount}
+              page={parsedParams.page}
+              pageSize={searchQuery.data?.pageSize}
+              query={params.get("query")}
             />
-          ))}
-        </GenericSearchList>
-        <Pagination
-          page={parsedParams.page}
-          onPageChange={(details) =>
-            setParams({
-              page: details.page === DEFAULT_PARAMS.page ? null : details.page.toString(),
-            })
           }
-          pageSize={searchQuery.data?.pageSize}
-          count={searchQuery.data?.totalCount ?? 0}
-          siblingCount={1}
-        />
+        >
+          <SearchSort
+            sortTypes={SORT_TYPES}
+            value={params.get("sort") ?? DEFAULT_PARAMS.sort!}
+            onValueChange={(value) => setParams({ sort: value === DEFAULT_PARAMS.sort ? null : value })}
+          />
+          <GenericSearchList
+            type="content"
+            loading={searchQuery.isLoading}
+            error={searchQuery.error}
+            query={params.get("query")}
+            resultLength={searchQuery.data?.totalCount ?? 0}
+          >
+            {searchQuery.data?.results.map((result) => (
+              <SearchContent
+                key={`${result.id}-${result.learningResourceType}`}
+                content={result}
+                responsibleName={
+                  result.responsible ? keyedResponsibles[result.responsible.responsibleId]?.name : undefined
+                }
+              />
+            ))}
+          </GenericSearchList>
+          <SearchPagination
+            defaultPageSize={DEFAULT_PARAMS.pageSize!}
+            page={parsedParams.page}
+            onPageChange={(details) =>
+              setParams({
+                page: details.page === DEFAULT_PARAMS.page ? null : details.page.toString(),
+              })
+            }
+            pageSize={searchQuery.data?.pageSize}
+            count={searchQuery.data?.totalCount ?? 0}
+            siblingCount={1}
+          />
+        </SearchContentForm>
       </main>
     </SearchPageContainer>
   );
