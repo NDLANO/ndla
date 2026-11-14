@@ -323,7 +323,7 @@ class QualityEvaluationServiceConcurrencyTest : AbstractIntegrationTest() {
         await(continueUpdate)
       }
 
-      val oldGrade = node.qualityEvaluationGrade
+      val oldGrade = node.qualityEvaluation
       command.apply(node)
       qualityEvaluationService.updateQualityEvaluationOfParentsFromFreshlyLoadedNode(
           node,

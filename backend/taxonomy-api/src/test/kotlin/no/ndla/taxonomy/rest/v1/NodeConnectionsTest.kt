@@ -154,8 +154,8 @@ class NodeConnectionsTest : RestTest() {
 
   @Test
   fun can_get_node_child() {
-    val electricity = newTopic().name("electricity")
-    val alternatingCurrent = newTopic().name("alternating current")
+    val electricity = newTopic().apply { name = "electricity" }
+    val alternatingCurrent = newTopic().apply { name = "alternating current" }
     val topicSubtopic = save(NodeConnection.create(electricity, alternatingCurrent, Relevance.CORE))
 
     val topicid = electricity.publicId
@@ -337,10 +337,10 @@ class NodeConnectionsTest : RestTest() {
         status().isOk(),
     )
     val connection = nodeConnectionRepository.getByPublicId(id)
-    assertFalse(connection.metadata.isVisible())
-    val codes = connection.metadata.getGrepCodes().mapTo(HashSet()) { it.code }
+    assertFalse(connection.metadata.isVisible)
+    val codes = connection.metadata.grepCodes.mapTo(HashSet()) { it.code }
     assertTrue(codes.contains("KM123"))
-    val customFieldValues = connection.getCustomFields()
+    val customFieldValues = connection.customFields
     assertTrue(customFieldValues.containsKey("key"))
     assertTrue(customFieldValues.containsValue("value"))
   }

@@ -74,7 +74,6 @@ class NodeConnectionService(
   ): NodeConnection =
       doCreateConnection(parent, child, isPrimary ?: true, relevance, rank, connectionType)
 
-  @JvmOverloads
   fun connectParentChild(
       parent: Node,
       child: Node,
@@ -133,10 +132,10 @@ class NodeConnectionService(
   }
 
   fun disconnectParentChild(parent: Node, child: Node) {
-    HashSet(parent.getChildConnections())
-        .asSequence()
+    parent
+        .getChildConnections()
         .filter { connection -> connection.child === child }
-        .forEach { disconnectParentChildConnection(it) } // (It will never be more than one record)
+        .forEach(::disconnectParentChildConnection) // (It will never be more than one record)
   }
 
   fun disconnectParentChildConnection(nodeConnection: NodeConnection) {
@@ -177,8 +176,7 @@ class NodeConnectionService(
   }
 
   private fun updatePrimaryConnection(connectable: NodeConnection, setPrimaryTo: Boolean) {
-    val updatedConnectables = HashSet<NodeConnection>()
-    updatedConnectables.add(connectable)
+    val updatedConnectables = mutableSetOf(connectable)
 
     // Updates all other nodes connected to this parent
     var foundNewPrimary = false
@@ -223,9 +221,9 @@ class NodeConnectionService(
   private fun updateRank(rankable: NodeConnection, newRank: Int) {
     val updatedConnections =
         RankableConnectionUpdater.rank(
-            ArrayList(
-                checkNotNull(rankable.parent) { "Rankable parent not found" }
-                    .getChildConnections()),
+            checkNotNull(rankable.parent) { "Rankable parent not found" }
+                .getChildConnections()
+                .toList(),
             rankable,
             newRank,
         )

@@ -16,18 +16,14 @@ class TreeSorter {
   private fun <T : Sortable> addElements(
       elementsToAddFrom: Map<URI?, Collection<T>>,
       parentId: URI?,
-  ): List<T> {
-    val itemsToAdd = ArrayList<T>()
-
-    elementsToAddFrom
-        .getOrDefault(parentId, listOf())
-        .sortedWith(Comparator.comparingInt(Sortable::sortableRank))
+  ): List<T> = buildList {
+    elementsToAddFrom[parentId]
+        .orEmpty()
+        .sortedBy { it.sortableRank }
         .forEach { element ->
-          itemsToAdd.add(element)
-          itemsToAdd.addAll(addElements(elementsToAddFrom, element.sortableId))
+          add(element)
+          addAll(addElements(elementsToAddFrom, element.sortableId))
         }
-
-    return itemsToAdd
   }
 
   /**
@@ -60,7 +56,7 @@ class TreeSorter {
 
       val parentId = if (!foundParent) null else element.sortableParentId
 
-      elementsByParent.getOrPut(parentId) { ArrayList() }.add(element)
+      elementsByParent.getOrPut(parentId) { mutableListOf() }.add(element)
     }
 
     return addElements(elementsByParent, null)

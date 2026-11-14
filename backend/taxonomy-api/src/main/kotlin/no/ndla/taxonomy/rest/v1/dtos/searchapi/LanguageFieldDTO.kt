@@ -22,14 +22,12 @@ class LanguageFieldDTO<V : Any>() : HashMap<String, V>() {
   @Schema(hidden = true) override fun isEmpty(): Boolean = super.isEmpty()
 
   companion object {
-    @JvmStatic
     fun fromLanguageField(languageField: LanguageField<String>): LanguageFieldDTO<String> {
       val dto = LanguageFieldDTO<String>()
       languageField.forEach { (key, value) -> dto[key] = value }
       return dto
     }
 
-    @JvmStatic
     fun fromLanguageFieldList(
         languageField: LanguageField<MutableList<String>>
     ): LanguageFieldDTO<List<String>> {

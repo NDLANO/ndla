@@ -16,7 +16,6 @@ class LanguageField<V> : HashMap<String, V>() {
       if (containsKey(language)) this[language] else this[Constants.DefaultLanguage]
 
   companion object {
-    @JvmStatic
     fun fromNode(node: DomainObject): LanguageField<String> {
       val languageField = LanguageField<String>()
       val defaultName = node.name ?: ""
@@ -31,7 +30,6 @@ class LanguageField<V> : HashMap<String, V>() {
       return languageField
     }
 
-    @JvmStatic
     fun fromRelevance(relevance: Relevance): LanguageField<String> {
       val languageField = LanguageField<String>()
       val defaultName = relevance.translations.firstOrNull { it.languageCode == "nb" }?.name ?: ""
@@ -46,15 +44,12 @@ class LanguageField<V> : HashMap<String, V>() {
       return languageField
     }
 
-    @JvmStatic
     fun listFromNode(node: DomainObject): LanguageField<MutableList<String>> {
       val breadcrumbs = LanguageField<MutableList<String>>()
-      val langs = node.translations.mapNotNullTo(HashSet()) { it.languageCode }
+      val langs = node.translations.mapNotNullTo(mutableSetOf()) { it.languageCode }
       langs.add(Constants.DefaultLanguage)
       for (lang in langs) {
-        val crumbs = ArrayList<String>()
-        crumbs.add(node.getTranslatedName(lang) ?: "")
-        breadcrumbs[lang] = crumbs
+        breadcrumbs[lang] = mutableListOf(node.getTranslatedName(lang) ?: "")
       }
       return breadcrumbs
     }
@@ -64,20 +59,18 @@ class LanguageField<V> : HashMap<String, V>() {
      * appended so all languageLists have the same number of elements. If a language variant is not
      * present, default value is used.
      */
-    @JvmStatic
     fun listFromLists(
         listLanguageField: LanguageField<MutableList<String>>,
         languageField: LanguageField<String>,
     ): LanguageField<MutableList<String>> {
       val breadcrumbs = SerializationUtils.clone(listLanguageField)
-      val languages = HashSet<String>()
-      languages.addAll(listLanguageField.keys)
-      languages.addAll(languageField.keys)
+      val languages = listLanguageField.keys + languageField.keys
       val defaultValue = languageField[Constants.DefaultLanguage] ?: ""
       languages.forEach { lang ->
+        // Copy the default crumbs so missing languages neither share a list nor mutate the input
         val crumbs =
-            breadcrumbs.computeIfAbsent(lang) {
-              listLanguageField.getOrDefault(Constants.DefaultLanguage, ArrayList())
+            breadcrumbs.getOrPut(lang) {
+              listLanguageField[Constants.DefaultLanguage].orEmpty().toMutableList()
             }
         crumbs.add(languageField.getOrDefault(lang, defaultValue))
       }

@@ -9,7 +9,7 @@ package no.ndla.taxonomy.rest.v1.dtos
 
 import io.swagger.v3.oas.annotations.media.Schema
 import java.net.URI
-import java.util.TreeSet
+import java.util.SortedSet
 import no.ndla.taxonomy.domain.ResourceType
 import no.ndla.taxonomy.service.dtos.TranslationDTO
 
@@ -24,9 +24,9 @@ data class ResourceTypeWithConnectionDTO(
     @field:Schema(description = "The name of the resource type", example = "Lecture")
     val name: String,
     @field:Schema(description = "All translations of this resource type")
-    val translations: TreeSet<TranslationDTO>,
+    val translations: SortedSet<TranslationDTO>,
     @field:Schema(description = "List of language codes supported by translations")
-    val supportedLanguages: TreeSet<String>,
+    val supportedLanguages: SortedSet<String>,
     @field:Schema(
         description = "The id of the resource resource type connection",
         example = "urn:resource-resourcetype:1",
@@ -40,8 +40,8 @@ data class ResourceTypeWithConnectionDTO(
   ) : this(
       id = resourceType.publicId,
       order = resourceType.order,
-      translations = resourceType.translations.map(::TranslationDTO).toCollection(TreeSet()),
-      supportedLanguages = TreeSet(resourceType.supportedLanguages),
+      translations = resourceType.translations.map(::TranslationDTO).toSortedSet(),
+      supportedLanguages = resourceType.supportedLanguages.toSortedSet(),
       parentId = resourceType.parent?.publicId,
       name = resourceType.getTranslatedName(languageCode),
       connectionId = URI.create("urn:resource-resourcetype:${nodeId}_${resourceType.publicId}"),

@@ -49,7 +49,7 @@ class ContextUpdaterService(private val nodeConnectionRepository: NodeConnection
         node.contextType,
         parentIds,
         parentContextIds,
-        parentContext.isVisible && node.isVisible(),
+        parentContext.isVisible && node.isVisible,
         parentContext.isActive && activeContext,
         parentConnection.isPrimary,
         parentContext.isArchived,
@@ -73,7 +73,7 @@ class ContextUpdaterService(private val nodeConnectionRepository: NodeConnection
       branchParentsByChild: Map<URI, List<NodeConnection>>,
       cache: Map<URI, Set<TaxonomyContext>>,
   ): Set<TaxonomyContext> {
-    val fields = node.getCustomFields()
+    val fields = node.customFields
     val activeContext =
         (fields[Constants.SubjectCategory] ?: Constants.Active) in ACTIVE_SUBJECT_CATEGORIES
     val isArchived = fields[Constants.SubjectType] == Constants.ArchiveSubject
@@ -94,7 +94,7 @@ class ContextUpdaterService(private val nodeConnectionRepository: NodeConnection
                 node.contextType,
                 mutableListOf(),
                 mutableListOf(),
-                node.isVisible(),
+                node.isVisible,
                 activeContext,
                 true,
                 isArchived,

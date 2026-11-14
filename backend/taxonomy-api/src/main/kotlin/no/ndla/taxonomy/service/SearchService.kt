@@ -8,10 +8,7 @@
 package no.ndla.taxonomy.service
 
 import java.net.URI
-import java.util.Optional
-import kotlin.jvm.optionals.getOrNull
 import no.ndla.taxonomy.domain.Node
-import no.ndla.taxonomy.domain.NodeConnectionType
 import no.ndla.taxonomy.domain.NodeType
 import no.ndla.taxonomy.repositories.NodeRepository
 import no.ndla.taxonomy.service.dtos.NodeDTO
@@ -49,7 +46,7 @@ class SearchService(val nodeRepository: NodeRepository) {
                       cb.function(
                           "jsonb_extract_path_text",
                           String::class.java,
-                          r.get<Map<String, String>>("customfields"),
+                          r.get<Map<String, String>>("customFields"),
                           cb.literal(k),
                       ),
                       v,
@@ -87,22 +84,19 @@ class SearchService(val nodeRepository: NodeRepository) {
 
     val fetched = nodeRepository.findAll(spec, pageRequest)
 
-    val rootNode = Optional.ofNullable(rootId?.let(nodeRepository::findFirstByPublicId))
-    val parentNode = Optional.ofNullable(parentId?.let(nodeRepository::findFirstByPublicId))
+    val rootNode = rootId?.let(nodeRepository::findFirstByPublicId)
+    val parentNode = parentId?.let(nodeRepository::findFirstByPublicId)
 
     val dtos =
         fetched.content.map { r ->
           NodeDTO(
-              rootNode.getOrNull(),
-              parentNode.getOrNull(),
-              r,
-              NodeConnectionType.BRANCH,
-              language,
-              null,
-              includeContexts,
-              filterProgrammes,
-              false,
-              false,
+              entity = r,
+              languageCode = language,
+              includeContexts = includeContexts,
+              filterProgrammes = filterProgrammes,
+              isVisible = false,
+              root = rootNode,
+              parent = parentNode,
           )
         }
 

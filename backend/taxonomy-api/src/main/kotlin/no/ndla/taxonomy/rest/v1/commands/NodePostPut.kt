@@ -108,12 +108,12 @@ class NodePostPut : UpdatableDto<Node> {
 
     when (val qualityEvaluation = this.qualityEvaluation) {
       is UpdateOrDelete.Delete -> {
-        entity.setQualityEvaluation(null)
+        entity.qualityEvaluation = null
         entity.qualityEvaluationComment = null
       }
       is UpdateOrDelete.Update -> {
         val qe = qualityEvaluation.value
-        entity.setQualityEvaluation(qe.grade)
+        entity.qualityEvaluation = qe.grade
         entity.qualityEvaluationComment = qe.note
       }
       else -> {}
@@ -152,7 +152,7 @@ class NodePostPut : UpdatableDto<Node> {
     context?.let { entity.isContext = it }
     name?.let { entity.name = it }
     contentUri?.let { entity.contentUri = it }
-    visible?.let { entity.setVisible(it) }
+    visible?.let { entity.isVisible = it }
     // Add translation only on post
     name?.let { name ->
       if (entity.id == null && translations == null) {

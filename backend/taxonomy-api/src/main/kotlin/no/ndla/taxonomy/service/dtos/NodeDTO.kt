@@ -7,6 +7,7 @@
 
 package no.ndla.taxonomy.service.dtos
 
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import io.swagger.v3.oas.annotations.media.Schema
@@ -47,7 +48,7 @@ import no.ndla.taxonomy.util.PrettyUrlUtil
             "paths",
         ],
 )
-open class NodeDTO() {
+open class NodeDTO @JsonCreator constructor() {
   @field:Schema(
       description = "Node id",
       example = "urn:topic:234",
@@ -101,21 +102,21 @@ open class NodeDTO() {
       description = "All translations of this node",
       requiredMode = Schema.RequiredMode.NOT_REQUIRED,
   )
-  var translations: Set<TranslationDTO> = TreeSet()
+  var translations: Set<TranslationDTO> = emptySet()
     private set
 
   @field:Schema(
       description = "List of language codes supported by translations",
       requiredMode = Schema.RequiredMode.NOT_REQUIRED,
   )
-  var supportedLanguages: Set<String> = TreeSet()
+  var supportedLanguages: Set<String> = emptySet()
     private set
 
   @field:Schema(
       description = "List of names in the path",
       requiredMode = Schema.RequiredMode.NOT_REQUIRED,
   )
-  var breadcrumbs: List<String> = ArrayList()
+  var breadcrumbs: List<String> = emptyList()
     private set
 
   @field:JsonProperty
@@ -124,7 +125,7 @@ open class NodeDTO() {
       example = "[{\"id\": \"urn:resourcetype:1\",\"name\":\"lecture\"}]",
       requiredMode = Schema.RequiredMode.NOT_REQUIRED,
   )
-  var resourceTypes: Set<ResourceTypeWithConnectionDTO> = TreeSet()
+  var resourceTypes: Set<ResourceTypeWithConnectionDTO> = emptySet()
     private set
 
   @field:JsonProperty
@@ -155,7 +156,7 @@ open class NodeDTO() {
       description = "A list of all contexts this node is part of",
       requiredMode = Schema.RequiredMode.NOT_REQUIRED,
   )
-  var contexts: List<TaxonomyContextDTO> = ArrayList()
+  var contexts: List<TaxonomyContextDTO> = emptyList()
     private set
 
   @field:JsonProperty
@@ -163,7 +164,7 @@ open class NodeDTO() {
       description = "A list of all contextids this node has ever had",
       requiredMode = Schema.RequiredMode.NOT_REQUIRED,
   )
-  var contextids: Set<String> = HashSet()
+  var contextids: Set<String> = emptySet()
     private set
 
   @field:JsonProperty
@@ -200,7 +201,7 @@ open class NodeDTO() {
       description = "Url safe names for the node.",
       requiredMode = Schema.RequiredMode.NOT_REQUIRED,
   )
-  var urlName: Set<String> = TreeSet()
+  var urlName: Set<String> = emptySet()
     private set
 
   @field:JsonProperty
@@ -213,18 +214,28 @@ open class NodeDTO() {
   var updatedAt: Instant? = null
     private set
 
-  @JvmOverloads
+  /**
+   * @param root Preferred root when picking the selected context
+   * @param parent Preferred parent when picking the selected context
+   * @param contextId Context to select, if present
+   * @param includeContexts Include all (filtered) contexts in [contexts]
+   * @param filterProgrammes Drop contexts rooted in a programme
+   * @param isVisible Drop invisible contexts
+   * @param includeParents Resolve parent crumbs for each context
+   * @param prefetchedParentContexts Parent contexts already loaded in bulk; fetched from [entity]
+   *   when null and [includeParents] is set
+   */
   constructor(
-      root: Node?,
-      parent: Node?,
       entity: Node,
-      connectionType: NodeConnectionType,
       languageCode: String,
-      contextId: String?,
       includeContexts: Boolean,
       filterProgrammes: Boolean,
       isVisible: Boolean,
-      includeParents: Boolean,
+      root: Node? = null,
+      parent: Node? = null,
+      connectionType: NodeConnectionType = NodeConnectionType.BRANCH,
+      contextId: String? = null,
+      includeParents: Boolean = false,
       prefetchedParentContexts: Set<TaxonomyContext>? = null,
   ) : this() {
     val contexts = entity.contexts
@@ -268,7 +279,7 @@ open class NodeDTO() {
 
     this.nodeType = entity.nodeType
     this.contextids = entity.contextIds
-    this.updatedAt = entity.getUpdatedAt()
+    this.updatedAt = entity.updatedAt
 
     val parentContexts =
         if (includeParents) prefetchedParentContexts ?: entity.getAllParentContexts() else setOf()
