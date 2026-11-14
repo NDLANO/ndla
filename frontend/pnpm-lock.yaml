@@ -813,10 +813,10 @@ importers:
         specifier: 'catalog:'
         version: 5.40.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@aws-sdk/client-bedrock-runtime':
-        specifier: ^3.1166.0
+        specifier: ^3.1167.0
         version: 3.1168.0
       '@aws-sdk/client-transcribe':
-        specifier: ^3.1166.0
+        specifier: ^3.1167.0
         version: 3.1168.0
       '@dnd-kit/abstract':
         specifier: 'catalog:'
