@@ -18,6 +18,7 @@ import no.ndla.common.model.domain.*
 import no.ndla.common.model.domain.language.OptLanguageFields
 import no.ndla.common.model.domain.concept.{ConceptContent, ConceptType}
 import no.ndla.common.model.domain.draft.{Draft, DraftStatus}
+import no.ndla.common.model.domain.learningpath.LearningPathStatus
 import no.ndla.common.model.taxonomy.{Node, NodeType, TaxonomyBundle, TaxonomyContext}
 import no.ndla.common.util.TraitUtil
 import no.ndla.network.tapir.NonEmptyString
@@ -752,6 +753,41 @@ class MultiDraftSearchServiceAtomicTest extends ElasticsearchIntegrationSuite wi
       .get
       .summaryResults
       .map(_.id) should be(Seq(2, 1, 3, 4))
+  }
+
+  test("That filtering on having a published version works as expected") {
+    val draft1 = TestData.draft1.copy(id = Some(1), status = Status(DraftStatus.PUBLISHED, Set.empty))
+    val draft2 = TestData
+      .draft1
+      .copy(id = Some(2), status = Status(DraftStatus.IN_PROGRESS, Set(DraftStatus.PUBLISHED)))
+    val draft3 = TestData.draft1.copy(id = Some(3), status = Status(DraftStatus.IN_PROGRESS, Set.empty))
+    val draft4 = TestData.draft1.copy(id = Some(4), status = Status(DraftStatus.PLANNED, Set.empty))
+    val lp1    = TestData.learningPath1.copy(id = Some(5), status = LearningPathStatus.PUBLISHED)
+    val lp2    = TestData.learningPath1.copy(id = Some(6), status = LearningPathStatus.PRIVATE)
+
+    draftIndexService.indexDocument(draft1, indexingBundle).failIfFailure
+    draftIndexService.indexDocument(draft2, indexingBundle).failIfFailure
+    draftIndexService.indexDocument(draft3, indexingBundle).failIfFailure
+    draftIndexService.indexDocument(draft4, indexingBundle).failIfFailure
+    learningPathIndexService.indexDocument(lp1, indexingBundle).failIfFailure
+    learningPathIndexService.indexDocument(lp2, indexingBundle).failIfFailure
+
+    blockUntil(() => draftIndexService.countDocuments == 4 && learningPathIndexService.countDocuments == 2)
+
+    def search(hasPublishedVersion: Option[Boolean], statusFilter: List[DraftStatus] = List.empty) =
+      multiDraftSearchService
+        .matchingQuery(
+          multiDraftSearchSettings.copy(hasPublishedVersion = hasPublishedVersion, statusFilter = statusFilter)
+        )
+        .get
+        .summaryResults
+        .map(_.id)
+
+    search(None) should be(Seq(1, 2, 3, 4, 5, 6))
+    search(Some(true)) should be(Seq(1, 2, 5))
+    search(Some(false)) should be(Seq(3, 4, 6))
+    search(Some(true), List(DraftStatus.IN_PROGRESS)) should be(Seq(2))
+    search(Some(false), List(DraftStatus.IN_PROGRESS)) should be(Seq(3))
   }
 
   test("Test that filtering prioritized works as expected") {

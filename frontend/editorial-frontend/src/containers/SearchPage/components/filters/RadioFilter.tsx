@@ -24,8 +24,47 @@ const ALL_VALUE = "__all";
 const StyledRadioGroupRoot = styled(RadioGroupRoot, {
   base: {
     gap: "xxsmall",
+    _horizontal: {
+      gap: "small",
+    },
   },
 });
+
+interface FilterRadioGroupProps {
+  options: SelectOption[];
+  value: string | null | undefined;
+  onChange: (value: string | null) => void;
+  labelledBy: string;
+  orientation?: "horizontal" | "vertical";
+}
+
+export const FilterRadioGroup = ({
+  options,
+  value,
+  onChange,
+  labelledBy,
+  orientation = "vertical",
+}: FilterRadioGroupProps) => {
+  const { t } = useTranslation();
+  const allOptions = useMemo(() => [{ id: ALL_VALUE, name: t("searchForm.all") }, ...options], [options, t]);
+
+  return (
+    <StyledRadioGroupRoot
+      orientation={orientation}
+      aria-labelledby={labelledBy}
+      value={value || ALL_VALUE}
+      onValueChange={(details) => onChange(details.value === ALL_VALUE ? null : details.value)}
+    >
+      {allOptions.map((option) => (
+        <RadioGroupItem key={option.id} value={option.id} disabled={option.disabled}>
+          <RadioGroupItemControl />
+          <RadioGroupItemText>{option.name}</RadioGroupItemText>
+          <RadioGroupItemHiddenInput />
+        </RadioGroupItem>
+      ))}
+    </StyledRadioGroupRoot>
+  );
+};
 
 interface Props {
   title: string;
@@ -36,26 +75,11 @@ interface Props {
 }
 
 export const RadioFilter = ({ title, name, options, value, onChange }: Props) => {
-  const { t } = useTranslation();
   const headingId = useId();
-  const allOptions = useMemo(() => [{ id: ALL_VALUE, name: t("searchForm.all") }, ...options], [options, t]);
 
   return (
     <FilterGroup title={title} name={name} headingId={headingId} activeCount={value ? 1 : 0}>
-      <StyledRadioGroupRoot
-        orientation="vertical"
-        aria-labelledby={headingId}
-        value={value || ALL_VALUE}
-        onValueChange={(details) => onChange(details.value === ALL_VALUE ? null : details.value)}
-      >
-        {allOptions.map((option) => (
-          <RadioGroupItem key={option.id} value={option.id} disabled={option.disabled}>
-            <RadioGroupItemControl />
-            <RadioGroupItemText>{option.name}</RadioGroupItemText>
-            <RadioGroupItemHiddenInput />
-          </RadioGroupItem>
-        ))}
-      </StyledRadioGroupRoot>
+      <FilterRadioGroup options={options} value={value} onChange={onChange} labelledBy={headingId} />
     </FilterGroup>
   );
 };
