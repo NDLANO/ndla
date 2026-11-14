@@ -26,7 +26,6 @@ import no.ndla.network.tapir.TapirUtil.errorOutputsFor
 import no.ndla.common.auth.Permission.DRAFT_API_WRITE
 import no.ndla.network.tapir.auth.{NdlaAuth, TokenUser}
 import no.ndla.network.tapir.{ErrorHandling, TapirController}
-import no.ndla.search.model.domain.ReindexResult
 import sttp.model.StatusCode
 import sttp.tapir.*
 import sttp.tapir.server.ServerEndpoint
@@ -54,29 +53,7 @@ class InternController(using
   override val enableSwagger               = false
   private val stringInternalServerError    = statusCode(StatusCode.InternalServerError).and(stringBody)
 
-  def createIndexFuture(indexService: IndexService[?, ?], numShards: Option[Int])(implicit
-      ec: ExecutionContext
-  ): Future[Try[ReindexResult]] = {
-
-    val fut = Future {
-      indexService.indexDocuments(numShards)
-    }
-
-    val logEx = (ex: Throwable) => logger.error(s"Something went wrong when indexing ${indexService.documentType}:", ex)
-
-    fut.onComplete {
-      case Success(Success(result)) => logger.info(
-          s"Successfully indexed ${result.totalIndexed} ${indexService.documentType}'s in ${result.millisUsed}ms"
-        )
-      case Failure(ex)          => logEx(ex)
-      case Success(Failure(ex)) => logEx(ex)
-    }
-
-    fut
-  }
-
   override val endpoints: List[ServerEndpoint[Any, Eff]] = List(
-    postIndex,
     deleteIndex,
     getIds,
     importExternalId,
@@ -87,32 +64,6 @@ class InternController(using
     dumpSingleArticle,
     postDump,
   )
-
-  def postIndex: ServerEndpoint[Any, Eff] = endpoint
-    .post
-    .in("index")
-    .in(query[Option[Int]]("numShards"))
-    .out(stringBody)
-    .errorOut(stringInternalServerError)
-    .serverLogicPure { numShards =>
-      implicit val ec: ExecutionContextExecutorService =
-        ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(4))
-      val articleIndex = createIndexFuture(articleIndexService, numShards)
-      val tagIndex     = createIndexFuture(tagIndexService, numShards)
-      val indexResults = Future.sequence(List(articleIndex, tagIndex))
-
-      Await.result(indexResults, Duration.Inf).sequence match {
-        case Failure(ex) =>
-          logger.warn(s"Failed to index drafts: ${ex.getMessage}", ex)
-          ex.getMessage.toOption.getOrElse("Failed to index drafts").asLeft
-        case Success(results) =>
-          val result = results
-            .map(rr => s"Completed indexing of ${rr.totalIndexed} ${rr.name}s in ${rr.millisUsed} ms.")
-            .mkString("\n")
-          logger.info(result)
-          result.asRight
-      }
-    }
 
   def deleteIndexLogic(
       @unused

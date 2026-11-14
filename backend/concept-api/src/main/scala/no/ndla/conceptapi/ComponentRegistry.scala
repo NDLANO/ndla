@@ -67,6 +67,8 @@ class ComponentRegistry(properties: ConceptApiProperties) extends TapirApplicati
   given healthController: TapirHealthController                = new TapirHealthController
   given internController: InternController                     = new InternController
 
+  implicit lazy val standaloneIndexing: StandaloneIndexing = new StandaloneIndexing
+
   given swaggerInfo: SwaggerInfo   = SwaggerInfo(prefix = "concept-api", description = "Services for accessing concepts")
   given swagger: SwaggerController =
     new SwaggerController(draftConceptController, publishedConceptController, healthController, internController)
