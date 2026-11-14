@@ -382,6 +382,13 @@ export const transformEmbed = async (
       meta = await contentLinkMeta({ embedData, context, index, opts });
     } else if (embedData.resource === "related-content") {
       meta = await relatedContentMeta({ embedData, context, index, opts });
+      const contexts = meta?.resource?.contexts ?? [];
+      const inSubject = contexts.some((c) => c.rootId === opts.subject);
+      // If related is not in this subject, remove if only placed in archived subjects.
+      if (!inSubject && contexts.length && contexts.every((c) => c.isArchived)) {
+        embed.embed.replaceWith("");
+        return;
+      }
       const match = embedData.url?.match(URL_DOMAIN_REGEX)?.[1] || embedData.url;
       if (match) {
         embedData.urlDomain = domainToUnicode(match) || match;
