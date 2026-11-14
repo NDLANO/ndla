@@ -7,7 +7,7 @@
  */
 
 import type { GQLMyNdlaResourceFragment } from "../../../graphqlTypes";
-import { getAllResources } from "../folderPrintUtil";
+import { createMailtoLink, getAllResources } from "../folderPrintUtil";
 
 const resource = (id: string, resourceId: string, resourceType = "article", path = `/r/${resourceId}`) =>
   ({
@@ -41,4 +41,15 @@ test("keeps only the first occurrence of the same content", () => {
 
 test("handles folders without resources", () => {
   expect(getAllResources({ resources: [], subfolders: [{ resources: [] }] })).toEqual([]);
+});
+
+test("encodes subject and body in mailto links", () => {
+  const subject = "Feedback & questions";
+  const body = "Folder url:[https://ndla.no/folder/1/print?sort=name-asc&x=1#top]\nExported:[50% done]";
+  const link = createMailtoLink("hjelp@ndla.no", { subject, body });
+  const params = new URL(link).searchParams;
+  expect(link.startsWith("mailto:hjelp@ndla.no?")).toBe(true);
+  expect([...params.keys()]).toEqual(["subject", "body"]);
+  expect(params.get("subject")).toBe(subject);
+  expect(params.get("body")).toBe(body);
 });
