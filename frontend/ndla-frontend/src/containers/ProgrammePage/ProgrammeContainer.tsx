@@ -19,6 +19,7 @@ import { NavigationSafeLinkButton } from "../../components/NavigationSafeLinkBut
 import { PageTitle } from "../../components/PageTitle";
 import { RestrictedContent } from "../../components/RestrictedBlock";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
+import config from "../../config";
 import {
   FILM_PAGE_URL,
   MULTIDISCIPLINARY_URL,
@@ -29,6 +30,7 @@ import {
 import type { GQLProgrammeContainer_ProgrammeFragment } from "../../graphqlTypes";
 import type { LocaleType } from "../../interfaces";
 import { toProgramme } from "../../routeHelpers";
+import { NDLA } from "../../util/getStructuredDataFromArticle";
 import { htmlTitle } from "../../util/titleHelper";
 
 const getDocumentTitle = (title: string, t: TFunction) => {
@@ -211,7 +213,7 @@ const ResourceLinkList = styled("ul", {
 const OTHER_RESOURCES_HEADING_ID = "programme-other-resources-heading";
 
 export const ProgrammeContainer = ({ programme }: Props) => {
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
   const { grade: gradeParam = "" } = useParams();
   const heading = programme.title.title;
   const grades = mapGradesData(programme.grades || []);
@@ -233,10 +235,48 @@ export const ProgrammeContainer = ({ programme }: Props) => {
     { label: t("subjectsPage.allSubjects"), url: "/subjects" },
   ];
 
+  const programmePageJSONLd = () => {
+    const programmeUrl = config.ndlaFrontendDomain + programme.url;
+    const data = {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "EducationalOccupationalProgram",
+          name: heading,
+          description: metaDescription,
+          url: programmeUrl,
+          inLanguage: i18n.language,
+          provider: NDLA,
+          educationalProgramMode: "online",
+          programPrerequisites: t("programmePage.programPrerequisites"),
+        },
+        {
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: t("breadcrumb.toFrontpage"),
+              item: `${config.ndlaFrontendDomain}/`,
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: heading,
+              item: programmeUrl,
+            },
+          ],
+        },
+      ],
+    };
+    return JSON.stringify(data);
+  };
+
   return (
     <StyledPageContainer asChild consumeCss gutters="tabletUp">
       <main>
         <PageTitle title={pageTitle} trackingProps={{ defaultUrl: programme.defaultUrl, rootId: programme.id }} />
+        <script type="application/ld+json">{programmePageJSONLd()}</script>
         <SocialMediaMetadata
           title={socialMediaTitle}
           description={metaDescription}

@@ -996,6 +996,7 @@ const translations = {
     otherResources: "Andre ressurser",
     programme: "Utdanningsprogram",
     grades: "Trinn",
+    programPrerequisites: "Fullført grunnskole",
   },
   subjectPage: {
     topicsTitle: "Emner i {{topic}}",

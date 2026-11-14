@@ -997,6 +997,7 @@ const translations = {
     otherResources: "Andre ressursar",
     programme: "Utdanningsprogram",
     grades: "Trinn",
+    programPrerequisites: "Fullført grunnskule",
   },
   aboutPage: {
     menuItems: "Undersidar",
