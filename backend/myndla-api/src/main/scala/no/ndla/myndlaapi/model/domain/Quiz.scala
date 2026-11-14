@@ -33,6 +33,7 @@ case class Quiz(
     updatedBy: String,
     published: Option[NDLADate],
     displaySettings: DisplaySettings,
+    completedCount: Option[Long] = None,
 ) {
   def isOwner(ownerId: String): Boolean = this.ownerId == ownerId
   def isPublic: Boolean                 = this.status == QuizStatus.PUBLIC
@@ -58,6 +59,7 @@ class DBQuiz(using props: Props) extends SQLSyntaxSupport[Quiz] {
       id = rs.get[Try[UUID]](qz.c("id")).get,
       ownerId = rs.string(qz.c("owner_id")),
       revision = Some(rs.int(qz.c("revision"))),
+      completedCount = Some(rs.long(qz.c("completed_count"))),
     )
   }
 }

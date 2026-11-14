@@ -44,6 +44,8 @@ case class QuizDTO(
     supportedLanguages: Seq[String],
     @description("Owner of the quiz")
     owner: Option[OwnerDTO],
+    @description("Number of times this quiz has been completed (checked with check-quiz)")
+    completedCount: Long,
 )
 object QuizDTO {
   implicit val encoder: Encoder[QuizDTO] = deriveEncoder

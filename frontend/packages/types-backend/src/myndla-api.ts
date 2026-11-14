@@ -1464,6 +1464,11 @@ export type components = {
             supportedLanguages: string[];
             /** @description Owner of the quiz */
             owner?: components["schemas"]["OwnerDTO"];
+            /**
+             * Format: int64
+             * @description Number of times this quiz has been completed (checked with check-quiz)
+             */
+            completedCount: number;
         };
         /**
          * QuizResultDTO

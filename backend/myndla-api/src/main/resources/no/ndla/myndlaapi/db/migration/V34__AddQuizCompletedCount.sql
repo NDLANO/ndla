@@ -1,0 +1,1 @@
+ALTER TABLE quizzes ADD COLUMN IF NOT EXISTS completed_count bigint NOT NULL DEFAULT 0;

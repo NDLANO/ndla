@@ -62,6 +62,7 @@ class QuizConverterService {
       displaySettings = quiz.displaySettings,
       supportedLanguages = quiz.supportedLanguages,
       owner = owner.map(user => OwnerDTO(user.displayName, user.id)),
+      completedCount = quiz.completedCount.getOrElse(0L),
     )
   }
 
