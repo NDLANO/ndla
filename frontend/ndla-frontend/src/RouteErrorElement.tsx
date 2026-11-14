@@ -6,7 +6,7 @@
  *
  */
 
-import { type ReactNode, useState } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 import { isRouteErrorResponse, useRouteError } from "react-router";
 import config from "./config";
 import { ErrorPage, ErrorPageLayout } from "./containers/ErrorPage/ErrorPage";
@@ -23,6 +23,12 @@ export const ErrorElement = ({ children }: Props) => {
   const error = useRouteError();
   const isChunk = isChunkLoadError(error);
   const [hadAttempt] = useState(() => isChunk && hadChunkReloadAttempt());
+  const reloading = isChunk && !hadAttempt;
+
+  // React may discard a render that hit an error and render again, so the reload must only be triggered on commit
+  useEffect(() => {
+    if (reloading) triggerCrashReload();
+  }, [reloading]);
 
   // If React Router for some reason doesn't match a route, we want to return 404 instead
   if (!children && isRouteErrorResponse(error) && error.status === NOT_FOUND) {
@@ -39,16 +45,9 @@ export const ErrorElement = ({ children }: Props) => {
     return children ?? <ErrorPage statusCode={error.status} />;
   }
 
-  if (isChunk) {
-    if (hadAttempt) {
-      if (config.runtimeType === "production") handleError(ensureError(error));
-    } else {
-      triggerCrashReload();
-      return null;
-    }
-  } else if (config.runtimeType === "production") {
-    handleError(ensureError(error));
-  }
+  if (reloading) return null;
+
+  if (config.runtimeType === "production") handleError(ensureError(error));
 
   return children ?? <ErrorPage />;
 };
