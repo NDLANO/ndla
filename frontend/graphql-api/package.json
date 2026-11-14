@@ -43,7 +43,7 @@
     "openapi-fetch": "catalog:",
     "oxfmt": "catalog:",
     "prismjs": "catalog:",
-    "sanitize-html": "^2.18.1",
+    "sanitize-html": "^2.18.2",
     "winston": "catalog:"
   },
   "devDependencies": {
