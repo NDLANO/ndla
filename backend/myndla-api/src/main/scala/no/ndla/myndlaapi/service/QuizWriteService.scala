@@ -150,19 +150,18 @@ class QuizWriteService(using
         case Some(q) => Success(q)
         case None    => Failure(QuizErrors.questionNotFound(questionId, quizId))
       }
-      newQ     = quizConverterService.mergeQuestion(oldQ, dto, now)
-      updated <- quizRepository.update(
-        existing.copy(
-          questions = existing
-            .questions
-            .map(q =>
-              if (q.id == questionId) newQ
-              else q
-            ),
-          updated = now,
-          updatedBy = user.id,
+      newQ   = quizConverterService.mergeQuestion(oldQ, dto, now)
+      merged = existing
+        .questions
+        .map(q =>
+          if (q.id == questionId) newQ
+          else q
         )
-      )
+      reordered = dto.sortOrder match {
+        case Some(position) => moveQuestion(merged, questionId, position)
+        case None           => merged
+      }
+      updated <- quizRepository.update(existing.copy(questions = reordered, updated = now, updatedBy = user.id))
     } yield quizConverterService.toApiQuiz(updated, language, isOwner = true)
   }
 
@@ -182,5 +181,13 @@ class QuizWriteService(using
           )
         )
       } yield quizConverterService.toApiQuiz(updated, language, isOwner = true)
+    }
+
+  def moveQuestion(questions: Seq[Question], questionId: UUID, position: Int): Seq[Question] =
+    questions.find(_.id == questionId) match {
+      case Some(moved) =>
+        val (before, after) = questions.filterNot(_.id == questionId).splitAt(position.max(0).min(questions.size - 1))
+        before ++ Seq(moved) ++ after
+      case None => questions
     }
 }

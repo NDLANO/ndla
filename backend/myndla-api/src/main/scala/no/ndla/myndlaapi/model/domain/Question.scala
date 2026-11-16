@@ -19,9 +19,7 @@ case class Question(
     questionType: QuestionType,
     language: String,
     title: String,
-    /** Svaralternativer (brukes for SINGLE_CHOICE og MULTI_CHOICE). */
     alternatives: Seq[Alternative],
-    /** Glose-par (brukes for MATCHING). */
     glossaryPairs: Seq[GlossaryPair],
     required: Boolean = false,
     alternativesRandomOrder: Boolean = false,

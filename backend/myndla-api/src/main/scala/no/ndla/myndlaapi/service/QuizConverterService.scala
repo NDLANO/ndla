@@ -26,7 +26,7 @@ class QuizConverterService {
       else None,
   )
 
-  def toApiQuestion(q: Question, isOwner: Boolean): QuestionDTO = QuestionDTO(
+  def toApiQuestion(q: Question, isOwner: Boolean, sortOrder: Int): QuestionDTO = QuestionDTO(
     id = q.id,
     questionType = q.questionType,
     language = q.language,
@@ -35,6 +35,7 @@ class QuizConverterService {
     glossaryPairs = q.glossaryPairs.map(p => GlossaryPairDTO(p.word, p.definition)),
     required = q.required,
     alternativesRandomOrder = q.alternativesRandomOrder,
+    sortOrder = sortOrder,
     created = q.created,
     updated = q.updated,
   )
@@ -54,7 +55,12 @@ class QuizConverterService {
       title = title,
       description = description,
       language = resolvedLanguage,
-      questions = quiz.questions.map(toApiQuestion(_, isOwner)),
+      questions = quiz
+        .questions
+        .zipWithIndex
+        .map { case (q, idx) =>
+          toApiQuestion(q, isOwner, idx)
+        },
       status = quiz.status,
       created = quiz.created,
       updated = quiz.updated,

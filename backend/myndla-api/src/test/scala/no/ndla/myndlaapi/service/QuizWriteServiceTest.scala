@@ -11,12 +11,13 @@ package no.ndla.myndlaapi.service
 import no.ndla.common.model.domain.Title
 import no.ndla.myndlaapi.TestData
 import no.ndla.myndlaapi.TestEnvironment
-import no.ndla.myndlaapi.model.domain.{Quiz, QuizStatus}
+import no.ndla.myndlaapi.model.domain.{Question, QuestionType, Quiz, QuizStatus}
 import no.ndla.network.model.{CombinedUser, CombinedUserWithMyNDLAUser, FeideIdToken, FeideUserWrapper}
 import no.ndla.scalatestsuite.UnitTestSuite
 import no.ndla.testbase.NullSafeMockito.{any, eqTo, never, reset, spy, verify, when}
 import scalikejdbc.DBSession
 
+import java.util.UUID
 import scala.util.Success
 
 class QuizWriteServiceTest extends UnitTestSuite with TestEnvironment {
@@ -127,5 +128,39 @@ class QuizWriteServiceTest extends UnitTestSuite with TestEnvironment {
     result.isFailure should be(true)
     result.failed.get.getMessage should be(s"Quiz with id ${TestData.quizId} was not found")
     verify(quizRepository, never).saveQuiz(any, any[String])(using any[DBSession])
+  }
+
+  private def questionWithId(id: UUID, n: Int) = Question(
+    id = id,
+    questionType = QuestionType.SINGLE_CHOICE,
+    language = "nb",
+    title = s"Spørsmål $n",
+    alternatives = Seq.empty,
+    glossaryPairs = Seq.empty,
+    created = TestData.today,
+    updated = TestData.today,
+  )
+
+  private def threeQuestions() = {
+    val ids = Seq.fill(3)(UUID.randomUUID().nn)
+    (
+      ids,
+      ids
+        .zipWithIndex
+        .map { case (id, i) =>
+          questionWithId(id, i)
+        },
+    )
+  }
+
+  test("moveQuestion moves a question to the given position") {
+    val (ids, questions) = threeQuestions()
+    service.moveQuestion(questions, ids(2), 0).map(_.id) should be(Seq(ids(2), ids(0), ids(1)))
+  }
+
+  test("moveQuestion clamps out-of-range positions") {
+    val (ids, questions) = threeQuestions()
+    service.moveQuestion(questions, ids(0), 99).map(_.id) should be(Seq(ids(1), ids(2), ids(0)))
+    service.moveQuestion(questions, ids(2), -5).map(_.id) should be(Seq(ids(2), ids(0), ids(1)))
   }
 }
