@@ -88,7 +88,8 @@ export const applyBlockShortcut = (editor: Editor, opts: ToolbarPluginOptions): 
   if (!paragraphEntry) return false;
 
   const prefixRange = { anchor: editor.start(paragraphEntry[1]), focus: selection.anchor };
-  const shortcut = blockShortcuts[editor.string(prefixRange)];
+  const prefix = editor.string(prefixRange);
+  const shortcut = Object.hasOwn(blockShortcuts, prefix) ? blockShortcuts[prefix] : undefined;
   if (!shortcut || !editor.shouldShowToolbar?.()) return false;
   const [inlineInPrefix] = editor.nodes({ at: prefixRange, match: (n) => Element.isElement(n) && editor.isInline(n) });
   if (inlineInPrefix) return false;
