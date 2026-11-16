@@ -999,7 +999,7 @@ importers:
         specifier: ^7.3.3
         version: 7.3.3
       prettier:
-        specifier: ^3.10.0
+        specifier: ^3.10.1
         version: 3.10.1
       prismjs:
         specifier: 'catalog:'
