@@ -59,6 +59,36 @@ test("beforeSend does not treat chunk load errors as fetch failures", () => {
   expect(event?.tags?.sampled).toBeUndefined();
 });
 
+const exceptionEvent = (type: string, value: string, filenames: string[]) =>
+  ({
+    exception: { values: [{ type, value, stacktrace: { frames: filenames.map((filename) => ({ filename })) } }] },
+  }) as ErrorEvent;
+
+const sendEvent = (event: ErrorEvent) => beforeSend(event, {} as EventHint);
+
+test("beforeSend drops errors thrown by the Formbricks SDK", () => {
+  const configNull = exceptionEvent("Error", "config is null, maybe the init function was not called?", [
+    "https://ndla.no/assets/entry.client-BkF3x9.js",
+    "https://app.formbricks.com/js/formbricks.umd.cjs",
+    "https://app.formbricks.com/js/formbricks.umd.cjs",
+  ]);
+  const missingWorkspace = exceptionEvent(
+    "TypeError",
+    "undefined is not an object (evaluating 't.get().workspace.data')",
+    ["/js/formbricks.umd.cjs"],
+  );
+  expect(sendEvent(configNull)).toBe(null);
+  expect(sendEvent(missingWorkspace)).toBe(null);
+});
+
+test("beforeSend keeps errors with only first-party frames", () => {
+  const event = exceptionEvent("TypeError", "Cannot read properties of undefined (reading 'data')", [
+    "https://ndla.no/assets/entry.client-BkF3x9.js",
+    "https://ndla.no/assets/ResourcePage-NqG1VLSs.js",
+  ]);
+  expect(sendEvent(event)).toBe(event);
+});
+
 test("beforeSend drops informational errors", () => {
   const error = new Error("Not found");
   const beforeSend = createBeforeSend((exception) => exception === error);
