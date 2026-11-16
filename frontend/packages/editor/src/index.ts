@@ -81,6 +81,7 @@ export { listOnBackspace } from "./plugins/list/handlers/listOnBackspace";
 export { listOnEnter } from "./plugins/list/handlers/listOnEnter";
 export { listOnTab } from "./plugins/list/handlers/listOnTab";
 
+export { applyMarkdownShortcut, markdownShortcutMarks } from "./plugins/mark/markdownShortcuts";
 export { markPlugin } from "./plugins/mark/markPlugin";
 export { markSerializer } from "./plugins/mark/markSerializer";
 export type { CustomText, MarkType, MarkTagType } from "./plugins/mark/markTypes";

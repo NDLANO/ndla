@@ -8,12 +8,14 @@
 
 import { Node, Transforms } from "slate";
 import { createPlugin } from "../../core/createPlugin";
+import { applyMarkdownShortcut } from "./markdownShortcuts";
 import { MARK_PLUGIN, type MarkPluginOptions, type MarkType } from "./markTypes";
 
 export const markPlugin = createPlugin<any, MarkPluginOptions>({
   name: MARK_PLUGIN,
   options: {
     supportedMarks: ["bold", "code", "italic", "underlined", "sup", "sub"],
+    markdownShortcuts: false,
   },
   normalize: (editor, node, path, logger) => {
     if (!Node.isText(node)) return false;
@@ -40,6 +42,14 @@ export const markPlugin = createPlugin<any, MarkPluginOptions>({
       if (!opts.supportedMarks?.length) return false;
       return marks.every((m) => opts.supportedMarks?.includes(m));
     };
+
+    if (opts.markdownShortcuts) {
+      const { insertText } = editor;
+      editor.insertText = (text, options) => {
+        if (!options?.at && text.length === 1 && applyMarkdownShortcut(editor, text)) return;
+        insertText(text, options);
+      };
+    }
 
     return editor;
   },
