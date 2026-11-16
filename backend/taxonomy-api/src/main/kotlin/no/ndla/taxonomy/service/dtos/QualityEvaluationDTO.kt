@@ -18,6 +18,6 @@ data class QualityEvaluationDTO(
 ) {
   companion object {
     fun fromNode(node: Node): QualityEvaluationDTO? =
-        node.qualityEvaluationGrade?.let { QualityEvaluationDTO(it, node.qualityEvaluationNote) }
+        node.qualityEvaluation?.let { QualityEvaluationDTO(it, node.qualityEvaluationComment) }
   }
 }

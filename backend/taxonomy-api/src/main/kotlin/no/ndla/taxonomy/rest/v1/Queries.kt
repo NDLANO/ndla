@@ -11,8 +11,6 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import jakarta.servlet.http.HttpServletRequest
 import java.net.URI
-import java.util.Optional
-import kotlin.jvm.optionals.getOrNull
 import no.ndla.taxonomy.config.Constants
 import no.ndla.taxonomy.rest.v1.dtos.searchapi.TaxonomyContextDTO
 import no.ndla.taxonomy.rest.v1.redirects.permanentRedirect
@@ -35,7 +33,7 @@ class Queries(private val nodeService: NodeService) {
           "Gets a list of contexts matching given contentURI, empty list if no matches are found.")
   @Transactional(readOnly = true)
   fun contextByContentURI(
-      @PathVariable("contentURI") contentURI: Optional<URI>,
+      @PathVariable("contentURI") contentURI: URI?,
       @Parameter(description = "ISO-639-1 language code", example = "nb")
       @RequestParam(value = "language", defaultValue = Constants.DefaultLanguage, required = false)
       language: String,
@@ -45,7 +43,7 @@ class Queries(private val nodeService: NodeService) {
       @RequestParam(value = "filterVisibles", required = false, defaultValue = "true")
       filterVisibles: Boolean,
   ): List<TaxonomyContextDTO> =
-      nodeService.getSearchableByContentUri(contentURI.getOrNull(), filterVisibles, language)
+      nodeService.getSearchableByContentUri(contentURI, filterVisibles, language)
 
   @GetMapping("/contextId")
   @Operation(
@@ -53,11 +51,11 @@ class Queries(private val nodeService: NodeService) {
           "Gets a list of contexts matching given contextId, empty list if no matches are found.")
   @Transactional(readOnly = true)
   fun contextByContextId(
-      @RequestParam("contextId") contextId: Optional<String>,
+      @RequestParam("contextId") contextId: String?,
       @Parameter(description = "ISO-639-1 language code", example = "nb")
       @RequestParam(value = "language", defaultValue = Constants.DefaultLanguage, required = false)
       language: String,
-  ): List<TaxonomyContextDTO> = nodeService.getContextByContextId(contextId.getOrNull(), language)
+  ): List<TaxonomyContextDTO> = nodeService.getContextByContextId(contextId, language)
 
   @GetMapping("/path")
   @Operation(
@@ -66,11 +64,11 @@ class Queries(private val nodeService: NodeService) {
   )
   @Transactional(readOnly = true)
   fun queryPath(
-      @RequestParam("path") path: Optional<String>,
+      @RequestParam("path") path: String?,
       @Parameter(description = "ISO-639-1 language code", example = "nb")
       @RequestParam(value = "language", defaultValue = Constants.DefaultLanguage, required = false)
       language: String,
-  ): List<TaxonomyContextDTO> = nodeService.getContextByPath(path.getOrNull(), language)
+  ): List<TaxonomyContextDTO> = nodeService.getContextByPath(path, language)
 
   @GetMapping("/resources")
   @Operation(summary = "DEPRECATED: Use /v1/nodes?nodeType=RESOURCE&contentURI= instead")

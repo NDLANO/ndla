@@ -78,16 +78,14 @@ class NodeChildDTO : NodeDTO, TreeSorter.Sortable {
       filterProgrammes: Boolean,
       isVisible: Boolean,
   ) : super(
-      root,
-      nodeConnection.parent,
-      nodeConnection.child ?: throw NotFoundException("Child was not found"),
-      nodeConnection.connectionType,
-      language,
-      null,
-      includeContexts,
-      filterProgrammes,
-      isVisible,
-      false,
+      entity = nodeConnection.child ?: throw NotFoundException("Child was not found"),
+      languageCode = language,
+      includeContexts = includeContexts,
+      filterProgrammes = filterProgrammes,
+      isVisible = isVisible,
+      root = root,
+      parent = nodeConnection.parent,
+      connectionType = nodeConnection.connectionType,
   ) {
     // This must be enabled when ed is updated to update metadata for connections.
     // this.metadata = new MetadataDto(nodeConnection.getMetadata());
@@ -109,16 +107,13 @@ class NodeChildDTO : NodeDTO, TreeSorter.Sortable {
       nodeConnection: NodeConnection,
       language: String,
   ) : super(
-      null,
-      nodeConnection.parent,
-      parent,
-      nodeConnection.connectionType,
-      language,
-      null,
-      false,
-      false,
-      true,
-      false,
+      entity = parent,
+      languageCode = language,
+      includeContexts = false,
+      filterProgrammes = false,
+      isVisible = true,
+      parent = nodeConnection.parent,
+      connectionType = nodeConnection.connectionType,
   ) {
     this.rank = nodeConnection.rank
     this.connectionId = nodeConnection.publicId

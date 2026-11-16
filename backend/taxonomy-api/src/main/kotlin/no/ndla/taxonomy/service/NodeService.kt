@@ -18,7 +18,6 @@ import no.ndla.taxonomy.domain.Relevance
 import no.ndla.taxonomy.domain.TaxonomyContext
 import no.ndla.taxonomy.repositories.NodeConnectionRepository
 import no.ndla.taxonomy.repositories.NodeRepository
-import no.ndla.taxonomy.rest.NotFoundHttpResponseException
 import no.ndla.taxonomy.rest.v1.dtos.searchapi.LanguageFieldDTO
 import no.ndla.taxonomy.rest.v1.dtos.searchapi.SearchableTaxonomyResourceType
 import no.ndla.taxonomy.rest.v1.dtos.searchapi.TaxonomyContextDTO
@@ -98,17 +97,16 @@ class NodeService(
       val parentContexts = if (includeParents) prefetchParentContexts(nodes) else null
       nodes.mapTo(listToReturn) { node ->
         NodeDTO(
-            root,
-            parent,
-            node,
-            NodeConnectionType.BRANCH,
-            language,
-            contextId,
-            includeContexts,
-            filterProgrammes,
-            metadataFilters.visible ?: false,
-            includeParents,
-            parentContexts,
+            entity = node,
+            languageCode = language,
+            includeContexts = includeContexts,
+            filterProgrammes = filterProgrammes,
+            isVisible = metadataFilters.visible ?: false,
+            root = root,
+            parent = parent,
+            contextId = contextId,
+            includeParents = includeParents,
+            prefetchedParentContexts = parentContexts,
         )
       }
     }
@@ -155,24 +153,22 @@ class NodeService(
     val root = rootId?.let { getMaybeNode(it) }
     val parent = parentId?.let { getMaybeNode(it) }
     return NodeDTO(
-        root,
-        parent,
-        node,
-        NodeConnectionType.BRANCH,
-        language,
-        null,
-        includeContexts,
-        filterProgrammes,
-        isVisible,
-        true,
-        prefetchParentContexts(listOf(node)),
+        entity = node,
+        languageCode = language,
+        includeContexts = includeContexts,
+        filterProgrammes = filterProgrammes,
+        isVisible = isVisible,
+        root = root,
+        parent = parent,
+        includeParents = true,
+        prefetchedParentContexts = prefetchParentContexts(listOf(node)),
     )
   }
 
   fun getMaybeNode(publicId: URI): Node? = nodeRepository.findFirstByPublicId(publicId)
 
   fun getNode(publicId: URI): Node =
-      getMaybeNode(publicId) ?: throw NotFoundHttpResponseException("Node was not found")
+      getMaybeNode(publicId) ?: throw NotFoundServiceException("Node was not found")
 
   fun getResourcesByNodeId(
       nodePublicId: URI,
@@ -190,7 +186,7 @@ class NodeService(
 
     // Add both topics and resourceTopics to a common list that will be sorted in a tree-structure
     // based on rank at each level
-    val resourcesToSort = HashSet<ResourceTreeSortable>()
+    val resourcesToSort = mutableSetOf<ResourceTreeSortable>()
 
     // Populate a list of topic IDs we are going to fetch first, and then fetch the actual topics
     // later

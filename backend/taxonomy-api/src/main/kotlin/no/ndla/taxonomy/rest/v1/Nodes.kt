@@ -11,8 +11,6 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import java.net.URI
-import java.util.Optional
-import kotlin.jvm.optionals.getOrNull
 import no.ndla.taxonomy.config.Constants
 import no.ndla.taxonomy.domain.Node
 import no.ndla.taxonomy.domain.NodeConnectionType
@@ -261,7 +259,8 @@ class Nodes(
       @RequestParam(value = "pageSize", defaultValue = "10")
       pageSize: Int,
       @Parameter(name = "nodeType", description = "Filter by nodeType")
-      nodeType: Optional<NodeType>,
+      @RequestParam(value = "nodeType", required = false)
+      nodeType: NodeType?,
       @Parameter(description = "Include all contexts")
       @RequestParam(value = "includeContexts", required = false, defaultValue = "true")
       includeContexts: Boolean,
@@ -274,26 +273,19 @@ class Nodes(
   ): SearchResultDTO<NodeDTO> {
     require(page >= 1) { "page parameter must be bigger than 0" }
 
+    val pageRequest = PageRequest.of(page - 1, pageSize)
     val ids =
-        nodeType
-            .map { nt ->
-              nodeRepository.findIdsByTypePaginated(PageRequest.of(page - 1, pageSize), nt)
-            }
-            .orElseGet { nodeRepository.findIdsPaginated(PageRequest.of(page - 1, pageSize)) }
+        if (nodeType != null) nodeRepository.findIdsByTypePaginated(pageRequest, nodeType)
+        else nodeRepository.findIdsPaginated(pageRequest)
     val results = nodeRepository.findByIds(ids.content)
     val contents =
         results.map { node ->
           NodeDTO(
-              null,
-              null,
-              node,
-              NodeConnectionType.BRANCH,
-              language,
-              null,
-              includeContexts,
-              filterProgrammes,
-              isVisible,
-              false,
+              entity = node,
+              languageCode = language,
+              includeContexts = includeContexts,
+              filterProgrammes = filterProgrammes,
+              isVisible = isVisible,
           )
         }
     return SearchResultDTO(ids.totalElements, page, pageSize, contents)
@@ -306,10 +298,10 @@ class Nodes(
       @PathVariable("id") id: URI,
       @Parameter(description = "Id to root id in context.")
       @RequestParam(value = "rootId", required = false)
-      rootId: Optional<URI>,
+      rootId: URI?,
       @Parameter(description = "Id to parent id in context.")
       @RequestParam(value = "parentId", required = false)
-      parentId: Optional<URI>,
+      parentId: URI?,
       @Parameter(description = "Include all contexts")
       @RequestParam(value = "includeContexts", required = false, defaultValue = "true")
       includeContexts: Boolean,
@@ -326,8 +318,8 @@ class Nodes(
       nodeService.getNode(
           id,
           language,
-          rootId.getOrNull(),
-          parentId.getOrNull(),
+          rootId,
+          parentId,
           includeContexts,
           filterProgrammes,
           isVisible,
@@ -350,7 +342,7 @@ class Nodes(
       val entity = Node(command.nodeType ?: throw NullPointerException("nodeType must not be null"))
       val locked = qualityEvaluationService.lockQualityEvaluationIfNeeded(command)
       validateAndAssignId(entity, command)
-      val oldGrade = entity.qualityEvaluationGrade
+      val oldGrade = entity.qualityEvaluation
       command.apply(entity)
       nodeRepository.saveAndFlush(entity)
       contextUpdaterService.updateContexts(entity)
@@ -387,7 +379,7 @@ class Nodes(
     val locked = qualityEvaluationService.lockQualityEvaluationIfNeeded(command)
     val entity = nodeRepository.getByPublicId(id)
     validateUrn(id, entity)
-    val oldGrade = entity.qualityEvaluationGrade
+    val oldGrade = entity.qualityEvaluation
     command.apply(entity)
     contextUpdaterService.updateContexts(entity)
     if (locked) {
@@ -415,7 +407,7 @@ class Nodes(
           example = "urn:version:1",
       )
       @RequestParam(value = "sourceId", required = false)
-      sourceId: Optional<URI>,
+      sourceId: URI?,
       @Parameter(description = "Version id to publish to.", example = "urn:version:2")
       @RequestParam(value = "targetId")
       targetId: URI,
@@ -530,16 +522,16 @@ class Nodes(
               "Select by resource type id(s). If not specified, resources of all types will be returned. Multiple ids may be separated with comma or the parameter may be repeated for each id.",
       )
       @RequestParam(value = "type", required = false)
-      resourceTypeIds: Optional<List<URI>>,
+      resourceTypeIds: List<URI>?,
       @Parameter(
           description = "Select by relevance. If not specified, all resources will be returned.")
       @RequestParam(value = "relevance", required = false)
-      relevance: Optional<URI>,
+      relevance: URI?,
   ): List<NodeChildDTO> =
       nodeService.getResourcesByNodeId(
           nodeId,
-          resourceTypeIds.getOrNull(),
-          relevance.getOrNull(),
+          resourceTypeIds,
+          relevance,
           language,
           recursive,
           includeContexts,
@@ -581,7 +573,7 @@ class Nodes(
       @RequestParam(value = "recursive", required = false, defaultValue = "false")
       recursive: Boolean,
   ): ResponseEntity<Boolean> =
-      ResponseEntity.of(Optional.of(nodeService.makeAllResourcesPrimary(nodeId, recursive)))
+      ResponseEntity.ok(nodeService.makeAllResourcesPrimary(nodeId, recursive))
 
   @PostMapping("{id}/clone")
   @Operation(
@@ -626,7 +618,7 @@ class Nodes(
       @RequestBody entityToUpdate: MetadataPUT,
   ): MetadataDTO {
     val node = nodeRepository.findByPublicId(id) ?: throw NotFoundException("Node", id)
-    val result = node.metadata.mergeWith(entityToUpdate)
+    val result = node.updateMetadata(entityToUpdate)
     contextUpdaterService.updateContexts(node)
     return MetadataDTO(result)
   }

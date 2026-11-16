@@ -50,14 +50,14 @@ class ResourceTest {
     assertNull(returnedTranslation.parent)
     assertFalse(resource.translations.contains(returnedTranslation))
 
-    assertFalse(resource.getTranslation("nb").isPresent)
+    assertNull(resource.getTranslation("nb"))
 
     resource.addTranslation(returnedTranslation)
     assertEquals(resource, returnedTranslation.parent)
     assertTrue(resource.translations.contains(returnedTranslation))
 
-    assertEquals(returnedTranslation, resource.getTranslation("nb").get())
-    assertEquals(returnedTranslation2, resource.getTranslation("en").get())
+    assertEquals(returnedTranslation, resource.getTranslation("nb"))
+    assertEquals(returnedTranslation2, resource.getTranslation("en"))
   }
 
   @Test

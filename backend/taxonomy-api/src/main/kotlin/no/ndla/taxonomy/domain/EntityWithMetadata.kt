@@ -8,46 +8,50 @@
 package no.ndla.taxonomy.domain
 
 import java.time.Instant
+import no.ndla.taxonomy.rest.v1.dtos.MetadataPUT
 
 interface EntityWithMetadata {
-  val metadata: Metadata
+  var grepCodes: Set<JsonGrepCode>
+  var customFields: Map<String, String>
+  var isVisible: Boolean
+  var createdAt: Instant?
+  var updatedAt: Instant?
 
-  fun setMetadata(metadata: Metadata, changeOwner: Boolean) {
-    setCustomFields(metadata.getCustomFields())
-    setGrepCodes(metadata.getGrepCodes())
-    setVisible(metadata.isVisible())
-    setUpdatedAt(metadata.getUpdatedAt())
-    setCreatedAt(metadata.getCreatedAt())
-    if (changeOwner) {
-      metadata.setParent(this)
-    }
-  }
+  val metadata: Metadata
+    get() = Metadata(grepCodes, customFields, isVisible, createdAt, updatedAt)
 
   fun setMetadata(metadata: Metadata) {
-    this.setMetadata(metadata, true)
+    grepCodes = metadata.grepCodes.toSet()
+    customFields = metadata.customFields.toMap()
+    isVisible = metadata.isVisible
+    createdAt = metadata.createdAt
+    updatedAt = metadata.updatedAt
   }
 
-  fun getGrepCodes(): Set<JsonGrepCode>
+  /** Applies the fields present in [update] and returns the resulting metadata. */
+  fun updateMetadata(update: MetadataPUT): Metadata {
+    update.visible?.let { isVisible = it }
+    update.grepCodes?.let { codes ->
+      val existing = grepCodes.associateBy { it.code }
+      grepCodes = codes.mapTo(mutableSetOf()) { existing[it] ?: JsonGrepCode(it) }
+    }
+    update.customFields?.let { customFields = it }
+    return metadata
+  }
 
-  fun isVisible(): Boolean
+  fun addGrepCode(grepCode: JsonGrepCode) {
+    grepCodes += grepCode
+  }
 
-  fun getCreatedAt(): Instant?
+  fun removeGrepCode(grepCode: JsonGrepCode) {
+    grepCodes -= grepCode
+  }
 
-  fun getUpdatedAt(): Instant?
+  fun setCustomField(key: String, value: String) {
+    customFields += key to value
+  }
 
-  fun getCustomFields(): Map<String, String>
-
-  fun setCustomField(key: String, value: String)
-
-  fun unsetCustomField(key: String)
-
-  fun setGrepCodes(codes: Set<JsonGrepCode>)
-
-  fun setCustomFields(customFields: Map<String, String>)
-
-  fun setVisible(visible: Boolean)
-
-  fun setUpdatedAt(updatedAt: Instant?)
-
-  fun setCreatedAt(createdAt: Instant?)
+  fun unsetCustomField(key: String) {
+    customFields -= key
+  }
 }

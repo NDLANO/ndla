@@ -37,7 +37,6 @@ class TestUtils(
 
   fun json(o: Any?): String = jsonMapper.writeValueAsString(o)
 
-  @JvmOverloads
   fun createResource(
       path: String,
       command: Any?,
@@ -56,7 +55,6 @@ class TestUtils(
     return mockMvc.perform(post(path)).andReturn().response
   }
 
-  @JvmOverloads
   fun getResource(
       path: String,
       resultMatcher: ResultMatcher = status().isOk(),
@@ -69,7 +67,6 @@ class TestUtils(
         .response
   }
 
-  @JvmOverloads
   fun deleteResource(
       path: String,
       resultMatcher: ResultMatcher = status().isNoContent(),
@@ -78,7 +75,6 @@ class TestUtils(
     return mockMvc.perform(delete(path)).andExpect(resultMatcher).andReturn().response
   }
 
-  @JvmOverloads
   fun updateResourceRawInput(
       path: String,
       rawInput: String,
@@ -90,7 +86,6 @@ class TestUtils(
           .andReturn()
           .response
 
-  @JvmOverloads
   fun updateResource(
       path: String,
       command: Any? = null,
@@ -118,25 +113,21 @@ class TestUtils(
       jsonMapper.readValue(response.contentAsByteArray, typeReference)
 
   companion object {
-    @JvmStatic
     fun getId(response: MockHttpServletResponse): URI {
       val location = response.getHeader("Location")!!
       return URI.create(location.substringAfterLast('/'))
     }
 
-    @JvmStatic
     fun <V : Any> assertAnyTrue(objects: Array<V>, predicate: Predicate<V>) {
       assertTrue(objects.isNotEmpty(), "Array was empty")
       val className = objects[0].javaClass.simpleName
       assertTrue(objects.any(predicate::test), "No $className matching predicate found.")
     }
 
-    @JvmStatic
     fun <V : Any> assertAnyTrue(objects: Iterable<V>, predicate: Predicate<V>) {
       assertAnyTrue(objects.iterator(), predicate)
     }
 
-    @JvmStatic
     fun <V : Any> assertAnyTrue(objects: Iterator<V>, predicate: Predicate<V>) {
       assertTrue(objects.hasNext())
 
@@ -151,13 +142,12 @@ class TestUtils(
       fail("No $className matching predicate found.")
     }
 
-    @JvmStatic
     fun <V> assertAllTrue(objects: Array<V>, predicate: Predicate<V>) {
       assertTrue(objects.all(predicate::test))
     }
 
     fun <T> first(iterable: Iterable<T>): T = iterable.iterator().next()
 
-    @JvmStatic fun isValidId(id: URI?): Boolean = id != null && id.toString().contains("urn")
+    fun isValidId(id: URI?): Boolean = id != null && id.toString().contains("urn")
   }
 }

@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import java.net.URI
-import kotlin.jvm.optionals.getOrNull
 import no.ndla.taxonomy.domain.exceptions.NotFoundException
 import no.ndla.taxonomy.repositories.NodeRepository
 import no.ndla.taxonomy.rest.v1.dtos.TranslationPUT
@@ -49,9 +48,8 @@ class NodeTranslations(val nodeRepository: NodeRepository) {
       @PathVariable("language")
       language: String,
   ): TranslationDTO {
-    return nodeRepository.getByPublicId(id).getTranslation(language).getOrNull()?.let {
-      TranslationDTO(it)
-    } ?: throw NotFoundException("translation with language code $language for node $id")
+    return nodeRepository.getByPublicId(id).getTranslation(language)?.let { TranslationDTO(it) }
+        ?: throw NotFoundException("translation with language code $language for node $id")
   }
 
   @PutMapping("/{language}")
@@ -91,8 +89,8 @@ class NodeTranslations(val nodeRepository: NodeRepository) {
       language: String,
   ) {
     val node = nodeRepository.getByPublicId(id)
-    node.getTranslation(language).ifPresent {
-      node.removeTranslation(language)
+    node.getTranslation(language)?.let {
+      node.removeTranslation(it)
       nodeRepository.save(node)
     }
   }

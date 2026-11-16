@@ -188,7 +188,7 @@ class NodeConnections(
   ): MetadataDTO {
     val connection =
         nodeConnectionRepository.findByPublicId(id) ?: throw NotFoundException("Connection", id)
-    val result = connection.metadata.mergeWith(entityToUpdate)
+    val result = connection.updateMetadata(entityToUpdate)
     return MetadataDTO(result)
   }
 }

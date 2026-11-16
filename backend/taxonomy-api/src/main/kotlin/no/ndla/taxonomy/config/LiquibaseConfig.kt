@@ -41,12 +41,16 @@ class LiquibaseConfig(
 
   override fun afterPropertiesSet() {
     try {
-      val schemas = ArrayList<String>()
-      val resultSet =
-          dataSource.connection.prepareStatement("SELECT hash FROM version").executeQuery()
-      while (resultSet.next()) {
-        schemas.add(String.format("%s_%s", defaultSchema, resultSet.getString(1)))
-      }
+      val schemas =
+          dataSource.connection.use { connection ->
+            connection.prepareStatement("SELECT hash FROM version").use { statement ->
+              statement.executeQuery().use { resultSet ->
+                buildList {
+                  while (resultSet.next()) add("${defaultSchema}_${resultSet.getString(1)}")
+                }
+              }
+            }
+          }
       this.runOnAllSchemas(dataSource, schemas)
     } catch (exception: Exception) {
       if (exception !is SQLException && exception !is LiquibaseException) throw exception
@@ -63,19 +67,24 @@ class LiquibaseConfig(
       logger.info("Initializing Liquibase for version $schema")
 
       // TODO: There is probably a better way to do this.
-      var ds = dataSource
-      if (dataSourceUsername != "") {
-        val hc = HikariConfig()
-        hc.maximumPoolSize = 1
-        hc.schema = schema
-        hc.username = dataSourceUsername
-        hc.password = dataSourcePassword
-        hc.jdbcUrl = dataSourceUrl
-        ds = HikariDataSource(hc)
-      }
+      val schemaDataSource =
+          if (dataSourceUsername != "") {
+            val hc = HikariConfig()
+            hc.maximumPoolSize = 1
+            hc.schema = schema
+            hc.username = dataSourceUsername
+            hc.password = dataSourcePassword
+            hc.jdbcUrl = dataSourceUrl
+            HikariDataSource(hc)
+          } else {
+            null
+          }
 
-      val liquibase = this.getSpringLiquibase(ds, schema)
-      liquibase.afterPropertiesSet()
+      try {
+        this.getSpringLiquibase(schemaDataSource ?: dataSource, schema).afterPropertiesSet()
+      } finally {
+        schemaDataSource?.close()
+      }
       logger.info("Liquibase ran for version $schema")
     }
   }

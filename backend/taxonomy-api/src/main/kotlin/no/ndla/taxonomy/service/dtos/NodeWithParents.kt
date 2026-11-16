@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import io.swagger.v3.oas.annotations.media.Schema
 import no.ndla.taxonomy.domain.Node
-import no.ndla.taxonomy.domain.NodeConnectionType
 import no.ndla.taxonomy.domain.exceptions.NotFoundException
 
 @Schema(name = "NodeWithParents", requiredProperties = ["parents"])
@@ -27,7 +26,7 @@ class NodeWithParents : NodeDTO {
               "\"path\": \"/subject:2/topic:1:181900\"," +
               "\"primary\": \"true\"}]",
   )
-  val parents: MutableSet<NodeChildDTO> = HashSet()
+  val parents: MutableSet<NodeChildDTO> = mutableSetOf()
 
   @JsonCreator constructor() : super()
 
@@ -36,16 +35,11 @@ class NodeWithParents : NodeDTO {
       languageCode: String,
       includeContexts: Boolean,
   ) : super(
-      null,
-      null,
-      node,
-      NodeConnectionType.BRANCH,
-      languageCode,
-      null,
-      includeContexts,
-      false,
-      true,
-      false,
+      entity = node,
+      languageCode = languageCode,
+      includeContexts = includeContexts,
+      filterProgrammes = false,
+      isVisible = true,
   ) {
     node.getParentConnections().mapTo(parents) { nodeResource ->
       val parent = nodeResource.parent ?: throw NotFoundException("Parent not found")

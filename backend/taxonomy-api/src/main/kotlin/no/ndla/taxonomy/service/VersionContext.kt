@@ -11,9 +11,9 @@ package no.ndla.taxonomy.service
 object VersionContext {
   private val currentVersion = ThreadLocal<String?>()
 
-  @JvmStatic fun setCurrentVersion(tenant: String) = currentVersion.set(tenant)
+  fun setCurrentVersion(tenant: String) = currentVersion.set(tenant)
 
-  @JvmStatic fun getCurrentVersion(): String? = currentVersion.get()
+  fun getCurrentVersion(): String? = currentVersion.get()
 
   fun clear() = currentVersion.remove()
 }

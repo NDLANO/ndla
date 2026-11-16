@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import java.net.URI
-import java.util.Optional
 import no.ndla.taxonomy.domain.VersionType
 import no.ndla.taxonomy.repositories.VersionRepository
 import no.ndla.taxonomy.rest.NotFoundHttpResponseException
@@ -51,20 +50,17 @@ class Versions(
   fun getAllVersions(
       @Parameter(description = "Version type", example = "PUBLISHED")
       @RequestParam(value = "type", required = false, defaultValue = "")
-      versionType: Optional<VersionType>,
+      versionType: VersionType?,
       @Parameter(description = "Version hash", example = "ndla")
       @RequestParam(value = "hash", required = false)
-      hash: Optional<String>,
+      hash: String?,
   ): List<VersionDTO> {
-    if (versionType.isPresent) return versionService.getVersionsOfType(versionType.get())
-    return hash
-        .map { s ->
-          listOf(
-              versionRepository.findFirstByHash(s)?.let { VersionDTO(it) }
-                  ?: throw NotFoundHttpResponseException("Version not found"),
-          )
-        }
-        .orElseGet { versionService.getVersions() }
+    if (versionType != null) return versionService.getVersionsOfType(versionType)
+    if (hash == null) return versionService.getVersions()
+    val version =
+        versionRepository.findFirstByHash(hash)
+            ?: throw NotFoundHttpResponseException("Version not found")
+    return listOf(VersionDTO(version))
   }
 
   @GetMapping("/{id}")

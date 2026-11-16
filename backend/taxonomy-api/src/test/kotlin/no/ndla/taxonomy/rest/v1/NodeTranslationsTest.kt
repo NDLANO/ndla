@@ -92,11 +92,11 @@ class NodeTranslationsTest : RestTest() {
 
     testUtils.updateResource("/v1/nodes/$id/translations/nb", TranslationPUT("Trigonometri"))
 
-    assertEquals("Trigonometri", trigonometry.getTranslation("nb").get().name)
+    assertEquals("Trigonometri", trigonometry.getTranslation("nb")?.name)
 
     testUtils.updateResource("/v1/nodes/$id/translations/nn", TranslationPUT("Trigonometri"))
 
-    assertEquals("Trigonometri", trigonometry.getTranslation("nn").get().name)
+    assertEquals("Trigonometri", trigonometry.getTranslation("nn")?.name)
     assertEquals(2, trigonometry.translations.size)
   }
 
@@ -108,7 +108,7 @@ class NodeTranslationsTest : RestTest() {
 
     testUtils.updateResource("/v1/nodes/$id/translations/nb", TranslationPUT("Trigonometri"))
 
-    assertEquals("Trigonometri", trigonometry.getTranslation("nb").get().name)
+    assertEquals("Trigonometri", trigonometry.getTranslation("nb")?.name)
     assertEquals(1, trigonometry.translations.size)
   }
 
@@ -122,7 +122,7 @@ class NodeTranslationsTest : RestTest() {
 
     testUtils.deleteResource("/v1/nodes/$id/translations/nb")
 
-    assertNull(node.getTranslation("nb").orElse(null))
+    assertNull(node.getTranslation("nb"))
   }
 
   @Test

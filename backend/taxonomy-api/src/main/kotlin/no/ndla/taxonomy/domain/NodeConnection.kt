@@ -37,19 +37,19 @@ class NodeConnection :
 
   @Enumerated(EnumType.STRING) @Column var relevance: Relevance? = null
 
-  @Column private var visible: Boolean = true
+  @Column(name = "visible") override var isVisible: Boolean = true
 
   @Type(JsonBinaryType::class)
   @Column(name = "grepcodes", columnDefinition = "jsonb")
-  private var grepcodes: Set<JsonGrepCode> = HashSet()
+  override var grepCodes: Set<JsonGrepCode> = emptySet()
 
   @Type(JsonBinaryType::class)
   @Column(name = "customfields", columnDefinition = "jsonb")
-  private var customfields: Map<String, String> = HashMap()
+  override var customFields: Map<String, String> = emptyMap()
 
-  @Column @CreationTimestamp private var created_at: Instant? = null
+  @Column(name = "created_at") @CreationTimestamp override var createdAt: Instant? = null
 
-  @Column @UpdateTimestamp private var updated_at: Instant? = null
+  @Column(name = "updated_at") @UpdateTimestamp override var updatedAt: Instant? = null
 
   @Enumerated(EnumType.STRING)
   @Column
@@ -68,7 +68,7 @@ class NodeConnection :
     this.connectionType = nodeConnection.connectionType
     publicId = nodeConnection.publicId
     isPrimary = nodeConnection.isPrimary
-    setMetadata(Metadata(nodeConnection.metadata))
+    setMetadata(nodeConnection.metadata)
   }
 
   // Special constructor for rankable test
@@ -103,48 +103,7 @@ class NodeConnection :
     disassociate()
   }
 
-  override val metadata: Metadata
-    get() = Metadata(this)
-
-  override fun getGrepCodes(): Set<JsonGrepCode> = this.grepcodes
-
-  override fun setCustomField(key: String, value: String) {
-    this.customfields += key to value
-  }
-
-  override fun unsetCustomField(key: String) {
-    this.customfields -= key
-  }
-
-  override fun setGrepCodes(codes: Set<JsonGrepCode>) {
-    this.grepcodes = codes
-  }
-
-  override fun setCustomFields(customFields: Map<String, String>) {
-    this.customfields = customFields
-  }
-
-  override fun setVisible(visible: Boolean) {
-    this.visible = visible
-  }
-
-  override fun setUpdatedAt(updatedAt: Instant?) {
-    this.updated_at = updatedAt
-  }
-
-  override fun setCreatedAt(createdAt: Instant?) {
-    this.created_at = createdAt
-  }
-
-  override fun isVisible(): Boolean = this.visible
-
-  override fun getCreatedAt(): Instant? = this.created_at
-
-  override fun getUpdatedAt(): Instant? = this.updated_at
-
   override fun compareTo(other: NodeConnection): Int = publicId.compareTo(other.publicId)
-
-  override fun getCustomFields(): Map<String, String> = this.customfields
 
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
@@ -158,8 +117,6 @@ class NodeConnection :
   }
 
   companion object {
-    @JvmStatic
-    @JvmOverloads
     fun create(
         parent: Node,
         child: Node,
