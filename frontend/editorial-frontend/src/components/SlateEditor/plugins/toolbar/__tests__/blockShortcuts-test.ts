@@ -58,6 +58,22 @@ describe("block shortcuts", () => {
     });
   });
 
+  test.each([
+    ["1. ", "1. Hello"],
+    ["- ", "- Hello"],
+    ["## ", "## Hello"],
+    ["> ", "> Hello"],
+  ])("undo after typing '%s' keeps the typed text", (prefix, expected) => {
+    const editor = setup(learningResourcePlugins, [paragraph("")], prefix);
+    editor.undo();
+    expect(findList(editor)).toBeUndefined();
+    expect(findQuote(editor)).toBeUndefined();
+    expect(Node.get(editor, [0, 0])).toMatchObject(paragraph(prefix));
+    expect(editor.selection?.anchor.offset).toBe(prefix.length);
+    for (const char of "Hello") editor.insertText(char);
+    expect(Node.get(editor, [0, 0])).toMatchObject(paragraph(expected));
+  });
+
   test("works on a paragraph that already has text", () => {
     const editor = setup(learningResourcePlugins, [paragraph("Hello")], "- ");
     expect(findList(editor)).toMatchObject({

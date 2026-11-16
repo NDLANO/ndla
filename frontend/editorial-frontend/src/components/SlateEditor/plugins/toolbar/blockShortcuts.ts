@@ -15,6 +15,7 @@ import {
   type ListType,
 } from "@ndla/editor";
 import { Editor, Element, Range, Transforms } from "slate";
+import { HistoryEditor } from "slate-history";
 import toggleBlock from "../../utils/toggleBlock";
 import { BLOCK_QUOTE_ELEMENT_TYPE } from "../blockquote/blockquoteTypes";
 import { getSelectionElements, type TextType } from "./toolbarState";
@@ -40,7 +41,9 @@ const headingLevels = { "heading-2": 2, "heading-3": 3, "heading-4": 4 } as cons
  * Converts a paragraph when typing a space directly after a markdown-like prefix at the start of the paragraph:
  * "-" or "*" for a bulleted list, "1." for a numbered list, "##", "###" or "####" for headings and ">" for a quote.
  * Only applies when the option is available in the toolbar for the current selection.
- * Returns true if the shortcut was applied, in which case the space should not be inserted.
+ * The space is inserted as regular text before the conversion is applied in a separate history batch, so undo
+ * reverts the conversion and leaves the typed text (e.g. "1. ") in place.
+ * Returns true if the shortcut was applied, in which case the space should not be inserted again.
  */
 export const applyBlockShortcut = (editor: Editor, opts: ToolbarPluginOptions): boolean => {
   const { selection } = editor;
@@ -67,8 +70,11 @@ export const applyBlockShortcut = (editor: Editor, opts: ToolbarPluginOptions): 
   const option = state?.[shortcut.category].find((el) => el.value === shortcut.value);
   if (!option || option.disabled || option.hidden) return false;
 
-  Editor.withoutNormalizing(editor, () => {
-    Transforms.delete(editor, { at: prefixRange });
+  Transforms.insertText(editor, " ");
+  const typedRange = { anchor: prefixRange.anchor, focus: editor.selection?.anchor ?? prefixRange.focus };
+
+  const convert = () => {
+    Transforms.delete(editor, { at: typedRange });
     if (shortcut.value === BLOCK_QUOTE_ELEMENT_TYPE) {
       toggleBlock(editor, BLOCK_QUOTE_ELEMENT_TYPE);
     } else if (shortcut.category === "block") {
@@ -76,6 +82,12 @@ export const applyBlockShortcut = (editor: Editor, opts: ToolbarPluginOptions): 
     } else {
       toggleHeading(editor, headingLevels[shortcut.value]);
     }
-  });
+  };
+
+  if (HistoryEditor.isHistoryEditor(editor)) {
+    HistoryEditor.withNewBatch(editor, () => Editor.withoutNormalizing(editor, convert));
+  } else {
+    Editor.withoutNormalizing(editor, convert);
+  }
   return true;
 };
