@@ -125,12 +125,13 @@ const QuestionResultRow = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "xsmall",
-    paddingBlock: "small",
+    paddingBlock: "medium",
   },
 });
 
 const QuestionResultText = styled("div", {
   base: {
+    minWidth: "0",
     display: "flex",
     flexDirection: "column",
     gap: "3xsmall",
