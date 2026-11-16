@@ -62,6 +62,17 @@ class QuizRepository(using dbQuiz: DBQuiz, dbSavedQuiz: DBSavedQuiz) extends Str
       }
   }
 
+  def incrementCompletedCount(id: UUID)(using session: DBSession): Try[Unit] = tsql"""
+      update ${dbQuiz.table}
+      set completed_count = completed_count + 1
+      where id = $id
+    """
+    .update()
+    .flatMap {
+      case 1 => Success(())
+      case _ => Failure(QuizErrors.quizNotFound(id))
+    }
+
   def withId(id: UUID)(using session: DBSession): Try[Option[Quiz]] = {
     val qz = dbQuiz.syntax("qz")
     tsql"""

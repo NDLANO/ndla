@@ -62,6 +62,7 @@ class QuizConverterService {
       displaySettings = quiz.displaySettings,
       supportedLanguages = quiz.supportedLanguages,
       owner = owner.map(user => OwnerDTO(user.displayName, user.id)),
+      completedCount = quiz.completedCount.getOrElse(0L),
     )
   }
 
@@ -94,6 +95,7 @@ class QuizConverterService {
     updatedBy = user,
     published = None,
     displaySettings = dto.displaySettings.getOrElse(DisplaySettings.default),
+    completedCount = None,
   )
 
   def mergeQuiz(existing: Quiz, dto: UpdatedQuizDTO, user: String, now: NDLADate, language: String): Quiz = {

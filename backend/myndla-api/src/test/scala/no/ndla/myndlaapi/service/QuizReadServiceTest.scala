@@ -19,7 +19,7 @@ import no.ndla.network.model.{
   OptionalCombinedUser,
 }
 import no.ndla.scalatestsuite.UnitTestSuite
-import no.ndla.testbase.NullSafeMockito.{any, eqTo, when}
+import no.ndla.testbase.NullSafeMockito.{any, eqTo, never, times, verify, when}
 import scalikejdbc.DBSession
 
 import java.util.UUID
@@ -151,6 +151,7 @@ class QuizReadServiceTest extends UnitTestSuite with TestEnvironment {
       Success(TestData.publicQuiz(TestData.singleChoiceQuestion, TestData.multiChoiceQuestion))
     )
     when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser])).thenCallRealMethod()
+    when(quizRepository.incrementCompletedCount(eqTo(TestData.quizId))(using any[DBSession])).thenReturn(Success(()))
 
     val dto = CheckQuizDTO(answers =
       Seq(
@@ -166,6 +167,7 @@ class QuizReadServiceTest extends UnitTestSuite with TestEnvironment {
     result.get.results should have size 2
     result.get.results.find(_.questionId == TestData.q1).get.isCorrect should be(true)
     result.get.results.find(_.questionId == TestData.q2).get.isCorrect should be(false)
+    verify(quizRepository, times(1)).incrementCompletedCount(eqTo(TestData.quizId))(using any[DBSession])
   }
 
   test("checkQuiz returns score 0 for unknown question id instead of crashing") {
@@ -173,11 +175,24 @@ class QuizReadServiceTest extends UnitTestSuite with TestEnvironment {
       Success(TestData.publicQuiz(TestData.singleChoiceQuestion))
     )
     when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser])).thenCallRealMethod()
+    when(quizRepository.incrementCompletedCount(eqTo(TestData.quizId))(using any[DBSession])).thenReturn(Success(()))
 
     val dto    = CheckQuizDTO(answers = Seq(QuestionAnswerDTO(UUID.randomUUID().nn, Seq(TestData.a2), Seq.empty)))
     val result = service.checkQuiz(TestData.quizId, dto, anonymous)
     result.isSuccess should be(true)
     result.get.totalScore should be(0)
     result.get.results.head.isCorrect should be(false)
+  }
+
+  test("checkQuiz does not increment completed count when user cannot view quiz") {
+    when(quizRepository.withIdOrError(eqTo(TestData.quizId))(using any[DBSession])).thenReturn(
+      Success(TestData.publicQuiz(TestData.singleChoiceQuestion).copy(status = QuizStatus.PRIVATE))
+    )
+    when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser])).thenCallRealMethod()
+
+    val dto    = CheckQuizDTO(answers = Seq(QuestionAnswerDTO(TestData.q1, Seq(TestData.a2), Seq.empty)))
+    val result = service.checkQuiz(TestData.quizId, dto, anonymous)
+    result.isFailure should be(true)
+    verify(quizRepository, never).incrementCompletedCount(any[UUID])(using any[DBSession])
   }
 }
