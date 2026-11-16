@@ -8,6 +8,7 @@
 
 import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
 import {
+  Button,
   IconButton,
   PaginationContext,
   PaginationEllipsis,
@@ -20,6 +21,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { usePaginationTranslations } from "@ndla/ui";
+import { useTranslation } from "react-i18next";
 
 const StyledPaginationRoot = styled(PaginationRoot, {
   base: {
@@ -27,11 +29,38 @@ const StyledPaginationRoot = styled(PaginationRoot, {
   },
 });
 
-type Props = Omit<PaginationRootProps, "translations"> & { buttonSize?: "small" | "medium" };
+const LabelledTriggerButton = styled(Button, {
+  base: {
+    _disabled: {
+      visibility: "hidden",
+    },
+    tabletWideDown: {
+      "& span": {
+        display: "none",
+      },
+    },
+  },
+});
 
-const Pagination = ({ page = 1, onPageChange, count, pageSize, buttonSize = "medium", ...props }: Props) => {
+type Props = Omit<PaginationRootProps, "translations"> & {
+  buttonSize?: "small" | "medium";
+  labelled?: boolean;
+};
+
+const Pagination = ({
+  page = 1,
+  onPageChange,
+  count,
+  pageSize,
+  buttonSize = "medium",
+  labelled = false,
+  ...props
+}: Props) => {
+  const { t } = useTranslation();
   const translations = usePaginationTranslations();
   const countWithMaxValue = Math.min(count ?? 0, 1000);
+  const TriggerButton = labelled ? LabelledTriggerButton : IconButton;
+  const PageButton = labelled ? Button : IconButton;
   return (
     <StyledPaginationRoot
       page={page}
@@ -42,23 +71,24 @@ const Pagination = ({ page = 1, onPageChange, count, pageSize, buttonSize = "med
       {...props}
     >
       <PaginationPrevTrigger asChild>
-        <IconButton
+        <TriggerButton
           size={buttonSize}
           variant="tertiary"
           aria-label={translations?.prevTriggerLabel}
           title={translations?.prevTriggerLabel}
         >
           <ArrowLeftShortLine />
-        </IconButton>
+          {!!labelled && <span>{t("pagination.prev")}</span>}
+        </TriggerButton>
       </PaginationPrevTrigger>
       <PaginationContext>
         {(pagination) =>
           pagination.pages.map((page, index) =>
             page.type === "page" ? (
               <PaginationItem key={index} {...page} asChild>
-                <IconButton size={buttonSize} variant={page.value === pagination.page ? "primary" : "tertiary"}>
+                <PageButton size={buttonSize} variant={page.value === pagination.page ? "primary" : "tertiary"}>
                   {page.value}
-                </IconButton>
+                </PageButton>
               </PaginationItem>
             ) : (
               <PaginationEllipsis key={index} index={index} asChild>
@@ -71,14 +101,15 @@ const Pagination = ({ page = 1, onPageChange, count, pageSize, buttonSize = "med
         }
       </PaginationContext>
       <PaginationNextTrigger asChild>
-        <IconButton
+        <TriggerButton
           size={buttonSize}
           variant="tertiary"
           aria-label={translations?.nextTriggerLabel}
           title={translations?.nextTriggerLabel}
         >
+          {!!labelled && <span>{t("pagination.next")}</span>}
           <ArrowRightShortLine />
-        </IconButton>
+        </TriggerButton>
       </PaginationNextTrigger>
     </StyledPaginationRoot>
   );

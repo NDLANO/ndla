@@ -11,7 +11,7 @@ import { styled } from "@ndla/styled-system/jsx";
 
 export const SearchPageContainer = styled(PageContainer, {
   base: {
-    paddingBlockStart: "0",
+    paddingBlockStart: "medium",
     gap: "xsmall",
   },
 });

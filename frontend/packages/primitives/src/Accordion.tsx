@@ -119,6 +119,41 @@ const accordionRecipe = sva({
           borderColor: "stroke.default",
         },
       },
+      subtle: {
+        itemTrigger: {
+          gap: "xxsmall",
+          padding: "xsmall",
+          width: "full",
+          borderRadius: "xsmall",
+          boxShadowColor: "stroke.subtle",
+          boxShadow: "[inset 0 0 0 1px var(--shadow-color)]",
+          _hover: {
+            boxShadowColor: "stroke.hover",
+          },
+          _open: {
+            boxShadowColor: "stroke.default",
+            borderBottomRadius: "sharp",
+          },
+          _focusVisible: {
+            outline: "none",
+            boxShadowColor: "stroke.default",
+            boxShadow: "[inset 0 0 0 3px var(--shadow-color)]",
+          },
+        },
+        itemIndicator: {
+          color: "icon.default",
+        },
+        itemContent: {
+          background: "surface.default",
+          paddingBlockStart: "small",
+          paddingBlockEnd: "medium",
+          paddingInline: "medium",
+          borderBottomRadius: "xsmall",
+          borderWidth: "0 1px 1px",
+          borderStyle: "solid",
+          borderColor: "stroke.default",
+        },
+      },
     },
   },
 });

@@ -8,7 +8,6 @@
 
 import { CheckLine } from "@ndla/icons";
 import { CheckboxControl, CheckboxHiddenInput, CheckboxIndicator, CheckboxLabel, CheckboxRoot } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 import type { SearchFormTypeKey } from "../../../../util/translationKeys";
 
@@ -20,17 +19,11 @@ interface Props {
   disabled?: boolean;
 }
 
-const StyledCheckboxRoot = styled(CheckboxRoot, {
-  base: {
-    padding: "3xsmall",
-  },
-});
-
 const CheckboxSelector = ({ name, checked, onCheckedChange, title, disabled }: Props) => {
   const { t } = useTranslation();
 
   return (
-    <StyledCheckboxRoot
+    <CheckboxRoot
       title={title}
       disabled={disabled}
       checked={checked}
@@ -43,7 +36,7 @@ const CheckboxSelector = ({ name, checked, onCheckedChange, title, disabled }: P
       </CheckboxControl>
       <CheckboxLabel>{t(`searchForm.types.${name}`)}</CheckboxLabel>
       <CheckboxHiddenInput />
-    </StyledCheckboxRoot>
+    </CheckboxRoot>
   );
 };
 

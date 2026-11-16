@@ -13,6 +13,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto("/search/audio");
   await expect(page.getByRole("button", { name: "Søk", exact: true })).toBeVisible();
   await expect(page.getByTestId("loading-spinner")).not.toBeVisible();
+  await page.getByRole("button", { name: "Vis filtre" }).click();
 });
 
 test.afterEach(async ({ page }) => {
@@ -39,8 +40,8 @@ test("Can use text input", async ({ page }) => {
 });
 
 test("Can use audiotype dropdown", async ({ page }) => {
-  await page.getByTestId("audio-type-select").click();
-  await page.getByRole("option", { name: "Podkast", exact: true }).click();
+  await page.getByTestId("audio-type-filter").getByRole("button", { name: "Lydfiltype", exact: true }).click();
+  await page.getByTestId("audio-type-filter").getByText("Podkast", { exact: true }).click();
   await page.waitForURL("**/*audio-type=podcast*");
   const tagButton = page.getByRole("button", { name: "Lydfiltype: Podkast" });
   await expect(tagButton).toBeVisible();
@@ -53,8 +54,8 @@ test("Can use audiotype dropdown", async ({ page }) => {
 });
 
 test("Can use language dropdown", async ({ page }) => {
-  await page.getByTestId("language-select").click();
-  await page.getByRole("option", { name: "Engelsk", exact: true }).click();
+  await page.getByTestId("language-filter").getByRole("button", { name: "Språk" }).click();
+  await page.getByTestId("language-filter").getByText("Engelsk", { exact: true }).click();
   await page.waitForURL("**/*language=en*");
   const tagButton = page.getByRole("button", { name: "Språk: Engelsk" });
   await expect(tagButton).toBeVisible();

@@ -8,10 +8,8 @@
 
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import type { UserDataDTO } from "@ndla/types-backend/draft-api";
 import { useTranslation } from "react-i18next";
 import type { SearchType } from "../../interfaces";
-import SearchSaveButton, { type SearchSaveParams } from "./SearchSaveButton";
 
 const StyledSearchHeader = styled("div", {
   base: {
@@ -24,17 +22,14 @@ const StyledSearchHeader = styled("div", {
 
 interface Props {
   type: SearchType;
-  filters?: SearchSaveParams;
-  userData: UserDataDTO | undefined;
 }
 
-const SearchHeader = ({ type, filters, userData }: Props) => {
+const SearchHeader = ({ type }: Props) => {
   const { t } = useTranslation();
 
   return (
     <StyledSearchHeader>
       <Heading textStyle="title.large">{t(`searchPage.header.${type}`)}</Heading>
-      {!!filters && <SearchSaveButton userData={userData} filters={filters} searchContentType={type} />}
     </StyledSearchHeader>
   );
 };

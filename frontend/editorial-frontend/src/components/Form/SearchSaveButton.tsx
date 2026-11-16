@@ -6,6 +6,7 @@
  *
  */
 
+import { HeartFill, HeartLine } from "@ndla/icons";
 import { tDynamic } from "@ndla/locales";
 import { Button, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -18,7 +19,6 @@ import { useMutation } from "@tanstack/react-query";
 import type { TFunction } from "i18next";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import SaveButton from "../../components/SaveButton";
 import type { CamelToKebab, SearchType } from "../../interfaces";
 import { updateUserDataMutationOptions } from "../../modules/draft/draftQueries";
 import { useRawLocation } from "../../util/localePath";
@@ -141,6 +141,13 @@ const SearchSaveButton = ({ filters, searchContentType, userData }: Props) => {
   const savedIndex = savedSearches.findIndex((s) => s.searchUrl === currentSearch);
   const isSaved = savedIndex !== -1;
 
+  const getButtonText = () => {
+    if (userDataMutation.isPending) return t("form.saving");
+    if (success) return t("form.saved");
+    if (isSaved) return t("form.alreadySaved");
+    return t("form.saveSearch");
+  };
+
   return (
     <ButtonWrapper>
       {!!isSaved && (
@@ -149,13 +156,16 @@ const SearchSaveButton = ({ filters, searchContentType, userData }: Props) => {
         </Button>
       )}
       <StyledWrapper>
-        <SaveButton
+        <Button
+          size="small"
+          variant={userDataMutation.isPending || success ? "success" : "tertiary"}
           loading={userDataMutation.isPending}
-          showSaved={success}
-          defaultText={isSaved ? "alreadySaved" : "saveSearch"}
           onClick={saveSearch}
           disabled={isSaved || success}
-        />
+        >
+          {isSaved || success ? <HeartFill /> : <HeartLine />}
+          {getButtonText()}
+        </Button>
         {!!error && <Text>{t(`searchPage.save.${error}`)}</Text>}
       </StyledWrapper>
     </ButtonWrapper>

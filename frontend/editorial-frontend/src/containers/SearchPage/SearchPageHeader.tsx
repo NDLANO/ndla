@@ -6,13 +6,10 @@
  *
  */
 
-import { ListCheck, SearchContent, SearchMedia, VoiceprintLine } from "@ndla/icons";
 import { PageContent } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { linkOverlay } from "@ndla/styled-system/patterns";
 import type { ParseKeys } from "i18next";
-import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Outlet } from "react-router";
 import type { SearchType } from "../../interfaces";
@@ -22,32 +19,15 @@ import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const StyledList = styled("ul", {
   base: {
-    display: "grid",
-    gridTemplateColumns: "repeat(4, 1fr)",
-    listStyle: "none",
-    gap: "xsmall",
-  },
-});
-
-const ItemWrapper = styled("li", {
-  base: {
-    placeSelf: "center",
-    position: "relative",
     display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-    alignItems: "center",
-    "& svg": {
-      width: "xxlarge",
-      height: "xxlarge",
-      color: "stroke.default",
-    },
-    tabletWide: {
-      width: "surface.3xsmall",
-    },
-    "& a": {
-      width: "full",
-    },
+    flexWrap: "wrap",
+    listStyle: "none",
+    gap: "4xsmall",
+    padding: "small",
+    background: "surface.brand.2.subtle",
+    border: "1px solid",
+    borderColor: "stroke.subtle",
+    borderRadius: "small",
   },
 });
 
@@ -61,7 +41,6 @@ interface SearchObject {
   type: SearchType;
   title: ParseKeys;
   url: string;
-  icon: ReactNode;
 }
 
 const searchTypes: SearchObject[] = [
@@ -69,25 +48,21 @@ const searchTypes: SearchObject[] = [
     type: "content",
     title: "subNavigation.searchContent",
     url: toSearch("content"),
-    icon: <SearchContent />,
   },
   {
     type: "audio",
     title: "subNavigation.searchAudio",
     url: toSearch("audio"),
-    icon: <VoiceprintLine />,
   },
   {
     type: "image",
     title: "subNavigation.searchImage",
     url: toSearch("image"),
-    icon: <SearchMedia />,
   },
   {
     type: "podcast-series",
     title: "subNavigation.searchPodcastSeries",
     url: toSearch("podcast-series"),
-    icon: <ListCheck />,
   },
 ];
 
@@ -104,17 +79,16 @@ export const SearchPageHeader = () => {
             {searchTypes.map((type) => {
               const currentPage = type.url.startsWith(pathname);
               return (
-                <ItemWrapper key={type.type}>
-                  {type.icon}
+                <li key={type.type}>
                   <SafeLinkButton
                     to={type.url}
+                    size="small"
                     variant={currentPage ? "primary" : "secondary"}
                     aria-current={currentPage}
-                    css={linkOverlay.raw()}
                   >
                     {t(type.title)}
                   </SafeLinkButton>
-                </ItemWrapper>
+                </li>
               );
             })}
           </StyledList>

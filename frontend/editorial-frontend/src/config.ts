@@ -161,7 +161,6 @@ export type ConfigType = {
   s3AudioRoot: string;
   norgesfilmNewUrl: boolean;
   formbricksId: string | undefined;
-  displayImageHeightFilter: boolean;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -213,7 +212,6 @@ const getServerSideConfig = (): ConfigType => {
     s3AudioRoot: getAudioS3Root(ndlaEnvironment),
     norgesfilmNewUrl: getEnvironmentVariabel("NORGESFILM_NEW_URL", "false") === "true",
     formbricksId: getEnvironmentVariabel("FORMBRICKS_ID", ""),
-    displayImageHeightFilter: getEnvironmentVariabel("DISPLAY_IMAGE_HEIGHT_FILTER", "false") === "true",
   };
 };
 

@@ -25,7 +25,7 @@ const StyledUl = styled("ul", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "xxsmall",
+    gap: "medium",
   },
 });
 
