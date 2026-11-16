@@ -69,6 +69,7 @@ export async function postQuiz(
               randomOrder: displaySettings.randomOrder ?? false,
               randomSubset: displaySettings.randomSubset ?? false,
               questionCount: displaySettings.questionCount,
+              alternativesRandomOrder: displaySettings.alternativesRandomOrder ?? false,
             }
           : undefined,
       },

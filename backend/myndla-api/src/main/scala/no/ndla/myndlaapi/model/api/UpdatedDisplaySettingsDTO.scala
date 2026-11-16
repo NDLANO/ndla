@@ -20,6 +20,8 @@ case class UpdatedDisplaySettingsDTO(
     randomSubset: Option[Boolean],
     @description("Number of questions to show if randomSubset is enabled")
     questionCount: Option[Int],
+    @description("Whether answer alternatives are shown in random order for all questions")
+    alternativesRandomOrder: Option[Boolean],
 )
 object UpdatedDisplaySettingsDTO {
   implicit val encoder: Encoder[UpdatedDisplaySettingsDTO] = deriveEncoder
