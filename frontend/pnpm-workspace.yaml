@@ -22,7 +22,7 @@ catalog:
   "@dnd-kit/react": ^0.5.3
   "@fontsource-variable/source-code-pro": ^5.3.1
   "@fontsource-variable/source-serif-4": ^5.3.1
-  "@googleapis/youtube": ^40.0.2
+  "@googleapis/youtube": ^40.1.0
   "@graphql-codegen/cli": ^8.0.0
   "@graphql-codegen/schema-ast": ^7.0.0
   "@graphql-codegen/typescript-operations": ^7.0.1
