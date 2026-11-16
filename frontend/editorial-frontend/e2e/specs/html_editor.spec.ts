@@ -6,14 +6,25 @@
  *
  */
 
-import { expect } from "@playwright/test";
+import { expect, type Page } from "@playwright/test";
 import { test } from "../apiMock";
 
-test.beforeEach(async ({ page }) => {
-  await page.goto("/edit-markup/800/nb");
-});
+const collectMonacoErrors = (page: Page) => {
+  const errors: string[] = [];
+  const collect = (text: string) => {
+    if (/UNKNOWN service|reading 'data'/.test(text)) {
+      errors.push(text);
+    }
+  };
+  page.on("pageerror", (error) => collect(error.message));
+  page.on("console", (message) => collect(message.text()));
+  return errors;
+};
 
 test("can format then save", async ({ page, harCheckpoint }) => {
+  const monacoErrors = collectMonacoErrors(page);
+  await page.goto("/edit-markup/800/nb");
+
   await page.getByRole("presentation").first().click();
 
   await page.keyboard.press("ControlOrMeta+Shift+F");
@@ -26,9 +37,15 @@ test("can format then save", async ({ page, harCheckpoint }) => {
 
   await expect(saveButton).toHaveText("Lagre");
   await expect(saveButton).toHaveAttribute("disabled");
+
+  // Saving bumps the revision, which recreates the editor
+  await page.getByRole("presentation").first().click();
+  await page.waitForTimeout(1000);
+  expect(monacoErrors).toEqual([]);
 });
 
 test("Open previews", async ({ page }) => {
+  await page.goto("/edit-markup/800/nb");
   const previewButton = page.getByRole("button", { name: "Forhåndsvis" });
   await expect(previewButton).not.toHaveAttribute("disabled");
 

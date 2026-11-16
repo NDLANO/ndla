@@ -10,6 +10,8 @@ import { styled } from "@ndla/styled-system/jsx";
 import "monaco-editor/editor/browser/coreCommands";
 import "monaco-editor/language/html/monaco.contribution";
 import "monaco-editor/languages/definitions/html/register";
+// Normally lazy-loaded, but its editor contributions must register their services before monaco initializes them
+import "monaco-editor/languages/features/html/htmlMode";
 import "monaco-editor/features/bracketMatching/register";
 import "monaco-editor/features/find/register";
 import "monaco-editor/features/fontZoom/register";
@@ -20,6 +22,7 @@ import "monaco-editor/features/multicursor/register";
 import "monaco-editor/features/quickCommand/register";
 import "monaco-editor/features/wordHighlighter/register";
 import * as monaco from "monaco-editor/editor/editor.api";
+import editorWorker from "monaco-editor/editor/editor.worker?worker";
 import htmlWorker from "monaco-editor/language/html/html.worker?worker";
 // Uncomment the following line to test all monaco-editor features
 // import * as monaco from "monaco-editor";
@@ -63,8 +66,11 @@ monaco.editor.defineTheme("myCustomTheme", {
 });
 
 self.MonacoEnvironment = {
-  getWorker() {
-    return new htmlWorker();
+  getWorker(_workerId, label) {
+    if (label === "html" || label === "handlebars" || label === "razor") {
+      return new htmlWorker();
+    }
+    return new editorWorker();
   },
 };
 
