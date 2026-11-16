@@ -34,6 +34,8 @@ case class StatsDTO(
     favourited: Map[String, Long],
     @description("Stats for the users")
     users: UserStatsDTO,
+    @description("Stats for quizzes")
+    quizzes: QuizStatsDTO,
 )
 
 object StatsDTO {
@@ -73,4 +75,28 @@ case class UserStatsDTO(
 object UserStatsDTO {
   implicit def encoder: Encoder[UserStatsDTO] = deriveEncoder
   implicit def decoder: Decoder[UserStatsDTO] = deriveDecoder
+}
+
+case class QuizStatsDTO(
+    @description("The total number of created quizzes")
+    total: Long,
+    @description("The number of public quizzes")
+    publicQuizzes: Long,
+    @description("The total number of saved quizzes")
+    saved: Long,
+    @description("The number of distinct quizzes that have been saved by at least one user")
+    distinctSaved: Long,
+    @description("The number of quizzes that have been completed by at least one user")
+    completed: Long,
+    @description("The total number of completions across all quizzes")
+    completions: Long,
+    @description("The number of users that have created quizzes")
+    usersWithQuizzes: Long,
+    @description("The number of users that have saved quizzes")
+    usersWithSavedQuizzes: Long,
+)
+
+object QuizStatsDTO {
+  implicit def encoder: Encoder[QuizStatsDTO] = deriveEncoder
+  implicit def decoder: Decoder[QuizStatsDTO] = deriveDecoder
 }

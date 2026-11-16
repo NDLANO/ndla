@@ -28,7 +28,7 @@ import no.ndla.myndlaapi.model.api.{
   ResourceConnectionDTO,
 }
 import no.ndla.myndlaapi.model.{api, domain}
-import no.ndla.myndlaapi.repository.{FolderRepository, UserRepository}
+import no.ndla.myndlaapi.repository.{FolderRepository, QuizRepository, UserRepository}
 import no.ndla.network.model.{FeideID, FeideUserWrapper}
 import scalikejdbc.DBSession
 
@@ -42,6 +42,7 @@ class FolderReadService(using
     userRepository: UserRepository,
     dbUtility: DBUtility,
     learningPathApiClient: LearningPathApiClient,
+    quizRepository: QuizRepository,
 ) {
   private def getSubFoldersAndResources(
       topFolders: List[domain.Folder],
@@ -265,6 +266,7 @@ class FolderReadService(using
       numberOfSubjects      <- userRepository.numberOfFavouritedSubjects().toTryMaybe
       numberOfSharedFolders <- folderRepository.numberOfSharedFolders().toTryMaybe
       userStats             <- getUserStats(learningPathStats.numberOfMyNdlaLearningPathOwners, session).toTryMaybe
+      quizStats             <- quizRepository.getStats.toTrySome
     } yield StatsDTO(
       userStats.total,
       numberOfFolders,
@@ -276,6 +278,7 @@ class FolderReadService(using
       favouritedResources,
       favourited,
       userStats,
+      quizStats,
     )
   }
 

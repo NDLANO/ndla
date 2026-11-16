@@ -11,7 +11,8 @@ package no.ndla.myndlaapi.repository
 import com.typesafe.scalalogging.StrictLogging
 import no.ndla.common.CirceUtil
 import no.ndla.database.implicits.*
-import no.ndla.myndlaapi.model.domain.{DBQuiz, DBSavedQuiz, Quiz, QuizErrors}
+import no.ndla.myndlaapi.model.api.QuizStatsDTO
+import no.ndla.myndlaapi.model.domain.{DBQuiz, DBSavedQuiz, Quiz, QuizErrors, QuizStatus}
 import no.ndla.network.model.{CombinedUser, FeideID}
 import org.postgresql.util.PGobject
 import scalikejdbc.*
@@ -133,4 +134,30 @@ class QuizRepository(using dbQuiz: DBQuiz, dbSavedQuiz: DBSavedQuiz) extends Str
       order by sq.created desc
     """.map(dbQuiz.fromResultSet(qz)).runList()
   }
+
+  def getStats(using session: DBSession): Try[QuizStatsDTO] = tsql"""
+      select
+        (select count(*) from ${dbQuiz.table}) as total,
+        (select count(*) from ${dbQuiz.table} where document->>'status' = ${QuizStatus.PUBLIC.entryName}) as public_quizzes,
+        (select count(*) from ${dbSavedQuiz.table}) as saved,
+        (select count(*) from ${dbQuiz.table} where completed_count > 0) as completed,
+        (select coalesce(sum(completed_count), 0) from ${dbQuiz.table}) as completions,
+        (select count(distinct quiz_id) from ${dbSavedQuiz.table}) as distinct_saved,
+        (select count(distinct owner_id) from ${dbQuiz.table}) as users_with_quizzes,
+        (select count(distinct feide_id) from ${dbSavedQuiz.table}) as users_with_saved_quizzes
+    """
+    .map(rs =>
+      QuizStatsDTO(
+        total = rs.long("total"),
+        publicQuizzes = rs.long("public_quizzes"),
+        saved = rs.long("saved"),
+        completed = rs.long("completed"),
+        completions = rs.long("completions"),
+        distinctSaved = rs.long("distinct_saved"),
+        usersWithQuizzes = rs.long("users_with_quizzes"),
+        usersWithSavedQuizzes = rs.long("users_with_saved_quizzes"),
+      )
+    )
+    .runSingle()
+    .map(_.getOrElse(QuizStatsDTO(0, 0, 0, 0, 0, 0, 0, 0)))
 }

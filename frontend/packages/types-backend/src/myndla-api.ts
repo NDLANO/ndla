@@ -1517,6 +1517,52 @@ export type components = {
             results: components["schemas"]["QuizDTO"][];
         };
         /**
+         * QuizStatsDTO
+         * @description Stats for quizzes
+         */
+        QuizStatsDTO: {
+            /**
+             * Format: int64
+             * @description The total number of created quizzes
+             */
+            total: number;
+            /**
+             * Format: int64
+             * @description The number of public quizzes
+             */
+            publicQuizzes: number;
+            /**
+             * Format: int64
+             * @description The total number of saved quizzes
+             */
+            saved: number;
+            /**
+             * Format: int64
+             * @description The number of distinct quizzes that have been saved by at least one user
+             */
+            distinctSaved: number;
+            /**
+             * Format: int64
+             * @description The number of quizzes that have been completed by at least one user
+             */
+            completed: number;
+            /**
+             * Format: int64
+             * @description The total number of completions across all quizzes
+             */
+            completions: number;
+            /**
+             * Format: int64
+             * @description The number of users that have created quizzes
+             */
+            usersWithQuizzes: number;
+            /**
+             * Format: int64
+             * @description The number of users that have saved quizzes
+             */
+            usersWithSavedQuizzes: number;
+        };
+        /**
          * QuizStatus
          * @enum {string}
          */
@@ -1673,6 +1719,7 @@ export type components = {
             /** @description Stats for favourited resources */
             favourited: components["schemas"]["Map_Long"];
             users: components["schemas"]["UserStatsDTO"];
+            quizzes: components["schemas"]["QuizStatsDTO"];
         };
         /**
          * UpdatedDisplaySettingsDTO
@@ -1885,6 +1932,7 @@ export type QuestionType = components['schemas']['QuestionType'];
 export type QuizDTO = components['schemas']['QuizDTO'];
 export type QuizResultDTO = components['schemas']['QuizResultDTO'];
 export type QuizSearchResultDTO = components['schemas']['QuizSearchResultDTO'];
+export type QuizStatsDTO = components['schemas']['QuizStatsDTO'];
 export type QuizStatus = components['schemas']['QuizStatus'];
 export type ResourceConnectionDTO = components['schemas']['ResourceConnectionDTO'];
 export type ResourceDTO = components['schemas']['ResourceDTO'];
