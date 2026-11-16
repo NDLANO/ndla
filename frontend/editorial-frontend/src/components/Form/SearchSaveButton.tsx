@@ -8,7 +8,7 @@
 
 import { HeartFill, HeartLine } from "@ndla/icons";
 import { tDynamic } from "@ndla/locales";
-import { Button, type ButtonProps, Text } from "@ndla/primitives";
+import { Button, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { SearchParamsDTO as AudioSearchParamsDTO } from "@ndla/types-backend/audio-api";
 import type { DraftConceptSearchParamsDTO } from "@ndla/types-backend/concept-api";
@@ -82,11 +82,9 @@ interface Props {
   filters: SearchSaveParams;
   searchContentType: SearchType;
   userData?: UserDataDTO | undefined;
-  size?: ButtonProps["size"];
-  variant?: ButtonProps["variant"];
 }
 
-const SearchSaveButton = ({ filters, searchContentType, userData, size, variant }: Props) => {
+const SearchSaveButton = ({ filters, searchContentType, userData }: Props) => {
   const { t } = useTranslation();
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<Error>("");
@@ -159,8 +157,8 @@ const SearchSaveButton = ({ filters, searchContentType, userData, size, variant 
       )}
       <StyledWrapper>
         <Button
-          size={size}
-          variant={userDataMutation.isPending || success ? "success" : variant}
+          size="small"
+          variant={userDataMutation.isPending || success ? "success" : "tertiary"}
           loading={userDataMutation.isPending}
           onClick={saveSearch}
           disabled={isSaved || success}

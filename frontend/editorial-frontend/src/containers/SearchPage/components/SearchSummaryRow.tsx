@@ -74,13 +74,7 @@ export const SearchSummaryRow = ({ type, summary, filters, userData }: Props) =>
   <Row>
     <div>{summary}</div>
     <Actions>
-      <SearchSaveButton
-        userData={userData}
-        filters={filters}
-        searchContentType={type}
-        size="small"
-        variant="tertiary"
-      />
+      <SearchSaveButton userData={userData} filters={filters} searchContentType={type} />
       <SearchFiltersToggle />
     </Actions>
   </Row>
