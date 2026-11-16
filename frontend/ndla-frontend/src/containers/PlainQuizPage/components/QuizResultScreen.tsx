@@ -103,31 +103,6 @@ const FeedbackContainer = styled("div", {
   },
 });
 
-const ScorePill = styled(Text, {
-  base: {
-    display: "flex",
-    gap: "4xsmall",
-    paddingBlock: "xxsmall",
-    paddingInline: "[20px]",
-    borderRadius: "[100px]",
-    backgroundColor: "surface.brand.1.moderate",
-  },
-});
-
-const ScorePillCorrect = styled("span", {
-  base: {
-    fontWeight: "bold",
-    color: "text.strong",
-  },
-});
-
-const ScorePillTotal = styled("span", {
-  base: {
-    fontWeight: "normal",
-    color: "text.subtle",
-  },
-});
-
 const SummaryRoot = styled(AccordionRoot, {
   base: {
     width: "full",
@@ -305,10 +280,6 @@ export const QuizResultScreen = ({ session, answers, result, onRetry }: Props) =
               })}
             </Text>
           </FeedbackContainer>
-          <ScorePill textStyle="body.xlarge">
-            <ScorePillCorrect>{correctCount}</ScorePillCorrect>
-            <ScorePillTotal>{t("myNdla.quiz.take.result.scorePillTotal", { total })}</ScorePillTotal>
-          </ScorePill>
         </ResultSummary>
         <Button variant="tertiary" onClick={onRetry}>
           {t("myNdla.quiz.take.result.retry")}
