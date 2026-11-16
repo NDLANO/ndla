@@ -86,6 +86,10 @@ case class QuizStatsDTO(
     saved: Long,
     @description("The number of distinct quizzes that have been saved by at least one user")
     distinctSaved: Long,
+    @description("The number of quizzes that have been completed by at least one user")
+    completed: Long,
+    @description("The total number of completions across all quizzes")
+    completions: Long,
     @description("The number of users that have created quizzes")
     usersWithQuizzes: Long,
     @description("The number of users that have saved quizzes")

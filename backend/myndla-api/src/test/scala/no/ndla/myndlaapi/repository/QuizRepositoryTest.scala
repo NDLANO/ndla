@@ -85,7 +85,27 @@ class QuizRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with Te
 
   test("that getStats returns zeroes for an empty database") {
     implicit val session: DBSession = DBUtil.autoSession
-    repository.getStats.get should be(QuizStatsDTO(0, 0, 0, 0, 0, 0))
+    repository.getStats.get should be(QuizStatsDTO(0, 0, 0, 0, 0, 0, 0, 0))
+  }
+
+  test("that getStats counts completed quizzes and total completions") {
+    implicit val session: DBSession = DBUtil.autoSession
+
+    val quiz1 = TestData.publicQuiz(TestData.singleChoiceQuestion).copy(id = UUID.randomUUID().nn)
+    val quiz2 = TestData.publicQuiz(TestData.singleChoiceQuestion).copy(id = UUID.randomUUID().nn)
+    val quiz3 = TestData.privateQuiz.copy(id = UUID.randomUUID().nn)
+
+    repository.insert("owner1", quiz1).get
+    repository.insert("owner1", quiz2).get
+    repository.insert("owner1", quiz3).get
+
+    repository.incrementCompletedCount(quiz1.id).get
+    repository.incrementCompletedCount(quiz1.id).get
+    repository.incrementCompletedCount(quiz2.id).get
+
+    val stats = repository.getStats.get
+    stats.completed should be(2)
+    stats.completions should be(3)
   }
 
   test("that getStats counts quizzes and saved quizzes") {
@@ -111,6 +131,8 @@ class QuizRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with Te
         total = 3,
         publicQuizzes = 2,
         saved = 3,
+        completed = 0,
+        completions = 0,
         distinctSaved = 2,
         usersWithQuizzes = 2,
         usersWithSavedQuizzes = 2,

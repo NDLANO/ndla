@@ -1543,6 +1543,16 @@ export type components = {
             distinctSaved: number;
             /**
              * Format: int64
+             * @description The number of quizzes that have been completed by at least one user
+             */
+            completed: number;
+            /**
+             * Format: int64
+             * @description The total number of completions across all quizzes
+             */
+            completions: number;
+            /**
+             * Format: int64
              * @description The number of users that have created quizzes
              */
             usersWithQuizzes: number;

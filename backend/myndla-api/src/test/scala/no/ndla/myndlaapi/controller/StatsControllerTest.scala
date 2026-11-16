@@ -43,7 +43,7 @@ class StatsControllerTest extends UnitTestSuite with TestEnvironment with TapirC
           List.empty,
           Map.empty,
           UserStatsDTO(1, 2, 3, 4, 5, 6, 7),
-          QuizStatsDTO(1, 2, 3, 4, 5, 6),
+          QuizStatsDTO(1, 2, 3, 4, 5, 6, 7, 8),
         )
       )
     )

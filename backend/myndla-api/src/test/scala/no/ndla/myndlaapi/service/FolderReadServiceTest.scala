@@ -374,7 +374,7 @@ class FolderReadServiceTest extends UnitTestSuite with TestEnvironment {
     when(folderRepository.numberOfUsersWithFavourites(using any)).thenReturn(Success(Some(3L)))
     when(folderRepository.numberOfUsersWithoutFavourites(using any)).thenReturn(Success(Some(2L)))
     when(userRepository.numberOfUsersInArena(using any)).thenReturn(Success(Some(4L)))
-    when(quizRepository.getStats(using any)).thenReturn(Success(QuizStatsDTO(6, 3, 8, 4, 2, 5)))
+    when(quizRepository.getStats(using any)).thenReturn(Success(QuizStatsDTO(6, 3, 8, 2, 4, 4, 2, 5)))
 
     service.getStats.unsafeGet should be(
       api.StatsDTO(
@@ -388,7 +388,7 @@ class FolderReadServiceTest extends UnitTestSuite with TestEnvironment {
         List(ResourceStatsDTO("article", 1), ResourceStatsDTO("learningpath", 2), ResourceStatsDTO("video", 3)),
         Map("article" -> 1, "learningpath" -> 2, "video" -> 3),
         UserStatsDTO(5, 2, 3, 3, 2, 2, 4),
-        QuizStatsDTO(6, 3, 8, 4, 2, 5),
+        QuizStatsDTO(6, 3, 8, 2, 4, 4, 2, 5),
       )
     )
   }
