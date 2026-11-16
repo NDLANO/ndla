@@ -14,7 +14,7 @@ import no.ndla.common.errors.MissingBucketKeyException
 import no.ndla.common.job.StandaloneJob
 import no.ndla.database.DBUtility
 import no.ndla.imageapi.Props
-import no.ndla.imageapi.model.{ImageDeleteException, ImageUnprocessableFormatException}
+import no.ndla.imageapi.model.ImageUnprocessableFormatException
 import no.ndla.imageapi.model.domain.*
 import no.ndla.imageapi.repository.ImageRepository
 
@@ -35,8 +35,6 @@ class StandaloneVariantGeneration(using
       StrictLogging {
   private val ProcessableContentTypes: Set[ImageContentType] = Set(ImageContentType.Png, ImageContentType.Jpeg)
   private val BatchSize                                      = 20
-  // The S3 DeleteObjects API accepts at most 1000 keys per request
-  private val DeleteBatchSize = 1000
 
   override val name: String                      = "variant-generation"
   override val legacyEnabledFlag: Option[String] = Some("STANDALONE_VARIANT_GENERATION_ENABLED")
@@ -52,15 +50,10 @@ class StandaloneVariantGeneration(using
       )
       .toTry
     _  = logger.info(s"Starting standalone image variant generation in '${mode.entryName}' mode")
-    _ <- run(mode)
+    _ <- generateVariantsForExistingImages(mode)
   } yield ()
 
-  def run(mode: ImageVariantGenerationMode): Try[Unit] = mode match {
-    case generatingMode: ImageVariantGenerationMode.Generating => generateVariantsForExistingImages(generatingMode)
-    case ImageVariantGenerationMode.CleanupLegacyKeys          => deleteLegacyVariantKeys()
-  }
-
-  def generateVariantsForExistingImages(mode: ImageVariantGenerationMode.Generating): Try[Unit] = {
+  def generateVariantsForExistingImages(mode: ImageVariantGenerationMode): Try[Unit] = {
     val batchIterator = imageRepository.getImageMetaBatched(BatchSize) match {
       case Success(iterator) => iterator
       case Failure(ex)       => return Failure(ex)
@@ -88,7 +81,7 @@ class StandaloneVariantGeneration(using
     }.flatten
   }
 
-  private def processImageMeta(imageMeta: ImageMetaInformation, mode: ImageVariantGenerationMode.Generating)(using
+  private def processImageMeta(imageMeta: ImageMetaInformation, mode: ImageVariantGenerationMode)(using
       ExecutionContext
   ): Future[Unit] = {
     val imageMetaId = imageMeta.id match {
@@ -121,7 +114,7 @@ class StandaloneVariantGeneration(using
       }
   }
 
-  private def shouldProcess(imageFile: ImageFileData, mode: ImageVariantGenerationMode.Generating): Boolean = {
+  private def shouldProcess(imageFile: ImageFileData, mode: ImageVariantGenerationMode): Boolean = {
     val isProcessableType = ProcessableContentTypes.contains(imageFile.contentType)
     mode match {
       case _ if !isProcessableType                => false
@@ -185,7 +178,7 @@ class StandaloneVariantGeneration(using
   private def deleteObsoleteVariantKeys(
       originalMeta: ImageMetaInformation,
       updatedMeta: ImageMetaInformation,
-      mode: ImageVariantGenerationMode.Generating,
+      mode: ImageVariantGenerationMode,
   ): Unit = mode match {
     case ImageVariantGenerationMode.MissingOnly => ()
     case ImageVariantGenerationMode.ReplaceAll  =>
@@ -194,11 +187,7 @@ class StandaloneVariantGeneration(using
         originalKeys = original.variants.map(_.bucketKey).toSet
         updated     <- updatedMeta.images.find(u => u.fileName == original.fileName && u.language == original.language)
         updatedKeys  = updated.variants.map(_.bucketKey).toSet
-        // TODO: Remove the `filter`. This is only to ensure that existing variant keys based on file stem (instead of
-        //       filename) are not deleted.
-        obsoleteKeys = originalKeys
-          .diff(updatedKeys)
-          .filter(_.startsWith(ImageVariant.bucketKeyPrefixFor(updated.fileName)))
+        obsoleteKeys = originalKeys.diff(updatedKeys)
       } yield obsoleteKeys
 
       val obsoleteKeys = obsoleteKeySets.foldLeft(Set.empty[String])((res, elem) => res.union(elem))
@@ -212,68 +201,4 @@ class StandaloneVariantGeneration(using
         }
       }
   }
-
-  /** Deletes variant objects stored under the outdated, file stem based, bucket keys. Those keys are not unique, since
-    * files differing only by extension share a file stem, so they are only safe to delete once every image file has
-    * been re-keyed. Any key still referenced by the database is therefore left alone, which also makes this safe to run
-    * against a partially re-keyed bucket.
-    *
-    * TODO: Remove this after migrating in all environments.
-    */
-  private[service] def deleteLegacyVariantKeys(): Try[Unit] = for {
-    referencedKeys <- collectReferencedBucketKeys()
-    _               = logger.info(s"Found ${referencedKeys.size} bucket keys referenced by the database")
-    _              <- deleteUnreferencedLegacyKeys(referencedKeys)
-  } yield ()
-
-  private def collectReferencedBucketKeys(): Try[Set[String]] = imageRepository
-    .getImageMetaBatched(DeleteBatchSize)
-    .map { batchIterator =>
-      val totalBatchCount = batchIterator.knownSize
-      batchIterator
-        .zipWithIndex
-        .foldLeft(Set.empty[String]) { case (referencedKeys, (batch, index)) =>
-          logger.info(s"Collecting referenced bucket keys from batch ${index + 1} of $totalBatchCount")
-          referencedKeys ++
-            batch.flatMap(_.images).flatMap(imageFile => imageFile.fileName +: imageFile.variants.map(_.bucketKey))
-        }
-    }
-
-  private def deleteUnreferencedLegacyKeys(referencedKeys: Set[String]): Try[Unit] = {
-    val batchIterator = imageRepository.getImageMetaBatched(DeleteBatchSize) match {
-      case Success(iterator) => iterator
-      case Failure(ex)       => return Failure(ex)
-    }
-    val totalBatchCount = batchIterator.knownSize
-
-    val results = batchIterator
-      .zipWithIndex
-      .flatMap { (batch, index) =>
-        logger.info(s"Deleting unreferenced legacy variant keys for batch ${index + 1} of $totalBatchCount")
-        batch.flatMap(_.images).flatMap(legacyVariantKeys).distinct.filterNot(referencedKeys.contains)
-      }
-      .grouped(DeleteBatchSize)
-      .map { keys =>
-        imageStorage.deleteObjects(keys) match {
-          case Success(_)  => Right(keys.size)
-          case Failure(ex) =>
-            logger.error(s"Failed to delete legacy variant keys: ${keys.mkString("'", "', '", "'")}", ex)
-            Left(ex)
-        }
-      }
-      .toSeq
-
-    val (failures, deletedCounts) = results.partitionMap(identity)
-    logger.info(s"Sent ${deletedCounts.sum} legacy variant keys for deletion")
-
-    failures match {
-      case Seq() => Success(())
-      case exs   => Failure(ImageDeleteException("Failed to delete some legacy variant keys", exs))
-    }
-  }
-
-  /** The outdated bucket keys that variants of `imageFile` may be stored under. */
-  private def legacyVariantKeys(imageFile: ImageFileData): Seq[String] = ImageVariantSize
-    .values
-    .map(size => s"${imageFile.getFileStem}/${size.entryName}.webp")
 }
