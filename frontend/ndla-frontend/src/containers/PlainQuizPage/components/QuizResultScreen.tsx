@@ -29,7 +29,13 @@ import { parseSimpleRichText } from "../../../components/RichTextEditor/parseSim
 import { QUIZ_NEUTER_ONE, QUIZ_NUMBER_WORDS } from "../../../constants";
 import type { GQLCheckQuizMutation, GQLQuizFragment } from "../../../graphqlTypes";
 import type { LocaleType } from "../../../interfaces";
-import { Confetti, FairAnimation, HurraAnimation, KvissAnimation, VisskAnimation } from "./animations/QuizResultAnimation";
+import {
+  Confetti,
+  FairAnimation,
+  HurraAnimation,
+  KvissAnimation,
+  VisskAnimation,
+} from "./animations/QuizResultAnimation";
 
 type QuizQuestion = GQLQuizFragment["questions"][number];
 type QuestionResult = GQLCheckQuizMutation["checkQuiz"]["results"][number];

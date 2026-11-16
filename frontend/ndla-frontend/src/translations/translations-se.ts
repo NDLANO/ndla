@@ -646,7 +646,8 @@ const translations = {
           summaryTitle: "Fasit",
           correctAnswer: "Rett svar: <answer />",
           wrongAnswer: "Feil svar: <answer />",
-          randomOrderNotice: "Spørsmålene i kvissen er i tilfeldig rekkefølge. Tallene under kan derfor være forskjellig for deg og andre.",
+          randomOrderNotice:
+            "Spørsmålene i kvissen er i tilfeldig rekkefølge. Tallene under kan derfor være forskjellig for deg og andre.",
           yourAnswerCorrect: "Ditt svar - riktig",
           yourAnswerIncorrect: "Ditt svar - feil",
           correctNotSelected: "Riktig svar - ikke valgt",
