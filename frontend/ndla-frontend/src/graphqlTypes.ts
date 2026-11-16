@@ -13999,6 +13999,7 @@ export type GQLLmkDataQuery = {
     url: string | null;
     supportedLanguages: Array<string>;
     metadata: { __typename: "TaxonomyMetadata"; grepCodes: Array<string> };
+    context: { __typename: "TaxonomyContext"; contextId: string; isActive: boolean } | null;
     subjectpage: {
       __typename: "SubjectPage";
       id: number;

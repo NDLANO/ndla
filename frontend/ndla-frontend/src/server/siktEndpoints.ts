@@ -35,6 +35,10 @@ const lmkGql: TypedDocumentNode<GQLLmkDataQuery, GQLLmkDataQueryVariables> = gql
       metadata {
         grepCodes
       }
+      context {
+        contextId
+        isActive
+      }
       subjectpage {
         id
         metaDescription
@@ -73,35 +77,38 @@ export const fetchLmk = async () => {
   const lmkQuery = await client.query({ query: lmkGql });
 
   const graphNodes =
-    lmkQuery.data?.nodes?.map((subject) => ({
-      "@id": `http://ndla.no/f/${subject.id}`,
-      identifier: `http://ndla.no/f/${subject.id}`,
-      "@type": "Course",
-      "rdf:type": "Course",
-      additionalType: "lmko:Laeremiddel",
-      name: subject.name,
-      description: subject.subjectpage?.about?.description ?? subject.subjectpage?.metaDescription,
-      //isPartOf is omitted for now, because we don't really know if we need it, nor do we have the capability to link to programmes.
-      url: `${config.ndlaFrontendDomain}${subject.url}`,
-      thumbnailUrl: subject.subjectpage?.about?.visualElement?.imageUrl,
-      inLanguage: subject.supportedLanguages.reduce<string[]>((acc, lang) => {
-        const mappedLang = langMap[lang as keyof typeof langMap];
-        if (mappedLang) {
-          acc.push(mappedLang);
-        }
-        return acc;
-      }, []),
-      publisher: NDLA_ORG,
-      provider: NDLA_ORG,
-      educationalAlignment: subject.metadata?.grepCodes?.map((code) => ({
-        "@type": "https://schema.org/AlignmentObject",
-        "rdf:type": "https://schema.org/AlignmentObject",
-        educationalFramework: "http://psi.udir.no/kl06",
-        targetName: code,
-        targetUrl: `http://psi.udir.no/kl06/${code}`,
-        // Could possibly add targetDescription by doing an additional query towards gql
-      })),
-    })) ?? [];
+    lmkQuery.data?.nodes?.map((subject) => {
+      if (!subject.context?.isActive) return undefined;
+      return ({
+        "@id": `http://ndla.no/f/${subject.id}`,
+        identifier: `http://ndla.no/f/${subject.id}`,
+        "@type": "Course",
+        "rdf:type": "Course",
+        additionalType: "lmko:Laeremiddel",
+        name: subject.name,
+        description: subject.subjectpage?.about?.description ?? subject.subjectpage?.metaDescription,
+        //isPartOf is omitted for now, because we don't really know if we need it, nor do we have the capability to link to programmes.
+        url: `${config.ndlaFrontendDomain}${subject.url}`,
+        thumbnailUrl: subject.subjectpage?.about?.visualElement?.imageUrl,
+        inLanguage: subject.supportedLanguages.reduce<string[]>((acc, lang) => {
+          const mappedLang = langMap[lang as keyof typeof langMap];
+          if (mappedLang) {
+            acc.push(mappedLang);
+          }
+          return acc;
+        }, []),
+        publisher: NDLA_ORG,
+        provider: NDLA_ORG,
+        educationalAlignment: subject.metadata?.grepCodes?.map((code) => ({
+          "@type": "https://schema.org/AlignmentObject",
+          "rdf:type": "https://schema.org/AlignmentObject",
+          educationalFramework: "http://psi.udir.no/kl06",
+          targetName: code,
+          targetUrl: `http://psi.udir.no/kl06/${code}`,
+          // Could possibly add targetDescription by doing an additional query towards gql
+        })),
+      });
+    }) ?? [];
 
   const serviceNode = {
     "@id": "http://ndla.no",
