@@ -148,12 +148,7 @@ class QuizConverterServiceTest extends UnitTestSuite with TestEnvironment {
     val merged = service.mergeQuiz(quiz, dto, user = "feide-owner-1", now = now, language = "nb")
 
     merged.displaySettings should be(
-      DisplaySettings(
-        randomOrder = false,
-        randomSubset = true,
-        questionCount = Some(5),
-        alternativesRandomOrder = true,
-      )
+      DisplaySettings(randomOrder = false, randomSubset = true, questionCount = Some(5), alternativesRandomOrder = true)
     )
   }
 }
