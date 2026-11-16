@@ -644,7 +644,7 @@ const translations = {
           score: "You have {{correct}} out of {{total}} correct answers.",
           scorePillTotal: " / {{total}} correct",
           retry: "Try again",
-          summaryTitle: "Quiz summary",
+          summaryTitle: "Quiz answers",
           correctAnswer: "Correct answer: <answer />",
           yourAnswerCorrect: "Your answer - correct",
           yourAnswerIncorrect: "Your answer - incorrect",

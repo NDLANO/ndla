@@ -642,7 +642,7 @@ const translations = {
           score: "Du har {{correct}} av {{total}} rette svar.",
           scorePillTotal: " / {{total}} riktige",
           retry: "Prøv igjen",
-          summaryTitle: "Oppsummering av kvissen",
+          summaryTitle: "Fasit",
           correctAnswer: "Rett svar: <answer />",
           yourAnswerCorrect: "Ditt svar - riktig",
           yourAnswerIncorrect: "Ditt svar - feil",
