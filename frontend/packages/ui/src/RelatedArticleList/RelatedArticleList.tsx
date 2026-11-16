@@ -6,6 +6,7 @@
  *
  */
 
+import { useIsPrinting } from "@ndla/hooks";
 import { ExternalLinkLine } from "@ndla/icons";
 import { CardContent, CardHeading, CardRoot, Text, Heading, Button } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
@@ -31,7 +32,22 @@ const StyledSpan = styled("span", {
   },
 });
 
+const PrintUrlText = styled(Text, {
+  base: {
+    overflowWrap: "anywhere",
+  },
+});
+
+const getAbsoluteUrl = (to: string) => {
+  try {
+    return new URL(to, window.location.origin).href;
+  } catch {
+    return to;
+  }
+};
+
 export const RelatedArticle = ({ title, introduction, to, linkInfo = "", target = "" }: RelatedArticleProps) => {
+  const isPrinting = useIsPrinting();
   return (
     <CardRoot data-embed-type="related-article">
       <CardContent>
@@ -47,6 +63,7 @@ export const RelatedArticle = ({ title, introduction, to, linkInfo = "", target 
         <Text color="text.subtle" textStyle="label.small">
           {linkInfo}
         </Text>
+        {isPrinting ? <PrintUrlText textStyle="label.small">{getAbsoluteUrl(to)}</PrintUrlText> : null}
       </CardContent>
     </CardRoot>
   );
@@ -71,6 +88,13 @@ const ArticlesWrapper = styled("div", {
     tabletDown: {
       gridTemplateColumns: "1fr",
     },
+    // Collapsed articles stay mounted so they can react to printing, and are always shown in print.
+    "&[data-expanded='false'] > :nth-child(n + 3)": {
+      display: "none",
+      _print: {
+        display: "block",
+      },
+    },
   },
 });
 
@@ -87,6 +111,9 @@ const StyledSection = styled("section", {
 const StyledButton = styled(Button, {
   base: {
     marginBlockStart: "xsmall",
+    _print: {
+      display: "none",
+    },
   },
 });
 
@@ -107,10 +134,6 @@ export const RelatedArticleList = ({
   const [expanded, setExpanded] = useState(false);
   const { t } = useTranslation();
   const childCount = useMemo(() => articleCount ?? Children.count(children), [children, articleCount]);
-  const childrenToShow = useMemo(
-    () => (childCount > 2 && !expanded ? children?.slice(0, 2) : children),
-    [childCount, children, expanded],
-  );
 
   return (
     <StyledSection {...rest} data-embed-type="related-content-list">
@@ -120,7 +143,7 @@ export const RelatedArticleList = ({
         </Heading>
         {headingButtons}
       </HeadingWrapper>
-      <ArticlesWrapper>{childrenToShow}</ArticlesWrapper>
+      <ArticlesWrapper data-expanded={childCount <= 2 || expanded}>{children}</ArticlesWrapper>
       {childCount > 2 ? (
         <StyledButton variant="secondary" onClick={() => setExpanded((p) => !p)}>
           {t(`related.show${expanded ? "Less" : "More"}`)}
