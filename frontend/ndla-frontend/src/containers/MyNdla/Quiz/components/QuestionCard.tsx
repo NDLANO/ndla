@@ -19,9 +19,9 @@ import {
   Text,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import type { Descendant } from "slate";
+import { Node, type Descendant } from "slate";
 import { RichTextEditor } from "../../../../components/RichTextEditor/RichTextEditor";
 import {
   deserializeToSimpleRichText,
@@ -85,6 +85,14 @@ export const QuestionCard = memo(
     const [initialTitle] = useState(() => deserializeToSimpleRichText(question.title));
     const [focusAlternativeId, setFocusAlternativeId] = useState<string>();
     const questionId = question.id;
+    const titleText = useMemo(
+      () =>
+        deserializeToSimpleRichText(question.title)
+          .map((node) => Node.string(node))
+          .join(" ")
+          .trim(),
+      [question.title],
+    );
 
     const update = useCallback(
       (updater: (question: QuestionFormValues) => QuestionFormValues) => onChange(questionId, updater),
@@ -156,6 +164,7 @@ export const QuestionCard = memo(
       <Card>
         <QuestionCardHeader
           index={index}
+          title={titleText}
           questionType={question.questionType}
           onQuestionTypeChange={onQuestionTypeChange}
           onMoveUp={canMoveUp ? onMoveUp : undefined}

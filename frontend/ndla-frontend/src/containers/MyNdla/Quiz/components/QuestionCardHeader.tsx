@@ -24,6 +24,7 @@ import type { QuestionFormValues } from "./QuestionCard";
 
 interface Props {
   index: number;
+  title?: string;
   questionType: QuestionFormValues["questionType"];
   onQuestionTypeChange: (multiChoice: boolean) => void;
   onMoveUp?: () => void;
@@ -33,6 +34,7 @@ interface Props {
 
 export const QuestionCardHeader = ({
   index,
+  title,
   questionType,
   onQuestionTypeChange,
   onMoveUp,
@@ -52,8 +54,8 @@ export const QuestionCardHeader = ({
         <NumberBadge size="medium" textStyle="label.medium" asChild consumeCss>
           <span>{index + 1}</span>
         </NumberBadge>
-        <Text fontWeight="bold" textStyle="label.large">
-          {t("myNdla.quiz.form.cardTitle")}
+        <Text fontWeight="bold" textStyle="label.large" css={{ lineClamp: "1" }}>
+          {title || t("myNdla.quiz.form.cardTitle")}
         </Text>
       </HStack>
       <HStack gap="medium">
