@@ -35,14 +35,15 @@ class StandaloneJobController(using jobs: Seq[StandaloneJob])(using
   import errorHelpers.*
 
   override val enableSwagger: Boolean       = false
-  protected val prefix: EndpointInput[Unit] = "intern" / "jobs"
+  protected val prefix: EndpointInput[Unit] = "intern"
 
   private val runningJobs = ConcurrentHashMap.newKeySet[String]().nn
 
-  override val endpoints: List[ServerEndpoint[Any, Eff]] = List(listJobs, runJob)
+  override val endpoints: List[ServerEndpoint[Any, Eff]] = List(listJobs, runJob, legacyRunIndexJob)
 
   private def listJobs: ServerEndpoint[Any, Eff] = endpoint
     .get
+    .in("jobs")
     .out(jsonBody[List[StandaloneJobDTO]])
     .serverLogicPure { _ =>
       jobs.map(job => StandaloneJobDTO(job.name, runningJobs.contains(job.name))).toList.asRight
@@ -50,28 +51,41 @@ class StandaloneJobController(using jobs: Seq[StandaloneJob])(using
 
   private def runJob: ServerEndpoint[Any, Eff] = endpoint
     .post
-    .in(path[String]("name"))
+    .in("jobs" / path[String]("name"))
     .in(query[Boolean]("run-in-background").default(false))
     .out(statusCode.and(stringBody))
     .errorOut(errorOutputsFor(404, 409, 500))
     .serverLogicPure { (name, runInBackground) =>
-      jobs.find(_.name == name) match {
-        case None =>
-          val validNames = jobs.map(_.name).mkString(", ")
-          notFoundWithMsg(s"Unknown standalone job '$name'. Expected one of: $validNames").asLeft
-        case Some(job) =>
-          if (!runningJobs.add(job.name)) conflict(s"Standalone job '$name' is already running").asLeft
-          else {
-            val future = start(job)
-            if (runInBackground) (StatusCode.Accepted, s"Started standalone job '$name' in the background").asRight
-            else Try(Await.result(future, Duration.Inf)) match {
-              case Success(_)  => (StatusCode.Ok, s"Standalone job '$name' finished successfully").asRight
-              case Failure(ex) =>
-                val message = Option(ex.getMessage).getOrElse(ex.toString)
-                errorBody(GENERIC, s"Standalone job '$name' failed: $message", 500).asLeft
-            }
+      runJobLogic(name, runInBackground)
+    }
+
+  // TODO: Remove after infra and tooling have migrated to `POST /intern/jobs/index`
+  /** Reindexing was triggered with `POST /intern/index` before it was moved to the standalone job named `index` */
+  private def legacyRunIndexJob: ServerEndpoint[Any, Eff] = endpoint
+    .post
+    .in("index")
+    .in(query[Boolean]("run-in-background").default(false))
+    .out(statusCode.and(stringBody))
+    .errorOut(errorOutputsFor(404, 409, 500))
+    .serverLogicPure(runInBackground => runJobLogic("index", runInBackground))
+
+  private def runJobLogic(name: String, runInBackground: Boolean): Either[AllErrors, (StatusCode, String)] =
+    jobs.find(_.name == name) match {
+      case None =>
+        val validNames = jobs.map(_.name).mkString(", ")
+        notFoundWithMsg(s"Unknown standalone job '$name'. Expected one of: $validNames").asLeft
+      case Some(job) =>
+        if (!runningJobs.add(job.name)) conflict(s"Standalone job '$name' is already running").asLeft
+        else {
+          val future = start(job)
+          if (runInBackground) (StatusCode.Accepted, s"Started standalone job '$name' in the background").asRight
+          else Try(Await.result(future, Duration.Inf)) match {
+            case Success(_)  => (StatusCode.Ok, s"Standalone job '$name' finished successfully").asRight
+            case Failure(ex) =>
+              val message = Option(ex.getMessage).getOrElse(ex.toString)
+              errorBody(GENERIC, s"Standalone job '$name' failed: $message", 500).asLeft
           }
-      }
+        }
     }
 
   /** Runs `job` on its own thread, so that it keeps running if the request that started it is cancelled */
