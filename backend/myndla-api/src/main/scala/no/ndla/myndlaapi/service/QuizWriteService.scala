@@ -158,7 +158,7 @@ class QuizWriteService(using
           else q
         )
       reordered = dto.sortOrder match {
-        case Some(position) => quizConverterService.moveQuestion(merged, questionId, position)
+        case Some(position) => moveQuestion(merged, questionId, position)
         case None           => merged
       }
       updated <- quizRepository.update(existing.copy(questions = reordered, updated = now, updatedBy = user.id))
@@ -181,5 +181,13 @@ class QuizWriteService(using
           )
         )
       } yield quizConverterService.toApiQuiz(updated, language, isOwner = true)
+    }
+
+  def moveQuestion(questions: Seq[Question], questionId: UUID, position: Int): Seq[Question] =
+    questions.find(_.id == questionId) match {
+      case Some(moved) =>
+        val (before, after) = questions.filterNot(_.id == questionId).splitAt(position.max(0).min(questions.size - 1))
+        before ++ Seq(moved) ++ after
+      case None => questions
     }
 }

@@ -149,12 +149,4 @@ class QuizConverterService {
     alternativesRandomOrder = dto.alternativesRandomOrder.getOrElse(existing.alternativesRandomOrder),
     updated = now,
   )
-
-  def moveQuestion(questions: Seq[Question], questionId: UUID, position: Int): Seq[Question] =
-    questions.find(_.id == questionId) match {
-      case Some(moved) =>
-        val (before, after) = questions.filterNot(_.id == questionId).splitAt(position.max(0).min(questions.size - 1))
-        before ++ Seq(moved) ++ after
-      case None => questions
-    }
 }
