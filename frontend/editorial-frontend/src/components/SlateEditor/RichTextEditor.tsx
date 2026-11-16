@@ -9,7 +9,7 @@
 import { LoggerManager, type SlatePlugin, useCreateSlate } from "@ndla/editor";
 import { styled } from "@ndla/styled-system/jsx";
 import { useFormikContext } from "formik";
-import { useCallback, useEffect, useRef, type JSX, type DragEvent, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, type JSX, type DragEvent, type KeyboardEvent, type ReactNode } from "react";
 import { type Descendant, type Editor, Transforms } from "slate";
 import { Slate, type RenderElementProps, type RenderLeafProps, ReactEditor } from "slate-react";
 import type { EditableProps } from "slate-react/dist/components/editable";
@@ -20,7 +20,7 @@ import { ArticleLanguageProvider } from "./ArticleLanguageProvider";
 import { FieldEditable } from "./FieldEditable";
 import { nativeOnDragOver, nativeOnDragStart, nativeOnDrop } from "./plugins/DND/nativeDnd";
 import { SlateDndContext } from "./plugins/DND/SlateDndContext";
-import { SlateToolbar } from "./plugins/toolbar";
+import { onBlockShortcutKeyDown, SlateToolbar } from "./plugins/toolbar";
 
 const StyledSlateWrapper = styled("div", {
   base: {
@@ -137,6 +137,14 @@ const RichTextEditor = ({
 
   const onDragStart = useCallback((e: DragEvent<HTMLDivElement>) => nativeOnDragStart(editor, e), [editor]);
   const onDrop = useCallback((e: DragEvent<HTMLDivElement>) => nativeOnDrop(editor, e), [editor]);
+  const onKeyDown = useCallback(
+    (e: KeyboardEvent<HTMLDivElement>) => {
+      // Must run before the plugins' keydown handlers, which may consume backspace themselves.
+      if (onBlockShortcutKeyDown(editor, e)) return;
+      editor.onKeyDown(e);
+    },
+    [editor],
+  );
 
   return (
     <article className={noArticleStyling ? undefined : "ndla-article"}>
@@ -148,7 +156,7 @@ const RichTextEditor = ({
             <SlateDndContext editor={editor}>
               <StyledEditable
                 {...rest}
-                onKeyDown={editor.onKeyDown}
+                onKeyDown={onKeyDown}
                 placeholder={placeholder}
                 renderElement={renderElement}
                 renderLeaf={renderLeaf}

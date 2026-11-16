@@ -15,10 +15,12 @@ import {
   SECTION_ELEMENT_TYPE,
   type SlatePlugin,
 } from "@ndla/editor";
+import type { KeyboardEvent } from "react";
 import { Editor, Node, Transforms, type Descendant } from "slate";
 import { plugins as commentPlugins } from "../../../../../containers/ArticlePage/components/commentToolbarUtils";
 import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
 import { BLOCK_QUOTE_ELEMENT_TYPE } from "../../blockquote/blockquoteTypes";
+import { onBlockShortcutKeyDown } from "../blockShortcuts";
 
 const paragraph = (text: string): Descendant => ({ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text }] });
 
@@ -43,6 +45,24 @@ const findQuote = (editor: Editor) => {
 };
 
 const text = (editor: Editor) => Node.string(editor);
+
+// Mirrors how a backspace keypress reaches the editor in RichTextEditor and Editable.
+const pressBackspace = (editor: Editor) => {
+  let defaultPrevented = false;
+  const event = {
+    key: "Backspace",
+    altKey: false,
+    ctrlKey: false,
+    metaKey: false,
+    shiftKey: false,
+    preventDefault: () => {
+      defaultPrevented = true;
+    },
+  } as unknown as KeyboardEvent<HTMLDivElement>;
+  if (onBlockShortcutKeyDown(editor, event)) return;
+  editor.onKeyDown(event);
+  if (!defaultPrevented) editor.deleteBackward("character");
+};
 
 describe("block shortcuts", () => {
   test.each([
@@ -72,6 +92,39 @@ describe("block shortcuts", () => {
     expect(editor.selection?.anchor.offset).toBe(prefix.length);
     for (const char of "Hello") editor.insertText(char);
     expect(Node.get(editor, [0, 0])).toMatchObject(paragraph(expected));
+  });
+
+  test.each([
+    ["1. ", "Hello"],
+    ["1. ", ""],
+    ["- ", "Hello"],
+    ["- ", ""],
+    ["## ", "Hello"],
+    ["## ", ""],
+    ["> ", "Hello"],
+    ["> ", ""],
+  ])("backspace directly after typing '%s' before '%s' undoes the shortcut", (prefix, existing) => {
+    const editor = setup(learningResourcePlugins, [paragraph(existing)], prefix);
+    pressBackspace(editor);
+    expect(findList(editor)).toBeUndefined();
+    expect(findQuote(editor)).toBeUndefined();
+    expect(Node.get(editor, [0, 0])).toMatchObject(paragraph(`${prefix}${existing}`));
+    expect(editor.selection?.anchor.offset).toBe(prefix.length);
+  });
+
+  test("backspace after further editing does not undo the shortcut", () => {
+    const editor = setup(learningResourcePlugins, [paragraph("")], "1. ab");
+    pressBackspace(editor);
+    expect(findList(editor)).toBeDefined();
+    expect(text(editor)).toBe("a");
+  });
+
+  test("backspace after moving the cursor does not undo the shortcut", () => {
+    const editor = setup(learningResourcePlugins, [paragraph("Hello")], "1. ");
+    Transforms.move(editor, { distance: 2 });
+    pressBackspace(editor);
+    expect(findList(editor)).toBeDefined();
+    expect(text(editor)).toBe("Hllo");
   });
 
   test("works on a paragraph that already has text", () => {

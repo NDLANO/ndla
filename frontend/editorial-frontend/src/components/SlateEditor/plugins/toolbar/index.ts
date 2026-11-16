@@ -9,7 +9,7 @@
 import { createPlugin, marks, type MarkType, toggleMark } from "@ndla/editor";
 import { isKeyHotkey, isCodeHotkey } from "is-hotkey";
 import { merge } from "lodash-es";
-import { applyBlockShortcut } from "./blockShortcuts";
+import { applyBlockShortcut, undoBlockShortcut } from "./blockShortcuts";
 import { handleClickBlock, handleClickInline, handleClickText } from "./handleMenuClicks";
 import { applyMarkShortcut } from "./markShortcuts";
 import SlateToolbar from "./SlateToolbar";
@@ -50,12 +50,17 @@ const toolbarPlugin = createPlugin<any, ToolbarPluginOptions>({
     areaOptions: createToolbarAreaOptions(),
   },
   transform: (editor, _, opts) => {
-    const { onKeyDown: nextOnKeyDown, shouldShowToolbar, onChange, insertText } = editor;
+    const { onKeyDown: nextOnKeyDown, shouldShowToolbar, onChange, insertText, deleteBackward } = editor;
 
     editor.insertText = (text, options) => {
       if (text === " " && !options?.at && applyBlockShortcut(editor, opts)) return;
       if (text.length === 1 && !options?.at && applyMarkShortcut(editor, text)) return;
       insertText(text, options);
+    };
+
+    editor.deleteBackward = (unit) => {
+      if (undoBlockShortcut(editor)) return;
+      deleteBackward(unit);
     };
 
     editor.selectionElements = getSelectionElements(editor, editor.selection);
@@ -178,4 +183,5 @@ const toolbarPlugin = createPlugin<any, ToolbarPluginOptions>({
   },
 });
 
+export { onBlockShortcutKeyDown } from "./blockShortcuts";
 export { SlateToolbar, toolbarPlugin };
