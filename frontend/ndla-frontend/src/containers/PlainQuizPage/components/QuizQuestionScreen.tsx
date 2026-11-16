@@ -274,7 +274,6 @@ export const QuizQuestionScreen = ({
     "aria-describedby": showError ? `${hintId} ${errorId}` : hintId,
   };
   const progress = (questionNumber / questionCount) * 100;
-  const percent = Math.round(progress);
   const progressStyle = {
     "--quiz-progress-from": `${(previousQuestionNumber / questionCount) * 100}%`,
     "--quiz-progress-to": `${progress}%`,
