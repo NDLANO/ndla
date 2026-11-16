@@ -281,7 +281,7 @@ export const QuizResultScreen = ({ session, answers, result, onRetry }: Props) =
             </Text>
           </FeedbackContainer>
         </ResultSummary>
-        <Button variant="tertiary" onClick={onRetry}>
+        <Button variant="secondary" onClick={onRetry}>
           {t("myNdla.quiz.take.result.retry")}
         </Button>
       </ResultPanel>
