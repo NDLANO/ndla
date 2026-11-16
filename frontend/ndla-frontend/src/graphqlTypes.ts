@@ -110,6 +110,7 @@ export type GQLQuizAlternativeInput = {
 };
 
 export type GQLQuizDisplaySettingsInput = {
+  alternativesRandomOrder?: boolean | null | undefined;
   questionCount?: number | null | undefined;
   randomOrder?: boolean | null | undefined;
   randomSubset?: boolean | null | undefined;
@@ -13529,6 +13530,7 @@ export type GQLQuizFragment = {
     randomOrder: boolean;
     randomSubset: boolean;
     questionCount: number | null;
+    alternativesRandomOrder: boolean | null;
   };
   owner: { __typename: "Owner"; name: string } | null;
   questions: Array<{
@@ -13572,6 +13574,7 @@ export type GQLAddQuizMutation = {
       randomOrder: boolean;
       randomSubset: boolean;
       questionCount: number | null;
+      alternativesRandomOrder: boolean | null;
     };
     owner: { __typename: "Owner"; name: string } | null;
     questions: Array<{
@@ -13609,6 +13612,7 @@ export type GQLUpdateQuizMutation = {
       randomOrder: boolean;
       randomSubset: boolean;
       questionCount: number | null;
+      alternativesRandomOrder: boolean | null;
     };
     owner: { __typename: "Owner"; name: string } | null;
     questions: Array<{
@@ -13643,6 +13647,7 @@ export type GQLUpdateQuizStatusMutation = {
       randomOrder: boolean;
       randomSubset: boolean;
       questionCount: number | null;
+      alternativesRandomOrder: boolean | null;
     };
     owner: { __typename: "Owner"; name: string } | null;
     questions: Array<{
@@ -13681,6 +13686,7 @@ export type GQLAddQuizQuestionMutation = {
       randomOrder: boolean;
       randomSubset: boolean;
       questionCount: number | null;
+      alternativesRandomOrder: boolean | null;
     };
     owner: { __typename: "Owner"; name: string } | null;
     questions: Array<{
@@ -13720,6 +13726,7 @@ export type GQLUpdateQuizQuestionMutation = {
       randomOrder: boolean;
       randomSubset: boolean;
       questionCount: number | null;
+      alternativesRandomOrder: boolean | null;
     };
     owner: { __typename: "Owner"; name: string } | null;
     questions: Array<{
@@ -13754,6 +13761,7 @@ export type GQLDeleteQuizQuestionMutation = {
       randomOrder: boolean;
       randomSubset: boolean;
       questionCount: number | null;
+      alternativesRandomOrder: boolean | null;
     };
     owner: { __typename: "Owner"; name: string } | null;
     questions: Array<{
@@ -13814,6 +13822,7 @@ export type GQLCloneQuizMutation = {
       randomOrder: boolean;
       randomSubset: boolean;
       questionCount: number | null;
+      alternativesRandomOrder: boolean | null;
     };
     owner: { __typename: "Owner"; name: string } | null;
     questions: Array<{
@@ -13879,6 +13888,7 @@ export type GQLQuizQuery = {
       randomOrder: boolean;
       randomSubset: boolean;
       questionCount: number | null;
+      alternativesRandomOrder: boolean | null;
     };
     questions: Array<{
       __typename: "QuizQuestion";

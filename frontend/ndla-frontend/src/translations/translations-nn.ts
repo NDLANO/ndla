@@ -547,6 +547,9 @@ const translations = {
         settingsTab: {
           title: "Visuell tilbakemelding",
           description: "Korleis skal spørsmål og svar i kvissen presenterast?",
+          alternativesRandomOrder: "Tilfeldig rekkefølgje på svaralternativ?",
+          randomOrderHeading: "Tilfeldig rekkefølgje",
+          randomSubsetHeading: "Tilfeldig utval",
           randomSubset: "Tilfeldig utval av spørsmål?",
           randomOrder: "Tilfeldig rekkefølge på spørsmål?",
           questionCount: "Talet på spørsmål",
@@ -556,7 +559,6 @@ const translations = {
           title: "Innstillingar",
           description: "Vel innstillingar for spørsmålstypen.",
           multipleAnswers: "Fleire rette svar",
-          randomOrder: "Tilfeldig rekkefølgje på svaralternativ",
           delete: "Slett spørsmål",
           deleteWarning: "Er du sikker på at du vil slette spørsmålet?",
           yes: "Ja",

@@ -29,11 +29,21 @@ const Panel = styled("div", {
     display: "flex",
     flexDirection: "column",
     width: "full",
-    gap: "small",
+    gap: "xxlarge",
     backgroundColor: "background.default",
     borderRadius: "xsmall",
     boxShadow: "xsmall",
-    padding: "small",
+    paddingBlockStart: "medium",
+    paddingBlockEnd: "large",
+    paddingInline: "medium",
+  },
+});
+
+const Intro = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
   },
 });
 
@@ -41,7 +51,7 @@ const SettingRow = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "xsmall",
+    gap: "small",
   },
 });
 
@@ -58,6 +68,7 @@ const StyledRadioGroupLabel = styled(RadioGroupLabel, {
     textStyle: "label.small",
     fontWeight: "bold",
     fontSize: "xsmall",
+    marginBlockEnd: "small",
   },
 });
 
@@ -68,95 +79,159 @@ const StyledRadioGroupItemText = styled(RadioGroupItemText, {
   },
 });
 
+const RadioRow = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: "small",
+  },
+});
+
+const Section = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
+
+const SettingsGrid = styled("div", {
+  base: {
+    display: "grid",
+    gridTemplateColumns: "1fr",
+    gap: "medium",
+    tablet: {
+      gridTemplateColumns: "1fr 1fr",
+    },
+  },
+});
+
+const StyledSectionHeading = styled(Heading, {
+  base: {
+    textStyle: "label.medium",
+    fontWeight: "bold",
+    fontSize: "small",
+  },
+});
+
+interface YesNoSettingProps {
+  label: string;
+  value: boolean;
+  onChange: (value: boolean) => void;
+}
+
+const YesNoSetting = ({ label, value, onChange }: YesNoSettingProps) => {
+  const { t } = useTranslation();
+  return (
+    <SettingRow>
+      <RadioGroupRoot
+        orientation="vertical"
+        value={value ? "yes" : "no"}
+        onValueChange={(details) => onChange(details.value === "yes")}
+      >
+        <StyledRadioGroupLabel>{label}</StyledRadioGroupLabel>
+        {["yes", "no"].map((option) => (
+          <RadioGroupItem value={option} key={option}>
+            <RadioGroupItemControl />
+            <StyledRadioGroupItemText>
+              {option === "yes" ? t("myNdla.quiz.form.settings.yes") : t("myNdla.quiz.form.settings.no")}
+            </StyledRadioGroupItemText>
+            <RadioGroupItemHiddenInput />
+          </RadioGroupItem>
+        ))}
+      </RadioGroupRoot>
+    </SettingRow>
+  );
+};
+
 interface Props {
   state: QuizBuilderState;
   onChange: (state: QuizBuilderState) => void;
 }
 
 export const QuizSettingsTab = ({ state, onChange }: Props) => {
-  const { randomSubset, randomOrder, questionCount } = state;
+  const { randomSubset, randomOrder, alternativesRandomOrder, questionCount } = state;
   const totalQuestions = state.questions.length;
   const { t } = useTranslation();
   const [subsetError, setSubsetError] = useState(false);
 
   return (
     <Panel>
-      <StyledHeading asChild consumeCss>
-        <h2>{t("myNdla.quiz.form.settingsTab.title")}</h2>
-      </StyledHeading>
-      <Text textStyle="body.medium">{t("myNdla.quiz.form.settingsTab.description")}</Text>
-      <SettingRow>
-        <RadioGroupRoot
-          orientation="vertical"
-          value={randomOrder ? "yes" : "no"}
-          onValueChange={(details) => onChange({ ...state, randomOrder: details.value === "yes" })}
-        >
-          <StyledRadioGroupLabel>{t("myNdla.quiz.form.settingsTab.randomOrder")}</StyledRadioGroupLabel>
-          {["yes", "no"].map((value) => (
-            <RadioGroupItem value={value} key={value}>
-              <RadioGroupItemControl />
-              <StyledRadioGroupItemText>
-                {value === "yes" ? t("myNdla.quiz.form.settings.yes") : t("myNdla.quiz.form.settings.no")}
-              </StyledRadioGroupItemText>
-              <RadioGroupItemHiddenInput />
-            </RadioGroupItem>
-          ))}
-        </RadioGroupRoot>
-      </SettingRow>
-      <SettingRow>
-        <RadioGroupRoot
-          orientation="vertical"
-          value={randomSubset ? "yes" : "no"}
-          onValueChange={(details) => {
-            const wantsSubset = details.value === "yes";
-            if (wantsSubset && totalQuestions < MIN_QUESTIONS_FOR_RANDOM_SUBSET) {
-              setSubsetError(true);
-              return;
-            }
-            setSubsetError(false);
-            onChange({ ...state, randomSubset: wantsSubset });
-          }}
-        >
-          <StyledRadioGroupLabel>{t("myNdla.quiz.form.settingsTab.randomSubset")}</StyledRadioGroupLabel>
-          {["yes", "no"].map((value) => (
-            <RadioGroupItem value={value} key={value}>
-              <RadioGroupItemControl />
-              <StyledRadioGroupItemText>
-                {value === "yes" ? t("myNdla.quiz.form.settings.yes") : t("myNdla.quiz.form.settings.no")}
-              </StyledRadioGroupItemText>
-              <RadioGroupItemHiddenInput />
-            </RadioGroupItem>
-          ))}
-        </RadioGroupRoot>
-        {!!subsetError && (
-          <Text textStyle="label.small" color="text.error" role="alert">
-            {t("myNdla.quiz.form.settingsTab.randomSubsetMinQuestions")}
-          </Text>
-        )}
-      </SettingRow>
-      {!!randomSubset && (
-        <SettingRow>
-          <RadioGroupRoot
-            orientation="vertical"
-            value={String(questionCount)}
-            onValueChange={(details) =>
-              onChange({
-                ...state,
-                questionCount: Number(details.value) as QuestionCountOption,
-              })
-            }
-          >
-            <StyledRadioGroupLabel>{t("myNdla.quiz.form.settingsTab.questionCount")}</StyledRadioGroupLabel>
-            {QUESTION_COUNT_OPTIONS.map((count) => (
-              <RadioGroupItem value={String(count)} key={count}>
-                <RadioGroupItemControl />
-                <StyledRadioGroupItemText>{count}</StyledRadioGroupItemText>
-                <RadioGroupItemHiddenInput />
-              </RadioGroupItem>
-            ))}
-          </RadioGroupRoot>
-        </SettingRow>
-      )}
+      <Intro>
+        <StyledHeading asChild consumeCss>
+          <h2>{t("myNdla.quiz.form.settingsTab.title")}</h2>
+        </StyledHeading>
+        <Text textStyle="body.medium">{t("myNdla.quiz.form.settingsTab.description")}</Text>
+      </Intro>
+      <Section>
+        <StyledSectionHeading asChild consumeCss>
+          <h3>{t("myNdla.quiz.form.settingsTab.randomOrderHeading")}</h3>
+        </StyledSectionHeading>
+        <SettingsGrid>
+          <YesNoSetting
+            label={t("myNdla.quiz.form.settingsTab.alternativesRandomOrder")}
+            value={alternativesRandomOrder}
+            onChange={(value) => onChange({ ...state, alternativesRandomOrder: value })}
+          />
+          <YesNoSetting
+            label={t("myNdla.quiz.form.settingsTab.randomOrder")}
+            value={randomOrder}
+            onChange={(value) => onChange({ ...state, randomOrder: value })}
+          />
+        </SettingsGrid>
+      </Section>
+      <Section>
+        <StyledSectionHeading asChild consumeCss>
+          <h3>{t("myNdla.quiz.form.settingsTab.randomSubsetHeading")}</h3>
+        </StyledSectionHeading>
+        <SettingsGrid>
+          <SettingRow>
+            <YesNoSetting
+              label={t("myNdla.quiz.form.settingsTab.randomSubset")}
+              value={randomSubset}
+              onChange={(wantsSubset) => {
+                if (wantsSubset && totalQuestions < MIN_QUESTIONS_FOR_RANDOM_SUBSET) {
+                  setSubsetError(true);
+                  return;
+                }
+                setSubsetError(false);
+                onChange({ ...state, randomSubset: wantsSubset });
+              }}
+            />
+            {!!subsetError && (
+              <Text textStyle="label.small" color="text.error" role="alert">
+                {t("myNdla.quiz.form.settingsTab.randomSubsetMinQuestions")}
+              </Text>
+            )}
+          </SettingRow>
+          {!!randomSubset && (
+            <SettingRow>
+              <RadioGroupRoot
+                orientation="vertical"
+                value={String(questionCount)}
+                onValueChange={(details) =>
+                  onChange({
+                    ...state,
+                    questionCount: Number(details.value) as QuestionCountOption,
+                  })
+                }
+              >
+                <StyledRadioGroupLabel>{t("myNdla.quiz.form.settingsTab.questionCount")}</StyledRadioGroupLabel>
+                <RadioRow>
+                  {QUESTION_COUNT_OPTIONS.map((count) => (
+                    <RadioGroupItem value={String(count)} key={count}>
+                      <RadioGroupItemControl />
+                      <StyledRadioGroupItemText>{count}</StyledRadioGroupItemText>
+                      <RadioGroupItemHiddenInput />
+                    </RadioGroupItem>
+                  ))}
+                </RadioRow>
+              </RadioGroupRoot>
+            </SettingRow>
+          )}
+        </SettingsGrid>
+      </Section>
     </Panel>
   );
 };

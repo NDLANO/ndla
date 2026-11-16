@@ -11,11 +11,6 @@ import { AddLine } from "@ndla/icons";
 import {
   Button,
   FieldRoot,
-  SwitchControl,
-  SwitchHiddenInput,
-  SwitchLabel,
-  SwitchRoot,
-  SwitchThumb,
   Text,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
@@ -58,6 +53,7 @@ interface Props {
   onDelete: (id: string) => void;
   error?: string;
   focusOnMount?: boolean;
+  alternativesRandomOrder: boolean;
 }
 
 const Card = styled("div", {
@@ -80,7 +76,7 @@ const Card = styled("div", {
 });
 
 export const QuestionCard = memo(
-  ({ question, index, onChange, onMove, canMoveUp, canMoveDown, onDelete, error, focusOnMount }: Props) => {
+  ({ question, index, onChange, onMove, canMoveUp, canMoveDown, onDelete, error, focusOnMount, alternativesRandomOrder }: Props) => {
     const { t } = useTranslation();
     const [initialTitle] = useState(() => deserializeToSimpleRichText(question.title));
     const [focusAlternativeId, setFocusAlternativeId] = useState<string>();
@@ -180,22 +176,10 @@ export const QuestionCard = memo(
             placeholder={t("myNdla.quiz.form.questionTitlePlaceholder")}
           />
         </FieldRoot>
-        <HStack justify="flex-end" css={{ width: "full", paddingInlineEnd: "xsmall" }}>
-          <SwitchRoot
-            checked={question.alternativesRandomOrder}
-            onCheckedChange={(details) => update((q) => ({ ...q, alternativesRandomOrder: details.checked }))}
-          >
-            <SwitchLabel textStyle="label.small">{t("myNdla.quiz.form.settings.randomOrder")}</SwitchLabel>
-            <SwitchControl>
-              <SwitchThumb />
-            </SwitchControl>
-            <SwitchHiddenInput />
-          </SwitchRoot>
-        </HStack>
         <AlternativesList
           alternatives={question.alternatives}
           questionType={question.questionType}
-          randomOrder={question.alternativesRandomOrder}
+          randomOrder={alternativesRandomOrder}
           onReorder={onReorder}
           onTextChange={onAlternativeTextChange}
           onCorrectChange={onAlternativeCorrectChange}

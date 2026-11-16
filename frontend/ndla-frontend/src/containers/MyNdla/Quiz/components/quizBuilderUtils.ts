@@ -47,6 +47,7 @@ export const emptyQuizState = (): QuizBuilderState => ({
   description: "",
   randomSubset: false,
   randomOrder: false,
+  alternativesRandomOrder: false,
   questionCount: 10,
   questions: [emptyQuestion()],
 });
@@ -61,6 +62,7 @@ export const quizToState = (quiz: GQLQuizFragment): QuizBuilderState => ({
   description: quiz.description ?? "",
   randomSubset: quiz.displaySettings.randomSubset,
   randomOrder: quiz.displaySettings.randomOrder,
+  alternativesRandomOrder: quiz.displaySettings.alternativesRandomOrder ?? false,
   questionCount: toQuestionCountOption(quiz.displaySettings.questionCount),
   questions: quiz.questions.map((question) => ({
     id: crypto.randomUUID(),

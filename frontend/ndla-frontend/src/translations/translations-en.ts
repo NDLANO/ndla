@@ -547,6 +547,9 @@ const translations = {
         settingsTab: {
           title: "Visual feedback",
           description: "How should questions and answers be presented in the quiz?",
+          alternativesRandomOrder: "Random order of answer alternatives?",
+          randomOrderHeading: "Random order",
+          randomSubsetHeading: "Random selection",
           randomSubset: "Random selection of questions?",
           randomOrder: "Random order of questions?",
           questionCount: "Number of questions",
@@ -556,7 +559,6 @@ const translations = {
           title: "Settings",
           description: "Choose settings for the question type.",
           multipleAnswers: "Multiple correct answers",
-          randomOrder: "Random order of answer alternatives",
           delete: "Delete question",
           deleteWarning: "Are you sure you want to delete this question?",
           yes: "Yes",
