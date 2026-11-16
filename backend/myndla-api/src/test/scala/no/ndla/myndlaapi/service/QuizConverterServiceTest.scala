@@ -39,6 +39,7 @@ class QuizConverterServiceTest extends UnitTestSuite with TestEnvironment {
     quiz.displaySettings should be(DisplaySettings.default)
     quiz.title should be(Seq(Title("Kapittelquiz", "nb")))
     quiz.description should be(Seq(Description("Kort beskrivelse", "nb")))
+    quiz.completedCount should be(None)
   }
 
   test("toApiQuiz uses requested language when available and hides correct answers for non-owners") {
@@ -68,6 +69,7 @@ class QuizConverterServiceTest extends UnitTestSuite with TestEnvironment {
       updatedBy = "feide-owner-1",
       published = Some(now),
       displaySettings = DisplaySettings(randomOrder = true),
+      completedCount = Some(42),
     )
 
     val result = service.toApiQuiz(quiz, language = "en", isOwner = false)
@@ -105,6 +107,7 @@ class QuizConverterServiceTest extends UnitTestSuite with TestEnvironment {
       updatedBy = "feide-owner-2",
       published = None,
       displaySettings = DisplaySettings.default,
+      completedCount = None,
     )
 
     val result = service.toApiQuiz(quiz, language = "en", isOwner = true)
@@ -129,6 +132,7 @@ class QuizConverterServiceTest extends UnitTestSuite with TestEnvironment {
       updatedBy = "feide-owner-1",
       published = None,
       displaySettings = DisplaySettings(randomOrder = true, randomSubset = true, questionCount = Some(5)),
+      completedCount = None,
     )
 
     val dto = UpdatedQuizDTO(

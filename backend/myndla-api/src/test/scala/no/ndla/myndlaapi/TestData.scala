@@ -164,6 +164,7 @@ object TestData {
     updatedBy = "owner-feide-id",
     published = Some(today),
     displaySettings = DisplaySettings.default,
+    completedCount = Some(2),
   )
 
   def privateQuiz: Quiz = publicQuiz(singleChoiceQuestion).copy(status = QuizStatus.PRIVATE)

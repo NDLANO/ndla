@@ -95,6 +95,7 @@ class QuizConverterService {
     updatedBy = user,
     published = None,
     displaySettings = dto.displaySettings.getOrElse(DisplaySettings.default),
+    completedCount = None,
   )
 
   def mergeQuiz(existing: Quiz, dto: UpdatedQuizDTO, user: String, now: NDLADate, language: String): Quiz = {

@@ -33,7 +33,7 @@ case class Quiz(
     updatedBy: String,
     published: Option[NDLADate],
     displaySettings: DisplaySettings,
-    completedCount: Option[Long] = None,
+    completedCount: Option[Long],
 ) {
   def isOwner(ownerId: String): Boolean = this.ownerId == ownerId
   def isPublic: Boolean                 = this.status == QuizStatus.PUBLIC

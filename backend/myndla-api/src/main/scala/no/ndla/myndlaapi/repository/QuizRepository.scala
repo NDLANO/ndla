@@ -30,7 +30,7 @@ class QuizRepository(using dbQuiz: DBQuiz, dbSavedQuiz: DBSavedQuiz) extends Str
   def insert(ownerId: String, quiz: Quiz)(using session: DBSession): Try[Quiz] = {
     val dataObject = new PGobject()
     dataObject.setType("jsonb")
-    dataObject.setValue(CirceUtil.toJsonString(quiz.copy(completedCount = None)))
+    dataObject.setValue(CirceUtil.toJsonString(quiz))
 
     tsql"""
       insert into ${dbQuiz.table} (id, owner_id, document, revision)
@@ -46,7 +46,7 @@ class QuizRepository(using dbQuiz: DBQuiz, dbSavedQuiz: DBSavedQuiz) extends Str
   def update(quiz: Quiz)(using session: DBSession): Try[Quiz] = {
     val dataObject = new PGobject()
     dataObject.setType("jsonb")
-    dataObject.setValue(CirceUtil.toJsonString(quiz.copy(completedCount = None)))
+    dataObject.setValue(CirceUtil.toJsonString(quiz))
     val oldRevision = quiz.revision.getOrElse(1)
     val newRevision = oldRevision + 1
 

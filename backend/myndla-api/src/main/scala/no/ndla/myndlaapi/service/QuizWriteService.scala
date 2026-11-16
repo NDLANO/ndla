@@ -92,6 +92,7 @@ class QuizWriteService(using
           published = None,
           status = QuizStatus.PRIVATE,
           title = existing.title.map(t => Title(s"${t.title} (Kopi)", t.language)),
+          completedCount = None,
           questions = existing
             .questions
             .map(question =>
