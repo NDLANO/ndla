@@ -21,14 +21,6 @@ case class ImageFileData(
     originalDate: Option[String],
     override val language: String,
 ) extends WithLanguage {
-  // TODO: Remove after old image variants with file stem are removed
-  def getFileStem: String = {
-    fileName.lastIndexOf(".") match {
-      case i if i > 0 => fileName.take(i)
-      case _          => fileName
-    }
-  }
-
   def expectedVariants: Seq[ImageVariant] = dimensions
     .toSeq
     .flatMap(ImageVariantSize.forDimensions)
