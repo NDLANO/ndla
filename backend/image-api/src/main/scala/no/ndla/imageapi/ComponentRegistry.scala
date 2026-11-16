@@ -10,6 +10,7 @@ package no.ndla.imageapi
 
 import no.ndla.common.Clock
 import no.ndla.common.aws.{NdlaCloudFrontClient, NdlaS3Client}
+import no.ndla.common.job.StandaloneJob
 import no.ndla.database.{DBMigrator, DBUtility, DataSource}
 import no.ndla.imageapi.controller.*
 import no.ndla.imageapi.db.migrationwithdependencies.{
@@ -73,6 +74,9 @@ class ComponentRegistry(properties: ImageApiProperties) extends TapirApplication
   implicit lazy val standaloneIndexing: StandaloneIndexing                   = new StandaloneIndexing
   implicit lazy val standaloneVariantGeneration: StandaloneVariantGeneration = new StandaloneVariantGeneration
 
+  override implicit lazy val standaloneJobs: Seq[StandaloneJob]      = Seq(standaloneIndexing, standaloneVariantGeneration)
+  implicit lazy val standaloneJobController: StandaloneJobController = new StandaloneJobController
+
   given swaggerInfo: SwaggerInfo = SwaggerInfo(
     prefix = "image-api",
     description = "Searching and fetching all images used in the NDLA platform.\n\n" +
@@ -86,6 +90,7 @@ class ComponentRegistry(properties: ImageApiProperties) extends TapirApplication
     imageControllerV3,
     rawController,
     internController,
+    standaloneJobController,
     healthController,
     bulkController,
   )

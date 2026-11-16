@@ -9,7 +9,6 @@
 package no.ndla.searchapi
 
 import no.ndla.common.Warmup
-import no.ndla.common.job.StandaloneJob
 import no.ndla.network.tapir.NdlaTapirMain
 
 class MainClass(override val props: SearchApiProperties) extends NdlaTapirMain[ComponentRegistry] {
@@ -26,6 +25,4 @@ class MainClass(override val props: SearchApiProperties) extends NdlaTapirMain[C
   }
 
   override def beforeStart(): Unit = {}
-
-  override def standaloneJobs: Seq[StandaloneJob] = Seq(componentRegistry.standaloneIndexing)
 }
