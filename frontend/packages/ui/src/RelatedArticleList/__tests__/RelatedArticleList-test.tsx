@@ -6,6 +6,7 @@
  *
  */
 
+import { LinkPathContext } from "@ndla/safelink";
 import { act, render } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import { expect, test } from "vitest";
@@ -26,4 +27,20 @@ test("shows all related articles and their urls when printing", () => {
     window.dispatchEvent(new Event("beforeprint"));
   });
   expect(container.textContent).toContain("/article/4");
+});
+
+test("printed url matches the locale-prefixed link href", () => {
+  const { container } = render(
+    <MemoryRouter>
+      <LinkPathContext value={(to) => `/nn${to}`}>
+        <RelatedArticle title="Article" to="/article/1" />
+      </LinkPathContext>
+    </MemoryRouter>,
+  );
+  act(() => {
+    window.dispatchEvent(new Event("beforeprint"));
+  });
+  const href = container.querySelector("a")?.href;
+  expect(href).toBe(`${window.location.origin}/nn/article/1`);
+  expect(container.textContent).toContain(href);
 });

@@ -9,7 +9,7 @@
 import { useIsPrinting } from "@ndla/hooks";
 import { ExternalLinkLine } from "@ndla/icons";
 import { CardContent, CardHeading, CardRoot, Text, Heading, Button } from "@ndla/primitives";
-import { SafeLink } from "@ndla/safelink";
+import { type LinkPathResolver, SafeLink, useLocalePath } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { Children, type ComponentPropsWithoutRef, type ReactElement, type ReactNode, useMemo, useState } from "react";
@@ -38,9 +38,9 @@ const PrintUrlText = styled(Text, {
   },
 });
 
-const getAbsoluteUrl = (to: string) => {
+const getAbsoluteUrl = (to: string, resolveLinkPath: LinkPathResolver) => {
   try {
-    return new URL(to, window.location.origin).href;
+    return new URL(to.startsWith("/") ? resolveLinkPath(to) : to, window.location.origin).href;
   } catch {
     return to;
   }
@@ -48,6 +48,7 @@ const getAbsoluteUrl = (to: string) => {
 
 export const RelatedArticle = ({ title, introduction, to, linkInfo = "", target = "" }: RelatedArticleProps) => {
   const isPrinting = useIsPrinting();
+  const resolveLinkPath = useLocalePath();
   return (
     <CardRoot data-embed-type="related-article">
       <CardContent>
@@ -63,7 +64,7 @@ export const RelatedArticle = ({ title, introduction, to, linkInfo = "", target 
         <Text color="text.subtle" textStyle="label.small">
           {linkInfo}
         </Text>
-        {isPrinting ? <PrintUrlText textStyle="label.small">{getAbsoluteUrl(to)}</PrintUrlText> : null}
+        {isPrinting ? <PrintUrlText textStyle="label.small">{getAbsoluteUrl(to, resolveLinkPath)}</PrintUrlText> : null}
       </CardContent>
     </CardRoot>
   );
