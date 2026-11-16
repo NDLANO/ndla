@@ -53,11 +53,13 @@ const lmkGql: TypedDocumentNode<GQLLmkDataQuery, GQLLmkDataQueryVariables> = gql
   }
 `;
 
+const NDLA_URL = "https://ndla.no";
+
 const NDLA_ORG = {
   "@type": "Organization",
   name: "NDLA",
   legalName: "NDLA",
-  url: "https://ndla.no",
+  url: NDLA_URL,
   logo: "https://ndla.no/static/logo.png",
   iso6523Code: "0192:821311632",
 };
@@ -79,7 +81,7 @@ export const fetchLmk = async () => {
   const graphNodes =
     lmkQuery.data?.nodes?.map((subject) => {
       if (!subject.context?.isActive) return undefined;
-      return ({
+      return {
         "@id": `http://ndla.no/f/${subject.id}`,
         identifier: `http://ndla.no/f/${subject.id}`,
         "@type": "Course",
@@ -87,7 +89,7 @@ export const fetchLmk = async () => {
         additionalType: "lmko:Laeremiddel",
         name: subject.name,
         description: subject.subjectpage?.about?.description ?? subject.subjectpage?.metaDescription,
-        //isPartOf is omitted for now, because we don't really know if we need it, nor do we have the capability to link to programmes.
+        isPartOf: NDLA_URL,
         url: `${config.ndlaFrontendDomain}${subject.url}`,
         thumbnailUrl: subject.subjectpage?.about?.visualElement?.imageUrl,
         inLanguage: subject.supportedLanguages.reduce<string[]>((acc, lang) => {
@@ -107,7 +109,7 @@ export const fetchLmk = async () => {
           targetUrl: `http://psi.udir.no/kl06/${code}`,
           // Could possibly add targetDescription by doing an additional query towards gql
         })),
-      });
+      };
     }) ?? [];
 
   const serviceNode = {
@@ -116,7 +118,7 @@ export const fetchLmk = async () => {
     "@type": "Service",
     additionalType: "lmko:Tjeneste",
     name: "NDLA",
-    url: "https://ndla.no",
+    url: NDLA_URL,
     description:
       "Nasjonal digital læringsarena (NDLA) er Norges ledende produsent av digitale læringsressurser for videregående opplæring.",
     thumbnailUrl: "https://ndla.no/static/metaimage.png",
