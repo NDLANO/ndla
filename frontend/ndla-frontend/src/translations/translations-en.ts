@@ -542,8 +542,8 @@ const translations = {
         tabs: {
           questions: "Questions",
         },
-        moveUp: "Move question up",
-        moveDown: "Move question down",
+        moveUp: "Move up",
+        moveDown: "Move down",
         settingsTab: {
           title: "Visual feedback",
           description: "How should questions and answers be presented in the quiz?",

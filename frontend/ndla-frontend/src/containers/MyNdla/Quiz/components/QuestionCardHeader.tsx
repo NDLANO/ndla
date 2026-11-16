@@ -7,46 +7,20 @@
  */
 
 import { ArrowDownShortLine, ArrowUpShortLine } from "@ndla/icons";
-import {
-  IconButton,
-  SwitchControl,
-  SwitchHiddenInput,
-  SwitchLabel,
-  SwitchRoot,
-  SwitchThumb,
-  Text,
-} from "@ndla/primitives";
+import { Button, Text } from "@ndla/primitives";
 import { HStack } from "@ndla/styled-system/jsx";
-import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { NumberBadge } from "../../components/NumberBadge";
-import type { QuestionFormValues } from "./QuestionCard";
 
 interface Props {
   index: number;
   title?: string;
-  questionType: QuestionFormValues["questionType"];
-  onQuestionTypeChange: (multiChoice: boolean) => void;
   onMoveUp?: () => void;
   onMoveDown?: () => void;
-  focusOnMount?: boolean;
 }
 
-export const QuestionCardHeader = ({
-  index,
-  title,
-  questionType,
-  onQuestionTypeChange,
-  onMoveUp,
-  onMoveDown,
-  focusOnMount,
-}: Props) => {
+export const QuestionCardHeader = ({ index, title, onMoveUp, onMoveDown }: Props) => {
   const { t } = useTranslation();
-  const multipleAnswersRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (focusOnMount) multipleAnswersRef.current?.focus();
-  }, [focusOnMount]);
 
   return (
     <HStack justify="space-between" gap="xsmall">
@@ -58,38 +32,18 @@ export const QuestionCardHeader = ({
           {title || t("myNdla.quiz.form.cardTitle")}
         </Text>
       </HStack>
-      <HStack gap="medium">
-        <SwitchRoot
-          checked={questionType === "MULTI_CHOICE"}
-          onCheckedChange={(details) => onQuestionTypeChange(details.checked)}
-        >
-          <SwitchLabel textStyle="label.small">{t("myNdla.quiz.form.settings.multipleAnswers")}</SwitchLabel>
-          <SwitchControl>
-            <SwitchThumb />
-          </SwitchControl>
-          <SwitchHiddenInput ref={multipleAnswersRef} />
-        </SwitchRoot>
-        {onMoveUp ? (
-          <IconButton
-            aria-label={t("myNdla.quiz.form.moveUp")}
-            title={t("myNdla.quiz.form.moveUp")}
-            variant="tertiary"
-            size="small"
-            onClick={onMoveUp}
-          >
-            <ArrowUpShortLine />
-          </IconButton>
-        ) : null}
+      <HStack gap="xsmall">
         {onMoveDown ? (
-          <IconButton
-            aria-label={t("myNdla.quiz.form.moveDown")}
-            title={t("myNdla.quiz.form.moveDown")}
-            variant="tertiary"
-            size="small"
-            onClick={onMoveDown}
-          >
+          <Button variant="tertiary" onClick={onMoveDown}>
+            {t("myNdla.quiz.form.moveDown")}
             <ArrowDownShortLine />
-          </IconButton>
+          </Button>
+        ) : null}
+        {onMoveUp ? (
+          <Button variant="tertiary" onClick={onMoveUp}>
+            {t("myNdla.quiz.form.moveUp")}
+            <ArrowUpShortLine />
+          </Button>
         ) : null}
       </HStack>
     </HStack>

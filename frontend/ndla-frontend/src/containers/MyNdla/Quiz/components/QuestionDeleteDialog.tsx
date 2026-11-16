@@ -28,7 +28,7 @@ export const QuestionDeleteDialog = ({ onDelete }: Props) => {
   return (
     <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
       <DialogTrigger asChild>
-        <Button variant="tertiary" size="small">
+        <Button variant="tertiary">
           <DeleteBinLine />
           {t("myNdla.quiz.form.settings.delete")}
         </Button>

@@ -11,10 +11,15 @@ import { AddLine } from "@ndla/icons";
 import {
   Button,
   FieldRoot,
+  SwitchControl,
+  SwitchHiddenInput,
+  SwitchLabel,
+  SwitchRoot,
+  SwitchThumb,
   Text,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import { memo, useCallback, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Node, type Descendant } from "slate";
 import { RichTextEditor } from "../../../../components/RichTextEditor/RichTextEditor";
@@ -76,11 +81,27 @@ const Card = styled("div", {
 });
 
 export const QuestionCard = memo(
-  ({ question, index, onChange, onMove, canMoveUp, canMoveDown, onDelete, error, focusOnMount, alternativesRandomOrder }: Props) => {
+  ({
+    question,
+    index,
+    onChange,
+    onMove,
+    canMoveUp,
+    canMoveDown,
+    onDelete,
+    error,
+    focusOnMount,
+    alternativesRandomOrder,
+  }: Props) => {
     const { t } = useTranslation();
     const [initialTitle] = useState(() => deserializeToSimpleRichText(question.title));
     const [focusAlternativeId, setFocusAlternativeId] = useState<string>();
     const questionId = question.id;
+    const multipleAnswersRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+      if (focusOnMount) multipleAnswersRef.current?.focus();
+    }, [focusOnMount]);
     const titleText = useMemo(
       () =>
         deserializeToSimpleRichText(question.title)
@@ -161,11 +182,8 @@ export const QuestionCard = memo(
         <QuestionCardHeader
           index={index}
           title={titleText}
-          questionType={question.questionType}
-          onQuestionTypeChange={onQuestionTypeChange}
           onMoveUp={canMoveUp ? onMoveUp : undefined}
           onMoveDown={canMoveDown ? onMoveDown : undefined}
-          focusOnMount={focusOnMount}
         />
         <FieldRoot css={{ gap: "xsmall" }}>
           <ContentEditableFieldLabel>{t("myNdla.quiz.form.questionTitle")}</ContentEditableFieldLabel>
@@ -176,6 +194,19 @@ export const QuestionCard = memo(
             placeholder={t("myNdla.quiz.form.questionTitlePlaceholder")}
           />
         </FieldRoot>
+        <HStack justify="flex-end">
+          <SwitchRoot
+            checked={question.questionType === "MULTI_CHOICE"}
+            onCheckedChange={(details) => onQuestionTypeChange(details.checked)}
+            css={{ paddingBlock: "3xsmall", paddingInline: "xsmall" }}
+          >
+            <SwitchLabel textStyle="label.small">{t("myNdla.quiz.form.settings.multipleAnswers")}</SwitchLabel>
+            <SwitchControl>
+              <SwitchThumb />
+            </SwitchControl>
+            <SwitchHiddenInput ref={multipleAnswersRef} />
+          </SwitchRoot>
+        </HStack>
         <AlternativesList
           alternatives={question.alternatives}
           questionType={question.questionType}
@@ -193,7 +224,7 @@ export const QuestionCard = memo(
         )}
         <HStack justify="space-between" gap="small">
           <HStack gap="small">
-            <Button variant="tertiary" size="small" onClick={onAddAlternative}>
+            <Button variant="tertiary" onClick={onAddAlternative}>
               <AddLine />
               {t("myNdla.quiz.form.addAlternative")}
             </Button>

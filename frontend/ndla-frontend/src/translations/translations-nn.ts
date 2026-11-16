@@ -542,8 +542,8 @@ const translations = {
         tabs: {
           questions: "Spørsmål",
         },
-        moveUp: "Flytt spørsmål opp",
-        moveDown: "Flytt spørsmål ned",
+        moveUp: "Flytt opp",
+        moveDown: "Flytt ned",
         settingsTab: {
           title: "Visuell tilbakemelding",
           description: "Korleis skal spørsmål og svar i kvissen presenterast?",
