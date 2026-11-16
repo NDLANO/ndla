@@ -36,7 +36,7 @@ import { ResourceSortOption } from "../MyNdla/Folders/components/ResourceSortOpt
 import { keyId, sortAndFilterResources } from "../MyNdla/Folders/util";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { isPrintableResource, PrintResource, printResourceId, useTypesetQueue } from "./components/PrintResource";
-import { type FolderWithResources, getAllResources } from "./folderPrintUtil";
+import { createMailtoLink, type FolderWithResources, getAllResources } from "./folderPrintUtil";
 
 const PrintHeader = styled("header", {
   base: {
@@ -225,7 +225,14 @@ const FolderPrint = ({ folder }: FolderPrintProps) => {
 
   const emailTemplate = useMemo(
     () =>
-      `mailto:hjelp@ndla.no?subject=${t("folderPrintPage.emailSubject")}&body=${t("folderPrintPage.emailBody", { url: pageUrl, description: subtitle, interpolation: { escapeValue: false } })}`,
+      createMailtoLink("hjelp@ndla.no", {
+        subject: t("folderPrintPage.emailSubject"),
+        body: t("folderPrintPage.emailBody", {
+          url: pageUrl,
+          description: subtitle,
+          interpolation: { escapeValue: false },
+        }),
+      }),
     [t, subtitle, pageUrl],
   );
 

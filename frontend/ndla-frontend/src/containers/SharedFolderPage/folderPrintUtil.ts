@@ -24,3 +24,6 @@ const collectResources = (folder: FolderWithResources): GQLMyNdlaResourceFragmen
 // different paths, so we only keep the first occurrence.
 export const getAllResources = (folder: FolderWithResources) =>
   uniqBy(collectResources(folder), (resource) => keyId(resource.resourceType, resource.resourceId));
+
+export const createMailtoLink = (email: string, { subject, body }: { subject: string; body: string }) =>
+  `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
