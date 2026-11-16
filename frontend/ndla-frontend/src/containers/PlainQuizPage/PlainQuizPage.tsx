@@ -173,6 +173,7 @@ const PlainQuizPageContent = () => {
               session={session}
               answers={answers}
               result={result}
+              randomOrder={quiz.displaySettings.randomOrder}
               onRetry={onRetry}
             />
           ) : (

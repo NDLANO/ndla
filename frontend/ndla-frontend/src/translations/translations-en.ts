@@ -647,6 +647,8 @@ const translations = {
           retry: "Try again",
           summaryTitle: "Quiz answers",
           correctAnswer: "Correct answer: <answer />",
+          wrongAnswer: "Wrong answer: <answer />",
+          randomOrderNotice: "The questions in the quiz are in random order. The numbers below may therefore differ for you and others.",
           yourAnswerCorrect: "Your answer - correct",
           yourAnswerIncorrect: "Your answer - incorrect",
           correctNotSelected: "Correct answer - not selected",

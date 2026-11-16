@@ -647,6 +647,8 @@ const translations = {
           retry: "Prøv igjen",
           summaryTitle: "Fasit",
           correctAnswer: "Rett svar: <answer />",
+          wrongAnswer: "Feil svar: <answer />",
+          randomOrderNotice: "Spørsmåla i kvissen er i tilfeldig rekkefølgje. Tala under kan derfor vere ulike for deg og andre.",
           yourAnswerCorrect: "Ditt svar - rett",
           yourAnswerIncorrect: "Ditt svar - feil",
           correctNotSelected: "Rett svar - ikkje valt",

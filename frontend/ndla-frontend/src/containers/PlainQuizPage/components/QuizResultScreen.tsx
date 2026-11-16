@@ -228,6 +228,7 @@ interface Props {
   session: QuizQuestion[];
   answers: Record<string, string[]>;
   result: GQLCheckQuizMutation["checkQuiz"];
+  randomOrder?: boolean;
   onRetry: () => void;
 }
 
@@ -256,7 +257,7 @@ const RESULT_HEADING_KEY = {
   poor: "myNdla.quiz.take.result.headingLow",
 } as const satisfies Record<ScoreTier, string>;
 
-export const QuizResultScreen = ({ session, answers, result, onRetry }: Props) => {
+export const QuizResultScreen = ({ session, answers, result, randomOrder, onRetry }: Props) => {
   const { t } = useTranslation();
   const correctCount = result.results.filter((questionResult) => questionResult.isCorrect).length;
   const total = result.results.length;
@@ -298,7 +299,8 @@ export const QuizResultScreen = ({ session, answers, result, onRetry }: Props) =
             </h2>
           </Heading>
           <SummaryContent>
-            {session.map((question) => {
+            {!!randomOrder && <MessageBox variant="info">{t("myNdla.quiz.take.result.randomOrderNotice")}</MessageBox>}
+            {session.map((question, index) => {
               const questionResult = result.results.find((r) => r.questionId === question.id);
               if (!questionResult) return null;
               const isMultiChoice = question.questionType === "MULTI_CHOICE";
@@ -311,7 +313,7 @@ export const QuizResultScreen = ({ session, answers, result, onRetry }: Props) =
                     </StatusIcon>
                     <QuestionResultText>
                       <Text textStyle="label.small" fontWeight="bold">
-                        {parseSimpleRichText(question.title)}
+                        {index + 1}. {parseSimpleRichText(question.title)}
                       </Text>
                       {isMultiChoice ? (
                         <Text textStyle="label.small" color="text.subtle">
@@ -355,12 +357,28 @@ const QuestionAnswerText = ({
   const answerText = question.alternatives.find((alt) => alt.id === answerIds[0])?.text;
   const correctText = question.alternatives.find((alt) => alt.id === questionResult.correctAlternativeIds[0])?.text;
 
+  if (questionResult.isCorrect) {
+    return (
+      <Text textStyle="label.small" color="text.subtle">
+        <Trans
+          i18nKey="myNdla.quiz.take.result.correctAnswer"
+          components={{ answer: <SimpleRichText html={correctText ?? answerText ?? ""} /> }}
+        />
+      </Text>
+    );
+  }
+
   return (
     <>
-      <Text textStyle="label.small" color="text.subtle">
-        {answerText !== undefined && parseSimpleRichText(answerText)}
-      </Text>
-      {!questionResult.isCorrect && !!correctText && (
+      {answerText !== undefined && (
+        <Text textStyle="label.small" color="text.subtle">
+          <Trans
+            i18nKey="myNdla.quiz.take.result.wrongAnswer"
+            components={{ answer: <SimpleRichText html={answerText} /> }}
+          />
+        </Text>
+      )}
+      {!!correctText && (
         <Text textStyle="label.small" fontWeight="bold">
           <Trans
             i18nKey="myNdla.quiz.take.result.correctAnswer"
