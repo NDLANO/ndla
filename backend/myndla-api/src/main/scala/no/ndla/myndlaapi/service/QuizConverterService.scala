@@ -16,8 +16,6 @@ import no.ndla.myndlaapi.model.api.*
 import no.ndla.myndlaapi.model.domain.*
 import no.ndla.network.model.FeideID
 
-import java.util.UUID
-
 class QuizConverterService {
 
   def toApiAlternative(a: Alternative, isOwner: Boolean): AlternativeDTO = AlternativeDTO(
