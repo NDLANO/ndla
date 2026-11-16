@@ -25,7 +25,7 @@ import { GenericSearchList } from "./components/GenericSearchList";
 import SearchImage from "./components/results/SearchImage";
 import { SearchPagination } from "./components/results/SearchPagination";
 import { SearchPageContainer } from "./components/SearchPageContainer";
-import { SearchResultSummary } from "./components/SearchSummaryRow";
+import { SearchResultSummary } from "./components/SearchResultSummary";
 import SearchSort, { type SortType } from "./components/sort/SearchSort";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
 

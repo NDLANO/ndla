@@ -6,22 +6,12 @@
  *
  */
 
-import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { UserDataDTO } from "@ndla/types-backend/draft-api";
 import type { ReactNode } from "react";
-import { Trans } from "react-i18next";
 import SearchSaveButton, { type SearchSaveParams } from "../../../components/Form/SearchSaveButton";
 import type { SearchType } from "../../../interfaces";
 import { SearchFiltersToggle } from "./SearchLayout";
-
-export const SearchQueryStack = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
 
 const Row = styled("div", {
   base: {
@@ -41,27 +31,6 @@ const Actions = styled("div", {
     gap: "4xsmall",
   },
 });
-
-interface SearchResultSummaryProps {
-  totalCount: number | undefined;
-  page: number | undefined;
-  pageSize: number | undefined;
-  query: string | null | undefined;
-}
-
-export const SearchResultSummary = ({ totalCount = 0, page = 1, pageSize = 0, query }: SearchResultSummaryProps) => {
-  const from = totalCount ? (page - 1) * pageSize + 1 : 0;
-  const to = Math.min(page * pageSize, totalCount);
-  return (
-    <Text textStyle="label.small" data-testid="totalCount" aria-live="polite">
-      <Trans
-        i18nKey={query ? "searchPage.resultSummaryWithQuery" : "searchPage.resultSummary"}
-        values={{ from, to, count: totalCount, query }}
-        components={{ count: <span data-testid="searchTotalCount" /> }}
-      />
-    </Text>
-  );
-};
 
 interface Props {
   type: SearchType;

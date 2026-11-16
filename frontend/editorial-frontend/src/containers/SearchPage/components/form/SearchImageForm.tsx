@@ -25,7 +25,8 @@ import { useStableSearchPageParams } from "../../useStableSearchPageParams";
 import { RadioFilter } from "../filters/RadioFilter";
 import { SearchableCheckboxFilter } from "../filters/SearchableCheckboxFilter";
 import { countActiveFilters, SearchLayout } from "../SearchLayout";
-import { SearchQueryStack, SearchSummaryRow } from "../SearchSummaryRow";
+import { SearchQueryStack } from "../SearchQueryStack";
+import { SearchSummaryRow } from "../SearchSummaryRow";
 import { SearchActiveFilters } from "./SearchActiveFilters";
 import { SearchQueryField } from "./SearchQueryField";
 

@@ -20,7 +20,7 @@ import { GenericSearchList } from "./components/GenericSearchList";
 import SearchAudio from "./components/results/SearchAudio";
 import { SearchPagination } from "./components/results/SearchPagination";
 import { SearchPageContainer } from "./components/SearchPageContainer";
-import { SearchResultSummary } from "./components/SearchSummaryRow";
+import { SearchResultSummary } from "./components/SearchResultSummary";
 import SearchSort from "./components/sort/SearchSort";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
 
