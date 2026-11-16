@@ -35,6 +35,10 @@ const lmkGql: TypedDocumentNode<GQLLmkDataQuery, GQLLmkDataQueryVariables> = gql
       metadata {
         grepCodes
       }
+      context {
+        contextId
+        isActive
+      }
       subjectpage {
         id
         metaDescription
@@ -49,11 +53,14 @@ const lmkGql: TypedDocumentNode<GQLLmkDataQuery, GQLLmkDataQueryVariables> = gql
   }
 `;
 
+const NDLA_URL = "https://ndla.no";
+const NDLA_SERVICE_ID = "http://ndla.no";
+
 const NDLA_ORG = {
   "@type": "Organization",
   name: "NDLA",
   legalName: "NDLA",
-  url: "https://ndla.no",
+  url: NDLA_URL,
   logo: "https://ndla.no/static/logo.png",
   iso6523Code: "0192:821311632",
 };
@@ -73,43 +80,45 @@ export const fetchLmk = async () => {
   const lmkQuery = await client.query({ query: lmkGql });
 
   const graphNodes =
-    lmkQuery.data?.nodes?.map((subject) => ({
-      "@id": `http://ndla.no/f/${subject.id}`,
-      identifier: `http://ndla.no/f/${subject.id}`,
-      "@type": "Course",
-      "rdf:type": "Course",
-      additionalType: "lmko:Laeremiddel",
-      name: subject.name,
-      description: subject.subjectpage?.about?.description ?? subject.subjectpage?.metaDescription,
-      //isPartOf is omitted for now, because we don't really know if we need it, nor do we have the capability to link to programmes.
-      url: `${config.ndlaFrontendDomain}${subject.url}`,
-      thumbnailUrl: subject.subjectpage?.about?.visualElement?.imageUrl,
-      inLanguage: subject.supportedLanguages.reduce<string[]>((acc, lang) => {
-        const mappedLang = langMap[lang as keyof typeof langMap];
-        if (mappedLang) {
-          acc.push(mappedLang);
-        }
-        return acc;
-      }, []),
-      publisher: NDLA_ORG,
-      provider: NDLA_ORG,
-      educationalAlignment: subject.metadata?.grepCodes?.map((code) => ({
-        "@type": "https://schema.org/AlignmentObject",
-        "rdf:type": "https://schema.org/AlignmentObject",
-        educationalFramework: "http://psi.udir.no/kl06",
-        targetName: code,
-        targetUrl: `http://psi.udir.no/kl06/${code}`,
-        // Could possibly add targetDescription by doing an additional query towards gql
-      })),
-    })) ?? [];
+    lmkQuery.data?.nodes
+      ?.filter((node) => node.context?.isActive)
+      .map((subject) => ({
+        "@id": `${NDLA_SERVICE_ID}/f/${subject.id}`,
+        identifier: `${NDLA_SERVICE_ID}/f/${subject.id}`,
+        "@type": "Course",
+        "rdf:type": "Course",
+        additionalType: "lmko:Laeremiddel",
+        name: subject.name,
+        description: subject.subjectpage?.about?.description ?? subject.subjectpage?.metaDescription,
+        isPartOf: NDLA_SERVICE_ID,
+        url: `${config.ndlaFrontendDomain}${subject.url}`,
+        thumbnailUrl: subject.subjectpage?.about?.visualElement?.imageUrl,
+        inLanguage: subject.supportedLanguages.reduce<string[]>((acc, lang) => {
+          const mappedLang = langMap[lang as keyof typeof langMap];
+          if (mappedLang) {
+            acc.push(mappedLang);
+          }
+          return acc;
+        }, []),
+        publisher: NDLA_ORG,
+        provider: NDLA_ORG,
+        educationalAlignment: subject.metadata?.grepCodes?.map((code) => ({
+          "@type": "https://schema.org/AlignmentObject",
+          "rdf:type": "https://schema.org/AlignmentObject",
+          educationalFramework: "http://psi.udir.no/kl06",
+          targetName: code,
+          targetUrl: `http://psi.udir.no/kl06/${code}`,
+          // Could possibly add targetDescription by doing an additional query towards gql
+        })),
+      })) ?? [];
 
   const serviceNode = {
-    "@id": "http://ndla.no",
-    identifier: "http://ndla.no",
+    "@id": NDLA_SERVICE_ID,
+    identifier: NDLA_SERVICE_ID,
     "@type": "Service",
     additionalType: "lmko:Tjeneste",
     name: "NDLA",
-    url: "https://ndla.no",
+    url: NDLA_URL,
     description:
       "Nasjonal digital læringsarena (NDLA) er Norges ledende produsent av digitale læringsressurser for videregående opplæring.",
     thumbnailUrl: "https://ndla.no/static/metaimage.png",
