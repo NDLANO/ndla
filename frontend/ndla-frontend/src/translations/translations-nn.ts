@@ -640,6 +640,7 @@ const translations = {
         result: {
           heading: "Bra jobba!",
           headingPerfect: "Fantastisk! Alt rett!",
+          headingFair: "Godt forsøk!",
           headingLow: "Det gjekk ikkje heilt vegen denne gongen",
           score: "Du har {{correct}} av {{total}} rette svar.",
           scorePillTotal: " / {{total}} rette",

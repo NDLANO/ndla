@@ -13,6 +13,8 @@ export type Step = readonly [percent: number, value: string, timingFunction?: st
 
 interface LetterPopSpec {
   id: string;
+  /** Total animation duration in ms. Defaults to 2000. */
+  duration?: number;
   opacity: readonly Step[];
   rotate: readonly Step[];
   translate: readonly Step[];
@@ -34,9 +36,9 @@ const letterPopKeyframes = (spec: LetterPopSpec) => ({
   [`letter-pop-${spec.id}-scale`]: buildTrack("scale", spec.scale),
 });
 
-const letterPopAnimation = (id: string) => ({
+const letterPopAnimation = (id: string, duration = 2000) => ({
   value: (["opacity", "rotate", "translate", "scale"] as const)
-    .map((property) => `letter-pop-${id}-${property} 2000ms linear forwards`)
+    .map((property) => `letter-pop-${id}-${property} ${duration}ms linear forwards`)
     .join(", "),
 });
 
@@ -273,10 +275,61 @@ const FLOURISH_VARIANTS: readonly LetterPopSpec[] = [
   },
 ];
 
-const ALL_LETTER_SPECS: readonly LetterPopSpec[] = [...BASE_LETTER_SPECS, ...TILT_END_VARIANT, ...FLOURISH_VARIANTS];
+// Last S in the "fair" (25-49%) result screen: enters like pop-5, then drops down and spins a full turn.
+// Percentages are relative to the 3420ms timeline from Figma.
+const FAIR_FLOURISH_VARIANT: readonly LetterPopSpec[] = [
+  {
+    id: "9",
+    duration: 3420,
+    opacity: [
+      [0, "0"],
+      [12.28, "0"],
+      [15.2, "1"],
+      [100, "1"],
+    ],
+    rotate: [
+      [0, "0.262rad", "linear"],
+      [12.28, "0.262rad", bounceEasing],
+      [23.98, "0rad", "ease-in-out"],
+      [61.4, "0rad", "ease-in-out"],
+      [64.91, "-0.14rad", "ease-in"],
+      [85.38, "6.37rad", "ease-out"],
+      [89.77, "6.196rad", "ease-out"],
+      [94.15, "6.283rad", "linear"],
+      [100, "6.283rad"],
+    ],
+    translate: [
+      [0, "-10px -170px", "ease-in-out"],
+      [12.28, "-10px -170px", "ease-out"],
+      [23.98, "0px 0px", "ease-in-out"],
+      [64.91, "0px 0px", "ease-in"],
+      [85.38, "4px 224px", "ease-out"],
+      [89.77, "20px 206px", "ease-in"],
+      [94.15, "32px 224px", "linear"],
+      [100, "32px 224px"],
+    ],
+    scale: [
+      [0, "0 0"],
+      [12.28, "0 0", bounceEasing],
+      [23.98, "1 1", "ease-in-out"],
+      [82.46, "1 1", "ease-in-out"],
+      [85.38, "1.08 0.9", "ease-out"],
+      [89.77, "0.98 1.03", "ease-out"],
+      [94.15, "1 1", "linear"],
+      [100, "1 1"],
+    ],
+  },
+];
+
+const ALL_LETTER_SPECS: readonly LetterPopSpec[] = [
+  ...BASE_LETTER_SPECS,
+  ...TILT_END_VARIANT,
+  ...FLOURISH_VARIANTS,
+  ...FAIR_FLOURISH_VARIANT,
+];
 
 export const quizLetterPopKeyframes = Object.assign({}, ...ALL_LETTER_SPECS.map(letterPopKeyframes));
 
 export const quizLetterPopAnimations = Object.fromEntries(
-  ALL_LETTER_SPECS.map((spec) => [`letter-pop-${spec.id}`, letterPopAnimation(spec.id)]),
+  ALL_LETTER_SPECS.map((spec) => [`letter-pop-${spec.id}`, letterPopAnimation(spec.id, spec.duration)]),
 );

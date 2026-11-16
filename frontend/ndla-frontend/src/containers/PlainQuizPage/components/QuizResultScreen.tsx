@@ -29,7 +29,7 @@ import { parseSimpleRichText } from "../../../components/RichTextEditor/parseSim
 import { QUIZ_NEUTER_ONE, QUIZ_NUMBER_WORDS } from "../../../constants";
 import type { GQLCheckQuizMutation, GQLQuizFragment } from "../../../graphqlTypes";
 import type { LocaleType } from "../../../interfaces";
-import { Confetti, HurraAnimation, KvissAnimation, VisskAnimation } from "./animations/QuizResultAnimation";
+import { Confetti, FairAnimation, HurraAnimation, KvissAnimation, VisskAnimation } from "./animations/QuizResultAnimation";
 
 type QuizQuestion = GQLQuizFragment["questions"][number];
 type QuestionResult = GQLCheckQuizMutation["checkQuiz"]["results"][number];
@@ -256,23 +256,28 @@ interface Props {
   onRetry: () => void;
 }
 
-type ScoreTier = "perfect" | "good" | "poor";
+type ScoreTier = "perfect" | "good" | "fair" | "poor";
 
 const getScoreTier = (correctCount: number, total: number): ScoreTier => {
   if (total > 0 && correctCount === total) return "perfect";
-  if (total > 0 && correctCount / total > 1 / 3) return "good";
+  if (total === 0) return "poor";
+  const percentage = (correctCount / total) * 100;
+  if (percentage >= 50) return "good";
+  if (percentage >= 25) return "fair";
   return "poor";
 };
 
 const RESULT_ANIMATION: Record<ScoreTier, () => ReactElement> = {
   perfect: HurraAnimation,
   good: KvissAnimation,
+  fair: FairAnimation,
   poor: VisskAnimation,
 };
 
 const RESULT_HEADING_KEY = {
   perfect: "myNdla.quiz.take.result.headingPerfect",
   good: "myNdla.quiz.take.result.heading",
+  fair: "myNdla.quiz.take.result.headingFair",
   poor: "myNdla.quiz.take.result.headingLow",
 } as const satisfies Record<ScoreTier, string>;
 

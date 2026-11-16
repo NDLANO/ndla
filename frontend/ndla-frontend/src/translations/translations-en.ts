@@ -640,6 +640,7 @@ const translations = {
         result: {
           heading: "Well done!",
           headingPerfect: "Fantastic! All correct!",
+          headingFair: "Good effort!",
           headingLow: "It didn't quite go your way this time",
           score: "You have {{correct}} out of {{total}} correct answers.",
           scorePillTotal: " / {{total}} correct",
