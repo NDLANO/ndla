@@ -29,17 +29,11 @@ const StyledPaginationRoot = styled(PaginationRoot, {
   },
 });
 
-const triggerStyle = {
-  _disabled: {
-    visibility: "hidden",
-  },
-} as const;
-
-const StyledIconButton = styled(IconButton, { base: triggerStyle });
-
 const LabelledTriggerButton = styled(Button, {
   base: {
-    ...triggerStyle,
+    _disabled: {
+      visibility: "hidden",
+    },
     tabletWideDown: {
       "& span": {
         display: "none",
@@ -48,13 +42,25 @@ const LabelledTriggerButton = styled(Button, {
   },
 });
 
-type Props = Omit<PaginationRootProps, "translations"> & { buttonSize?: "small" | "medium" };
+type Props = Omit<PaginationRootProps, "translations"> & {
+  buttonSize?: "small" | "medium";
+  labelled?: boolean;
+};
 
-const Pagination = ({ page = 1, onPageChange, count, pageSize, buttonSize = "medium", ...props }: Props) => {
+const Pagination = ({
+  page = 1,
+  onPageChange,
+  count,
+  pageSize,
+  buttonSize = "medium",
+  labelled = false,
+  ...props
+}: Props) => {
   const { t } = useTranslation();
   const translations = usePaginationTranslations();
   const countWithMaxValue = Math.min(count ?? 0, 1000);
-  const TriggerButton = buttonSize === "medium" ? LabelledTriggerButton : StyledIconButton;
+  const TriggerButton = labelled ? LabelledTriggerButton : IconButton;
+  const PageButton = labelled ? Button : IconButton;
   return (
     <StyledPaginationRoot
       page={page}
@@ -72,7 +78,7 @@ const Pagination = ({ page = 1, onPageChange, count, pageSize, buttonSize = "med
           title={translations?.prevTriggerLabel}
         >
           <ArrowLeftShortLine />
-          {buttonSize === "medium" && <span>{t("pagination.prev")}</span>}
+          {!!labelled && <span>{t("pagination.prev")}</span>}
         </TriggerButton>
       </PaginationPrevTrigger>
       <PaginationContext>
@@ -80,9 +86,9 @@ const Pagination = ({ page = 1, onPageChange, count, pageSize, buttonSize = "med
           pagination.pages.map((page, index) =>
             page.type === "page" ? (
               <PaginationItem key={index} {...page} asChild>
-                <Button size={buttonSize} variant={page.value === pagination.page ? "primary" : "tertiary"}>
+                <PageButton size={buttonSize} variant={page.value === pagination.page ? "primary" : "tertiary"}>
                   {page.value}
-                </Button>
+                </PageButton>
               </PaginationItem>
             ) : (
               <PaginationEllipsis key={index} index={index} asChild>
@@ -101,7 +107,7 @@ const Pagination = ({ page = 1, onPageChange, count, pageSize, buttonSize = "med
           aria-label={translations?.nextTriggerLabel}
           title={translations?.nextTriggerLabel}
         >
-          {buttonSize === "medium" && <span>{t("pagination.next")}</span>}
+          {!!labelled && <span>{t("pagination.next")}</span>}
           <ArrowRightShortLine />
         </TriggerButton>
       </PaginationNextTrigger>

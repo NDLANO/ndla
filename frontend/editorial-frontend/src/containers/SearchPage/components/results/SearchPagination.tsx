@@ -58,7 +58,7 @@ export const SearchPagination = ({ defaultPageSize, ...paginationProps }: Props)
 
   return (
     <Footer>
-      <Pagination {...paginationProps} />
+      <Pagination {...paginationProps} labelled />
       <SelectRoot
         collection={collection}
         value={[params.get("page-size") ?? defaultPageSize.toString()]}
