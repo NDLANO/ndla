@@ -14,7 +14,7 @@ import { useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectContext } from "../../components/RedirectContext";
 import { RedirectExternal } from "../../components/RedirectExternal";
-import { ResponseContext } from "../../components/ResponseContext";
+import { useServerResponseStatus } from "../../components/ResponseContext";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import type { GQLResourcePageQuery, GQLResourcePageQueryVariables } from "../../graphqlTypes";
 import { findAccessDeniedErrors, hasGoneStatus, hasNotFoundStatus } from "../../util/handleError";
@@ -84,7 +84,7 @@ const ResourcePageContent = () => {
         },
   );
   const setRedirect = useContext(RedirectContext);
-  const responseContext = useContext(ResponseContext);
+  const serverResponseStatus = useServerResponseStatus();
 
   const accessDeniedErrors = findAccessDeniedErrors(error);
   if (accessDeniedErrors) {
@@ -97,13 +97,13 @@ const ResourcePageContent = () => {
     }
   }
 
-  if (responseContext?.status === 410) {
+  if (serverResponseStatus === 410) {
     return <UnpublishedResourcePage />;
   }
 
   if (error) {
-    if (hasGoneStatus(error) && setRedirect) {
-      setRedirect({ status: 410 });
+    if (hasGoneStatus(error)) {
+      setRedirect?.({ status: 410 });
       return <UnpublishedResourcePage />;
     }
     if (hasNotFoundStatus(error)) {

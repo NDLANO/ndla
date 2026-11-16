@@ -52,7 +52,7 @@ startTransition(() => {
       restrictedMode={restrictedMode}
       siteTheme={siteTheme}
       versionHash={versionHash}
-      response={{ status: serverResponse }}
+      response={{ status: serverResponse, path: serverPath }}
       disableSSR={config.disableSSR}
       ltiData={initialProps?.ltiData}
     >

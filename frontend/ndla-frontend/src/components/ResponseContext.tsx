@@ -6,10 +6,18 @@
  *
  */
 
-import { createContext } from "react";
+import { createContext, useContext } from "react";
+import { useRawLocation } from "../util/localePath";
 
 export interface ResponseInfo {
   status?: number;
+  path?: string;
 }
 
 export const ResponseContext = createContext<ResponseInfo | undefined>(undefined);
+
+export const useServerResponseStatus = () => {
+  const response = useContext(ResponseContext);
+  const { pathname } = useRawLocation();
+  return response?.path === pathname ? response.status : undefined;
+};

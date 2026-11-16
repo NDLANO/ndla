@@ -13,7 +13,7 @@ import { useParams, useSearchParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectContext } from "../../components/RedirectContext";
-import { ResponseContext } from "../../components/ResponseContext";
+import { useServerResponseStatus } from "../../components/ResponseContext";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import type { GQLPlainArticlePageQuery, GQLPlainArticlePageQueryVariables } from "../../graphqlTypes";
 import { hasAccessDeniedStatus, hasGoneStatus, hasNotFoundStatus } from "../../util/handleError";
@@ -44,7 +44,7 @@ const PlainArticlePageContent = () => {
   const [searchParams] = useSearchParams();
   const revision = searchParams.get("revision");
   const setRedirect = useContext(RedirectContext);
-  const responseContext = useContext(ResponseContext);
+  const serverResponseStatus = useServerResponseStatus();
   const parsedRevision = revision ? Number(revision) : undefined;
   const { data, error } = useSuspenseQuery(
     plainArticlePageQuery,
@@ -63,12 +63,12 @@ const PlainArticlePageContent = () => {
         },
   );
 
-  if (hasGoneStatus(error) && setRedirect) {
-    setRedirect({ status: 410 });
+  if (hasGoneStatus(error)) {
+    setRedirect?.({ status: 410 });
     return <UnpublishedResourcePage />;
   }
 
-  if (responseContext?.status === 410) {
+  if (serverResponseStatus === 410) {
     return <UnpublishedResourcePage />;
   }
 
