@@ -12,5 +12,5 @@ export const test = (args: string[]): number =>
   dispatch(
     "test",
     () => mill(`${project}.test`, ...args),
-    () => nx("test", project, ...args),
+    () => (project === "frontend" ? nx("run-many", "-t", "test", ...args) : nx("test", project, ...args)),
   );

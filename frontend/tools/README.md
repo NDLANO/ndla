@@ -32,6 +32,10 @@ mise run format article-api
 mise run check ndla-frontend
 ```
 
+`test`, `format` and `check` also take `frontend`, which covers every frontend project.
+oxfmt is fast enough that `format` always covers the whole frontend: `mise run format frontend`
+and `mise run format ndla-frontend` do the same thing.
+
 Each task lives in its own module next to `index.mts`, which only maps the task
 name to it. Shared plumbing (paths, running commands in either half of the
 repository, and the project lists) lives in `repo.mts`.
