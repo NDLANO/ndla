@@ -6,13 +6,24 @@
  *
  */
 
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
+import { lazy, Suspense } from "react";
 import { I18nextProvider } from "react-i18next";
-import { createStaticHandler, createStaticRouter, type LoaderFunction, StaticRouterProvider } from "react-router";
+import {
+  createMemoryRouter,
+  createStaticHandler,
+  createStaticRouter,
+  type LoaderFunction,
+  RouterProvider,
+  StaticRouterProvider,
+} from "react-router";
 import { type RedirectInfo, RedirectContext } from "../components/RedirectContext";
 import { ErrorElement } from "../RouteErrorElement";
 import { initializeI18n } from "../server/locales/locales";
+import { reloadPage } from "../util/browserLocation";
 import { handleError } from "../util/handleError";
+
+vi.mock("../util/browserLocation", () => ({ assignLocation: vi.fn(), reloadPage: vi.fn() }));
 
 vi.mock("../config.ts", () => {
   return {
@@ -73,4 +84,52 @@ test("an error thrown by a loader is reported and returns 500", async () => {
 
   expect(status).toBe(500);
   expect(handleError).toHaveBeenCalledWith(expect.objectContaining({ message: "boom" }));
+});
+
+describe("chunk load errors", () => {
+  const chunkError = () =>
+    new TypeError("Failed to fetch dynamically imported module: https://ndla.no/assets/MastheadSearchForm-abc.js");
+
+  const renderLazyChunkError = () => {
+    const LazyForm = lazy(() => Promise.reject(chunkError()));
+    const router = createMemoryRouter([
+      {
+        id: "root",
+        path: "/",
+        ErrorBoundary: () => <ErrorElement />,
+        Component: () => (
+          <Suspense fallback={null}>
+            <LazyForm />
+          </Suspense>
+        ),
+      },
+    ]);
+    render(
+      <I18nextProvider i18n={initializeI18n("nb")}>
+        <RouterProvider router={router} />
+      </I18nextProvider>,
+    );
+  };
+
+  beforeEach(() => {
+    sessionStorage.clear();
+    vi.mocked(reloadPage).mockClear();
+  });
+
+  test("the first chunk load error reloads the page without reporting", async () => {
+    renderLazyChunkError();
+
+    await waitFor(() => expect(reloadPage).toHaveBeenCalled());
+    expect(reloadPage).toHaveBeenCalledOnce();
+    expect(handleError).not.toHaveBeenCalled();
+  });
+
+  test("a chunk load error right after a reload is reported", async () => {
+    sessionStorage.setItem("ndla_skew_reloaded", String(Date.now() - 1000));
+    renderLazyChunkError();
+
+    expect(await screen.findByText("500")).toBeTruthy();
+    expect(handleError).toHaveBeenCalledWith(expect.objectContaining({ message: chunkError().message }));
+    expect(reloadPage).not.toHaveBeenCalled();
+  });
 });
