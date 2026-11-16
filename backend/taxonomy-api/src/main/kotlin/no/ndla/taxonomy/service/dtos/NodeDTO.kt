@@ -287,7 +287,6 @@ open class NodeDTO @JsonCreator constructor() {
     selected?.let { ctx ->
       val contextDto = getTaxonomyContextDTO(entity, ctx, parentContexts)
 
-      // TODO: this changes the content in context breadcrumbs
       val breadcrumbList =
           LanguageField.listFromLists(ctx.breadcrumbs, LanguageField.fromNode(entity))
       this.breadcrumbs = breadcrumbList.fromLanguage(this.language) ?: listOf()
