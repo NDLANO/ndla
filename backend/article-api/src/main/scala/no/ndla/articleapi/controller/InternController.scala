@@ -54,31 +54,6 @@ class InternController(using
   override val enableSwagger               = false
   private val stringInternalServerError    = statusCode(StatusCode.InternalServerError).and(stringBody)
 
-  def index: ServerEndpoint[Any, Eff] = endpoint
-    .post
-    .in("index")
-    .in(query[Option[Int]]("numShards"))
-    .out(stringBody)
-    .errorOut(stringInternalServerError)
-    .serverLogicPure(numShards => {
-      implicit val ec: ExecutionContextExecutorService =
-        ExecutionContext.fromExecutorService(Executors.newSingleThreadExecutor)
-      val articleIndex = Future {
-        articleIndexService.indexDocuments(numShards)
-      }
-
-      Await.result(articleIndex, Duration(10, TimeUnit.MINUTES)) match {
-        case Success(articleResult) =>
-          val result =
-            s"Completed indexing of ${articleResult.totalIndexed} articles in ${articleResult.millisUsed} ms."
-          logger.info(result)
-          result.asRight
-        case Failure(articleFail) =>
-          logger.warn(s"Indexing of articles failed: ${articleFail.getMessage}", articleFail)
-          articleFail.getMessage.toOption.getOrElse("Indexing of articles failed").asLeft
-      }
-    })
-
   def deleteIndex: ServerEndpoint[Any, Eff] = endpoint
     .delete
     .in("index")
@@ -261,7 +236,6 @@ class InternController(using
     }
 
   override val endpoints: List[ServerEndpoint[Any, Eff]] = List(
-    index,
     deleteIndex,
     getIds,
     getByExternalId,

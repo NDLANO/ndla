@@ -15,7 +15,7 @@ import no.ndla.audioapi.model.api
 import no.ndla.audioapi.model.api.AudioMetaDomainDumpDTO
 import no.ndla.audioapi.model.domain.AudioMetaInformation
 import no.ndla.audioapi.repository.AudioRepository
-import no.ndla.audioapi.service.search.{AudioIndexService, SeriesIndexService, TagIndexService}
+import no.ndla.audioapi.service.search.AudioIndexService
 import no.ndla.audioapi.service.ReadService
 import no.ndla.common.errors.NotFoundException
 import no.ndla.common.implicits.toOption
@@ -32,8 +32,6 @@ import scala.util.{Failure, Success}
 class InternController(using
     audioIndexService: AudioIndexService,
     audioRepository: AudioRepository,
-    seriesIndexService: SeriesIndexService,
-    tagIndexService: TagIndexService,
     readService: ReadService,
     props: Props,
     errorHandling: ErrorHandling,
@@ -51,37 +49,6 @@ class InternController(using
       .out(jsonBody[Option[api.AudioMetaInformationDTO]])
       .serverLogicPure { case (externalId, language) =>
         readService.withExternalId(externalId, language).asRight
-      },
-    endpoint
-      .post
-      .in("index")
-      .in(query[Option[Int]]("numShards"))
-      .out(stringBody)
-      .errorOut(internalErrorStringBody)
-      .serverLogicPure { numShards =>
-        (
-          audioIndexService.indexDocuments(numShards),
-          tagIndexService.indexDocuments(numShards),
-          seriesIndexService.indexDocuments(numShards),
-        ) match {
-          case (Success(audioReindexResult), Success(tagReindexResult), Success(seriesReIndexResult)) =>
-            val result =
-              s"""Completed indexing of ${audioReindexResult.totalIndexed} audios in ${audioReindexResult.millisUsed} ms.
-                   |Completed indexing of ${tagReindexResult.totalIndexed} tags in ${tagReindexResult.millisUsed} ms.
-                   |Completed indexing of ${seriesReIndexResult.totalIndexed} series in ${seriesReIndexResult.millisUsed} ms."""
-                .stripMargin
-            logger.info(result)
-            result.asRight
-          case (Failure(f), _, _) =>
-            logger.warn(s"Failed to index audios: ${f.getMessage}", f)
-            f.getMessage.toOption.getOrElse("Failed to index audios").asLeft
-          case (_, Failure(f), _) =>
-            logger.warn(s"Failed to index tags: ${f.getMessage}", f)
-            f.getMessage.toOption.getOrElse("Failed to index tags").asLeft
-          case (_, _, Failure(f)) =>
-            logger.warn(s"Failed to index series: ${f.getMessage}", f)
-            f.getMessage.toOption.getOrElse("Failed to index series").asLeft
-        }
       },
     endpoint
       .delete

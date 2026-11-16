@@ -93,6 +93,8 @@ class ComponentRegistry(properties: DraftApiProperties) extends TapirApplication
     new V81__ComputeSearchTraitsAgain,
   )
 
+  implicit lazy val standaloneIndexing: StandaloneIndexing = new StandaloneIndexing
+
   given swaggerInfo: SwaggerInfo =
     SwaggerInfo(prefix = "draft-api", description = "Services for accessing draft articles.")
   implicit lazy val swagger: SwaggerController =

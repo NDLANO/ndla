@@ -12,7 +12,7 @@ import cats.implicits.*
 import com.typesafe.scalalogging.StrictLogging
 import no.ndla.common.errors.MissingBucketKeyException
 import no.ndla.common.job.StandaloneJob
-import no.ndla.database.{DBMigrator, DBUtility}
+import no.ndla.database.DBUtility
 import no.ndla.imageapi.Props
 import no.ndla.imageapi.model.{ImageDeleteException, ImageUnprocessableFormatException}
 import no.ndla.imageapi.model.domain.*
@@ -31,7 +31,6 @@ class StandaloneVariantGeneration(using
     imageStorage: ImageStorageService,
     imageRepository: ImageRepository,
     dbUtility: DBUtility,
-    migrator: DBMigrator,
 ) extends StandaloneJob,
       StrictLogging {
   private val ProcessableContentTypes: Set[ImageContentType] = Set(ImageContentType.Png, ImageContentType.Jpeg)
@@ -53,7 +52,6 @@ class StandaloneVariantGeneration(using
       )
       .toTry
     _  = logger.info(s"Starting standalone image variant generation in '${mode.entryName}' mode")
-    _ <- Try(migrator.migrate())
     _ <- run(mode)
   } yield ()
 

@@ -95,6 +95,8 @@ class ComponentRegistry(properties: ArticleApiProperties) extends TapirApplicati
     new V67__ComputeSearchTraitsAgain,
   )
 
+  implicit lazy val standaloneIndexing: StandaloneIndexing = new StandaloneIndexing
+
   given swaggerInfo: SwaggerInfo = SwaggerInfo(
     prefix = "article-api",
     description = "Searching and fetching all articles published on the NDLA platform.\n\n" +

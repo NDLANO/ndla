@@ -14,7 +14,7 @@ import no.ndla.common.implicits.toOption
 import no.ndla.imageapi.model.api.{ImageMetaDomainDumpDTO, ImageMetaInformationV2DTO}
 import no.ndla.imageapi.model.domain.ImageMetaInformation
 import no.ndla.imageapi.repository.ImageRepository
-import no.ndla.imageapi.service.search.{ImageIndexService, TagIndexService}
+import no.ndla.imageapi.service.search.ImageIndexService
 import no.ndla.imageapi.service.{ConverterService, ReadService, WriteService}
 import no.ndla.imageapi.Props
 import no.ndla.network.tapir.NoNullJsonPrinter.jsonBody
@@ -26,9 +26,6 @@ import sttp.tapir.*
 import sttp.tapir.generic.auto.*
 import sttp.tapir.server.ServerEndpoint
 
-import java.util.concurrent.{Executors, TimeUnit}
-import scala.concurrent.duration.Duration
-import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
 class InternController(using
@@ -37,7 +34,6 @@ class InternController(using
     writeService: WriteService,
     converterService: ConverterService,
     imageIndexService: ImageIndexService,
-    tagIndexService: TagIndexService,
     props: Props,
     errorHelpers: ErrorHelpers,
     errorHandling: ErrorHandling,
@@ -52,7 +48,6 @@ class InternController(using
   private val stringInternalServerError    = statusCode(StatusCode.InternalServerError).and(stringBody)
 
   override val endpoints: List[ServerEndpoint[Any, Eff]] = List(
-    postIndex,
     deleteIndex,
     getExternImageId,
     getDomainImageFromUrl,
@@ -61,39 +56,6 @@ class InternController(using
     postDump,
     startExifDataMigration,
   )
-
-  def postIndex: ServerEndpoint[Any, Eff] = endpoint
-    .post
-    .in("index")
-    .in(query[Option[Int]]("numShards"))
-    .out(stringBody)
-    .errorOut(stringInternalServerError)
-    .serverLogicPure { numShards =>
-      implicit val ec = ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(2))
-
-      val indexResults = for {
-        imageIndex <- Future {
-          imageIndexService.indexDocuments(numShards)
-        }
-        tagIndex <- Future {
-          tagIndexService.indexDocuments(numShards)
-        }
-      } yield (imageIndex, tagIndex)
-
-      Await.result(indexResults, Duration(60, TimeUnit.MINUTES)) match {
-        case (Success(imageIndex), Success(tagIndex)) =>
-          val indexTime = math.max(tagIndex.millisUsed, imageIndex.millisUsed)
-          val result    = s"Completed indexing of ${imageIndex.totalIndexed} images in $indexTime ms."
-          logger.info(result)
-          result.asRight
-        case (Failure(imageFail), _) =>
-          logger.warn(s"Failed to index images: ${imageFail.getMessage}", imageFail)
-          imageFail.getMessage.toOption.getOrElse("Failed to index images").asLeft
-        case (_, Failure(tagFail)) =>
-          logger.warn(s"Failed to index tags: ${tagFail.getMessage}", tagFail)
-          tagFail.getMessage.toOption.getOrElse("Failed to index tags").asLeft
-      }
-    }
 
   def pluralIndex(n: Int): String =
     if (n == 1) "1 index"
