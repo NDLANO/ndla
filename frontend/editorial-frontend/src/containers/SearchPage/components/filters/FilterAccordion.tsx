@@ -34,7 +34,7 @@ interface Props {
   headingId?: string;
 }
 
-export const FilterGroup = ({ title, name, children, activeCount = 0, headingId }: Props) => (
+export const FilterAccordion = ({ title, name, children, activeCount = 0, headingId }: Props) => (
   <AccordionRoot
     variant="subtle"
     collapsible

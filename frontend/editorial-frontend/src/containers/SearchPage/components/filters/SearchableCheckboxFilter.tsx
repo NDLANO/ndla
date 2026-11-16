@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import { GenericComboboxInput, GenericComboboxItemIndicator } from "../../../../components/abstractions/Combobox";
 import type { SelectOption } from "../../../../components/ObjectSelector";
 import { FilterCheckboxGroup } from "./CheckboxFilter";
-import { FilterGroup } from "./FilterGroup";
+import { FilterAccordion } from "./FilterAccordion";
 
 const positioning = { sameWidth: true, strategy: "fixed" } as const;
 
@@ -64,7 +64,7 @@ export const SearchableCheckboxFilter = ({
   };
 
   return (
-    <FilterGroup title={title} name={name} headingId={headingId} activeCount={value.length}>
+    <FilterAccordion title={title} name={name} headingId={headingId} activeCount={value.length}>
       {!!pinnedOptions.length && (
         <FilterCheckboxGroup options={pinnedOptions} value={value} onChange={handleChange} labelledBy={headingId} />
       )}
@@ -98,6 +98,6 @@ export const SearchableCheckboxFilter = ({
         <FilterCheckboxGroup options={pickedOptions} value={value} onChange={handleChange} labelledBy={headingId} />
       )}
       {children}
-    </FilterGroup>
+    </FilterAccordion>
   );
 };

@@ -17,7 +17,7 @@ import {
 } from "@ndla/primitives";
 import { useId } from "react";
 import type { SelectOption } from "../../../../components/ObjectSelector";
-import { FilterGroup } from "./FilterGroup";
+import { FilterAccordion } from "./FilterAccordion";
 
 interface FilterCheckboxGroupProps {
   options: SelectOption[];
@@ -53,8 +53,8 @@ interface Props {
 export const CheckboxFilter = ({ title, name, options, value, onChange }: Props) => {
   const headingId = useId();
   return (
-    <FilterGroup title={title} name={name} headingId={headingId} activeCount={value.length}>
+    <FilterAccordion title={title} name={name} headingId={headingId} activeCount={value.length}>
       <FilterCheckboxGroup options={options} value={value} onChange={onChange} labelledBy={headingId} />
-    </FilterGroup>
+    </FilterAccordion>
   );
 };

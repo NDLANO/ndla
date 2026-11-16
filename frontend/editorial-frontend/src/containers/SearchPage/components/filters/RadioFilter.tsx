@@ -17,7 +17,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import type { SelectOption } from "../../../../components/ObjectSelector";
-import { FilterGroup } from "./FilterGroup";
+import { FilterAccordion } from "./FilterAccordion";
 
 const ALL_VALUE = "__all";
 
@@ -41,7 +41,7 @@ export const RadioFilter = ({ title, name, options, value, onChange }: Props) =>
   const allOptions = useMemo(() => [{ id: ALL_VALUE, name: t("searchForm.all") }, ...options], [options, t]);
 
   return (
-    <FilterGroup title={title} name={name} headingId={headingId} activeCount={value ? 1 : 0}>
+    <FilterAccordion title={title} name={name} headingId={headingId} activeCount={value ? 1 : 0}>
       <StyledRadioGroupRoot
         orientation="vertical"
         aria-labelledby={headingId}
@@ -56,6 +56,6 @@ export const RadioFilter = ({ title, name, options, value, onChange }: Props) =>
           </RadioGroupItem>
         ))}
       </StyledRadioGroupRoot>
-    </FilterGroup>
+    </FilterAccordion>
   );
 };

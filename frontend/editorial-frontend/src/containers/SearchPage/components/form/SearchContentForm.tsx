@@ -47,7 +47,7 @@ import InlineDatePicker from "../../../FormikForm/components/InlineDatePicker";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import { useStableSearchPageParams } from "../../useStableSearchPageParams";
 import { CheckboxFilter } from "../filters/CheckboxFilter";
-import { FilterGroup } from "../filters/FilterGroup";
+import { FilterAccordion } from "../filters/FilterAccordion";
 import { RadioFilter } from "../filters/RadioFilter";
 import { SearchableCheckboxFilter } from "../filters/SearchableCheckboxFilter";
 import { countActiveFilters, SearchLayout } from "../SearchLayout";
@@ -385,7 +385,7 @@ const SearchContentForm = ({ subjects, userData, children, summary }: Props) => 
             value={params.get("license")}
             onChange={(value) => setParams({ license: value })}
           />
-          <FilterGroup
+          <FilterAccordion
             title={t("searchForm.filterHeading.revision-date")}
             name="revision-date"
             activeCount={[params.get("revision-date-from"), params.get("revision-date-to")].filter(Boolean).length}
@@ -402,7 +402,7 @@ const SearchContentForm = ({ subjects, userData, children, summary }: Props) => 
               placeholder={t("searchForm.types.revision-date-to")}
               value={params.get("revision-date-to") ?? ""}
             />
-          </FilterGroup>
+          </FilterAccordion>
         </>
       }
     >
