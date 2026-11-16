@@ -55,9 +55,10 @@ class StandaloneJobControllerTest extends UnitTestSuite, TapirControllerTest {
   private val failingJob    = TestJob("failing")(Failure(RuntimeException("something broke")))
   private val backgroundJob = BlockingJob("background")
   private val abandonedJob  = BlockingJob("abandoned")
+  private val indexJob      = TestJob("index")(Try(()))
 
   override val controller: StandaloneJobController =
-    new StandaloneJobController(using Seq(successJob, failingJob, backgroundJob, abandonedJob))
+    new StandaloneJobController(using Seq(successJob, failingJob, backgroundJob, abandonedJob, indexJob))
 
   private def jobRequest(name: String, runInBackground: Boolean = false) =
     quickRequest.post(uri"http://localhost:$serverPort/intern/jobs/$name?run-in-background=$runInBackground")
@@ -73,7 +74,7 @@ class StandaloneJobControllerTest extends UnitTestSuite, TapirControllerTest {
   private def isRunning(name: String): Boolean = listJobs().find(_.name == name).exists(_.running)
 
   test("That all available jobs are listed") {
-    listJobs().map(_.name) should be(List("success", "failing", "background", "abandoned"))
+    listJobs().map(_.name) should be(List("success", "failing", "background", "abandoned", "index"))
   }
 
   test("That a job is run and the endpoint responds when it is done") {
@@ -83,11 +84,18 @@ class StandaloneJobControllerTest extends UnitTestSuite, TapirControllerTest {
     successJob.finished.get() should be(1)
   }
 
+  test("That the legacy index endpoint runs the job named index") {
+    val response = quickRequest.post(uri"http://localhost:$serverPort/intern/index").send()
+
+    response.code.code should be(200)
+    indexJob.finished.get() should be(1)
+  }
+
   test("That an unknown job returns 404 and lists the available jobs") {
     val response = runJob("unknown")
 
     response.code.code should be(404)
-    response.body should include("Expected one of: success, failing, background, abandoned")
+    response.body should include("Expected one of: success, failing, background, abandoned, index")
   }
 
   test("That a failing job returns 500 with the failure message, and can be run again") {
