@@ -80,9 +80,9 @@ export const fetchLmk = async () => {
   const lmkQuery = await client.query({ query: lmkGql });
 
   const graphNodes =
-    lmkQuery.data?.nodes?.map((subject) => {
-      if (!subject.context?.isActive) return undefined;
-      return {
+    lmkQuery.data?.nodes
+      ?.filter((node) => node.context?.isActive)
+      .map((subject) => ({
         "@id": `${NDLA_SERVICE_ID}/f/${subject.id}`,
         identifier: `${NDLA_SERVICE_ID}/f/${subject.id}`,
         "@type": "Course",
@@ -110,8 +110,7 @@ export const fetchLmk = async () => {
           targetUrl: `http://psi.udir.no/kl06/${code}`,
           // Could possibly add targetDescription by doing an additional query towards gql
         })),
-      };
-    }) ?? [];
+      })) ?? [];
 
   const serviceNode = {
     "@id": NDLA_SERVICE_ID,
