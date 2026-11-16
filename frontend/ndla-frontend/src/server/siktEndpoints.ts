@@ -54,6 +54,7 @@ const lmkGql: TypedDocumentNode<GQLLmkDataQuery, GQLLmkDataQueryVariables> = gql
 `;
 
 const NDLA_URL = "https://ndla.no";
+const NDLA_SERVICE_ID = "http://ndla.no";
 
 const NDLA_ORG = {
   "@type": "Organization",
@@ -82,14 +83,14 @@ export const fetchLmk = async () => {
     lmkQuery.data?.nodes?.map((subject) => {
       if (!subject.context?.isActive) return undefined;
       return {
-        "@id": `http://ndla.no/f/${subject.id}`,
-        identifier: `http://ndla.no/f/${subject.id}`,
+        "@id": `${NDLA_SERVICE_ID}/f/${subject.id}`,
+        identifier: `${NDLA_SERVICE_ID}/f/${subject.id}`,
         "@type": "Course",
         "rdf:type": "Course",
         additionalType: "lmko:Laeremiddel",
         name: subject.name,
         description: subject.subjectpage?.about?.description ?? subject.subjectpage?.metaDescription,
-        isPartOf: NDLA_URL,
+        isPartOf: NDLA_SERVICE_ID,
         url: `${config.ndlaFrontendDomain}${subject.url}`,
         thumbnailUrl: subject.subjectpage?.about?.visualElement?.imageUrl,
         inLanguage: subject.supportedLanguages.reduce<string[]>((acc, lang) => {
@@ -113,8 +114,8 @@ export const fetchLmk = async () => {
     }) ?? [];
 
   const serviceNode = {
-    "@id": "http://ndla.no",
-    identifier: "http://ndla.no",
+    "@id": NDLA_SERVICE_ID,
+    identifier: NDLA_SERVICE_ID,
     "@type": "Service",
     additionalType: "lmko:Tjeneste",
     name: "NDLA",
