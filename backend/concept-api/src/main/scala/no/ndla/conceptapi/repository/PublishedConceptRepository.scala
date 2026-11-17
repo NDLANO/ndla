@@ -8,7 +8,8 @@
 
 package no.ndla.conceptapi.repository
 
-import no.ndla.database.DBUtility
+import cats.implicits.*
+import no.ndla.database.{ColumnDecoder, DBUtility}
 import com.typesafe.scalalogging.StrictLogging
 import no.ndla.common.CirceUtil
 import no.ndla.common.model.domain.Tag
@@ -60,62 +61,54 @@ class PublishedConceptRepository(using dbUtility: DBUtility, dbConcept: DBConcep
     }
   }
 
-  def withId(id: Long): Option[Concept] = conceptWhere(sqls"co.id=${id.toInt}")
+  def withId(id: Long): Try[Option[Concept]] = conceptWhere(sqls"co.id=${id.toInt}")
 
-  def everyTagFromEveryConcept(implicit session: DBSession = dbUtility.readOnlySession): List[List[Tag]] = {
+  def everyTagFromEveryConcept(implicit session: DBSession = dbUtility.readOnlySession): Try[List[List[Tag]]] = {
     tsql"""
            select distinct id, document#>'{tags}' as tags
            from ${publishedConcept.table}
            where jsonb_array_length(document#>'{tags}') > 0
            order by id
-         """
-      .map(rs => {
-        val jsonStr = rs.string("tags")
-        CirceUtil.unsafeParseAs[List[Tag]](jsonStr)
-      })
-      .runList()
-      .get
+         """.decode(_.required[List[Tag]]("tags")(using ColumnDecoder.json)).runList()
   }
 
   private def conceptWhere(
       whereClause: SQLSyntax
-  )(implicit session: DBSession = dbUtility.readOnlySession): Option[Concept] = {
+  )(implicit session: DBSession = dbUtility.readOnlySession): Try[Option[Concept]] = {
     val co = publishedConcept.syntax("co")
     tsql"select ${co.result.*} from ${publishedConcept.as(co)} where co.document is not NULL and $whereClause"
-      .map(dbConcept.fromResultSet(co))
+      .decode(dbConcept.fromResultSet(co))
       .runSingle()
-      .get
   }
 
-  def conceptCount(implicit session: DBSession = dbUtility.readOnlySession): Long =
+  def conceptCount(implicit session: DBSession = dbUtility.readOnlySession): Try[Long] =
     tsql"select count(*) from ${publishedConcept.table}"
-      .map(rs => rs.long("count"))
+      .decode(_.required[Long]("count"))
       .runSingle()
       .map(_.getOrElse(0L))
-      .get
 
-  override def documentsWithIdBetween(min: Long, max: Long): List[Concept] =
+  override def documentsWithIdBetween(min: Long, max: Long): Try[List[Concept]] =
     conceptsWhere(sqls"co.id between $min and $max")
 
-  override def minMaxId(implicit session: DBSession = dbUtility.autoSession): (Long, Long) = {
+  override def minMaxId(implicit session: DBSession = dbUtility.autoSession): Try[(Long, Long)] = {
     tsql"select coalesce(MIN(id),0) as mi, coalesce(MAX(id),0) as ma from ${publishedConcept.table}"
-      .map(rs => (rs.long("mi"), rs.long("ma")))
+      .decode(row => (row.required[Long]("mi"), row.required[Long]("ma")).tupled)
       .runSingle()
       .map(_.getOrElse((0L, 0L)))
-      .get
   }
 
   private def conceptsWhere(
       whereClause: SQLSyntax
-  )(implicit session: DBSession = dbUtility.readOnlySession): List[Concept] = {
+  )(implicit session: DBSession = dbUtility.readOnlySession): Try[List[Concept]] = {
     val co = publishedConcept.syntax("co")
     tsql"select ${co.result.*} from ${publishedConcept.as(co)} where co.document is not NULL and $whereClause"
-      .map(dbConcept.fromResultSet(co))
+      .decode(dbConcept.fromResultSet(co))
       .runList()
-      .get
   }
 
-  def getByPage(pageSize: Int, offset: Int)(implicit session: DBSession = dbUtility.readOnlySession): Seq[Concept] = {
+  def getByPage(pageSize: Int, offset: Int)(implicit
+      session: DBSession = dbUtility.readOnlySession
+  ): Try[List[Concept]] = {
     val co = publishedConcept.syntax("co")
     tsql"""
            select ${co.result.*}
@@ -124,6 +117,6 @@ class PublishedConceptRepository(using dbUtility: DBUtility, dbConcept: DBConcep
            order by ${co.id}
            offset $offset
            limit $pageSize
-      """.map(dbConcept.fromResultSet(co)).runList().get
+      """.decode(dbConcept.fromResultSet(co)).runList()
   }
 }

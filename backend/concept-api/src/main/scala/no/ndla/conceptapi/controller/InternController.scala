@@ -9,6 +9,7 @@
 package no.ndla.conceptapi.controller
 
 import cats.implicits.*
+import no.ndla.common.implicits.toTry
 import no.ndla.common.model.domain.concept.Concept
 import no.ndla.conceptapi.model.api.{ConceptDomainDump, NotFoundException}
 import no.ndla.conceptapi.repository.{DraftConceptRepository, PublishedConceptRepository}
@@ -31,7 +32,6 @@ class InternController(using
     publishedConceptRepository: PublishedConceptRepository,
     errorHandling: ErrorHandling,
 ) extends TapirController {
-  import errorHandling.*
   override val prefix: EndpointInput[Unit] = "intern"
   override val enableSwagger               = false
 
@@ -99,8 +99,9 @@ class InternController(using
     .out(jsonBody[ConceptDomainDump])
     .in(query[Int]("page").default(1))
     .in(query[Int]("page-size").default(250))
+    .errorOut(errorOutputsFor(500))
     .serverLogicPure { case (pageNo, pageSize) =>
-      readService.getDraftConceptDomainDump(pageNo, pageSize).asRight
+      readService.getDraftConceptDomainDump(pageNo, pageSize)
     }
 
   def dumpSingleDraftConcept: ServerEndpoint[Any, Eff] = endpoint
@@ -109,10 +110,9 @@ class InternController(using
     .out(jsonBody[Concept])
     .errorOut(errorOutputsFor(400, 404))
     .serverLogicPure { id =>
-      draftConceptRepository.withId(id) match {
-        case Some(concept) => concept.asRight
-        case None          => returnLeftError(NotFoundException(s"Could not find draft concept with id '$id'"))
-      }
+      draftConceptRepository
+        .withId(id)
+        .flatMap(_.toTry(NotFoundException(s"Could not find draft concept with id '$id'")))
     }
 
   def dumpPublishedConcept: ServerEndpoint[Any, Eff] = endpoint
@@ -121,8 +121,9 @@ class InternController(using
     .out(jsonBody[ConceptDomainDump])
     .in(query[Int]("page").default(1))
     .in(query[Int]("page-size").default(250))
+    .errorOut(errorOutputsFor(500))
     .serverLogicPure { case (pageNo, pageSize) =>
-      readService.getPublishedConceptDomainDump(pageNo, pageSize).asRight
+      readService.getPublishedConceptDomainDump(pageNo, pageSize)
     }
 
   def dumpSinglePublishedConcept: ServerEndpoint[Any, Eff] = endpoint
@@ -131,10 +132,9 @@ class InternController(using
     .out(jsonBody[Concept])
     .errorOut(errorOutputsFor(400, 404))
     .serverLogicPure { id =>
-      publishedConceptRepository.withId(id) match {
-        case Some(concept) => concept.asRight
-        case None          => returnLeftError(NotFoundException(s"Could not find published concept with id '$id'"))
-      }
+      publishedConceptRepository
+        .withId(id)
+        .flatMap(_.toTry(NotFoundException(s"Could not find published concept with id '$id'")))
     }
 
   def postDraftConcept: ServerEndpoint[Any, Eff] = endpoint
@@ -144,7 +144,7 @@ class InternController(using
     .out(jsonBody[Concept])
     .errorOut(errorOutputsFor(400, 404))
     .serverLogicPure { concept =>
-      draftConceptRepository.insert(concept).asRight
+      draftConceptRepository.insert(concept)
     }
 
 }

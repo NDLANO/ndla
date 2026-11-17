@@ -162,7 +162,9 @@ class DraftConceptControllerTest extends UnitSuite with TestEnvironment with Tap
   }
 
   test("tags should return 200 OK if the result was not empty") {
-    when(readService.getAllTags(anyString, anyInt, anyInt, anyString)).thenReturn(TestData.sampleApiTagsSearchResult)
+    when(readService.getAllTags(anyString, anyInt, anyInt, anyString)).thenReturn(
+      Success(TestData.sampleApiTagsSearchResult)
+    )
 
     val req = quickRequest.get(uri"http://localhost:$serverPort/concept-api/v1/drafts/tag-search/")
     req.send().code.code should be(200)

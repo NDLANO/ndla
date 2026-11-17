@@ -48,7 +48,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     .copy(id = Some(conceptId), responsible = Some(Responsible("hei", TestData.today)))
 
   def mockWithConcept(concept: Concept): OngoingStubbing[NDLADate] = {
-    when(draftConceptRepository.withId(conceptId)).thenReturn(Option(concept))
+    when(draftConceptRepository.withId(conceptId)).thenReturn(Success(Option(concept)))
     when(draftConceptRepository.update(any[Concept])(using any[DBSession])).thenAnswer(invocation =>
       Try(invocation.nn.getArgument[Concept](0))
     )
@@ -69,7 +69,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
   }
 
   test("newConcept should insert a given Concept") {
-    when(draftConceptRepository.insert(any[Concept])(using any[DBSession])).thenReturn(domainConcept)
+    when(draftConceptRepository.insert(any[Concept])(using any[DBSession])).thenReturn(Success(domainConcept))
     when(contentValidator.validateConcept(any[Concept])).thenReturn(Success(domainConcept))
 
     service.newConcept(TestData.sampleNewConcept, userInfo).get.id.toString should equal(domainConcept.id.get.toString)
@@ -195,7 +195,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
       )
     val conceptCaptor: ArgumentCaptor[Concept] = ArgumentCaptor.forClass(classOf[Concept]).nn
 
-    when(draftConceptRepository.withId(any)).thenReturn(Some(concept))
+    when(draftConceptRepository.withId(any)).thenReturn(Success(Some(concept)))
 
     val updated = service.deleteLanguage(concept.id.get, "nn", userInfo).get
     verify(draftConceptRepository).update(NullSafeMockito.capture(conceptCaptor))
