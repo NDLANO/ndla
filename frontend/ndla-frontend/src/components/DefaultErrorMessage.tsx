@@ -15,7 +15,7 @@ import {
   ErrorMessageActions,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useSyncExternalStore } from "react";
 import { useTranslation } from "react-i18next";
 import { Status } from "../components/Status";
 import { SKIP_TO_CONTENT_ID } from "../constants";
@@ -81,9 +81,19 @@ export const logErrorPage = ({ error, kind }: ErrorPageInfo) => {
   }
 };
 
+const subscribeNoop = () => () => {};
+
+const useIsHydrating = () =>
+  useSyncExternalStore(
+    subscribeNoop,
+    () => false,
+    () => true,
+  );
+
 const useLogErrorPage = (error: ErrorLike, kind: ErrorPageKind) => {
   const { pathname } = useRawLocation();
   const setErrorPage = useContext(ErrorPageContext);
+  const isHydrating = useIsHydrating();
   const loggedKeyRef = useRef<string>(undefined);
   // The server may render the tree several times per request, so it logs the rendered error page once afterwards
   setErrorPage?.({ error, kind });
@@ -92,8 +102,10 @@ const useLogErrorPage = (error: ErrorLike, kind: ErrorPageKind) => {
     const key = `${kind}:${error.message}:${pathname}`;
     if (loggedKeyRef.current === key) return;
     loggedKeyRef.current = key;
+    // An error page hydrated from server HTML was already logged by the server
+    if (isHydrating) return;
     logErrorPage({ error, kind });
-  }, [error, kind, pathname]);
+  }, [error, kind, pathname, isHydrating]);
 };
 
 interface DefaultErrorMessagePageProps {
