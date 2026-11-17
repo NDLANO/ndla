@@ -14,6 +14,7 @@ import no.ndla.articleapi.model.domain.{ArticleIds, DBArticle}
 import no.ndla.common.model.domain.Tag
 import no.ndla.common.model.domain.article.Article
 import no.ndla.database.{DBMigrator, DBUtility, DataSource}
+import no.ndla.database.implicits.*
 import no.ndla.scalatestsuite.DatabaseIntegrationSuite
 import org.scalatest.EitherValues.convertEitherToValuable
 
@@ -357,6 +358,34 @@ class ArticleRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with
 
     val result = repository.documentsWithIdBetween(1, 10)(using dbUtility.readOnlySession).failIfFailure
     result.size should be(3)
+  }
+
+  test("That unpublished revisions are read without article, slug or external ids") {
+    val article = TestData
+      .sampleDomainArticle
+      .copy(id = 1L.some, revision = 1.some, slug = Some("slug"), externalIds = None)
+    repository.updateArticleFromDraftApi(article)(using dbUtility.autoSession).failIfFailure
+    repository.unpublish(1L, 1)(using dbUtility.autoSession).failIfFailure
+
+    val row = repository.withIdAndRevision(1L, 1)(using dbUtility.readOnlySession).failIfFailure.get
+    row.articleId should be(1L)
+    row.article should be(None)
+    row.slug should be(None)
+    row.externalIds should be(None)
+  }
+
+  test("That reading a document that cannot be parsed fails") {
+    repository
+      .updateArticleFromDraftApi(sampleArticle.copy(id = 1L.some, revision = 1.some))(using dbUtility.autoSession)
+      .failIfFailure
+    dbUtility
+      .namedDb
+      .autoCommit { implicit session =>
+        tsql"update ${dbArticle.Article.table} set document = '{}'::jsonb where article_id = 1".update().failIfFailure
+      }
+
+    repository.withId(1L)(using dbUtility.readOnlySession).isFailure should be(true)
+    repository.getArticlesByPage(10, 0)(using dbUtility.readOnlySession).isFailure should be(true)
   }
 
 }
