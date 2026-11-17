@@ -1,4 +1,4 @@
-FROM jdxcode/mise:2026.11.8@sha256:5c6e71a86c8c997c32d30a169b4269bec9d4681a804e29078bac8f44109f2edc AS mise
+FROM jdxcode/mise:2026.11.9@sha256:9a182adba2584a6f5b29ddc1f2c7651c93694a5f829d74452b90214616baacf4 AS mise
 FROM frontend-base
 
 RUN apt-get update \
