@@ -822,11 +822,11 @@ importers:
         specifier: 'catalog:'
         version: 5.40.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@aws-sdk/client-bedrock-runtime':
-        specifier: ^3.1168.0
-        version: 3.1168.0
+        specifier: ^3.1169.0
+        version: 3.1169.0
       '@aws-sdk/client-transcribe':
-        specifier: ^3.1168.0
-        version: 3.1168.0
+        specifier: ^3.1169.0
+        version: 3.1169.0
       '@dnd-kit/abstract':
         specifier: 'catalog:'
         version: 0.5.3
@@ -2473,12 +2473,12 @@ packages:
       '@apollo/server': ^4.0.0 || ^5.0.0
       express: ^5.0.0
 
-  '@aws-sdk/client-bedrock-runtime@3.1168.0':
-    resolution: {integrity: sha512-9fRm/vh6nehGcwZefi7yuQu2dlwIRMk7ZRMri8aqLtUEWleUzxqFIGE2QLV2GZlIuYYq1691D4IPmej++PEj/w==}
+  '@aws-sdk/client-bedrock-runtime@3.1169.0':
+    resolution: {integrity: sha512-KkMuq9IW+H8VHTEw/qV+ArI70w1WoqDuM/ZLX87MXB0yV31ihqY+2lwZ+zeD5spcZpmlLuUzXTPyMpWE2ZnbtA==}
     engines: {node: '>=20.0.0'}
 
-  '@aws-sdk/client-transcribe@3.1168.0':
-    resolution: {integrity: sha512-LXzQ8Rcvg3ckg1d5cdF0Q2sRIxZ3ypWNCMWnHV/GpAe7qFm1LCs2IBDzIk6kWQqLZewb0/y0YhLhwx6C9dxcRw==}
+  '@aws-sdk/client-transcribe@3.1169.0':
+    resolution: {integrity: sha512-j0I3hplNYlr/fbNZWIzCqlQowei4LBwKxNS/LzE1JLIyudRukWZc3mj/YXYvmv7CgdWORAwtuU6Jz58uh96cbQ==}
     engines: {node: '>=20.0.0'}
 
   '@aws-sdk/core@3.981.0':
@@ -2541,8 +2541,8 @@ packages:
     resolution: {integrity: sha512-ngJ8mxXqtQ9mnp7QV6TWKJCxkpjVfPWxKQSc2FYhCyCfOVFIGdFv7P+/RqVffFrJAorwBPpktnv32gNlcEgF4g==}
     engines: {node: '>=20.0.0'}
 
-  '@aws-sdk/token-providers@3.1168.0':
-    resolution: {integrity: sha512-N0VSJh8H31AjBX1EWAnyRkXqmpEza8Qe+xj8OQqk2pKSqGefSnc8VJ75kmrRGnCm9xcj+H2Uu1yUo/tW4BW3JA==}
+  '@aws-sdk/token-providers@3.1169.0':
+    resolution: {integrity: sha512-ScQiQuJIAFevAHjCh/E159qaWeQtw8KUZ4PGUfHMeJU0VXaF4HE8PSgNXY/y4nmqrT8/gD3SoFhuFT5dy1cisA==}
     engines: {node: '>=20.0.0'}
 
   '@aws-sdk/types@3.975.1':
@@ -12453,14 +12453,14 @@ snapshots:
       '@apollo/server': 5.5.2(graphql@17.1.0)(supports-color@10.2.2)
       express: 5.3.0(supports-color@10.2.2)
 
-  '@aws-sdk/client-bedrock-runtime@3.1168.0':
+  '@aws-sdk/client-bedrock-runtime@3.1169.0':
     dependencies:
       '@aws-sdk/core': 3.981.0
       '@aws-sdk/credential-provider-node': 3.972.97
       '@aws-sdk/eventstream-handler-node': 3.972.42
       '@aws-sdk/middleware-eventstream': 3.972.38
       '@aws-sdk/middleware-websocket': 3.972.66
-      '@aws-sdk/token-providers': 3.1168.0
+      '@aws-sdk/token-providers': 3.1169.0
       '@aws-sdk/types': 3.975.1
       '@smithy/core': 3.40.0
       '@smithy/fetch-http-handler': 5.8.1
@@ -12468,7 +12468,7 @@ snapshots:
       '@smithy/types': 4.20.0
       tslib: 2.9.1
 
-  '@aws-sdk/client-transcribe@3.1168.0':
+  '@aws-sdk/client-transcribe@3.1169.0':
     dependencies:
       '@aws-sdk/core': 3.981.0
       '@aws-sdk/credential-provider-node': 3.972.97
@@ -12625,7 +12625,7 @@ snapshots:
       '@smithy/types': 4.20.0
       tslib: 2.9.1
 
-  '@aws-sdk/token-providers@3.1168.0':
+  '@aws-sdk/token-providers@3.1169.0':
     dependencies:
       '@aws-sdk/core': 3.981.0
       '@aws-sdk/nested-clients': 3.998.3
