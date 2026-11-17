@@ -74,7 +74,7 @@ class RobotRepository(using dbUtility: DBUtility, dbRobotDefinition: DBRobotDefi
            from ${dbRobotDefinition.as(r)}
            where feide_id = $feideId
            order by ${r.updated} desc
-         """.map(RobotDefinition.fromResultSet(r)).runListFlat()
+         """.decode(RobotDefinition.fromResultSet(r)).runList()
   }.flatten
 
   def getRobotWithId(robotId: UUID)(implicit session: DBSession): Try[Option[RobotDefinition]] = {
@@ -83,7 +83,7 @@ class RobotRepository(using dbUtility: DBUtility, dbRobotDefinition: DBRobotDefi
            select ${r.result.*}
            from ${dbRobotDefinition.as(r)}
            where id = $robotId
-         """.map(RobotDefinition.fromResultSet(r)).runSingleFlat()
+         """.decode(RobotDefinition.fromResultSet(r)).runSingle()
   }
 
   def deleteRobotDefinition(robotId: UUID)(implicit session: DBSession): Try[Unit] = {

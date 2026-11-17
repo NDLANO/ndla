@@ -10,10 +10,10 @@ package no.ndla.myndlaapi.model.domain
 
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
-import no.ndla.common.CirceUtil
 import no.ndla.common.model.NDLADate
 import no.ndla.common.model.domain.{Description, Title}
 import no.ndla.language.Language.getSupportedLanguages
+import no.ndla.database.{ColumnDecoder, Row}
 import no.ndla.myndlaapi.Props
 import scalikejdbc.*
 
@@ -50,16 +50,14 @@ class DBQuiz(using props: Props) extends SQLSyntaxSupport[Quiz] {
   override def tableName: String          = "quizzes"
   override def schemaName: Option[String] = Some(props.MetaSchema)
 
-  def fromResultSet(qz: SyntaxProvider[Quiz])(rs: WrappedResultSet): Quiz = fromResultSet(qz.resultName)(rs)
-
-  def fromResultSet(qz: ResultName[Quiz])(rs: WrappedResultSet): Quiz = {
-    import no.ndla.myndlaapi.uuidBinder
-    val meta = CirceUtil.unsafeParseAs[Quiz](rs.string(qz.c("document")))
-    meta.copy(
-      id = rs.get[Try[UUID]](qz.c("id")).get,
-      ownerId = rs.string(qz.c("owner_id")),
-      revision = Some(rs.int(qz.c("revision"))),
-      completedCount = Some(rs.long(qz.c("completed_count"))),
-    )
+  def fromResultSet(qz: SyntaxProvider[Quiz])(row: Row): Try[Quiz] = {
+    val column = (s: String) => qz.resultName.c(s).value
+    for {
+      document       <- row.required[Quiz](column("document"))(using ColumnDecoder.json)
+      id             <- row.required[UUID](column("id"))
+      ownerId        <- row.required[String](column("owner_id"))
+      revision       <- row.required[Int](column("revision"))
+      completedCount <- row.required[Long](column("completed_count"))
+    } yield document.copy(id = id, ownerId = ownerId, revision = Some(revision), completedCount = Some(completedCount))
   }
 }

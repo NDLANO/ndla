@@ -12,6 +12,7 @@ import cats.implicits.catsSyntaxOptionId
 import no.ndla.common.model.NDLADate
 import no.ndla.myndlaapi.Props
 import no.ndla.common.model.domain.myndla.{FolderStatus, MyNDLAUser}
+import no.ndla.database.Row
 import no.ndla.network.model.FeideID
 import scalikejdbc.*
 
@@ -84,46 +85,37 @@ case class Folder(
 
 object Folder {
 
-  def fromResultSet(lp: SyntaxProvider[Folder])(rs: WrappedResultSet): Try[Folder] = {
-    val wrapper: String => String = (s: String) => lp.resultName.c(s)
-    fromResultSet(wrapper)(rs)
-  }
+  def fromResultSet(lp: SyntaxProvider[Folder])(row: Row): Try[Folder] =
+    fromResultSet((s: String) => lp.resultName.c(s).value)(row)
 
-  def fromResultSet(rs: WrappedResultSet): Try[Folder] = fromResultSet((s: String) => s)(rs)
+  def fromResultSet(row: Row): Try[Folder] = fromResultSet((s: String) => s)(row)
 
-  def fromResultSet(colNameWrapper: String => String)(rs: WrappedResultSet): Try[Folder] = {
-    import no.ndla.myndlaapi.{maybeUuidBinder, uuidBinder}
-
-    val id          = rs.get[Try[UUID]](colNameWrapper("id"))
-    val parentId    = rs.get[Option[UUID]](colNameWrapper("parent_id"))
-    val feideId     = rs.string(colNameWrapper("feide_id"))
-    val name        = rs.string(colNameWrapper("name"))
-    val status      = FolderStatus.valueOfOrError(rs.string(colNameWrapper("status")))
-    val description = rs.stringOpt(colNameWrapper("description"))
-    val rank        = rs.int(colNameWrapper("rank"))
-    val created     = rs.get[NDLADate](colNameWrapper("created"))
-    val updated     = rs.get[NDLADate](colNameWrapper("updated"))
-    val shared      = rs.getOpt[NDLADate](colNameWrapper("shared"))
-
-    for {
-      id     <- id
-      status <- status
-    } yield Folder(
-      id = id,
-      parentId = parentId,
-      feideId = feideId,
-      name = name,
-      status = status,
-      description = description,
-      resources = List.empty,
-      subfolders = List.empty,
-      rank = rank,
-      created = created,
-      updated = updated,
-      shared = shared,
-      user = None,
-    )
-  }
+  def fromResultSet(colNameWrapper: String => String)(row: Row): Try[Folder] = for {
+    id          <- row.required[UUID](colNameWrapper("id"))
+    parentId    <- row.optional[UUID](colNameWrapper("parent_id"))
+    feideId     <- row.required[String](colNameWrapper("feide_id"))
+    name        <- row.required[String](colNameWrapper("name"))
+    status      <- row.required[String](colNameWrapper("status")).flatMap(FolderStatus.valueOfOrError)
+    description <- row.optional[String](colNameWrapper("description"))
+    rank        <- row.required[Int](colNameWrapper("rank"))
+    created     <- row.required[NDLADate](colNameWrapper("created"))
+    updated     <- row.required[NDLADate](colNameWrapper("updated"))
+    shared      <- row.optional[NDLADate](colNameWrapper("shared"))
+  } yield Folder(
+    id = id,
+    parentId = parentId,
+    feideId = feideId,
+    name = name,
+    status = status,
+    description = description,
+    resources = List.empty,
+    subfolders = List.empty,
+    rank = rank,
+    created = created,
+    updated = updated,
+    shared = shared,
+    user = None,
+  )
 }
 
 class DBFolder(using props: Props) extends SQLSyntaxSupport[Folder] {

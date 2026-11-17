@@ -12,8 +12,9 @@ import cats.implicits.*
 import no.ndla.common.model.NDLADate
 import no.ndla.common.model.domain.ResourceType
 import no.ndla.common.model.domain.ResourceType.Article
-import no.ndla.common.model.domain.myndla.FolderStatus
+import no.ndla.common.model.domain.myndla.{FolderStatus, MyNDLAUserDocument, UserRole}
 import no.ndla.database.{DBMigrator, DBUtility, DataSource}
+import no.ndla.database.implicits.*
 import no.ndla.myndlaapi.model.domain.{
   BulkInserts,
   Folder,
@@ -96,7 +97,7 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
   }
 
   def getAllFolders(implicit session: DBSession = DBUtil.autoSession): List[Folder] = {
-    sql"select * from folders".map(rs => Folder.fromResultSet(rs)).list().sequence.get
+    tsql"select * from folders".decode(Folder.fromResultSet).runList().get
   }
 
   test("that inserting and retrieving a folder works as expected") {
@@ -722,6 +723,58 @@ class FolderRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
 
     val user2Folders = repository.foldersWithFeideAndParentID(None, feideId2).failIfFailure
     user2Folders should be(List.empty)
+  }
+
+  private def insertFullUser(feideId: String)(implicit session: DBSession): Unit = {
+    userRepository.reserveFeideIdIfNotExists(feideId).failIfFailure
+    userRepository
+      .insertUser(
+        feideId,
+        MyNDLAUserDocument(
+          favoriteSubjects = Seq.empty,
+          userRole = UserRole.EMPLOYEE,
+          lastUpdated = NDLADate.of(2024, 1, 1, 12, 0, 0),
+          organization = "NDLA",
+          groups = Seq.empty,
+          username = feideId,
+          displayName = feideId,
+          email = s"$feideId@ndla.no",
+          arenaEnabled = false,
+        ),
+      )
+      .failIfFailure: Unit
+  }
+
+  test("that a saved shared folder with subfolders can be fetched by the user that saved it") {
+    implicit val session: DBSession = DBUtil.autoSession
+    val owner                       = "owner"
+    val viewer                      = "viewer"
+    val otherViewer                 = "other-viewer"
+    insertFullUser(owner)
+    insertFullUser(viewer)
+    insertFullUser(otherViewer)
+
+    val created = NDLADate.now().withNano(0)
+    when(clock.now()).thenReturn(created)
+
+    val shared    = TestData.baseFolderDocument.copy(status = FolderStatus.SHARED)
+    val topFolder = repository.insertFolder(owner, shared).failIfFailure
+    val subFolder = repository.insertFolder(owner, shared.copy(parentId = Some(topFolder.id))).failIfFailure
+    val resource  = repository
+      .insertResource(owner, "/path1", ResourceType.Article, created, TestData.baseResourceDocument)
+      .failIfFailure
+    repository.createResourceConnection(Some(subFolder.id), resource.id, 1, created).failIfFailure
+
+    repository.createFolderUserConnection(topFolder.id, otherViewer, 9).failIfFailure
+    repository.createFolderUserConnection(topFolder.id, viewer, 5).failIfFailure
+
+    val result = repository.getSharedFolderAndChildrenSubfoldersWithResources(topFolder.id, viewer).failIfFailure.get
+
+    result.id should be(topFolder.id)
+    result.rank should be(5)
+    result.user.map(_.feideId) should be(Some(owner))
+    result.subfolders.map(_.id) should be(List(subFolder.id))
+    result.subfolders.head.resources.map(_.id) should be(List(resource.id))
   }
 
   test("that number of users with/without favourites return correct amount") {

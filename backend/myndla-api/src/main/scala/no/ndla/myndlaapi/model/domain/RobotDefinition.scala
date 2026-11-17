@@ -10,10 +10,10 @@ package no.ndla.myndlaapi.model.domain
 
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
-import no.ndla.common.CirceUtil
 import no.ndla.common.errors.{AccessDeniedException, NotFoundException}
 import no.ndla.common.implicits.*
 import no.ndla.common.model.NDLADate
+import no.ndla.database.{ColumnDecoder, Row}
 import no.ndla.myndlaapi.Props
 import no.ndla.myndlaapi.model.api.robot.RobotConfigurationDTO
 import no.ndla.network.model.FeideID
@@ -82,30 +82,18 @@ object RobotConfiguration {
 
 object RobotDefinition {
 
-  def fromResultSet(sp: SyntaxProvider[RobotDefinition])(rs: WrappedResultSet): Try[RobotDefinition] = {
-    val wrapper: String => String = (s: String) => sp.resultName.c(s)
-    fromResultSet(wrapper)(rs)
-  }
-
-  def fromResultSet(rs: WrappedResultSet): Try[RobotDefinition] = fromResultSet((s: String) => s)(rs)
-
-  def fromResultSet(colNameWrapper: String => String)(rs: WrappedResultSet): Try[RobotDefinition] = {
-    import no.ndla.myndlaapi.uuidBinder
-    val id        = rs.get[Try[UUID]](colNameWrapper("id"))
-    val feideId   = rs.string(colNameWrapper("feide_id"))
-    val statusStr = rs.string(colNameWrapper("status"))
-    val status    = RobotStatus
-      .withNameOption(statusStr)
-      .toTry(new IllegalArgumentException(s"Invalid robot status: $statusStr"))
-    val created       = rs.get[NDLADate](colNameWrapper("created"))
-    val updated       = rs.get[NDLADate](colNameWrapper("updated"))
-    val shared        = rs.getOpt[NDLADate](colNameWrapper("shared"))
-    val configuration = CirceUtil.tryParseAs[RobotConfiguration](rs.string(colNameWrapper("configuration")))
-
+  def fromResultSet(sp: SyntaxProvider[RobotDefinition])(row: Row): Try[RobotDefinition] = {
+    val column = (s: String) => sp.resultName.c(s).value
     for {
-      id     <- id
-      status <- status
-      config <- configuration
+      id      <- row.required[UUID](column("id"))
+      feideId <- row.required[String](column("feide_id"))
+      status  <- row
+        .required[String](column("status"))
+        .flatMap(s => RobotStatus.withNameOption(s).toTry(new IllegalArgumentException(s"Invalid robot status: $s")))
+      created       <- row.required[NDLADate](column("created"))
+      updated       <- row.required[NDLADate](column("updated"))
+      shared        <- row.optional[NDLADate](column("shared"))
+      configuration <- row.required[RobotConfiguration](column("configuration"))(using ColumnDecoder.json)
     } yield RobotDefinition(
       id = id,
       feideId = feideId,
@@ -113,10 +101,9 @@ object RobotDefinition {
       created = created,
       updated = updated,
       shared = shared,
-      configuration = config,
+      configuration = configuration,
     )
   }
-
 }
 
 class DBRobotDefinition(using props: Props) extends SQLSyntaxSupport[RobotDefinition] {

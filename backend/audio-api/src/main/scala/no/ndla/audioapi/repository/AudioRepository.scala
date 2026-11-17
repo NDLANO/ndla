@@ -15,7 +15,8 @@ import no.ndla.common.CirceUtil
 import no.ndla.network.tapir.ErrorHelpers
 import org.postgresql.util.PGobject
 import scalikejdbc.*
-import no.ndla.database.DBUtility
+import cats.implicits.*
+import no.ndla.database.{DBUtility, OptionalRow, Row}
 import no.ndla.database.implicits.*
 
 import scala.util.{Failure, Success, Try}
@@ -29,7 +30,7 @@ class AudioRepository(using
     with Repository[AudioMetaInformation] {
   def audioCount(implicit session: DBSession = dbUtility.readOnlySession): Long =
     tsql"select count(*) from ${dbAudioMetaInformation.table}"
-      .map(rs => rs.long("count"))
+      .decode(_.required[Long]("count"))
       .runSingle()
       .map(_.getOrElse(0L))
       .get
@@ -117,13 +118,13 @@ class AudioRepository(using
 
   def numElements: Int = {
     dbUtility.readOnly { implicit session =>
-      tsql"select count(*) from audiodata".map(rs => rs.int("count")).runSingle().map(_.getOrElse(0)).get
+      tsql"select count(*) from audiodata".decode(_.required[Int]("count")).runSingle().map(_.getOrElse(0)).get
     }
   }
 
   override def minMaxId(implicit session: DBSession = dbUtility.readOnlySession): Try[(Long, Long)] = {
     tsql"select coalesce(MIN(id),0) as mi, coalesce(MAX(id),0) as ma from audiodata"
-      .map(rs => (rs.long("mi"), rs.long("ma")))
+      .decode(row => (row.required[Long]("mi"), row.required[Long]("ma")).tupled)
       .runSingle()
       .map(_.getOrElse((0L, 0L)))
   }
@@ -146,15 +147,7 @@ class AudioRepository(using
            from ${dbAudioMetaInformation.as(au)}
            left join ${dbSeries.as(se)} on ${au.seriesId} = ${se.id}
            where $whereClause
-         """
-      .map { rs =>
-        val audio  = AudioMetaInformation.fromResultSet(au)(rs)
-        val series = Series.fromResultSet(se)(rs).toOption
-        audio.copy(series = series)
-      }
-      .runList()
-      .get
-      .headOption
+         """.decode(withSeries(au, se)).runList().get.headOption
   }
 
   private def audioMetaInformationsWhere(
@@ -167,19 +160,20 @@ class AudioRepository(using
            from ${dbAudioMetaInformation.as(au)}
            left join ${dbSeries.as(se)} on ${au.seriesId} = ${se.id}
            where $whereClause
-         """
-      .map { rs =>
-        val audio  = AudioMetaInformation.fromResultSet(au)(rs)
-        val series = Series.fromResultSet(se)(rs).toOption
-        audio.copy(series = series)
-      }
-      .runList()
+         """.decode(withSeries(au, se)).runList()
   }
+
+  private def withSeries(au: SyntaxProvider[AudioMetaInformation], se: SyntaxProvider[Series])(
+      row: Row
+  ): Try[AudioMetaInformation] = for {
+    audio  <- AudioMetaInformation.fromResultSet(au)(row)
+    series <- OptionalRow.presentWhen(se.resultName.c("id").value)(Series.fromResultSet(se)).decode(row)
+  } yield audio.copy(series = series)
 
   def getRandomAudio()(implicit session: DBSession = dbUtility.readOnlySession): Option[AudioMetaInformation] = {
     val au = dbAudioMetaInformation.syntax("au")
     tsql"select ${au.result.*} from ${dbAudioMetaInformation.as(au)} tablesample public.system_rows(1)"
-      .map(AudioMetaInformation.fromResultSet(au))
+      .decode(AudioMetaInformation.fromResultSet(au))
       .runSingle()
       .get
   }
@@ -195,7 +189,7 @@ class AudioRepository(using
            order by id
            offset $offset
            limit $pageSize
-      """.map(AudioMetaInformation.fromResultSet(au)).runList().get
+      """.decode(AudioMetaInformation.fromResultSet(au)).runList().get
   }
 
 }

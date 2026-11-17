@@ -12,12 +12,10 @@ import cats.implicits.toFunctorOps
 import com.typesafe.scalalogging.StrictLogging
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto.*
-import io.circe.parser.parse
 import io.circe.syntax.*
 import no.ndla.common.errors.{ValidationException, ValidationMessage}
 import no.ndla.common.model.{NDLADate, api}
 import no.ndla.common.model.domain.config
-import scalikejdbc.*
 
 import scala.annotation.unused
 import scala.util.{Failure, Success, Try}
@@ -81,16 +79,7 @@ case class ConfigMeta(key: ConfigKey, value: ConfigMetaValue, updatedAt: NDLADat
 
 object ConfigMeta extends StrictLogging {
 
-  def fromResultSet(c: SyntaxProvider[ConfigMeta])(rs: WrappedResultSet): Try[ConfigMeta] =
-    fromResultSet(c.resultName)(rs)
-
   implicit val enc: Encoder[ConfigMeta] = deriveEncoder[ConfigMeta]
   implicit val dec: Decoder[ConfigMeta] = deriveDecoder[ConfigMeta]
-
-  def fromResultSet(c: ResultName[ConfigMeta])(rs: WrappedResultSet): Try[ConfigMeta] = {
-    val dbStr  = rs.string(c.column("value"))
-    val parsed = parse(dbStr)
-    parsed.flatMap(_.as[ConfigMeta]).toTry
-  }
 
 }

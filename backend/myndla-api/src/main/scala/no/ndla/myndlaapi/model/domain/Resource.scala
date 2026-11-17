@@ -8,12 +8,11 @@
 
 package no.ndla.myndlaapi.model.domain
 
-import cats.implicits.*
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
-import no.ndla.common.CirceUtil
 import no.ndla.common.implicits.*
 import no.ndla.common.model.NDLADate
+import no.ndla.database.{ColumnDecoder, Row}
 import no.ndla.myndlaapi.Props
 import no.ndla.common.model.domain.ResourceType
 import no.ndla.network.model.FeideID
@@ -69,58 +68,31 @@ object Resource {
   implicit val encoder: Encoder[Resource] = deriveEncoder
   implicit val decoder: Decoder[Resource] = deriveDecoder
 
-  def fromResultSet(lp: SyntaxProvider[Resource], withConnection: Boolean)(rs: WrappedResultSet): Try[Resource] =
-    fromResultSet(s => lp.resultName.c(s), withConnection)(rs)
+  def fromResultSet(lp: SyntaxProvider[Resource])(row: Row): Try[Resource] =
+    fromResultSet((s: String) => lp.resultName.c(s).value)(row)
 
-  def fromResultSetSyntaxProviderWithConnection(lp: SyntaxProvider[Resource], sp: SyntaxProvider[ResourceConnection])(
-      rs: WrappedResultSet
-  ): Try[Option[Resource]] = {
-    import no.ndla.myndlaapi.maybeUuidBinder
-    rs.get[Option[UUID]](sp.resultName.c("resource_id"))
-      .traverse(_ => fromResultSetSyntaxProvider(s => lp.resultName.c(s), sp)(rs))
-  }
+  def fromResultSet(colNameWrapper: String => String)(row: Row): Try[Resource] = for {
+    id           <- row.required[UUID](colNameWrapper("id"))
+    feideId      <- row.required[String](colNameWrapper("feide_id"))
+    created      <- row.required[NDLADate](colNameWrapper("created"))
+    path         <- row.required[String](colNameWrapper("path"))
+    resourceType <- row
+      .required[String](colNameWrapper("resource_type"))
+      .flatMap(rt => ResourceType.withNameOption(rt).toTry(NDLASQLException(s"Invalid resource type '$rt'")))
+    document <- row.required[ResourceDocument](colNameWrapper("document"))(using ColumnDecoder.json)
+  } yield document.toFullResource(id, path, resourceType, feideId, created, None)
 
-  def fromResultSetOpt(rs: WrappedResultSet, withConnection: Boolean): Try[Option[Resource]] = {
-    import no.ndla.myndlaapi.maybeUuidBinder
-    rs.get[Option[UUID]]("resource_id").traverse(_ => fromResultSet(rs, withConnection))
-  }
+  def fromResultSetWithConnection(lp: SyntaxProvider[Resource], cp: SyntaxProvider[ResourceConnection])(
+      row: Row
+  ): Try[Resource] =
+    fromResultSetWithConnection((s: String) => lp.resultName.c(s).value, (s: String) => cp.resultName.c(s).value)(row)
 
-  private def fromResultSet(rs: WrappedResultSet, withConnection: Boolean): Try[Resource] =
-    fromResultSet(s => s, withConnection)(rs)
-
-  private def fromResultSetSyntaxProvider(colNameWrapper: String => String, sp: SyntaxProvider[ResourceConnection])(
-      rs: WrappedResultSet
-  ): Try[Resource] = {
-    val connection = ResourceConnection.fromResultSet(sp)(rs).toOption
-    toResource(colNameWrapper, connection)(rs)
-  }
-
-  private def fromResultSet(colNameWrapper: String => String, withConnection: Boolean)(
-      rs: WrappedResultSet
-  ): Try[Resource] = {
-    val connection =
-      if (withConnection) ResourceConnection.fromResultSet(colNameWrapper, rs).toOption
-      else None
-    toResource(colNameWrapper, connection)(rs)
-  }
-
-  private def toResource(colNameWrapper: String => String, connection: Option[ResourceConnection])(
-      rs: WrappedResultSet
-  ): Try[Resource] = {
-    import no.ndla.myndlaapi.uuidBinder
-    for {
-      id             <- rs.get[Try[UUID]](colNameWrapper("id"))
-      jsonString      = rs.string(colNameWrapper("document"))
-      feideId         = rs.string(colNameWrapper("feide_id"))
-      created         = rs.get[NDLADate](colNameWrapper("created"))
-      path            = rs.string(colNameWrapper("path"))
-      resourceTypeStr = rs.string(colNameWrapper("resource_type"))
-      resourceType   <- ResourceType
-        .withNameOption(resourceTypeStr)
-        .toTry(NDLASQLException(s"Invalid resource type when reading resource with id '$id' from database"))
-      metaData <- CirceUtil.tryParseAs[ResourceDocument](jsonString)
-    } yield metaData.toFullResource(id, path, resourceType, feideId, created, connection)
-  }
+  def fromResultSetWithConnection(resourceColumn: String => String, connectionColumn: String => String)(
+      row: Row
+  ): Try[Resource] = for {
+    resource   <- fromResultSet(resourceColumn)(row)
+    connection <- ResourceConnection.fromResultSet(connectionColumn)(row)
+  } yield resource.copy(connection = Some(connection))
 }
 
 class DBResource(using props: Props) extends SQLSyntaxSupport[Resource] {

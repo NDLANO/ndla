@@ -8,7 +8,6 @@
 
 package no.ndla.database
 
-import cats.implicits.*
 import no.ndla.database.implicits.*
 import no.ndla.scalatestsuite.{DatabaseIntegrationSuite, UnitTestSuite}
 import scalikejdbc.*
@@ -161,10 +160,8 @@ class TrySqlTest extends DatabaseIntegrationSuite, UnitTestSuite, TestEnvironmen
     dbUtil.writeSession { implicit session =>
       val res =
         tsql"select t.data as t_data, t2.data as t2_data from test t inner join test2 t2 on t2.parent = t.id where t.id = 1"
-          .one(rs => {
-            rs.string("t_data")
-          })
-          .toOne(_.string("t2_data"))
+          .one(_.required[String]("t_data"))
+          .toOne(_.required[String]("t2_data"))
           .map((parent, child) => parent -> child)
           .runList()
           .failIfFailure
@@ -173,34 +170,91 @@ class TrySqlTest extends DatabaseIntegrationSuite, UnitTestSuite, TestEnvironmen
     }
   }
 
+  test("that .one(..).toOptionalOne(..) is None when the joined row is missing") {
+    dbUtil.writeSession { implicit session =>
+      val res = tsql"""
+               select t.data as t_data, t3.id as t3_id, t3.data as t3_data from test t
+               left join test3 t3 on t3.parent = t.id
+               where t.id in (1, 3)
+               order by t.id"""
+        .one(_.required[String]("t_data"))
+        .toOptionalOne(OptionalRow.presentWhen("t3_id")(_.required[String]("t3_data")))
+        .map((parent, child) => parent -> child)
+        .runList()
+        .failIfFailure
+
+      res should be(List("parent1" -> Some("child1_of_parent1"), "parent3" -> None))
+    }
+  }
+
   test("that .one(..).toMany(..) works") {
     dbUtil.writeSession { implicit session =>
-      val res =
-        tsql"select t.data as t_data, t2.data as t2_data from test t inner join test2 t2 on t2.parent = t.id where t.id = 2"
-          .one(_.string("t_data"))
-          .toMany(rs => Some(rs.string("t2_data")))
-          .map((parent, children) => parent -> children)
-          .runList()
-          .failIfFailure
+      val res = tsql"""
+               select t.data as t_data, t2.id as t2_id, t2.data as t2_data from test t
+               inner join test2 t2 on t2.parent = t.id
+               where t.id = 2"""
+        .one(_.required[String]("t_data"))
+        .toMany(OptionalRow.presentWhen("t2_id")(_.required[String]("t2_data")))
+        .map((parent, children) => parent -> children)
+        .runList()
+        .failIfFailure
 
       res should be(List("parent2" -> List("child1_of_parent2", "child2_of_parent2", "child3_of_parent2")))
+    }
+  }
+
+  test("that .one(..).toMany(..) gives no children when the joined row is missing") {
+    dbUtil.writeSession { implicit session =>
+      val res = tsql"""
+               select t.data as t_data, t2.id as t2_id, t2.data as t2_data from test t
+               left join test2 t2 on t2.parent = t.id
+               where t.id = 3"""
+        .one(_.required[String]("t_data"))
+        .toMany(OptionalRow.presentWhen("t2_id")(_.required[String]("t2_data")))
+        .map((parent, children) => parent -> children)
+        .runList()
+
+      res should be(Success(List("parent3" -> List.empty)))
+    }
+  }
+
+  test("that .one(..).toMany(..) fails when a joined row is present but fails to decode") {
+    dbUtil.writeSession { implicit session =>
+      tsql"insert into test2 (id, data, parent) values (5, null, 3)".execute().failIfFailure
+
+      val res = tsql"""
+               select t.data as t_data, t2.id as t2_id, t2.data as t2_data from test t
+               left join test2 t2 on t2.parent = t.id
+               where t.id = 3"""
+        .one(_.required[String]("t_data"))
+        .toMany(OptionalRow.presentWhen("t2_id")(_.required[String]("t2_data")))
+        .map((parent, children) => parent -> children)
+        .runList()
+
+      res should be(Failure(UnexpectedNullColumnException("t2_data")))
     }
   }
 
   test("that .one(..).toManies(..) with three arguments works") {
     dbUtil.writeSession { implicit session =>
       val res = tsql"""
-               select t.data as t_data, t2.data as t2_data, t3.data as t3_data, t4.data as t4_data from test t
+               select t.data as t_data, t2.id as t2_id, t2.data as t2_data, t3.id as t3_id, t3.data as t3_data,
+                      t4.id as t4_id, t4.data as t4_data
+               from test t
                inner join test2 t2 on t2.parent = t.id
                inner join test3 t3 on t3.parent = t.id
                inner join test4 t4 on t4.parent = t.id"""
-        .one(_.string("t_data"))
-        .toManies(_.string("t2_data").some, _.string("t3_data").some, _.string("t4_data").some)
+        .one(_.required[String]("t_data"))
+        .toManies(
+          OptionalRow.presentWhen("t2_id")(_.required[String]("t2_data")),
+          OptionalRow.presentWhen("t3_id")(_.required[String]("t3_data")),
+          OptionalRow.presentWhen("t4_id")(_.required[String]("t4_data")),
+        )
         .map((parent, children1, children2, children3) => parent -> (children1 ++ children2 ++ children3))
         .runList()
         .failIfFailure
 
-      res should be(List("parent1" -> Seq("child1_of_parent1", "child1_of_parent1", "child1_of_parent1")))
+      res should be(List("parent1" -> List("child1_of_parent1", "child1_of_parent1", "child1_of_parent1")))
     }
   }
 }

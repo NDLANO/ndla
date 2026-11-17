@@ -10,6 +10,7 @@ package no.ndla.myndlaapi.model.domain
 
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+import no.ndla.database.Row
 import no.ndla.myndlaapi.Props
 import no.ndla.network.model.FeideID
 import scalikejdbc.*
@@ -23,16 +24,12 @@ object SavedSharedFolder {
   implicit val encoder: Encoder[SavedSharedFolder] = deriveEncoder
   implicit val decoder: Decoder[SavedSharedFolder] = deriveDecoder
 
-  def fromResultSet(sp: SyntaxProvider[SavedSharedFolder], rs: WrappedResultSet): Try[SavedSharedFolder] = {
-    fromResultSet((s: String) => sp.resultName.c(s))(rs)
-  }
-
-  def fromResultSet(colNameWrapper: String => String)(rs: WrappedResultSet): Try[SavedSharedFolder] = {
-    import no.ndla.myndlaapi.uuidBinder
+  def fromResultSet(sp: SyntaxProvider[SavedSharedFolder])(row: Row): Try[SavedSharedFolder] = {
+    val column = (s: String) => sp.resultName.c(s).value
     for {
-      folderId <- rs.get[Try[UUID]](colNameWrapper("folder_id"))
-      feideId  <- Try(rs.string(colNameWrapper("feide_id")))
-      rank     <- Try(rs.int(colNameWrapper("rank")))
+      folderId <- row.required[UUID](column("folder_id"))
+      feideId  <- row.required[String](column("feide_id"))
+      rank     <- row.required[Int](column("rank"))
     } yield SavedSharedFolder(folderId = folderId, feideId = feideId, rank = rank)
   }
 }

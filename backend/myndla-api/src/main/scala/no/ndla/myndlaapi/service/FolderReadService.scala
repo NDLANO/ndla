@@ -67,10 +67,11 @@ class FolderReadService(using
     } yield sorted
   }
 
-  private def getSharedSubFoldersAndResources(topFolders: List[domain.Folder])(session: DBSession) = {
+  private def getSharedSubFoldersAndResources(topFolders: List[domain.Folder], viewer: FeideID)(session: DBSession) = {
     for {
       withData <- topFolders.traverse(f => {
-        val folderWithContent = folderRepository.getSharedFolderAndChildrenSubfoldersWithResources(f.id)(using session)
+        val folderWithContent =
+          folderRepository.getSharedFolderAndChildrenSubfoldersWithResources(f.id, viewer)(using session)
         getWith404IfNone(f.id, folderWithContent)
       })
       apiFolders <- folderConverterService.domainToApiModel(
@@ -94,7 +95,7 @@ class FolderReadService(using
         myFolders          <- folderRepository.foldersWithFeideAndParentID(None, feideId)(using session)
         savedSharedFolders <- folderRepository.getSavedSharedFolders(feideId)(using session)
         folders            <- getSubFoldersAndResources(myFolders, includeSubfolders, includeResources, feideId)(session)
-        sharedFolders      <- getSharedSubFoldersAndResources(savedSharedFolders)(session)
+        sharedFolders      <- getSharedSubFoldersAndResources(savedSharedFolders, feideId)(session)
 
       } yield UserFolderDTO(folders = folders, sharedFolders = sharedFolders)
     })

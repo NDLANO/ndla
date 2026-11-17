@@ -13,7 +13,7 @@ import no.ndla.common.TryUtil.throwIfInterrupted
 import no.ndla.common.implicits.toTry
 import scalikejdbc.*
 
-import scala.util.Try
+import scala.util.{Success, Try}
 
 trait TrySqlOps[Output, Extractor <: WithExtractor] {
   val underlying: SQL[Output, Extractor]
@@ -85,7 +85,9 @@ final case class TrySql[Output, Extractor <: WithExtractor](override val underly
   def foldLeft[A](z: A)(f: (A, WrappedResultSet) => A)(using session: ReadableDbSession): Try[A] = Try
     .throwIfInterrupted(underlying.foldLeft(z)(f))
 
-  def one[Z](f: WrappedResultSet => Output): TryOneToXSql[Output, Extractor, Z] = TryOneToXSql(underlying.one(f))
+  /** Start a one-to-x query, where `f` decodes the "one" side of each row. */
+  def one[A, Out](f: Row => Output)(using ev: Output =:= Try[A]): TryOneToXSql[A, Extractor, Out] =
+    TryOneToXSql(ev.substituteCo[[X] =>> SQL[X, Extractor]](underlying).one[Try[Out]](rs => ev(f(Row(rs)))))
 }
 
 /** A query where every row has been decoded to a `Try`. Running it fails if decoding any of the rows failed. */
@@ -112,42 +114,72 @@ final case class DecodedSql[A](underlying: SQL[Try[A], HasExtractor]) {
   def runSingleTry(ex: => Throwable)(using session: ReadableDbSession): Try[A] = runSingle().flatMap(_.toTry(ex))
 }
 
-final case class TryOneToXSql[One, Extractor <: WithExtractor, Output](underlying: OneToXSQL[One, Extractor, Output]) {
+final case class TryOneToXSql[A, Extractor <: WithExtractor, Out](underlying: OneToXSQL[Try[A], Extractor, Try[Out]]) {
 
-  def toOne[B](to: WrappedResultSet => B): TryOneToOneSql[One, B, Extractor, Output] =
-    TryOneToOneSql(underlying.toOne(to))
+  /** The related row is always present, as in an inner join. */
+  def toOne[B](to: Row => Try[B]): TryOneToOneSql[A, B, Extractor, Out] =
+    TryOneToOneSql(underlying.toOne(rs => to(Row(rs))))
 
-  def toMany[B](to: WrappedResultSet => Option[B]): TryOneToManySql[One, B, Extractor, Output] =
-    TryOneToManySql(underlying.toMany(to))
+  /** The related row might be missing, as in an outer join. */
+  def toOptionalOne[B](to: OptionalRow[B]): TryOneToOneSql[A, Option[B], Extractor, Out] =
+    TryOneToOneSql(underlying.toOne(rs => to.decode(Row(rs))))
+
+  def toMany[B](to: OptionalRow[B]): TryOneToManySql[A, B, Extractor, Out] =
+    TryOneToManySql(underlying.toMany(rs => to.decode(Row(rs)).sequence))
 
   def toManies[B1, B2, B3](
-      to1: WrappedResultSet => Option[B1],
-      to2: WrappedResultSet => Option[B2],
-      to3: WrappedResultSet => Option[B3],
-  ): TryOneToManies3Sql[One, B1, B2, B3, Extractor, Output] = TryOneToManies3Sql(underlying.toManies(to1, to2, to3))
+      to1: OptionalRow[B1],
+      to2: OptionalRow[B2],
+      to3: OptionalRow[B3],
+  ): TryOneToManies3Sql[A, B1, B2, B3, Extractor, Out] = TryOneToManies3Sql(
+    underlying.toManies(
+      rs => to1.decode(Row(rs)).sequence,
+      rs => to2.decode(Row(rs)).sequence,
+      rs => to3.decode(Row(rs)).sequence,
+    )
+  )
 }
 
-final case class TryOneToOneSql[One, OtherOne, Extractor <: WithExtractor, Output](
-    override val underlying: OneToOneSQL[One, OtherOne, Extractor, Output]
-) extends TrySqlOps[Output, Extractor] {
+final case class TryOneToOneSql[A, B, Extractor <: WithExtractor, Out](
+    underlying: OneToOneSQL[Try[A], Try[B], Extractor, Try[Out]]
+) {
+  def map(f: (A, B) => Out): DecodedSql[Out] = mapTry((a, b) => Success(f(a, b)))
 
-  def map(f: (One, OtherOne) => Output): TryOneToOneSql[One, OtherOne, HasExtractor, Output] =
-    TryOneToOneSql(underlying.map(f))
+  def mapTry(f: (A, B) => Try[Out]): DecodedSql[Out] =
+    DecodedSql(underlying.map((one, other) => (one, other).tupled.flatMap(f.tupled)))
 }
 
-final case class TryOneToManySql[One, Many, Extractor <: WithExtractor, Output](
-    override val underlying: OneToManySQL[One, Many, Extractor, Output]
-) extends TrySqlOps[Output, Extractor] {
+final case class TryOneToManySql[A, B, Extractor <: WithExtractor, Out](
+    underlying: OneToManySQL[Try[A], Try[B], Extractor, Try[Out]]
+) {
+  def map(f: (A, List[B]) => Out): DecodedSql[Out] = mapTry((a, bs) => Success(f(a, bs)))
 
-  def map(f: (One, scala.collection.Seq[Many]) => Output): TryOneToManySql[One, Many, HasExtractor, Output] =
-    TryOneToManySql(underlying.map(f))
+  def mapTry(f: (A, List[B]) => Try[Out]): DecodedSql[Out] = DecodedSql(
+    underlying.map((one, many) =>
+      for {
+        a   <- one
+        bs  <- many.toList.sequence
+        out <- f(a, bs)
+      } yield out
+    )
+  )
 }
 
-final case class TryOneToManies3Sql[One, Many1, Many2, Many3, Extractor <: WithExtractor, Output](
-    override val underlying: OneToManies3SQL[One, Many1, Many2, Many3, Extractor, Output]
-) extends TrySqlOps[Output, Extractor] {
+final case class TryOneToManies3Sql[A, B1, B2, B3, Extractor <: WithExtractor, Out](
+    underlying: OneToManies3SQL[Try[A], Try[B1], Try[B2], Try[B3], Extractor, Try[Out]]
+) {
+  def map(f: (A, List[B1], List[B2], List[B3]) => Out): DecodedSql[Out] =
+    mapTry((a, bs1, bs2, bs3) => Success(f(a, bs1, bs2, bs3)))
 
-  def map(
-      f: (One, scala.collection.Seq[Many1], scala.collection.Seq[Many2], scala.collection.Seq[Many3]) => Output
-  ): TryOneToManies3Sql[One, Many1, Many2, Many3, HasExtractor, Output] = TryOneToManies3Sql(underlying.map(f))
+  def mapTry(f: (A, List[B1], List[B2], List[B3]) => Try[Out]): DecodedSql[Out] = DecodedSql(
+    underlying.map((one, many1, many2, many3) =>
+      for {
+        a   <- one
+        bs1 <- many1.toList.sequence
+        bs2 <- many2.toList.sequence
+        bs3 <- many3.toList.sequence
+        out <- f(a, bs1, bs2, bs3)
+      } yield out
+    )
+  )
 }

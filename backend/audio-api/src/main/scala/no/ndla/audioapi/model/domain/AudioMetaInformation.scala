@@ -11,15 +11,17 @@ package no.ndla.audioapi.model.domain
 import sttp.tapir.Schema
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
-import no.ndla.common.CirceUtil
 import no.ndla.common.model.NDLADate
 import no.ndla.common.model.domain.article.Copyright
 import no.ndla.common.model.domain.{Tag, Title}
 import no.ndla.audioapi.Props
+import no.ndla.database.{ColumnDecoder, Row}
 import no.ndla.language.Language.getSupportedLanguages
 import no.ndla.language.model.LanguageField
 import scalikejdbc.*
 import no.ndla.common.DeriveHelpers
+
+import scala.util.Try
 
 case class AudioMetaInformation(
     id: Option[Long],
@@ -78,22 +80,15 @@ object AudioMetaInformation {
   import sttp.tapir.generic.auto.*
   implicit def schema: Schema[AudioMetaInformation] = DeriveHelpers.getSchema
 
-  def fromResultSet(au: SyntaxProvider[AudioMetaInformation])(rs: WrappedResultSet): AudioMetaInformation =
-    fromResultSet(au.resultName)(rs)
+  def fromResultSet(au: SyntaxProvider[AudioMetaInformation])(row: Row): Try[AudioMetaInformation] =
+    fromResultSet(au.resultName)(row)
 
-  def fromResultSet(au: ResultName[AudioMetaInformation])(rs: WrappedResultSet): AudioMetaInformation = {
-    val jsonStr = rs.string(au.c("document"))
-    val meta    = CirceUtil.unsafeParseAs[AudioMetaInformation](jsonStr)
-    meta.copy(
-      id = Some(rs.long(au.c("id"))),
-      revision = Some(rs.int(au.c("revision"))),
-      seriesId = rs.longOpt(au.c("series_id")),
-    )
-  }
-
-  def fromResultSetOpt(au: ResultName[AudioMetaInformation])(rs: WrappedResultSet): Option[AudioMetaInformation] = {
-    rs.longOpt(au.c("id")).map(_ => fromResultSet(au)(rs))
-  }
+  def fromResultSet(au: ResultName[AudioMetaInformation])(row: Row): Try[AudioMetaInformation] = for {
+    meta     <- row.required[AudioMetaInformation](au.c("document").value)(using ColumnDecoder.json)
+    id       <- row.required[Long](au.c("id").value)
+    revision <- row.required[Int](au.c("revision").value)
+    seriesId <- row.optional[Long](au.c("series_id").value)
+  } yield meta.copy(id = Some(id), revision = Some(revision), seriesId = seriesId)
 }
 
 class DBAudioMetaInformation(using props: Props) extends SQLSyntaxSupport[AudioMetaInformation] {

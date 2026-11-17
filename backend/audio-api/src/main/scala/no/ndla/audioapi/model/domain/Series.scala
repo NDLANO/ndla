@@ -10,10 +10,10 @@ package no.ndla.audioapi.model.domain
 
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
-import no.ndla.common.CirceUtil
 import no.ndla.common.model.NDLADate
 import no.ndla.common.model.domain.Title
 import no.ndla.audioapi.Props
+import no.ndla.database.{ColumnDecoder, Row}
 import no.ndla.language.Language.getSupportedLanguages
 import scalikejdbc.*
 
@@ -79,14 +79,13 @@ object Series {
     )
   }
 
-  def fromResultSet(s: SyntaxProvider[Series])(rs: WrappedResultSet): Try[Series] = fromResultSet(s.resultName)(rs)
+  def fromResultSet(s: SyntaxProvider[Series])(row: Row): Try[Series] = fromResultSet(s.resultName)(row)
 
-  def fromResultSet(s: ResultName[Series])(rs: WrappedResultSet): Try[Series] = {
-    val jsonStr = rs.string(s.c("document"))
-    val meta    = CirceUtil.tryParseAs[SeriesWithoutId](jsonStr)
-
-    meta.map(m => fromId(id = rs.long(s.c("id")), revision = rs.int(s.c("revision")), series = m))
-  }
+  def fromResultSet(s: ResultName[Series])(row: Row): Try[Series] = for {
+    meta     <- row.required[SeriesWithoutId](s.c("document").value)(using ColumnDecoder.json)
+    id       <- row.required[Long](s.c("id").value)
+    revision <- row.required[Int](s.c("revision").value)
+  } yield fromId(id = id, revision = revision, series = meta)
 }
 
 class DBSeries(using props: Props) extends SQLSyntaxSupport[Series] {

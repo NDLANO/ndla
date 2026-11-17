@@ -80,7 +80,7 @@ class QuizRepository(using dbQuiz: DBQuiz, dbSavedQuiz: DBSavedQuiz) extends Str
       select ${qz.result.*}
       from ${dbQuiz.as(qz)}
       where qz.id = $id
-    """.map(dbQuiz.fromResultSet(qz)).runSingle()
+    """.decode(dbQuiz.fromResultSet(qz)).runSingle()
   }
 
   def withIdOrError(id: UUID)(using session: DBSession): Try[Quiz] = withId(id).flatMap {
@@ -106,12 +106,12 @@ class QuizRepository(using dbQuiz: DBQuiz, dbSavedQuiz: DBSavedQuiz) extends Str
       where qz.owner_id = $ownerId
       order by qz.id desc
       limit $pageSize offset $offset
-    """.map(dbQuiz.fromResultSet(qz)).runList()
+    """.decode(dbQuiz.fromResultSet(qz)).runList()
   }
 
-  def countByOwner(ownerId: String)(using session: DBSession): Long = tsql"""
+  def countByOwner(ownerId: String)(using session: DBSession): Try[Long] = tsql"""
       select count(*) as count from ${dbQuiz.table} where owner_id = $ownerId
-    """.map(rs => rs.long("count")).runSingle().get.getOrElse(0L)
+    """.decode(_.required[Long]("count")).runSingle().map(_.getOrElse(0L))
 
   def saveQuiz(quizId: UUID, feideId: FeideID)(using session: DBSession): Try[Unit] = tsql"""
       insert into ${dbSavedQuiz.table} (quiz_id, feide_id)
@@ -132,7 +132,7 @@ class QuizRepository(using dbQuiz: DBQuiz, dbSavedQuiz: DBSavedQuiz) extends Str
       join ${dbSavedQuiz.as(sq)} on sq.quiz_id = qz.id
       where sq.feide_id = $feideId
       order by sq.created desc
-    """.map(dbQuiz.fromResultSet(qz)).runList()
+    """.decode(dbQuiz.fromResultSet(qz)).runList()
   }
 
   def getStats(using session: DBSession): Try[QuizStatsDTO] = tsql"""
@@ -146,16 +146,25 @@ class QuizRepository(using dbQuiz: DBQuiz, dbSavedQuiz: DBSavedQuiz) extends Str
         (select count(distinct owner_id) from ${dbQuiz.table}) as users_with_quizzes,
         (select count(distinct feide_id) from ${dbSavedQuiz.table}) as users_with_saved_quizzes
     """
-    .map(rs =>
-      QuizStatsDTO(
-        total = rs.long("total"),
-        publicQuizzes = rs.long("public_quizzes"),
-        saved = rs.long("saved"),
-        completed = rs.long("completed"),
-        completions = rs.long("completions"),
-        distinctSaved = rs.long("distinct_saved"),
-        usersWithQuizzes = rs.long("users_with_quizzes"),
-        usersWithSavedQuizzes = rs.long("users_with_saved_quizzes"),
+    .decode(row =>
+      for {
+        total                 <- row.required[Long]("total")
+        publicQuizzes         <- row.required[Long]("public_quizzes")
+        saved                 <- row.required[Long]("saved")
+        completed             <- row.required[Long]("completed")
+        completions           <- row.required[Long]("completions")
+        distinctSaved         <- row.required[Long]("distinct_saved")
+        usersWithQuizzes      <- row.required[Long]("users_with_quizzes")
+        usersWithSavedQuizzes <- row.required[Long]("users_with_saved_quizzes")
+      } yield QuizStatsDTO(
+        total = total,
+        publicQuizzes = publicQuizzes,
+        saved = saved,
+        completed = completed,
+        completions = completions,
+        distinctSaved = distinctSaved,
+        usersWithQuizzes = usersWithQuizzes,
+        usersWithSavedQuizzes = usersWithSavedQuizzes,
       )
     )
     .runSingle()
