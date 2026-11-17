@@ -83,7 +83,7 @@ catalog:
   htmlparser2: ^12.0.0
   i18next: ^27.1.1
   is-hotkey: ^0.2.1
-  jsdom: ^31.0.0
+  jsdom: ^31.0.1
   lodash-es: ^4.18.1
   lru-cache: ^11.5.3
   nock: ^15.0.6
