@@ -16,7 +16,7 @@ import org.postgresql.util.PGobject
 import scalikejdbc.*
 import no.ndla.database.implicits.*
 
-import scala.util.{Failure, Success, Try}
+import scala.util.Try
 
 class FilmFrontPageRepository(using dBFilmFrontPage: DBFilmFrontPage, dbUtility: DBUtility) extends StrictLogging {
   import FilmFrontPage._
@@ -36,19 +36,12 @@ class FilmFrontPageRepository(using dBFilmFrontPage: DBFilmFrontPage, dbUtility:
     tsql"delete from ${dBFilmFrontPage.DBFilmFrontPageData.table} where id<>${id} ".update().map(_ => id)
   }
 
-  def get(implicit session: DBSession = dbUtility.readOnlySession): Option[FilmFrontPage] = {
+  def get(implicit session: DBSession = dbUtility.readOnlySession): Try[Option[FilmFrontPage]] = {
     val fr = dBFilmFrontPage.DBFilmFrontPageData.syntax("fr")
 
     tsql"select ${fr.result.*} from ${dBFilmFrontPage.DBFilmFrontPageData.as(fr)} order by fr.id desc limit 1"
-      .map(dBFilmFrontPage.DBFilmFrontPageData.fromDb(fr))
-      .runSingleFlat() match {
-      case Success(Some(s)) => Some(s)
-      case Success(None)    => None
-      case Failure(ex)      =>
-        logger.error("Error while getting film front page from database", ex)
-        None
-    }
-
+      .decode(dBFilmFrontPage.DBFilmFrontPageData.fromDb(fr))
+      .runSingle()
   }
 
   def update(page: FilmFrontPage)(implicit session: DBSession = dbUtility.autoSession): Try[FilmFrontPage] = {

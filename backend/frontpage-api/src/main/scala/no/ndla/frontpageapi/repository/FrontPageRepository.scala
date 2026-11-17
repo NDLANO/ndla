@@ -38,8 +38,8 @@ class FrontPageRepository(using dBFrontPage: DBFrontPage, dbUtility: DBUtility) 
   def getFrontPage(implicit session: DBSession = dbUtility.readOnlySession): Try[Option[FrontPage]] = {
     val fr = dBFrontPage.DBFrontPageData.syntax("fr")
     tsql"select ${fr.result.*} from ${dBFrontPage.DBFrontPageData.as(fr)} order by fr.id desc limit 1"
-      .map(dBFrontPage.DBFrontPageData.fromResultSet(fr))
-      .runSingleFlat()
+      .decode(dBFrontPage.DBFrontPageData.fromResultSet(fr))
+      .runSingle()
   }
 
 }

@@ -23,6 +23,8 @@ import sttp.tapir.*
 import sttp.tapir.generic.auto.*
 import sttp.tapir.server.ServerEndpoint
 
+import scala.util.{Failure, Success}
+
 class FilmPageController(using
     readService: ReadService,
     writeService: WriteService,
@@ -30,6 +32,7 @@ class FilmPageController(using
     errorHandling: ErrorHandling,
     ndlaAuth: NdlaAuth,
 ) extends TapirController {
+  import errorHandling.*
   override val serviceName: String                       = "filmfrontpage"
   override val prefix: EndpointInput[Unit]               = "frontpage-api" / "v1" / serviceName
   private val pathLanguage                               = path[String]("language").description("The ISO 639-1 language code describing language.")
@@ -42,8 +45,9 @@ class FilmPageController(using
       .errorOut(errorOutputsFor(404))
       .serverLogicPure { language =>
         readService.filmFrontPage(language) match {
-          case Some(s) => s.asRight
-          case None    => errorHelpers.notFound.asLeft
+          case Success(Some(s)) => s.asRight
+          case Success(None)    => errorHelpers.notFound.asLeft
+          case Failure(ex)      => returnLeftError(ex)
         }
       },
     endpoint

@@ -10,9 +10,8 @@ package no.ndla.frontpageapi.model.domain
 
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto.*
-import io.circe.parser.*
+import no.ndla.database.{ColumnDecoder, Row}
 import no.ndla.frontpageapi.Props
-import scalikejdbc.WrappedResultSet
 import scalikejdbc.*
 
 import scala.util.Try
@@ -28,10 +27,6 @@ case class FrontPage(articleId: Long, menu: List[Menu])
 object FrontPage {
   implicit val encoder: Encoder[FrontPage] = deriveEncoder[FrontPage]
   implicit val decoder: Decoder[FrontPage] = deriveDecoder[FrontPage]
-
-  private[domain] def decodeJson(document: String): Try[FrontPage] = {
-    parse(document).flatMap(_.as[FrontPage]).toTry
-  }
 }
 
 class DBFrontPage(using props: Props) {
@@ -40,13 +35,10 @@ class DBFrontPage(using props: Props) {
     override def tableName                  = "mainfrontpage"
     override def schemaName: Option[String] = Some(props.MetaSchema)
 
-    def fromResultSet(lp: SyntaxProvider[FrontPage])(rs: WrappedResultSet): Try[FrontPage] =
-      fromResultSet(lp.resultName)(rs)
+    def fromResultSet(lp: SyntaxProvider[FrontPage])(row: Row): Try[FrontPage] = fromResultSet(lp.resultName)(row)
 
-    private def fromResultSet(lp: ResultName[FrontPage])(rs: WrappedResultSet): Try[FrontPage] = {
-      val document = rs.string(lp.c("document"))
-      FrontPage.decodeJson(document)
-    }
+    private def fromResultSet(lp: ResultName[FrontPage])(row: Row): Try[FrontPage] =
+      row.required[FrontPage](lp.c("document").value)(using ColumnDecoder.json)
 
   }
 }

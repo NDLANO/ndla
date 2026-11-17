@@ -101,7 +101,7 @@ class ReadService(using
       }
   }
 
-  def filmFrontPage(language: Option[String]): Option[api.FilmFrontPageDTO] = {
-    filmFrontPageRepository.get.map(page => converterService.toApiFilmFrontPage(page, language))
+  def filmFrontPage(language: Option[String]): Try[Option[api.FilmFrontPageDTO]] = {
+    filmFrontPageRepository.get.map(_.map(page => converterService.toApiFilmFrontPage(page, language)))
   }
 }
