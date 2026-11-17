@@ -40,6 +40,13 @@ export const createCache = (
   };
 };
 
+const noCacheDirectives = ["no-cache", "no-store"];
+export const hasNoCacheDirective = (cacheControl: string | null | undefined): boolean =>
+  !!cacheControl
+    ?.toLowerCase()
+    .split(",")
+    .some((directive) => noCacheDirectives.includes(directive.trim()));
+
 const cacheControlValues = ["no-store", "private", "no-cache"]; // In order of strictness
 const getCacheStrictness = (cacheControlValue: string | number | string[] | undefined): number => {
   return cacheControlValues.findIndex((header) => cacheControlValue === header);
