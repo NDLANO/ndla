@@ -13,11 +13,14 @@ import no.ndla.database.implicits.*
 import no.ndla.scalatestsuite.{DatabaseIntegrationSuite, UnitTestSuite}
 import scalikejdbc.*
 
-import scala.util.Failure
+import java.util.UUID
+import scala.util.{Failure, Success}
 
 class TrySqlTest extends DatabaseIntegrationSuite, UnitTestSuite, TestEnvironment {
   override lazy val schemaName: String = s"trysqltest_${ProcessHandle.current().nn.pid()}"
   val dataSource: DataSource           = testDataSource.get
+
+  private val someUuid = UUID.fromString("6e0a4d1c-6f1e-4b8a-9c3f-2f5b1a7d9e10")
 
   override def beforeAll(): Unit = {
     super.beforeAll()
@@ -31,8 +34,8 @@ class TrySqlTest extends DatabaseIntegrationSuite, UnitTestSuite, TestEnvironmen
             create table if not exists test (id int primary key, data text);
             create table if not exists test2 (id int primary key, data text, parent int not null references test(id));
             create table if not exists test3 (id int primary key, data text, parent int not null references test(id));
-            create table if not exists test4 (id int primary key, data text, parent int not null references test(id));"""
-        .execute()
+            create table if not exists test4 (id int primary key, data text, parent int not null references test(id));
+            create table if not exists nullable (id int primary key, num int, txt text, uid uuid);""".execute()
     }
   }
 
@@ -41,6 +44,7 @@ class TrySqlTest extends DatabaseIntegrationSuite, UnitTestSuite, TestEnvironmen
 
     DB.autoCommit { implicit session =>
       sql"""
+            delete from nullable;
             delete from test4;
             delete from test3;
             delete from test2;
@@ -48,6 +52,7 @@ class TrySqlTest extends DatabaseIntegrationSuite, UnitTestSuite, TestEnvironmen
 
             insert into test (id, data) values (1, 'parent1');
             insert into test (id, data) values (2, 'parent2');
+            insert into test (id, data) values (3, 'parent3');
 
             insert into test2 (id, data, parent) values (1, 'child1_of_parent1', 1);
 
@@ -57,7 +62,10 @@ class TrySqlTest extends DatabaseIntegrationSuite, UnitTestSuite, TestEnvironmen
 
             insert into test3 (id, data, parent) values (1, 'child1_of_parent1', 1);
 
-            insert into test4 (id, data, parent) values (1, 'child1_of_parent1', 1);""".execute()
+            insert into test4 (id, data, parent) values (1, 'child1_of_parent1', 1);
+
+            insert into nullable (id, num, txt, uid) values (1, 42, 'not json', '6e0a4d1c-6f1e-4b8a-9c3f-2f5b1a7d9e10');
+            insert into nullable (id, num, txt, uid) values (2, null, null, null);""".execute()
     }
   }
 
@@ -94,6 +102,58 @@ class TrySqlTest extends DatabaseIntegrationSuite, UnitTestSuite, TestEnvironmen
       val expectedException = new RuntimeException("Something went wrong!")
       val res2              = tsql"select * from test".map(_ => Failure(expectedException)).runListFlat()
       res2 should be(Failure(expectedException))
+    }
+  }
+
+  test("that required columns decode values, and fail with the column name when NULL") {
+    dbUtil.writeSession { implicit session =>
+      val present = tsql"select * from nullable where id = 1"
+        .decode(row =>
+          for {
+            num <- row.required[Int]("num")
+            txt <- row.required[String]("txt")
+            uid <- row.required[UUID]("uid")
+          } yield (num, txt, uid)
+        )
+        .runSingle()
+      present should be(Success(Some((42, "not json", someUuid))))
+
+      tsql"select * from nullable where id = 2".decode(_.required[Int]("num")).runSingle() should
+        be(Failure(UnexpectedNullColumnException("num")))
+      tsql"select * from nullable where id = 2".decode(_.required[UUID]("uid")).runSingle() should
+        be(Failure(UnexpectedNullColumnException("uid")))
+    }
+  }
+
+  test("that optional columns are None when NULL, also for primitive columns") {
+    dbUtil.writeSession { implicit session =>
+      val res = tsql"select * from nullable order by id"
+        .decode(row =>
+          for {
+            num <- row.optional[Int]("num")
+            uid <- row.optional[UUID]("uid")
+          } yield (num, uid)
+        )
+        .runList()
+      res should be(Success(List((Some(42), Some(someUuid)), (None, None))))
+    }
+  }
+
+  test("that a value that cannot be decoded fails, even if the column is optional") {
+    dbUtil.writeSession { implicit session =>
+      val res = tsql"select * from nullable where id = 1"
+        .decode(_.optional[Map[String, Int]]("txt")(using ColumnDecoder.json))
+        .runSingle()
+
+      res.failed.get shouldBe a[ColumnDecodeException]
+      res.failed.get.asInstanceOf[ColumnDecodeException].column should be("txt")
+    }
+  }
+
+  test("that a single row failing to decode fails the whole list") {
+    dbUtil.writeSession { implicit session =>
+      tsql"select * from nullable order by id".decode(_.required[Int]("num")).runList() should
+        be(Failure(UnexpectedNullColumnException("num")))
     }
   }
 

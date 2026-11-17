@@ -110,6 +110,8 @@ object NDLADate {
 
   def fromDate(date: ZonedDateTime): NDLADate = new NDLADate(date)
 
+  def fromOffsetDateTime(date: OffsetDateTime): NDLADate = new NDLADate(date.atZoneSameInstant(localZone).nn)
+
   def fromTimestampSeconds(seconds: Long): NDLADate =
     new NDLADate(ZonedDateTime.ofInstant(Instant.ofEpochSecond(seconds), localZone).nn)
 
@@ -167,14 +169,10 @@ object NDLADate {
   given timestamptzBinder: Binders[NDLADate] = new Binders[NDLADate] {
     override def apply(v: NDLADate): ParameterBinderWithValue = ParameterBinder(v, v.apply)
 
-    override def apply(rs: ResultSet, columnIndex: Int): NDLADate = {
-      val offsetDateTime = rs.getObject(columnIndex, classOf[OffsetDateTime])
-      NDLADate(offsetDateTime.nn.atZoneSameInstant(localZone).nn)
-    }
+    override def apply(rs: ResultSet, columnIndex: Int): NDLADate =
+      fromOffsetDateTime(rs.getObject(columnIndex, classOf[OffsetDateTime]).nn)
 
-    override def apply(rs: ResultSet, columnLabel: String): NDLADate = {
-      val offsetDateTime = rs.getObject(columnLabel, classOf[OffsetDateTime])
-      NDLADate(offsetDateTime.nn.atZoneSameInstant(localZone).nn)
-    }
+    override def apply(rs: ResultSet, columnLabel: String): NDLADate =
+      fromOffsetDateTime(rs.getObject(columnLabel, classOf[OffsetDateTime]).nn)
   }
 }

@@ -79,10 +79,37 @@ final case class TrySql[Output, Extractor <: WithExtractor](override val underly
 
   def map[A](f: WrappedResultSet => A): TrySql[A, HasExtractor] = TrySql(underlying.map(f))
 
+  /** Decode every row of the result with `f`. A `Failure` for any row fails the whole result. */
+  def decode[A](f: Row => Try[A]): DecodedSql[A] = DecodedSql(underlying.map(rs => f(Row(rs))))
+
   def foldLeft[A](z: A)(f: (A, WrappedResultSet) => A)(using session: ReadableDbSession): Try[A] = Try
     .throwIfInterrupted(underlying.foldLeft(z)(f))
 
   def one[Z](f: WrappedResultSet => Output): TryOneToXSql[Output, Extractor, Z] = TryOneToXSql(underlying.one(f))
+}
+
+/** A query where every row has been decoded to a `Try`. Running it fails if decoding any of the rows failed. */
+final case class DecodedSql[A](underlying: SQL[Try[A], HasExtractor]) {
+
+  /** Run the SQL query to a list. Corresponds to [[SQL.list]]. */
+  def runList()(using session: ReadableDbSession): Try[List[A]] = Try
+    .throwIfInterrupted(underlying.list())
+    .flatMap(_.sequence)
+
+  /** Run the SQL query to an `Option` of the first row. Corresponds to [[SQL.first]]. */
+  def runFirst()(using session: ReadableDbSession): Try[Option[A]] = Try
+    .throwIfInterrupted(underlying.first())
+    .flatMap(_.sequence)
+
+  /** Run the SQL query to a single `Option`. Corresponds to [[SQL.single]]. */
+  def runSingle()(using session: ReadableDbSession): Try[Option[A]] = Try
+    .throwIfInterrupted(underlying.single())
+    .flatMap(_.sequence)
+
+  /** Run the SQL query to a single value, producing a `Failure` of the given `Throwable` if the result was empty.
+    * Corresponds to [[SQL.single]].
+    */
+  def runSingleTry(ex: => Throwable)(using session: ReadableDbSession): Try[A] = runSingle().flatMap(_.toTry(ex))
 }
 
 final case class TryOneToXSql[One, Extractor <: WithExtractor, Output](underlying: OneToXSQL[One, Extractor, Output]) {
