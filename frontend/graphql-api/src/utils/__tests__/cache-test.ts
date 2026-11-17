@@ -69,5 +69,28 @@ describe("Cache", () => {
       const result = await runOnRequest({ shouldUseCache: true }, request);
       expect(result).toBe(request);
     });
+
+    const runOnResponse = (shouldUseCache: boolean, request: Request, response: Response) => {
+      const res = { getHeader: () => undefined, setHeader: () => {} };
+      const ctx = { shouldUseCache, res } as unknown as ContextWithLoaders;
+      return withCustomContext(ctx, () =>
+        OATSCacheMiddleware().onResponse!({ request, response } as MiddlewareCallbackParams & {
+          request: Request;
+          response: Response;
+        }),
+      );
+    };
+
+    it("should write response to cache when cache is enabled", async () => {
+      const responseUrl = "https://api.test.ndla.no/learningpath-api/v2/learningpaths/1";
+      await runOnResponse(true, new Request(responseUrl), new Response("fresh", { status: 200 }));
+      expect(await getCache().get(responseUrl)).toContain("fresh");
+    });
+
+    it("should not write response to cache when context disables cache", async () => {
+      const responseUrl = "https://api.test.ndla.no/learningpath-api/v2/learningpaths/2";
+      await runOnResponse(false, new Request(responseUrl), new Response("personal", { status: 200 }));
+      expect(await getCache().get(responseUrl)).toBeUndefined();
+    });
   });
 });

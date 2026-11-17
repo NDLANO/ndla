@@ -37,7 +37,7 @@ export const OATSCacheMiddleware = (useTaxonomyCache?: boolean): Middleware => (
   async onResponse({ request, response }) {
     const ctx = getContextOrThrow();
     const shouldCache = setHeaderIfShouldNotCache(response, ctx);
-    if (response.status !== 200 || !shouldCache || request.method !== "GET") return;
+    if (response.status !== 200 || !shouldCache || !ctx.shouldUseCache || request.method !== "GET") return;
 
     const cacheKey = getCacheKey(request.url, ctx, useTaxonomyCache);
     const headers: Record<string, unknown> = {};
