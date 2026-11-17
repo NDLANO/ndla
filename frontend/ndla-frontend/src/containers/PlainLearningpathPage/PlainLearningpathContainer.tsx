@@ -18,6 +18,7 @@ import { LayoutWrapper, ResourceContentContainer, RootPageContent } from "../../
 import { RobotsMeta } from "../../components/RobotsMeta";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import type { GQLPlainLearningpathContainer_LearningpathFragment } from "../../graphqlTypes";
+import { toLearningPath } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 
 const getDocumentTitle = (
