@@ -52,9 +52,6 @@ export const resolvers = {
       );
       return menu.menu.filter((item) => existingIds.has(item.articleId));
     },
-    async hideLevel(menu: FrontPageDTO | MenuDTO): Promise<boolean> {
-      return "hideLevel" in menu ? (menu.hideLevel ?? false) : false;
-    },
   },
 
   MovieTheme: {

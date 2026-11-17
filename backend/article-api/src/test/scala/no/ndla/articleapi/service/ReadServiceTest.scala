@@ -305,10 +305,7 @@ class ReadServiceTest extends UnitSuite with TestEnvironment {
         slug = Some("slug-two"),
       )
 
-    val frontPage = FrontPageDTO(
-      100,
-      List(MenuDTO(1, List(MenuDTO(2, List.empty, Some(true)), MenuDTO(3, List.empty, Some(true))), Some(false))),
-    )
+    val frontPage = FrontPageDTO(100, List(MenuDTO(1, List(MenuDTO(2, List.empty), MenuDTO(3, List.empty)))))
 
     val rowOne   = Some(ArticleRow(1, None, 1, 1, Some("some-slug"), Some(parentArticle)))
     val rowTwo   = Some(ArticleRow(2, None, 2, 2, Some("slug-one"), Some(article1)))

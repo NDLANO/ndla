@@ -12,7 +12,7 @@ import DataLoader from "dataloader";
 import { describe, expect, it } from "vitest";
 import { resolvers } from "../frontpageResolvers";
 
-const menuItem = (articleId: number, menu: MenuDTO[] = []): MenuDTO => ({ articleId, menu, hideLevel: false });
+const menuItem = (articleId: number, menu: MenuDTO[] = []): MenuDTO => ({ articleId, menu });
 
 const contextWithArticles = (existingIds: number[]) =>
   ({

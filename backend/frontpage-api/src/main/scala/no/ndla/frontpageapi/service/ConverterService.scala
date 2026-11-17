@@ -32,7 +32,7 @@ import no.ndla.language.Language.{findByLanguageOrBestEffort, mergeLanguageField
 class ConverterService(using props: Props) {
   private def toApiMenu(menu: domain.Menu): model.api.MenuDTO = model
     .api
-    .MenuDTO(menu.articleId, menu.menu.map(toApiMenu), Some(menu.hideLevel))
+    .MenuDTO(menu.articleId, menu.menu.map(toApiMenu))
 
   def toApiFrontPage(frontPage: domain.FrontPage): model.api.FrontPageDTO = model
     .api
@@ -179,7 +179,7 @@ class ConverterService(using props: Props) {
       .map { case x: model.api.MenuDTO =>
         toDomainMenu(x)
       }
-    domain.Menu(articleId = menu.articleId, menu = apiMenu, hideLevel = menu.hideLevel.getOrElse(false))
+    domain.Menu(articleId = menu.articleId, menu = apiMenu)
   }
 
   def toDomainFrontPage(page: model.api.FrontPageDTO): domain.FrontPage = {

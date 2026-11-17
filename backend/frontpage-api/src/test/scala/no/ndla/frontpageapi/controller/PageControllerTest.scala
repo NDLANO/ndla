@@ -41,15 +41,12 @@ class PageControllerTest extends UnitSuite with TestEnvironment with TapirContro
       |  "menu": [
       |    {
       |      "articleId": 1,
-      |      "hideLevel": false,
       |      "menu": [
       |        {
       |          "articleId": 2,
-      |          "hideLevel": false,
       |          "menu": [
       |            {
       |              "articleId": 4,
-      |              "hideLevel": false,
       |              "menu": []
       |            }
       |          ]
@@ -58,7 +55,6 @@ class PageControllerTest extends UnitSuite with TestEnvironment with TapirContro
       |    },
       |    {
       |      "articleId": 3,
-      |      "hideLevel": false,
       |      "menu": []
       |    }
       |  ]
