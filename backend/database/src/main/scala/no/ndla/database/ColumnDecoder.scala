@@ -17,7 +17,7 @@ import no.ndla.common.model.NDLADate
 import java.sql.ResultSet
 import java.time.OffsetDateTime
 import java.util.UUID
-import scala.util.Try
+import scala.util.{Failure, Success, Try}
 
 /** Decodes the value of a single column in a [[Row]]. */
 trait ColumnDecoder[A] {
@@ -52,6 +52,20 @@ object ColumnDecoder {
   given ColumnDecoder[Double]   = jdbc(_.getDouble(_))
   given ColumnDecoder[UUID]     = jdbc(_.getObject(_, classOf[UUID]))
   given ColumnDecoder[NDLADate] = jdbc(_.getObject(_, classOf[OffsetDateTime])).map(NDLADate.fromOffsetDateTime)
+
+  /** Decodes a `text[]` column, where SQL `NULL` elements are `None`. */
+  given ColumnDecoder[List[Option[String]]] = jdbc(_.getArray(_)).emap(array =>
+    Try(array.getArray()).flatMap {
+      case elements: Array[?] => elements
+          .toList
+          .traverse {
+            case null      => Success(None)
+            case s: String => Success(Some(s))
+            case other     => Failure(IllegalArgumentException(s"Expected text array elements, but found '$other'"))
+          }
+      case other => Failure(IllegalArgumentException(s"Expected an array, but found '$other'"))
+    }
+  )
 
   /** Decodes a `json`/`jsonb` (or text) column containing JSON. */
   def json[A: Decoder]: ColumnDecoder[A] = summon[ColumnDecoder[String]].emap(CirceUtil.tryParseAs[A])

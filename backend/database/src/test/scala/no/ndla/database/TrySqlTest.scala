@@ -34,7 +34,8 @@ class TrySqlTest extends DatabaseIntegrationSuite, UnitTestSuite, TestEnvironmen
             create table if not exists test2 (id int primary key, data text, parent int not null references test(id));
             create table if not exists test3 (id int primary key, data text, parent int not null references test(id));
             create table if not exists test4 (id int primary key, data text, parent int not null references test(id));
-            create table if not exists nullable (id int primary key, num int, txt text, uid uuid);""".execute()
+            create table if not exists nullable (id int primary key, num int, txt text, uid uuid, arr text[]);"""
+        .execute()
     }
   }
 
@@ -63,8 +64,8 @@ class TrySqlTest extends DatabaseIntegrationSuite, UnitTestSuite, TestEnvironmen
 
             insert into test4 (id, data, parent) values (1, 'child1_of_parent1', 1);
 
-            insert into nullable (id, num, txt, uid) values (1, 42, 'not json', '6e0a4d1c-6f1e-4b8a-9c3f-2f5b1a7d9e10');
-            insert into nullable (id, num, txt, uid) values (2, null, null, null);""".execute()
+            insert into nullable (id, num, txt, uid, arr) values (1, 42, 'not json', '6e0a4d1c-6f1e-4b8a-9c3f-2f5b1a7d9e10', '{a,NULL,b}');
+            insert into nullable (id, num, txt, uid, arr) values (2, null, null, null, null);""".execute()
     }
   }
 
@@ -135,6 +136,13 @@ class TrySqlTest extends DatabaseIntegrationSuite, UnitTestSuite, TestEnvironmen
         )
         .runList()
       res should be(Success(List((Some(42), Some(someUuid)), (None, None))))
+    }
+  }
+
+  test("that text arrays are decoded with NULL elements as None") {
+    dbUtil.writeSession { implicit session =>
+      tsql"select * from nullable order by id".decode(_.optional[List[Option[String]]]("arr")).runList() should
+        be(Success(List(Some(List(Some("a"), None, Some("b"))), None)))
     }
   }
 
