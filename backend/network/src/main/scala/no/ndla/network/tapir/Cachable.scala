@@ -1,14 +1,13 @@
 /*
- * Part of NDLA article-api
+ * Part of NDLA network
  * Copyright (C) 2021 NDLA
  *
  * See LICENSE
  *
  */
 
-package no.ndla.articleapi.model.domain
+package no.ndla.network.tapir
 
-import no.ndla.network.tapir.DynamicHeaders
 import sttp.model.Header
 import sttp.model.headers.CacheDirective
 

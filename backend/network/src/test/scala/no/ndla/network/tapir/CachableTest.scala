@@ -1,19 +1,18 @@
 /*
- * Part of NDLA article-api
+ * Part of NDLA network
  * Copyright (C) 2021 NDLA
  *
  * See LICENSE
  *
  */
 
-package no.ndla.articleapi.model
+package no.ndla.network.tapir
 
-import no.ndla.articleapi.*
-import no.ndla.articleapi.model.domain.Cachable
+import no.ndla.network.UnitSuite
 
 import scala.util.{Success, Try}
 
-class CachableTest extends UnitSuite with TestEnvironment {
+class CachableTest extends UnitSuite {
   test("That map works as expected") {
     val c1: Cachable[Int] = Cachable.no(1)
     c1.map(x => x + 5) should be(Cachable(6, false))
