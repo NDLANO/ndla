@@ -61,9 +61,9 @@ export const LearningpathPage = ({ node, skipToContentId, stepId, loading }: Pro
     const defaultUrl = node.context?.defaultUrl;
     return {
       rootId: node.context?.rootId ?? null,
-      defaultUrl: defaultUrl ? toLearningPath(undefined, stepId, defaultUrl) : null,
+      defaultUrl: defaultUrl ? toLearningPath(undefined, learningpathStep?.id, defaultUrl) : null,
     };
-  }, [node.context?.defaultUrl, node.context?.rootId, stepId]);
+  }, [node.context?.defaultUrl, node.context?.rootId, learningpathStep?.id]);
 
   if (!learningpath) {
     return <DefaultErrorMessagePage />;
