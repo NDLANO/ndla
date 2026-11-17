@@ -49,7 +49,10 @@ export const PlainLearningpathContainer = ({ learningpath, skipToContentId, step
       <RobotsMeta />
       {!!learningpath && (
         <>
-          <PageTitle title={getDocumentTitle(learningpath, currentStep?.title, t)} useLocationForCustomPath={true} />
+          <PageTitle
+            title={getDocumentTitle(learningpath, currentStep?.title, t)}
+            trackingProps={{ rootId: null, defaultUrl: toLearningPath(learningpath.id, currentStep?.id) }}
+          />
           <SocialMediaMetadata
             title={learningpath.title}
             trackableContent={learningpath}
