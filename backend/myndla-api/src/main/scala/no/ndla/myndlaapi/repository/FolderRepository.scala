@@ -550,7 +550,7 @@ class FolderRepository(using
       .toManies(
         rs => Resource.fromResultSetSyntaxProviderWithConnection(r, fr)(rs).sequence,
         rs => Try(dbMyNDLAUser.fromResultSet(u)(rs)).toOption,
-        rs => Try(SavedSharedFolder.fromResultSet(sfu, rs)).toOption,
+        rs => SavedSharedFolder.fromResultSet(sfu, rs).toOption.map(Success(_)),
       )
       .map((folder, resources, user, savedSharedFolder) => {
         toCompileFolder(folder, resources.toList, user.toList, savedSharedFolder.toList)
