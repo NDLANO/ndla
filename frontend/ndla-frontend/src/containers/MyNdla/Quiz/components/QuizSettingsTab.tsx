@@ -29,7 +29,7 @@ const Panel = styled("div", {
     display: "flex",
     flexDirection: "column",
     width: "full",
-    gap: "xxlarge",
+    gap: "medium",
     backgroundColor: "background.default",
     borderRadius: "xsmall",
     boxShadow: "xsmall",
@@ -58,9 +58,8 @@ const StyledHeading = styled(Heading, {
 const StyledRadioGroupLabel = styled(RadioGroupLabel, {
   base: {
     textStyle: "label.small",
-    fontWeight: "bold",
+    fontWeight: "normal",
     fontSize: "xsmall",
-    marginBlockEnd: "small",
   },
 });
 
@@ -85,6 +84,13 @@ const Section = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "xsmall",
+  },
+});
+
+const Separator = styled("hr", {
+  base: {
+    height: "[1px]",
+    color: "stroke.subtle",
   },
 });
 
@@ -156,6 +162,7 @@ export const QuizSettingsTab = ({ state, onChange }: Props) => {
         </StyledHeading>
         <Text textStyle="body.medium">{t("myNdla.quiz.form.settingsTab.description")}</Text>
       </Section>
+      <Separator aria-hidden={true} />
       <Section>
         <StyledSectionHeading asChild consumeCss>
           <h3>{t("myNdla.quiz.form.settingsTab.randomOrderHeading")}</h3>
@@ -173,6 +180,7 @@ export const QuizSettingsTab = ({ state, onChange }: Props) => {
           />
         </SettingsGrid>
       </Section>
+      <Separator aria-hidden={true} />
       <Section>
         <StyledSectionHeading asChild consumeCss>
           <h3>{t("myNdla.quiz.form.settingsTab.randomSubsetHeading")}</h3>
