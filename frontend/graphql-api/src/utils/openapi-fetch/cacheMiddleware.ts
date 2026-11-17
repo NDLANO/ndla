@@ -7,7 +7,7 @@
  */
 
 import type { Middleware } from "openapi-fetch";
-import { cacheTime, getCache, getCacheKey, setHeaderIfShouldNotCache } from "../../cache";
+import { cacheTime, getCache, getCacheKey, hasNoCacheDirective, setHeaderIfShouldNotCache } from "../../cache";
 import { getContextOrThrow } from "../context/contextStore";
 
 export function cachedResponse(data: string | undefined): Response | null {
@@ -22,16 +22,12 @@ export function cachedResponse(data: string | undefined): Response | null {
 
 export const OATSCacheMiddleware = (useTaxonomyCache?: boolean): Middleware => ({
   async onRequest({ request }) {
-    const cacheControl = request.headers.get("Cache-Control");
-
+    const ctx = getContextOrThrow();
     const isCacheable =
-      (request.method === undefined || request.method === "GET") &&
-      cacheControl !== "no-store" &&
-      cacheControl !== "reload";
+      ctx.shouldUseCache && request.method === "GET" && !hasNoCacheDirective(request.headers.get("Cache-Control"));
 
     if (!isCacheable) return request;
 
-    const ctx = getContextOrThrow();
     const cacheKey = getCacheKey(request.url, ctx, useTaxonomyCache);
     const data = await getCache().get(cacheKey);
     const cached = cachedResponse(data);
