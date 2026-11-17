@@ -20,10 +20,15 @@ const checkBackend = (): number => {
 
 const frontendTargets = ["type-check", "lint", "format-check", "test"];
 
-const checkFrontend = (): number => nx("run-many", "-t", ...frontendTargets, "-p", `${project},frontend-workspace`);
+const checkWholeFrontend = (): number => run(frontend, "pnpm", "run", "check-all");
+
+const checkFrontend = (): number =>
+  project === "frontend"
+    ? checkWholeFrontend()
+    : nx("run-many", "-t", ...frontendTargets, "-p", `${project},frontend-workspace`);
 
 const checkAll = (): number => {
-  const nxAll = run(frontend, "pnpm", "run", "check-all");
+  const nxAll = checkWholeFrontend();
   const fmt = run(backend, "./checkfmt.sh");
   const compile = mill("__.compile");
   const semanticDb = mill("_.semanticDbData");

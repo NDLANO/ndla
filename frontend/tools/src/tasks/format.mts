@@ -6,17 +6,17 @@
  *
  */
 
-import { backend, dispatch, frontend, javaModules, mill, nx, project, run } from "./repo.mts";
+import { backend, dispatch, frontend, javaModules, mill, project, run } from "./repo.mts";
 
 const formatBackend = (): number =>
   javaModules().includes(project)
     ? mill(`${project}.spotless`)
     : mill("mill.scalalib.scalafmt/reformatAll", `${project}.__.sources`);
 
-const formatFrontend = (): number => nx("run-many", "-t", "format", "-p", project);
+const formatFrontend = (): number => run(frontend, "pnpm", "run", "format");
 
 const formatAll = (): number => {
-  const nxAll = run(frontend, "pnpm", "run", "format");
+  const nxAll = formatFrontend();
   const millAll = run(backend, "./fmt.sh");
   return nxAll || millAll;
 };

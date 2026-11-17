@@ -13,27 +13,27 @@ complete "project" run="mise run projects dev"
 '''
 
 [tasks.test]
-description = "Run the tests for a single frontend app or backend module"
+description = "Run the tests for the frontend, a single frontend project or a backend module"
 run = 'eval "set -- ${usage_args:-}"; node "{{config_root}}/frontend/tools/src/tasks/index.mts" test "$@"'
 usage = '''
-arg "<project>" help="Frontend project, or any backend module including libraries"
+arg "<project>" help="`frontend`, a frontend project, or any backend module including libraries"
 arg "[args]" var=#true help="Extra arguments for nx or mill"
 complete "project" run="mise run projects test"
 '''
 
 [tasks.format]
-description = "Format a single project, or the whole repository (named `format` because `mise fmt` is taken)"
+description = "Format the frontend, a single backend module, or the whole repository (named `format` because `mise fmt` is taken)"
 run = 'node "{{config_root}}/frontend/tools/src/tasks/index.mts" format'
 usage = '''
-arg "[project]" help="Frontend project or backend module, defaults to the whole repository"
+arg "[project]" help="`frontend` (frontend project names are aliases for it) or a backend module, defaults to the whole repository"
 complete "project" run="mise run projects format"
 '''
 
 [tasks.check]
-description = "Type-check, lint, format-check and test a single project, or the whole repository"
+description = "Type-check, lint, format-check and test the frontend, a single project, or the whole repository"
 run = 'node "{{config_root}}/frontend/tools/src/tasks/index.mts" check'
 usage = '''
-arg "[project]" help="Frontend project or backend module, defaults to the whole repository"
+arg "[project]" help="`frontend`, a frontend project or a backend module, defaults to the whole repository"
 complete "project" run="mise run projects check"
 '''
 
