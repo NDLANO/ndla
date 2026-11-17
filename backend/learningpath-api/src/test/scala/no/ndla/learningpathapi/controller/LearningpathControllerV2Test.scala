@@ -20,7 +20,7 @@ import no.ndla.learningpathapi.{TestData, TestEnvironment, UnitSuite}
 import no.ndla.mapping.License
 import no.ndla.mapping.License.getLicenses
 import no.ndla.network.model.CombinedUser
-import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, NdlaServer, TapirController}
+import no.ndla.network.tapir.{Cachable, ErrorHandling, ErrorHelpers, NdlaServer, TapirController}
 import no.ndla.tapirtesting.TapirControllerTest
 import no.ndla.testbase.NullSafeMockito.*
 import sttp.client4.quick.*
@@ -306,5 +306,25 @@ class LearningpathControllerV2Test extends UnitSuite with TestEnvironment with T
       .get(uri"http://localhost:$serverPort/learningpath-api/v2/learningpaths/contains-article/")
       .send()
     res2.code.code should be(400)
+  }
+
+  test("That GET /ids is cacheable when content is not user specific") {
+    when(readService.withIdV2List(any, any, any, any, any, any[CombinedUser])).thenReturn(
+      Success(Cachable.yes(List.empty))
+    )
+
+    val res = quickRequest.get(uri"http://localhost:$serverPort/learningpath-api/v2/learningpaths/ids?ids=1").send()
+    res.code.code should be(200)
+    res.header("Cache-Control") should be(None)
+  }
+
+  test("That GET /ids is private when content is user specific") {
+    when(readService.withIdV2List(any, any, any, any, any, any[CombinedUser])).thenReturn(
+      Success(Cachable.no(List.empty))
+    )
+
+    val res = quickRequest.get(uri"http://localhost:$serverPort/learningpath-api/v2/learningpaths/ids?ids=1").send()
+    res.code.code should be(200)
+    res.header("Cache-Control") should be(Some("private"))
   }
 }

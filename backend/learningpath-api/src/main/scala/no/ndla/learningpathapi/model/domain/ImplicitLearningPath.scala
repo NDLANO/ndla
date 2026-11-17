@@ -47,6 +47,9 @@ extension (learningPath: LearningPath) {
 
   def canEditPath(userInfo: CombinedUser): Boolean = canEditLearningPath(userInfo).isSuccess
 
+  def isPathUserSpecific(user: CombinedUser): Boolean = learningPath.isPrivate || canEditPath(user) ||
+    learningPath.learningsteps.exists(_.isStepUserSpecific(user))
+
   def validateSeqNo(seqNo: Int): Unit = {
     if (seqNo < 0 || seqNo > learningPath.learningsteps.length - 1) {
       throw new ValidationException(errors =

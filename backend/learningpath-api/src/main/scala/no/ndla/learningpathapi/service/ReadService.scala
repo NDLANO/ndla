@@ -18,6 +18,7 @@ import no.ndla.learningpathapi.model.domain.*
 import no.ndla.learningpathapi.model.domain.UserInfo.*
 import no.ndla.learningpathapi.repository.LearningPathRepository
 import no.ndla.network.model.{CombinedUser, CombinedUserRequired}
+import no.ndla.network.tapir.Cachable
 
 import scala.math.max
 import scala.util.{Failure, Success, Try}
@@ -44,17 +45,21 @@ class ReadService(using learningPathRepository: LearningPathRepository, converte
       page: Int,
       pageSize: Int,
       userInfo: CombinedUser,
-  ): Try[List[LearningPathV2DTO]] = {
+  ): Try[Cachable[List[LearningPathV2DTO]]] = {
     if (ids.isEmpty) Failure(ValidationException("ids", "Query parameter 'ids' is missing"))
     else {
       val offset        = (page - 1) * pageSize
-      val learningpaths = learningPathRepository.pageWithIds(ids, pageSize, offset)
-      learningpaths
+      val learningpaths = learningPathRepository
+        .pageWithIds(ids, pageSize, offset)
         .map(_.isOwnerOrPublic(userInfo))
         .collect { case Success(lp) =>
-          converterService.asApiLearningpathV2(lp, language, fallback, userInfo)
+          lp
         }
+      val canBeCached = !learningpaths.exists(_.isPathUserSpecific(userInfo))
+      learningpaths
+        .map(lp => converterService.asApiLearningpathV2(lp, language, fallback, userInfo))
         .sequence
+        .map(Cachable(_, canBeCached))
     }
   }
 
@@ -63,14 +68,14 @@ class ReadService(using learningPathRepository: LearningPathRepository, converte
       language: String,
       fallback: Boolean,
       user: CombinedUser,
-  ): Try[LearningPathV2DTO] = {
+  ): Try[Cachable[LearningPathV2DTO]] = {
     withIdAndAccessGranted(learningPathId, user).flatMap(lp =>
-      converterService.asApiLearningpathV2(lp, language, fallback, user)
+      converterService.asApiLearningpathV2(lp, language, fallback, user).map(Cachable(_, !lp.isPathUserSpecific(user)))
     )
   }
 
-  def statusFor(learningPathId: Long, user: CombinedUser): Try[LearningPathStatusDTO] = {
-    withIdAndAccessGranted(learningPathId, user).map(lp => LearningPathStatusDTO(lp.status))
+  def statusFor(learningPathId: Long, user: CombinedUser): Try[Cachable[LearningPathStatusDTO]] = {
+    withIdAndAccessGranted(learningPathId, user).map(lp => Cachable(LearningPathStatusDTO(lp.status), !lp.isPrivate))
   }
 
   def learningStepStatusForV2(
@@ -79,9 +84,9 @@ class ReadService(using learningPathRepository: LearningPathRepository, converte
       language: String,
       fallback: Boolean,
       user: CombinedUser,
-  ): Try[LearningStepStatusDTO] = {
-    learningstepV2For(learningPathId, learningStepId, language, fallback, user).map(ls =>
-      LearningStepStatusDTO(ls.status)
+  ): Try[Cachable[LearningStepStatusDTO]] = {
+    learningstepV2For(learningPathId, learningStepId, language, fallback, user).map(
+      _.map(ls => LearningStepStatusDTO(ls.status))
     )
   }
 
@@ -91,9 +96,10 @@ class ReadService(using learningPathRepository: LearningPathRepository, converte
       language: String,
       fallback: Boolean,
       user: CombinedUser,
-  ): Try[LearningStepContainerSummaryDTO] = {
+  ): Try[Cachable[LearningStepContainerSummaryDTO]] = {
     withIdAndAccessGranted(learningPathId, user) match {
-      case Success(lp) => converterService.asLearningStepContainerSummary(status, lp, language, fallback)
+      case Success(lp) =>
+        converterService.asLearningStepContainerSummary(status, lp, language, fallback).map(Cachable(_, !lp.isPrivate))
       case Failure(ex) => Failure(ex)
     }
   }
@@ -104,11 +110,15 @@ class ReadService(using learningPathRepository: LearningPathRepository, converte
       language: String,
       fallback: Boolean,
       user: CombinedUser,
-  ): Try[LearningStepV2DTO] = {
+  ): Try[Cachable[LearningStepV2DTO]] = {
     withIdAndAccessGranted(learningPathId, user) match {
       case Success(lp) => learningPathRepository
           .learningStepWithId(learningPathId, learningStepId)
-          .map(ls => converterService.asApiLearningStepV2(ls, lp, language, fallback, user)) match {
+          .map(ls =>
+            converterService
+              .asApiLearningStepV2(ls, lp, language, fallback, user)
+              .map(Cachable(_, !(lp.isPrivate || ls.isStepUserSpecific(user))))
+          ) match {
           case Some(value) => value
           case None        => Failure(
               NotFoundException(

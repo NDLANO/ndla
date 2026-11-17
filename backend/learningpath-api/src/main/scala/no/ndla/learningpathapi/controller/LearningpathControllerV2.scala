@@ -280,6 +280,7 @@ class LearningpathControllerV2(using
     .in(pageNo)
     .errorOut(errorOutputsFor(400, 401, 403))
     .out(jsonBody[List[LearningPathV2DTO]])
+    .out(EndpointOutput.derived[DynamicHeaders])
     .withOptionalMyNDLAUserOrTokenUser
     .serverLogicPure { user =>
       { case (idList, fallback, language, pageSizeQ, pageNoQ) =>
@@ -291,7 +292,10 @@ class LearningpathControllerV2(using
           case tooSmall if tooSmall < 1 => 1
           case x                        => x
         }
-        readService.withIdV2List(idList.values, language.code, fallback, page, pageSize, user).handleErrorsOrOk
+        readService
+          .withIdV2List(idList.values, language.code, fallback, page, pageSize, user)
+          .map(_.Ok())
+          .handleErrorsOrOk
       }
     }
 
@@ -303,11 +307,12 @@ class LearningpathControllerV2(using
     .in(language)
     .in(fallback)
     .out(jsonBody[LearningPathV2DTO])
+    .out(EndpointOutput.derived[DynamicHeaders])
     .errorOut(errorOutputsFor(401, 403, 404))
     .withOptionalMyNDLAUserOrTokenUser
     .serverLogicPure { combinedUser =>
       { case (id, language, fallback) =>
-        readService.withIdV2(id, language.code, fallback, combinedUser).handleErrorsOrOk
+        readService.withIdV2(id, language.code, fallback, combinedUser).map(_.Ok()).handleErrorsOrOk
       }
     }
 
@@ -317,10 +322,11 @@ class LearningpathControllerV2(using
     .description("Shows publishingstatus for the learningpath")
     .in(pathLearningpathId / "status")
     .out(jsonBody[LearningPathStatusDTO])
+    .out(EndpointOutput.derived[DynamicHeaders])
     .errorOut(errorOutputsFor(401, 403, 404))
     .withOptionalMyNDLAUserOrTokenUser
     .serverLogicPure { maybeUser => id =>
-      readService.statusFor(id, maybeUser).handleErrorsOrOk
+      readService.statusFor(id, maybeUser).map(_.Ok()).handleErrorsOrOk
     }
 
   private def getLearningsteps: ServerEndpoint[Any, Eff] = endpoint
@@ -331,12 +337,14 @@ class LearningpathControllerV2(using
     .in(fallback)
     .in(language)
     .out(jsonBody[LearningStepContainerSummaryDTO])
+    .out(EndpointOutput.derived[DynamicHeaders])
     .errorOut(errorOutputsFor(401, 403, 404))
     .withOptionalMyNDLAUserOrTokenUser
     .serverLogicPure { maybeUser =>
       { case (id, fallback, language) =>
         readService
           .learningstepsForWithStatusV2(id, StepStatus.ACTIVE, language.code, fallback, maybeUser)
+          .map(_.Ok())
           .handleErrorsOrOk
       }
     }
@@ -349,11 +357,12 @@ class LearningpathControllerV2(using
     .in(language)
     .in(fallback)
     .out(jsonBody[LearningStepV2DTO])
+    .out(EndpointOutput.derived[DynamicHeaders])
     .errorOut(errorOutputsFor(401, 403, 404))
     .withOptionalMyNDLAUserOrTokenUser
     .serverLogicPure { maybeUser =>
       { case (pathId, stepId, language, fallback) =>
-        readService.learningstepV2For(pathId, stepId, language.code, fallback, maybeUser).handleErrorsOrOk
+        readService.learningstepV2For(pathId, stepId, language.code, fallback, maybeUser).map(_.Ok()).handleErrorsOrOk
       }
     }
 
@@ -369,7 +378,10 @@ class LearningpathControllerV2(using
     .withRequiredMyNDLAUserOrTokenUser
     .serverLogicPure { user =>
       { case (id, language, fallback) =>
-        readService.learningstepsForWithStatusV2(id, StepStatus.DELETED, language.code, fallback, user).handleErrorsOrOk
+        readService
+          .learningstepsForWithStatusV2(id, StepStatus.DELETED, language.code, fallback, user)
+          .map(_.value)
+          .handleErrorsOrOk
       }
     }
 
@@ -380,11 +392,15 @@ class LearningpathControllerV2(using
     .in(pathLearningpathId / "learningsteps" / pathLearningstepId / "status")
     .in(fallback)
     .out(jsonBody[LearningStepStatusDTO])
+    .out(EndpointOutput.derived[DynamicHeaders])
     .errorOut(errorOutputsFor(401, 403, 404))
     .withOptionalMyNDLAUserOrTokenUser
     .serverLogicPure { user =>
       { case (pathId, stepId, fallback) =>
-        readService.learningStepStatusForV2(pathId, stepId, props.DefaultLanguage, fallback, user).handleErrorsOrOk
+        readService
+          .learningStepStatusForV2(pathId, stepId, props.DefaultLanguage, fallback, user)
+          .map(_.Ok())
+          .handleErrorsOrOk
       }
     }
 
