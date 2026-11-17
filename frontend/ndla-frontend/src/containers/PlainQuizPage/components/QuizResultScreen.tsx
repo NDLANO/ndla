@@ -100,6 +100,23 @@ const ResultSummary = styled("div", {
   },
 });
 
+const MobileRetryButton = styled(Button, {
+  base: {
+    desktop: {
+      display: "none",
+    },
+  },
+});
+
+const DesktopRetryButton = styled(Button, {
+  base: {
+    display: "none",
+    desktop: {
+      display: "inline-flex",
+    },
+  },
+});
+
 const FeedbackContainer = styled("div", {
   base: {
     display: "flex",
@@ -289,9 +306,12 @@ export const QuizResultScreen = ({ session, answers, result, randomOrder, onRetr
             </Text>
           </FeedbackContainer>
         </ResultSummary>
-        <Button variant="secondary" onClick={onRetry}>
+        <MobileRetryButton variant="tertiary" onClick={onRetry}>
           {t("myNdla.quiz.take.result.retry")}
-        </Button>
+        </MobileRetryButton>
+        <DesktopRetryButton variant="secondary" onClick={onRetry}>
+          {t("myNdla.quiz.take.result.retry")}
+        </DesktopRetryButton>
       </ResultPanel>
       <SummaryRoot multiple>
         <AccordionItem value="summary">

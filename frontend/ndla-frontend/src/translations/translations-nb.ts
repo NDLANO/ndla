@@ -638,7 +638,7 @@ const translations = {
         result: {
           heading: "Bra jobbet!",
           headingPerfect: "Fantastisk! Alt rett!",
-          headingFair: "God forsøk!",
+          headingFair: "Godt forsøk!",
           headingLow: "Det gikk ikke helt veien denne gangen",
           score: "Du har {{correct}} av {{total}} rette svar.",
           scorePillTotal: " / {{total}} riktige",
