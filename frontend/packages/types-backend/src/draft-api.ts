@@ -939,8 +939,6 @@ export type components = {
             language: string;
             /** @description The title of the article */
             title: string;
-            /** @description The date the article is published */
-            published?: string;
             /** @description The revision date of the article */
             revised?: string;
             /** @description The content of the article */
