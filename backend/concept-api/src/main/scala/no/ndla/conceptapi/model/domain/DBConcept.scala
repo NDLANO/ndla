@@ -22,9 +22,9 @@ class DBConcept(using props: Props) extends SQLSyntaxSupport[Concept] {
   def fromResultSet(lp: SyntaxProvider[Concept])(row: Row): Try[Concept] = fromResultSet(lp.resultName)(row)
 
   def fromResultSet(lp: ResultName[Concept])(row: Row): Try[Concept] = for {
-    id       <- row.required[Long](lp.c("id").value)
-    revision <- row.optional[Int](lp.c("revision").value)
-    meta     <- row.required[Concept](lp.c("document").value)(using ColumnDecoder.json)
+    id       <- row.required[Long](lp.c("id"))
+    revision <- row.optional[Int](lp.c("revision"))
+    meta     <- row.required[Concept](lp.c("document"))(using ColumnDecoder.json)
   } yield new Concept(
     id = Some(id),
     revision = revision,

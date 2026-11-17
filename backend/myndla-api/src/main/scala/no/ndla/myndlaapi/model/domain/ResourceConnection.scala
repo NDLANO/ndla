@@ -10,7 +10,7 @@ package no.ndla.myndlaapi.model.domain
 
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
-import no.ndla.database.Row
+import no.ndla.database.{ColumnName, Row}
 import no.ndla.myndlaapi.Props
 import no.ndla.common.model.NDLADate
 import scalikejdbc.*
@@ -29,9 +29,9 @@ object ResourceConnection {
   implicit val decoder: Decoder[ResourceConnection] = deriveDecoder
 
   def fromResultSet(lp: SyntaxProvider[ResourceConnection])(row: Row): Try[ResourceConnection] =
-    fromResultSet((s: String) => lp.resultName.c(s).value)(row)
+    fromResultSet((s: String) => lp.resultName.c(s))(row)
 
-  def fromResultSet(colNameWrapper: String => String)(row: Row): Try[ResourceConnection] = for {
+  def fromResultSet(colNameWrapper: String => ColumnName)(row: Row): Try[ResourceConnection] = for {
     folderId      <- row.optional[UUID](colNameWrapper("folder_id"))
     resourceId    <- row.required[UUID](colNameWrapper("resource_id"))
     rank          <- row.required[Int](colNameWrapper("rank"))

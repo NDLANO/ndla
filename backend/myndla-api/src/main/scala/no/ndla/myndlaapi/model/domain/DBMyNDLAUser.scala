@@ -22,7 +22,7 @@ class DBMyNDLAUser(using props: Props) extends SQLSyntaxSupport[MyNDLAUser] {
   override def schemaName: Option[String] = Some(props.MetaSchema)
 
   def fromResultSet(lp: SyntaxProvider[MyNDLAUser])(row: Row): Try[MyNDLAUser] = {
-    val column = (s: String) => lp.resultName.c(s).value
+    val column = (s: String) => lp.resultName.c(s)
     for {
       document <- row.required[MyNDLAUserDocument](column("document"))(using ColumnDecoder.json)
       id       <- row.required[Long](column("id"))

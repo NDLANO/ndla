@@ -165,7 +165,7 @@ class AudioRepository(using
       row: Row
   ): Try[AudioMetaInformation] = for {
     audio  <- AudioMetaInformation.fromResultSet(au)(row)
-    series <- OptionalRow.presentWhen(se.resultName.c("id").value)(Series.fromResultSet(se)).decode(row)
+    series <- OptionalRow.presentWhen(se.resultName.c("id"))(Series.fromResultSet(se)).decode(row)
   } yield audio.copy(series = series)
 
   def getRandomAudio()(implicit session: DBSession = dbUtility.readOnlySession): Try[Option[AudioMetaInformation]] = {

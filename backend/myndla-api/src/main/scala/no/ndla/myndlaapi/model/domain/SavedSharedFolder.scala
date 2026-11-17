@@ -25,7 +25,7 @@ object SavedSharedFolder {
   implicit val decoder: Decoder[SavedSharedFolder] = deriveDecoder
 
   def fromResultSet(sp: SyntaxProvider[SavedSharedFolder])(row: Row): Try[SavedSharedFolder] = {
-    val column = (s: String) => sp.resultName.c(s).value
+    val column = (s: String) => sp.resultName.c(s)
     for {
       folderId <- row.required[UUID](column("folder_id"))
       feideId  <- row.required[String](column("feide_id"))

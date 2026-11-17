@@ -43,7 +43,7 @@ class DBFilmFrontPage(using props: Props) {
     def fromDb(lp: SyntaxProvider[FilmFrontPage])(row: Row): Try[FilmFrontPage] = fromDb(lp.resultName)(row)
 
     private def fromDb(lp: ResultName[FilmFrontPage])(row: Row): Try[FilmFrontPage] =
-      row.required[FilmFrontPage](lp.c("document").value)(using ColumnDecoder.json)
+      row.required[FilmFrontPage](lp.c("document"))(using ColumnDecoder.json)
 
   }
 }

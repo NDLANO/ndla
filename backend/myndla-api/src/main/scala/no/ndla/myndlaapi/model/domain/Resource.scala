@@ -12,7 +12,7 @@ import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
 import no.ndla.common.implicits.*
 import no.ndla.common.model.NDLADate
-import no.ndla.database.{ColumnDecoder, Row}
+import no.ndla.database.{ColumnDecoder, ColumnName, Row}
 import no.ndla.myndlaapi.Props
 import no.ndla.common.model.domain.ResourceType
 import no.ndla.network.model.FeideID
@@ -69,9 +69,9 @@ object Resource {
   implicit val decoder: Decoder[Resource] = deriveDecoder
 
   def fromResultSet(lp: SyntaxProvider[Resource])(row: Row): Try[Resource] =
-    fromResultSet((s: String) => lp.resultName.c(s).value)(row)
+    fromResultSet((s: String) => lp.resultName.c(s))(row)
 
-  def fromResultSet(colNameWrapper: String => String)(row: Row): Try[Resource] = for {
+  def fromResultSet(colNameWrapper: String => ColumnName)(row: Row): Try[Resource] = for {
     id           <- row.required[UUID](colNameWrapper("id"))
     feideId      <- row.required[String](colNameWrapper("feide_id"))
     created      <- row.required[NDLADate](colNameWrapper("created"))
@@ -85,9 +85,9 @@ object Resource {
   def fromResultSetWithConnection(lp: SyntaxProvider[Resource], cp: SyntaxProvider[ResourceConnection])(
       row: Row
   ): Try[Resource] =
-    fromResultSetWithConnection((s: String) => lp.resultName.c(s).value, (s: String) => cp.resultName.c(s).value)(row)
+    fromResultSetWithConnection((s: String) => lp.resultName.c(s), (s: String) => cp.resultName.c(s))(row)
 
-  def fromResultSetWithConnection(resourceColumn: String => String, connectionColumn: String => String)(
+  def fromResultSetWithConnection(resourceColumn: String => ColumnName, connectionColumn: String => ColumnName)(
       row: Row
   ): Try[Resource] = for {
     resource   <- fromResultSet(resourceColumn)(row)

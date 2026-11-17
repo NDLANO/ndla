@@ -84,10 +84,10 @@ object AudioMetaInformation {
     fromResultSet(au.resultName)(row)
 
   def fromResultSet(au: ResultName[AudioMetaInformation])(row: Row): Try[AudioMetaInformation] = for {
-    meta     <- row.required[AudioMetaInformation](au.c("document").value)(using ColumnDecoder.json)
-    id       <- row.required[Long](au.c("id").value)
-    revision <- row.required[Int](au.c("revision").value)
-    seriesId <- row.optional[Long](au.c("series_id").value)
+    meta     <- row.required[AudioMetaInformation](au.c("document"))(using ColumnDecoder.json)
+    id       <- row.required[Long](au.c("id"))
+    revision <- row.required[Int](au.c("revision"))
+    seriesId <- row.optional[Long](au.c("series_id"))
   } yield meta.copy(id = Some(id), revision = Some(revision), seriesId = seriesId)
 }
 

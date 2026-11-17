@@ -51,7 +51,7 @@ class DBQuiz(using props: Props) extends SQLSyntaxSupport[Quiz] {
   override def schemaName: Option[String] = Some(props.MetaSchema)
 
   def fromResultSet(qz: SyntaxProvider[Quiz])(row: Row): Try[Quiz] = {
-    val column = (s: String) => qz.resultName.c(s).value
+    val column = (s: String) => qz.resultName.c(s)
     for {
       document       <- row.required[Quiz](column("document"))(using ColumnDecoder.json)
       id             <- row.required[UUID](column("id"))

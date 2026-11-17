@@ -82,9 +82,9 @@ object Series {
   def fromResultSet(s: SyntaxProvider[Series])(row: Row): Try[Series] = fromResultSet(s.resultName)(row)
 
   def fromResultSet(s: ResultName[Series])(row: Row): Try[Series] = for {
-    meta     <- row.required[SeriesWithoutId](s.c("document").value)(using ColumnDecoder.json)
-    id       <- row.required[Long](s.c("id").value)
-    revision <- row.required[Int](s.c("revision").value)
+    meta     <- row.required[SeriesWithoutId](s.c("document"))(using ColumnDecoder.json)
+    id       <- row.required[Long](s.c("id"))
+    revision <- row.required[Int](s.c("revision"))
   } yield fromId(id = id, revision = revision, series = meta)
 }
 

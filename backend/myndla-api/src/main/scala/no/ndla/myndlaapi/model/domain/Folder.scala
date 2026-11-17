@@ -12,7 +12,7 @@ import cats.implicits.catsSyntaxOptionId
 import no.ndla.common.model.NDLADate
 import no.ndla.myndlaapi.Props
 import no.ndla.common.model.domain.myndla.{FolderStatus, MyNDLAUser}
-import no.ndla.database.Row
+import no.ndla.database.{ColumnName, Row}
 import no.ndla.network.model.FeideID
 import scalikejdbc.*
 
@@ -86,11 +86,11 @@ case class Folder(
 object Folder {
 
   def fromResultSet(lp: SyntaxProvider[Folder])(row: Row): Try[Folder] =
-    fromResultSet((s: String) => lp.resultName.c(s).value)(row)
+    fromResultSet((s: String) => lp.resultName.c(s))(row)
 
   def fromResultSet(row: Row): Try[Folder] = fromResultSet((s: String) => s)(row)
 
-  def fromResultSet(colNameWrapper: String => String)(row: Row): Try[Folder] = for {
+  def fromResultSet(colNameWrapper: String => ColumnName)(row: Row): Try[Folder] = for {
     id          <- row.required[UUID](colNameWrapper("id"))
     parentId    <- row.optional[UUID](colNameWrapper("parent_id"))
     feideId     <- row.required[String](colNameWrapper("feide_id"))

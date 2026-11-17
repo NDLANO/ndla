@@ -46,8 +46,8 @@ object ImageMetaInformation {
     fromResultSet(im.resultName)(row)
 
   def fromResultSet(im: ResultName[ImageMetaInformation])(row: Row): Try[ImageMetaInformation] = for {
-    id       <- row.required[Long](im.c("id").value)
-    metadata <- row.required[ImageMetaInformation](im.c("metadata").value)(using ColumnDecoder.json)
+    id       <- row.required[Long](im.c("id"))
+    metadata <- row.required[ImageMetaInformation](im.c("metadata"))(using ColumnDecoder.json)
   } yield metadata.copy(id = Some(id))
 }
 

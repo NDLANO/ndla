@@ -38,7 +38,7 @@ class DBFrontPage(using props: Props) {
     def fromResultSet(lp: SyntaxProvider[FrontPage])(row: Row): Try[FrontPage] = fromResultSet(lp.resultName)(row)
 
     private def fromResultSet(lp: ResultName[FrontPage])(row: Row): Try[FrontPage] =
-      row.required[FrontPage](lp.c("document").value)(using ColumnDecoder.json)
+      row.required[FrontPage](lp.c("document"))(using ColumnDecoder.json)
 
   }
 }

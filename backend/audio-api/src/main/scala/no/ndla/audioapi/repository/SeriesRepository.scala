@@ -151,6 +151,6 @@ class SeriesRepository(using
   }
 
   private def episodes(au: SyntaxProvider[AudioMetaInformation]): OptionalRow[AudioMetaInformation] = OptionalRow
-    .presentWhen(au.resultName.c("id").value)(AudioMetaInformation.fromResultSet(au.resultName))
+    .presentWhen(au.resultName.c("id"))(AudioMetaInformation.fromResultSet(au.resultName))
 
 }

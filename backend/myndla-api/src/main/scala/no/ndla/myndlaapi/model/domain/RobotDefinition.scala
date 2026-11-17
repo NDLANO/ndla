@@ -83,7 +83,7 @@ object RobotConfiguration {
 object RobotDefinition {
 
   def fromResultSet(sp: SyntaxProvider[RobotDefinition])(row: Row): Try[RobotDefinition] = {
-    val column = (s: String) => sp.resultName.c(s).value
+    val column = (s: String) => sp.resultName.c(s)
     for {
       id      <- row.required[UUID](column("id"))
       feideId <- row.required[String](column("feide_id"))

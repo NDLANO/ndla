@@ -10,7 +10,7 @@ package no.ndla.database
 
 import no.ndla.common.TryUtil.throwIfInterrupted
 import no.ndla.common.implicits.toTry
-import scalikejdbc.WrappedResultSet
+import scalikejdbc.{SQLSyntax, WrappedResultSet}
 
 import scala.util.{Failure, Success, Try}
 
@@ -20,27 +20,34 @@ import scala.util.{Failure, Success, Try}
   */
 opaque type Row = WrappedResultSet
 
+type ColumnName = String | SQLSyntax
+
 object Row {
   private[database] def apply(rs: WrappedResultSet): Row = rs
+
+  private def label(column: ColumnName): String = column match {
+    case name: String      => name
+    case syntax: SQLSyntax => syntax.value
+  }
 
   extension (row: Row) {
 
     /** Reads a column that must have a value. SQL `NULL` results in an [[UnexpectedNullColumnException]]. */
-    def required[A](column: String)(using ColumnDecoder[A]): Try[A] = row
+    def required[A](column: ColumnName)(using ColumnDecoder[A]): Try[A] = row
       .optional[A](column)
-      .flatMap(_.toTry(UnexpectedNullColumnException(column)))
+      .flatMap(_.toTry(UnexpectedNullColumnException(label(column))))
 
     /** Reads a column that may be SQL `NULL`, which results in `None`. */
-    def optional[A](column: String)(using decoder: ColumnDecoder[A]): Try[Option[A]] = decoder
-      .decode(row.underlying, column)
+    def optional[A](column: ColumnName)(using decoder: ColumnDecoder[A]): Try[Option[A]] = decoder
+      .decode(row.underlying, label(column))
       .recoverWith { case ex =>
-        Failure(ColumnDecodeException(column, ex))
+        Failure(ColumnDecodeException(label(column), ex))
       }
 
-    private[database] def isNull(column: String): Try[Boolean] = Try
-      .throwIfInterrupted(row.underlying.getObject(column) == null)
+    private[database] def isNull(column: ColumnName): Try[Boolean] = Try
+      .throwIfInterrupted(row.underlying.getObject(label(column)) == null)
       .recoverWith { case ex =>
-        Failure(ColumnDecodeException(column, ex))
+        Failure(ColumnDecodeException(label(column), ex))
       }
   }
 }
@@ -57,7 +64,7 @@ object OptionalRow {
     * `presenceColumn` must be a non-nullable column of the joined table, typically its primary key, so that it is only
     * `NULL` when there is no joined row.
     */
-  def presentWhen[A](presenceColumn: String)(decoder: Row => Try[A]): OptionalRow[A] = new OptionalRow(row =>
+  def presentWhen[A](presenceColumn: ColumnName)(decoder: Row => Try[A]): OptionalRow[A] = new OptionalRow(row =>
     row
       .isNull(presenceColumn)
       .flatMap {

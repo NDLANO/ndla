@@ -24,8 +24,8 @@ class DBSubjectPage(using props: Props) {
     def fromDb(lp: SyntaxProvider[SubjectPage])(row: Row): Try[SubjectPage] = fromDb(lp.resultName)(row)
 
     private def fromDb(lp: ResultName[SubjectPage])(row: Row): Try[SubjectPage] = for {
-      id          <- row.required[Long](lp.c("id").value)
-      subjectPage <- row.required[SubjectPage](lp.c("document").value)(using ColumnDecoder.json)
+      id          <- row.required[Long](lp.c("id"))
+      subjectPage <- row.required[SubjectPage](lp.c("document"))(using ColumnDecoder.json)
     } yield subjectPage.copy(id = Some(id))
 
   }

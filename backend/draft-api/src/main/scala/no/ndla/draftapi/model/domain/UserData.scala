@@ -34,8 +34,8 @@ object UserData {
   def fromResultSet(ud: SyntaxProvider[UserData])(row: Row): Try[UserData] = fromResultSet(ud.resultName)(row)
 
   def fromResultSet(ud: ResultName[UserData])(row: Row): Try[UserData] = for {
-    userData <- row.required[UserData](ud.c("document").value)(using ColumnDecoder.json)
-    id       <- row.required[Long](ud.c("id").value)
+    userData <- row.required[UserData](ud.c("document"))(using ColumnDecoder.json)
+    id       <- row.required[Long](ud.c("id"))
   } yield userData.copy(id = Some(id))
 }
 

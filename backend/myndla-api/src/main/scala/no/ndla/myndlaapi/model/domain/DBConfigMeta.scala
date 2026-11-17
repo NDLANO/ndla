@@ -20,5 +20,5 @@ class DBConfigMeta(using props: Props) extends SQLSyntaxSupport[ConfigMeta] {
   override def schemaName: Option[String] = Some(props.MetaSchema)
 
   def fromResultSet(c: SyntaxProvider[ConfigMeta])(row: Row): Try[ConfigMeta] =
-    row.required[ConfigMeta](c.resultName.c("value").value)(using ColumnDecoder.json)
+    row.required[ConfigMeta](c.resultName.c("value"))(using ColumnDecoder.json)
 }

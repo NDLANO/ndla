@@ -24,13 +24,13 @@ class DBDraft(using props: Props) extends SQLSyntaxSupport[Draft] {
   def fromResultSet(dr: SyntaxProvider[Draft])(row: Row): Try[Draft] = fromResultSet(dr.resultName)(row)
 
   def fromResultSet(dr: ResultName[Draft])(row: Row): Try[Draft] = for {
-    meta                 <- row.required[Draft](dr.c("document").value)(using ColumnDecoder.json)
-    slug                 <- row.optional[String](dr.c("slug").value)
-    externalIds          <- row.optional[List[Option[String]]](dr.c("external_id").value)
-    responsibleId        <- row.optional[String](dr.c("responsible").value)
-    responsibleUpdatedAt <- row.optional[NDLADate](dr.c("responsible_updated_at").value)
-    id                   <- row.required[Long](dr.c("article_id").value)
-    revision             <- row.required[Int](dr.c("revision").value)
+    meta                 <- row.required[Draft](dr.c("document"))(using ColumnDecoder.json)
+    slug                 <- row.optional[String](dr.c("slug"))
+    externalIds          <- row.optional[List[Option[String]]](dr.c("external_id"))
+    responsibleId        <- row.optional[String](dr.c("responsible"))
+    responsibleUpdatedAt <- row.optional[NDLADate](dr.c("responsible_updated_at"))
+    id                   <- row.required[Long](dr.c("article_id"))
+    revision             <- row.required[Int](dr.c("revision"))
   } yield meta.copy(
     id = Some(id),
     revision = Some(revision),

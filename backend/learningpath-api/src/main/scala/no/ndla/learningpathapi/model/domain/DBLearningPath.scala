@@ -22,9 +22,9 @@ class DBLearningPath(using props: Props) extends SQLSyntaxSupport[LearningPath] 
   def fromResultSet(lp: SyntaxProvider[LearningPath])(row: Row): Try[LearningPath] = fromResultSet(lp.resultName)(row)
 
   def fromResultSet(lp: ResultName[LearningPath])(row: Row): Try[LearningPath] = for {
-    meta       <- row.required[LearningPath](lp.c("document").value)(using ColumnDecoder.json)
-    id         <- row.required[Long](lp.c("id").value)
-    revision   <- row.required[Int](lp.c("revision").value)
-    externalId <- row.optional[String](lp.c("external_id").value)
+    meta       <- row.required[LearningPath](lp.c("document"))(using ColumnDecoder.json)
+    id         <- row.required[Long](lp.c("id"))
+    revision   <- row.required[Int](lp.c("revision"))
+    externalId <- row.optional[String](lp.c("external_id"))
   } yield meta.copy(id = Some(id), revision = Some(revision), externalId = externalId)
 }

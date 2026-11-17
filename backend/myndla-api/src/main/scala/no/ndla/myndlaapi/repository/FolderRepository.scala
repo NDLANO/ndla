@@ -367,7 +367,7 @@ class FolderRepository(using
             limit ${size.getOrElse(1)}
            """
       .one(Resource.fromResultSet(r))
-      .toMany(OptionalRow.presentWhen(fr.resultName.c("resource_id").value)(ResourceConnection.fromResultSet(fr)))
+      .toMany(OptionalRow.presentWhen(fr.resultName.c("resource_id"))(ResourceConnection.fromResultSet(fr)))
       .map((resource, connections) => resource.copy(connection = connections.find(_.resourceId == resource.id)))
       .runList()
   }
@@ -532,9 +532,9 @@ class FolderRepository(using
          """
       .one(Folder.fromResultSet((s: String) => s"f_$s"))
       .toManies(
-        OptionalRow.presentWhen(fr.resultName.c("resource_id").value)(Resource.fromResultSetWithConnection(r, fr)),
-        OptionalRow.presentWhen(u.resultName.c("id").value)(dbMyNDLAUser.fromResultSet(u)),
-        OptionalRow.presentWhen(sfu.resultName.c("folder_id").value)(SavedSharedFolder.fromResultSet(sfu)),
+        OptionalRow.presentWhen(fr.resultName.c("resource_id"))(Resource.fromResultSetWithConnection(r, fr)),
+        OptionalRow.presentWhen(u.resultName.c("id"))(dbMyNDLAUser.fromResultSet(u)),
+        OptionalRow.presentWhen(sfu.resultName.c("folder_id"))(SavedSharedFolder.fromResultSet(sfu)),
       )
       .mapTry(toCompileFolder)
       .runList()
@@ -900,7 +900,7 @@ class FolderRepository(using
       .decode(row =>
         for {
           folder <- Folder.fromResultSet(f)(row)
-          rank   <- row.required[Int](sfu.resultName.rank.value)
+          rank   <- row.required[Int](sfu.resultName.rank)
         } yield folder.copy(rank = rank)
       )
       .runList()
