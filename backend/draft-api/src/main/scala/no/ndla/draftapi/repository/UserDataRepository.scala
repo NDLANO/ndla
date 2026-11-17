@@ -56,7 +56,9 @@ class UserDataRepository(using dbUserData: DBUserData) extends StrictLogging {
 
   private def userDataWhere(whereClause: SQLSyntax)(using DBSession): Try[Option[UserData]] = {
     val ud = dbUserData.syntax("ud")
-    tsql"select ${ud.result.*} from ${dbUserData.as(ud)} where $whereClause".map(UserData.fromResultSet(ud)).runSingle()
+    tsql"select ${ud.result.*} from ${dbUserData.as(ud)} where $whereClause"
+      .decode(UserData.fromResultSet(ud))
+      .runSingle()
   }
 
 }
