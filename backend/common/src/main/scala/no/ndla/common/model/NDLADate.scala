@@ -13,7 +13,7 @@ import io.circe.{Decoder, Encoder, FailedCursor}
 import scalikejdbc.*
 import sttp.tapir.Schema
 
-import java.sql.{PreparedStatement, ResultSet}
+import java.sql.PreparedStatement
 import java.time.*
 import java.time.format.DateTimeFormatter
 import scala.annotation.tailrec
@@ -166,13 +166,5 @@ object NDLADate {
 
   implicit val schema: Schema[NDLADate] = Schema.schemaForLocalDateTime.as[NDLADate]
 
-  given timestamptzBinder: Binders[NDLADate] = new Binders[NDLADate] {
-    override def apply(v: NDLADate): ParameterBinderWithValue = ParameterBinder(v, v.apply)
-
-    override def apply(rs: ResultSet, columnIndex: Int): NDLADate =
-      fromOffsetDateTime(rs.getObject(columnIndex, classOf[OffsetDateTime]).nn)
-
-    override def apply(rs: ResultSet, columnLabel: String): NDLADate =
-      fromOffsetDateTime(rs.getObject(columnLabel, classOf[OffsetDateTime]).nn)
-  }
+  given timestamptzParameterBinderFactory: ParameterBinderFactory[NDLADate] = ParameterBinderFactory(date => date.apply)
 }

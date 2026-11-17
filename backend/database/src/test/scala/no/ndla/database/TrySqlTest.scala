@@ -83,24 +83,24 @@ class TrySqlTest extends DatabaseIntegrationSuite, UnitTestSuite, TestEnvironmen
 
   test("that runSingle and runSingleTry works") {
     dbUtil.writeSession { implicit session =>
-      val res1 = tsql"select * from test where id = 1".map(_.string("data")).runSingle().failIfFailure
+      val res1 = tsql"select * from test where id = 1".decode(_.required[String]("data")).runSingle().failIfFailure
       res1 should be(Some("parent1"))
 
       val expectedException = new RuntimeException("No data found!")
       val res2              = tsql"select * from test where data = 'this does not exist'"
-        .map(_.string("data"))
+        .decode(_.required[String]("data"))
         .runSingleTry(expectedException)
       res2 should be(Failure(expectedException))
     }
   }
 
-  test("that runList and runListFlat works") {
+  test("that runList works, and fails if decoding a row fails") {
     dbUtil.writeSession { implicit session =>
-      val res1 = tsql"select * from test where id = 1".map(_.string("data")).runList().failIfFailure
+      val res1 = tsql"select * from test where id = 1".decode(_.required[String]("data")).runList().failIfFailure
       res1 should be(List("parent1"))
 
       val expectedException = new RuntimeException("Something went wrong!")
-      val res2              = tsql"select * from test".map(_ => Failure(expectedException)).runListFlat()
+      val res2              = tsql"select * from test".decode(_ => Failure(expectedException)).runList()
       res2 should be(Failure(expectedException))
     }
   }

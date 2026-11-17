@@ -10,17 +10,22 @@ package no.ndla.imageapi.db.migration
 
 import io.circe.{Json, parser}
 import no.ndla.common.CirceUtil
-import no.ndla.database.TableMigration
+import no.ndla.database.{Row, TableMigration}
 import no.ndla.imageapi.db.migration.V23__MergeImageFileData.{ImageFileRow, ImageMetaRow}
 import org.postgresql.util.PGobject
 import scalikejdbc.*
+
+import scala.util.Try
 
 class V23__MergeImageFileData extends TableMigration[ImageMetaRow] {
   override val tableName: String            = "imagemetadata"
   override lazy val whereClause: SQLSyntax  = sqls"metadata is not null"
   private val imageFileTableName: SQLSyntax = sqls"imagefiledata"
 
-  override def extractRowData(rs: WrappedResultSet): ImageMetaRow = ImageMetaRow(rs.long("id"), rs.string("metadata"))
+  override def extractRowData(row: Row): Try[ImageMetaRow] = for {
+    id       <- row.required[Long]("id")
+    metadata <- row.required[String]("metadata")
+  } yield ImageMetaRow(id, metadata)
 
   def convertImageMetadata(imageMetadata: String, imageFileRows: Seq[ImageFileRow]): String = {
     val imageFileJsons = imageFileRows.map { case ImageFileRow(_, fileName, fileMeta) =>

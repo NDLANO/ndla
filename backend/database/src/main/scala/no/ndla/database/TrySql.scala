@@ -15,55 +15,7 @@ import scalikejdbc.*
 
 import scala.util.{Success, Try}
 
-trait TrySqlOps[Output, Extractor <: WithExtractor] {
-  val underlying: SQL[Output, Extractor]
-
-  private type ThisHasExtractor = SQL[Output, Extractor] =:= SQL[Output, HasExtractor]
-
-  /** Run the SQL query to a list. Corresponds to [[SQL.list]]. */
-  def runList()(using ev: ThisHasExtractor, session: ReadableDbSession): Try[List[Output]] =
-    Try.throwIfInterrupted(ev(underlying).list())
-
-  /** Run the SQL query to a list, and flatten the result to a single `Try`. Corresponds to [[SQL.list]]. */
-  def runListFlat[U]()(using
-      isTry: Output <:< Try[U],
-      hasExtractor: ThisHasExtractor,
-      session: ReadableDbSession,
-  ): Try[List[U]] = Try.throwIfInterrupted(hasExtractor(underlying).list().sequence).flatten
-
-  /** Run the SQL query to an `Option` of the first row. Corresponds to [[SQL.first]]. */
-  def runFirst()(using ev: ThisHasExtractor, session: ReadableDbSession): Try[Option[Output]] =
-    Try.throwIfInterrupted(ev(underlying).first())
-
-  /** Run the SQL query to an `Option` of the first row, and flatten with the inner `Try`. Corresponds to [[SQL.first]].
-    */
-  def runFirstFlat[U]()(using
-      isTry: Output <:< Try[U],
-      hasExtractor: ThisHasExtractor,
-      session: ReadableDbSession,
-  ): Try[Option[U]] = Try.throwIfInterrupted(hasExtractor(underlying).first().sequence).flatten
-
-  /** Run the SQL query to a single `Option`. Corresponds to [[SQL.single]]. */
-  def runSingle()(using ev: ThisHasExtractor, session: ReadableDbSession): Try[Option[Output]] =
-    Try.throwIfInterrupted(ev(underlying).single())
-
-  /** Run the SQL query to a single `Option`, and flatten with the inner `Try`. Corresponds to [[SQL.single]]. */
-  def runSingleFlat[U]()(using
-      isTry: Output <:< Try[U],
-      hasExtractor: ThisHasExtractor,
-      session: ReadableDbSession,
-  ): Try[Option[U]] = Try.throwIfInterrupted(hasExtractor(underlying).single().sequence).flatten
-
-  /** Run the SQL query to a single `Try`, producing a `Failure` of the given `Throwable` if the result was empty.
-    * Corresponds to [[SQL.single]].
-    */
-  def runSingleTry(ex: => Throwable)(using ev: ThisHasExtractor, session: ReadableDbSession): Try[Output] = Try
-    .throwIfInterrupted(ev(underlying).single().toTry(ex))
-    .flatten
-}
-
-final case class TrySql[Output, Extractor <: WithExtractor](override val underlying: SQL[Output, Extractor])
-    extends TrySqlOps[Output, Extractor] {
+final case class TrySql[Output, Extractor <: WithExtractor](underlying: SQL[Output, Extractor]) {
 
   /** Execute the SQL statement. Corresponds to [[SQL.execute]]. */
   def execute()(using session: WriteableDbSession): Try[Boolean] = Try.throwIfInterrupted(underlying.execute())
@@ -77,13 +29,8 @@ final case class TrySql[Output, Extractor <: WithExtractor](override val underly
   def updateAndReturnGeneratedKey()(using session: WriteableDbSession): Try[Long] =
     Try.throwIfInterrupted(underlying.updateAndReturnGeneratedKey())
 
-  def map[A](f: WrappedResultSet => A): TrySql[A, HasExtractor] = TrySql(underlying.map(f))
-
   /** Decode every row of the result with `f`. A `Failure` for any row fails the whole result. */
   def decode[A](f: Row => Try[A]): DecodedSql[A] = DecodedSql(underlying.map(rs => f(Row(rs))))
-
-  def foldLeft[A](z: A)(f: (A, WrappedResultSet) => A)(using session: ReadableDbSession): Try[A] = Try
-    .throwIfInterrupted(underlying.foldLeft(z)(f))
 
   /** Start a one-to-x query, where `f` decodes the "one" side of each row. */
   def one[A, Out](f: Row => Output)(using ev: Output =:= Try[A]): TryOneToXSql[A, Extractor, Out] =
