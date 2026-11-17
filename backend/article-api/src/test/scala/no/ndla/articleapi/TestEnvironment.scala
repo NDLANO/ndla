@@ -63,7 +63,6 @@ trait TestEnvironment extends MockitoSugar {
   implicit lazy val searchApiClient: SearchApiClient               = mock[SearchApiClient]
   implicit lazy val feideApiClient: FeideApiClient                 = mock[FeideApiClient]
   implicit lazy val frontpageApiClient: FrontpageApiClient         = mock[FrontpageApiClient]
-  implicit lazy val imageApiClient: ImageApiClient                 = mock[ImageApiClient]
   implicit lazy val taxonomyApiClient: TaxonomyApiClient           = mock[TaxonomyApiClient]
 
   implicit lazy val clock: Clock = mock[Clock]

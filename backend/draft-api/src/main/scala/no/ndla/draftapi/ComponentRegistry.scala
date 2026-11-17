@@ -56,7 +56,6 @@ class ComponentRegistry(properties: DraftApiProperties) extends TapirApplication
   implicit lazy val baseTaxonomyApiClient: BaseTaxonomyApiClient   = new BaseTaxonomyApiClient(props.TaxonomyUrl)
   implicit lazy val learningpathApiClient: LearningpathApiClient   = new LearningpathApiClient
   implicit lazy val h5pApiClient: H5PApiClient                     = new H5PApiClient
-  implicit lazy val imageApiClient: ImageApiClient                 = new ImageApiClient
   implicit lazy val dbDraft: DBDraft                               = new DBDraft
   implicit lazy val dbUserData: DBUserData                         = new DBUserData
   implicit lazy val draftRepository: DraftRepository               = new DraftRepository

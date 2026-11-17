@@ -71,7 +71,6 @@ class ComponentRegistry(properties: ArticleApiProperties) extends TapirApplicati
   implicit lazy val ndlaAuth: NdlaAuth                      = NdlaAuth()
   implicit lazy val feideAuth: FeideAuth                    = FeideAuth()
   given frontpageApiClient: FrontpageApiClient              = new FrontpageApiClient
-  given imageApiClient: ImageApiClient                      = new ImageApiClient
   given taxonomyApiClient: TaxonomyApiClient                = new TaxonomyApiClient(props.TaxonomyUrl)
   given contentValidator: ContentValidator                  = new ContentValidator()
   given searchConverterService: SearchConverterService      = new SearchConverterService
