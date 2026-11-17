@@ -56,11 +56,13 @@ class InternController(using
     .out(stringBody)
     .errorOut(errorOutputsFor(404))
     .serverLogicPure { externalId =>
-      learningPathRepository.getIdFromExternalId(externalId) match {
-        case Some(id) => id.toString.asRight
-        case None     => notFound.asLeft
-      }
-
+      learningPathRepository
+        .getIdFromExternalId(externalId)
+        .handleErrorsOrOk
+        .flatMap {
+          case Some(id) => id.toString.asRight
+          case None     => notFound.asLeft
+        }
     }
 
   private def deleteIndex(): ServerEndpoint[Any, Eff] = endpoint
@@ -101,8 +103,9 @@ class InternController(using
     .in(query[Int]("page-size").default(250))
     .in(query[Boolean]("only-published").default(true))
     .out(jsonBody[LearningPathDomainDumpDTO])
+    .errorOut(errorOutputsFor())
     .serverLogicPure { case (pageNo, pageSize, onlyIncludePublished) =>
-      readService.getLearningPathDomainDump(pageNo, pageSize, onlyIncludePublished).asRight
+      readService.getLearningPathDomainDump(pageNo, pageSize, onlyIncludePublished).handleErrorsOrOk
     }
 
   private def dumpSingleLearningPath: ServerEndpoint[Any, Eff] = endpoint
@@ -111,10 +114,13 @@ class InternController(using
     .out(jsonBody[commonDomain.LearningPath])
     .errorOut(errorOutputsFor(404))
     .serverLogicPure { learningpathId =>
-      learningPathRepository.withId(learningpathId) match {
-        case Some(value) => value.asRight
-        case None        => notFound.asLeft
-      }
+      learningPathRepository
+        .withId(learningpathId)
+        .handleErrorsOrOk
+        .flatMap {
+          case Some(value) => value.asRight
+          case None        => notFound.asLeft
+        }
     }
 
   private def postLearningPathDump: ServerEndpoint[Any, Eff] = endpoint
@@ -129,12 +135,12 @@ class InternController(using
     .get
     .in("stats")
     .out(jsonBody[commonApi.LearningPathStatsDTO])
+    .errorOut(errorOutputsFor())
     .serverLogicPure { _ =>
-      commonApi
-        .LearningPathStatsDTO(
-          learningPathRepository.myNdlaLearningPathCount,
-          learningPathRepository.myNdlaLearningPathOwnerCount,
-        )
-        .asRight
+      val stats = for {
+        count      <- learningPathRepository.myNdlaLearningPathCount
+        ownerCount <- learningPathRepository.myNdlaLearningPathOwnerCount
+      } yield commonApi.LearningPathStatsDTO(count, ownerCount)
+      stats.handleErrorsOrOk
     }
 }

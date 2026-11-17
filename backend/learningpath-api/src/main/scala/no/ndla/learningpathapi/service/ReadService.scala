@@ -24,18 +24,20 @@ import scala.math.max
 import scala.util.{Failure, Success, Try}
 
 class ReadService(using learningPathRepository: LearningPathRepository, converterService: ConverterService) {
-  def tags: List[LearningPathTagsDTO] = {
-    learningPathRepository.allPublishedTags.map(tags => LearningPathTagsDTO(tags.tags, tags.language))
+  def tags: Try[List[LearningPathTagsDTO]] = {
+    learningPathRepository.allPublishedTags.map(_.map(tags => LearningPathTagsDTO(tags.tags, tags.language)))
   }
 
-  def contributors: List[commonApi.AuthorDTO] = {
-    learningPathRepository.allPublishedContributors.map(author => commonApi.AuthorDTO(author.`type`, author.name))
+  def contributors: Try[List[commonApi.AuthorDTO]] = {
+    learningPathRepository
+      .allPublishedContributors
+      .map(_.map(author => commonApi.AuthorDTO(author.`type`, author.name)))
   }
 
-  def withOwnerV2(user: CombinedUserRequired, language: String, fallback: Boolean): List[LearningPathV2DTO] = {
+  def withOwnerV2(user: CombinedUserRequired, language: String, fallback: Boolean): Try[List[LearningPathV2DTO]] = {
     learningPathRepository
       .withOwner(user.id)
-      .flatMap(value => converterService.asApiLearningpathV2(value, language, fallback, user).toOption)
+      .map(_.flatMap(value => converterService.asApiLearningpathV2(value, language, fallback, user).toOption))
   }
 
   def withIdV2List(
@@ -48,18 +50,21 @@ class ReadService(using learningPathRepository: LearningPathRepository, converte
   ): Try[Cachable[List[LearningPathV2DTO]]] = {
     if (ids.isEmpty) Failure(ValidationException("ids", "Query parameter 'ids' is missing"))
     else {
-      val offset        = (page - 1) * pageSize
-      val learningpaths = learningPathRepository
+      val offset = (page - 1) * pageSize
+      learningPathRepository
         .pageWithIds(ids, pageSize, offset)
-        .map(_.isOwnerOrPublic(userInfo))
-        .collect { case Success(lp) =>
-          lp
+        .flatMap { found =>
+          val learningpaths = found
+            .map(_.isOwnerOrPublic(userInfo))
+            .collect { case Success(lp) =>
+              lp
+            }
+          val canBeCached = !learningpaths.exists(_.isPathUserSpecific(userInfo))
+          learningpaths
+            .map(lp => converterService.asApiLearningpathV2(lp, language, fallback, userInfo))
+            .sequence
+            .map(Cachable(_, canBeCached))
         }
-      val canBeCached = !learningpaths.exists(_.isPathUserSpecific(userInfo))
-      learningpaths
-        .map(lp => converterService.asApiLearningpathV2(lp, language, fallback, userInfo))
-        .sequence
-        .map(Cachable(_, canBeCached))
     }
   }
 
@@ -114,57 +119,55 @@ class ReadService(using learningPathRepository: LearningPathRepository, converte
     withIdAndAccessGranted(learningPathId, user) match {
       case Success(lp) => learningPathRepository
           .learningStepWithId(learningPathId, learningStepId)
-          .map(ls =>
-            converterService
-              .asApiLearningStepV2(ls, lp, language, fallback, user)
-              .map(Cachable(_, !(lp.isPrivate || ls.isStepUserSpecific(user))))
-          ) match {
-          case Some(value) => value
-          case None        => Failure(
-              NotFoundException(
-                s"Learningstep with id $learningStepId for learningpath with id $learningPathId not found"
+          .flatMap {
+            case Some(ls) => converterService
+                .asApiLearningStepV2(ls, lp, language, fallback, user)
+                .map(Cachable(_, !(lp.isPrivate || ls.isStepUserSpecific(user))))
+            case None => Failure(
+                NotFoundException(
+                  s"Learningstep with id $learningStepId for learningpath with id $learningPathId not found"
+                )
               )
-            )
-        }
+          }
       case Failure(ex) => Failure(ex)
     }
   }
 
   def withIdAndAccessGranted(learningPathId: Long, user: CombinedUser): Try[LearningPath] = {
-    val learningPath = learningPathRepository.withId(learningPathId)
-    learningPath.map(_.isOwnerOrPublic(user)) match {
-      case Some(Success(lp)) => Success(lp)
-      case Some(Failure(ex)) => Failure(ex)
-      case None              => Failure(NotFoundException(s"Could not find learningPath with id $learningPathId"))
-    }
+    learningPathRepository
+      .withId(learningPathId)
+      .flatMap {
+        case Some(learningPath) => learningPath.isOwnerOrPublic(user)
+        case None               => Failure(NotFoundException(s"Could not find learningPath with id $learningPathId"))
+      }
   }
 
   def getLearningPathDomainDump(
       pageNo: Int,
       pageSize: Int,
       onlyIncludePublished: Boolean,
-  ): LearningPathDomainDumpDTO = {
+  ): Try[LearningPathDomainDumpDTO] = {
     val (safePageNo, safePageSize) = (max(pageNo, 1), max(pageSize, 0))
 
     val resultFunc =
       if (onlyIncludePublished) learningPathRepository.getPublishedLearningPathByPage
       else learningPathRepository.getAllLearningPathsByPage
 
-    val count =
+    val totalCount =
       if (onlyIncludePublished) learningPathRepository.publishedLearningPathCount
       else learningPathRepository.learningPathCount
 
-    val results = resultFunc(safePageSize, (safePageNo - 1) * safePageSize)
-
-    LearningPathDomainDumpDTO(count, safePageNo, safePageSize, results)
+    for {
+      count   <- totalCount
+      results <- resultFunc(safePageSize, (safePageNo - 1) * safePageSize)
+    } yield LearningPathDomainDumpDTO(count, safePageNo, safePageSize, results)
   }
 
   def externalLinkSamples(user: CombinedUser): Try[List[LearningPathV2DTO]] = {
     if (user.isAdmin) {
-      val lps = learningPathRepository
+      learningPathRepository
         .getExternalLinkStepSamples()
-        .flatMap(lp => converterService.asApiLearningpathV2(lp, "all", fallback = true, user).toOption)
-      Success(lps)
+        .map(_.flatMap(lp => converterService.asApiLearningpathV2(lp, "all", fallback = true, user).toOption))
     } else {
       Failure(AccessDeniedException("You do not have access to this resource."))
     }
@@ -172,11 +175,9 @@ class ReadService(using learningPathRepository: LearningPathRepository, converte
 
   def learningPathWithStatus(status: LearningPathStatus, user: CombinedUser): Try[List[LearningPathV2DTO]] = {
     if (user.isAdmin) {
-      Success(
-        learningPathRepository
-          .learningPathsWithStatus(status)
-          .flatMap(lp => converterService.asApiLearningpathV2(lp, "all", fallback = true, user).toOption)
-      )
+      learningPathRepository
+        .learningPathsWithStatus(status)
+        .map(_.flatMap(lp => converterService.asApiLearningpathV2(lp, "all", fallback = true, user).toOption))
     } else {
       Failure(AccessDeniedException("You do not have access to this resource."))
     }

@@ -72,18 +72,20 @@ class SearchIndexService(using
     getRanges.flatMap(ranges => {
       ranges
         .traverse { case (start, end) =>
-          val toIndex = learningPathRepository.learningPathsWithIdBetween(start, end)
-          indexLearningPaths(toIndex, indexName).map(numIndexed => (numIndexed, toIndex.size))
+          learningPathRepository
+            .learningPathsWithIdBetween(start, end)
+            .flatMap(toIndex => indexLearningPaths(toIndex, indexName).map(numIndexed => (numIndexed, toIndex.size)))
         }
         .map(countIndexed)
     })
   }
 
   private def getRanges: Try[List[(Long, Long)]] = {
-    Try {
-      val (minId, maxId) = learningPathRepository.minMaxId
-      Seq.range(minId, maxId).grouped(props.IndexBulkSize).map(group => (group.head, group.last + 1)).toList
-    }
+    learningPathRepository
+      .minMaxId
+      .map { case (minId, maxId) =>
+        Seq.range(minId, maxId).grouped(props.IndexBulkSize).map(group => (group.head, group.last + 1)).toList
+      }
   }
 
   private def indexLearningPaths(learningPaths: List[LearningPath], indexName: String): Try[Int] = {
