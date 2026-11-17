@@ -47,8 +47,9 @@ class InternController(using
       .in(path[String]("external_id"))
       .in(query[Option[String]]("language"))
       .out(jsonBody[Option[api.AudioMetaInformationDTO]])
+      .errorOut(errorOutputsFor(400, 500))
       .serverLogicPure { case (externalId, language) =>
-        readService.withExternalId(externalId, language).asRight
+        readService.withExternalId(externalId, language)
       },
     endpoint
       .delete
@@ -85,7 +86,7 @@ class InternController(using
       .out(jsonBody[AudioMetaDomainDumpDTO])
       .errorOut(errorOutputsFor(400, 500))
       .serverLogicPure { case (pageNo, pageSize) =>
-        readService.getMetaAudioDomainDump(pageNo, pageSize).asRight
+        readService.getMetaAudioDomainDump(pageNo, pageSize)
       },
     endpoint
       .get
@@ -95,8 +96,9 @@ class InternController(using
       .out(jsonBody[AudioMetaInformation])
       .serverLogicPure { id =>
         audioRepository.withId(id) match {
-          case Some(image) => image.asRight
-          case None        => errorHandling.returnLeftError(NotFoundException(s"Could not find audio with id: '$id'"))
+          case Success(Some(image)) => image.asRight
+          case Success(None)        => errorHandling.returnLeftError(NotFoundException(s"Could not find audio with id: '$id'"))
+          case Failure(ex)          => errorHandling.returnLeftError(ex)
         }
       },
     endpoint
@@ -104,8 +106,9 @@ class InternController(using
       .in("dump" / "audio")
       .in(jsonBody[AudioMetaInformation])
       .out(jsonBody[AudioMetaInformation])
+      .errorOut(errorOutputsFor(400, 500))
       .serverLogicPure { domainMeta =>
-        audioRepository.insert(domainMeta).asRight
+        audioRepository.insert(domainMeta)
       },
   )
 }

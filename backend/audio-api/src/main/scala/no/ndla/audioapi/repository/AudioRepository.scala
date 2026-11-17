@@ -28,14 +28,13 @@ class AudioRepository(using
     dbSeries: DBSeries,
 ) extends StrictLogging
     with Repository[AudioMetaInformation] {
-  def audioCount(implicit session: DBSession = dbUtility.readOnlySession): Long =
+  def audioCount(implicit session: DBSession = dbUtility.readOnlySession): Try[Long] =
     tsql"select count(*) from ${dbAudioMetaInformation.table}"
       .decode(_.required[Long]("count"))
       .runSingle()
       .map(_.getOrElse(0L))
-      .get
 
-  def withId(id: Long): Option[AudioMetaInformation] = {
+  def withId(id: Long): Try[Option[AudioMetaInformation]] = {
     dbUtility.readOnly { implicit session =>
       audioMetaInformationWhere(sqls"au.id = $id")
     }
@@ -47,7 +46,7 @@ class AudioRepository(using
     }
   }
 
-  def withExternalId(externalId: String): Option[AudioMetaInformation] = {
+  def withExternalId(externalId: String): Try[Option[AudioMetaInformation]] = {
     dbUtility.readOnly { implicit session =>
       audioMetaInformationWhere(sqls"au.external_id = $externalId")
     }
@@ -55,16 +54,15 @@ class AudioRepository(using
 
   def insert(
       audioMetaInformation: AudioMetaInformation
-  )(implicit session: DBSession = dbUtility.autoSession): AudioMetaInformation = {
+  )(implicit session: DBSession = dbUtility.autoSession): Try[AudioMetaInformation] = {
     val dataObject = new PGobject()
     dataObject.setType("jsonb")
     dataObject.setValue(CirceUtil.toJsonString(audioMetaInformation))
 
     val startRevision = 1
-    val audioId       = tsql"insert into audiodata (document, revision) values ($dataObject, $startRevision)"
+    tsql"insert into audiodata (document, revision) values ($dataObject, $startRevision)"
       .updateAndReturnGeneratedKey()
-      .get
-    audioMetaInformation.copy(id = Some(audioId), revision = Some(startRevision))
+      .map(audioId => audioMetaInformation.copy(id = Some(audioId), revision = Some(startRevision)))
   }
 
   def insertFromImport(audioMetaInformation: AudioMetaInformation, externalId: String): Try[AudioMetaInformation] = {
@@ -116,9 +114,9 @@ class AudioRepository(using
            """.update().map(_ => audioMetaId)
   }
 
-  def numElements: Int = {
+  def numElements: Try[Int] = {
     dbUtility.readOnly { implicit session =>
-      tsql"select count(*) from audiodata".decode(_.required[Int]("count")).runSingle().map(_.getOrElse(0)).get
+      tsql"select count(*) from audiodata".decode(_.required[Int]("count")).runSingle().map(_.getOrElse(0))
     }
   }
 
@@ -129,8 +127,8 @@ class AudioRepository(using
       .map(_.getOrElse((0L, 0L)))
   }
 
-  def deleteAudio(audioId: Long)(implicit session: DBSession = dbUtility.autoSession): Int = {
-    tsql"delete from ${dbAudioMetaInformation.table} where id=$audioId".update().get
+  def deleteAudio(audioId: Long)(implicit session: DBSession = dbUtility.autoSession): Try[Int] = {
+    tsql"delete from ${dbAudioMetaInformation.table} where id=$audioId".update()
   }
 
   override def documentsWithIdBetween(min: Long, max: Long): Try[List[AudioMetaInformation]] = {
@@ -139,7 +137,7 @@ class AudioRepository(using
 
   private def audioMetaInformationWhere(
       whereClause: SQLSyntax
-  )(implicit session: DBSession): Option[AudioMetaInformation] = {
+  )(implicit session: DBSession): Try[Option[AudioMetaInformation]] = {
     val au = dbAudioMetaInformation.syntax("au")
     val se = dbSeries.syntax("se")
     tsql"""
@@ -147,7 +145,7 @@ class AudioRepository(using
            from ${dbAudioMetaInformation.as(au)}
            left join ${dbSeries.as(se)} on ${au.seriesId} = ${se.id}
            where $whereClause
-         """.decode(withSeries(au, se)).runList().get.headOption
+         """.decode(withSeries(au, se)).runFirst()
   }
 
   private def audioMetaInformationsWhere(
@@ -170,17 +168,16 @@ class AudioRepository(using
     series <- OptionalRow.presentWhen(se.resultName.c("id").value)(Series.fromResultSet(se)).decode(row)
   } yield audio.copy(series = series)
 
-  def getRandomAudio()(implicit session: DBSession = dbUtility.readOnlySession): Option[AudioMetaInformation] = {
+  def getRandomAudio()(implicit session: DBSession = dbUtility.readOnlySession): Try[Option[AudioMetaInformation]] = {
     val au = dbAudioMetaInformation.syntax("au")
     tsql"select ${au.result.*} from ${dbAudioMetaInformation.as(au)} tablesample public.system_rows(1)"
       .decode(AudioMetaInformation.fromResultSet(au))
       .runSingle()
-      .get
   }
 
   def getByPage(pageSize: Int, offset: Int)(implicit
       session: DBSession = dbUtility.readOnlySession
-  ): Seq[AudioMetaInformation] = {
+  ): Try[Seq[AudioMetaInformation]] = {
     val au = dbAudioMetaInformation.syntax("au")
     tsql"""
            select ${au.result.*}
@@ -189,7 +186,7 @@ class AudioRepository(using
            order by id
            offset $offset
            limit $pageSize
-      """.decode(AudioMetaInformation.fromResultSet(au)).runList().get
+      """.decode(AudioMetaInformation.fromResultSet(au)).runList()
   }
 
 }
