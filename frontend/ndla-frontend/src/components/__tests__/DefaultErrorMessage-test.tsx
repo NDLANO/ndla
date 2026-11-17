@@ -8,6 +8,8 @@
 
 import { CombinedGraphQLErrors, type ErrorLike } from "@apollo/client";
 import { act, render, screen } from "@testing-library/react";
+import type { ReactElement } from "react";
+import { renderToString } from "react-dom/server";
 import { I18nextProvider } from "react-i18next";
 import { createMemoryRouter, MemoryRouter, RouterProvider } from "react-router";
 import { initializeI18n } from "../../server/locales/locales";
@@ -44,6 +46,13 @@ const renderErrorPage = (error: ErrorLike) => {
   const redirect: RedirectInfo = {};
   render(<ErrorPageWithProviders error={error} redirect={redirect} />);
   return redirect.status;
+};
+
+const hydrate = (ui: ReactElement) => {
+  const container = document.createElement("div");
+  container.innerHTML = renderToString(ui);
+  document.body.appendChild(container);
+  return render(ui, { container, hydrate: true });
 };
 
 beforeEach(() => {
@@ -168,4 +177,27 @@ test("the same error on a new path is reported again", async () => {
   await act(() => router.navigate("/quiz/2"));
 
   expect(handleError).toHaveBeenCalledTimes(2);
+});
+
+test("an error page hydrated from the server is not reported again", () => {
+  hydrate(<ErrorPageWithProviders error={new NDLAError("Missing quiz in quiz response")} redirect={{}} />);
+
+  expect(handleError).not.toHaveBeenCalled();
+});
+
+test("a hydrated error page is reported when the error shows up on a new path", async () => {
+  const error = new NDLAError("Missing quiz in quiz response");
+  const router = createMemoryRouter([{ path: "*", element: <DefaultErrorMessagePage error={error} /> }], {
+    initialEntries: ["/quiz/1"],
+  });
+  hydrate(
+    <I18nextProvider i18n={i18n}>
+      <RouterProvider router={router} />
+    </I18nextProvider>,
+  );
+  expect(handleError).not.toHaveBeenCalled();
+
+  await act(() => router.navigate("/quiz/2"));
+
+  expect(handleError).toHaveBeenCalledTimes(1);
 });
