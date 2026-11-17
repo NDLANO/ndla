@@ -10,10 +10,10 @@ package no.ndla.imageapi.model.domain
 
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
-import no.ndla.common.CirceUtil
 import no.ndla.common.model.NDLADate
 import no.ndla.common.model.domain.{AiGenerated, Tag}
 import no.ndla.common.model.domain.article.Copyright
+import no.ndla.database.{ColumnDecoder, Row}
 import no.ndla.imageapi.Props
 import scalikejdbc.*
 
@@ -42,14 +42,13 @@ object ImageMetaInformation {
   implicit val encoder: Encoder[ImageMetaInformation] = deriveEncoder[ImageMetaInformation]
   implicit val decoder: Decoder[ImageMetaInformation] = deriveDecoder[ImageMetaInformation]
 
-  def fromResultSet(im: SyntaxProvider[ImageMetaInformation])(rs: WrappedResultSet): Try[ImageMetaInformation] =
-    fromResultSet(im.resultName)(rs)
+  def fromResultSet(im: SyntaxProvider[ImageMetaInformation])(row: Row): Try[ImageMetaInformation] =
+    fromResultSet(im.resultName)(row)
 
-  def fromResultSet(im: ResultName[ImageMetaInformation])(rs: WrappedResultSet): Try[ImageMetaInformation] = {
-    val id         = rs.long(im.c("id"))
-    val jsonString = rs.string(im.c("metadata"))
-    CirceUtil.tryParseAs[ImageMetaInformation](jsonString).map(_.copy(Some(id)))
-  }
+  def fromResultSet(im: ResultName[ImageMetaInformation])(row: Row): Try[ImageMetaInformation] = for {
+    id       <- row.required[Long](im.c("id").value)
+    metadata <- row.required[ImageMetaInformation](im.c("metadata").value)(using ColumnDecoder.json)
+  } yield metadata.copy(id = Some(id))
 }
 
 class DBImageMetaInformation(using props: Props) extends SQLSyntaxSupport[ImageMetaInformation] {
