@@ -8,8 +8,6 @@
 
 package no.ndla.conceptapi.db.migration
 
-import org.flywaydb.core.api.migration.{BaseJavaMigration, Context}
+import no.ndla.database.FinishedMigration
 
-class V13__RenameStatuses extends BaseJavaMigration {
-  override def migrate(context: Context | Null): Unit = {}
-}
+class V13__RenameStatuses extends FinishedMigration

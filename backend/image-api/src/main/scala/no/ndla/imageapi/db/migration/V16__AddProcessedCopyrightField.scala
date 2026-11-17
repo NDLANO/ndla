@@ -8,8 +8,6 @@
 
 package no.ndla.imageapi.db.migration
 
-import org.flywaydb.core.api.migration.{BaseJavaMigration, Context}
+import no.ndla.database.FinishedMigration
 
-class V16__AddProcessedCopyrightField extends BaseJavaMigration {
-  override def migrate(context: Context | Null): Unit = {}
-}
+class V16__AddProcessedCopyrightField extends FinishedMigration

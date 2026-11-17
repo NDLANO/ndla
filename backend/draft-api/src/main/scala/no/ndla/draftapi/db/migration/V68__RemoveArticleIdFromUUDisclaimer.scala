@@ -8,24 +8,6 @@
 
 package no.ndla.draftapi.db.migration
 
-import no.ndla.draftapi.db.HtmlMigration
-import org.jsoup.nodes.Element
+import no.ndla.database.FinishedMigration
 
-import scala.jdk.CollectionConverters.*
-
-class V68__RemoveArticleIdFromUUDisclaimer extends HtmlMigration {
-  override val convertVisualElement: Boolean                        = true
-  override def convertHtml(doc: Element, language: String): Element = {
-    doc
-      .select("ndlaembed[data-resource='uu-disclaimer']")
-      .nn
-      .asScala
-      .foreach(embed => {
-        val hasArticleId = embed.hasAttr("data-article-id")
-        if (hasArticleId) {
-          embed.removeAttr("data-article-id"): Unit
-        }
-      })
-    doc
-  }
-}
+class V68__RemoveArticleIdFromUUDisclaimer extends FinishedMigration

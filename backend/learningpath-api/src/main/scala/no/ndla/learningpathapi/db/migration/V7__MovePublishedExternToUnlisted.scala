@@ -8,8 +8,6 @@
 
 package no.ndla.learningpathapi.db.migration
 
-import org.flywaydb.core.api.migration.{BaseJavaMigration, Context}
+import no.ndla.database.FinishedMigration
 
-class V7__MovePublishedExternToUnlisted extends BaseJavaMigration {
-  override def migrate(context: Context | Null): Unit = {}
-}
+class V7__MovePublishedExternToUnlisted extends FinishedMigration

@@ -8,10 +8,6 @@
 
 package no.ndla.articleapi.db.migration
 
-import no.ndla.database.LanguageFieldMigration
+import no.ndla.database.FinishedMigration
 
-class V56__DisclaimerToLanguageFields extends LanguageFieldMigration {
-  override val columnName: String = "document"
-  override val tableName: String  = "contentdata"
-  override val fieldName: String  = "disclaimer"
-}
+class V56__DisclaimerToLanguageFields extends FinishedMigration

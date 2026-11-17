@@ -8,4 +8,6 @@
 
 package no.ndla.articleapi.db.migration
 
-class V37__AddDataTypeToExternalEmbed extends V35__AddDataTypeToIframeEmbed {}
+import no.ndla.database.FinishedMigration
+
+class V37__AddDataTypeToExternalEmbed extends FinishedMigration

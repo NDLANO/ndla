@@ -8,9 +8,6 @@
 
 package no.ndla.learningpathapi.db.migration
 
-import org.flywaydb.core.api.migration.{BaseJavaMigration, Context}
+import no.ndla.database.FinishedMigration
 
-class V3__ConvertCoverPhotoUrlToID extends BaseJavaMigration {
-
-  override def migrate(context: Context | Null): Unit = {}
-}
+class V3__ConvertCoverPhotoUrlToID extends FinishedMigration

@@ -39,7 +39,7 @@ class ComponentRegistry(properties: ConceptApiProperties) extends TapirApplicati
   given converterService: ConverterService = new ConverterService
   given dbUtility: DBUtility               = new DBUtility
 
-  given migrator: DBMigrator = DBMigrator(new V23__SubjectNameAsTags(props), new V25__SubjectNameAsTagsPublished(props))
+  given migrator: DBMigrator = DBMigrator(new V23__SubjectNameAsTags, new V25__SubjectNameAsTagsPublished)
 
   given draftConceptRepository: DraftConceptRepository         = new DraftConceptRepository
   given publishedConceptRepository: PublishedConceptRepository = new PublishedConceptRepository

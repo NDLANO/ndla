@@ -8,19 +8,6 @@
 
 package no.ndla.articleapi.db.migration
 
-import no.ndla.articleapi.db.HtmlMigration
-import org.jsoup.nodes.Element
+import no.ndla.database.FinishedMigration
 
-class V51__BodyBoxToFramedContent extends HtmlMigration {
-  override val convertVisualElement: Boolean                        = false
-  override def convertHtml(doc: Element, language: String): Element = {
-    doc
-      .select("div.c-bodybox")
-      .nn
-      .forEach(div => {
-        div.nn.removeClass("c-bodybox")
-        div.nn.attr("data-type", "framed-content"): Unit
-      })
-    doc
-  }
-}
+class V51__BodyBoxToFramedContent extends FinishedMigration

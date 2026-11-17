@@ -8,8 +8,6 @@
 
 package no.ndla.learningpathapi.db.migration
 
-import org.flywaydb.core.api.migration.{BaseJavaMigration, Context}
+import no.ndla.database.FinishedMigration
 
-class V26__AddOrganizationAndEmailToMyNDLAUser extends BaseJavaMigration {
-  override def migrate(context: Context | Null): Unit = {}
-}
+class V26__AddOrganizationAndEmailToMyNDLAUser extends FinishedMigration
