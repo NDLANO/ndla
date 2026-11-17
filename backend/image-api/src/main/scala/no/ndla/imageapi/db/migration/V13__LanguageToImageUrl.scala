@@ -8,8 +8,6 @@
 
 package no.ndla.imageapi.db.migration
 
-import org.flywaydb.core.api.migration.{BaseJavaMigration, Context}
+import no.ndla.database.FinishedMigration
 
-class V13__LanguageToImageUrl extends BaseJavaMigration {
-  override def migrate(context: Context | Null): Unit = {}
-}
+class V13__LanguageToImageUrl extends FinishedMigration

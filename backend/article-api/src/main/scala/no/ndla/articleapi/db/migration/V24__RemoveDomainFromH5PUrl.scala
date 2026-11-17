@@ -8,8 +8,6 @@
 
 package no.ndla.articleapi.db.migration
 
-import org.flywaydb.core.api.migration.{BaseJavaMigration, Context}
+import no.ndla.database.FinishedMigration
 
-class V24__RemoveDomainFromH5PUrl extends BaseJavaMigration {
-  override def migrate(context: Context | Null): Unit = {}
-}
+class V24__RemoveDomainFromH5PUrl extends FinishedMigration

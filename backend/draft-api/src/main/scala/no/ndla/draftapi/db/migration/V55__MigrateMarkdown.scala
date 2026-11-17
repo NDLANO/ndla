@@ -8,8 +8,6 @@
 
 package no.ndla.draftapi.db.migration
 
-import org.flywaydb.core.api.migration.{BaseJavaMigration, Context}
+import no.ndla.database.FinishedMigration
 
-class V55__MigrateMarkdown extends BaseJavaMigration {
-  override def migrate(context: Context | Null): Unit = {}
-}
+class V55__MigrateMarkdown extends FinishedMigration

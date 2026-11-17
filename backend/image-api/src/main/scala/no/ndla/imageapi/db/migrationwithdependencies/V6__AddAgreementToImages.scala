@@ -8,9 +8,6 @@
 
 package no.ndla.imageapi.db.migrationwithdependencies
 
-import com.typesafe.scalalogging.StrictLogging
-import org.flywaydb.core.api.migration.{BaseJavaMigration, Context}
+import no.ndla.database.FinishedMigration
 
-class V6__AddAgreementToImages extends BaseJavaMigration with StrictLogging {
-  override def migrate(context: Context | Null): Unit = {}
-}
+class V6__AddAgreementToImages extends FinishedMigration

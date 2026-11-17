@@ -8,8 +8,6 @@
 
 package no.ndla.conceptapi.db.migration
 
-import org.flywaydb.core.api.migration.{BaseJavaMigration, Context}
+import no.ndla.database.FinishedMigration
 
-class V6__MetaImageAsVisualElement extends BaseJavaMigration {
-  override def migrate(context: Context | Null): Unit = {}
-}
+class V6__MetaImageAsVisualElement extends FinishedMigration

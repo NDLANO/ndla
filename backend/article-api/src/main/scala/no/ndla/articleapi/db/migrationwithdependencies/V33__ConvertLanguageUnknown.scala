@@ -8,10 +8,6 @@
 
 package no.ndla.articleapi.db.migrationwithdependencies
 
-import no.ndla.articleapi.ArticleApiProperties
-import org.flywaydb.core.api.migration.{BaseJavaMigration, Context}
+import no.ndla.database.FinishedMigration
 
-class V33__ConvertLanguageUnknown(properties: ArticleApiProperties) extends BaseJavaMigration {
-  given props: ArticleApiProperties                   = properties
-  override def migrate(context: Context | Null): Unit = {}
-}
+class V33__ConvertLanguageUnknown extends FinishedMigration

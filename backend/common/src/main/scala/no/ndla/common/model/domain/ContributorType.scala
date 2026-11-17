@@ -69,32 +69,5 @@ object ContributorType extends Enum[ContributorType] with CirceEnumWithErrors[Co
   def rightsholders: Seq[ContributorType] = Seq(Distributor, Publisher, RightsHolder, Supplier)
   def contributors: Seq[ContributorType]  = creators ++ processors ++ rightsholders
 
-  // TODO: Remove when all data are converted
-  val mapping: Map[String, ContributorType] = Map(
-    "bearbeider"       -> ContributorType.Processor,
-    "distributør"      -> ContributorType.Distributor,
-    "forfatter"        -> ContributorType.Writer,
-    "forlag"           -> ContributorType.Publisher,
-    "fotograf"         -> ContributorType.Photographer,
-    "ide"              -> ContributorType.Idea,
-    "illustratør"      -> ContributorType.Illustrator,
-    "innleser"         -> ContributorType.Reader,
-    "komponist"        -> ContributorType.Composer,
-    "korrektur"        -> ContributorType.Correction,
-    "kunstner"         -> ContributorType.Artist,
-    "leverandør"       -> ContributorType.Supplier,
-    "manusforfatter"   -> ContributorType.ScriptWriter,
-    "medforfatter"     -> ContributorType.CoWriter,
-    "opphaver"         -> ContributorType.Originator,
-    "opphavsmann"      -> ContributorType.Originator,
-    "oversetter"       -> ContributorType.Translator,
-    "redaksjonelt"     -> ContributorType.Editorial,
-    "regissør"         -> ContributorType.Director,
-    "rettighetsholder" -> ContributorType.RightsHolder,
-    "sammenstiller"    -> ContributorType.Compiler,
-    "språklig"         -> ContributorType.Linguistic,
-    "tilrettelegger"   -> ContributorType.Facilitator,
-  ).withDefaultValue(ContributorType.Writer)
-
   implicit def schema: Schema[ContributorType] = schemaForEnumEntry[ContributorType]
 }

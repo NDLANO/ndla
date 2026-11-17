@@ -8,9 +8,6 @@
 
 package no.ndla.learningpathapi.db.migrationwithdependencies
 
-import com.typesafe.scalalogging.StrictLogging
-import org.flywaydb.core.api.migration.{BaseJavaMigration, Context}
+import no.ndla.database.FinishedMigration
 
-class V11__CreatedByNdlaStatusForOwnersWithRoles extends BaseJavaMigration with StrictLogging {
-  override def migrate(context: Context | Null): Unit = {}
-}
+class V11__CreatedByNdlaStatusForOwnersWithRoles extends FinishedMigration

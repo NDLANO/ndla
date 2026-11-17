@@ -8,9 +8,6 @@
 
 package no.ndla.draftapi.db.migration
 
-import com.typesafe.scalalogging.StrictLogging
-import org.flywaydb.core.api.migration.{BaseJavaMigration, Context}
+import no.ndla.database.FinishedMigration
 
-class V31__ConvertBrightcoveIds extends BaseJavaMigration with StrictLogging {
-  override def migrate(context: Context | Null): Unit = {}
-}
+class V31__ConvertBrightcoveIds extends FinishedMigration

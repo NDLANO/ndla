@@ -8,9 +8,6 @@
 
 package no.ndla.imageapi.db.migration
 
-import com.typesafe.scalalogging.StrictLogging
-import org.flywaydb.core.api.migration.{BaseJavaMigration, Context}
+import no.ndla.database.FinishedMigration
 
-class V4__DateFormatUpdated extends BaseJavaMigration with StrictLogging {
-  override def migrate(context: Context | Null): Unit = {}
-}
+class V4__DateFormatUpdated extends FinishedMigration

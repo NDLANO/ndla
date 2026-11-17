@@ -8,8 +8,6 @@
 
 package no.ndla.audioapi.db.migration
 
-import org.flywaydb.core.api.migration.{BaseJavaMigration, Context}
+import no.ndla.database.FinishedMigration
 
-class V13__AddSeriesDescriptionField extends BaseJavaMigration {
-  override def migrate(context: Context | Null): Unit = {}
-}
+class V13__AddSeriesDescriptionField extends FinishedMigration
