@@ -15,7 +15,7 @@ import {
 } from "@ndla/types-backend/search-api";
 import { keyBy, uniq } from "@ndla/util";
 import { useQuery } from "@tanstack/react-query";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import config from "../../config";
 import { DA_SUBJECT_ID, LMA_SUBJECT_ID, NO_RESPONSIBLES, SA_SUBJECT_ID } from "../../constants";
@@ -66,6 +66,8 @@ const DEFAULT_PARAMS: DraftSearchParamsDTO = {
 
 const RELEVANT_SUBJECT_IDS = [LMA_SUBJECT_ID, DA_SUBJECT_ID, SA_SUBJECT_ID];
 
+const LEGACY_HAS_PUBLISHED_STATUS = "HAS_PUBLISHED";
+
 const isOneOf =
   <T extends string>(values: ReadonlyArray<T>) =>
   (value: string): value is T =>
@@ -75,6 +77,15 @@ export const ContentSearch = () => {
   const { t, i18n } = useTranslation();
   const [params, setParams] = useStableSearchPageParams();
   const { taxonomyVersion } = useTaxonomyVersion();
+
+  useEffect(() => {
+    const statuses = params.get("draft-status")?.split(",");
+    if (!statuses?.includes(LEGACY_HAS_PUBLISHED_STATUS)) return;
+    setParams({
+      "draft-status": statuses.filter((s) => s !== LEGACY_HAS_PUBLISHED_STATUS).join(",") || null,
+      "has-published-version": "true",
+    });
+  }, [params, setParams]);
 
   const subjectsQuery = useQuery(
     nodesQueryOptions({
@@ -107,6 +118,9 @@ export const ContentSearch = () => {
       traits: params.get("traits")?.split(",").filter(isOneOf(articleTraitValues)),
       priority: params.get("priority")?.split(",").filter(isOneOf(priorityValues)),
       isPrimary: params.get("is-primary") === "true" || undefined,
+      hasPublishedVersion: params.get("has-published-version")
+        ? params.get("has-published-version") === "true"
+        : undefined,
     };
     return parsed;
   }, [params]);
@@ -135,10 +149,6 @@ export const ContentSearch = () => {
       ...parsedParams,
       resultTypes: ["draft", "concept", "learningpath"],
       subjects: getSubjectsIdsQuery(parsedParams.subjects, userDataQuery.data?.favoriteSubjects, subjectIdObject),
-      draftStatus: parsedParams.draftStatus?.map((s) => (s === "HAS_PUBLISHED" ? "PUBLISHED" : s)),
-      includeOtherStatuses: !!(
-        parsedParams.includeOtherStatuses ?? parsedParams.draftStatus?.some((s) => s === "HAS_PUBLISHED")
-      ),
     };
   }, [parsedParams, subjectIdObject, userDataQuery.data?.favoriteSubjects]);
 
