@@ -1815,7 +1815,7 @@ const translations = {
     watchOut: "Pass på!",
     cancel: "Avbryt",
   },
-  environment: { production: "", staging: "staging", test: "test" },
+  environment: { staging: "staging", test: "test" },
   taxonomy: {
     nodeType: {
       PROGRAMME: "utdanningsprogram",
