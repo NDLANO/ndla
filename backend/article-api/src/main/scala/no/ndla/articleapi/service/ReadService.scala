@@ -33,6 +33,7 @@ import no.ndla.database.DBUtility
 import no.ndla.language.Language
 import no.ndla.network.model.FeideUserWrapper
 import no.ndla.network.tapir.Cachable
+import no.ndla.network.tapir.auth.FeideAuth
 import no.ndla.validation.HtmlTagRules.{jsoupDocumentToString, stringToJsoupDocument}
 import org.jsoup.nodes.Element
 import scalikejdbc.DBSession
@@ -264,10 +265,10 @@ class ReadService(using
         )
     }
 
-    val result       = articleSearchService.matchingQuery(settings)
     val isRestricted = !settings.availability.distinct.forall(_ == Availability.everyone)
-    if (isRestricted) Cachable.no(result)
-    else Cachable.yes(result)
+    articleSearchService
+      .matchingQuery(settings)
+      .map(result => Cachable(result, canBeCached = !isRestricted).varyOn(FeideAuth.HeaderName))
   }
 
   private def getAvailabilityFilter(feide: Option[FeideUserWrapper]): Option[Availability] = feide match {
@@ -290,7 +291,7 @@ class ReadService(using
       page: Int,
       pageSize: Int,
       feide: Option[FeideUserWrapper],
-  ): Try[Seq[api.ArticleV2DTO]] = dBUtility.readOnly { implicit session =>
+  ): Try[Cachable[Seq[api.ArticleV2DTO]]] = dBUtility.readOnly { implicit session =>
     val offset = (page - 1) * pageSize
 
     for {
@@ -304,7 +305,9 @@ class ReadService(using
       apiArticles <- filtered.traverse { article =>
         converterService.toApiArticleV2(article, language, fallback)
       }
-    } yield apiArticles
+    } yield
+      if (isFeideNeeded) Cachable(apiArticles, canBeCached = feide.isEmpty).varyOn(FeideAuth.HeaderName)
+      else Cachable.yes(apiArticles)
   }
 
   @tailrec
