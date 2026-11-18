@@ -103,3 +103,10 @@ test("an error page that a later render pass replaced is not reported", async ()
   expect(renders).toEqual(["loading", "loaded"]);
   expect(errorPageReports()).toEqual([]);
 });
+
+test("a status set by an earlier render pass is not returned", async () => {
+  const response = await renderPage(ErrorPageWhileLoading);
+
+  expect(renders).toEqual(["loading", "loaded"]);
+  expect(response.status).toBe(200);
+});

@@ -100,7 +100,7 @@ export default async function handleRequest(
   const signal = AbortSignal.any([request.signal, AbortSignal.timeout(RENDER_TIMEOUT_MS)]);
   const client = createApolloClient(locale, isDefaultApp ? versionHash : undefined, signal);
   const i18n = initializeI18n(locale);
-  const redirect: RedirectInfo = {};
+  let redirect: RedirectInfo = {};
   const errorPage: { info?: ErrorPageInfo } = {};
 
   const { RenderRouter, renderFunction } = await createRenderRouter(routerContext, request.url, signal);
@@ -126,6 +126,7 @@ export default async function handleRequest(
       </AppShell>
     ),
     renderFunction: (tree) => {
+      redirect = {};
       errorPage.info = undefined;
       return renderFunction(tree);
     },
