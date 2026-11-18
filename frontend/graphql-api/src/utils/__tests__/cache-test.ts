@@ -8,7 +8,7 @@
 
 import type { MiddlewareCallbackParams } from "openapi-fetch";
 import { describe, expect, it } from "vitest";
-import { getCache, getCacheKey, hasNoCacheDirective, isVariedBy } from "../../cache";
+import { getCache, getCacheKey, hasNoCacheDirective, isVariedBy, setHeaderIfShouldNotCache } from "../../cache";
 import { withCustomContext } from "../context/contextStore";
 import { OATSCacheMiddleware } from "../openapi-fetch/cacheMiddleware";
 
@@ -51,6 +51,39 @@ describe("Cache", () => {
     [null, false],
   ])("should check vary '%s' against request headers", (vary, expected) => {
     expect(isVariedBy(vary, new Headers({ FeideAuthorization: "Bearer token" }))).toBe(expected);
+  });
+
+  describe("setHeaderIfShouldNotCache", () => {
+    const run = (preset: string | undefined, cacheControl: string | undefined) => {
+      let header = preset;
+      const res = {
+        getHeader: () => header,
+        setHeader: (_: string, value: string) => {
+          header = value;
+        },
+      };
+      const response = new Response(null, { headers: cacheControl ? { "cache-control": cacheControl } : {} });
+      const shouldCache = setHeaderIfShouldNotCache(response, { res } as unknown as Context);
+      return { shouldCache, header };
+    };
+
+    it.each(["private", "private, max-age=0", "no-cache, no-store", 'private="set-cookie"', "No-Store"])(
+      "should not cache response with '%s'",
+      (cacheControl) => {
+        expect(run(undefined, cacheControl).shouldCache).toBe(false);
+      },
+    );
+
+    it.each([undefined, "max-age=300", "public, max-age=300"])("should cache response with '%s'", (cacheControl) => {
+      expect(run(undefined, cacheControl).shouldCache).toBe(true);
+    });
+
+    it("should keep the strictest cache-control on the response", () => {
+      expect(run("no-store", "private").header).toBe("no-store");
+      expect(run("private", "no-cache").header).toBe("private");
+      expect(run("no-cache", "private, max-age=0").header).toBe("private, max-age=0");
+      expect(run(undefined, "max-age=300").header).toBeUndefined();
+    });
   });
 
   describe("OATSCacheMiddleware", () => {

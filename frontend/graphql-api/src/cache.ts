@@ -40,12 +40,15 @@ export const createCache = (
   };
 };
 
+const getDirectives = (cacheControl: string | number | string[] | null | undefined): string[] =>
+  String(cacheControl ?? "")
+    .toLowerCase()
+    .split(",")
+    .map((directive) => directive.split("=")[0]?.trim() ?? "");
+
 const noCacheDirectives = ["no-cache", "no-store"];
 export const hasNoCacheDirective = (cacheControl: string | null | undefined): boolean =>
-  !!cacheControl
-    ?.toLowerCase()
-    .split(",")
-    .some((directive) => noCacheDirectives.includes(directive.trim()));
+  getDirectives(cacheControl).some((directive) => noCacheDirectives.includes(directive));
 
 export const isVariedBy = (vary: string | null | undefined, headers: Headers): boolean =>
   !!vary
@@ -53,10 +56,9 @@ export const isVariedBy = (vary: string | null | undefined, headers: Headers): b
     .map((name) => name.trim())
     .some((name) => name === "*" || (!!name && headers.has(name)));
 
-const cacheControlValues = ["no-store", "private", "no-cache"]; // In order of strictness
-const getCacheStrictness = (cacheControlValue: string | number | string[] | undefined): number => {
-  return cacheControlValues.findIndex((header) => cacheControlValue === header);
-};
+const cacheControlValues = ["no-cache", "private", "no-store"]; // In order of strictness, least strict first
+const getCacheStrictness = (cacheControlValue: string | number | string[] | undefined): number =>
+  Math.max(-1, ...getDirectives(cacheControlValue).map((directive) => cacheControlValues.indexOf(directive)));
 
 /** Returns `true` if the response can be cached, and `false` if the result shouldn't be cached. */
 export const setHeaderIfShouldNotCache = (response: Response, context: Context): boolean => {
