@@ -55,6 +55,7 @@ const shuffle = <T>(items: T[]): T[] => {
 export const buildQuizSession = (quiz: GQLQuizFragment): QuizQuestion[] => {
   const { questions, displaySettings } = quiz;
   const { randomSubset, randomOrder, questionCount } = displaySettings;
+  const alternativesRandomOrder = displaySettings.alternativesRandomOrder ?? false;
 
   let selected = questions;
   if (randomSubset && questionCount) {
@@ -69,6 +70,6 @@ export const buildQuizSession = (quiz: GQLQuizFragment): QuizQuestion[] => {
   }
 
   return selected.map((question) =>
-    question.alternativesRandomOrder ? { ...question, alternatives: shuffle(question.alternatives) } : question,
+    alternativesRandomOrder ? { ...question, alternatives: shuffle(question.alternatives) } : question,
   );
 };

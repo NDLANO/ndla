@@ -124,6 +124,8 @@ class QuizConverterService {
             randomOrder = ds.randomOrder.getOrElse(existing.displaySettings.randomOrder),
             randomSubset = ds.randomSubset.getOrElse(existing.displaySettings.randomSubset),
             questionCount = ds.questionCount.orElse(existing.displaySettings.questionCount),
+            alternativesRandomOrder =
+              ds.alternativesRandomOrder.getOrElse(existing.displaySettings.alternativesRandomOrder),
           )
       case None => existing.displaySettings
     }

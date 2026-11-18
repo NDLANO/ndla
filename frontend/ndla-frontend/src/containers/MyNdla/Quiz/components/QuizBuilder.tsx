@@ -49,6 +49,7 @@ export interface QuizBuilderState {
   description: string;
   randomSubset: boolean;
   randomOrder: boolean;
+  alternativesRandomOrder: boolean;
   questionCount: QuestionCountOption;
   questions: QuestionFormValues[];
 }
@@ -310,6 +311,7 @@ export const QuizBuilder = ({
                     <QuestionCard
                       question={question}
                       focusOnMount={question.id === focusQuestionId}
+                      alternativesRandomOrder={state.alternativesRandomOrder}
                       index={index}
                       onChange={onQuestionChange}
                       onMove={onMoveQuestion}

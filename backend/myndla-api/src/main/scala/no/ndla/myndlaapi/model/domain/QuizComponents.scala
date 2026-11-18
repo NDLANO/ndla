@@ -13,7 +13,6 @@ import io.circe.{Decoder, Encoder}
 
 import java.util.UUID
 
-/** Et svaralternativ i en SINGLE_CHOICE- eller MULTI_CHOICE-spørsmål. */
 case class Alternative(id: UUID, text: String, isCorrect: Boolean)
 
 object Alternative {
@@ -21,7 +20,6 @@ object Alternative {
   implicit val decoder: Decoder[Alternative] = deriveDecoder
 }
 
-/** Et glose-/koblings-par i et MATCHING-spørsmål. */
 case class GlossaryPair(word: String, definition: String)
 
 object GlossaryPair {
@@ -29,17 +27,22 @@ object GlossaryPair {
   implicit val decoder: Decoder[GlossaryPair] = deriveDecoder
 }
 
-/** Visningsinnstillinger for en quiz. */
-case class DisplaySettings(randomOrder: Boolean, randomSubset: Boolean = false, questionCount: Option[Int] = None)
+case class DisplaySettings(
+    randomOrder: Boolean,
+    randomSubset: Boolean = false,
+    questionCount: Option[Int] = None,
+    alternativesRandomOrder: Boolean = false,
+)
 
 object DisplaySettings {
   val default: DisplaySettings                   = DisplaySettings(randomOrder = false)
   implicit val encoder: Encoder[DisplaySettings] = deriveEncoder
   implicit val decoder: Decoder[DisplaySettings] = Decoder.instance { c =>
     for {
-      randomOrder   <- c.get[Boolean]("randomOrder")
-      randomSubset  <- c.getOrElse[Boolean]("randomSubset")(false)
-      questionCount <- c.get[Option[Int]]("questionCount")
-    } yield DisplaySettings(randomOrder, randomSubset, questionCount)
+      randomOrder             <- c.get[Boolean]("randomOrder")
+      randomSubset            <- c.getOrElse[Boolean]("randomSubset")(false)
+      questionCount           <- c.get[Option[Int]]("questionCount")
+      alternativesRandomOrder <- c.getOrElse[Boolean]("alternativesRandomOrder")(false)
+    } yield DisplaySettings(randomOrder, randomSubset, questionCount, alternativesRandomOrder)
   }
 }

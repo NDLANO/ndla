@@ -1088,6 +1088,7 @@ export type components = {
             randomSubset: boolean;
             /** Format: int32 */
             questionCount?: number;
+            alternativesRandomOrder: boolean;
         };
         /**
          * ErrorBody
@@ -1735,6 +1736,8 @@ export type components = {
              * @description Number of questions to show if randomSubset is enabled
              */
             questionCount?: number;
+            /** @description Whether answer alternatives are shown in random order for all questions */
+            alternativesRandomOrder?: boolean;
         };
         /** UpdatedFolderDTO */
         UpdatedFolderDTO: {

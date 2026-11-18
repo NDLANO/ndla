@@ -19,9 +19,9 @@ import {
   Text,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import type { Descendant } from "slate";
+import { Node, type Descendant } from "slate";
 import { RichTextEditor } from "../../../../components/RichTextEditor/RichTextEditor";
 import {
   deserializeToSimpleRichText,
@@ -58,6 +58,7 @@ interface Props {
   onDelete: (id: string) => void;
   error?: string;
   focusOnMount?: boolean;
+  alternativesRandomOrder: boolean;
 }
 
 const Card = styled("div", {
@@ -80,11 +81,35 @@ const Card = styled("div", {
 });
 
 export const QuestionCard = memo(
-  ({ question, index, onChange, onMove, canMoveUp, canMoveDown, onDelete, error, focusOnMount }: Props) => {
+  ({
+    question,
+    index,
+    onChange,
+    onMove,
+    canMoveUp,
+    canMoveDown,
+    onDelete,
+    error,
+    focusOnMount,
+    alternativesRandomOrder,
+  }: Props) => {
     const { t } = useTranslation();
     const [initialTitle] = useState(() => deserializeToSimpleRichText(question.title));
     const [focusAlternativeId, setFocusAlternativeId] = useState<string>();
     const questionId = question.id;
+    const multipleAnswersRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+      if (focusOnMount) multipleAnswersRef.current?.focus();
+    }, [focusOnMount]);
+    const titleText = useMemo(
+      () =>
+        deserializeToSimpleRichText(question.title)
+          .map((node) => Node.string(node))
+          .join(" ")
+          .trim(),
+      [question.title],
+    );
 
     const update = useCallback(
       (updater: (question: QuestionFormValues) => QuestionFormValues) => onChange(questionId, updater),
@@ -156,11 +181,9 @@ export const QuestionCard = memo(
       <Card>
         <QuestionCardHeader
           index={index}
-          questionType={question.questionType}
-          onQuestionTypeChange={onQuestionTypeChange}
+          title={titleText}
           onMoveUp={canMoveUp ? onMoveUp : undefined}
           onMoveDown={canMoveDown ? onMoveDown : undefined}
-          focusOnMount={focusOnMount}
         />
         <FieldRoot css={{ gap: "xsmall" }}>
           <ContentEditableFieldLabel>{t("myNdla.quiz.form.questionTitle")}</ContentEditableFieldLabel>
@@ -171,22 +194,23 @@ export const QuestionCard = memo(
             placeholder={t("myNdla.quiz.form.questionTitlePlaceholder")}
           />
         </FieldRoot>
-        <HStack justify="flex-end" css={{ width: "full", paddingInlineEnd: "xsmall" }}>
+        <HStack justify="flex-end">
           <SwitchRoot
-            checked={question.alternativesRandomOrder}
-            onCheckedChange={(details) => update((q) => ({ ...q, alternativesRandomOrder: details.checked }))}
+            checked={question.questionType === "MULTI_CHOICE"}
+            onCheckedChange={(details) => onQuestionTypeChange(details.checked)}
+            css={{ paddingBlock: "3xsmall", paddingInline: "xsmall" }}
           >
-            <SwitchLabel textStyle="label.small">{t("myNdla.quiz.form.settings.randomOrder")}</SwitchLabel>
+            <SwitchLabel textStyle="label.small">{t("myNdla.quiz.form.settings.multipleAnswers")}</SwitchLabel>
             <SwitchControl>
               <SwitchThumb />
             </SwitchControl>
-            <SwitchHiddenInput />
+            <SwitchHiddenInput ref={multipleAnswersRef} />
           </SwitchRoot>
         </HStack>
         <AlternativesList
           alternatives={question.alternatives}
           questionType={question.questionType}
-          randomOrder={question.alternativesRandomOrder}
+          randomOrder={alternativesRandomOrder}
           onReorder={onReorder}
           onTextChange={onAlternativeTextChange}
           onCorrectChange={onAlternativeCorrectChange}
@@ -200,7 +224,7 @@ export const QuestionCard = memo(
         )}
         <HStack justify="space-between" gap="small">
           <HStack gap="small">
-            <Button variant="tertiary" size="small" onClick={onAddAlternative}>
+            <Button variant="tertiary" onClick={onAddAlternative}>
               <AddLine />
               {t("myNdla.quiz.form.addAlternative")}
             </Button>

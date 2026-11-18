@@ -20,6 +20,7 @@ export const quizFragment = gql`
       randomOrder
       randomSubset
       questionCount
+      alternativesRandomOrder
     }
     created
     updated

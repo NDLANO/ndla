@@ -1302,6 +1302,7 @@ export const typeDefs = gql`
     randomOrder: Boolean!
     randomSubset: Boolean!
     questionCount: Int
+    alternativesRandomOrder: Boolean
   }
 
   type Quiz {
@@ -1333,6 +1334,7 @@ export const typeDefs = gql`
     randomOrder: Boolean
     randomSubset: Boolean
     questionCount: Int
+    alternativesRandomOrder: Boolean
   }
 
   input QuestionAnswerInput {

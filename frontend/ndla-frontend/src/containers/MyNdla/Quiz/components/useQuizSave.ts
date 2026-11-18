@@ -68,6 +68,7 @@ export const useQuizSave = ({ state, quiz, onQuizSynced, onQuestionSynced }: Pro
               randomOrder: state.randomOrder,
               randomSubset: state.randomSubset,
               questionCount: state.questionCount,
+              alternativesRandomOrder: state.alternativesRandomOrder,
             },
           },
         });
@@ -86,6 +87,7 @@ export const useQuizSave = ({ state, quiz, onQuizSynced, onQuestionSynced }: Pro
               randomOrder: state.randomOrder,
               randomSubset: state.randomSubset,
               questionCount: state.questionCount,
+              alternativesRandomOrder: state.alternativesRandomOrder,
             },
           },
         });
