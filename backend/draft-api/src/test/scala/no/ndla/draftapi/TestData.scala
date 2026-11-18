@@ -424,7 +424,6 @@ object TestData {
     "en",
     "test",
     Some(today),
-    Some(today),
     Some("<article><div>test</div></article>"),
     None,
     None,
