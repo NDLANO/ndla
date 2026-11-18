@@ -47,6 +47,12 @@ export const hasNoCacheDirective = (cacheControl: string | null | undefined): bo
     .split(",")
     .some((directive) => noCacheDirectives.includes(directive.trim()));
 
+export const isVariedBy = (vary: string | null | undefined, headers: Headers): boolean =>
+  !!vary
+    ?.split(",")
+    .map((name) => name.trim())
+    .some((name) => name === "*" || (!!name && headers.has(name)));
+
 const cacheControlValues = ["no-store", "private", "no-cache"]; // In order of strictness
 const getCacheStrictness = (cacheControlValue: string | number | string[] | undefined): number => {
   return cacheControlValues.findIndex((header) => cacheControlValue === header);
