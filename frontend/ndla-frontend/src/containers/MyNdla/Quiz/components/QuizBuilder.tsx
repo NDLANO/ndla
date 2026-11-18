@@ -77,6 +77,7 @@ const StyledOl = styled("ol", {
     flexDirection: "column",
     gap: "xlarge",
     width: "full",
+    maxWidth: "[1084px]",
     listStyle: "none",
   },
 });

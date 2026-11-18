@@ -42,6 +42,7 @@ const SortableRow = styled("div", {
   base: {
     width: "full",
     display: "flex",
+    paddingBlock: "xsmall",
   },
 });
 
@@ -66,6 +67,7 @@ const AlternativeField = styled(FieldRoot, {
     flex: "1",
     flexDirection: "row",
     alignItems: "flex-end",
+    gap: "xsmall",
   },
 });
 
@@ -141,11 +143,12 @@ export const AlternativesList = ({
         <RadioGroupRoot
           value={alternatives.find((alt) => alt.isCorrect)?.id ?? null}
           onValueChange={(details) => details.value && onCorrectChange(details.value, true)}
+          css={{ gap: "0" }}
         >
           {rows}
         </RadioGroupRoot>
       ) : (
-        rows
+        <Stack gap="0">{rows}</Stack>
       )}
     </DragDropProvider>
   );
