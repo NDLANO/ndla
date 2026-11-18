@@ -50,6 +50,7 @@ const tabsRecipe = sva({
       fontSize: "medium",
       lineHeight: "small",
       fontWeight: "semibold",
+      fontFamily: "['Source Sans Pro', Helvetica, Arial, sans-serif]",
       transitionDuration: "normal",
       transitionProperty: "[color, background, border-color]",
       transitionTimingFunction: "default",
