@@ -23,7 +23,6 @@ import { Input, InputContainer, useFieldContext } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { isHotkey } from "is-hotkey";
 import {
-  type FocusEvent,
   type TextareaHTMLAttributes,
   memo,
   useCallback,
@@ -56,7 +55,7 @@ interface Props extends Omit<TextareaHTMLAttributes<HTMLDivElement>, "onChange" 
   onChange?: (value: Descendant[]) => void;
   /**
    * full: Sections, headings, lists and links. The toolbar is always visible.
-   * simple: A single paragraph with bold, italic, language and line breaks. Looks like a regular input until focused.
+   * simple: A single paragraph with bold, italic, language and line breaks. The toolbar is always visible.
    */
   variant?: RichTextEditorVariant;
   focusOnMount?: boolean;
@@ -159,7 +158,6 @@ const StyledEditable = styled(
 );
 
 export const RichTextEditor = memo(({ initialValue, onChange, variant = "full", focusOnMount, ...rest }: Props) => {
-  const [isFocused, setIsFocused] = useState(false);
   const isPointerDown = useRef(false);
   const [editor] = useState(() =>
     createSlate({
@@ -178,7 +176,6 @@ export const RichTextEditor = memo(({ initialValue, onChange, variant = "full", 
   const onFocus = () => {
     if (isPointerDown.current) return;
     if (!editor.selection) Transforms.select(editor, Editor.end(editor, []));
-    setIsFocused(true);
   };
 
   const onMouseDown = () => {
@@ -187,16 +184,9 @@ export const RichTextEditor = memo(({ initialValue, onChange, variant = "full", 
       "mouseup",
       () => {
         isPointerDown.current = false;
-        setIsFocused(true);
       },
       { once: true },
     );
-  };
-
-  const onBlur = (e: FocusEvent<HTMLDivElement>) => {
-    if (!e.currentTarget.contains(e.relatedTarget)) {
-      setIsFocused(false);
-    }
   };
 
   useEffect(() => {
@@ -214,8 +204,6 @@ export const RichTextEditor = memo(({ initialValue, onChange, variant = "full", 
     [editor],
   );
 
-  const showToolbar = variant === "full" || isFocused;
-
   const styledEditable = (
     <StyledEditable
       variant={variant}
@@ -230,7 +218,7 @@ export const RichTextEditor = memo(({ initialValue, onChange, variant = "full", 
 
   const editable = (
     <Slate editor={editor} initialValue={editor.children} onValueChange={onChange}>
-      {showToolbar ? <RichTextToolbar variant={variant} /> : null}
+      <RichTextToolbar variant={variant} />
       {variant === "simple" ? <Input asChild>{styledEditable}</Input> : styledEditable}
     </Slate>
   );
@@ -242,7 +230,7 @@ export const RichTextEditor = memo(({ initialValue, onChange, variant = "full", 
         css={{ flexDirection: "column", alignItems: "stretch", paddingInline: "0!" }}
         onFocus={onFocus}
         onMouseDown={onMouseDown}
-        onBlur={onBlur}
+       
       >
         {editable}
       </InputContainer>
@@ -250,7 +238,7 @@ export const RichTextEditor = memo(({ initialValue, onChange, variant = "full", 
   }
 
   return (
-    <EditorWrapper className="ndla-article" onFocus={onFocus} onMouseDown={onMouseDown} onBlur={onBlur}>
+    <EditorWrapper className="ndla-article" onFocus={onFocus} onMouseDown={onMouseDown}>
       {editable}
     </EditorWrapper>
   );
