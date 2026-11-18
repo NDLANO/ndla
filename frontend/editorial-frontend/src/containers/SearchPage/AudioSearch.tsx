@@ -81,7 +81,7 @@ export const AudioSearch = () => {
           />
           <GenericSearchList
             type="audio"
-            loading={searchQuery.isLoading}
+            loading={searchQuery.isPending}
             error={searchQuery.error}
             query={params.get("query")}
             resultLength={searchQuery.data?.totalCount ?? 0}
