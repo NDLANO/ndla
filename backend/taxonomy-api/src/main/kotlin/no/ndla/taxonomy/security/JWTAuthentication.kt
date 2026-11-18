@@ -24,32 +24,35 @@ class JWTAuthentication(token: DecodedJWT) : Authentication {
     val scope = token.getClaim("scope")
     val permissions = token.getClaim("permissions")
 
-    this.authorities = buildList {
-      add(SimpleGrantedAuthority("READONLY"))
-      try {
-        if (permissions?.asArray(String::class.java) != null) {
-          addAll(addPermissionsAsAuthorities(permissions.asArray(String::class.java)))
-        } else if (scope?.asString() != null) {
-          addAll(addPermissionsAsAuthorities(scope.asString().split(" ").toTypedArray()))
-        }
-      } catch (e: Exception) {
-        LOGGER.error("JWT Authentication failed", e)
-      }
-    }
+    this.authorities =
+        buildList {
+              add(SimpleGrantedAuthority("READONLY"))
+              try {
+                if (permissions?.asArray(String::class.java) != null) {
+                  addAll(addPermissionsAsAuthorities(permissions.asArray(String::class.java)))
+                } else if (scope?.asString() != null) {
+                  addAll(addPermissionsAsAuthorities(scope.asString().split(" ").toTypedArray()))
+                }
+              } catch (e: Exception) {
+                LOGGER.error("JWT Authentication failed", e)
+              }
+            }
+            .distinct()
     this.claims = token.claims
     authenticated = true
   }
 
   private fun addPermissionsAsAuthorities(allPermissions: Array<String>): List<GrantedAuthority> =
-      buildList {
-        for (jwtPermissionString in allPermissions) {
-          val jwtPermission = JWTPermission(jwtPermissionString)
-          if (TAXONOMY_API != jwtPermission.api) continue
-          if (WRITE_PERMISSION == jwtPermission.permission)
-              add(SimpleGrantedAuthority("TAXONOMY_WRITE"))
-          if (ADMIN_PERMISSION == jwtPermission.permission)
-              add(SimpleGrantedAuthority("TAXONOMY_ADMIN"))
-        }
+      allPermissions.mapNotNull { jwtPermissionString ->
+        val jwtPermission = JWTPermission(jwtPermissionString)
+        when (jwtPermission.api to jwtPermission.permission) {
+          TAXONOMY_API to WRITE_PERMISSION -> "TAXONOMY_WRITE"
+          TAXONOMY_API to ADMIN_PERMISSION -> "TAXONOMY_ADMIN"
+          DRAFTS_API to WRITE_PERMISSION -> "DRAFTS_WRITE"
+          DRAFTS_API to PUBLISH_PERMISSION -> "DRAFTS_PUBLISH"
+          DRAFTS_API to ADMIN_PERMISSION -> "DRAFTS_ADMIN"
+          else -> null
+        }?.let(::SimpleGrantedAuthority)
       }
 
   override fun getCredentials(): Any = ""
@@ -72,7 +75,9 @@ class JWTAuthentication(token: DecodedJWT) : Authentication {
     @Serial private const val serialVersionUID = 1L
 
     private const val TAXONOMY_API = "taxonomy"
+    private const val DRAFTS_API = "drafts"
     private const val WRITE_PERMISSION = "write"
+    private const val PUBLISH_PERMISSION = "publish"
     private const val ADMIN_PERMISSION = "admin"
 
     private val LOGGER = LoggerFactory.getLogger(JWTAuthentication::class.java)

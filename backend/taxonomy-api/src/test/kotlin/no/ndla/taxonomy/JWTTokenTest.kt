@@ -41,10 +41,13 @@ class JWTTokenTest {
     val jwt = JWT.decode(authV2WithAdmin.substring(6).trim())
     val token = JWTAuthentication(jwt)
     assertTrue(token.isAuthenticated)
-    assertEquals(3, token.authorities.size)
+    assertEquals(6, token.authorities.size)
     TestUtils.assertAnyTrue(token.authorities) { au -> "READONLY" == au.authority }
     TestUtils.assertAnyTrue(token.authorities) { au -> "TAXONOMY_ADMIN" == au.authority }
     TestUtils.assertAnyTrue(token.authorities) { au -> "TAXONOMY_WRITE" == au.authority }
+    TestUtils.assertAnyTrue(token.authorities) { au -> "DRAFTS_ADMIN" == au.authority }
+    TestUtils.assertAnyTrue(token.authorities) { au -> "DRAFTS_PUBLISH" == au.authority }
+    TestUtils.assertAnyTrue(token.authorities) { au -> "DRAFTS_WRITE" == au.authority }
   }
 
   @Test
