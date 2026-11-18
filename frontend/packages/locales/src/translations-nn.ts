@@ -129,8 +129,8 @@ const translations = {
       restrictedUseText: "Dette biletet har",
       aiGenerated: {
         label: "KI-generert",
-        Partial: "Delvis KI-generert bilde",
-        Yes: "KI-generert bilde",
+        Partial: "Delvis KI-generert bilde.",
+        Yes: "KI-generert bilde.",
       },
     },
     text: {
