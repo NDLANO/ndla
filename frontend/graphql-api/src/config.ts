@@ -18,7 +18,8 @@ export function getEnvironmentVariabel(key: string, fallback?: string | boolean)
 }
 
 export const ndlaEnvironment = getEnvironmentVariabel("NDLA_ENVIRONMENT", "test");
-export const environmentApiHost = `api.${ndlaEnvironment.toString().replace("_", "-")}.ndla.no`;
+export const environmentApiHost =
+  ndlaEnvironment === "prod" ? "api.ndla.no" : `api.${ndlaEnvironment.toString().replace("_", "-")}.ndla.no`;
 
 const ndlaApiUrl = () => {
   const host = getEnvironmentVariabel("API_GATEWAY_HOST");
@@ -26,8 +27,6 @@ const ndlaApiUrl = () => {
     switch (ndlaEnvironment) {
       case "local":
         return "http://api-gateway.ndla-local";
-      case "prod":
-        return "https://api.ndla.no";
       default:
         return `https://${environmentApiHost}`;
     }

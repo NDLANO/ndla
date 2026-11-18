@@ -6,9 +6,10 @@
  *
  */
 
+import { toInternalApiUrl } from "../utils/apiHelpers";
 import { externalFetch } from "../utils/fetch";
 
 export const checkIfFileExists = async (fileUrl: string, context: Context): Promise<boolean> => {
-  const response = await externalFetch(fileUrl, context, { method: "HEAD" });
+  const response = await externalFetch(toInternalApiUrl(fileUrl), context, { method: "HEAD" });
   return response.status === 200;
 };
