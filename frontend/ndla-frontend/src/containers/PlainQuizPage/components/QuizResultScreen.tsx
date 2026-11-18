@@ -29,7 +29,13 @@ import { parseSimpleRichText } from "../../../components/RichTextEditor/parseSim
 import { QUIZ_NEUTER_ONE, QUIZ_NUMBER_WORDS } from "../../../constants";
 import type { GQLCheckQuizMutation, GQLQuizFragment } from "../../../graphqlTypes";
 import type { LocaleType } from "../../../interfaces";
-import { Confetti, HurraAnimation, KvissAnimation, VisskAnimation } from "./animations/QuizResultAnimation";
+import {
+  Confetti,
+  FairAnimation,
+  HurraAnimation,
+  KvissAnimation,
+  VisskAnimation,
+} from "./animations/QuizResultAnimation";
 
 type QuizQuestion = GQLQuizFragment["questions"][number];
 type QuestionResult = GQLCheckQuizMutation["checkQuiz"]["results"][number];
@@ -103,31 +109,6 @@ const FeedbackContainer = styled("div", {
   },
 });
 
-const ScorePill = styled(Text, {
-  base: {
-    display: "flex",
-    gap: "4xsmall",
-    paddingBlock: "xxsmall",
-    paddingInline: "[20px]",
-    borderRadius: "[100px]",
-    backgroundColor: "surface.brand.1.moderate",
-  },
-});
-
-const ScorePillCorrect = styled("span", {
-  base: {
-    fontWeight: "bold",
-    color: "text.strong",
-  },
-});
-
-const ScorePillTotal = styled("span", {
-  base: {
-    fontWeight: "normal",
-    color: "text.subtle",
-  },
-});
-
 const SummaryRoot = styled(AccordionRoot, {
   base: {
     width: "full",
@@ -150,12 +131,13 @@ const QuestionResultRow = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "xsmall",
-    paddingBlock: "small",
+    paddingBlock: "medium",
   },
 });
 
 const QuestionResultText = styled("div", {
   base: {
+    minWidth: "0",
     display: "flex",
     flexDirection: "column",
     gap: "3xsmall",
@@ -253,30 +235,36 @@ interface Props {
   session: QuizQuestion[];
   answers: Record<string, string[]>;
   result: GQLCheckQuizMutation["checkQuiz"];
+  randomOrder?: boolean;
   onRetry: () => void;
 }
 
-type ScoreTier = "perfect" | "good" | "poor";
+type ScoreTier = "perfect" | "good" | "fair" | "poor";
 
 const getScoreTier = (correctCount: number, total: number): ScoreTier => {
   if (total > 0 && correctCount === total) return "perfect";
-  if (total > 0 && correctCount / total > 1 / 3) return "good";
+  if (total === 0) return "poor";
+  const percentage = (correctCount / total) * 100;
+  if (percentage >= 50) return "good";
+  if (percentage >= 25) return "fair";
   return "poor";
 };
 
 const RESULT_ANIMATION: Record<ScoreTier, () => ReactElement> = {
   perfect: HurraAnimation,
   good: KvissAnimation,
+  fair: FairAnimation,
   poor: VisskAnimation,
 };
 
 const RESULT_HEADING_KEY = {
   perfect: "myNdla.quiz.take.result.headingPerfect",
   good: "myNdla.quiz.take.result.heading",
+  fair: "myNdla.quiz.take.result.headingFair",
   poor: "myNdla.quiz.take.result.headingLow",
 } as const satisfies Record<ScoreTier, string>;
 
-export const QuizResultScreen = ({ session, answers, result, onRetry }: Props) => {
+export const QuizResultScreen = ({ session, answers, result, randomOrder, onRetry }: Props) => {
   const { t } = useTranslation();
   const correctCount = result.results.filter((questionResult) => questionResult.isCorrect).length;
   const total = result.results.length;
@@ -300,12 +288,11 @@ export const QuizResultScreen = ({ session, answers, result, onRetry }: Props) =
               })}
             </Text>
           </FeedbackContainer>
-          <ScorePill textStyle="body.xlarge">
-            <ScorePillCorrect>{correctCount}</ScorePillCorrect>
-            <ScorePillTotal>{t("myNdla.quiz.take.result.scorePillTotal", { total })}</ScorePillTotal>
-          </ScorePill>
         </ResultSummary>
-        <Button variant="tertiary" onClick={onRetry}>
+        <Button variant="tertiary" onClick={onRetry} css={{ desktop: { display: "none" } }}>
+          {t("myNdla.quiz.take.result.retry")}
+        </Button>
+        <Button variant="secondary" onClick={onRetry} css={{ display: "none", desktop: { display: "inline-flex" } }}>
           {t("myNdla.quiz.take.result.retry")}
         </Button>
       </ResultPanel>
@@ -322,7 +309,8 @@ export const QuizResultScreen = ({ session, answers, result, onRetry }: Props) =
             </h2>
           </Heading>
           <SummaryContent>
-            {session.map((question) => {
+            {!!randomOrder && <MessageBox variant="info">{t("myNdla.quiz.take.result.randomOrderNotice")}</MessageBox>}
+            {session.map((question, index) => {
               const questionResult = result.results.find((r) => r.questionId === question.id);
               if (!questionResult) return null;
               const isMultiChoice = question.questionType === "MULTI_CHOICE";
@@ -335,7 +323,7 @@ export const QuizResultScreen = ({ session, answers, result, onRetry }: Props) =
                     </StatusIcon>
                     <QuestionResultText>
                       <Text textStyle="label.small" fontWeight="bold">
-                        {parseSimpleRichText(question.title)}
+                        {index + 1}. {parseSimpleRichText(question.title)}
                       </Text>
                       {isMultiChoice ? (
                         <Text textStyle="label.small" color="text.subtle">
@@ -379,12 +367,28 @@ const QuestionAnswerText = ({
   const answerText = question.alternatives.find((alt) => alt.id === answerIds[0])?.text;
   const correctText = question.alternatives.find((alt) => alt.id === questionResult.correctAlternativeIds[0])?.text;
 
+  if (questionResult.isCorrect) {
+    return (
+      <Text textStyle="label.small" color="text.subtle">
+        <Trans
+          i18nKey="myNdla.quiz.take.result.correctAnswer"
+          components={{ answer: <SimpleRichText html={correctText ?? answerText ?? ""} /> }}
+        />
+      </Text>
+    );
+  }
+
   return (
     <>
-      <Text textStyle="label.small" color="text.subtle">
-        {answerText !== undefined && parseSimpleRichText(answerText)}
-      </Text>
-      {!questionResult.isCorrect && !!correctText && (
+      {answerText !== undefined && (
+        <Text textStyle="label.small" color="text.subtle">
+          <Trans
+            i18nKey="myNdla.quiz.take.result.wrongAnswer"
+            components={{ answer: <SimpleRichText html={answerText} /> }}
+          />
+        </Text>
+      )}
+      {!!correctText && (
         <Text textStyle="label.small" fontWeight="bold">
           <Trans
             i18nKey="myNdla.quiz.take.result.correctAnswer"

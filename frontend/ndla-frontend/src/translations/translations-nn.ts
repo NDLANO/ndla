@@ -640,12 +640,16 @@ const translations = {
         result: {
           heading: "Bra jobba!",
           headingPerfect: "Fantastisk! Alt rett!",
+          headingFair: "Godt forsøk!",
           headingLow: "Det gjekk ikkje heilt vegen denne gongen",
           score: "Du har {{correct}} av {{total}} rette svar.",
           scorePillTotal: " / {{total}} rette",
           retry: "Prøv igjen",
-          summaryTitle: "Oppsummering av kvisset",
+          summaryTitle: "Fasit",
           correctAnswer: "Rett svar: <answer />",
+          wrongAnswer: "Feil svar: <answer />",
+          randomOrderNotice:
+            "Spørsmåla i kvissen er i tilfeldig rekkefølgje. Tala under kan derfor vere ulike for deg og andre.",
           yourAnswerCorrect: "Ditt svar - rett",
           yourAnswerIncorrect: "Ditt svar - feil",
           correctNotSelected: "Rett svar - ikkje valt",

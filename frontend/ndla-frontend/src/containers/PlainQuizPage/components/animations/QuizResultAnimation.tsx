@@ -9,12 +9,12 @@
 import { styled } from "@ndla/styled-system/jsx";
 import { CONFETTI_FRAME, CONFETTI_SPECS } from "../../../../quizAnimations/quizConfettiAnimations";
 
-type LetterAnim = "pop-1" | "pop-2" | "pop-3" | "pop-4" | "pop-5" | "pop-6" | "pop-7" | "pop-8";
+type LetterAnim = "pop-1" | "pop-2" | "pop-3" | "pop-4" | "pop-5" | "pop-6" | "pop-7" | "pop-8" | "pop-9";
 
 interface Letter {
   char: string;
   anim: LetterAnim;
-  accent?: "kviss" | "vissk" | "hurra";
+  accent?: "kviss" | "vissk" | "hurra" | "fair";
 }
 
 const KVISS_LETTERS: readonly Letter[] = [
@@ -23,6 +23,14 @@ const KVISS_LETTERS: readonly Letter[] = [
   { char: "I", anim: "pop-3" },
   { char: "S", anim: "pop-4" },
   { char: "S", anim: "pop-5" },
+];
+
+const FAIR_LETTERS: readonly Letter[] = [
+  { char: "K", anim: "pop-1", accent: "fair" },
+  { char: "V", anim: "pop-2" },
+  { char: "I", anim: "pop-3" },
+  { char: "S", anim: "pop-4" },
+  { char: "S", anim: "pop-9" },
 ];
 
 const VISSK_LETTERS: readonly Letter[] = [
@@ -81,6 +89,9 @@ const LetterTile = styled("span", {
       hurra: {
         backgroundColor: "surface.brand.3",
       },
+      fair: {
+        backgroundColor: "surface.brand.4",
+      },
     },
     anim: {
       "pop-1": { animation: "var(--animations-letter-pop-1)" },
@@ -91,6 +102,7 @@ const LetterTile = styled("span", {
       "pop-6": { animation: "var(--animations-letter-pop-6)" },
       "pop-7": { animation: "var(--animations-letter-pop-7)" },
       "pop-8": { animation: "var(--animations-letter-pop-8)" },
+      "pop-9": { animation: "var(--animations-letter-pop-9)" },
     },
   },
 });
@@ -155,5 +167,6 @@ export const Confetti = () => (
 );
 
 export const KvissAnimation = () => <LetterPopReveal letters={KVISS_LETTERS} />;
+export const FairAnimation = () => <LetterPopReveal letters={FAIR_LETTERS} />;
 export const VisskAnimation = () => <LetterPopReveal letters={VISSK_LETTERS} />;
 export const HurraAnimation = () => <LetterPopReveal letters={HURRA_LETTERS} />;

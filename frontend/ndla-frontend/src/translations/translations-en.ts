@@ -640,12 +640,16 @@ const translations = {
         result: {
           heading: "Well done!",
           headingPerfect: "Fantastic! All correct!",
+          headingFair: "Good effort!",
           headingLow: "It didn't quite go your way this time",
           score: "You have {{correct}} out of {{total}} correct answers.",
           scorePillTotal: " / {{total}} correct",
           retry: "Try again",
-          summaryTitle: "Quiz summary",
+          summaryTitle: "Quiz answers",
           correctAnswer: "Correct answer: <answer />",
+          wrongAnswer: "Wrong answer: <answer />",
+          randomOrderNotice:
+            "The questions in the quiz are in random order. The numbers below may therefore differ for you and others.",
           yourAnswerCorrect: "Your answer - correct",
           yourAnswerIncorrect: "Your answer - incorrect",
           correctNotSelected: "Correct answer - not selected",

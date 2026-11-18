@@ -638,12 +638,16 @@ const translations = {
         result: {
           heading: "Bra jobbet!",
           headingPerfect: "Fantastisk! Alt rett!",
+          headingFair: "Godt forsøk!",
           headingLow: "Det gikk ikke helt veien denne gangen",
           score: "Du har {{correct}} av {{total}} rette svar.",
           scorePillTotal: " / {{total}} riktige",
           retry: "Prøv igjen",
-          summaryTitle: "Oppsummering av kvissen",
+          summaryTitle: "Fasit",
           correctAnswer: "Rett svar: <answer />",
+          wrongAnswer: "Feil svar: <answer />",
+          randomOrderNotice:
+            "Spørsmålene i kvissen er i tilfeldig rekkefølge. Tallene under kan derfor være forskjellig for deg og andre.",
           yourAnswerCorrect: "Ditt svar - riktig",
           yourAnswerIncorrect: "Ditt svar - feil",
           correctNotSelected: "Riktig svar - ikke valgt",
