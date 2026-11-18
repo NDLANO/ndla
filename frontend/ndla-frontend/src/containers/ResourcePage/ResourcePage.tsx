@@ -17,10 +17,8 @@ import { RedirectExternal } from "../../components/RedirectExternal";
 import { useServerResponseStatus } from "../../components/ResponseContext";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import type { GQLResourcePageQuery, GQLResourcePageQueryVariables } from "../../graphqlTypes";
-import { findAccessDeniedErrors } from "../../util/handleError";
 import { LocaleNavigate, useRawLocation } from "../../util/localePath";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
-import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
 import { ArticleLayout, ArticleLayoutSkeleton } from "../ArticlePage/ArticleLayout";
 import { ArticlePage } from "../ArticlePage/ArticlePage";
 import { LearningpathPage } from "../LearningpathPage/LearningpathPage";
@@ -85,17 +83,6 @@ const ResourcePageContent = () => {
   );
   const setRedirect = useContext(RedirectContext);
   const serverResponseStatus = useServerResponseStatus();
-
-  const accessDeniedErrors = findAccessDeniedErrors(error);
-  if (accessDeniedErrors) {
-    const nonRecoverableError = accessDeniedErrors.some(
-      (e) => !e.path?.includes("coreResources") && !e.path?.includes("supplementaryResources"),
-    );
-
-    if (nonRecoverableError) {
-      return <AccessDeniedPage />;
-    }
-  }
 
   if (serverResponseStatus === 410) {
     return <UnpublishedResourcePage />;
