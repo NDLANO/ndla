@@ -17,7 +17,7 @@ import scalikejdbc.*
 
 import scala.util.Try
 
-case class Menu(articleId: Long, menu: List[Menu], hideLevel: Boolean)
+case class Menu(articleId: Long, menu: List[Menu])
 object Menu {
   implicit val encoder: Encoder[Menu] = deriveEncoder[Menu]
   implicit val decoder: Decoder[Menu] = deriveDecoder[Menu]

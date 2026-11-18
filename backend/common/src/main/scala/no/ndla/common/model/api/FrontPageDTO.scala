@@ -24,8 +24,6 @@ case class MenuDTO(
     articleId: Long,
     @description("List of submenu objects")
     menu: List[MenuDataDTO],
-    @description("Hide this level in menu")
-    hideLevel: Option[Boolean],
 ) extends MenuDataDTO
 
 @description("Object containing frontpage data")

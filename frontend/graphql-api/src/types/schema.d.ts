@@ -508,7 +508,6 @@ export type GQLFrontpageMenu = {
   __typename?: 'FrontpageMenu';
   article: GQLArticle;
   articleId: Scalars['Int']['output'];
-  hideLevel?: Maybe<Scalars['Boolean']['output']>;
   menu: Array<GQLFrontpageMenu>;
 };
 
@@ -3299,7 +3298,6 @@ export type GQLFootNoteResolvers<ContextType = any, ParentType extends GQLResolv
 export type GQLFrontpageMenuResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['FrontpageMenu'] = GQLResolversParentTypes['FrontpageMenu']> = {
   article?: Resolver<GQLResolversTypes['Article'], ParentType, ContextType>;
   articleId?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  hideLevel?: Resolver<Maybe<GQLResolversTypes['Boolean']>, ParentType, ContextType>;
   menu?: Resolver<Array<GQLResolversTypes['FrontpageMenu']>, ParentType, ContextType>;
 };
 
