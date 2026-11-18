@@ -69,16 +69,6 @@ interface Props {
   quizId?: string;
 }
 
-const StyledTabsIndicator = styled(TabsIndicator, {
-  base: {
-    _horizontal: {
-      top: "[calc(var(--top) + var(--height) - 4px)]",
-      height: "2",
-      _peerFocusVisible: { top: "var(--top)" },
-    },
-  },
-});
-
 const StyledOl = styled("ol", {
   base: {
     display: "flex",
@@ -302,7 +292,7 @@ export const QuizBuilder = ({
             <TabsList>
               <TabsTrigger value="questions">{t("myNdla.quiz.form.tabs.questions")}</TabsTrigger>
               <TabsTrigger value="settings">{t("myNdla.quiz.form.settings.title")}</TabsTrigger>
-              <StyledTabsIndicator />
+              <TabsIndicator />
             </TabsList>
             <ButtonRow>
               <Button variant="secondary" onClick={onSaveClick} loading={saving} disabled={sharing}>
