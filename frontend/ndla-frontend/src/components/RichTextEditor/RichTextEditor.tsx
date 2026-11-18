@@ -22,15 +22,7 @@ import {
 import { Input, InputContainer, useFieldContext } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { isHotkey } from "is-hotkey";
-import {
-  type TextareaHTMLAttributes,
-  memo,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { type TextareaHTMLAttributes, memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { type Descendant, Editor, Transforms } from "slate";
 import { Editable, ReactEditor, type RenderElementProps, type RenderLeafProps, Slate } from "slate-react";
 import type { EditableProps } from "slate-react/dist/components/editable";
@@ -230,7 +222,6 @@ export const RichTextEditor = memo(({ initialValue, onChange, variant = "full", 
         css={{ flexDirection: "column", alignItems: "stretch", paddingInline: "0!" }}
         onFocus={onFocus}
         onMouseDown={onMouseDown}
-       
       >
         {editable}
       </InputContainer>
