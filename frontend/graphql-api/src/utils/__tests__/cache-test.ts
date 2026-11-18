@@ -8,7 +8,7 @@
 
 import type { MiddlewareCallbackParams } from "openapi-fetch";
 import { describe, expect, it } from "vitest";
-import { getCache, getCacheKey, hasNoCacheDirective } from "../../cache";
+import { getCache, getCacheKey, hasNoCacheDirective, isVariedBy } from "../../cache";
 import { withCustomContext } from "../context/contextStore";
 import { OATSCacheMiddleware } from "../openapi-fetch/cacheMiddleware";
 
@@ -42,6 +42,17 @@ describe("Cache", () => {
     },
   );
 
+  it.each<[string | null, boolean]>([
+    ["FeideAuthorization", true],
+    ["Accept-Encoding, feideauthorization", true],
+    ["*", true],
+    ["Accept-Encoding", false],
+    [" , ", false],
+    [null, false],
+  ])("should check vary '%s' against request headers", (vary, expected) => {
+    expect(isVariedBy(vary, new Headers({ FeideAuthorization: "Bearer token" }))).toBe(expected);
+  });
+
   describe("OATSCacheMiddleware", () => {
     const url = "https://api.test.ndla.no/article-api/v2/articles/1";
     const runOnRequest = (ctx: Partial<ContextWithLoaders>, request: Request) =>
@@ -70,10 +81,28 @@ describe("Cache", () => {
       expect(result).toBe(request);
     });
 
-    const runOnResponse = (shouldUseCache: boolean, request: Request, response: Response) => {
+    it("should return cached response without vary to a feide user", async () => {
+      await getCache().set(url, JSON.stringify({ body: "cached", headers: {} }));
+      const result = await runOnRequest({ shouldUseCache: true, feideAuthorization: "Bearer token" }, new Request(url));
+      expect(result).toBeInstanceOf(Response);
+    });
+
+    it("should return cached response that varies on a header the request doesn't send", async () => {
+      await getCache().set(url, JSON.stringify({ body: "cached", headers: { vary: "FeideAuthorization" } }));
+      const result = await runOnRequest({ shouldUseCache: true }, new Request(url));
+      expect(result).toBeInstanceOf(Response);
+    });
+
+    it("should bypass cached response that varies on a header the request sends", async () => {
+      await getCache().set(url, JSON.stringify({ body: "cached", headers: { vary: "FeideAuthorization" } }));
+      const request = new Request(url);
+      const result = await runOnRequest({ shouldUseCache: true, feideAuthorization: "Bearer token" }, request);
+      expect(result).toBe(request);
+    });
+
+    const runOnResponse = (ctx: Partial<Context>, request: Request, response: Response) => {
       const res = { getHeader: () => undefined, setHeader: () => {} };
-      const ctx = { shouldUseCache, res } as unknown as ContextWithLoaders;
-      return withCustomContext(ctx, () =>
+      return withCustomContext({ ...ctx, res } as unknown as ContextWithLoaders, () =>
         OATSCacheMiddleware().onResponse!({ request, response } as MiddlewareCallbackParams & {
           request: Request;
           response: Response;
@@ -83,13 +112,42 @@ describe("Cache", () => {
 
     it("should write response to cache when cache is enabled", async () => {
       const responseUrl = "https://api.test.ndla.no/learningpath-api/v2/learningpaths/1";
-      await runOnResponse(true, new Request(responseUrl), new Response("fresh", { status: 200 }));
+      await runOnResponse({ shouldUseCache: true }, new Request(responseUrl), new Response("fresh", { status: 200 }));
       expect(await getCache().get(responseUrl)).toContain("fresh");
     });
 
     it("should not write response to cache when context disables cache", async () => {
       const responseUrl = "https://api.test.ndla.no/learningpath-api/v2/learningpaths/2";
-      await runOnResponse(false, new Request(responseUrl), new Response("personal", { status: 200 }));
+      await runOnResponse(
+        { shouldUseCache: false },
+        new Request(responseUrl),
+        new Response("personal", { status: 200 }),
+      );
+      expect(await getCache().get(responseUrl)).toBeUndefined();
+    });
+
+    it("should not write response to cache when request has no-store directive", async () => {
+      const responseUrl = "https://api.test.ndla.no/search-api/v1/search?query=test";
+      const request = new Request(responseUrl, { headers: { "cache-control": "no-store" } });
+      await runOnResponse({ shouldUseCache: true }, request, new Response("results", { status: 200 }));
+      expect(await getCache().get(responseUrl)).toBeUndefined();
+    });
+
+    it("should write response that varies on a header the request doesn't send", async () => {
+      const responseUrl = "https://api.test.ndla.no/article-api/v2/articles/ids?ids=1";
+      const response = new Response("public", { status: 200, headers: { vary: "FeideAuthorization" } });
+      await runOnResponse({ shouldUseCache: true }, new Request(responseUrl), response);
+      expect(await getCache().get(responseUrl)).toContain("public");
+    });
+
+    it("should not write response that varies on a header the request sends", async () => {
+      const responseUrl = "https://api.test.ndla.no/article-api/v2/articles/ids?ids=2";
+      const response = new Response("teacher", { status: 200, headers: { vary: "FeideAuthorization" } });
+      await runOnResponse(
+        { shouldUseCache: true, feideAuthorization: "Bearer token" },
+        new Request(responseUrl),
+        response,
+      );
       expect(await getCache().get(responseUrl)).toBeUndefined();
     });
   });

@@ -24,10 +24,7 @@ import {
 import { getAsyncContextStorage } from "./contextStore";
 
 function getShouldUseCache(request: Request): boolean {
-  const cacheControlDisable = hasNoCacheDirective(request.headers["cache-control"]);
-  const feideHeaderPresent = !!getFeideAuthorization(request);
-
-  return !cacheControlDisable && !feideHeaderPresent;
+  return !hasNoCacheDirective(request.headers["cache-control"]);
 }
 
 function getVersionHash(request: Request): string | undefined {
