@@ -29,12 +29,14 @@ class JWTTokenTest {
       "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlF6bEVPVFE1TTBOR01EazROakV4T0VKR01qYzJNalZGT0RoRVFrRTFOVUkyTmtFMFJUUXlSZyJ9.eyJodHRwczovL25kbGEubm8vbmRsYV9pZCI6Inlhc2QiLCJodHRwczovL25kbGEubm8vdXNlcl9uYW1lIjoiVGVzdCBCcnVrZXIiLCJodHRwczovL25kbGEubm8vdXNlcl9lbWFpbCI6InRlc3RAbmRsYS5ubyIsImlzcyI6Imh0dHBzOi8vbmRsYS10ZXN0LmV1LmF1dGgwLmNvbS8iLCJzdWIiOiJzdWIiLCJhdWQiOiJuZGxhX3N5c3RlbSIsImlhdCI6MTYzODg3OTM5NCwiZXhwIjoxNjM4ODgyOTk0LCJhenAiOiJGSzM1RkQzWUhPZWFZY1hHODBFVkNiQm1BZmlGR3ppViIsInNjb3BlIjoib3BlbmlkIGVtYWlsIiwicGVybWlzc2lvbnMiOlsidGF4b25vbXk6YWRtaW4iLCJ0YXhvbm9teTp3cml0ZSJdfQ.Tyf84pzpIpTs6vJKkIv_qDZPbYtjcZ7_0eeQl3c3JCls6y99vlZjCnMoBg9xSRstw1dvwbnqSrEPx5HDTWlJUegLwtApi4Xzv08bAE669jv_oJvZDRLJRnxcIHE6kRItmgI1jRcPs5wLcukkeEjCduTVjLeKXhbiLRv0OsWmz1nT7elMQ_yBltDkI725NPeH4RbVgr6u_ag8GlBEoJiQTYgW9II3eUdQvTh7PzxCb_hkktEvVjAn_vDIEs_2AqaPd2uAOpnkDZPujvfbBQFd75aJOuwwEKa06qECDTHG1z4F-mtN0IzVOBmh7i0rp7ovPmJEUhdb36--6jwstWYzpQ"
 
   @Test
-  fun no_taxonomy_in_old_token_gives_read_permission() {
+  fun no_taxonomy_in_old_token_gives_read_and_drafts_write_permission() {
     val jwt = JWT.decode(auth.substring(6).trim())
 
     val token = JWTAuthentication(jwt)
     assertTrue(token.isAuthenticated)
-    assertEquals(1, token.authorities.size)
+    assertEquals(2, token.authorities.size)
+    TestUtils.assertAnyTrue(token.authorities) { au -> "READONLY" == au.authority }
+    TestUtils.assertAnyTrue(token.authorities) { au -> "DRAFTS_WRITE" == au.authority }
   }
 
   @Test
@@ -52,10 +54,13 @@ class JWTTokenTest {
     val jwt = JWT.decode(authV2WithAdmin.substring(6).trim())
     val token = JWTAuthentication(jwt)
     assertTrue(token.isAuthenticated)
-    assertEquals(3, token.authorities.size)
+    assertEquals(6, token.authorities.size)
     TestUtils.assertAnyTrue(token.authorities) { au -> "READONLY" == au.authority }
     TestUtils.assertAnyTrue(token.authorities) { au -> "TAXONOMY_ADMIN" == au.authority }
     TestUtils.assertAnyTrue(token.authorities) { au -> "TAXONOMY_WRITE" == au.authority }
+    TestUtils.assertAnyTrue(token.authorities) { au -> "DRAFTS_ADMIN" == au.authority }
+    TestUtils.assertAnyTrue(token.authorities) { au -> "DRAFTS_PUBLISH" == au.authority }
+    TestUtils.assertAnyTrue(token.authorities) { au -> "DRAFTS_WRITE" == au.authority }
   }
 
   @Test
@@ -80,8 +85,9 @@ class JWTTokenTest {
             "taxonomy-prod:write drafts-staging:write articles-test:publish images-prod:write listing-test:write articles-brukertest:write listing-prod:write articles-test:write articles-staging:write listing-brukertest:write images-staging:write images-test:write articles-prod:publish articles-brukertest:publish drafts-test:set_to_publish listing-staging:write audio-brukertest:write drafts-prod:write images-brukertest:write drafts-test:write audio-prod:write audio-test:write articles-staging:publish articles-prod:write drafts-staging:set_to_publish audio-staging:write drafts-brukertest:set_to_publish drafts-prod:set_to_publish drafts-brukertest:write drafts-taxonomy:write ")
     `when`(mockDecodedJWT.getClaim("scope")).thenReturn(claim)
     val token = JWTAuthentication(mockDecodedJWT)
-    assertEquals(2, token.authorities.size)
+    assertEquals(3, token.authorities.size)
     TestUtils.assertAnyTrue(token.authorities) { au -> "TAXONOMY_WRITE" == au.authority }
+    assertEquals(1, token.authorities.count { it.authority == "DRAFTS_WRITE" })
   }
 
   @Test
