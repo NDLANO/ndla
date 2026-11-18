@@ -47,7 +47,6 @@ const tabsRecipe = sva({
       flexShrink: "0",
       cursor: "pointer",
       textStyle: "label.small",
-      fontFamily: "['Source Sans Pro', Helvetica, Arial, sans-serif]",
       fontSize: "medium",
       lineHeight: "small",
       fontWeight: "semibold",
