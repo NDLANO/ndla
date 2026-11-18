@@ -195,6 +195,7 @@ export const ContentSearch = () => {
           summary={
             <SearchResultSummary
               totalCount={searchQuery.data?.totalCount}
+              loading={searchQuery.isPending}
               page={parsedParams.page}
               pageSize={searchQuery.data?.pageSize}
               query={params.get("query")}

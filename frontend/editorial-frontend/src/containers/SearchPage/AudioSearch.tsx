@@ -69,6 +69,7 @@ export const AudioSearch = () => {
           summary={
             <SearchResultSummary
               totalCount={searchQuery.data?.totalCount}
+              loading={searchQuery.isPending}
               page={Number(params.get("page")) || DEFAULT_PARAMS.page}
               pageSize={searchQuery.data?.pageSize}
               query={params.get("query")}
