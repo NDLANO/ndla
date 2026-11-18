@@ -40,7 +40,7 @@ const Wrapper = styled("div", {
   },
 });
 
-const QuizTitle = styled(Heading, {
+const QuizTitle = styled(Text, {
   base: {
     textAlign: "center",
   },
