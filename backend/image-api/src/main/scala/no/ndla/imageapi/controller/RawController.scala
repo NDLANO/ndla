@@ -8,9 +8,9 @@
 
 package no.ndla.imageapi.controller
 
-import cats.implicits.catsSyntaxEitherId
 import no.ndla.common.errors.{MissingBucketKeyException, ValidationException, ValidationMessage}
 import no.ndla.imageapi.Props
+import no.ndla.imageapi.model.ImageNotFoundException
 import no.ndla.imageapi.model.domain.{ImageStream, ProcessableImage}
 import no.ndla.imageapi.service.*
 import no.ndla.network.tapir.*
@@ -18,63 +18,102 @@ import no.ndla.network.tapir.TapirUtil.errorOutputsFor
 import sttp.tapir.*
 import sttp.tapir.server.ServerEndpoint
 
-import scala.util.{Failure, Success, Try}
+import scala.util.{Failure, Success, Try, Using}
 
 class RawController(using
     imageStorage: ImageStorageService,
     imageConverter: ImageConverter,
-    errorHelpers: ErrorHelpers,
     errorHandling: ErrorHandling,
     readService: ReadService,
     props: Props,
 ) extends TapirController {
-  import errorHandling.*
-  import errorHelpers.*
   override val serviceName: String         = "raw"
   override val prefix: EndpointInput[Unit] = "image-api" / serviceName
   override val enableSwagger: Boolean      = true
 
-  override val endpoints: List[ServerEndpoint[Any, Eff]] =
-    List(getImageById, getImageByFileName, getImageVariantByFileName)
+  override val endpoints: List[ServerEndpoint[Any, Eff]] = List(
+    getImageById,
+    headImageById,
+    getImageByFileName,
+    headImageByFileName,
+    getImageVariantByFileName,
+    headImageVariantByFileName,
+  )
 
-  def getImageById: ServerEndpoint[Any, Eff] = endpoint
-    .get
-    .summary("Fetch an image with options to resize and crop")
-    .description("Fetches a image with options to resize and crop")
+  private def imageByIdEndpoint = endpoint
     .in("id" / path[Long]("image_id").description("The ID of the image"))
     .in(EndpointInput.derived[ImageParams])
     .errorOut(errorOutputsFor(404))
-    .out(ImageResponse.endpointOutput)
-    .serverLogicPure { case (imageId, imageParams) =>
-      readService.getImageFileName(imageId, imageParams.language) match {
-        case Success(Some(fileName)) => getImageResponse(fileName, imageParams)
-        case Success(None)           => notFoundWithMsg(s"Image with id $imageId not found").asLeft
-        case Failure(ex)             => returnLeftError(ex)
-      }
-    }
 
-  def getImageByFileName: ServerEndpoint[Any, Eff] = endpoint
-    .get
-    .summary("Fetch an image with options to resize and crop")
-    .description("Fetches a image with options to resize and crop")
+  private def imageByFileNameEndpoint = endpoint
     .in(path[String]("image_name").description("The name of the image"))
     .in(EndpointInput.derived[ImageParams])
     .errorOut(errorOutputsFor(404))
-    .out(ImageResponse.endpointOutput)
-    .serverLogicPure(getImageResponse)
 
-  def getImageVariantByFileName: ServerEndpoint[Any, Eff] = endpoint
-    .get
-    .summary("Fetch an image variant")
-    .description("Fetches a specific image variant size")
+  private def imageVariantByFileNameEndpoint = endpoint
     .in(path[String]("image_name").description("The name of the image (with file extension)").example("foobar.jpg"))
     .in(path[String]("variant_size").description("Image variant size (with file extension)").example("medium.webp"))
     .errorOut(errorOutputsFor(404))
+
+  def getImageById: ServerEndpoint[Any, Eff] = imageByIdEndpoint
+    .get
+    .summary("Fetch an image with options to resize and crop")
+    .description("Fetches a image with options to resize and crop")
+    .out(ImageResponse.endpointOutput)
+    .serverLogicPure { case (imageId, imageParams) =>
+      getImageFileName(imageId, imageParams).flatMap(getImageResponse(_, imageParams))
+    }
+
+  def headImageById: ServerEndpoint[Any, Eff] = imageByIdEndpoint
+    .head
+    .summary("Fetch headers for an image with options to resize and crop")
+    .description("Fetches the headers of an image with options to resize and crop, without the image itself")
+    .out(ImageHeadResponse.endpointOutput)
+    .serverLogicPure { case (imageId, imageParams) =>
+      getImageFileName(imageId, imageParams).flatMap(getImageHeadResponse(_, imageParams))
+    }
+
+  def getImageByFileName: ServerEndpoint[Any, Eff] = imageByFileNameEndpoint
+    .get
+    .summary("Fetch an image with options to resize and crop")
+    .description("Fetches a image with options to resize and crop")
+    .out(ImageResponse.endpointOutput)
+    .serverLogicPure(getImageResponse)
+
+  def headImageByFileName: ServerEndpoint[Any, Eff] = imageByFileNameEndpoint
+    .head
+    .summary("Fetch headers for an image with options to resize and crop")
+    .description("Fetches the headers of an image with options to resize and crop, without the image itself")
+    .out(ImageHeadResponse.endpointOutput)
+    .serverLogicPure(getImageHeadResponse)
+
+  def getImageVariantByFileName: ServerEndpoint[Any, Eff] = imageVariantByFileNameEndpoint
+    .get
+    .summary("Fetch an image variant")
+    .description("Fetches a specific image variant size")
     .out(ImageResponse.endpointOutput)
     .serverLogicPure { (fileName, variantName) =>
       imageStorage
         .getRaw(s"$fileName/$variantName")
         .map(s3Object => ImageResponse(s3Object.stream, s3Object.contentType, s3Object.contentLength.toString, None))
+    }
+
+  def headImageVariantByFileName: ServerEndpoint[Any, Eff] = imageVariantByFileNameEndpoint
+    .head
+    .summary("Fetch headers for an image variant")
+    .description("Fetches the headers of a specific image variant size, without the image itself")
+    .out(ImageHeadResponse.endpointOutput)
+    .serverLogicPure { (fileName, variantName) =>
+      imageStorage
+        .getRawMetadata(s"$fileName/$variantName")
+        .map(meta => ImageHeadResponse(meta.contentType, meta.contentLength.toString, None))
+    }
+
+  private def getImageFileName(imageId: Long, imageParams: ImageParams): Try[String] = readService
+    .getImageFileName(imageId, imageParams.language)
+    .flatMap {
+      case Some(fileName) => Success(fileName)
+      case None           => Failure(ImageNotFoundException(s"Image with id $imageId not found"))
     }
 
   private def getImageResponse(fileName: String, imageParams: ImageParams): Try[ImageResponse] = {
@@ -94,6 +133,22 @@ class RawController(using
           contentDisposition,
         )
       }
+    }
+  }
+
+  private def getImageHeadResponse(fileName: String, imageParams: ImageParams): Try[ImageHeadResponse] = {
+    val contentDisposition = imageParams.download.map(_ => "attachment")
+    if (imageParams.isEmptyOrOnlyDownload) {
+      imageStorage
+        .getRawMetadata(fileName)
+        .map(meta => ImageHeadResponse(meta.contentType, meta.contentLength.toString, contentDisposition))
+    } else {
+      // The content length of a processed image is only known after processing it
+      getAndProcessImage(fileName, imageParams).flatMap(
+        Using(_) { imageStream =>
+          ImageHeadResponse(imageStream.contentType.toString, imageStream.contentLength.toString, contentDisposition)
+        }
+      )
     }
   }
 

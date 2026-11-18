@@ -9,11 +9,13 @@
 package no.ndla.imageapi.controller
 
 import no.ndla.common.Clock
+import no.ndla.common.aws.NdlaS3HeadObject
+import no.ndla.common.errors.MissingBucketKeyException
 import no.ndla.imageapi.model.ImageNotFoundException
 import no.ndla.imageapi.{TestEnvironment, UnitSuite}
 import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, NdlaServer, TapirController}
 import no.ndla.tapirtesting.TapirControllerTest
-import no.ndla.testbase.NullSafeMockito.{any, eqTo, reset, when}
+import no.ndla.testbase.NullSafeMockito.{any, eqTo, never, reset, verify, when}
 import sttp.client4.PartialRequest
 import sttp.client4.quick.*
 
@@ -308,6 +310,64 @@ class RawControllerTest extends UnitSuite with TestEnvironment with TapirControl
     res2.headers.find(_.is("content-disposition")).get.value should be("attachment")
     res1.body should be(TestData.ndlaLogoImageS3Object.stream.readAllBytes())
     res2.body should be(TestData.ndlaLogoImageS3Object.stream.readAllBytes())
+  }
+
+  test("that HEAD /image.jpg | /id/1 returns headers without body and without downloading the image") {
+    reset(imageStorage)
+    val metadata = NdlaS3HeadObject("bucket", imageName, "image/jpeg", 1234L)
+    when(imageStorage.getRawMetadata(any[String])).thenReturn(Success(metadata))
+    val res1 = req.head(uri"http://localhost:$serverPort/image-api/raw/$imageName").send()
+    val res2 = req.head(uri"http://localhost:$serverPort/image-api/raw/id/$id?download").send()
+
+    res1.code.code should be(200)
+    res2.code.code should be(200)
+    res1.body should be(empty)
+    res2.body should be(empty)
+    res1.header("content-type") should be(Some("image/jpeg"))
+    res1.header("content-length") should be(Some("1234"))
+    res1.header("cache-control") should be(Some(props.RawControllerCacheControl))
+    res1.header("content-disposition") should be(None)
+    res2.header("content-disposition") should be(Some("attachment"))
+    verify(imageStorage, never).getRaw(any[String])
+    verify(imageStorage, never).get(any[String])
+  }
+
+  test("that HEAD /image.jpg | /id/1 returns 404 if image was not found") {
+    when(imageStorage.getRawMetadata(any[String])).thenReturn(Failure(MissingBucketKeyException(imageName)))
+    when(readService.getImageFileName(2L, None)).thenReturn(Success(None))
+    val res1 = req.head(uri"http://localhost:$serverPort/image-api/raw/$imageName").send()
+    val res2 = req.head(uri"http://localhost:$serverPort/image-api/raw/id/2").send()
+
+    res1.code.code should be(404)
+    res2.code.code should be(404)
+    res1.body should be(empty)
+    res2.body should be(empty)
+  }
+
+  test("that HEAD /image.jpg?width=100 returns headers of the processed image") {
+    when(imageStorage.get(any[String])).thenReturn(Success(TestData.ndlaLogoImageStream))
+    val getRes = req.get(uri"http://localhost:$serverPort/image-api/raw/$imageName?width=100").send()
+    when(imageStorage.get(any[String])).thenReturn(Success(TestData.ndlaLogoImageStream))
+    val headRes = req.head(uri"http://localhost:$serverPort/image-api/raw/$imageName?width=100").send()
+
+    headRes.code.code should be(200)
+    headRes.body should be(empty)
+    headRes.header("content-type") should be(getRes.header("content-type"))
+    headRes.header("content-length") should be(Some(getRes.body.length.toString))
+  }
+
+  test("that HEAD /image.jpg/medium.webp returns headers of the image variant") {
+    val fileName    = "image.jpg"
+    val variantName = "medium.webp"
+    val metadata    = NdlaS3HeadObject("bucket", s"$fileName/$variantName", "image/webp", 4321L)
+    when(imageStorage.getRawMetadata(eqTo(s"$fileName/$variantName"))).thenReturn(Success(metadata))
+
+    val res = req.head(uri"http://localhost:$serverPort/image-api/raw/$fileName/$variantName").send()
+
+    res.code.code should be(200)
+    res.body should be(empty)
+    res.header("content-type") should be(Some("image/webp"))
+    res.header("content-length") should be(Some("4321"))
   }
 
   test("that GET /image.jpeg?width=100&download | /id/1?width=100&download sets Content-Disposition") {

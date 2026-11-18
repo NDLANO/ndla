@@ -31,10 +31,22 @@ class NdlaS3Client(bucket: String, region: Option[String]) {
     }
   }
 
-  def headObject(key: String): Try[HeadObjectResponse] = Try.throwIfInterrupted {
+  def headObject(key: String): Try[NdlaS3HeadObject] = {
     import scala.language.unsafeNulls
     val headObjectRequest = HeadObjectRequest.builder().bucket(bucket).key(key).build()
-    client.headObject(headObjectRequest)
+    Try
+      .throwIfInterrupted(client.headObject(headObjectRequest))
+      .map(res =>
+        NdlaS3HeadObject(
+          bucket = bucket,
+          key = key,
+          contentType = Option(res.contentType()).getOrElse("application/octet-stream"),
+          contentLength = res.contentLength(),
+        )
+      )
+      .recoverWith { case _: NoSuchKeyException =>
+        Failure(MissingBucketKeyException(key))
+      }
   }
 
   def objectExists(key: String): Boolean = headObject(key).isSuccess

@@ -348,7 +348,11 @@ export type paths = {
         post?: never;
         delete?: never;
         options?: never;
-        head?: never;
+        /**
+         * Fetch headers for an image with options to resize and crop
+         * @description Fetches the headers of an image with options to resize and crop, without the image itself
+         */
+        head: operations["headImage-apiRawIdImage_id"];
         patch?: never;
         trace?: never;
     };
@@ -368,7 +372,11 @@ export type paths = {
         post?: never;
         delete?: never;
         options?: never;
-        head?: never;
+        /**
+         * Fetch headers for an image with options to resize and crop
+         * @description Fetches the headers of an image with options to resize and crop, without the image itself
+         */
+        head: operations["headImage-apiRawImage_name"];
         patch?: never;
         trace?: never;
     };
@@ -388,7 +396,11 @@ export type paths = {
         post?: never;
         delete?: never;
         options?: never;
-        head?: never;
+        /**
+         * Fetch headers for an image variant
+         * @description Fetches the headers of a specific image variant size, without the image itself
+         */
+        head: operations["headImage-apiRawImage_nameVariant_size"];
         patch?: never;
         trace?: never;
     };
@@ -2650,6 +2662,82 @@ export interface operations {
             };
         };
     };
+    "headImage-apiRawIdImage_id": {
+        parameters: {
+            query?: {
+                /** @description The target width to resize the image (the unit is pixles). Image proportions are kept intact */
+                width?: number;
+                /** @description The target height to resize the image (the unit is pixles). Image proportions are kept intact */
+                height?: number;
+                /** @description The first image coordinate X, in percent (0 to 100) or pixels depending on cropUnit, specifying the crop start position. If used the other crop parameters must also be supplied */
+                cropStartX?: number;
+                /** @description The first image coordinate Y, in percent (0 to 100) or pixels depending on cropUnit, specifying the crop start position. If used the other crop parameters must also be supplied */
+                cropStartY?: number;
+                /** @description The end image coordinate X, in percent (0 to 100) or pixels depending on cropUnit, specifying the crop end position. If used the other crop parameters must also be supplied */
+                cropEndX?: number;
+                /** @description The end image coordinate Y, in percent (0 to 100) or pixels depending on cropUnit, specifying the crop end position. If used the other crop parameters must also be supplied */
+                cropEndY?: number;
+                /** @description The unit of the crop parameters. Can be either 'percent' or 'pixel'. If omitted the unit is assumed to be 'percent' */
+                cropUnit?: string;
+                /** @description The end image coordinate X, in percent (0 to 100), specifying the focal point. If used the other focal point parameter, width and/or height, must also be supplied */
+                focalX?: number;
+                /** @description The end image coordinate Y, in percent (0 to 100), specifying the focal point. If used the other focal point parameter, width and/or height, must also be supplied */
+                focalY?: number;
+                /** @description The wanted aspect ratio, defined as width/height. To be used together with the focal parameters. If used the width and height is ignored and derived from the aspect ratio instead. */
+                ratio?: number;
+                /** @description The wanted aspect ratio, defined as width/height. To be used together with the focal parameters. If used the width and height is ignored and derived from the aspect ratio instead. */
+                language?: string;
+                /** @description Whether the image should be downloaded or not. Only the presence of this parameter is needed. */
+                download?: string;
+            };
+            header?: {
+                /** @description Your app-key. May be omitted to access api anonymously, but rate limiting may apply on anonymous access. */
+                "app-key"?: string;
+            };
+            path: {
+                /** @description The ID of the image */
+                image_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    "Content-Type": string;
+                    "Content-Length": string;
+                    "Content-Disposition"?: string;
+                    "Cache-Control": string;
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
     "getImage-apiRawImage_name": {
         parameters: {
             query?: {
@@ -2728,6 +2816,82 @@ export interface operations {
             };
         };
     };
+    "headImage-apiRawImage_name": {
+        parameters: {
+            query?: {
+                /** @description The target width to resize the image (the unit is pixles). Image proportions are kept intact */
+                width?: number;
+                /** @description The target height to resize the image (the unit is pixles). Image proportions are kept intact */
+                height?: number;
+                /** @description The first image coordinate X, in percent (0 to 100) or pixels depending on cropUnit, specifying the crop start position. If used the other crop parameters must also be supplied */
+                cropStartX?: number;
+                /** @description The first image coordinate Y, in percent (0 to 100) or pixels depending on cropUnit, specifying the crop start position. If used the other crop parameters must also be supplied */
+                cropStartY?: number;
+                /** @description The end image coordinate X, in percent (0 to 100) or pixels depending on cropUnit, specifying the crop end position. If used the other crop parameters must also be supplied */
+                cropEndX?: number;
+                /** @description The end image coordinate Y, in percent (0 to 100) or pixels depending on cropUnit, specifying the crop end position. If used the other crop parameters must also be supplied */
+                cropEndY?: number;
+                /** @description The unit of the crop parameters. Can be either 'percent' or 'pixel'. If omitted the unit is assumed to be 'percent' */
+                cropUnit?: string;
+                /** @description The end image coordinate X, in percent (0 to 100), specifying the focal point. If used the other focal point parameter, width and/or height, must also be supplied */
+                focalX?: number;
+                /** @description The end image coordinate Y, in percent (0 to 100), specifying the focal point. If used the other focal point parameter, width and/or height, must also be supplied */
+                focalY?: number;
+                /** @description The wanted aspect ratio, defined as width/height. To be used together with the focal parameters. If used the width and height is ignored and derived from the aspect ratio instead. */
+                ratio?: number;
+                /** @description The wanted aspect ratio, defined as width/height. To be used together with the focal parameters. If used the width and height is ignored and derived from the aspect ratio instead. */
+                language?: string;
+                /** @description Whether the image should be downloaded or not. Only the presence of this parameter is needed. */
+                download?: string;
+            };
+            header?: {
+                /** @description Your app-key. May be omitted to access api anonymously, but rate limiting may apply on anonymous access. */
+                "app-key"?: string;
+            };
+            path: {
+                /** @description The name of the image */
+                image_name: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    "Content-Type": string;
+                    "Content-Length": string;
+                    "Content-Disposition"?: string;
+                    "Cache-Control": string;
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
     "getImage-apiRawImage_nameVariant_size": {
         parameters: {
             query?: never;
@@ -2759,6 +2923,62 @@ export interface operations {
                 content: {
                     "application/octet-stream": Blob;
                 };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AllErrors"];
+                };
+            };
+        };
+    };
+    "headImage-apiRawImage_nameVariant_size": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /**
+                 * @description The name of the image (with file extension)
+                 * @example foobar.jpg
+                 */
+                image_name: string;
+                /**
+                 * @description Image variant size (with file extension)
+                 * @example medium.webp
+                 */
+                variant_size: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    "Content-Type": string;
+                    "Content-Length": string;
+                    "Content-Disposition"?: string;
+                    "Cache-Control": string;
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             400: {
                 headers: {
