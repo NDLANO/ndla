@@ -86,7 +86,6 @@ trait TestEnvironment extends TapirApplication[DraftApiProperties] with MockitoS
   implicit lazy val taxonomyApiClient: TaxonomyApiClient         = mock[TaxonomyApiClient]
   implicit lazy val baseTaxonomyApiClient: BaseTaxonomyApiClient = mock[BaseTaxonomyApiClient]
   implicit lazy val h5pApiClient: H5PApiClient                   = mock[H5PApiClient]
-  implicit lazy val imageApiClient: ImageApiClient               = mock[ImageApiClient]
 
   implicit lazy val swagger: SwaggerController = mock[SwaggerController]
 }
