@@ -43,6 +43,7 @@
     "@dnd-kit/react": "catalog:",
     "@fontsource-variable/source-code-pro": "catalog:",
     "@fontsource-variable/source-serif-4": "catalog:",
+    "@fontsource/source-sans-pro": "catalog:",
     "@ndla/article-converter": "workspace:*",
     "@ndla/core": "workspace:*",
     "@ndla/editor": "workspace:*",
