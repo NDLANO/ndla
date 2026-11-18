@@ -27,6 +27,7 @@
     "@ndla/licenses": "workspace:*",
     "@ndla/shared": "workspace:*",
     "@opentelemetry/api": "catalog:",
+    "@prometheus-io/client": "catalog:",
     "cheerio": "catalog:",
     "compression": "catalog:",
     "cors": "catalog:",

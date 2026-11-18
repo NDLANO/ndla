@@ -28,6 +28,7 @@ import cors from "cors";
 import express, { json } from "express";
 import type { GraphQLFormattedError } from "graphql";
 import { port } from "./config";
+import { metricsRegistry } from "./metrics";
 import { resolvers } from "./resolvers";
 import { typeDefs } from "./schema";
 import { contextExpressMiddleware } from "./utils/context/contextMiddleware";
@@ -46,6 +47,7 @@ let apolloServer: ApolloServer<ContextWithLoaders>;
 const metricsMiddleware = createMetricsMiddleware({
   includeMethod: true,
   includePath: false,
+  registry: metricsRegistry,
 });
 
 app.use(metricsMiddleware);

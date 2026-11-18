@@ -7,6 +7,7 @@
  */
 
 import { LRUCache } from "lru-cache";
+import { countCacheRemoval } from "./metrics";
 
 export interface IKeyValueCache {
   get(key: string): Promise<string | undefined>;
@@ -24,6 +25,9 @@ export const createCache = (
   const cache = new LRUCache<string, string>({
     maxSize: options.size,
     sizeCalculation: (n, key) => n.length + key.length,
+    dispose: (_value, _key, reason) => {
+      if (reason === "evict" || reason === "expire") countCacheRemoval(reason);
+    },
   });
 
   return {

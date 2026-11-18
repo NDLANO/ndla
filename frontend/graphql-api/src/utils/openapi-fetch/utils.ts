@@ -12,7 +12,7 @@ import { apiUrl, slowLogTimeout as configSlowLogTimeout } from "../../config";
 import { getHeadersFromContext } from "../apiHelpers";
 import { getContextOrThrow } from "../context/contextStore";
 import getLogger from "../logger";
-import { OATSCacheMiddleware } from "./cacheMiddleware";
+import { OATSCacheDisabledMiddleware, OATSCacheMiddleware } from "./cacheMiddleware";
 import { OATSInternalUrlMiddleware } from "./internalUrlMiddleware";
 
 export interface ClientCreateOptions {
@@ -33,7 +33,7 @@ export function createAuthClient<T extends {}>(options?: ClientCreateOptions) {
     },
   });
 
-  if (!options?.disableCache) client.use(OATSCacheMiddleware(options?.useTaxonomyCache));
+  client.use(options?.disableCache ? OATSCacheDisabledMiddleware : OATSCacheMiddleware(options?.useTaxonomyCache));
   client.use(OATSInternalUrlMiddleware);
 
   return client;
