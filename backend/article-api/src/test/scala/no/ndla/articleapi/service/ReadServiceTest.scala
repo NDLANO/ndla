@@ -164,6 +164,26 @@ class ReadServiceTest extends UnitSuite with TestEnvironment {
 
   }
 
+  test("search results vary on the feide user and are private when restricted") {
+    val searchMock = mock[SearchResult[ArticleSummaryV2DTO]]
+    when(articleSearchService.matchingQuery(any[SearchSettings])).thenReturn(Success(searchMock))
+
+    val teacher = mock[MyNDLAUser]
+    when(teacher.availabilities).thenReturn(Seq(Availability.everyone, Availability.teacher))
+
+    def searchAs(feide: Option[FeideUserWrapper]) = readService
+      .search(None, None, "nb", None, 1, 10, List.empty, Seq.empty, false, Seq.empty, false, feide)
+      .get
+
+    val anonymous = searchAs(None)
+    anonymous.canBeCached should be(true)
+    anonymous.vary should be(List("FeideAuthorization"))
+
+    val restricted = searchAs(Some(FeideUserWrapper(teacher, mock[FeideIdToken])))
+    restricted.canBeCached should be(false)
+    restricted.vary should be(List("FeideAuthorization"))
+  }
+
   test("that getArticlesByIds doesn't perform filter when every article has availability status everyone") {
     val ids      = List(1L, 2L, 3L)
     val article1 = TestData.sampleDomainArticle.copy(id = Some(1), availability = Availability.everyone)
@@ -177,7 +197,9 @@ class ReadServiceTest extends UnitSuite with TestEnvironment {
     val result = readService
       .getArticlesByIds(articleIds = ids, language = "nb", fallback = true, page = 1, pageSize = 10, feide = None)
       .get
-    result.length should be(3)
+    result.value.length should be(3)
+    result.canBeCached should be(true)
+    result.vary should be(List.empty)
   }
 
   test("that getArticlesByIds performs filter and returns articles that can only be seen by teacher") {
@@ -206,8 +228,9 @@ class ReadServiceTest extends UnitSuite with TestEnvironment {
         feide = Some(feideUserInfo),
       )
       .get
-    result.length should be(3)
-
+    result.value.length should be(3)
+    result.canBeCached should be(false)
+    result.vary should be(List("FeideAuthorization"))
   }
 
   test("that getArticlesByIds performs filter and returns articles that can only be seen by everyone") {
@@ -233,8 +256,10 @@ class ReadServiceTest extends UnitSuite with TestEnvironment {
         feide = Some(feideUserInfo),
       )
       .get
-    result.length should be(2)
-    result.map(res => res.availability).contains("teacher") should be(false)
+    result.value.length should be(2)
+    result.value.map(res => res.availability).contains("teacher") should be(false)
+    result.canBeCached should be(false)
+    result.vary should be(List("FeideAuthorization"))
   }
 
   test("that getArticlesByIds performs filter if feideAccessToken is not set") {
@@ -251,8 +276,10 @@ class ReadServiceTest extends UnitSuite with TestEnvironment {
     val result = readService
       .getArticlesByIds(articleIds = ids, language = "nb", fallback = true, page = 1, pageSize = 10, feide = None)
       .get
-    result.length should be(2)
-    result.map(res => res.availability).contains("teacher") should be(false)
+    result.value.length should be(2)
+    result.value.map(res => res.availability).contains("teacher") should be(false)
+    result.canBeCached should be(true)
+    result.vary should be(List("FeideAuthorization"))
   }
 
   test("that getArticlesByIds fails if no ids were given") {
