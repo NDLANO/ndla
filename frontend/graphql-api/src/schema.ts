@@ -1295,6 +1295,7 @@ export const typeDefs = gql`
     alternatives: [QuizAlternative!]!
     required: Boolean!
     alternativesRandomOrder: Boolean!
+    sortOrder: Int!
   }
 
   type QuizDisplaySettings {
@@ -1722,6 +1723,7 @@ export const typeDefs = gql`
       alternatives: [QuizAlternativeInput!]
       required: Boolean
       alternativesRandomOrder: Boolean
+      sortOrder: Int
     ): Quiz!
     deleteQuizQuestion(quizId: String!, questionId: String!): Quiz!
     deleteQuiz(id: String!): String!

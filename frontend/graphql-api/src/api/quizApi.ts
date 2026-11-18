@@ -113,6 +113,7 @@ export async function putQuizQuestion(
     alternatives,
     required,
     alternativesRandomOrder,
+    sortOrder,
   }: GQLMutationUpdateQuizQuestionArgs,
   _context: Context,
 ): Promise<QuizDTO> {
@@ -129,6 +130,7 @@ export async function putQuizQuestion(
         glossaryPairs: undefined,
         required,
         alternativesRandomOrder,
+        sortOrder: sortOrder ?? undefined,
       },
     })
     .then(resolveJsonOATS);
