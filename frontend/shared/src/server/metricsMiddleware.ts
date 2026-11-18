@@ -15,6 +15,7 @@ export interface MetricsMiddlewareOptions {
   includePath?: boolean;
   excludeRoutes?: (string | RegExp)[];
   normalizePath?: (req: Request) => string;
+  registry?: Registry;
 }
 
 const UNMATCHED_ROUTE = "unmatched";
@@ -63,8 +64,8 @@ export const createMetricsMiddleware = ({
   includePath = true,
   excludeRoutes = ["/health", /^\/health\/.*/],
   normalizePath = normalizeExpressRoutePath,
+  registry = new Registry(),
 }: MetricsMiddlewareOptions = {}): RequestHandler => {
-  const registry = new Registry();
   const labelNames = ["status_code", ...(includeMethod ? ["method"] : []), ...(includePath ? ["path"] : [])];
   const httpDuration = new Histogram({
     name: "http_request_duration_seconds",
