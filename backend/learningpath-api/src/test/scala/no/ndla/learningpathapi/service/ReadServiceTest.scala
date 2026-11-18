@@ -22,6 +22,7 @@ import no.ndla.common.model.domain.learningpath.{
 import no.ndla.common.model.domain.{Author, ContributorType, Title}
 import no.ndla.learningpathapi.{TestData, UnitSuite, UnitTestEnvironment}
 import no.ndla.mapping.License
+import no.ndla.network.tapir.Cachable
 import no.ndla.network.tapir.auth.TokenUser
 import no.ndla.testbase.NullSafeMockito.{any, eqTo, when}
 import scalikejdbc.DBSession
@@ -170,8 +171,9 @@ class ReadServiceTest extends UnitSuite with UnitTestEnvironment {
     )
     val learningPath = service.withIdV2(PUBLISHED_ID, "nb", fallback = false, TokenUser.PublicUser.toCombined)
     assert(learningPath.isSuccess)
-    assert(learningPath.get.id == PUBLISHED_ID)
-    assert(learningPath.get.status == LearningPathStatus.PUBLISHED)
+    assert(learningPath.get.value.id == PUBLISHED_ID)
+    assert(learningPath.get.value.status == LearningPathStatus.PUBLISHED)
+    assert(learningPath.get.canBeCached)
   }
 
   test("That withId returns a learningPath when the status is PUBLISHED and user is not the owner") {
@@ -180,8 +182,27 @@ class ReadServiceTest extends UnitSuite with UnitTestEnvironment {
     )
     val learningPath = service.withIdV2(PUBLISHED_ID, "nb", fallback = false, PRIVATE_OWNER.toCombined)
     assert(learningPath.isSuccess)
-    assert(learningPath.get.id == PUBLISHED_ID)
-    assert(learningPath.get.status == LearningPathStatus.PUBLISHED)
+    assert(learningPath.get.value.id == PUBLISHED_ID)
+    assert(learningPath.get.value.status == LearningPathStatus.PUBLISHED)
+    assert(learningPath.get.canBeCached)
+  }
+
+  test("That withIdV2 is not cachable when the user can edit the learningpath") {
+    when(learningPathRepository.withId(eqTo(PUBLISHED_ID))(using any[DBSession])).thenReturn(
+      Some(PUBLISHED_LEARNINGPATH)
+    )
+    val learningPath = service.withIdV2(PUBLISHED_ID, "nb", fallback = false, PUBLISHED_OWNER.toCombined)
+    assert(learningPath.get.value.canEdit)
+    assert(!learningPath.get.canBeCached)
+  }
+
+  test("That withIdV2 is not cachable when the user can edit one of the learningsteps") {
+    when(learningPathRepository.withId(eqTo(PUBLISHED_ID))(using any[DBSession])).thenReturn(
+      Some(PUBLISHED_LEARNINGPATH.copy(learningsteps = Seq(STEP1.copy(owner = PRIVATE_OWNER.id))))
+    )
+    val learningPath = service.withIdV2(PUBLISHED_ID, "nb", fallback = false, PRIVATE_OWNER.toCombined)
+    assert(!learningPath.get.value.canEdit)
+    assert(!learningPath.get.canBeCached)
   }
 
   test("That withId throws an AccessDeniedException when the status is PRIVATE and no user") {
@@ -200,8 +221,9 @@ class ReadServiceTest extends UnitSuite with UnitTestEnvironment {
     when(learningPathRepository.withId(eqTo(PRIVATE_ID))(using any[DBSession])).thenReturn(Some(PRIVATE_LEARNINGPATH))
     val learningPath = service.withIdV2(PRIVATE_ID, "nb", fallback = false, PRIVATE_OWNER.toCombined)
     assert(learningPath.isSuccess)
-    assert(learningPath.get.id == PRIVATE_ID)
-    assert(learningPath.get.status == LearningPathStatus.PRIVATE)
+    assert(learningPath.get.value.id == PRIVATE_ID)
+    assert(learningPath.get.value.status == LearningPathStatus.PRIVATE)
+    assert(!learningPath.get.canBeCached)
   }
 
   test("That statusFor returns None when id does not exist") {
@@ -214,7 +236,7 @@ class ReadServiceTest extends UnitSuite with UnitTestEnvironment {
     when(learningPathRepository.withId(eqTo(PUBLISHED_ID))(using any[DBSession])).thenReturn(
       Some(PUBLISHED_LEARNINGPATH)
     )
-    assertResult(LearningPathStatusDTO(status = LearningPathStatus.PUBLISHED)) {
+    assertResult(Cachable.yes(LearningPathStatusDTO(status = LearningPathStatus.PUBLISHED))) {
       service.statusFor(PUBLISHED_ID, TokenUser.PublicUser.toCombined).get
     }
   }
@@ -234,7 +256,7 @@ class ReadServiceTest extends UnitSuite with UnitTestEnvironment {
 
   test("That statusFor returns a LearningPathStatus when the status is PRIVATE and the user is the owner") {
     when(learningPathRepository.withId(eqTo(PRIVATE_ID))(using any[DBSession])).thenReturn(Some(PRIVATE_LEARNINGPATH))
-    assertResult(LearningPathStatusDTO(status = LearningPathStatus.PRIVATE)) {
+    assertResult(Cachable.no(LearningPathStatusDTO(status = LearningPathStatus.PRIVATE))) {
       service.statusFor(PRIVATE_ID, PRIVATE_OWNER.toCombined).get
     }
   }
@@ -281,9 +303,10 @@ class ReadServiceTest extends UnitSuite with UnitTestEnvironment {
       TokenUser.PublicUser.toCombined,
     )
     learningSteps.isSuccess should be(true)
-    learningSteps.get.learningsteps.size should be(2)
-    learningSteps.get.learningsteps.head.id should equal(STEP1.id.get)
-    learningSteps.get.learningsteps.last.id should equal(STEP3.id.get)
+    learningSteps.get.value.learningsteps.size should be(2)
+    learningSteps.get.value.learningsteps.head.id should equal(STEP1.id.get)
+    learningSteps.get.value.learningsteps.last.id should equal(STEP3.id.get)
+    learningSteps.get.canBeCached should be(true)
   }
 
   test("That learningstepsFor returns only deleted steps when specifying status deleted") {
@@ -301,8 +324,8 @@ class ReadServiceTest extends UnitSuite with UnitTestEnvironment {
       TokenUser.PublicUser.toCombined,
     )
     learningSteps.isSuccess should be(true)
-    learningSteps.get.learningsteps.size should be(1)
-    learningSteps.get.learningsteps.head.id should equal(STEP2.id.get)
+    learningSteps.get.value.learningsteps.size should be(1)
+    learningSteps.get.value.learningsteps.head.id should equal(STEP2.id.get)
   }
 
   test("That learningstepsFor throws an AccessDeniedException when the status is PRIVATE and no user") {
@@ -334,13 +357,15 @@ class ReadServiceTest extends UnitSuite with UnitTestEnvironment {
   ) {
     when(learningPathRepository.withId(eqTo(PRIVATE_ID))(using any[DBSession])).thenReturn(Some(PRIVATE_LEARNINGPATH))
     when(learningPathRepository.learningStepsFor(eqTo(PRIVATE_ID))(using any[DBSession])).thenReturn(List(STEP1, STEP2))
-    assertResult(2) {
-      service
-        .learningstepsForWithStatusV2(PRIVATE_ID, StepStatus.ACTIVE, "nb", fallback = false, PRIVATE_OWNER.toCombined)
-        .get
-        .learningsteps
-        .length
-    }
+    val learningSteps = service.learningstepsForWithStatusV2(
+      PRIVATE_ID,
+      StepStatus.ACTIVE,
+      "nb",
+      fallback = false,
+      PRIVATE_OWNER.toCombined,
+    )
+    learningSteps.get.value.learningsteps.length should be(2)
+    learningSteps.get.canBeCached should be(false)
   }
 
   test("That learningstepV2For returns None when the learningPath does not exist") {
@@ -377,21 +402,20 @@ class ReadServiceTest extends UnitSuite with UnitTestEnvironment {
     )
     when(learningPathRepository.learningStepWithId(eqTo(PUBLISHED_ID), eqTo(STEP1.id.get))(using any[DBSession]))
       .thenReturn(Some(STEP1))
-    assertResult(STEP1.id.get) {
-      service
-        .learningstepV2For(PUBLISHED_ID, STEP1.id.get, "nb", fallback = false, TokenUser.PublicUser.toCombined)
-        .get
-        .id
-    }
+    val learningStep =
+      service.learningstepV2For(PUBLISHED_ID, STEP1.id.get, "nb", fallback = false, TokenUser.PublicUser.toCombined)
+    learningStep.get.value.id should be(STEP1.id.get)
+    learningStep.get.canBeCached should be(true)
   }
 
   test("That learningstepV2For returns the LearningStep when it exists and status is PRIVATE and user is the owner") {
     when(learningPathRepository.withId(eqTo(PRIVATE_ID))(using any[DBSession])).thenReturn(Some(PRIVATE_LEARNINGPATH))
     when(learningPathRepository.learningStepWithId(eqTo(PRIVATE_ID), eqTo(STEP1.id.get))(using any[DBSession]))
       .thenReturn(Some(STEP1))
-    assertResult(STEP1.id.get) {
-      service.learningstepV2For(PRIVATE_ID, STEP1.id.get, "nb", fallback = false, PRIVATE_OWNER.toCombined).get.id
-    }
+    val learningStep =
+      service.learningstepV2For(PRIVATE_ID, STEP1.id.get, "nb", fallback = false, PRIVATE_OWNER.toCombined)
+    learningStep.get.value.id should be(STEP1.id.get)
+    learningStep.get.canBeCached should be(false)
   }
 
   test("That learningstepV2For throws an AccessDeniedException when the status is PRIVATE and no user") {

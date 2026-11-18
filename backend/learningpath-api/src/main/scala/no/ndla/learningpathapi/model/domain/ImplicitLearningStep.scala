@@ -11,9 +11,11 @@ package no.ndla.learningpathapi.model.domain
 import no.ndla.common.errors.AccessDeniedException
 import no.ndla.common.model.domain.learningpath.LearningStep
 import no.ndla.learningpathapi.model.domain.UserInfo.*
-import no.ndla.network.model.CombinedUser
+import no.ndla.network.model.{CombinedUser, OptionalCombinedUser}
 
 import scala.util.{Failure, Success, Try}
+
+private val anonymousUser = OptionalCombinedUser(None, None)
 
 extension (ls: LearningStep) {
   def canEditLearningStep(user: CombinedUser): Try[LearningStep] = {
@@ -25,4 +27,6 @@ extension (ls: LearningStep) {
     }
   }
   def canEditStep(userInfo: CombinedUser): Boolean = canEditLearningStep(userInfo).isSuccess
+
+  def isStepUserSpecific(user: CombinedUser): Boolean = canEditStep(user) != canEditStep(anonymousUser)
 }

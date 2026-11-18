@@ -12,7 +12,7 @@ import no.ndla.articleapi.model.search.SearchResult
 import no.ndla.articleapi.model.{NotFoundException, api, domain}
 import no.ndla.articleapi.{TestEnvironment, UnitSuite, model}
 import no.ndla.common.Clock
-import no.ndla.network.tapir.{ErrorHandling, ErrorHelpers, NdlaServer, TapirController}
+import no.ndla.network.tapir.{Cachable, ErrorHandling, ErrorHelpers, NdlaServer, TapirController}
 import no.ndla.tapirtesting.TapirControllerTest
 import no.ndla.testbase.NullSafeMockito.*
 import sttp.client4.quick.*
@@ -40,7 +40,7 @@ class ArticleControllerV2Test extends UnitSuite with TestEnvironment with TapirC
 
   test("/<article_id> should return 200 if the cover was found withIdV2") {
     when(readService.withIdV2(articleId, lang, fallback = false, None, None)).thenReturn(
-      Success(domain.Cachable.yes(TestData.sampleArticleV2))
+      Success(Cachable.yes(TestData.sampleArticleV2))
     )
 
     quickRequest
@@ -68,7 +68,7 @@ class ArticleControllerV2Test extends UnitSuite with TestEnvironment with TapirC
     val articleUrnWithRevision = s"urn:article:$articleId2#$revision"
 
     when(readService.withIdV2(articleId2, "*", fallback = false, Some(revision), None)).thenReturn(
-      Success(domain.Cachable.yes(TestData.sampleArticleV2))
+      Success(Cachable.yes(TestData.sampleArticleV2))
     )
 
     quickRequest
@@ -81,7 +81,7 @@ class ArticleControllerV2Test extends UnitSuite with TestEnvironment with TapirC
   test("/<article_id> should return 200 if slug was sent as parameter") {
     val slug = "someslug"
 
-    when(readService.getArticleBySlug(any, any, any)).thenReturn(Success(domain.Cachable.yes(TestData.sampleArticleV2)))
+    when(readService.getArticleBySlug(any, any, any)).thenReturn(Success(Cachable.yes(TestData.sampleArticleV2)))
     quickRequest.get(uri"http://localhost:$serverPort/article-api/v2/articles/$slug").send().code.code should be(200)
   }
 
@@ -99,7 +99,7 @@ class ArticleControllerV2Test extends UnitSuite with TestEnvironment with TapirC
     val searchResponse =
       SearchResult[api.ArticleSummaryV2DTO](0, Some(1), 10, "nb", Seq.empty[api.ArticleSummaryV2DTO], Some(scrollId))
     when(readService.search(any, any, any, any, any, any, any, any, any, any, any, any)).thenReturn(
-      Success(domain.Cachable.yes(searchResponse))
+      Success(Cachable.yes(searchResponse))
     )
     when(searchConverterService.asApiSearchResultV2(any)).thenCallRealMethod()
 
@@ -172,7 +172,7 @@ class ArticleControllerV2Test extends UnitSuite with TestEnvironment with TapirC
       scrollId = Some("heiheihei"),
     )
     when(readService.search(any, any, any, any, any, any, any, any, any, any, any, any)).thenReturn(
-      Success(domain.Cachable.yes(result))
+      Success(Cachable.yes(result))
     )
     when(searchConverterService.asApiSearchResultV2(any)).thenCallRealMethod()
     quickRequest

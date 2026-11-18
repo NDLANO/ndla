@@ -32,6 +32,7 @@ import no.ndla.common.model.domain.{ArticleType, Availability}
 import no.ndla.database.DBUtility
 import no.ndla.language.Language
 import no.ndla.network.model.FeideUserWrapper
+import no.ndla.network.tapir.Cachable
 import no.ndla.validation.HtmlTagRules.{jsoupDocumentToString, stringToJsoupDocument}
 import org.jsoup.nodes.Element
 import scalikejdbc.DBSession
