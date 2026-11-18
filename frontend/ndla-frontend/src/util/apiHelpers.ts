@@ -34,7 +34,13 @@ import {
 } from "./error/NDLAApolloErrors";
 import { handleError } from "./handleError";
 
-export const apiBaseUrl = config.runtimeType === "test" ? "http://ndla-api" : config.ndlaApiUrl;
+const getApiBaseUrl = (): string => {
+  if (config.runtimeType === "test") return "http://ndla-api";
+  if (!config.isClient && config.apiGatewayHost) return `http://${config.apiGatewayHost}`;
+  return config.ndlaApiUrl;
+};
+
+export const apiBaseUrl = getApiBaseUrl();
 
 const getGraphqlUri = (): string => {
   if (config.localGraphQLApi) return `http://localhost:${config.graphqlApiPort}/graphql-api/graphql`;

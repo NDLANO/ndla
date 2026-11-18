@@ -114,6 +114,7 @@ export type ConfigType = {
   isNdlaProdEnvironment: boolean;
   ndlaApiUrl: string;
   graphqlApiHost: string | undefined;
+  apiGatewayHost: string | undefined;
   ndlaFrontendDomain: string;
   ndlaKiDomain: string;
   zendeskWidgetKey: string | undefined;
@@ -153,6 +154,7 @@ const getServerSideConfig = (): ConfigType => {
     isNdlaProdEnvironment: ndlaEnvironment === "prod",
     ndlaApiUrl: getEnvironmentVariable("NDLA_API_URL", apiDomain(ndlaEnvironment)),
     graphqlApiHost: getEnvironmentVariable("GRAPHQL_API_HOST"),
+    apiGatewayHost: getEnvironmentVariable("API_GATEWAY_HOST"),
     ndlaFrontendDomain: getEnvironmentVariable("FRONTEND_DOMAIN", ndlaFrontendDomain(ndlaEnvironment)),
     ndlaKiDomain: ndlaKiDomain(ndlaEnvironment),
     zendeskWidgetKey: getEnvironmentVariable("NDLA_ZENDESK_WIDGET_KEY"),
