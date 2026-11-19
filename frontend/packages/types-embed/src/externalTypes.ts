@@ -8,7 +8,7 @@
 
 import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import type { MetaData } from "./baseTypes";
-import type { ExternalEmbedAttributes } from "./generated/embedAttributes";
+import type { ExternalEmbedAttributes } from "./embedAttributes";
 import type { OembedProxyResponse } from "./oembedTypes";
 
 export interface OembedEmbedData extends ExternalEmbedAttributes {

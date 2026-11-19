@@ -9,7 +9,7 @@
 import type { AudioMetaInformationDTO } from "@ndla/types-backend/audio-api";
 import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import type { MetaData } from "./baseTypes";
-import type { AudioEmbedAttributes } from "./generated/embedAttributes";
+import type { AudioEmbedAttributes } from "./embedAttributes";
 
 export interface AudioEmbedData extends AudioEmbedAttributes {
   url: string;

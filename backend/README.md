@@ -21,7 +21,7 @@ Substitute `article-api` below with the subproject you want to work on.
 
 **Generate typescript files:** `mill article-api.generateTypescript`
 
-**Generate embed typescript types** (after editing `validation/src/main/resources/embed-tag-rules.json`): `pnpm --filter @ndla/types-embed generate` (from `frontend/`)
+**Change embed tag rules:** `validation/src/main/resources/embed-tag-rules.json` is generated. Edit `frontend/packages/types-embed/src/embedTagRules.ts` and run `pnpm --filter @ndla/types-embed generate` (from `frontend/`)
 
 You could run the tasks directly to execute the tasks for _all_ subprojects (IE: `./mill _.test`), this however can take a long time and in some cases even fail because of dependencies or jvm memory problems. We should improve upon this in the future, but for now it imposes no real problems.
 

@@ -8,7 +8,7 @@
 
 import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import type { MetaData } from "./baseTypes";
-import type { ContactBlockEmbedAttributes } from "./generated/embedAttributes";
+import type { ContactBlockEmbedAttributes } from "./embedAttributes";
 
 export type ContactBlockEmbedData = ContactBlockEmbedAttributes;
 export interface ContactBlockData {

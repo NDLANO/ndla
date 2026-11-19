@@ -7,7 +7,7 @@
  */
 
 import type { MetaData } from "./baseTypes";
-import type { CommentEmbedAttributes } from "./generated/embedAttributes";
+import type { CommentEmbedAttributes } from "./embedAttributes";
 
 export type CommentEmbedData = CommentEmbedAttributes;
 

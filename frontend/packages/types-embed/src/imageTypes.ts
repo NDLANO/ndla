@@ -8,7 +8,7 @@
 
 import type { CopyrightDTO, ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import type { MetaData } from "./baseTypes";
-import type { ImageEmbedAttributes } from "./generated/embedAttributes";
+import type { ImageEmbedAttributes } from "./embedAttributes";
 
 export interface ImageEmbedData extends Omit<ImageEmbedAttributes, "caption"> {
   caption?: string;

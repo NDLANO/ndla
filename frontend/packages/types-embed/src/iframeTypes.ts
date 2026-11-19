@@ -8,7 +8,7 @@
 
 import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import type { MetaData } from "./baseTypes";
-import type { IframeEmbedAttributes } from "./generated/embedAttributes";
+import type { IframeEmbedAttributes } from "./embedAttributes";
 
 export type IframeEmbedData = IframeEmbedAttributes;
 

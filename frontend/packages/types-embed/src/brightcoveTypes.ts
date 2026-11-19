@@ -7,7 +7,7 @@
  */
 
 import type { MetaData } from "./baseTypes";
-import type { BrightcoveEmbedAttributes } from "./generated/embedAttributes";
+import type { BrightcoveEmbedAttributes } from "./embedAttributes";
 
 export interface BrightcoveEmbedData extends BrightcoveEmbedAttributes {
   url?: string;

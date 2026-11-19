@@ -16,6 +16,7 @@
     "lib",
     "es"
   ],
+  "type": "module",
   "sideEffects": false,
   "types": "lib/index.d.ts",
   "exports": {
@@ -27,7 +28,7 @@
   },
   "scripts": {
     "build:types": "tsc -p tsconfig.build.json",
-    "generate": "node scripts/generate-embed-attributes.mts"
+    "generate": "node scripts/generate-embed-tag-rules.mts"
   },
   "devDependencies": {
     "@ndla/types-backend": "workspace:^",

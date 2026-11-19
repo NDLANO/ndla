@@ -7,7 +7,7 @@
  */
 
 import type { MetaData } from "./baseTypes";
-import type { SymbolEmbedAttributes } from "./generated/embedAttributes";
+import type { SymbolEmbedAttributes } from "./embedAttributes";
 
 export type SymbolEmbedData = SymbolEmbedAttributes;
 

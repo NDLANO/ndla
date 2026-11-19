@@ -7,7 +7,7 @@
  */
 
 import type { MetaData } from "./baseTypes";
-import type { ContentLinkEmbedAttributes } from "./generated/embedAttributes";
+import type { ContentLinkEmbedAttributes } from "./embedAttributes";
 
 export type ContentLinkEmbedData = ContentLinkEmbedAttributes;
 
