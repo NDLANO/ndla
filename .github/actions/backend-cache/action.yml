@@ -1,0 +1,30 @@
+name: "Backend cache"
+description: |
+  Restore the coursier and mill caches shared by every backend job. Only the warm-up job on main
+  saves them, so pull requests reuse main's caches instead of each storing their own copy.
+inputs:
+  save:
+    description: "'true' writes the caches back at the end of the job"
+    required: false
+    default: "false"
+outputs:
+  hit:
+    description: "'true' if both the coursier and mill caches had an exact match"
+    value: ${{ steps.cache.outputs.cache-hit-coursier == 'true' && steps.cache.outputs.cache-hit-mill == 'true' }}
+runs:
+  using: composite
+  steps:
+    - id: cache
+      uses: coursier/cache-action@ee0650f98295f27a505e4bfd284c9bfaa913a465 # v9
+      with:
+        root: backend
+        extraFiles: |
+          [
+            "backend/versions.json",
+            "backend/.scalafmt.conf",
+            "backend/**/.spotless-formats.json",
+            "backend/modules/*.mill"
+          ]
+        ignoreJob: true
+        ignoreMatrix: true
+        cacheMode: ${{ inputs.save == 'true' && 'write' || 'read' }}

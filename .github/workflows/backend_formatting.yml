@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: coursier/cache-action@ee0650f98295f27a505e4bfd284c9bfaa913a465 # v9
+      - uses: ./.github/actions/backend-cache
       - uses: jdx/mise-action@236a21c3b91f5db6d4e174b348674a0f0caac06d # v5
         with:
           working_directory: backend
@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: coursier/cache-action@ee0650f98295f27a505e4bfd284c9bfaa913a465 # v9
+      - uses: ./.github/actions/backend-cache
       - uses: jdx/mise-action@236a21c3b91f5db6d4e174b348674a0f0caac06d # v5
       - name: Build required semanticdb files
         run: ./mill -i _.semanticDbData
