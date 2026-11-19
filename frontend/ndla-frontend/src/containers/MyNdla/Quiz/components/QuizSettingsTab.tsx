@@ -29,7 +29,7 @@ const Panel = styled("div", {
     display: "flex",
     flexDirection: "column",
     width: "full",
-    gap: "medium",
+    gap: "large",
     backgroundColor: "background.default",
     borderRadius: "xsmall",
     boxShadow: "xsmall",
@@ -49,9 +49,9 @@ const SettingRow = styled("div", {
 
 const StyledHeading = styled(Heading, {
   base: {
-    textStyle: "label.medium",
+    textStyle: "label.large",
     fontWeight: "bold",
-    fontSize: "small",
+    fontSize: "medium",
   },
 });
 
@@ -160,9 +160,7 @@ export const QuizSettingsTab = ({ state, onChange }: Props) => {
         <StyledHeading asChild consumeCss>
           <h2>{t("myNdla.quiz.form.settingsTab.title")}</h2>
         </StyledHeading>
-        <Text textStyle="body.medium">{t("myNdla.quiz.form.settingsTab.description")}</Text>
       </Section>
-      <Separator aria-hidden={true} />
       <Section>
         <StyledSectionHeading asChild consumeCss>
           <h3>{t("myNdla.quiz.form.settingsTab.randomOrderHeading")}</h3>

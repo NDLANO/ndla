@@ -545,8 +545,7 @@ const translations = {
         moveUp: "Flytt opp",
         moveDown: "Flytt ned",
         settingsTab: {
-          title: "Visuell tilbakemelding",
-          description: "Korleis skal spørsmål og svar i kvissen presenterast?",
+          title: "Korleis skal spørsmål og svar i kvissen presenterast?",
           alternativesRandomOrder: "Tilfeldig rekkefølgje på svaralternativ?",
           randomOrderHeading: "Tilfeldig rekkefølgje",
           randomSubsetHeading: "Tilfeldig utval",

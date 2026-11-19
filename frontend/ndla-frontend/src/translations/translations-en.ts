@@ -545,8 +545,7 @@ const translations = {
         moveUp: "Move up",
         moveDown: "Move down",
         settingsTab: {
-          title: "Visual feedback",
-          description: "How should questions and answers be presented in the quiz?",
+          title: "How should questions and answers be presented in the quiz?",
           alternativesRandomOrder: "Random order of answer alternatives?",
           randomOrderHeading: "Random order",
           randomSubsetHeading: "Random selection",
