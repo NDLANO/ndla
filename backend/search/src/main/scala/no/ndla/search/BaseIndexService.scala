@@ -393,7 +393,7 @@ abstract class BaseIndexService(using e4sClient: NdlaE4sClient, props: BaseProps
             .map { case (index, _) =>
               index.name
             }
-            .filter(_.startsWith(indexName))
+            .filter(_.startsWith(s"${indexName}_"))
         )
       case Failure(ex) => Failure(ex)
     }
