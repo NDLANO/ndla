@@ -184,7 +184,7 @@ const ExpandButton = styled(
 
 const aiGeneratedTail = (embed: ImageMetaData, t: TFunction) => {
   if (embed.status === "success" && (embed.data?.aiGenerated === "Partial" || embed.data?.aiGenerated === "Yes")) {
-    return ` ${t(`license.images.aiGenerated.${embed.data.aiGenerated}`)}`;
+    return ` ${t(`license.images.aiGenerated.${embed.data.aiGenerated}`)}.`;
   }
   return "";
 };
