@@ -7,8 +7,8 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
 import { routes } from "../../../routeHelpers";
+import { useLocaleNavigate } from "../../../util/localePath";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { QuizBuilder } from "./components/QuizBuilder";
 import { emptyQuizState } from "./components/quizBuilderUtils";
@@ -20,7 +20,7 @@ const Component = () => {
 
 export const NewQuizPage = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  const navigate = useLocaleNavigate();
   const { builderProps } = useQuizEditor({
     initialState: emptyQuizState,
     saveFailedMessage: t("myNdla.quiz.toast.createdFailed"),

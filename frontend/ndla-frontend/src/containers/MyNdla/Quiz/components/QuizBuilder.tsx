@@ -25,7 +25,8 @@ import {
 } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import { useTranslation } from "react-i18next";
 import { MyNdlaBreadcrumb } from "../../../../components/MyNdla/MyNdlaBreadcrumb";
 import { MyNdlaTitle } from "../../../../components/MyNdla/MyNdlaTitle";
@@ -137,7 +138,6 @@ export const QuizBuilder = ({
   const { validationT } = useValidationTranslation();
   const [attemptedSave, setAttemptedSave] = useState(false);
   const [dirty, setDirty] = useState(false);
-  const [justSaved, setJustSaved] = useState(false);
   const [sharedQuiz, setSharedQuiz] = useState<GQLQuizFragment>();
   const [focusQuestionId, setFocusQuestionId] = useState<string>();
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
@@ -182,17 +182,10 @@ export const QuizBuilder = ({
     }
     const success = await onSave();
     if (success) {
-      setDirty(false);
-      setJustSaved(true);
-    }
-  };
-
-  useEffect(() => {
-    if (justSaved && !dirty) {
-      setJustSaved(false);
+      flushSync(() => setDirty(false));
       onSaved?.();
     }
-  }, [justSaved, dirty, onSaved]);
+  };
 
   const onShareClick = async () => {
     if (isShared) {
