@@ -324,7 +324,7 @@ export const QuizBuilder = ({
             </ButtonRow>
           </HStack>
           {shareErrorMessage ? (
-            <MessageBox variant="error" role="alert" css={{ marginBlockStart: "medium" }}>
+            <MessageBox variant="error" role="alert" css={{ marginBlockStart: "xlarge" }}>
               <InformationLine />
               <Text>{shareErrorMessage}</Text>
             </MessageBox>
