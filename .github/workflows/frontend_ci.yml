@@ -34,10 +34,22 @@ jobs:
         mise.toml
         .github/workflows/frontend_ci.yml
         .github/actions/frontend-*
+  cache:
+    name: "Warm dependency cache"
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: ./.github/actions/frontend-setup
+        with:
+          deps-cache: save
+          nx-cache: none
   checks:
     name: "Checks (affected)"
     needs: changes
-    if: needs.changes.outputs.changed == 'true'
+    if: needs.changes.outputs.changed == 'true' && github.event_name != 'push'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -49,8 +61,8 @@ jobs:
           filter: blob:none
       - uses: ./.github/actions/frontend-setup
         with:
-          deps-cache: save
-          nx-cache: ${{ github.event.pull_request.head.repo.fork && 'restore' || 'save' }}
+          deps-cache: ${{ github.event_name == 'merge_group' && 'restore' || 'save' }}
+          nx-cache: ${{ (github.event_name == 'merge_group' || github.event.pull_request.head.repo.fork) && 'restore' || 'save' }}
           cache-scope: checks
       - name: "Check dependency versions"
         run: pnpm run deps:check
@@ -77,7 +89,7 @@ jobs:
   e2e:
     name: "E2E: ${{ matrix.app }}"
     needs: changes
-    if: needs.changes.outputs.changed == 'true'
+    if: needs.changes.outputs.changed == 'true' && github.event_name != 'push'
     runs-on: ubuntu-latest
     container: mcr.microsoft.com/playwright:v1.65.1-noble
     permissions:
