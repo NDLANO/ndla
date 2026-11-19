@@ -94,7 +94,7 @@ export const Masthead = () => {
   const environmentName = useMemo(() => {
     switch (config.ndlaEnvironment) {
       case "prod":
-        return t("environment.production");
+        return undefined;
       case "staging":
         return t("environment.staging");
       default:
@@ -104,9 +104,11 @@ export const Masthead = () => {
 
   return (
     <MastheadContainer environment={config.ndlaEnvironment as Environment} id="masthead">
-      <StyledText textStyle="label.large" fontWeight="bold" color="text.strong">
-        {environmentName}
-      </StyledText>
+      {!!environmentName && (
+        <StyledText textStyle="label.large" fontWeight="bold" color="text.strong">
+          {environmentName}
+        </StyledText>
+      )}
       <StyledPageContent variant="wide" gutters="never">
         <ContentWrapper>
           <MastheadDrawer />

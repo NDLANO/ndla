@@ -1823,7 +1823,7 @@ const translations = {
     watchOut: "Watch out!",
     cancel: "Cancel",
   },
-  environment: { production: "", staging: "Staging", test: "Test" },
+  environment: { staging: "Staging", test: "Test" },
   taxonomy: {
     nodeType: {
       PROGRAMME: "programme",
