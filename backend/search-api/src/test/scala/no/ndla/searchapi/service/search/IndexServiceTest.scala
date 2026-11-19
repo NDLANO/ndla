@@ -50,4 +50,19 @@ class IndexServiceTest extends ElasticsearchIntegrationSuite with UnitSuite with
 
     searchIndexService.cleanupIndexes(testIndexPrefix)
   }
+
+  test("That findAllIndexes does not find indexes that only share a name prefix") {
+    val article3Name       = s"${testIndexPrefix}_article_3"
+    val articlesSearchName = s"${testIndexPrefix}_articles-search_1"
+
+    searchIndexService.createIndexWithName(article3Name)
+    searchIndexService.createIndexWithName(articlesSearchName)
+
+    val Success(indexNames) = searchIndexService.findAllIndexes(s"${testIndexPrefix}_article"): @unchecked
+
+    indexNames should contain(article3Name)
+    indexNames should not contain articlesSearchName
+
+    searchIndexService.cleanupIndexes(testIndexPrefix)
+  }
 }
