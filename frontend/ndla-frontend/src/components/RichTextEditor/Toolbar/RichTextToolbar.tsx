@@ -39,7 +39,7 @@ const ToolbarContainer = styled("div", {
         borderTopRadius: "[calc(token(radii.xsmall) - 2px)]",
         borderBottom: "1px solid",
         borderColor: "stroke.subtle",
-        backgroundColor: "surface.infoSubtle",
+        backgroundColor: "surface.actionSubtle",
       },
     },
   },

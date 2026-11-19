@@ -46,8 +46,8 @@ interface Props extends Omit<TextareaHTMLAttributes<HTMLDivElement>, "onChange" 
   initialValue: Descendant[];
   onChange?: (value: Descendant[]) => void;
   /**
-   * full: Sections, headings, lists and links. The toolbar is always visible.
-   * simple: A single paragraph with bold, italic, language and line breaks. The toolbar is always visible.
+   * full: Sections, headings, lists and links.
+   * simple: A single paragraph with bold, italic, language and line breaks.
    */
   variant?: RichTextEditorVariant;
   focusOnMount?: boolean;
@@ -119,7 +119,7 @@ const StyledEditable = styled(
     variants: {
       variant: {
         full: {
-          backgroundColor: "background.default",
+          backgroundColor: "surface.default",
           paddingInline: "xsmall",
           borderRadius: "xsmall",
           borderTopRadius: "sharp",
