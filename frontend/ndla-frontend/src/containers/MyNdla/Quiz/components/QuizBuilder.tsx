@@ -92,6 +92,18 @@ const ButtonRow = styled("div", {
   },
 });
 
+const BottomButtonRow = styled("div", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+    justifyContent: "flex-end",
+    width: "full",
+    maxWidth: "[1084px]",
+    flexWrap: "wrap",
+    paddingBlock: "xsmall",
+  },
+});
+
 const StyledMessageBox = styled(MessageBox, {
   base: {
     flex: "1",
@@ -336,6 +348,16 @@ export const QuizBuilder = ({
                 <AddLine />
                 {t("myNdla.quiz.form.addQuestion")}
               </StyledButton>
+              {state.questions.length >= 2 ? (
+                <BottomButtonRow>
+                  <Button variant="secondary" onClick={onSaveClick} loading={saving} disabled={sharing}>
+                    {t("myNdla.quiz.form.saveButton")}
+                  </Button>
+                  <Button variant="primary" onClick={onShareClick} loading={sharing} disabled={saving}>
+                    {isShared ? t("myNdla.quiz.form.unshareQuiz") : t("myNdla.quiz.form.shareQuiz")}
+                  </Button>
+                </BottomButtonRow>
+              ) : null}
             </MyNdlaPageContent>
           </TabsContent>
           <TabsContent value="settings">
