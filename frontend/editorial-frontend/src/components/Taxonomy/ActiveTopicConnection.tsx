@@ -138,6 +138,11 @@ const ActiveTopicConnection = ({
         : undefined;
   const deleteDisabled = !!deleteDisabledReason;
 
+  const onDelete = () => {
+    setShowDeleteConfirm(false);
+    removeConnection?.(node.connectionId);
+  };
+
   return (
     <ListItemRoot asChild consumeCss>
       <li>
@@ -195,24 +200,10 @@ const ActiveTopicConnection = ({
             <Button onClick={() => setShowDeleteConfirm(false)} variant="secondary">
               {t("form.abort")}
             </Button>
-            <Button
-              onClick={() => {
-                setShowDeleteConfirm(false);
-                removeConnection?.(node.connectionId);
-              }}
-              variant="danger"
-            >
+            <Button onClick={onDelete} variant="danger">
               {t("alertDialog.delete")}
             </Button>
-            {!!subject && (
-              <DeleteWithCompetenceGoalsButton
-                subject={subject}
-                onDelete={() => {
-                  setShowDeleteConfirm(false);
-                  removeConnection?.(node.connectionId);
-                }}
-              />
-            )}
+            {!!subject && <DeleteWithCompetenceGoalsButton subject={subject} onDelete={onDelete} />}
           </FormActionsContainer>
         </AlertDialog>
       </li>
