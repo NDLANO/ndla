@@ -572,6 +572,8 @@ const translations = {
         addQuestion: "New question",
         removeQuestion: "Remove question",
         noQuestions: "You must add at least one question with a correct answer to share the quiz.",
+        noQuestionsMessage: "You must have at least one question in the quiz before you can share it.",
+        noCorrectAnswerMessage: "You must mark the correct answer on all your questions before you can share.",
         saveButton: "Save",
         shareQuiz: "Share quiz",
         unshareQuiz: "Stop sharing quiz",

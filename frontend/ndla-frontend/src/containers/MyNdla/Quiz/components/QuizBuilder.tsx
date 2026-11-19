@@ -164,10 +164,15 @@ export const QuizBuilder = ({
     (question) => question.title.trim() && !hasCorrectAnswer(question),
   );
 
-  const noQuestionsError =
-    attemptedSave && !hasMissingCorrectAnswer && !isQuizFormComplete(state.questions)
-      ? t("myNdla.quiz.form.noQuestions")
-      : undefined;
+  const hasNoQuestions = !state.questions.some((question) => question.title.trim());
+
+  const shareErrorMessage = !attemptedSave
+    ? undefined
+    : hasNoQuestions
+      ? t("myNdla.quiz.form.noQuestionsMessage")
+      : hasMissingCorrectAnswer
+        ? t("myNdla.quiz.form.noCorrectAnswerMessage")
+        : undefined;
 
   const scrollToFirstMissingCorrectAnswer = () => {
     const question = state.questions.find((q) => q.title.trim() && !hasCorrectAnswer(q));
@@ -320,6 +325,12 @@ export const QuizBuilder = ({
               </Button>
             </ButtonRow>
           </HStack>
+          {shareErrorMessage ? (
+            <MessageBox variant="error" role="alert" css={{ marginBlockStart: "medium" }}>
+              <InformationLine />
+              <Text>{shareErrorMessage}</Text>
+            </MessageBox>
+          ) : null}
           <TabsContent value="questions">
             <MyNdlaPageContent quiz={true}>
               <StyledOl>
@@ -366,11 +377,6 @@ export const QuizBuilder = ({
         </TabsRoot>
       </MyNdlaPageContent>
       <MyNdlaPageContent quiz={true}>
-        {noQuestionsError ? (
-          <Text textStyle="label.small" color="text.error">
-            {noQuestionsError}
-          </Text>
-        ) : null}
         <DialogRoot
           open={shareDialogOpen}
           onOpenChange={(details) => setShareDialogOpen(details.open)}
