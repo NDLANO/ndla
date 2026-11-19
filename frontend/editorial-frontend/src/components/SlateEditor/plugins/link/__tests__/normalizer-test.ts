@@ -151,9 +151,9 @@ describe("link normalizer tests", () => {
                 type: CONTENT_LINK_ELEMENT_TYPE,
                 data: {
                   resource: CONTENT_LINK_ELEMENT_TYPE,
-                  contentType: "test",
+                  contentType: "article",
                   contentId: "123",
-                  openIn: "test",
+                  openIn: "current-context",
                 },
                 children: [
                   {

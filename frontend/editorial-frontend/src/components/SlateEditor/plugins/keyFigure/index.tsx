@@ -38,7 +38,7 @@ export const keyFigureSerializer = createSerializer({
   deserialize(el) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
-    const embedAttributes = parseElementAttributes(Array.from(embed.attributes)) as EmbedData;
+    const embedAttributes = parseElementAttributes(Array.from(embed.attributes)) as unknown as EmbedData;
     if (embedAttributes.resource !== KEY_FIGURE_ELEMENT_TYPE) return;
     return slatejsx("element", {
       type: KEY_FIGURE_ELEMENT_TYPE,

@@ -55,6 +55,7 @@ export const EmbedStep = ({ skipToContentId, url, title, oembed, isInactive }: E
                   status: "success",
                   embedData: {
                     resource: "external",
+                    type: "external",
                     url,
                   },
                   data: {

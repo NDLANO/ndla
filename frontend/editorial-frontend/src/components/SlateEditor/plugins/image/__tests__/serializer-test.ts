@@ -24,12 +24,12 @@ const editor: Descendant[] = [
           },
         ],
         data: {
-          align: " ",
+          align: "",
           alt: " ",
           caption: " ",
           resource: "image",
           resourceId: "41176",
-          size: "fullbredde",
+          size: "full",
           url: "https://test123.no",
         },
       },
@@ -48,7 +48,7 @@ describe("image embed serializing tests", () => {
 
   test("deserializing", () => {
     const embedHtml =
-      '<section><ndlaembed data-resource="image" data-resource_id="41176" data-size="fullbredde" data-align=" " data-alt=" " data-caption=" " data-url="https://test123.no"></ndlaembed></section>';
+      '<section><ndlaembed data-resource="image" data-resource_id="41176" data-size="full" data-align="" data-alt=" " data-caption=" " data-url="https://test123.no"></ndlaembed></section>';
 
     const res = inlineContentToEditorValue(embedHtml);
     expect(res).toEqual(editor);

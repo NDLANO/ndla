@@ -8,14 +8,9 @@
 
 import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import type { MetaData } from "./baseTypes";
+import type { KeyFigureEmbedAttributes } from "./generated/embedAttributes";
 
-export type KeyFigureEmbedData = {
-  resource: "key-figure";
-  imageId?: string;
-  title: string;
-  subtitle: string;
-  alt?: string;
-};
+export type KeyFigureEmbedData = KeyFigureEmbedAttributes;
 
 export interface KeyFigureMeta {
   metaImage?: ImageMetaInformationV3DTO;

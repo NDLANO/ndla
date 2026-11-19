@@ -27,6 +27,7 @@ describe("external serializer", () => {
           data: {
             resource: "external",
             url: "https://www.youtube.com/watch?v=123",
+            type: "external",
           },
         },
         { type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] },
@@ -35,7 +36,7 @@ describe("external serializer", () => {
   ];
 
   const htmlWithYoutube =
-    '<section><ndlaembed data-resource="external" data-url="https://www.youtube.com/watch?v=123"></ndlaembed></section>';
+    '<section><ndlaembed data-resource="external" data-url="https://www.youtube.com/watch?v=123" data-type="external"></ndlaembed></section>';
 
   test("serializing youtube", () => {
     const res = blockContentToHTML(editorWithYoutube);

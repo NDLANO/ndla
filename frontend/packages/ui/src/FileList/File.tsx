@@ -19,7 +19,7 @@ export interface FileProps extends ComponentPropsWithRef<"div"> {
   title: string;
   url: string;
   fileExists: boolean;
-  fileType: string;
+  fileType?: string;
   fileSize?: string;
 }
 

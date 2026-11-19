@@ -30,6 +30,8 @@ export const convertVisualElement = (visualElement: VisualElementDTO): Descendan
             url: visualElement.url,
             resource: visualElement.type,
             resourceId: id,
+            size: "full",
+            align: "",
             alt: visualElement.alt,
             metaData: {
               id: id,

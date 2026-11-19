@@ -7,11 +7,8 @@
  */
 
 import type { MetaData } from "./baseTypes";
+import type { CommentEmbedAttributes } from "./generated/embedAttributes";
 
-export interface CommentEmbedData {
-  resource: "comment";
-  text: string;
-  type: "block" | "inline";
-}
+export type CommentEmbedData = CommentEmbedAttributes;
 
 export type CommentMetaData = MetaData<CommentEmbedData, undefined>;

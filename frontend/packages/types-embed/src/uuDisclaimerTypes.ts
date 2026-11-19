@@ -7,11 +7,9 @@
  */
 
 import type { MetaData } from "./baseTypes";
+import type { UuDisclaimerEmbedAttributes } from "./generated/embedAttributes";
 
-export interface UuDisclaimerEmbedData {
-  resource: "uu-disclaimer";
-  disclaimer: string;
-}
+export type UuDisclaimerEmbedData = UuDisclaimerEmbedAttributes;
 
 export interface UUDisclaimerData {
   transformedContent: string;

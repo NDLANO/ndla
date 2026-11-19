@@ -15,7 +15,7 @@ import { ExternalEmbed } from "./ExternalEmbed";
 const embedData: OembedEmbedData = {
   resource: "external",
   url: "https://embed.ted.com/talks/zahra_biabani_the_eco_creators_helping_the_climate_through_social_media",
-  type: "iframe",
+  type: "external",
 };
 
 const embedDataFullscreen: OembedEmbedData = {

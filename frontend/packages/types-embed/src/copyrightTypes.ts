@@ -8,10 +8,9 @@
 
 import type { CopyrightDTO } from "@ndla/types-backend/article-api";
 import type { MetaData } from "./baseTypes";
+import type { CopyrightEmbedAttributes } from "./generated/embedAttributes";
 
-export interface CopyrightEmbedData {
-  resource: "copyright";
-  title?: string;
+export interface CopyrightEmbedData extends Omit<CopyrightEmbedAttributes, "copyright"> {
   copyright: CopyrightDTO;
 }
 

@@ -11,6 +11,7 @@ import type { LearningPathStatus } from "@ndla/types-backend/learningpath-api";
 import type {
   AudioEmbedData,
   BrightcoveEmbedData,
+  ErrorEmbedAttributes,
   H5pEmbedData,
   IframeEmbedData,
   ImageEmbedData,
@@ -57,10 +58,7 @@ export type ConvertedRelatedContent = RelatedContent | ArticleDTO;
 
 export type MessageSeverity = "danger" | "info" | "success" | "warning";
 
-export interface ErrorEmbed {
-  resource: "error";
-  message: string;
-}
+export type ErrorEmbed = ErrorEmbedAttributes;
 
 export type Embed =
   | ImageEmbedData

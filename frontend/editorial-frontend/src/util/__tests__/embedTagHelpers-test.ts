@@ -61,6 +61,8 @@ test("isUserProvidedEmbedDataValid for image", () => {
     isUserProvidedEmbedDataValid({
       resource: "image",
       resourceId: "123",
+      size: "full",
+      align: "",
       alt: "Alternative",
       caption: "Intervju med Hallvard",
     }),
@@ -70,6 +72,8 @@ test("isUserProvidedEmbedDataValid for image", () => {
     isUserProvidedEmbedDataValid({
       resource: "image",
       resourceId: "123",
+      size: "full",
+      align: "",
       alt: "",
       caption: "Intervju med Hallvard",
     }),
@@ -79,6 +83,8 @@ test("isUserProvidedEmbedDataValid for image", () => {
     isUserProvidedEmbedDataValid({
       resource: "image",
       resourceId: "123",
+      size: "full",
+      align: "",
       alt: "Alt",
     }),
   ).toBe(true);

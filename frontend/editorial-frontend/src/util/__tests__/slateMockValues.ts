@@ -15,7 +15,7 @@ export const valueWithTwoImageEmbeds: Descendant = {
       data: {
         resource: "image",
         resourceId: "3",
-        size: "fullbredde",
+        size: "full",
         align: "",
         alt: "Mann med maske ved datamaskin. Foto.",
         caption: "",
@@ -40,7 +40,7 @@ export const valueWithTwoImageEmbeds: Descendant = {
       data: {
         resource: "image",
         resourceId: "42159",
-        size: "fullbredde",
+        size: "full",
         align: "",
         alt: "",
         caption: "Guinness is good for you",

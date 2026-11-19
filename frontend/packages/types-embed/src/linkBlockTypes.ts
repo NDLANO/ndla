@@ -7,12 +7,8 @@
  */
 
 import type { MetaData } from "./baseTypes";
+import type { LinkBlockEmbedAttributes } from "./generated/embedAttributes";
 
-export interface LinkBlockEmbedData {
-  resource: "link-block";
-  title: string;
-  date: string;
-  url: string;
-}
+export type LinkBlockEmbedData = LinkBlockEmbedAttributes;
 
 export type LinkBlockMetaData = MetaData<LinkBlockEmbedData, null>;

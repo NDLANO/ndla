@@ -7,13 +7,9 @@
  */
 
 import type { MetaData } from "./baseTypes";
+import type { CodeBlockEmbedAttributes } from "./generated/embedAttributes";
 
-export interface CodeEmbedData {
-  resource: "code-block";
-  codeFormat: string;
-  codeContent: string;
-  title?: string;
-}
+export type CodeEmbedData = CodeBlockEmbedAttributes;
 
 export interface CodeData {
   decodedContent: string;

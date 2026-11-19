@@ -7,16 +7,9 @@
  */
 
 import type { MetaData } from "./baseTypes";
+import type { FootnoteEmbedAttributes } from "./generated/embedAttributes";
 
-export interface FootnoteEmbedData {
-  resource: "footnote";
-  title: string;
-  type: string;
-  year: string;
-  edition: string;
-  publisher: string;
-  authors: string;
-}
+export type FootnoteEmbedData = FootnoteEmbedAttributes;
 
 export interface FootnoteData {
   entryNum: number;

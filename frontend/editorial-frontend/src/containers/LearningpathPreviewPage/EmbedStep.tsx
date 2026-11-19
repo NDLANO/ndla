@@ -85,6 +85,7 @@ export const EmbedStep = ({ step }: Props) => {
                 status: "success",
                 embedData: {
                   resource: "external",
+                  type: "external",
                   url: step.embedUrl?.url ?? "",
                   title: step.title.title,
                 },

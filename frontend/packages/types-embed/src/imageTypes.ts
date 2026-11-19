@@ -8,27 +8,13 @@
 
 import type { CopyrightDTO, ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import type { MetaData } from "./baseTypes";
+import type { ImageEmbedAttributes } from "./generated/embedAttributes";
 
-export interface ImageEmbedData {
-  resource: "image";
-  resourceId: string;
-  size?: string;
-  align?: string;
-  alt: string;
+export interface ImageEmbedData extends Omit<ImageEmbedAttributes, "caption"> {
   caption?: string;
   url?: string;
-  focalX?: string;
-  focalY?: string;
-  lowerRightY?: string;
-  lowerRightX?: string;
-  upperLeftY?: string;
-  upperLeftX?: string;
   metaData?: any;
   pageUrl?: string;
-  border?: string;
-  isDecorative?: string;
-  hideByline?: string;
-  hideCaption?: string;
 }
 
 export interface ImageData {

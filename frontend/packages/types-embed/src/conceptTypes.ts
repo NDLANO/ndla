@@ -11,17 +11,13 @@ import type { AudioEmbedData, AudioMetaData } from "./audioTypes";
 import type { MetaData } from "./baseTypes";
 import type { BrightcoveEmbedData, BrightcoveMetaData } from "./brightcoveTypes";
 import type { OembedEmbedData, OembedMetaData } from "./externalTypes";
+import type { ConceptEmbedAttributes } from "./generated/embedAttributes";
 import type { H5pEmbedData, H5pMetaData } from "./h5pTypes";
 import type { IframeEmbedData, IframeMetaData } from "./iframeTypes";
 import type { ImageEmbedData, ImageMetaData } from "./imageTypes";
 
-export interface ConceptEmbedData {
-  resource: "concept";
-  contentId: string;
-  type: "block" | "inline" | "notion";
+export interface ConceptEmbedData extends ConceptEmbedAttributes {
   pageUrl?: string;
-  exampleIds?: string;
-  exampleLangs?: string;
 }
 
 export type ConceptVisualElement =

@@ -7,15 +7,12 @@
  */
 
 import type { MetaData } from "./baseTypes";
+import type { H5pEmbedAttributes } from "./generated/embedAttributes";
 import type { OembedProxyResponse } from "./oembedTypes";
 
-export interface H5pEmbedData {
-  resource: "h5p";
-  path: string;
+export interface H5pEmbedData extends H5pEmbedAttributes {
   url: string;
-  title?: string;
   pageUrl?: string;
-  alt?: string;
 }
 
 export interface H5pLicenseInformation {

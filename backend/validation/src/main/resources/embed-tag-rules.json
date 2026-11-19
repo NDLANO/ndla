@@ -229,7 +229,8 @@
             "required": true,
             "dataType": "ENUM",
             "allowedValues": [
-              "external"
+              "external",
+              "fullscreen"
             ]
           }
         },
@@ -766,7 +767,8 @@
             "required": true,
             "dataType": "ENUM",
             "allowedValues": [
-              "iframe"
+              "iframe",
+              "fullscreen"
             ]
           }
         },

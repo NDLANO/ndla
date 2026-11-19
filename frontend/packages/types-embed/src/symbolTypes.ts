@@ -7,9 +7,8 @@
  */
 
 import type { MetaData } from "./baseTypes";
+import type { SymbolEmbedAttributes } from "./generated/embedAttributes";
 
-export interface SymbolEmbedData {
-  resource: "symbol";
-}
+export type SymbolEmbedData = SymbolEmbedAttributes;
 
 export type SymbolMetaData = MetaData<SymbolEmbedData, null>;

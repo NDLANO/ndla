@@ -86,6 +86,8 @@ const filmFrontPageAfterTransformation: FilmFormikType = {
         },
         resource: "image",
         resourceId: "37",
+        size: "full",
+        align: "",
         url: "https://test.api.ndla.no/image-api/raw/id/37",
       },
       children: [

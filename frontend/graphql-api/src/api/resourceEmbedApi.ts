@@ -54,12 +54,14 @@ const toEmbed = ({
       resource: "image",
       resourceId: id,
       alt: "",
+      size: "full",
+      align: "",
     };
   } else if (type === "audio") {
     return {
       resource: "audio",
       resourceId: id,
-      type: "audio",
+      type: "podcast",
       url: "",
     };
   } else if (type === "h5p") {
@@ -72,7 +74,7 @@ const toEmbed = ({
     return {
       resource: "concept",
       contentId: id,
-      type: (conceptType ?? "notion") as "block" | "inline" | "notion",
+      type: conceptType === "inline" || conceptType === "gloss" ? conceptType : "block",
     };
   } else {
     return null;
