@@ -29,7 +29,6 @@ const Panel = styled("div", {
     display: "flex",
     flexDirection: "column",
     width: "full",
-    maxWidth: "[1084px]",
     gap: "medium",
     backgroundColor: "background.default",
     borderRadius: "xsmall",

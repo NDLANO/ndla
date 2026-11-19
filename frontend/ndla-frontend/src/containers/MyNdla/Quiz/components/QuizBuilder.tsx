@@ -77,7 +77,6 @@ const StyledOl = styled("ol", {
     flexDirection: "column",
     gap: "xlarge",
     width: "full",
-    maxWidth: "[1084px]",
     listStyle: "none",
   },
 });
@@ -98,7 +97,6 @@ const BottomButtonRow = styled("div", {
     gap: "xsmall",
     justifyContent: "flex-end",
     width: "full",
-    maxWidth: "[1084px]",
     flexWrap: "wrap",
     paddingBlock: "xsmall",
   },
@@ -272,7 +270,7 @@ export const QuizBuilder = ({
   );
 
   return (
-    <MyNdlaPageWrapper css={{ gap: "xlarge" }}>
+    <MyNdlaPageWrapper css={{ gap: "xlarge", width: "full", maxWidth: "[1084px]" }}>
       <PageTitle title={pageTitle} useLocationForCustomPath={true} />
       <MyNdlaPageContent quiz={true} css={{ gap: "medium" }}>
         <MyNdlaBreadcrumb breadcrumbs={[{ id: "quiz", name: breadcrumbName }]} page="quiz" />
