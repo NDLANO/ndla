@@ -6,7 +6,7 @@
  *
  */
 
-import { Text } from "@ndla/primitives";
+import { Skeleton, Text } from "@ndla/primitives";
 import { Trans } from "react-i18next";
 
 interface Props {
@@ -14,18 +14,28 @@ interface Props {
   page: number | undefined;
   pageSize: number | undefined;
   query: string | null | undefined;
+  loading: boolean;
 }
 
-export const SearchResultSummary = ({ totalCount = 0, page = 1, pageSize = 0, query }: Props) => {
+export const SearchResultSummary = ({ totalCount = 0, page = 1, pageSize = 0, query, loading }: Props) => {
   const from = totalCount ? (page - 1) * pageSize + 1 : 0;
   const to = Math.min(page * pageSize, totalCount);
+  const summary = (
+    <Trans
+      i18nKey={query ? "searchPage.resultSummaryWithQuery" : "searchPage.resultSummary"}
+      values={{ from, to, count: totalCount, query }}
+      components={{ count: <span data-testid={loading ? undefined : "searchTotalCount"} /> }}
+    />
+  );
   return (
-    <Text textStyle="label.small" data-testid="totalCount" aria-live="polite">
-      <Trans
-        i18nKey={query ? "searchPage.resultSummaryWithQuery" : "searchPage.resultSummary"}
-        values={{ from, to, count: totalCount, query }}
-        components={{ count: <span data-testid="searchTotalCount" /> }}
-      />
+    <Text textStyle="label.small" data-testid="totalCount" aria-live="polite" aria-busy={loading}>
+      {loading ? (
+        <Skeleton asChild consumeCss aria-hidden>
+          <span>{summary}</span>
+        </Skeleton>
+      ) : (
+        summary
+      )}
     </Text>
   );
 };

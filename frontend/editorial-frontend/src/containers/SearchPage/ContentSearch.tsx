@@ -195,6 +195,7 @@ export const ContentSearch = () => {
           summary={
             <SearchResultSummary
               totalCount={searchQuery.data?.totalCount}
+              loading={searchQuery.isPending}
               page={parsedParams.page}
               pageSize={searchQuery.data?.pageSize}
               query={params.get("query")}
@@ -208,7 +209,7 @@ export const ContentSearch = () => {
           />
           <GenericSearchList
             type="content"
-            loading={searchQuery.isLoading}
+            loading={searchQuery.isPending}
             error={searchQuery.error}
             query={params.get("query")}
             resultLength={searchQuery.data?.totalCount ?? 0}

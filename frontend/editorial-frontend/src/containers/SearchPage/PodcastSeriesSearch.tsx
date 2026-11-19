@@ -68,6 +68,7 @@ export const PodcastSeriesSearch = () => {
           summary={
             <SearchResultSummary
               totalCount={searchQuery.data?.totalCount}
+              loading={searchQuery.isPending}
               page={Number(params.get("page")) || DEFAULT_PARAMS.page}
               pageSize={searchQuery.data?.pageSize}
               query={params.get("query")}
@@ -80,7 +81,7 @@ export const PodcastSeriesSearch = () => {
           />
           <GenericSearchList
             type="podcast-series"
-            loading={searchQuery.isLoading}
+            loading={searchQuery.isPending}
             error={searchQuery.error}
             query={params.get("query")}
             resultLength={searchQuery.data?.totalCount ?? 0}
