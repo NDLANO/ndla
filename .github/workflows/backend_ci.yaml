@@ -51,6 +51,7 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
   changes:
+    if: github.event_name != 'push'
     uses: ./.github/workflows/changed_paths.yml
     with:
       paths: |

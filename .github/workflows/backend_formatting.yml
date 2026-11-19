@@ -2,11 +2,6 @@ name: "Backend: Linting & Formatting"
 on:
   workflow_dispatch:
     inputs: {}
-  push:
-    branches:
-      - main
-    paths:
-      - backend/**
   pull_request:
   merge_group:
 env:

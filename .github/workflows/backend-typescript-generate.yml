@@ -2,13 +2,6 @@ name: "Backend: Verify typescript types"
 on:
   workflow_dispatch:
     inputs: {}
-  push:
-    branches:
-      - main
-    paths:
-      - backend/**
-      - frontend/packages/types-backend/scripts/**
-      - .github/workflows/backend-typescript-generate.yml
   pull_request:
   merge_group:
 concurrency:
