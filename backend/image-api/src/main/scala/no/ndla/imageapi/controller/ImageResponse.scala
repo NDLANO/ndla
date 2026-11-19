@@ -24,9 +24,20 @@ case class ImageResponse(
 object ImageResponse {
   def endpointOutput(using props: Props): EndpointOutput[ImageResponse] = statusCode(StatusCode.Ok)
     .and(inputStreamBody)
-    .and(header[String](HeaderNames.ContentType))
-    .and(header[String](HeaderNames.ContentLength))
-    .and(header[Option[String]](HeaderNames.ContentDisposition))
-    .and(header(HeaderNames.CacheControl, props.RawControllerCacheControl))
+    .and(headersOutput)
     .mapTo[ImageResponse]
+
+  private[controller] def headersOutput(using props: Props): EndpointIO[(String, String, Option[String])] =
+    header[String](HeaderNames.ContentType)
+      .and(header[String](HeaderNames.ContentLength))
+      .and(header[Option[String]](HeaderNames.ContentDisposition))
+      .and(header(HeaderNames.CacheControl, props.RawControllerCacheControl))
+}
+
+case class ImageHeadResponse(contentType: String, contentLength: String, contentDisposition: Option[String])
+
+object ImageHeadResponse {
+  def endpointOutput(using props: Props): EndpointOutput[ImageHeadResponse] = statusCode(StatusCode.Ok)
+    .and(ImageResponse.headersOutput)
+    .mapTo[ImageHeadResponse]
 }

@@ -14,6 +14,7 @@ import no.ndla.audioapi.model.api.*
 import no.ndla.audioapi.model.domain.{Audio, AudioType}
 import no.ndla.audioapi.model.{api, domain}
 import no.ndla.audioapi.{TestData, TestEnvironment, UnitSuite}
+import no.ndla.common.aws.NdlaS3HeadObject
 import no.ndla.common.errors.{NotFoundException, ValidationException, ValidationMessage}
 import no.ndla.common.model
 import no.ndla.common.model.api.{CopyrightDTO, LicenseDTO}
@@ -23,7 +24,7 @@ import no.ndla.mapping.License
 import no.ndla.testbase.NullSafeMockito.{any, eqTo, reset, times, verify, when, withSettings}
 import org.mockito.quality.Strictness
 import scalikejdbc.DBSession
-import software.amazon.awssdk.services.s3.model.{DeleteObjectResponse, HeadObjectResponse, PutObjectResponse}
+import software.amazon.awssdk.services.s3.model.{DeleteObjectResponse, PutObjectResponse}
 
 import java.io.FileInputStream
 import scala.util.{Failure, Success}
@@ -34,7 +35,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
   override implicit lazy val converterService: ConverterService     = new ConverterService
   val (newFileName1, newFileName2)                                  = ("AbCdeF.mp3", "GhijKl.mp3")
   val filePartMock: UploadedFile                                    = mock[UploadedFile]
-  val s3ObjectMock: HeadObjectResponse                              = mock[HeadObjectResponse]
+  val s3ObjectMock: NdlaS3HeadObject                                = mock[NdlaS3HeadObject]
 
   val newAudioMeta: NewAudioMetaInformationDTO = NewAudioMetaInformationDTO(
     "title",
@@ -115,8 +116,8 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     val fis = mock[FileInputStream]
     when(filePartMock.createStream()).thenReturn(fis)
 
-    when(s3ObjectMock.contentLength()).thenReturn(1024L)
-    when(s3ObjectMock.contentType()).thenReturn("audio/mp3")
+    when(s3ObjectMock.contentLength).thenReturn(1024L)
+    when(s3ObjectMock.contentType).thenReturn("audio/mp3")
 
     reset(audioRepository)
     reset(audioIndexService)

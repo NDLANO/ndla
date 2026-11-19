@@ -410,7 +410,7 @@ class WriteService(using
     for {
       _    <- s3Client.putObject(fileName, file)
       head <- s3Client.headObject(fileName)
-    } yield Audio(fileName, head.contentType().nn, head.contentLength().nn, language)
+    } yield Audio(fileName, head.contentType, head.contentLength, language)
   }
 
   private[service] def randomFileName(extension: String, length: Int = 12): String = {

@@ -22,13 +22,13 @@ import no.ndla.draftapi.integration.Node
 import no.ndla.draftapi.model.api
 import no.ndla.draftapi.{TestData, TestEnvironment, UnitSuite}
 import no.ndla.common.auth.Permission.DRAFT_API_WRITE
+import no.ndla.common.aws.NdlaS3HeadObject
 import no.ndla.network.tapir.auth.TokenUser
 import no.ndla.validation.HtmlTagRules
 import no.ndla.testbase.NullSafeMockito
 import no.ndla.testbase.NullSafeMockito.{any, doAnswer, eqTo, never, reset, times, verify, when}
 import org.mockito.ArgumentCaptor
 import scalikejdbc.DBSession
-import software.amazon.awssdk.services.s3.model.HeadObjectResponse
 
 import java.util.UUID
 import scala.concurrent.Future
@@ -375,9 +375,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
     when(fileToUpload.contentType).thenReturn(Some("application/pdf"))
     when(fileToUpload.fileName).thenReturn(Some("myfile.pdf"))
     when(fileStorage.resourceExists(any)).thenReturn(false)
-    when(fileStorage.uploadResourceFromStream(any[UploadedFile], any)).thenAnswer(_ =>
-      Success(mock[HeadObjectResponse])
-    )
+    when(fileStorage.uploadResourceFromStream(any[UploadedFile], any)).thenAnswer(_ => Success(mock[NdlaS3HeadObject]))
 
     val uploaded = service.uploadFile(fileToUpload)
 

@@ -11,7 +11,7 @@ package no.ndla.imageapi.service
 import cats.data.NonEmptySeq
 import cats.implicits.*
 import com.typesafe.scalalogging.StrictLogging
-import no.ndla.common.aws.{NdlaS3Client, NdlaS3Object}
+import no.ndla.common.aws.{NdlaS3Client, NdlaS3HeadObject, NdlaS3Object}
 import no.ndla.imageapi.Props
 import no.ndla.imageapi.model.domain.{ImageContentType, ImageStream}
 
@@ -51,6 +51,8 @@ class ImageStorageService(using
   }
 
   def getRaw(bucketKey: String): Try[NdlaS3Object] = s3Client.getObject(bucketKey)
+
+  def getRawMetadata(bucketKey: String): Try[NdlaS3HeadObject] = s3Client.headObject(bucketKey)
 
   def uploadFromStream(
       storageKey: String,
