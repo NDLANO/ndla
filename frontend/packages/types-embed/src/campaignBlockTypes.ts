@@ -8,7 +8,7 @@
 
 import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import type { MetaData } from "./baseTypes";
-import type { CampaignBlockEmbedAttributes } from "./generated/embedAttributes";
+import type { CampaignBlockEmbedAttributes } from "./embedAttributes";
 
 export interface CampaignBlockEmbedData extends CampaignBlockEmbedAttributes {
   background?: "brand1" | "neutral" | "brand3";

@@ -7,7 +7,7 @@
  */
 
 import type { MetaData } from "./baseTypes";
-import type { FileEmbedAttributes } from "./generated/embedAttributes";
+import type { FileEmbedAttributes } from "./embedAttributes";
 
 export interface FileEmbedData extends FileEmbedAttributes {
   url: string;

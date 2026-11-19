@@ -28,10 +28,10 @@ import type {
 import type { ContactBlockEmbedData, ContactBlockMetaData } from "./contactBlockTypes";
 import type { ContentLinkData, ContentLinkEmbedData, ContentLinkMetaData } from "./contentLinkTypes";
 import type { CopyrightEmbedData, CopyrightMetaData } from "./copyrightTypes";
+import type { NrkEmbedAttributes } from "./embedAttributes";
 import type { OembedEmbedData, OembedMetaData, OembedData } from "./externalTypes";
 import type { FileEmbedData, FileMetaData } from "./fileTypes";
 import type { FootnoteData, FootnoteEmbedData, FootnoteMetaData } from "./footnoteTypes";
-import type { NrkEmbedAttributes } from "./generated/embedAttributes";
 import type {
   H5pMetaData,
   H5pEmbedData,
@@ -159,6 +159,6 @@ export type { OembedProxyData, H5pPreviewResponse, H5pOembedData, H5pLicenseInfo
 export type { UUDisclaimerData };
 export type { MetaData } from "./baseTypes";
 export type { OembedProxyResponse } from "./oembedTypes";
-export type * from "./generated/embedAttributes";
+export type * from "./embedAttributes";
 
 export type NRKEmbedData = NrkEmbedAttributes;

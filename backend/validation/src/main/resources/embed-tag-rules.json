@@ -1,4 +1,5 @@
 {
+  "$comment": "Generated from frontend/packages/types-embed/src/embedTagRules.ts. Do not edit. Run `pnpm --filter @ndla/types-embed generate` in frontend/ after changing the rules.",
   "attributes": {
     "symbol": {
       "fields": [

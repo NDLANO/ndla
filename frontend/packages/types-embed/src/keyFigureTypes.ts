@@ -8,7 +8,7 @@
 
 import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import type { MetaData } from "./baseTypes";
-import type { KeyFigureEmbedAttributes } from "./generated/embedAttributes";
+import type { KeyFigureEmbedAttributes } from "./embedAttributes";
 
 export type KeyFigureEmbedData = KeyFigureEmbedAttributes;
 

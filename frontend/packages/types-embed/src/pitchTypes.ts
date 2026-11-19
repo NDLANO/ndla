@@ -8,7 +8,7 @@
 
 import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import type { MetaData } from "./baseTypes";
-import type { PitchEmbedAttributes } from "./generated/embedAttributes";
+import type { PitchEmbedAttributes } from "./embedAttributes";
 
 export type PitchEmbedData = PitchEmbedAttributes;
 

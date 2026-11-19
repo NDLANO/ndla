@@ -62,18 +62,17 @@ jobs:
             git --no-pager diff -- "$TYPES_DIR"
             exit 1
           fi
-      - name: Generate embed types
+      - name: Generate embed tag rules
         working-directory: frontend/packages/types-embed
         run: pnpm run generate
-      - name: Check generated embed types are committed
+      - name: Check generated embed tag rules are committed
         working-directory: .
         env:
-          TYPES_DIR: frontend/packages/types-embed/src/generated
+          RULES_FILE: backend/validation/src/main/resources/embed-tag-rules.json
         run: |
-          if [ -n "$(git status --porcelain "$TYPES_DIR")" ]; then
-            echo "::error::Generated embed types are out of date. Run 'pnpm --filter @ndla/types-embed generate' in frontend/ and commit $TYPES_DIR."
-            git status --short "$TYPES_DIR"
-            git --no-pager diff -- "$TYPES_DIR"
+          if [ -n "$(git status --porcelain "$RULES_FILE")" ]; then
+            echo "::error::$RULES_FILE is out of date with frontend/packages/types-embed/src/embedTagRules.ts. Edit the TypeScript rules, run 'pnpm --filter @ndla/types-embed generate' in frontend/ and commit both files."
+            git --no-pager diff -- "$RULES_FILE"
             exit 1
           fi
   result:

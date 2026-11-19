@@ -7,7 +7,7 @@
  */
 
 import type { MetaData } from "./baseTypes";
-import type { UuDisclaimerEmbedAttributes } from "./generated/embedAttributes";
+import type { UuDisclaimerEmbedAttributes } from "./embedAttributes";
 
 export type UuDisclaimerEmbedData = UuDisclaimerEmbedAttributes;
 

@@ -7,7 +7,7 @@
  */
 
 import type { MetaData } from "./baseTypes";
-import type { FootnoteEmbedAttributes } from "./generated/embedAttributes";
+import type { FootnoteEmbedAttributes } from "./embedAttributes";
 
 export type FootnoteEmbedData = FootnoteEmbedAttributes;
 

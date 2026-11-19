@@ -7,7 +7,7 @@
  */
 
 import type { MetaData } from "./baseTypes";
-import type { H5pEmbedAttributes } from "./generated/embedAttributes";
+import type { H5pEmbedAttributes } from "./embedAttributes";
 import type { OembedProxyResponse } from "./oembedTypes";
 
 export interface H5pEmbedData extends H5pEmbedAttributes {

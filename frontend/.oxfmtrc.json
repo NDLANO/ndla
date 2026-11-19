@@ -15,7 +15,6 @@
     "packages/styled-system/",
     "packages/types-backend/src/",
     "packages/types-backend/openapi/",
-    "packages/types-embed/src/generated/",
     "ndla-frontend/e2e/apiMocks/",
     "ndla-frontend/e2e/fixtures/",
     "ndla-frontend/public/",

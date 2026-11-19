@@ -140,7 +140,6 @@ export default defineConfig({
     "**/public/**/*",
     // generated
     "**/types-backend/src/**/*",
-    "**/types-embed/src/generated/**/*",
     "packages/images/**/*",
     "ndla-frontend/src/graphqlTypes.ts",
     "graphql-api/src/types/schema.d.ts",

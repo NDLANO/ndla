@@ -10,7 +10,7 @@ import type { ArticleV2DTO } from "@ndla/types-backend/article-api";
 import type { ArticleDTO } from "@ndla/types-backend/draft-api";
 import type { Node } from "@ndla/types-backend/taxonomy-api";
 import type { MetaData } from "./baseTypes";
-import type { RelatedContentEmbedAttributes } from "./generated/embedAttributes";
+import type { RelatedContentEmbedAttributes } from "./embedAttributes";
 
 export interface RelatedContentEmbedData extends RelatedContentEmbedAttributes {
   // This is filled out in article-converter and does not need to be set anywhere else.

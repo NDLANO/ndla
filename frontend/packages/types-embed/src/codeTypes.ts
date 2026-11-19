@@ -7,7 +7,7 @@
  */
 
 import type { MetaData } from "./baseTypes";
-import type { CodeBlockEmbedAttributes } from "./generated/embedAttributes";
+import type { CodeBlockEmbedAttributes } from "./embedAttributes";
 
 export type CodeEmbedData = CodeBlockEmbedAttributes;
 

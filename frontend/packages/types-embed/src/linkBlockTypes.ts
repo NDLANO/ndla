@@ -7,7 +7,7 @@
  */
 
 import type { MetaData } from "./baseTypes";
-import type { LinkBlockEmbedAttributes } from "./generated/embedAttributes";
+import type { LinkBlockEmbedAttributes } from "./embedAttributes";
 
 export type LinkBlockEmbedData = LinkBlockEmbedAttributes;
 
