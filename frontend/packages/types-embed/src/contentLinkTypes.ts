@@ -7,13 +7,9 @@
  */
 
 import type { MetaData } from "./baseTypes";
+import type { ContentLinkEmbedAttributes } from "./generated/embedAttributes";
 
-export interface ContentLinkEmbedData {
-  resource: "content-link";
-  contentId: string;
-  openIn?: string;
-  contentType?: string;
-}
+export type ContentLinkEmbedData = ContentLinkEmbedAttributes;
 
 export interface ContentLinkData {
   path: string;

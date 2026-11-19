@@ -8,6 +8,7 @@ on:
     paths:
       - backend/**
       - frontend/packages/types-backend/scripts/**
+      - frontend/packages/types-embed/**
       - .github/workflows/backend-typescript-generate.yml
   pull_request:
   merge_group:
@@ -33,6 +34,7 @@ jobs:
       paths: |
         backend
         frontend/packages/types-backend/scripts
+        frontend/packages/types-embed
         .github/workflows/backend-typescript-generate.yml
   verify_typescript:
     name: Verify typescript types
@@ -56,6 +58,20 @@ jobs:
         run: |
           if [ -n "$(git status --porcelain "$TYPES_DIR")" ]; then
             echo "::error::Generated backend types are out of date. Run './mill -i <module>.generateTypescript' in backend/ and commit $TYPES_DIR."
+            git status --short "$TYPES_DIR"
+            git --no-pager diff -- "$TYPES_DIR"
+            exit 1
+          fi
+      - name: Generate embed types
+        working-directory: frontend/packages/types-embed
+        run: pnpm run generate
+      - name: Check generated embed types are committed
+        working-directory: .
+        env:
+          TYPES_DIR: frontend/packages/types-embed/src/generated
+        run: |
+          if [ -n "$(git status --porcelain "$TYPES_DIR")" ]; then
+            echo "::error::Generated embed types are out of date. Run 'pnpm --filter @ndla/types-embed generate' in frontend/ and commit $TYPES_DIR."
             git status --short "$TYPES_DIR"
             git --no-pager diff -- "$TYPES_DIR"
             exit 1

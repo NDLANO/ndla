@@ -26,7 +26,8 @@
     "access": "public"
   },
   "scripts": {
-    "build:types": "tsc -p tsconfig.build.json"
+    "build:types": "tsc -p tsconfig.build.json",
+    "generate": "node scripts/generate-embed-attributes.mts"
   },
   "devDependencies": {
     "@ndla/types-backend": "workspace:^",

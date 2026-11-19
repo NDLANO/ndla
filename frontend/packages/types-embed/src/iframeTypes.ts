@@ -8,18 +8,9 @@
 
 import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import type { MetaData } from "./baseTypes";
+import type { IframeEmbedAttributes } from "./generated/embedAttributes";
 
-export interface IframeEmbedData {
-  resource: "iframe";
-  type: string;
-  url: string;
-  width?: string;
-  height?: string;
-  title?: string;
-  caption?: string;
-  alt?: string;
-  imageid?: string;
-}
+export type IframeEmbedData = IframeEmbedAttributes;
 
 export interface IframeData {
   iframeImage?: ImageMetaInformationV3DTO;

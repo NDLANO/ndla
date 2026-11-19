@@ -7,19 +7,13 @@
  */
 
 import type { MetaData } from "./baseTypes";
+import type { BrightcoveEmbedAttributes } from "./generated/embedAttributes";
 
-export type BrightcoveEmbedData = {
-  resource: "brightcove";
-  videoid: string;
-  caption: string;
+export interface BrightcoveEmbedData extends BrightcoveEmbedAttributes {
   url?: string;
-  account: string;
-  player: string;
-  title: string;
   metaData?: any;
-  alt?: string;
   pageUrl?: string;
-};
+}
 
 interface Author {
   name: string;

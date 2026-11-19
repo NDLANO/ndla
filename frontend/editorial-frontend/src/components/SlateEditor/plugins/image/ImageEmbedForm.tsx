@@ -48,6 +48,9 @@ interface Props {
   allowDecorative: boolean;
 }
 
+const imageSizes: ImageEmbedData["size"][] = ["full", "medium", "small", "xsmall"];
+const imageAlignments: ImageEmbedData["align"][] = ["", "center", "right", "left"];
+
 const formRules: RulesType<ImageEmbedFormValues> = {
   alt: {
     test: (values) => {
@@ -97,8 +100,8 @@ const ImageEmbedForm = ({ embed, onSave, onClose, language, allowDecorative, ima
       upperLeftY: values.upperLeftY,
       lowerRightX: values.lowerRightX,
       lowerRightY: values.lowerRightY,
-      align: values.align,
-      size: values.size || "full",
+      align: imageAlignments.find((align) => align === values.align) ?? "",
+      size: imageSizes.find((size) => size === values.size) ?? "full",
       hideByline: values.hideByline ? "true" : undefined,
     });
     onClose();

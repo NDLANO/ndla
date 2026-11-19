@@ -103,11 +103,15 @@ const getLinkType = (href: string) => {
   } else return undefined;
 };
 
-const createContentLinkData = (id: string, resourceType: string | undefined, openIn: string): ContentLinkEmbedData => {
+const createContentLinkData = (
+  id: string,
+  resourceType: string | undefined,
+  openIn: ContentLinkEmbedData["openIn"],
+): ContentLinkEmbedData => {
   return {
     resource: CONTENT_LINK_ELEMENT_TYPE,
     contentId: id,
-    contentType: resourceType || "article",
+    contentType: resourceType === "learningpath" ? "learningpath" : "article",
     openIn,
   };
 };

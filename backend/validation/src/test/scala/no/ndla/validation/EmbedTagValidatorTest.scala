@@ -342,6 +342,26 @@ class EmbedTagValidatorTest extends UnitSuite {
     TagValidator.validate("content", tag).size should be(0)
   }
 
+  test("validate should return no validation errors if external and iframe embed-tags are fullscreen") {
+    val external = generateTagWithAttrs(
+      Map(
+        TagAttribute.DataResource -> EmbedType.ExternalContent.toString,
+        TagAttribute.DataUrl      -> "https://www.youtube.com/watch?v=pCZeVTMEsik",
+        TagAttribute.DataType     -> "fullscreen",
+      )
+    )
+    TagValidator.validate("content", external).size should be(0)
+
+    val iframe = generateTagWithAttrs(
+      Map(
+        TagAttribute.DataResource -> EmbedType.IframeContent.toString,
+        TagAttribute.DataUrl      -> "https://prezi.com",
+        TagAttribute.DataType     -> "fullscreen",
+      )
+    )
+    TagValidator.validate("content", iframe).size should be(0)
+  }
+
   test(
     "validate should return validation error if embed tag does not contain required attributes for data-resource=nrk"
   ) {

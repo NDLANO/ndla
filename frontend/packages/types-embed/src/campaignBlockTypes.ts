@@ -8,18 +8,10 @@
 
 import type { ImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import type { MetaData } from "./baseTypes";
+import type { CampaignBlockEmbedAttributes } from "./generated/embedAttributes";
 
-export interface CampaignBlockEmbedData {
-  resource: "campaign-block";
-  title: string;
-  description: string;
-  headingLevel: "h1" | "h2" | "h3" | "h4" | "h5";
+export interface CampaignBlockEmbedData extends CampaignBlockEmbedAttributes {
   background?: "brand1" | "neutral" | "brand3";
-  url?: string;
-  urlText?: string;
-  imageId?: string;
-  imageSide?: "left" | "right";
-  alt?: string;
 }
 
 export interface CampaignBlockMeta {
