@@ -57,14 +57,8 @@ const toQuestionCountOption = (questionCount: number | null | undefined): Questi
   return option ?? 10;
 };
 
-export const quizToState = (quiz: GQLQuizFragment): QuizBuilderState => ({
-  title: quiz.title,
-  description: quiz.description ?? "",
-  randomSubset: quiz.displaySettings.randomSubset,
-  randomOrder: quiz.displaySettings.randomOrder,
-  alternativesRandomOrder: quiz.displaySettings.alternativesRandomOrder ?? false,
-  questionCount: toQuestionCountOption(quiz.displaySettings.questionCount),
-  questions: quiz.questions.map((question) => ({
+export const quizToState = (quiz: GQLQuizFragment): QuizBuilderState => {
+  const questions = quiz.questions.map((question) => ({
     id: crypto.randomUUID(),
     serverId: question.id,
     title: question.title,
@@ -76,5 +70,14 @@ export const quizToState = (quiz: GQLQuizFragment): QuizBuilderState => ({
       text: alt.text,
       isCorrect: !!alt.isCorrect,
     })),
-  })),
-});
+  }));
+  return {
+    title: quiz.title,
+    description: quiz.description ?? "",
+    randomSubset: quiz.displaySettings.randomSubset,
+    randomOrder: quiz.displaySettings.randomOrder,
+    alternativesRandomOrder: quiz.displaySettings.alternativesRandomOrder ?? false,
+    questionCount: toQuestionCountOption(quiz.displaySettings.questionCount),
+    questions: questions.length ? questions : [emptyQuestion()],
+  };
+};
