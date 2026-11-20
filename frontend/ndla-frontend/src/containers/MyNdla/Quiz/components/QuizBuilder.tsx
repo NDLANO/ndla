@@ -25,7 +25,7 @@ import {
 } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef, useState, type RefObject } from "react";
 import { flushSync } from "react-dom";
 import { useTranslation } from "react-i18next";
 import { MyNdlaBreadcrumb } from "../../../../components/MyNdla/MyNdlaBreadcrumb";
@@ -88,17 +88,6 @@ const ButtonRow = styled("div", {
     justifyContent: "flex-end",
     width: "full",
     flexWrap: "wrap",
-  },
-});
-
-const BottomButtonRow = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    justifyContent: "flex-end",
-    width: "full",
-    flexWrap: "wrap",
-    paddingBlock: "xsmall",
   },
 });
 
@@ -269,8 +258,19 @@ export const QuizBuilder = ({
     [onFormChange],
   );
 
+  const renderButtonRow = (shareRef?: RefObject<HTMLButtonElement | null>) => (
+    <ButtonRow>
+      <Button variant="secondary" onClick={onSaveClick} loading={saving} disabled={sharing}>
+        {t("myNdla.quiz.form.saveButton")}
+      </Button>
+      <Button variant="primary" onClick={onShareClick} loading={sharing} disabled={saving} ref={shareRef}>
+        {isShared ? t("myNdla.quiz.form.unshareQuiz") : t("myNdla.quiz.form.shareQuiz")}
+      </Button>
+    </ButtonRow>
+  );
+
   return (
-    <MyNdlaPageWrapper css={{ gap: "xlarge", width: "full", maxWidth: "[1084px]" }}>
+    <MyNdlaPageWrapper css={{ gap: "xlarge" }}>
       <PageTitle title={pageTitle} useLocationForCustomPath={true} />
       <MyNdlaPageContent quiz={true} css={{ gap: "medium" }}>
         <MyNdlaBreadcrumb breadcrumbs={[{ id: "quiz", name: breadcrumbName }]} page="quiz" />
@@ -314,14 +314,7 @@ export const QuizBuilder = ({
               <TabsTrigger value="settings">{t("myNdla.quiz.form.settings.title")}</TabsTrigger>
               <TabsIndicator />
             </TabsList>
-            <ButtonRow>
-              <Button variant="secondary" onClick={onSaveClick} loading={saving} disabled={sharing}>
-                {t("myNdla.quiz.form.saveButton")}
-              </Button>
-              <Button variant="primary" onClick={onShareClick} loading={sharing} disabled={saving} ref={shareButtonRef}>
-                {isShared ? t("myNdla.quiz.form.unshareQuiz") : t("myNdla.quiz.form.shareQuiz")}
-              </Button>
-            </ButtonRow>
+            {renderButtonRow(shareButtonRef)}
           </HStack>
           {shareErrorMessage ? (
             <MessageBox variant="error" role="alert" css={{ marginBlockStart: "xlarge" }}>
@@ -358,14 +351,7 @@ export const QuizBuilder = ({
                 {t("myNdla.quiz.form.addQuestion")}
               </StyledButton>
               {state.questions.length >= 2 ? (
-                <BottomButtonRow>
-                  <Button variant="secondary" onClick={onSaveClick} loading={saving} disabled={sharing}>
-                    {t("myNdla.quiz.form.saveButton")}
-                  </Button>
-                  <Button variant="primary" onClick={onShareClick} loading={sharing} disabled={saving}>
-                    {isShared ? t("myNdla.quiz.form.unshareQuiz") : t("myNdla.quiz.form.shareQuiz")}
-                  </Button>
-                </BottomButtonRow>
+                renderButtonRow()
               ) : null}
             </MyNdlaPageContent>
           </TabsContent>
