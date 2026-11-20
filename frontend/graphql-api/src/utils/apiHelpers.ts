@@ -11,7 +11,7 @@ import type { LearningPathV2DTO, LearningStepV2DTO } from "@ndla/types-backend/l
 import type { Node, TaxonomyContext, TaxonomyCrumb } from "@ndla/types-backend/taxonomy-api";
 import type DataLoader from "dataloader";
 import { GraphQLError } from "graphql";
-import { apiUrl, defaultLanguage } from "../config";
+import { apiUrl, defaultLanguage, environmentApiHost } from "../config";
 import type {
   GQLMeta,
   GQLTaxonomyEntity,
@@ -28,6 +28,14 @@ export function apiResourceUrl(path: string): string {
     return path;
   }
   return apiUrl + path;
+}
+
+/** Replaces the public NDLA api host in `url` with the internal api-gateway if applicable */
+export function toInternalApiUrl(url: string): string {
+  if (!URL.canParse(url)) return url;
+  const parsed = new URL(url);
+  if (parsed.hostname !== environmentApiHost) return url;
+  return apiResourceUrl(`${parsed.pathname}${parsed.search}`);
 }
 
 export function getHeadersFromContext(context: Context): {

@@ -7,18 +7,12 @@
  */
 
 import type { Middleware } from "openapi-fetch";
-import { environmentApiHost } from "../../config";
-import { apiResourceUrl } from "../apiHelpers";
+import { toInternalApiUrl } from "../apiHelpers";
 
 /** This middleware replaces ndla api urls with internal api-gateway if applicable */
 export const OATSInternalUrlMiddleware: Middleware = {
   async onRequest({ request }) {
-    const url = new URL(request.url);
-    const withoutHost = url.toString().replace(url.origin, "");
-    if (url.hostname === environmentApiHost) {
-      const newUrl = apiResourceUrl(withoutHost);
-      return new Request(newUrl, request);
-    }
-    return request;
+    const newUrl = toInternalApiUrl(request.url);
+    return newUrl === request.url ? request : new Request(newUrl, request);
   },
 };
