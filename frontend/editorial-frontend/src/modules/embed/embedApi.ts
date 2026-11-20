@@ -185,7 +185,7 @@ export const fetchConceptVisualElement = async (
     name,
     value,
   }));
-  const embed = parseElementAttributes(attributes) as unknown as ConceptVisualElement;
+  const embed = parseElementAttributes(attributes) as ConceptVisualElement;
 
   if (embed.resource === "image") {
     return await fetchVisualImageMeta(embed, language);

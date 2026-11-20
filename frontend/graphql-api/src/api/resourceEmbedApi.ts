@@ -61,7 +61,7 @@ const toEmbed = ({
     return {
       resource: "audio",
       resourceId: id,
-      type: "podcast",
+      type: "standard",
       url: "",
     };
   } else if (type === "h5p") {

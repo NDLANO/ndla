@@ -9,6 +9,7 @@ on:
       - backend/**
       - frontend/packages/types-backend/scripts/**
       - frontend/packages/types-embed/**
+      - frontend/packages/editor/src/serialization/html/htmlSerializationHelpers.ts
       - .github/workflows/backend-typescript-generate.yml
   pull_request:
   merge_group:
@@ -35,6 +36,7 @@ jobs:
         backend
         frontend/packages/types-backend/scripts
         frontend/packages/types-embed
+        frontend/packages/editor/src/serialization/html/htmlSerializationHelpers.ts
         .github/workflows/backend-typescript-generate.yml
   verify_typescript:
     name: Verify typescript types
