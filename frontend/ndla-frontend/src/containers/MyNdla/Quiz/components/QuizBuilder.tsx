@@ -153,13 +153,14 @@ export const QuizBuilder = ({
 
   const hasNoQuestions = !state.questions.some((question) => question.title.trim());
 
-  const shareErrorMessage = !attemptedSave
-    ? undefined
-    : hasNoQuestions
-      ? t("myNdla.quiz.form.noQuestionsMessage")
-      : hasMissingCorrectAnswer
-        ? t("myNdla.quiz.form.noCorrectAnswerMessage")
-        : undefined;
+  const getShareErrorMessage = () => {
+    if (!attemptedSave) return;
+    if (hasNoQuestions) return t("myNdla.quiz.form.noQuestionsMessage");
+    if (hasMissingCorrectAnswer) return t("myNdla.quiz.form.noCorrectAnswerMessage");
+    return undefined;
+  };
+
+  const shareErrorMessage = getShareErrorMessage();
 
   const scrollToFirstMissingCorrectAnswer = () => {
     const question = state.questions.find((q) => q.title.trim() && !hasCorrectAnswer(q));
