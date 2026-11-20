@@ -178,7 +178,10 @@ export const QuizBuilder = ({
     [onChange],
   );
 
-  const onSettingsChange = (newState: QuizBuilderState) => onFormChange(() => newState);
+  const onSettingsChange = useCallback(
+    (changes: Partial<QuizBuilderState>) => onFormChange((prev) => ({ ...prev, ...changes })),
+    [onFormChange],
+  );
 
   const onSaveClick = async () => {
     if (!state.title.trim() || (isShared && hasMissingCorrectAnswer)) {

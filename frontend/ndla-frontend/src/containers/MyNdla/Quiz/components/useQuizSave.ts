@@ -47,6 +47,12 @@ export const useQuizSave = ({ state, quiz, onQuizSynced, onQuestionSynced }: Pro
     quizRef.current = quiz;
   }, [quiz]);
 
+  // Always read the latest state when a sync actually starts, so edits made while a previous save was running are included.
+  const stateRef = useRef(state);
+  useEffect(() => {
+    stateRef.current = state;
+  }, [state]);
+
   const knownServerIdsRef = useRef(new Set(state.questions.map((q) => q.serverId).filter((id) => !!id)));
   const snapshotRef = useRef<Record<string, QuestionFormValues>>(
     Object.fromEntries(state.questions.filter((q) => q.serverId).map((q) => [q.id, q])),
@@ -54,6 +60,7 @@ export const useQuizSave = ({ state, quiz, onQuizSynced, onQuestionSynced }: Pro
   const inFlightRef = useRef<Promise<SyncResult> | undefined>(undefined);
 
   const runSync = useCallback(async (): Promise<SyncResult> => {
+    const state = stateRef.current;
     let current: GQLQuizFragment | undefined = quizRef.current;
     let failed = false;
     try {
@@ -187,13 +194,14 @@ export const useQuizSave = ({ state, quiz, onQuizSynced, onQuestionSynced }: Pro
         }
       }
 
+      quizRef.current = current;
       return { quiz: current, failed };
     } catch (error) {
+      quizRef.current = current;
       handleError(ensureError(error), { quizId: current?.id });
       return { quiz: current, failed: true };
     }
   }, [
-    state,
     addQuiz,
     updateQuiz,
     addQuizQuestion,
@@ -204,16 +212,20 @@ export const useQuizSave = ({ state, quiz, onQuizSynced, onQuestionSynced }: Pro
   ]);
 
   const sync = useCallback(async (): Promise<SyncResult> => {
-    if (!state.title.trim()) return { quiz: quizRef.current, failed: true };
-    if (inFlightRef.current) return inFlightRef.current;
-    const promise = runSync();
+    if (!stateRef.current.title.trim()) return { quiz: quizRef.current, failed: true };
+    // Queue behind any running sync instead of returning its (stale) result.
+    const previous = inFlightRef.current?.then(
+      () => undefined,
+      () => undefined,
+    );
+    const promise = (previous ?? Promise.resolve()).then(runSync);
     inFlightRef.current = promise;
     try {
       return await promise;
     } finally {
-      inFlightRef.current = undefined;
+      if (inFlightRef.current === promise) inFlightRef.current = undefined;
     }
-  }, [state.title, runSync]);
+  }, [runSync]);
 
   return { sync };
 };
