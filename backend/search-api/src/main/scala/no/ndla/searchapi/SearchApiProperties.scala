@@ -13,6 +13,7 @@ import no.ndla.common.auth.Permission
 import no.ndla.common.configuration.BaseProps
 import no.ndla.common.model.api.search.SearchType
 import no.ndla.network.Domains
+import no.ndla.search.IndexName
 
 import scala.util.Properties.*
 import scala.util.{Failure, Success, Try}
@@ -29,12 +30,14 @@ class SearchApiProperties extends BaseProps with StrictLogging {
 
   def SearchServer: String = propOrElse("SEARCH_SERVER", "http://search-search-api.ndla-local")
 
-  private lazy val articleIndexName      = propOrElse("ARTICLE_SEARCH_INDEX_NAME", "search-articles")
-  private lazy val draftIndexName        = propOrElse("DRAFT_SEARCH_INDEX_NAME", "search-drafts")
-  private lazy val learningpathIndexName = propOrElse("LEARNINGPATH_SEARCH_INDEX_NAME", "search-learningpaths")
-  private lazy val conceptIndexName      = propOrElse("DRAFT_CONCEPT_SEARCH_INDEX_NAME", "search-draftconcepts")
-  private lazy val grepIndexName         = propOrElse("GREP_SEARCH_INDEX_NAME", "search-greps")
-  private lazy val nodeIndexName         = propOrElse("NODE_SEARCH_INDEX_NAME", "search-nodes")
+  private lazy val articleIndexName      = propOrElse("ARTICLE_SEARCH_INDEX_NAME", IndexName.SearchApiArticles.defaultName)
+  private lazy val draftIndexName        = propOrElse("DRAFT_SEARCH_INDEX_NAME", IndexName.SearchApiDrafts.defaultName)
+  private lazy val learningpathIndexName =
+    propOrElse("LEARNINGPATH_SEARCH_INDEX_NAME", IndexName.SearchApiLearningPaths.defaultName)
+  private lazy val conceptIndexName =
+    propOrElse("DRAFT_CONCEPT_SEARCH_INDEX_NAME", IndexName.SearchApiDraftConcepts.defaultName)
+  private lazy val grepIndexName = propOrElse("GREP_SEARCH_INDEX_NAME", IndexName.SearchApiGreps.defaultName)
+  private lazy val nodeIndexName = propOrElse("NODE_SEARCH_INDEX_NAME", IndexName.SearchApiNodes.defaultName)
 
   def SearchIndex(searchType: SearchType) = searchType match {
     case SearchType.Articles      => articleIndexName

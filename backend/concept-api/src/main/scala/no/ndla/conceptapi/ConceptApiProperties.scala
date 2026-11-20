@@ -14,6 +14,7 @@ import no.ndla.common.configuration.BaseProps
 import no.ndla.common.model.EmbedType
 import no.ndla.database.DatabaseProps
 import no.ndla.network.Domains
+import no.ndla.search.IndexName
 
 import scala.util.Properties.*
 
@@ -27,9 +28,11 @@ class ConceptApiProperties extends BaseProps with DatabaseProps with StrictLoggi
   def ApplicationPort: Int    = propOrElse("APPLICATION_PORT", "80").toInt
   def DefaultLanguage: String = propOrElse("DEFAULT_LANGUAGE", "nb")
 
-  def SearchServer: String                       = propOrElse("SEARCH_SERVER", "http://search-concept-api.ndla-local")
-  def DraftConceptSearchIndex: String            = propOrElse("CONCEPT_SEARCH_INDEX_NAME", "concepts")
-  def PublishedConceptSearchIndex: String        = propOrElse("PUBLISHED_CONCEPT_SEARCH_INDEX_NAME", "publishedconcepts")
+  def SearchServer: String            = propOrElse("SEARCH_SERVER", "http://search-concept-api.ndla-local")
+  def DraftConceptSearchIndex: String =
+    propOrElse("CONCEPT_SEARCH_INDEX_NAME", IndexName.ConceptApiDraftConcepts.defaultName)
+  def PublishedConceptSearchIndex: String =
+    propOrElse("PUBLISHED_CONCEPT_SEARCH_INDEX_NAME", IndexName.ConceptApiPublishedConcepts.defaultName)
   def ConceptSearchDocument                      = "concept"
   def DefaultPageSize                            = 10
   def MaxPageSize                                = 10000
