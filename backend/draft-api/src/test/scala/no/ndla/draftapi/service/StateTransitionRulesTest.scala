@@ -792,6 +792,32 @@ class StateTransitionRulesTest extends UnitSuite with TestEnvironment {
     noTrans(PUBLISHED) should not contain (DraftStatus.ARCHIVED)
   }
 
+  test("stateTransitionsToApi should allow all users to publish articles that have previously been published") {
+
+    val articleId      = 1L
+    val article: Draft = TestData
+      .sampleArticleWithPublicDomain
+      .copy(
+        id = Some(articleId),
+        status = Status(DraftStatus.UNPUBLISHED, Set.empty),
+        firstPublished = Some(clock.now()),
+      )
+    when(draftRepository.withId(eqTo(articleId))(using any)).thenReturn(Success(Some(article)))
+    val Success(noTrans) =
+      stateTransitionRules.stateTransitionsToApi(TestData.userWithWriteAccess, Some(1L)): @unchecked
+
+    noTrans(IN_PROGRESS) should contain(DraftStatus.PUBLISHED)
+    noTrans(EXTERNAL_REVIEW) should contain(DraftStatus.PUBLISHED)
+    noTrans(INTERNAL_REVIEW) should contain(DraftStatus.PUBLISHED)
+    noTrans(QUALITY_ASSURANCE) should contain(DraftStatus.PUBLISHED)
+    noTrans(LANGUAGE) should contain(DraftStatus.PUBLISHED)
+    noTrans(FOR_APPROVAL) should contain(DraftStatus.PUBLISHED)
+    noTrans(END_CONTROL) should contain(DraftStatus.PUBLISHED)
+    noTrans(UNPUBLISHED) should contain(DraftStatus.PUBLISHED)
+
+    noTrans(PUBLISHED) should not contain (DraftStatus.ARCHIVED)
+  }
+
   test("stateTransitionsToApi should return different number of transitions based on access") {
     val Success(adminTrans) = stateTransitionRules.stateTransitionsToApi(TestData.userWithAdminAccess, None): @unchecked
     val Success(writeTrans) = stateTransitionRules.stateTransitionsToApi(TestData.userWithWriteAccess, None): @unchecked
