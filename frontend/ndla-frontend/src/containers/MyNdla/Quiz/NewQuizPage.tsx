@@ -31,9 +31,7 @@ export const NewQuizPage = () => {
       pageTitle={t("htmlTitles.quizNewPage")}
       breadcrumbName={t("myNdla.quiz.newQuiz")}
       {...builderProps}
-      onSaved={() => {
-        if (builderProps.quizId) navigate(routes.myNdla.quizEdit(builderProps.quizId), { replace: true });
-      }}
+      onSaved={(quizId) => navigate(routes.myNdla.quizEdit(quizId), { replace: true })}
     />
   );
 };

@@ -60,7 +60,7 @@ interface Props {
   breadcrumbName: string;
   state: QuizBuilderState;
   onChange: (updater: (prev: QuizBuilderState) => QuizBuilderState) => void;
-  onSave: () => Promise<boolean>;
+  onSave: () => Promise<GQLQuizFragment | undefined>;
   onShare: () => Promise<GQLQuizFragment | undefined>;
   onUnshare: () => Promise<boolean>;
   saving: boolean;
@@ -68,7 +68,7 @@ interface Props {
   unsharing: boolean;
   isShared: boolean;
   quizId?: string;
-  onSaved?: () => void;
+  onSaved?: (quizId: string) => void;
 }
 
 const StyledOl = styled("ol", {
@@ -180,10 +180,10 @@ export const QuizBuilder = ({
       scrollToFirstMissingCorrectAnswer();
       return;
     }
-    const success = await onSave();
-    if (success) {
+    const saved = await onSave();
+    if (saved) {
       flushSync(() => setDirty(false));
-      onSaved?.();
+      onSaved?.(saved.id);
     }
   };
 
