@@ -10,4 +10,4 @@ package no.ndla.articleapi.db.migration
 
 import no.ndla.database.FinishedMigration
 
-class V4__AddArticleTypeField extends FinishedMigration
+class V4__AddUpdatedColoums extends FinishedMigration
