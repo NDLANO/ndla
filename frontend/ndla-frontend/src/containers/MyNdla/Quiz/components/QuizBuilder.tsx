@@ -25,7 +25,7 @@ import {
 } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import { useCallback, useRef, useState, type RefObject } from "react";
+import { useCallback, useRef, useState, type MouseEvent } from "react";
 import { flushSync } from "react-dom";
 import { useTranslation } from "react-i18next";
 import { MyNdlaBreadcrumb } from "../../../../components/MyNdla/MyNdlaBreadcrumb";
@@ -142,7 +142,7 @@ export const QuizBuilder = ({
   const [focusQuestionId, setFocusQuestionId] = useState<string>();
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [unshareDialogOpen, setUnshareDialogOpen] = useState(false);
-  const shareButtonRef = useRef<HTMLButtonElement>(null);
+  const shareTriggerRef = useRef<HTMLButtonElement | null>(null);
 
   const titleError =
     attemptedSave && !state.title.trim() ? validationT({ type: "required", field: "title" }) : undefined;
@@ -192,7 +192,8 @@ export const QuizBuilder = ({
     }
   };
 
-  const onShareClick = async () => {
+  const onShareClick = async (e: MouseEvent<HTMLButtonElement>) => {
+    shareTriggerRef.current = e.currentTarget;
     if (isShared) {
       setUnshareDialogOpen(true);
       return;
@@ -258,12 +259,12 @@ export const QuizBuilder = ({
     [onFormChange],
   );
 
-  const renderButtonRow = (shareRef?: RefObject<HTMLButtonElement | null>) => (
+  const renderButtonRow = () => (
     <ButtonRow>
       <Button variant="secondary" onClick={onSaveClick} loading={saving} disabled={sharing}>
         {t("myNdla.quiz.form.saveButton")}
       </Button>
-      <Button variant="primary" onClick={onShareClick} loading={sharing} disabled={saving} ref={shareRef}>
+      <Button variant="primary" onClick={onShareClick} loading={sharing} disabled={saving}>
         {isShared ? t("myNdla.quiz.form.unshareQuiz") : t("myNdla.quiz.form.shareQuiz")}
       </Button>
     </ButtonRow>
@@ -314,7 +315,7 @@ export const QuizBuilder = ({
               <TabsTrigger value="settings">{t("myNdla.quiz.form.settings.title")}</TabsTrigger>
               <TabsIndicator />
             </TabsList>
-            {renderButtonRow(shareButtonRef)}
+            {renderButtonRow()}
           </HStack>
           {shareErrorMessage ? (
             <MessageBox variant="error" role="alert" css={{ marginBlockStart: "xlarge" }}>
@@ -350,9 +351,7 @@ export const QuizBuilder = ({
                 <AddLine />
                 {t("myNdla.quiz.form.addQuestion")}
               </StyledButton>
-              {state.questions.length >= 2 ? (
-                renderButtonRow()
-              ) : null}
+              {state.questions.length >= 2 ? renderButtonRow() : null}
             </MyNdlaPageContent>
           </TabsContent>
           <TabsContent value="settings">
@@ -364,14 +363,14 @@ export const QuizBuilder = ({
         <DialogRoot
           open={shareDialogOpen}
           onOpenChange={(details) => setShareDialogOpen(details.open)}
-          finalFocusEl={() => shareButtonRef.current}
+          finalFocusEl={() => shareTriggerRef.current}
         >
           {sharedQuiz ? <QuizShareDialogContent quiz={sharedQuiz} onClose={() => setShareDialogOpen(false)} /> : null}
         </DialogRoot>
         <DialogRoot
           open={unshareDialogOpen}
           onOpenChange={(details) => setUnshareDialogOpen(details.open)}
-          finalFocusEl={() => shareButtonRef.current}
+          finalFocusEl={() => shareTriggerRef.current}
         >
           <QuizUnshareDialogContent
             onUnshare={onUnshareClick}
