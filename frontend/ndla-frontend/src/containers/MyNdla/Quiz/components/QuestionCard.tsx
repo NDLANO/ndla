@@ -19,7 +19,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Node, type Descendant } from "slate";
 import { RichTextEditor } from "../../../../components/RichTextEditor/RichTextEditor";
@@ -97,11 +97,7 @@ export const QuestionCard = memo(
     const [initialTitle] = useState(() => deserializeToSimpleRichText(question.title));
     const [focusAlternativeId, setFocusAlternativeId] = useState<string>();
     const questionId = question.id;
-    const multipleAnswersRef = useRef<HTMLInputElement>(null);
 
-    useEffect(() => {
-      if (focusOnMount) multipleAnswersRef.current?.focus();
-    }, [focusOnMount]);
     const titleText = useMemo(
       () =>
         deserializeToSimpleRichText(question.title)
@@ -192,6 +188,7 @@ export const QuestionCard = memo(
             initialValue={initialTitle}
             onChange={onTitleChange}
             placeholder={t("myNdla.quiz.form.questionTitlePlaceholder")}
+            focusOnMount={focusOnMount}
           />
         </FieldRoot>
         <HStack justify="flex-end">
@@ -204,7 +201,7 @@ export const QuestionCard = memo(
             <SwitchControl>
               <SwitchThumb />
             </SwitchControl>
-            <SwitchHiddenInput ref={multipleAnswersRef} />
+            <SwitchHiddenInput />
           </SwitchRoot>
         </HStack>
         <AlternativesList

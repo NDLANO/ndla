@@ -545,8 +545,7 @@ const translations = {
         moveUp: "Flytt opp",
         moveDown: "Flytt ned",
         settingsTab: {
-          title: "Visuell tilbakemelding",
-          description: "Korleis skal spørsmål og svar i kvissen presenterast?",
+          title: "Korleis skal spørsmål og svar i kvissen presenterast?",
           alternativesRandomOrder: "Tilfeldig rekkefølgje på svaralternativ?",
           randomOrderHeading: "Tilfeldig rekkefølgje",
           randomSubsetHeading: "Tilfeldig utval",
@@ -572,6 +571,8 @@ const translations = {
         addQuestion: "Nytt spørsmål",
         removeQuestion: "Fjern spørsmål",
         noQuestions: "Du må leggje til minst eitt spørsmål med eit rett svaralternativ for å dele kvissen.",
+        noQuestionsMessage: "Du må ha minst eitt spørsmål i kvissen før du kan dele han med andre.",
+        noCorrectAnswerMessage: "Du må markere rett svar på alle spørsmåla dine før du kan dele.",
         saveButton: "Lagre",
         shareQuiz: "Del kviss",
         unshareQuiz: "Avslutt deling av kviss",

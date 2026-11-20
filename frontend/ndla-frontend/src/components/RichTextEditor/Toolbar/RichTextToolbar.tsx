@@ -26,20 +26,20 @@ const ToolbarContainer = styled("div", {
     padding: "3xsmall",
     borderTopRadius: "xsmall",
     borderColor: "stroke.subtle",
+    backgroundColor: "surface.actionSubtle",
   },
   variants: {
     variant: {
       full: {
         border: "1px solid",
         borderBottom: "none",
-        backgroundColor: "surface.actionSubtle.hover",
       },
       simple: {
         margin: "[2px 2px 0]",
         borderTopRadius: "[calc(token(radii.xsmall) - 2px)]",
         borderBottom: "1px solid",
         borderColor: "stroke.subtle",
-        backgroundColor: "surface.infoSubtle",
+        backgroundColor: "surface.actionSubtle",
       },
     },
   },
