@@ -8,6 +8,10 @@
 
 import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
+import type {
+  createDataAttributes,
+  parseElementAttributes,
+} from "../../editor/src/serialization/html/htmlSerializationHelpers";
 import type { EmbedTagRule } from "../src/embedTagRules";
 
 const outputPath = join(import.meta.dirname, "../../../../backend/validation/src/main/resources/embed-tag-rules.json");
@@ -16,11 +20,15 @@ const rulesModule: { embedTagRules: Record<string, EmbedTagRule> } = await impor
   new URL("../src/embedTagRules.ts", import.meta.url).href
 );
 
-const toKey = (attribute: string) =>
-  attribute.replace("data-", "").replace(/(-|_)[a-z]/g, (m) => m.charAt(1).toUpperCase());
+const serializationHelpers: {
+  createDataAttributes: typeof createDataAttributes;
+  parseElementAttributes: typeof parseElementAttributes;
+} = await import(new URL("../../editor/src/serialization/html/htmlSerializationHelpers.ts", import.meta.url).href);
 
-const toAttribute = (key: string) =>
-  key === "resourceId" ? "data-resource_id" : `data-${key.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`)}`;
+const toKey = (attribute: string) =>
+  Object.keys(serializationHelpers.parseElementAttributes([{ name: attribute, value: "" }]))[0] ?? "";
+
+const toAttribute = (key: string) => Object.keys(serializationHelpers.createDataAttributes({ [key]: "" }))[0] ?? "";
 
 const validate = (resource: string, { fields }: EmbedTagRule) => {
   const names = new Set(fields.map((field) => field.name));
