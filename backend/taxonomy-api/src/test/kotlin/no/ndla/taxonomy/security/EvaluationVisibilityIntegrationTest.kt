@@ -13,12 +13,15 @@ import java.security.KeyPairGenerator
 import java.security.interfaces.RSAPrivateKey
 import java.util.UUID
 import no.ndla.taxonomy.service.AbstractIntegrationTest
+import org.hamcrest.Matchers.hasItem
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
+import org.springframework.http.HttpHeaders.AUTHORIZATION
+import org.springframework.http.HttpHeaders.VARY
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.util.ReflectionTestUtils
@@ -28,6 +31,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.header
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
@@ -152,6 +156,13 @@ class EvaluationVisibilityIntegrationTest : AbstractIntegrationTest() {
         .perform(get(children).auth("taxonomy:write"))
         .andExpect(status().isOk)
         .expectResourceEvaluations("$[0]")
+  }
+
+  @Test
+  fun responses_vary_on_authorization() {
+    getNode(resourceId).andExpect(header().stringValues(VARY, hasItem(AUTHORIZATION)))
+    getNode(resourceId, "taxonomy:write")
+        .andExpect(header().stringValues(VARY, hasItem(AUTHORIZATION)))
   }
 
   companion object {
