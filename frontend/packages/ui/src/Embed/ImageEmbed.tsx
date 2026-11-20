@@ -194,15 +194,16 @@ export const ImageEmbed = ({ embed, previewAlt, lang, renderContext = "article",
   const figureProps = getFigureProps(embed.embedData.size, embed.embedData.align);
   const { t } = useTranslation();
 
+  const aiTail = aiGeneratedTail(embed, t);
   const parsedDescription = useMemo(() => {
-    if (embed.embedData.caption || renderContext === "article") {
-      return embed.embedData.caption ? parse(`${embed.embedData.caption}${aiGeneratedTail(embed, t)}`) : undefined;
+    if (embed.embedData.caption || aiTail || renderContext === "article") {
+      return embed.embedData.caption ? parse(`${embed.embedData.caption}${aiTail}`) : aiTail;
     }
-    if (embed.status === "success" && embed.data.caption.caption) {
-      return parse(`${embed.data.caption.caption}${aiGeneratedTail(embed, t)}`);
+    if (embed.status === "success" && (embed.data.caption.caption || aiTail)) {
+      return parse(`${embed.data.caption.caption}${aiTail}.`);
     }
     return undefined;
-  }, [embed, renderContext, t]);
+  }, [embed, aiTail, renderContext]);
 
   if (embed.status === "error") {
     return <EmbedErrorPlaceholder type={"image"} figureType={figureProps?.size} float={figureProps?.float} />;
