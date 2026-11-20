@@ -259,7 +259,7 @@ export const QuizBuilder = ({
     [onFormChange],
   );
 
-  const renderButtonRow = () => (
+  const buttonRow = (
     <ButtonRow>
       <Button variant="secondary" onClick={onSaveClick} loading={saving} disabled={sharing}>
         {t("myNdla.quiz.form.saveButton")}
@@ -315,7 +315,7 @@ export const QuizBuilder = ({
               <TabsTrigger value="settings">{t("myNdla.quiz.form.settings.title")}</TabsTrigger>
               <TabsIndicator />
             </TabsList>
-            {renderButtonRow()}
+            {buttonRow}
           </HStack>
           {shareErrorMessage ? (
             <MessageBox variant="error" role="alert" css={{ marginBlockStart: "xlarge" }}>
@@ -351,7 +351,7 @@ export const QuizBuilder = ({
                 <AddLine />
                 {t("myNdla.quiz.form.addQuestion")}
               </StyledButton>
-              {state.questions.length >= 2 ? renderButtonRow() : null}
+              {state.questions.length >= 2 ? buttonRow : null}
             </MyNdlaPageContent>
           </TabsContent>
           <TabsContent value="settings">
