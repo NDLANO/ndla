@@ -26,6 +26,7 @@ import {
 import { SafeLinkButton } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { useCallback, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import { useTranslation } from "react-i18next";
 import { MyNdlaBreadcrumb } from "../../../../components/MyNdla/MyNdlaBreadcrumb";
 import { MyNdlaTitle } from "../../../../components/MyNdla/MyNdlaTitle";
@@ -59,7 +60,7 @@ interface Props {
   breadcrumbName: string;
   state: QuizBuilderState;
   onChange: (updater: (prev: QuizBuilderState) => QuizBuilderState) => void;
-  onSave: () => Promise<boolean>;
+  onSave: () => Promise<GQLQuizFragment | undefined>;
   onShare: () => Promise<GQLQuizFragment | undefined>;
   onUnshare: () => Promise<boolean>;
   saving: boolean;
@@ -67,6 +68,7 @@ interface Props {
   unsharing: boolean;
   isShared: boolean;
   quizId?: string;
+  onSaved?: (quizId: string) => void;
 }
 
 const StyledOl = styled("ol", {
@@ -130,6 +132,7 @@ export const QuizBuilder = ({
   unsharing,
   isShared,
   quizId,
+  onSaved,
 }: Props) => {
   const { t } = useTranslation();
   const { validationT } = useValidationTranslation();
@@ -177,9 +180,10 @@ export const QuizBuilder = ({
       scrollToFirstMissingCorrectAnswer();
       return;
     }
-    const success = await onSave();
-    if (success) {
-      setDirty(false);
+    const saved = await onSave();
+    if (saved) {
+      flushSync(() => setDirty(false));
+      onSaved?.(saved.id);
     }
   };
 

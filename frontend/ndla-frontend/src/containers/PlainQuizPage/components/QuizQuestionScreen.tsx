@@ -22,7 +22,7 @@ import {
 } from "@ndla/primitives";
 import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
-import { type CSSProperties, type KeyboardEvent, useId, useState } from "react";
+import { type CSSProperties, type KeyboardEvent, useEffect, useId, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { parseSimpleRichText } from "../../../components/RichTextEditor/parseSimpleRichText";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
@@ -40,7 +40,7 @@ const Wrapper = styled("div", {
   },
 });
 
-const QuizTitle = styled(Heading, {
+const QuizTitle = styled(Text, {
   base: {
     textAlign: "center",
   },
@@ -265,8 +265,13 @@ export const QuizQuestionScreen = ({
   const [showError, setShowError] = useState(false);
 
   const headingId = useId();
+  const headingRef = useRef<HTMLHeadingElement>(null);
   const hintId = useId();
   const errorId = useId();
+
+  useEffect(() => {
+    headingRef.current?.focus();
+  }, []);
 
   const isMultiChoice = question.questionType === "MULTI_CHOICE";
   const alternativesLabelProps = {
@@ -322,7 +327,7 @@ export const QuizQuestionScreen = ({
             </ProgressTrack>
           </ProgressContainer>
           <QuestionSection>
-            <Heading textStyle="title.medium" id={headingId}>
+            <Heading textStyle="title.medium" id={headingId} tabIndex={-1} ref={headingRef}>
               {parseSimpleRichText(question.title)}
             </Heading>
             <Text textStyle="label.small" color="text.subtle" id={hintId}>

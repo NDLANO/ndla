@@ -23,7 +23,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import type { ReactElement } from "react";
+import { type ReactElement, useEffect, useId, useRef } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { parseSimpleRichText } from "../../../components/RichTextEditor/parseSimpleRichText";
 import { QUIZ_NEUTER_ONE, QUIZ_NUMBER_WORDS } from "../../../constants";
@@ -270,6 +270,12 @@ export const QuizResultScreen = ({ session, answers, result, randomOrder, onRetr
   const total = result.results.length;
   const scoreTier = getScoreTier(correctCount, total);
   const ResultAnimation = RESULT_ANIMATION[scoreTier];
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const scoreId = useId();
+
+  useEffect(() => {
+    headingRef.current?.focus();
+  }, []);
 
   return (
     <Wrapper>
@@ -278,10 +284,16 @@ export const QuizResultScreen = ({ session, answers, result, randomOrder, onRetr
         <ResultSummary overflow={scoreTier === "good" ? "hidden" : undefined}>
           <ResultAnimation />
           <FeedbackContainer>
-            <Heading textStyle="title.large" fontWeight="bold">
+            <Heading
+              textStyle="title.large"
+              fontWeight="bold"
+              tabIndex={-1}
+              ref={headingRef}
+              aria-describedby={scoreId}
+            >
               {t(RESULT_HEADING_KEY[scoreTier])}
             </Heading>
-            <Text textStyle="body.large">
+            <Text textStyle="body.large" id={scoreId}>
               {t("myNdla.quiz.take.result.score", {
                 correct: correctCount,
                 total,

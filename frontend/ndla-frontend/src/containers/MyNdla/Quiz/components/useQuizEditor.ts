@@ -67,11 +67,11 @@ export const useQuizEditor = ({ initialState, initialQuiz, saveFailedMessage }: 
     setSaving(false);
     if (!synced || failed) {
       toast.create({ title: saveFailedMessage });
-      return false;
+      return undefined;
     }
 
     toast.create({ title: t("myNdla.quiz.toast.saved") });
-    return true;
+    return synced;
   };
 
   const onShare = async () => {
