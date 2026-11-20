@@ -103,8 +103,7 @@ class StateTransitionRules(using
       case Some(art) =>
         val hasBeenPublished          = art.status.current == PUBLISHED || art.status.other.contains(PUBLISHED)
         val isFromPublishedTransition = transition.from == PUBLISHED
-        val hasFirstPublished         = art.firstPublished.isDefined
-        !(hasBeenPublished || isFromPublishedTransition || hasFirstPublished)
+        !(hasBeenPublished || isFromPublishedTransition)
     }
   })
 

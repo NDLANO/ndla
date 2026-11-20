@@ -804,7 +804,7 @@ class StateTransitionRulesTest extends UnitSuite with TestEnvironment {
       )
     when(draftRepository.withId(eqTo(articleId))(using any)).thenReturn(Success(Some(article)))
     val Success(noTrans) =
-      stateTransitionRules.stateTransitionsToApi(TestData.userWithWriteAccess, Some(1L)): @unchecked
+      stateTransitionRules.stateTransitionsToApi(TestData.userWithWriteAccess, Some(articleId)): @unchecked
 
     noTrans(IN_PROGRESS) should contain(DraftStatus.PUBLISHED)
     noTrans(EXTERNAL_REVIEW) should contain(DraftStatus.PUBLISHED)
