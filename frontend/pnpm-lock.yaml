@@ -259,10 +259,10 @@ catalogs:
       specifier: ^8.5.1
       version: 8.5.1
     '@sentry/react':
-      specifier: ^11.13.0
+      specifier: ^11.14.0
       version: 11.14.0
     '@sentry/vite-plugin':
-      specifier: ^11.13.0
+      specifier: ^11.14.0
       version: 11.14.0
     '@storybook/addon-a11y':
       specifier: ^10.6.7
