@@ -1029,7 +1029,6 @@ const translations = {
     validate: "Validate",
     publish: "Publish",
     unpublish: "Unpublish",
-    unpublishInTaxonomy: "Cannot unpublish a learning path that is placed in the taxonomy",
     savedOk: "Saved OK",
     publishedOk: "Published OK",
     validationOk: "No validation errors found",
@@ -1943,7 +1942,11 @@ const translations = {
     setPrimary: "Set as primary link",
     addResource: "Add resource",
     removeResource: "Remove resource from topic",
+    removeConnectionConfirm:
+      "Are you sure you want to remove this placement?\
+    Remember to remove competence aims that are no longer relevant",
     removeResourceDisabled: "You cannot remove a primary connection",
+    removeLastPublishedPlacementDisabled: "You cannot remove the last placement of a published resource",
     searchResource: "Search for resource",
     searchArticle: "Search for topic article",
     or: "Eller",
@@ -2055,6 +2058,7 @@ const translations = {
       title: "Competence goals in {{subject}}",
       description: "Check the competence goals that should be connected to the resource.",
       empty: "Found no competence goals for this subject",
+      deleteWithGoals: "Delete and remove competence goals",
     },
     copyRevisionDates: {
       text: "Are you sure you want to copy this revision date? This will apply for all nodes and resources underneath this node",
@@ -2107,7 +2111,6 @@ const translations = {
       addPrimaryConnectionCompetenceGoals: "Remember to add competence aims",
       newPrimaryConnectionDepartment:
         "If a new editorial team takes over the primary connection, remember to notify them",
-      removeConnectionCompetenceGoals: "Remember to remove competence aims that are no longer relevant",
     },
     core: {
       title: "Learning resources",

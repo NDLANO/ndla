@@ -181,6 +181,7 @@ const Resource = ({
 
   const ref = useRef(null);
   const isVisible = useElementIsVisible(ref, showMatomoStats);
+  const deleteDisabled = resource.isPrimary && resource.contexts.length > 1;
 
   const {
     data: matomoStatsData,
@@ -301,13 +302,11 @@ const Resource = ({
               <DialogRoot>
                 <DialogTrigger asChild>
                   <IconButton
-                    aria-label={
-                      resource.isPrimary ? t("taxonomy.removeResourceDisabled") : t("taxonomy.removeResource")
-                    }
-                    title={resource.isPrimary ? t("taxonomy.removeResourceDisabled") : t("taxonomy.removeResource")}
+                    aria-label={deleteDisabled ? t("taxonomy.removeResourceDisabled") : t("taxonomy.removeResource")}
+                    title={deleteDisabled ? t("taxonomy.removeResourceDisabled") : t("taxonomy.removeResource")}
                     size="small"
                     variant="danger"
-                    disabled={resource.isPrimary}
+                    disabled={deleteDisabled}
                   >
                     <DeleteBinLine />
                   </IconButton>
