@@ -28,7 +28,7 @@ case class FeideAuth()(using
     myNdlaProvider: MyNDLAProvider,
     props: BaseProps,
 ) {
-  private val headerName  = "FeideAuthorization"
+  private val headerName  = FeideAuth.HeaderName
   private val schemeName  = "FeideAuth"
   private val challenge   = WWWAuthenticateChallenge.bearer
   private val jwtVerifier = JwtVerifier(jwsKeySelectorFactory, props.feideIssuer, props.feideClientId, Set.empty)
@@ -93,4 +93,8 @@ case class FeideAuth()(using
     case Success(token) => DecodeResult.Value(token)
     case Failure(ex)    => DecodeResult.Error(s, ex)
   }
+}
+
+object FeideAuth {
+  val HeaderName = "FeideAuthorization"
 }

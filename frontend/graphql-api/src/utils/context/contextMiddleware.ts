@@ -9,6 +9,7 @@
 import type { NextFunction, Request, Response } from "express";
 import isString from "lodash/isString";
 import { getToken } from "../../auth";
+import { hasNoCacheDirective } from "../../cache";
 import { defaultLanguage } from "../../config";
 import {
   articlesLoader,
@@ -23,14 +24,7 @@ import {
 import { getAsyncContextStorage } from "./contextStore";
 
 function getShouldUseCache(request: Request): boolean {
-  const cacheControl = request.headers["cache-control"]?.toLowerCase();
-  const feideAuthHeader = getFeideAuthorization(request);
-  const disableCacheHeaders = ["no-cache", "no-store"];
-
-  const cacheControlDisable = disableCacheHeaders.includes(cacheControl ?? "");
-  const feideHeaderPresent = !!feideAuthHeader;
-
-  return !cacheControlDisable && !feideHeaderPresent;
+  return !hasNoCacheDirective(request.headers["cache-control"]);
 }
 
 function getVersionHash(request: Request): string | undefined {

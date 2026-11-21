@@ -242,6 +242,7 @@ class ArticleControllerV2(using
     .in(pageNo)
     .errorOut(errorOutputsFor())
     .out(jsonBody[Seq[ArticleV2DTO]])
+    .out(EndpointOutput.derived[DynamicHeaders])
     .withOptionalFeideUser
     .serverLogicPure { feide =>
       { case (ids, fallback, language, mbPageSize, mbPageNo) =>
@@ -255,7 +256,7 @@ class ArticleControllerV2(using
           case x                        => x
         }
 
-        readService.getArticlesByIds(ids.values, language.code, fallback, page, pageSize, feide)
+        readService.getArticlesByIds(ids.values, language.code, fallback, page, pageSize, feide).map(_.Ok())
       }
     }
 

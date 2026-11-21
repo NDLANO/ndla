@@ -51,4 +51,26 @@ class CachableTest extends UnitSuite {
     val result2                         = Cachable.merge(cachables2)
     result2 should be(Cachable(List(1, 2, 3), false))
   }
+
+  test("That merging combines vary headers") {
+    val cachables = List(Cachable.yes(1).varyOn("FeideAuthorization"), Cachable.yes(2).varyOn("FeideAuthorization"))
+    Cachable.merge(cachables) should be(Cachable(List(1, 2), true, List("FeideAuthorization")))
+  }
+
+  test("That flatMap keeps non-cachable and vary from every step") {
+    val x = for {
+      a <- Cachable.no(1)
+      b <- Cachable.yes(2).varyOn("FeideAuthorization")
+    } yield a + b
+
+    x should be(Cachable(3, false, List("FeideAuthorization")))
+  }
+
+  test("That Ok only adds headers that apply") {
+    Cachable.yes(1).Ok() should be((1, DynamicHeaders(List.empty)))
+
+    val (_, headers) = Cachable.no(1).varyOn("FeideAuthorization", "Authorization").Ok()
+    headers.headers.map(h => h.name -> h.value) should
+      be(List("Cache-Control" -> "private", "Vary" -> "FeideAuthorization, Authorization"))
+  }
 }

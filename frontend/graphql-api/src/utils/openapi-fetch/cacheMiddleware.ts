@@ -7,8 +7,28 @@
  */
 
 import type { Middleware } from "openapi-fetch";
-import { cacheTime, getCache, getCacheKey, setHeaderIfShouldNotCache } from "../../cache";
+import {
+  cacheTime,
+  getCache,
+  getCacheKey,
+  hasNoCacheDirective,
+  isVariedBy,
+  setHeaderIfShouldNotCache,
+} from "../../cache";
+import { getHeadersFromContext } from "../apiHelpers";
 import { getContextOrThrow } from "../context/contextStore";
+
+function isCacheableRequest(request: Request, ctx: Context): boolean {
+  return ctx.shouldUseCache && request.method === "GET" && !hasNoCacheDirective(request.headers.get("Cache-Control"));
+}
+
+function getOutgoingHeaders(request: Request, ctx: Context): Headers {
+  const headers = new Headers(request.headers);
+  for (const [key, value] of Object.entries(getHeadersFromContext(ctx))) {
+    if (value) headers.set(key, value);
+  }
+  return headers;
+}
 
 export function cachedResponse(data: string | undefined): Response | null {
   if (!data) return null;
@@ -22,26 +42,26 @@ export function cachedResponse(data: string | undefined): Response | null {
 
 export const OATSCacheMiddleware = (useTaxonomyCache?: boolean): Middleware => ({
   async onRequest({ request }) {
-    const cacheControl = request.headers.get("Cache-Control");
-
-    const isCacheable =
-      (request.method === undefined || request.method === "GET") &&
-      cacheControl !== "no-store" &&
-      cacheControl !== "reload";
-
-    if (!isCacheable) return request;
-
     const ctx = getContextOrThrow();
+    if (!isCacheableRequest(request, ctx)) return request;
+
     const cacheKey = getCacheKey(request.url, ctx, useTaxonomyCache);
     const data = await getCache().get(cacheKey);
     const cached = cachedResponse(data);
-    if (cached) return cached;
-    return request;
+    if (!cached || isVariedBy(cached.headers.get("vary"), getOutgoingHeaders(request, ctx))) return request;
+    return cached;
   },
   async onResponse({ request, response }) {
     const ctx = getContextOrThrow();
     const shouldCache = setHeaderIfShouldNotCache(response, ctx);
-    if (response.status !== 200 || !shouldCache || request.method !== "GET") return;
+    if (
+      response.status !== 200 ||
+      !shouldCache ||
+      !isCacheableRequest(request, ctx) ||
+      isVariedBy(response.headers.get("vary"), getOutgoingHeaders(request, ctx))
+    ) {
+      return;
+    }
 
     const cacheKey = getCacheKey(request.url, ctx, useTaxonomyCache);
     const headers: Record<string, unknown> = {};
