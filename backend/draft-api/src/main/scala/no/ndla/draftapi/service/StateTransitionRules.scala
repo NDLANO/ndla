@@ -113,7 +113,8 @@ class StateTransitionRules(using
       case Some(art) =>
         val hasBeenPublished          = art.status.current == PUBLISHED || art.status.other.contains(PUBLISHED)
         val isFromPublishedTransition = transition.from == PUBLISHED
-        hasBeenPublished || isFromPublishedTransition
+        val hasFirstPublished         = art.firstPublished.isDefined
+        hasBeenPublished || isFromPublishedTransition || hasFirstPublished
     }
   })
 
@@ -183,7 +184,7 @@ class StateTransitionRules(using
       REPUBLISH              -> IN_PROGRESS            `keepStates` Set(PUBLISHED),
       (REPUBLISH             -> PUBLISHED)             .require(PublishRoles, articleHasBeenPublished) `withSideEffect` publishArticle `withSideEffect` resetResponsible,
       UNPUBLISHED            -> UNPUBLISHED            `withSideEffect` resetResponsible,
-      (UNPUBLISHED           -> PUBLISHED)             `require` DirectPublishRoles `withSideEffect` publishWithSoftValidation `withSideEffect` resetResponsible,
+      (UNPUBLISHED           -> PUBLISHED)             .require(DirectPublishRoles, articleHasBeenPublished) `withSideEffect` publishWithSoftValidation `withSideEffect` resetResponsible,
        UNPUBLISHED           -> IN_PROGRESS,
       (UNPUBLISHED           -> ARCHIVED)              .require(PublishRoles, articleHasNotBeenPublished) `withIllegalStatuses` Set(PUBLISHED) `withSideEffect` resetResponsible,
     )
