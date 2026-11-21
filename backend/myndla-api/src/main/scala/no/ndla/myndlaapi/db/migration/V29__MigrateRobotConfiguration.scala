@@ -9,11 +9,10 @@
 package no.ndla.myndlaapi.db.migration
 
 import io.circe.{Json, parser}
-import no.ndla.database.{TableIdType, TableMigration}
-import no.ndla.myndlaapi.uuidBinder
+import no.ndla.database.{Row, TableIdType, TableMigration}
 import org.postgresql.util.PGobject
 import scalikejdbc.interpolation.Implicits.scalikejdbcSQLInterpolationImplicitDef
-import scalikejdbc.{DBSession, SQLSyntax, WrappedResultSet}
+import scalikejdbc.{DBSession, SQLSyntax}
 
 import java.util.UUID
 import scala.util.Try
@@ -28,8 +27,10 @@ class V29__MigrateRobotConfiguration extends TableMigration[RobotDocumentRow] {
   private lazy val columnNameSQL: SQLSyntax = SQLSyntax.createUnsafely(columnName)
   override lazy val whereClause: SQLSyntax  = sqls"$columnNameSQL is not null"
 
-  override def extractRowData(rs: WrappedResultSet): RobotDocumentRow =
-    RobotDocumentRow(rs.get[Try[UUID]]("id").get, rs.string(columnName))
+  override def extractRowData(row: Row): Try[RobotDocumentRow] = for {
+    id            <- row.required[UUID]("id")
+    configuration <- row.required[String](columnName)
+  } yield RobotDocumentRow(id, configuration)
 
   override def updateRow(rowData: RobotDocumentRow)(implicit session: DBSession): Int = {
     val dataObject = new PGobject()

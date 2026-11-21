@@ -163,8 +163,9 @@ class AudioController(using
     .out(jsonBody[AudioMetaInformationDTO])
     .serverLogicPure { case (id, language) =>
       readService.withId(id, language.map(_.code)) match {
-        case Some(audio) => audio.asRight
-        case None        => errorHelpers.notFoundWithMsg(s"Audio with id $id not found").asLeft
+        case Success(Some(audio)) => audio.asRight
+        case Success(None)        => errorHelpers.notFoundWithMsg(s"Audio with id $id not found").asLeft
+        case Failure(ex)          => errorHandling.returnLeftError(ex)
       }
     }
 

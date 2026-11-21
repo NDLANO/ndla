@@ -8,12 +8,14 @@
 
 package no.ndla.articleapi.repository
 
+import cats.implicits.*
 import com.typesafe.scalalogging.StrictLogging
 import no.ndla.articleapi.model.NotFoundException
 import no.ndla.articleapi.model.domain.{ArticleIds, ArticleRow, DBArticle}
 import no.ndla.common.CirceUtil
 import no.ndla.common.implicits.toOption
 import no.ndla.common.model.domain.article.Article
+import no.ndla.database.Row
 import no.ndla.database.implicits.*
 import org.postgresql.util.PGobject
 import scalikejdbc.*
@@ -126,7 +128,7 @@ class ArticleRepository(using dbArticle: DBArticle) extends StrictLogging {
       order by ar.article_id
       offset $offset
       limit $pageSize
-    """.map(dbArticle.Article.fromResultSet(ar)).runList()
+    """.decode(dbArticle.Article.fromResultSet(ar)).runList()
   }
 
   def getIdFromExternalId(externalId: String)(using DBSession): Try[Long] = {
@@ -137,7 +139,7 @@ class ArticleRepository(using dbArticle: DBArticle) extends StrictLogging {
       order by revision desc
       limit 1
     """
-      .map(rs => rs.long("article_id"))
+      .decode(_.required[Long]("article_id"))
       .runSingleTry(NotFoundException(s"Article with externalId $externalId not found"))
   }
 
@@ -147,23 +149,16 @@ class ArticleRepository(using dbArticle: DBArticle) extends StrictLogging {
       from ${dbArticle.Article.table}
       where article_id=$articleId
       and document is not NULL;
-    """.map(rs => rs.int("revision")).runList()
+    """.decode(_.required[Int]("revision")).runList()
   }
 
-  private def externalIdsFromResultSet(wrappedResultSet: WrappedResultSet): Option[List[String]] = {
-    wrappedResultSet
-      .arrayOpt("external_id")
-      .map(_.getArray.asInstanceOf[Array[String]].toList.filter(_ != null))
-      .flatMap {
-        case Nil  => None
-        case list => Some(list)
-      }
-  }
+  private def articleIdsFromRow(row: Row): Try[ArticleIds] = for {
+    articleId   <- row.required[Long]("article_id")
+    externalIds <- dbArticle.Article.externalIdsFromRow("external_id")(row)
+  } yield ArticleIds(articleId, externalIds)
 
   def getAllIds(using DBSession): Try[Seq[ArticleIds]] = {
-    tsql"select article_id, external_id from ${dbArticle.Article.table}"
-      .map(rs => ArticleIds(rs.long("article_id"), externalIdsFromResultSet(rs)))
-      .runList()
+    tsql"select article_id, external_id from ${dbArticle.Article.table}".decode(articleIdsFromRow).runList()
   }
 
   def articleCount(using DBSession): Try[Long] = {
@@ -179,7 +174,7 @@ class ArticleRepository(using dbArticle: DBArticle) extends StrictLogging {
         where ar2.article_id = ar.article_id
         and ar2.revision > ar.revision
       )
-    """.map(rs => rs.long("count")).runSingle().map(_.getOrElse(0))
+    """.decode(_.required[Long]("count")).runSingle().map(_.getOrElse(0))
   }
 
   def getArticlesByPage(pageSize: Int, offset: Int)(using DBSession): Try[Seq[Article]] = {
@@ -198,7 +193,7 @@ class ArticleRepository(using dbArticle: DBArticle) extends StrictLogging {
       order by ${ar.id}
       offset $offset
       limit $pageSize
-    """.map(dbArticle.Article.fromResultSet(ar)).runList().map(_.toArticles)
+    """.decode(dbArticle.Article.fromResultSet(ar)).runList().map(_.toArticles)
   }
 
   def getTags(input: String, pageSize: Int, offset: Int, language: String)(implicit
@@ -218,7 +213,7 @@ class ArticleRepository(using dbArticle: DBArticle) extends StrictLogging {
       where sorted_tags.tags ilike ${sanitizedInput + '%'}
       offset $offset
       limit $pageSize
-    """.map(rs => rs.string("tags")).runList()
+    """.decode(_.required[String]("tags")).runList()
 
     val triedTagsCount = tsql"""
       select count(*) from
@@ -226,7 +221,7 @@ class ArticleRepository(using dbArticle: DBArticle) extends StrictLogging {
       (select JSONB_ARRAY_ELEMENTS(document#>'{tags}') tagObj from ${dbArticle.Article.table}) _
       where tagObj->>'language' like  $langOrAll) all_tags
       where all_tags.tags ilike ${sanitizedInput + '%'};
-    """.map(rs => rs.int("count")).runSingle()
+    """.decode(_.required[Int]("count")).runSingle()
 
     for {
       tags           <- triedTags
@@ -236,9 +231,7 @@ class ArticleRepository(using dbArticle: DBArticle) extends StrictLogging {
 
   def minMaxId(using DBSession): Try[(Long, Long)] = {
     tsql"select coalesce(MIN(article_id),0) as mi, coalesce(MAX(article_id),0) as ma from ${dbArticle.Article.table}"
-      .map(rs => {
-        (rs.long("mi"), rs.long("ma"))
-      })
+      .decode(row => (row.required[Long]("mi"), row.required[Long]("ma")).tupled)
       .runSingle() match {
       case Success(Some(minmax)) => Success(minmax)
       case Success(None)         => Success((0L, 0L))
@@ -261,14 +254,14 @@ class ArticleRepository(using dbArticle: DBArticle) extends StrictLogging {
           where b.article_id = a.article_id
           and b.revision > a.revision
         )
-    """.map(dbArticle.Article.fromResultSet(article)).runList().map(_.toArticles)
+    """.decode(dbArticle.Article.fromResultSet(article)).runList().map(_.toArticles)
   }
 
   private def articlesWhere(whereClause: SQLSyntax)(using session: DBSession): Try[List[ArticleRow]] = {
     val ar = dbArticle.Article.syntax("ar");
     tsql"""
     select ${ar.result.*} from ${dbArticle.Article.as(ar)} where ar.document is not NULL and $whereClause
-    """.map(dbArticle.Article.fromResultSet(ar)).runList()
+    """.decode(dbArticle.Article.fromResultSet(ar)).runList()
   }
 
   private def articleWhere(whereClause: SQLSyntax)(using DBSession): Try[Option[ArticleRow]] = {
@@ -277,7 +270,7 @@ class ArticleRepository(using dbArticle: DBArticle) extends StrictLogging {
       select ${ar.result.*}
       from ${dbArticle.Article.as(ar)}
       where $whereClause
-    """.map(dbArticle.Article.fromResultSet(ar)).runSingle()
+    """.decode(dbArticle.Article.fromResultSet(ar)).runSingle()
   }
 
   def getArticleIdsFromExternalId(externalId: String)(using DBSession): Try[Option[ArticleIds]] = {
@@ -287,7 +280,7 @@ class ArticleRepository(using dbArticle: DBArticle) extends StrictLogging {
       from ${dbArticle.Article.as(ar)}
       where $externalId=ANY(ar.external_id)
       and ar.document is not NULL
-    """.map(rs => ArticleIds(rs.long("article_id"), externalIdsFromResultSet(rs))).runSingle()
+    """.decode(articleIdsFromRow).runSingle()
   }
 
   def slugExists(slug: String, articleId: Option[Long])(using DBSession): Try[Boolean] = {
@@ -297,6 +290,6 @@ class ArticleRepository(using dbArticle: DBArticle) extends StrictLogging {
         tsql"select count(*) from ${dbArticle.Article.table} where slug = ${slug.toLowerCase} and article_id != $id"
     }
 
-    existingSlugCountSql.map(rs => rs.long("count")).runSingle().map(_.getOrElse(0L) > 0L)
+    existingSlugCountSql.decode(_.required[Long]("count")).runSingle().map(_.getOrElse(0L) > 0L)
   }
 }

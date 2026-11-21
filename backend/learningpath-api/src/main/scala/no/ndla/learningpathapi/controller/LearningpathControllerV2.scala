@@ -413,7 +413,7 @@ class LearningpathControllerV2(using
     .errorOut(errorOutputsFor(401, 403, 404))
     .withRequiredMyNDLAUserOrTokenUser
     .serverLogicPure { user => _ =>
-      readService.withOwnerV2(user, props.DefaultLanguage, true).asRight
+      readService.withOwnerV2(user, props.DefaultLanguage, true).handleErrorsOrOk
     }
 
   def getLicenses: ServerEndpoint[Any, Eff] = endpoint
@@ -713,11 +713,15 @@ class LearningpathControllerV2(using
     .out(jsonBody[LearningPathTagsSummaryDTO])
     .errorOut(errorOutputsFor(500))
     .serverLogicPure { case (language, fallback) =>
-      val allTags = readService.tags
-      converterService.asApiLearningPathTagsSummary(allTags, language.code, fallback) match {
-        case Some(s) => s.asRight
-        case None    => notFoundWithMsg(s"Tags with language '$language' not found").asLeft
-      }
+      readService
+        .tags
+        .handleErrorsOrOk
+        .flatMap(allTags =>
+          converterService.asApiLearningPathTagsSummary(allTags, language.code, fallback) match {
+            case Some(s) => s.asRight
+            case None    => notFoundWithMsg(s"Tags with language '$language' not found").asLeft
+          }
+        )
     }
 
   private def getContributors: ServerEndpoint[Any, Eff] = endpoint
@@ -728,7 +732,7 @@ class LearningpathControllerV2(using
     .out(jsonBody[List[AuthorDTO]])
     .errorOut(errorOutputsFor())
     .serverLogicPure { _ =>
-      readService.contributors.asRight
+      readService.contributors.handleErrorsOrOk
     }
 
   private def updateLearningPathTaxonomy(): ServerEndpoint[Any, Eff] = endpoint

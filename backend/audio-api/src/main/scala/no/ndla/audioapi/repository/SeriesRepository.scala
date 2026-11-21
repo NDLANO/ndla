@@ -19,7 +19,7 @@ import no.ndla.common.CirceUtil
 import no.ndla.common.model.NDLADate
 import no.ndla.network.tapir.ErrorHelpers
 import no.ndla.database.implicits.*
-import no.ndla.database.DBUtility
+import no.ndla.database.{DBUtility, OptionalRow}
 
 import scala.util.{Failure, Success, Try}
 
@@ -93,7 +93,7 @@ class SeriesRepository(using
 
   override def minMaxId(implicit session: DBSession = dbUtility.readOnlySession): Try[(Long, Long)] = {
     tsql"select coalesce(MIN(id),0) as mi, coalesce(MAX(id),0) as ma from ${dbSeries.table}"
-      .map(rs => (rs.long("mi"), rs.long("ma")))
+      .decode(row => (row.required[Long]("mi"), row.required[Long]("ma")).tupled)
       .runSingle()
       .map(_.getOrElse((0L, 0L)))
   }
@@ -111,7 +111,7 @@ class SeriesRepository(using
            select ${se.result.*}
            from ${dbSeries.as(se)}
            where $whereClause
-           """.map(Series.fromResultSet(se.resultName)).runSingle().map(_.sequence).flatten
+           """.decode(Series.fromResultSet(se.resultName)).runSingle()
   }
 
   private def serieWhere(
@@ -127,11 +127,9 @@ class SeriesRepository(using
            where $whereClause
            """
       .one(Series.fromResultSet(se.resultName))
-      .toMany(AudioMetaInformation.fromResultSetOpt(au.resultName))
-      .map { (series, audios) =>
-        series.map(_.copy(episodes = Some(audios.sortBy(_.created)(using Ordering[NDLADate].reverse).toSeq)))
-      }
-      .runSingleFlat()
+      .toMany(episodes(au))
+      .map((series, audios) => series.copy(episodes = Some(audios.sortBy(_.created)(using Ordering[NDLADate].reverse))))
+      .runSingle()
   }
 
   private def seriesWhere(
@@ -147,11 +145,12 @@ class SeriesRepository(using
            where $whereClause
            """
       .one(Series.fromResultSet(se.resultName))
-      .toMany(AudioMetaInformation.fromResultSetOpt(au.resultName))
-      .map { (series, audios) =>
-        series.map(_.copy(episodes = Some(audios.toSeq)))
-      }
-      .runListFlat()
+      .toMany(episodes(au))
+      .map((series, audios) => series.copy(episodes = Some(audios)))
+      .runList()
   }
+
+  private def episodes(au: SyntaxProvider[AudioMetaInformation]): OptionalRow[AudioMetaInformation] = OptionalRow
+    .presentWhen(au.resultName.c("id"))(AudioMetaInformation.fromResultSet(au.resultName))
 
 }

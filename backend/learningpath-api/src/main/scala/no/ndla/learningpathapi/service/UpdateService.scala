@@ -76,16 +76,15 @@ class UpdateService(using
       newLearningPath: NewCopyLearningPathV2DTO,
       owner: CombinedUser,
   ): Try[LearningPathV2DTO] = writeOrAccessDenied(owner.canWrite) {
-    learningPathRepository.withId(id).map(_.isOwnerOrPublic(owner)) match {
-      case None                    => Failure(NotFoundException("Could not find learningpath to copy."))
-      case Some(Failure(ex))       => Failure(ex)
-      case Some(Success(existing)) => for {
-          toInsert  <- converterService.newFromExistingLearningPath(existing, newLearningPath, owner)
-          validated <- learningPathValidator.validate(toInsert, allowUnknownLanguage = true)
-          inserted  <- learningPathRepository.insert(validated)
-          converted <- converterService.asApiLearningpathV2(inserted, newLearningPath.language, fallback = true, owner)
-        } yield converted
-    }
+    for {
+      maybeExisting <- learningPathRepository.withId(id)
+      found         <- maybeExisting.toTry(NotFoundException("Could not find learningpath to copy."))
+      existing      <- found.isOwnerOrPublic(owner)
+      toInsert      <- converterService.newFromExistingLearningPath(existing, newLearningPath, owner)
+      validated     <- learningPathValidator.validate(toInsert, allowUnknownLanguage = true)
+      inserted      <- learningPathRepository.insert(validated)
+      converted     <- converterService.asApiLearningpathV2(inserted, newLearningPath.language, fallback = true, owner)
+    } yield converted
   }
 
   def addLearningPathV2(newLearningPath: NewLearningPathV2DTO, owner: CombinedUserRequired): Try[LearningPathV2DTO] =
@@ -120,7 +119,7 @@ class UpdateService(using
       // Imported learningpaths may contain fields with language=unknown.
       // We should still be able to update it, but not add new fields with language=unknown.
       validatedMergedPath <- learningPathValidator.validate(mergedPath, allowUnknownLanguage = true)
-      updatedLearningPath <- Try(learningPathRepository.update(validatedMergedPath))
+      updatedLearningPath <- learningPathRepository.update(validatedMergedPath)
       _                   <- updateSearchAndTaxonomy(updatedLearningPath, owner.tokenUser)
       converted           <- converterService.asApiLearningpathV2(
         updatedLearningPath.withOnlyActiveSteps,
@@ -145,7 +144,7 @@ class UpdateService(using
           .traverse(step => deleteLanguageFromStep(step, language, learningPath))
         withUpdatedSteps    <- Try(converterService.insertLearningSteps(learningPath, updatedSteps))
         withDeletedLanguage <- converterService.deleteLearningPathLanguage(withUpdatedSteps, language)
-        updatedPath         <- Try(learningPathRepository.update(withDeletedLanguage))
+        updatedPath         <- learningPathRepository.update(withDeletedLanguage)
         _                   <- updateSearchAndTaxonomy(updatedPath, owner.tokenUser)
         converted           <- converterService.asApiLearningpathV2(
           withDeletedLanguage.withOnlyActiveSteps,
@@ -168,10 +167,10 @@ class UpdateService(using
         learningPath <- withId(learningPathId).flatMap(_.canEditLearningPath(owner))
         learningStep <- learningPathRepository
           .learningStepWithId(learningPathId, stepId)
-          .toTry(NotFoundException(s"Could not find learningpath with id '$learningPathId'."))
+          .flatMap(_.toTry(NotFoundException(s"Could not find learningpath with id '$learningPathId'.")))
         updatedStep  <- deleteLanguageFromStep(learningStep, language, learningPath)
         pathToUpdate <- Try(converterService.insertLearningStep(learningPath, updatedStep))
-        updatedPath  <- Try(learningPathRepository.update(pathToUpdate))
+        updatedPath  <- learningPathRepository.update(pathToUpdate)
         _            <- updateSearchAndTaxonomy(updatedPath, owner.tokenUser)
         converted    <- converterService.asApiLearningStepV2(
           updatedStep,
@@ -199,14 +198,20 @@ class UpdateService(using
     val indexPath = learningPath.withOnlyActiveSteps
     val sRes      = searchIndexService.indexDocument(indexPath)
 
-    if (learningPath.isDeleted) {
-      deleteIsBasedOnReference(learningPath): Unit
-      searchApiClient.deleteLearningPathDocument(learningPath.id.get, user): Unit
-    } else {
-      searchApiClient.indexLearningPathDocument(indexPath, user): Unit
-    }
+    val searchApiRes =
+      if (learningPath.isDeleted) {
+        deleteIsBasedOnReference(learningPath).map(_ =>
+          searchApiClient.deleteLearningPathDocument(learningPath.id.get, user): Unit
+        )
+      } else {
+        Success(searchApiClient.indexLearningPathDocument(indexPath, user): Unit)
+      }
 
-    sRes.flatMap(lp => taxonomyApiClient.updateTaxonomyForLearningPath(lp, createResourceIfMissing = false, user))
+    for {
+      _       <- searchApiRes
+      lp      <- sRes
+      updated <- taxonomyApiClient.updateTaxonomyForLearningPath(lp, createResourceIfMissing = false, user)
+    } yield updated
   }
 
   def updateLearningPathStatusV2(
@@ -241,27 +246,28 @@ class UpdateService(using
           val toUpdateWith =
             valid.copy(message = newMessage, status = status, lastUpdated = clock.now(), madeAvailable = madeAvailable)
 
-          val updatedLearningPath = learningPathRepository.update(toUpdateWith)
-
-          updateSearchAndTaxonomy(updatedLearningPath, owner.tokenUser).flatMap(_ =>
-            converterService.asApiLearningpathV2(
-              updatedLearningPath.withOnlyActiveSteps,
-              language,
-              fallback = true,
-              owner,
+          learningPathRepository
+            .update(toUpdateWith)
+            .flatMap(updatedLearningPath =>
+              updateSearchAndTaxonomy(updatedLearningPath, owner.tokenUser).flatMap(_ =>
+                converterService.asApiLearningpathV2(
+                  updatedLearningPath.withOnlyActiveSteps,
+                  language,
+                  fallback = true,
+                  owner,
+                )
+              )
             )
-          )
 
         })
       }
   }
 
-  private[service] def deleteIsBasedOnReference(updatedLearningPath: LearningPath): Unit = {
+  private[service] def deleteIsBasedOnReference(updatedLearningPath: LearningPath): Try[Unit] = {
     learningPathRepository
       .learningPathsWithIsBasedOnRaw(updatedLearningPath.id.get)
-      .foreach(lp => {
-        learningPathRepository.update(lp.copy(lastUpdated = clock.now(), isBasedOn = None))
-      })
+      .flatMap(_.traverse(lp => learningPathRepository.update(lp.copy(lastUpdated = clock.now(), isBasedOn = None))))
+      .unit
   }
 
   def addLearningStepV2(
@@ -285,26 +291,27 @@ class UpdateService(using
 
           validated match {
             case Failure(ex)      => Failure(ex)
-            case Success(newStep) =>
-              val (newStepWithIdAndRevision, updatedPath) = learningPathRepository.inTransaction { implicit session =>
-                val generatedId              = Some(learningPathRepository.generateStepId())
-                val newStepWithIdAndRevision =
-                  newStep.copy(id = generatedId, learningPathId = learningPath.id, revision = Some(1))
-                val toUpdate    = converterService.insertLearningStep(learningPath, newStepWithIdAndRevision)
-                val updatedPath = learningPathRepository.update(toUpdate)
-
-                (newStepWithIdAndRevision, updatedPath)
-              }
-
-              updateSearchAndTaxonomy(updatedPath, owner.tokenUser).flatMap(_ =>
-                converterService.asApiLearningStepV2(
-                  newStepWithIdAndRevision,
-                  updatedPath,
-                  newLearningStep.language,
-                  fallback = true,
-                  owner,
-                )
-              )
+            case Success(newStep) => learningPathRepository
+                .inTransaction { implicit session =>
+                  for {
+                    generatedId             <- learningPathRepository.generateStepId()
+                    newStepWithIdAndRevision =
+                      newStep.copy(id = Some(generatedId), learningPathId = learningPath.id, revision = Some(1))
+                    toUpdate     = converterService.insertLearningStep(learningPath, newStepWithIdAndRevision)
+                    updatedPath <- learningPathRepository.update(toUpdate)
+                  } yield (newStepWithIdAndRevision, updatedPath)
+                }
+                .flatMap { case (newStepWithIdAndRevision, updatedPath) =>
+                  updateSearchAndTaxonomy(updatedPath, owner.tokenUser).flatMap(_ =>
+                    converterService.asApiLearningStepV2(
+                      newStepWithIdAndRevision,
+                      updatedPath,
+                      newLearningStep.language,
+                      fallback = true,
+                      owner,
+                    )
+                  )
+                }
           }
       }
     }
@@ -321,7 +328,7 @@ class UpdateService(using
         withId(learningPathId).flatMap(_.canEditLearningPath(owner)) match {
           case Failure(ex)           => Failure(ex)
           case Success(learningPath) =>
-            learningPathRepository.learningStepWithId(learningPathId, learningStepId) match {
+            learningPathRepository.learningStepWithId(learningPathId, learningStepId).? match {
               case None => Failure(
                   NotFoundException(
                     s"Could not find learningstep with id '$learningStepId' to update with learningpath id '$learningPathId'."
@@ -345,10 +352,12 @@ class UpdateService(using
                 validated match {
                   case Failure(ex)       => Failure(ex)
                   case Success(toUpdate) =>
-                    val updatedPath = learningPathRepository.inTransaction { implicit session =>
-                      val pathToUpdate = converterService.insertLearningStep(learningPath, toUpdate)
-                      learningPathRepository.update(pathToUpdate)
-                    }
+                    val updatedPath = learningPathRepository
+                      .inTransaction { implicit session =>
+                        val pathToUpdate = converterService.insertLearningStep(learningPath, toUpdate)
+                        learningPathRepository.update(pathToUpdate)
+                      }
+                      .?
 
                     updateSearchAndTaxonomy(updatedPath, owner.tokenUser).flatMap(_ =>
                       converterService.asApiLearningStepV2(
@@ -373,7 +382,7 @@ class UpdateService(using
       learningPath: LearningPath,
       stepToUpdate: LearningStep,
       stepsToChange: Seq[LearningStep],
-  ): (LearningPath, LearningStep) = learningPathRepository.inTransaction { implicit session =>
+  ): Try[(LearningPath, LearningStep)] = learningPathRepository.inTransaction { implicit session =>
     val (_, maybeUpdatedStep, newLearningSteps) = stepsToChange
       .sortBy(_.seqNo)
       .foldLeft((0, Option.empty[LearningStep], Seq.empty[LearningStep])) { case ((seqNo, foundStep, steps), curr) =>
@@ -395,8 +404,7 @@ class UpdateService(using
 
     val updatedStep = maybeUpdatedStep.getOrElse(stepToUpdate)
     val lp          = converterService.insertLearningSteps(learningPath, newLearningSteps)
-    val updatedPath = learningPathRepository.update(lp)
-    (updatedPath, updatedStep)
+    learningPathRepository.update(lp).map(updatedPath => (updatedPath, updatedStep))
   }
 
   def updateLearningStepStatusV2(
@@ -409,8 +417,11 @@ class UpdateService(using
       withId(learningPathId).flatMap(_.canEditLearningPath(owner)) match {
         case Failure(ex)           => Failure(ex)
         case Success(learningPath) =>
-          val stepsToChange = learningPathRepository.learningStepsFor(learningPathId)
-          val stepToUpdate  = stepsToChange.find(_.id.contains(learningStepId)) match {
+          val stepsToChange = learningPathRepository.learningStepsFor(learningPathId) match {
+            case Success(steps) => steps
+            case Failure(ex)    => boundary.break(Failure(ex))
+          }
+          val stepToUpdate = stepsToChange.find(_.id.contains(learningStepId)) match {
             case Some(ls) if ls.status == DELETED && newStatus == DELETED =>
               val msg = s"Learningstep with id $learningStepId for learningpath with id $learningPathId not found"
               boundary.break(Failure(NotFoundException(msg)))
@@ -420,18 +431,17 @@ class UpdateService(using
             case Some(ls) => ls
           }
 
-          val (updatedPath, updatedStep) =
-            updateWithStepSeqNo(learningStepId, newStatus, learningPath, stepToUpdate, stepsToChange)
-
-          updateSearchAndTaxonomy(updatedPath, owner.tokenUser).flatMap(_ =>
-            converterService.asApiLearningStepV2(
-              updatedStep,
-              updatedPath,
-              props.DefaultLanguage,
-              fallback = true,
-              owner,
-            )
-          )
+          updateWithStepSeqNo(learningStepId, newStatus, learningPath, stepToUpdate, stepsToChange).flatMap {
+            case (updatedPath, updatedStep) => updateSearchAndTaxonomy(updatedPath, owner.tokenUser).flatMap(_ =>
+                converterService.asApiLearningStepV2(
+                  updatedStep,
+                  updatedPath,
+                  props.DefaultLanguage,
+                  fallback = true,
+                  owner,
+                )
+              )
+          }
       }
     }
   }
@@ -448,10 +458,11 @@ class UpdateService(using
           case Failure(ex)           => Failure(ex)
           case Success(learningPath) =>
             learningPathRepository.learningStepWithId(learningPathId, learningStepId) match {
-              case None => Failure(
+              case Failure(ex)   => Failure(ex)
+              case Success(None) => Failure(
                   NotFoundException(s"LearningStep with id $learningStepId in learningPath $learningPathId not found")
                 )
-              case Some(learningStep) =>
+              case Success(Some(learningStep)) =>
                 val activeLearningPath = learningPath.withOnlyActiveSteps
                 activeLearningPath.validateSeqNo(seqNo)
 
@@ -478,11 +489,11 @@ class UpdateService(using
                     }
                   }
 
-                val _ = learningPathRepository.inTransaction { implicit session =>
-                  learningPathRepository.update(learningPath.copy(learningsteps = updatedSteps, lastUpdated = now))
-                }
-
-                Success(LearningStepSeqNoDTO(seqNo))
+                learningPathRepository
+                  .inTransaction { implicit session =>
+                    learningPathRepository.update(learningPath.copy(learningsteps = updatedSteps, lastUpdated = now))
+                  }
+                  .map(_ => LearningStepSeqNoDTO(seqNo))
             }
         }
       }
@@ -498,7 +509,7 @@ class UpdateService(using
       if (includeDeleted) learningPathRepository.withIdWithInactiveSteps(learningPathId, includeDeleted = true)
       else learningPathRepository.withIdWithInactiveSteps(learningPathId)
 
-    lpOpt match {
+    lpOpt.flatMap {
       case Some(learningPath) => Success(learningPath)
       case None               => Failure(NotFoundException(s"Could not find learningpath with id '$learningPathId'."))
     }
@@ -521,14 +532,10 @@ class UpdateService(using
   }
 
   @tailrec
-  private def optimisticLockRetries[T](n: Int)(fn: => T): T = {
-    try {
-      fn
-    } catch {
-      case ole: OptimisticLockException =>
-        if (n > 1) optimisticLockRetries(n - 1)(fn)
-        else throw ole
-      case t: Throwable => throw t
+  private def optimisticLockRetries[T](n: Int)(fn: => Try[T]): Try[T] = {
+    fn match {
+      case Failure(_: OptimisticLockException) if n > 1 => optimisticLockRetries(n - 1)(fn)
+      case result                                       => result
     }
   }
 }

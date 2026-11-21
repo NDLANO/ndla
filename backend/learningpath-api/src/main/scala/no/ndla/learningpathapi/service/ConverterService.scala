@@ -684,27 +684,29 @@ class ConverterService(using
       learningPath: LearningPath,
       language: String,
       fallback: Boolean,
-  ): Try[api.LearningStepContainerSummaryDTO] = {
-    val learningSteps      = learningPathRepository.learningStepsFor(learningPath.id.get).filter(_.status == status)
-    val supportedLanguages = learningSteps.flatMap(_.title).map(_.language).distinct
+  ): Try[api.LearningStepContainerSummaryDTO] = learningPathRepository
+    .learningStepsFor(learningPath.id.get)
+    .flatMap { allLearningSteps =>
+      val learningSteps      = allLearningSteps.filter(_.status == status)
+      val supportedLanguages = learningSteps.flatMap(_.title).map(_.language).distinct
 
-    if ((languageIsSupported(supportedLanguages, language) || fallback) && learningSteps.nonEmpty) {
-      val searchLanguage =
-        if (supportedLanguages.contains(language) || language == AllLanguages)
-          getSearchLanguage(language, supportedLanguages)
-        else language
+      if ((languageIsSupported(supportedLanguages, language) || fallback) && learningSteps.nonEmpty) {
+        val searchLanguage =
+          if (supportedLanguages.contains(language) || language == AllLanguages)
+            getSearchLanguage(language, supportedLanguages)
+          else language
 
-      Success(
-        api.LearningStepContainerSummaryDTO(
-          searchLanguage,
-          learningSteps.flatMap(ls => asApiLearningStepSummaryV2(ls, learningPath, searchLanguage)).sortBy(_.seqNo),
-          supportedLanguages,
+        Success(
+          api.LearningStepContainerSummaryDTO(
+            searchLanguage,
+            learningSteps.flatMap(ls => asApiLearningStepSummaryV2(ls, learningPath, searchLanguage)).sortBy(_.seqNo),
+            supportedLanguages,
+          )
         )
+      } else Failure(
+        NotFoundException(s"Learningpath with id ${learningPath.id.getOrElse(-1)} and language $language not found")
       )
-    } else Failure(
-      NotFoundException(s"Learningpath with id ${learningPath.id.getOrElse(-1)} and language $language not found")
-    )
-  }
+    }
 
   def asApiLearningPathTagsSummary(
       allTags: List[api.LearningPathTagsDTO],

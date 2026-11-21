@@ -10,10 +10,12 @@ package no.ndla.draftapi.model.domain
 
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
-import no.ndla.common.CirceUtil
+import no.ndla.database.{ColumnDecoder, Row}
 import no.ndla.draftapi.Props
 import no.ndla.draftapi.model.api.SavedSearchDTO
 import scalikejdbc.*
+
+import scala.util.Try
 
 case class UserData(
     id: Option[Long],
@@ -29,12 +31,12 @@ object UserData {
   implicit val encoder: Encoder[UserData] = deriveEncoder
   implicit val decoder: Decoder[UserData] = deriveDecoder
 
-  def fromResultSet(ud: SyntaxProvider[UserData])(rs: WrappedResultSet): UserData = fromResultSet(ud.resultName)(rs)
+  def fromResultSet(ud: SyntaxProvider[UserData])(row: Row): Try[UserData] = fromResultSet(ud.resultName)(row)
 
-  def fromResultSet(ud: ResultName[UserData])(rs: WrappedResultSet): UserData = {
-    val userData = CirceUtil.unsafeParseAs[UserData](rs.string(ud.c("document")))
-    userData.copy(id = Some(rs.long(ud.c("id"))))
-  }
+  def fromResultSet(ud: ResultName[UserData])(row: Row): Try[UserData] = for {
+    userData <- row.required[UserData](ud.c("document"))(using ColumnDecoder.json)
+    id       <- row.required[Long](ud.c("id"))
+  } yield userData.copy(id = Some(id))
 }
 
 class DBUserData(using props: Props) extends SQLSyntaxSupport[UserData] {

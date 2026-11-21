@@ -9,6 +9,7 @@
 package no.ndla.database
 
 import cats.implicits.*
+import no.ndla.database.implicits.*
 import org.flywaydb.core.api.migration.{BaseJavaMigration, Context}
 import scalikejdbc.*
 
@@ -24,7 +25,7 @@ abstract class TableMigration[ROW_DATA] extends BaseJavaMigration {
   val tableName: String
   lazy val whereClause: SQLSyntax
   val chunkSize: Int = 1000
-  def extractRowData(rs: WrappedResultSet): ROW_DATA
+  def extractRowData(row: Row): Try[ROW_DATA]
   def updateRow(rowData: ROW_DATA)(implicit session: DBSession): Int
   lazy val tableNameSQL: SQLSyntax = SQLSyntax.createUnsafely(tableName)
   val tableIdType: TableIdType     = TableIdType.Bigint
@@ -60,9 +61,8 @@ abstract class TableMigration[ROW_DATA] extends BaseJavaMigration {
   private def getRowChunk(
       lastId: tableIdType.ScalaType
   )(implicit session: DBSession): Try[Seq[(tableIdType.ScalaType, ROW_DATA)]] = {
-    sql"select * from $tableNameSQL where $whereClause and id > $lastId order by id limit $chunkSize"
-      .map(rs => tableIdType.fromResultSet(rs).map(id => (id, extractRowData(rs))))
-      .list()
-      .sequence
+    tsql"select * from $tableNameSQL where $whereClause and id > $lastId order by id limit $chunkSize"
+      .decode(row => (tableIdType.fromResultSet(row), extractRowData(row)).tupled)
+      .runList()
   }
 }

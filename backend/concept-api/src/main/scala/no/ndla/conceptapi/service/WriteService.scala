@@ -44,7 +44,7 @@ class WriteService(using
     for {
       concept           = converterService.toDomainConcept(newConcept, user)
       _                <- contentValidator.validateConcept(concept)
-      persistedConcept <- Try(draftConceptRepository.insert(concept))
+      persistedConcept <- draftConceptRepository.insert(concept)
       _                 = indexConcept(persistedConcept, user)
       apiC             <- converterService.toApiConcept(persistedConcept, newConcept.language, fallback = true, Some(user))
     } yield apiC
@@ -132,64 +132,75 @@ class WriteService(using
   }
 
   def updateConcept(id: Long, updatedConcept: api.UpdatedConceptDTO, user: TokenUser): Try[api.ConceptDTO] = {
-    draftConceptRepository.withId(id) match {
-      case Some(existingConcept) => for {
-          domainConcept = converterService.toDomainConcept(existingConcept, updatedConcept, user)
-          withStatus   <- updateStatusIfNeeded(existingConcept, domainConcept, updatedConcept.status, user)
-          withNotes     = updateNotes(existingConcept, updatedConcept, withStatus, user)
-          updated      <- updateConcept(withNotes, user)
-          converted    <- converterService.toApiConcept(updated, updatedConcept.language, fallback = true, Some(user))
-        } yield converted
+    draftConceptRepository
+      .withId(id)
+      .flatMap {
+        case Some(existingConcept) => for {
+            domainConcept = converterService.toDomainConcept(existingConcept, updatedConcept, user)
+            withStatus   <- updateStatusIfNeeded(existingConcept, domainConcept, updatedConcept.status, user)
+            withNotes     = updateNotes(existingConcept, updatedConcept, withStatus, user)
+            updated      <- updateConcept(withNotes, user)
+            converted    <- converterService.toApiConcept(updated, updatedConcept.language, fallback = true, Some(user))
+          } yield converted
 
-      case None if draftConceptRepository.exists(id) =>
-        val concept = converterService.toDomainConcept(id, updatedConcept, user)
-        for {
-          updated   <- updateConcept(concept, user)
-          converted <- converterService.toApiConcept(updated, updatedConcept.language, fallback = true, Some(user))
-        } yield converted
-      case None => Failure(NotFoundException(s"Concept with id $id does not exist"))
-    }
+        case None => draftConceptRepository
+            .exists(id)
+            .flatMap {
+              case true =>
+                val concept = converterService.toDomainConcept(id, updatedConcept, user)
+                for {
+                  updated   <- updateConcept(concept, user)
+                  converted <-
+                    converterService.toApiConcept(updated, updatedConcept.language, fallback = true, Some(user))
+                } yield converted
+              case false => Failure(NotFoundException(s"Concept with id $id does not exist"))
+            }
+      }
   }
 
   def deleteLanguage(id: Long, language: String, user: TokenUser): Try[api.ConceptDTO] = {
-    draftConceptRepository.withId(id) match {
-      case Some(existingConcept) => existingConcept.title.size match {
-          case 1 => Failure(OperationNotAllowedException("Only one language left"))
-          case _ =>
-            val title         = existingConcept.title.filter(_.language != language)
-            val content       = existingConcept.content.filter(_.language != language)
-            val tags          = existingConcept.tags.filter(_.language != language)
-            val visualElement = existingConcept.visualElement.filter(_.language != language)
+    draftConceptRepository
+      .withId(id)
+      .flatMap {
+        case Some(existingConcept) => existingConcept.title.size match {
+            case 1 => Failure(OperationNotAllowedException("Only one language left"))
+            case _ =>
+              val title         = existingConcept.title.filter(_.language != language)
+              val content       = existingConcept.content.filter(_.language != language)
+              val tags          = existingConcept.tags.filter(_.language != language)
+              val visualElement = existingConcept.visualElement.filter(_.language != language)
 
-            val newConcept =
-              existingConcept.copy(title = title, content = content, tags = tags, visualElement = visualElement)
+              val newConcept =
+                existingConcept.copy(title = title, content = content, tags = tags, visualElement = visualElement)
 
-            for {
-              withStatus             <- updateStatusIfNeeded(existingConcept, newConcept, None, user)
-              conceptWithUpdatedNotes = withStatus.copy(editorNotes =
-                withStatus.editorNotes ++
-                  Seq(ConceptEditorNote(s"Deleted language '$language'.", user.id, withStatus.status, clock.now()))
-              )
-              updated   <- updateConcept(conceptWithUpdatedNotes, user)
-              converted <- converterService.toApiConcept(updated, Language.AllLanguages, fallback = false, Some(user))
-            } yield converted
-        }
-      case None => Failure(NotFoundException("Concept does not exist"))
-    }
+              for {
+                withStatus             <- updateStatusIfNeeded(existingConcept, newConcept, None, user)
+                conceptWithUpdatedNotes = withStatus.copy(editorNotes =
+                  withStatus.editorNotes ++
+                    Seq(ConceptEditorNote(s"Deleted language '$language'.", user.id, withStatus.status, clock.now()))
+                )
+                updated   <- updateConcept(conceptWithUpdatedNotes, user)
+                converted <- converterService.toApiConcept(updated, Language.AllLanguages, fallback = false, Some(user))
+              } yield converted
+          }
+        case None => Failure(NotFoundException("Concept does not exist"))
+      }
 
   }
 
   def updateConceptStatus(status: ConceptStatus, id: Long, user: TokenUser): Try[api.ConceptDTO] = {
-    draftConceptRepository.withId(id) match {
-      case None        => Failure(NotFoundException(s"No article with id $id was found"))
-      case Some(draft) => for {
-          convertedConcept <- stateTransitionRules.doTransition(draft, status, user)
-          updatedConcept   <- updateConcept(convertedConcept, user)
-          _                <- draftConceptIndexService.indexDocument(updatedConcept)
-          apiConcept       <-
-            converterService.toApiConcept(updatedConcept, Language.AllLanguages, fallback = true, Some(user))
-        } yield apiConcept
-    }
+    draftConceptRepository
+      .withId(id)
+      .flatMap {
+        case None        => Failure(NotFoundException(s"No article with id $id was found"))
+        case Some(draft) => for {
+            convertedConcept <- stateTransitionRules.doTransition(draft, status, user)
+            updatedConcept   <- updateConcept(convertedConcept, user)
+            _                <- draftConceptIndexService.indexDocument(updatedConcept)
+            apiConcept       <-
+              converterService.toApiConcept(updatedConcept, Language.AllLanguages, fallback = true, Some(user))
+          } yield apiConcept
+      }
   }
 
   def publishConcept(concept: DomainConcept): Try[DomainConcept] = {

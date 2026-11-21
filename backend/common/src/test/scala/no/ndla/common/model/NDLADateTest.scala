@@ -13,6 +13,7 @@ import no.ndla.common.TestEnvironment
 import no.ndla.common.model.NDLADate.fromTimestampSeconds
 import no.ndla.common.model.domain.draft.NestedOptionalDate
 import no.ndla.database.DataSource
+import no.ndla.database.implicits.*
 import no.ndla.scalatestsuite.{DatabaseIntegrationSuite, UnitTestSuite}
 import scalikejdbc.*
 
@@ -163,7 +164,7 @@ class NDLADateTest extends DatabaseIntegrationSuite, UnitTestSuite, TestEnvironm
     result should be(expectedObject)
   }
 
-  test("that timestamptz binder works") {
+  test("that timestamptz is written and decoded correctly") {
     val date = NDLADate.fromString("2023-08-03T06:01:31.000Z").get
 
     DB.autoCommit { implicit session =>
@@ -176,14 +177,12 @@ class NDLADateTest extends DatabaseIntegrationSuite, UnitTestSuite, TestEnvironm
         .get
       res should be(1)
 
-      val foundDate = sql"select data from test_tz where id = 1".map(_.get[NDLADate]("data")).single().get
-      foundDate should be(date)
+      val foundDate = tsql"select data from test_tz where id = 1".decode(_.required[NDLADate]("data")).runSingle()
+      foundDate should be(Success(Some(date)))
     }
   }
 
-  test(
-    "that reading timestamp without time zone with TypeBinder gives same result as rs.localDateTime and NDLADate.fromUtcDate"
-  ) {
+  test("that decoding timestamp without time zone gives same result as rs.localDateTime and NDLADate.fromUtcDate") {
     val date = NDLADate.fromString("2023-08-03T06:01:31.000Z").get
 
     DB.autoCommit { implicit session =>
@@ -194,13 +193,12 @@ class NDLADateTest extends DatabaseIntegrationSuite, UnitTestSuite, TestEnvironm
         .single()
         .get
 
-      val newReadWithoutTz = sql"select data from test_without_tz where id = 1"
-        .map(rs => rs.get[NDLADate]("data"))
-        .single()
-        .get
+      val newReadWithoutTz = tsql"select data from test_without_tz where id = 1"
+        .decode(_.required[NDLADate]("data"))
+        .runSingle()
 
       oldReadWithoutTz should be(date)
-      newReadWithoutTz should be(date)
+      newReadWithoutTz should be(Success(Some(date)))
     }
   }
 }

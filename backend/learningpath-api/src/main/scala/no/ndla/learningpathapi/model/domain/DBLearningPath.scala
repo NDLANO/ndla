@@ -8,25 +8,23 @@
 
 package no.ndla.learningpathapi.model.domain
 
-import no.ndla.common.CirceUtil
 import no.ndla.common.model.domain.learningpath.LearningPath
+import no.ndla.database.{ColumnDecoder, Row}
 import no.ndla.learningpathapi.Props
 import scalikejdbc.*
+
+import scala.util.Try
 
 class DBLearningPath(using props: Props) extends SQLSyntaxSupport[LearningPath] {
   override def tableName                  = "learningpaths"
   override def schemaName: Option[String] = Some(props.MetaSchema)
 
-  def fromResultSet(lp: SyntaxProvider[LearningPath])(rs: WrappedResultSet): LearningPath =
-    fromResultSet(lp.resultName)(rs)
+  def fromResultSet(lp: SyntaxProvider[LearningPath])(row: Row): Try[LearningPath] = fromResultSet(lp.resultName)(row)
 
-  def fromResultSet(lp: ResultName[LearningPath])(rs: WrappedResultSet): LearningPath = {
-    val jsonStr = rs.string(lp.c("document"))
-    val meta    = CirceUtil.unsafeParseAs[LearningPath](jsonStr)
-    meta.copy(
-      id = Some(rs.long(lp.c("id"))),
-      revision = Some(rs.int(lp.c("revision"))),
-      externalId = rs.stringOpt(lp.c("external_id")),
-    )
-  }
+  def fromResultSet(lp: ResultName[LearningPath])(row: Row): Try[LearningPath] = for {
+    meta       <- row.required[LearningPath](lp.c("document"))(using ColumnDecoder.json)
+    id         <- row.required[Long](lp.c("id"))
+    revision   <- row.required[Int](lp.c("revision"))
+    externalId <- row.optional[String](lp.c("external_id"))
+  } yield meta.copy(id = Some(id), revision = Some(revision), externalId = externalId)
 }

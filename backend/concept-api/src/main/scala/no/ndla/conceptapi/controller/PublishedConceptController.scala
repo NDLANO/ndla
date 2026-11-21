@@ -8,7 +8,6 @@
 
 package no.ndla.conceptapi.controller
 
-import cats.implicits.catsSyntaxEitherId
 import no.ndla.common.model.api.CommaSeparatedList.*
 import no.ndla.common.implicits.*
 import no.ndla.common.model.api.LanguageCode
@@ -242,6 +241,6 @@ class PublishedConceptController(using
     .out(statusCode(StatusCode.Ok).and(jsonBody[List[String]]))
     .errorOut(errorOutputsFor(400, 403, 404))
     .serverLogicPure { case (language, fallback) =>
-      readService.allTagsFromConcepts(language.code, fallback).asRight
+      readService.allTagsFromConcepts(language.code, fallback)
     }
 }

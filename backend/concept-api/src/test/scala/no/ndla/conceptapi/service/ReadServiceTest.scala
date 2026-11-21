@@ -16,6 +16,8 @@ import no.ndla.common.auth.Permission.CONCEPT_API_WRITE
 import no.ndla.network.tapir.auth.TokenUser
 import no.ndla.testbase.NullSafeMockito.{any, when}
 
+import scala.util.Success
+
 class ReadServiceTest extends UnitSuite with TestEnvironment {
   override implicit lazy val converterService: ConverterService = new ConverterService
   val service                                                   = new ReadService()
@@ -24,19 +26,21 @@ class ReadServiceTest extends UnitSuite with TestEnvironment {
   test("Checks that filter by language works as it should") {
 
     when(publishedConceptRepository.everyTagFromEveryConcept).thenReturn(
-      List(
+      Success(
         List(
-          common.Tag(Seq("konge", "bror"), "nb"),
-          common.Tag(Seq("konge", "brur"), "nn"),
-          common.Tag(Seq("king", "bro"), "en"),
-          common.Tag(Seq("zing", "xiongdi"), "zh"),
-        ),
-        List(
-          common.Tag(Seq("konge", "lol", "meme"), "nb"),
-          common.Tag(Seq("konge", "lel", "meem"), "nn"),
-          common.Tag(Seq("king", "lul", "maymay"), "en"),
-          common.Tag(Seq("zing", "kek", "mimi"), "zh"),
-        ),
+          List(
+            common.Tag(Seq("konge", "bror"), "nb"),
+            common.Tag(Seq("konge", "brur"), "nn"),
+            common.Tag(Seq("king", "bro"), "en"),
+            common.Tag(Seq("zing", "xiongdi"), "zh"),
+          ),
+          List(
+            common.Tag(Seq("konge", "lol", "meme"), "nb"),
+            common.Tag(Seq("konge", "lel", "meem"), "nn"),
+            common.Tag(Seq("king", "lul", "maymay"), "en"),
+            common.Tag(Seq("zing", "kek", "mimi"), "zh"),
+          ),
+        )
       )
     )
 
@@ -46,11 +50,11 @@ class ReadServiceTest extends UnitSuite with TestEnvironment {
     val result_zh  = service.allTagsFromConcepts("zh", fallback = false)
     val result_all = service.allTagsFromConcepts("*", fallback = false)
 
-    result_nb should equal(List("konge", "bror", "lol", "meme"))
-    result_nn should equal(List("konge", "brur", "lel", "meem"))
-    result_en should equal(List("king", "bro", "lul", "maymay"))
-    result_zh should equal(List("zing", "xiongdi", "kek", "mimi"))
-    result_all should equal(List("konge", "bror", "lol", "meme"))
+    result_nb should equal(Success(List("konge", "bror", "lol", "meme")))
+    result_nn should equal(Success(List("konge", "brur", "lel", "meem")))
+    result_en should equal(Success(List("king", "bro", "lul", "maymay")))
+    result_zh should equal(Success(List("zing", "xiongdi", "kek", "mimi")))
+    result_all should equal(Success(List("konge", "bror", "lol", "meme")))
   }
 
   test("that visualElement gets url-property added") {
@@ -65,7 +69,7 @@ class ReadServiceTest extends UnitSuite with TestEnvironment {
       ),
     )
     when(publishedConceptRepository.withId(any)).thenReturn(
-      Some(TestData.sampleConcept.copy(visualElement = visualElements))
+      Success(Some(TestData.sampleConcept.copy(visualElement = visualElements)))
     )
     val concept = service.publishedConceptWithId(id = 1L, language = "nb", fallback = true, Some(userInfo))
     concept.get.visualElement.get.visualElement should equal(

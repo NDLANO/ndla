@@ -8,9 +8,11 @@
 
 package no.ndla.myndlaapi.repository
 
+import cats.implicits.*
 import com.typesafe.scalalogging.StrictLogging
 import no.ndla.common.CirceUtil
 import no.ndla.common.errors.NotFoundException
+import no.ndla.common.implicits.toTry
 import no.ndla.common.model.NDLADate
 import no.ndla.common.model.domain.myndla.{MyNDLAUser, MyNDLAUserDocument, UserRole}
 import no.ndla.database.{DBUtility, ReadableDbSession, WriteableDbSession}
@@ -26,7 +28,7 @@ class UserRepository(using dbUtility: DBUtility, dbMyNDLAUser: DBMyNDLAUser) ext
 
   def getUsersPaginated(offset: Long, limit: Long, filterTeachers: Boolean, query: Option[String])(implicit
       session: DBSession
-  ): Try[(Long, List[MyNDLAUser])] = Try {
+  ): Try[(Long, List[MyNDLAUser])] = {
     val u = dbMyNDLAUser.syntax("u")
 
     val teacherClause = Option.when(filterTeachers)(sqls"u.document->>'userRole' = ${UserRole.EMPLOYEE.toString}")
@@ -37,22 +39,21 @@ class UserRepository(using dbUtility: DBUtility, dbMyNDLAUser: DBMyNDLAUser) ext
 
     val whereClause = dbUtility.buildWhereClause((teacherClause ++ queryClause).toSeq)
 
-    val count: Long = tsql"""
+    for {
+      count <- tsql"""
               select count(*)
               from ${dbMyNDLAUser.as(u)}
               $whereClause
-           """.map(rs => rs.long("count")).runSingle().map(_.getOrElse(0L)).get
-
-    val users = tsql"""
+           """.decode(_.required[Long]("count")).runSingle().map(_.getOrElse(0L))
+      users <- tsql"""
            select ${u.result.*}
            from ${dbMyNDLAUser.as(u)}
            $whereClause
            order by ${u.id} asc
            limit $limit
            offset $offset
-           """.map(dbMyNDLAUser.fromResultSet(u)).runList().get
-
-    count -> users
+           """.decode(dbMyNDLAUser.fromResultSet(u)).runList()
+    } yield count -> users
   }
 
   def getSession(readOnly: Boolean): DBSession =
@@ -164,7 +165,7 @@ class UserRepository(using dbUtility: DBUtility, dbMyNDLAUser: DBMyNDLAUser) ext
   private def userWhere(whereClause: SQLSyntax)(implicit session: DBSession): Try[Option[MyNDLAUser]] = {
     val u = dbMyNDLAUser.syntax("u")
     tsql"select ${u.result.*} from ${dbMyNDLAUser.as(u)} where $whereClause"
-      .map(dbMyNDLAUser.fromResultSet(u))
+      .decode(dbMyNDLAUser.fromResultSet(u))
       .runSingle()
   }
 
@@ -182,9 +183,8 @@ class UserRepository(using dbUtility: DBUtility, dbMyNDLAUser: DBMyNDLAUser) ext
             select id, feide_id, document
             from inserted
          """
-      .map(rs => rs.stringOpt("feide_id"))
+      .decode(_.required[String]("feide_id"))
       .runSingle()
-      .map(_.flatten)
       .map {
         case Some(_) => false
         case None    => true
@@ -192,27 +192,34 @@ class UserRepository(using dbUtility: DBUtility, dbMyNDLAUser: DBMyNDLAUser) ext
   }
 
   def numberOfUsers()(implicit session: DBSession = dbUtility.readOnlySession): Try[Option[Long]] =
-    tsql"select count(*) from ${dbMyNDLAUser.table}".map(rs => rs.long("count")).runSingle()
+    tsql"select count(*) from ${dbMyNDLAUser.table}".decode(_.required[Long]("count")).runSingle()
 
   def usersGrouped()(implicit session: DBSession = dbUtility.readOnlySession): Try[Map[UserRole, Long]] =
     tsql"select count(*), (document->>'userRole') as rolle from ${dbMyNDLAUser.table} group by rolle"
-      .map(rs => (UserRole.withName(rs.string("rolle")), rs.long("count")))
+      .decode(row =>
+        for {
+          role <- row
+            .optional[String]("rolle")
+            .flatMap(_.traverse(r => UserRole.valueOf(r).toTry(NDLASQLException(s"Invalid user role '$r'"))))
+          count <- row.required[Long]("count")
+        } yield role.map(_ -> count)
+      )
       .runList()
-      .map(_.toMap)
+      .map(_.flatten.toMap)
 
   def numberOfFavouritedSubjects()(implicit session: DBSession = dbUtility.readOnlySession): Try[Option[Long]] =
     tsql"select count(favoriteSubject) from (select jsonb_array_elements_text(document->'favoriteSubjects') from ${dbMyNDLAUser.table}) as favoriteSubject"
-      .map(rs => rs.long("count"))
+      .decode(_.required[Long]("count"))
       .runSingle()
 
   def numberOfUsersInArena(implicit session: DBSession = dbUtility.readOnlySession): Try[Option[Long]] = tsql"""
            select count(*) as count from ${dbMyNDLAUser.table}
            where (document->'arenaAccepted')::boolean = true
-         """.map(rs => rs.long("count")).runSingle()
+         """.decode(_.required[Long]("count")).runSingle()
 
-  def getAllUsers(implicit session: DBSession): List[MyNDLAUser] = {
+  def getAllUsers(implicit session: DBSession): Try[List[MyNDLAUser]] = {
     val u = dbMyNDLAUser.syntax("u")
-    tsql"select ${u.result.*} from ${dbMyNDLAUser.as(u)}".map(dbMyNDLAUser.fromResultSet(u)).runList().get
+    tsql"select ${u.result.*} from ${dbMyNDLAUser.as(u)}".decode(dbMyNDLAUser.fromResultSet(u)).runList()
   }
 
   def getUserNotSeenSince(cutoffDate: NDLADate)(implicit session: DBSession): Try[List[MyNDLAUser]] = {
@@ -220,7 +227,7 @@ class UserRepository(using dbUtility: DBUtility, dbMyNDLAUser: DBMyNDLAUser) ext
     tsql"""
          select ${u.result.*} from ${dbMyNDLAUser.as(u)}
          where last_seen < $cutoffDate
-         """.map(dbMyNDLAUser.fromResultSet(u)).runList()
+         """.decode(dbMyNDLAUser.fromResultSet(u)).runList()
   }
 
   def getLastCleanup(implicit session: ReadableDbSession): Try[Option[InactiveUserCleanupResult]] = {
@@ -229,12 +236,17 @@ class UserRepository(using dbUtility: DBUtility, dbMyNDLAUser: DBMyNDLAUser) ext
          order by last_cleanup_date desc
          limit 1
          """
-      .map(rs =>
-        InactiveUserCleanupResult(
-          id = rs.long("id"),
-          numCleanup = rs.int("num_cleanup"),
-          numEmailed = rs.int("num_emailed"),
-          lastCleanupDate = rs.get[NDLADate]("last_cleanup_date"),
+      .decode(row =>
+        for {
+          id              <- row.required[Long]("id")
+          numCleanup      <- row.required[Int]("num_cleanup")
+          numEmailed      <- row.required[Int]("num_emailed")
+          lastCleanupDate <- row.required[NDLADate]("last_cleanup_date")
+        } yield InactiveUserCleanupResult(
+          id = id,
+          numCleanup = numCleanup,
+          numEmailed = numEmailed,
+          lastCleanupDate = lastCleanupDate,
         )
       )
       .runSingle()

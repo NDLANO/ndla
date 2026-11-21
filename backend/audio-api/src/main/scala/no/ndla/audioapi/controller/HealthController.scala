@@ -12,7 +12,7 @@ import no.ndla.audioapi.integration.NDLAS3Client
 import no.ndla.audioapi.repository.AudioRepository
 import no.ndla.network.tapir.{ErrorHelpers, TapirHealthController}
 
-import scala.util.{Failure, Success, Try}
+import scala.util.{Failure, Success}
 
 class HealthController(using
     s3Client: => NDLAS3Client,
@@ -27,7 +27,7 @@ class HealthController(using
     case Success(_) => Right(())
   }
 
-  private def checkDatabaseAccess(): Either[String, Unit] = Try(audioRepository.audioCount) match {
+  private def checkDatabaseAccess(): Either[String, Unit] = audioRepository.audioCount match {
     case Failure(ex) =>
       logger.error("Readiness failed: cannot reach database", ex)
       Left("Database unavailable")

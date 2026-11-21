@@ -9,9 +9,11 @@
 package no.ndla.articleapi.model.domain
 
 import no.ndla.articleapi.Props
-import no.ndla.common.CirceUtil
 import no.ndla.common.model.domain.article.Article
+import no.ndla.database.{ColumnDecoder, ColumnName, Row}
 import scalikejdbc.*
+
+import scala.util.Try
 
 class DBArticle(using props: Props) {
   object Article extends SQLSyntaxSupport[Article] {
@@ -19,35 +21,26 @@ class DBArticle(using props: Props) {
     override def tableName                  = "contentdata"
     override def schemaName: Option[String] = Some(props.MetaSchema)
 
-    def fromResultSet(a: SyntaxProvider[Article])(rs: WrappedResultSet): ArticleRow = fromResultSet(a.resultName)(rs)
+    def fromResultSet(a: SyntaxProvider[Article])(row: Row): Try[ArticleRow] = fromResultSet(a.resultName)(row)
 
-    def fromResultSet(a: ResultName[Article])(rs: WrappedResultSet): ArticleRow = {
-      val articleId   = rs.long(a.c("article_id"))
-      val externalIds = rs
-        .arrayOpt(a.c("external_id"))
-        .map(_.getArray.asInstanceOf[Array[String]].toList.filter(_ != null))
-        .flatMap {
-          case Nil => None
-          case ids => Some(ids)
-        }
-      val rowId    = rs.long(a.c("id"))
-      val document = rs.stringOpt(a.c("document"))
-      val revision = rs.int(a.c("revision"))
-      val slug     = rs.stringOpt(a.c("slug"))
+    def fromResultSet(a: ResultName[Article])(row: Row): Try[ArticleRow] = for {
+      articleId   <- row.required[Long](a.c("article_id"))
+      externalIds <- externalIdsFromRow(a.c("external_id"))(row)
+      rowId       <- row.required[Long](a.c("id"))
+      document    <- row.optional[Article](a.c("document"))(using ColumnDecoder.json)
+      revision    <- row.required[Int](a.c("revision"))
+      slug        <- row.optional[String](a.c("slug"))
+    } yield ArticleRow(
+      rowId = rowId,
+      externalIds = externalIds,
+      revision = revision,
+      articleId = articleId,
+      slug = slug,
+      article = document.map(_.copy(id = Some(articleId), revision = Some(revision), slug = slug)),
+    )
 
-      val article = document.map(jsonStr => {
-        val meta = CirceUtil.unsafeParseAs[Article](jsonStr)
-        meta.copy(id = Some(articleId), revision = Some(revision), slug = slug)
-      })
-
-      ArticleRow(
-        rowId = rowId,
-        externalIds = externalIds,
-        revision = revision,
-        articleId = articleId,
-        slug = slug,
-        article = article,
-      )
-    }
+    def externalIdsFromRow(column: ColumnName)(row: Row): Try[Option[List[String]]] = row
+      .optional[List[Option[String]]](column)
+      .map(_.map(_.flatten).filter(_.nonEmpty))
   }
 }

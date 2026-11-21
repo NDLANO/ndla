@@ -11,9 +11,11 @@ package no.ndla.learningpathapi.db.migration
 import io.circe.syntax.EncoderOps
 import io.circe.parser
 import no.ndla.common.model.domain.learningpath.EmbedUrl
-import no.ndla.database.TableMigration
+import no.ndla.database.{Row, TableMigration}
 import scalikejdbc.*
 import org.postgresql.util.PGobject
+
+import scala.util.Try
 
 case class DocumentRow(id: Long, document: String)
 
@@ -25,7 +27,10 @@ class V55__AddArticleId extends TableMigration[DocumentRow] {
   private lazy val columnNameSQL: SQLSyntax = SQLSyntax.createUnsafely(columnName)
   override lazy val whereClause: SQLSyntax  = sqls"$columnNameSQL is not null"
 
-  override def extractRowData(rs: WrappedResultSet): DocumentRow = DocumentRow(rs.long("id"), rs.string(columnName))
+  override def extractRowData(row: Row): Try[DocumentRow] = for {
+    id       <- row.required[Long]("id")
+    document <- row.required[String](columnName)
+  } yield DocumentRow(id, document)
 
   def updateRow(rowData: DocumentRow)(implicit session: DBSession): Int = {
     val dataObject = new PGobject()

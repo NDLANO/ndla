@@ -9,6 +9,7 @@
 package no.ndla.frontpageapi.model.domain
 
 import no.ndla.common.model.domain.frontpage.SubjectPage
+import no.ndla.database.{ColumnDecoder, Row}
 import no.ndla.frontpageapi.Props
 import scalikejdbc.*
 
@@ -20,14 +21,12 @@ class DBSubjectPage(using props: Props) {
     override def tableName                  = "subjectpage"
     override def schemaName: Option[String] = Some(props.MetaSchema)
 
-    def fromDb(lp: SyntaxProvider[SubjectPage])(rs: WrappedResultSet): Try[SubjectPage] = fromDb(lp.resultName)(rs)
+    def fromDb(lp: SyntaxProvider[SubjectPage])(row: Row): Try[SubjectPage] = fromDb(lp.resultName)(row)
 
-    private def fromDb(lp: ResultName[SubjectPage])(rs: WrappedResultSet): Try[SubjectPage] = {
-      val id       = rs.long(lp.c("id"))
-      val document = rs.string(lp.c("document"))
-
-      SubjectPage.decodeJson(document, id)
-    }
+    private def fromDb(lp: ResultName[SubjectPage])(row: Row): Try[SubjectPage] = for {
+      id          <- row.required[Long](lp.c("id"))
+      subjectPage <- row.required[SubjectPage](lp.c("document"))(using ColumnDecoder.json)
+    } yield subjectPage.copy(id = Some(id))
 
   }
 }

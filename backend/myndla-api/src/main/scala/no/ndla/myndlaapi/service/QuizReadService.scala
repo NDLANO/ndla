@@ -52,8 +52,8 @@ class QuizReadService(using
   def search(user: CombinedUserRequired, language: String, pageSize: Int, page: Int): Try[QuizSearchResultDTO] = dbUtil
     .readOnly { implicit session =>
       val ownerId = user.id
-      val total   = quizRepository.countByOwner(ownerId)
       for {
+        total   <- quizRepository.countByOwner(ownerId)
         quizzes <- quizRepository.getByOwner(ownerId, pageSize, page)
         dtos    <- quizzes.toList.traverse(toApiQuiz(_, language, isOwner = true))
       } yield QuizSearchResultDTO(totalCount = total, page = page, pageSize = pageSize, results = dtos)

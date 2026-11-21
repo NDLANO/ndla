@@ -60,7 +60,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
           .movieThemes
           .map(movieTheme => movieTheme.copy(name = movieTheme.name ++ Seq(MovieThemeName("FooBar", "nn")))),
       )
-    when(filmFrontPageRepository.get(using any)).thenReturn(Some(filmFrontPage))
+    when(filmFrontPageRepository.get(using any)).thenReturn(Success(Some(filmFrontPage)))
     when(filmFrontPageRepository.update(any)(using any)).thenAnswer(i => Success(i.nn.getArgument(0)))
 
     val result = writeService.deleteFilmFrontPageLanguage("nn")
@@ -77,7 +77,7 @@ class WriteServiceTest extends UnitSuite with TestEnvironment {
           .movieThemes
           .map(movieTheme => movieTheme.copy(name = movieTheme.name.filter(_.language == "nb"))),
       )
-    when(filmFrontPageRepository.get(using any)).thenReturn(Some(filmFrontPage))
+    when(filmFrontPageRepository.get(using any)).thenReturn(Success(Some(filmFrontPage)))
     when(filmFrontPageRepository.update(any)(using any)).thenAnswer(i => Success(i.nn.getArgument(0)))
 
     val result = writeService.deleteFilmFrontPageLanguage("nb")

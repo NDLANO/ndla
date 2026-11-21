@@ -8,7 +8,8 @@
 
 package no.ndla.conceptapi.repository
 
-import no.ndla.database.DBUtility
+import cats.implicits.*
+import no.ndla.database.{ColumnDecoder, DBUtility}
 import com.typesafe.scalalogging.StrictLogging
 import no.ndla.common.CirceUtil
 import no.ndla.common.model.domain.Tag
@@ -25,38 +26,42 @@ import scala.util.{Failure, Success, Try}
 class DraftConceptRepository(using errorHelpers: ErrorHelpers, dbUtility: DBUtility, dbConcept: DBConcept)
     extends StrictLogging
     with Repository[Concept] {
-  def insert(concept: Concept)(implicit session: DBSession = dbUtility.autoSession): Concept = {
+  def insert(concept: Concept)(implicit session: DBSession = dbUtility.autoSession): Try[Concept] = {
     val dataObject = new PGobject()
     dataObject.setType("jsonb")
     dataObject.setValue(CirceUtil.toJsonString(concept))
 
     val newRevision = 1
 
-    val conceptId: Long = tsql"""
+    tsql"""
         insert into ${dbConcept.table} (document, revision)
         values ($dataObject, $newRevision)
-          """.updateAndReturnGeneratedKey().get
-
-    logger.info(s"Inserted new concept: $conceptId")
-    concept.copy(id = Some(conceptId), revision = Some(newRevision))
+          """
+      .updateAndReturnGeneratedKey()
+      .map { conceptId =>
+        logger.info(s"Inserted new concept: $conceptId")
+        concept.copy(id = Some(conceptId), revision = Some(newRevision))
+      }
   }
 
   def insertwithListingId(concept: Concept, listingId: Long)(implicit
       session: DBSession = dbUtility.autoSession
-  ): Concept = {
+  ): Try[Concept] = {
     val dataObject = new PGobject()
     dataObject.setType("jsonb")
     dataObject.setValue(CirceUtil.toJsonString(concept))
 
     val newRevision = 1
 
-    val conceptId: Long = tsql"""
+    tsql"""
         insert into ${dbConcept.table} (listing_id, document, revision)
         values ($listingId, $dataObject, $newRevision)
-          """.updateAndReturnGeneratedKey().get
-
-    logger.info(s"Inserted new concept: '$conceptId', with listing id '$listingId'")
-    concept.copy(id = Some(conceptId))
+          """
+      .updateAndReturnGeneratedKey()
+      .map { conceptId =>
+        logger.info(s"Inserted new concept: '$conceptId', with listing id '$listingId'")
+        concept.copy(id = Some(conceptId))
+      }
   }
 
   def updateWithListingId(concept: Concept, listingId: Long)(implicit
@@ -78,22 +83,16 @@ class DraftConceptRepository(using errorHelpers: ErrorHelpers, dbUtility: DBUtil
     }
   }
 
-  def everyTagFromEveryConcept(implicit session: DBSession = dbUtility.readOnlySession): List[List[Tag]] = {
+  def everyTagFromEveryConcept(implicit session: DBSession = dbUtility.readOnlySession): Try[List[List[Tag]]] = {
     tsql"""
            select distinct id, document#>'{tags}' as tags
            from ${dbConcept.table}
            where jsonb_array_length(document#>'{tags}') > 0
            order by id
-         """
-      .map(rs => {
-        val jsonStr = rs.string("tags")
-        CirceUtil.unsafeParseAs[List[Tag]](jsonStr)
-      })
-      .runList()
-      .get
+         """.decode(_.required[List[Tag]]("tags")(using ColumnDecoder.json)).runList()
   }
 
-  def withListingId(listingId: Long): Option[Concept] = conceptWhere(sqls"co.listing_id=$listingId")
+  def withListingId(listingId: Long): Try[Option[Concept]] = conceptWhere(sqls"co.listing_id=$listingId")
 
   def insertWithId(concept: Concept)(implicit session: DBSession = dbUtility.autoSession): Try[Concept] = {
     concept.id match {
@@ -157,63 +156,62 @@ class DraftConceptRepository(using errorHelpers: ErrorHelpers, dbUtility: DBUtil
       Success(updatedConcept)
     }
 
-  def withId(id: Long): Option[Concept] = conceptWhere(sqls"co.id=${id.toInt} ORDER BY revision DESC LIMIT 1")
+  def withId(id: Long): Try[Option[Concept]] = conceptWhere(sqls"co.id=${id.toInt} ORDER BY revision DESC LIMIT 1")
 
-  def exists(id: Long)(implicit session: DBSession = dbUtility.autoSession): Boolean = {
-    tsql"select id from ${dbConcept.table} where id=$id".map(rs => rs.long("id")).runSingle().get.isDefined
+  def exists(id: Long)(implicit session: DBSession = dbUtility.autoSession): Try[Boolean] = {
+    tsql"select id from ${dbConcept.table} where id=$id".decode(_.required[Long]("id")).runSingle().map(_.isDefined)
   }
 
-  def getIdFromExternalId(externalId: String)(implicit session: DBSession = dbUtility.autoSession): Option[Long] = {
+  def getIdFromExternalId(
+      externalId: String
+  )(implicit session: DBSession = dbUtility.autoSession): Try[Option[Long]] = {
     tsql"select id from ${dbConcept.table} where $externalId = any(external_id)"
-      .map(rs => rs.long("id"))
+      .decode(_.required[Long]("id"))
       .runSingle()
-      .get
   }
 
-  override def minMaxId(implicit session: DBSession = dbUtility.autoSession): (Long, Long) = {
+  override def minMaxId(implicit session: DBSession = dbUtility.autoSession): Try[(Long, Long)] = {
     tsql"select coalesce(MIN(id),0) as mi, coalesce(MAX(id),0) as ma from ${dbConcept.table}"
-      .map(rs => (rs.long("mi"), rs.long("ma")))
+      .decode(row => (row.required[Long]("mi"), row.required[Long]("ma")).tupled)
       .runSingle()
       .map(_.getOrElse((0L, 0L)))
-      .get
   }
 
-  override def documentsWithIdBetween(min: Long, max: Long): List[Concept] =
+  override def documentsWithIdBetween(min: Long, max: Long): Try[List[Concept]] =
     conceptsWhere(sqls"co.id between $min and $max")
 
   private def conceptWhere(
       whereClause: SQLSyntax
-  )(implicit session: DBSession = dbUtility.readOnlySession): Option[Concept] = {
+  )(implicit session: DBSession = dbUtility.readOnlySession): Try[Option[Concept]] = {
     val co = dbConcept.syntax("co")
     tsql"select ${co.result.*} from ${dbConcept.as(co)} where co.document is not NULL and $whereClause"
-      .map(dbConcept.fromResultSet(co))
+      .decode(dbConcept.fromResultSet(co))
       .runSingle()
-      .get
   }
 
   private def conceptsWhere(
       whereClause: SQLSyntax
-  )(implicit session: DBSession = dbUtility.readOnlySession): List[Concept] = {
+  )(implicit session: DBSession = dbUtility.readOnlySession): Try[List[Concept]] = {
     val co = dbConcept.syntax("co")
     tsql"select ${co.result.*} from ${dbConcept.as(co)} where co.document is not NULL and $whereClause"
-      .map(dbConcept.fromResultSet(co))
+      .decode(dbConcept.fromResultSet(co))
       .runList()
-      .get
   }
 
-  def conceptCount(implicit session: DBSession = dbUtility.readOnlySession): Long =
-    tsql"select count(*) from ${dbConcept.table}".map(rs => rs.long("count")).runSingle().map(_.getOrElse(0L)).get
+  def conceptCount(implicit session: DBSession = dbUtility.readOnlySession): Try[Long] =
+    tsql"select count(*) from ${dbConcept.table}".decode(_.required[Long]("count")).runSingle().map(_.getOrElse(0L))
 
   def getTags(input: String, pageSize: Int, offset: Int, language: String)(implicit
       session: DBSession = dbUtility.autoSession
-  ): (Seq[String], Int) = {
+  ): Try[(Seq[String], Int)] = {
     val sanitizedInput    = input.filterNot(_ == '%')
     val sanitizedLanguage = language.filterNot(_ == '%')
     val langOrAll         =
       if (sanitizedLanguage == "*" || sanitizedLanguage == "") "%"
       else sanitizedLanguage
 
-    val tags = tsql"""select tags from
+    for {
+      tags <- tsql"""select tags from
               (select distinct JSONB_ARRAY_ELEMENTS_TEXT(tagObj->'tags') tags from
               (select JSONB_ARRAY_ELEMENTS(document#>'{tags}') tagObj from ${dbConcept.table}) _
               where tagObj->>'language' like $langOrAll
@@ -221,21 +219,21 @@ class DraftConceptRepository(using errorHelpers: ErrorHelpers, dbUtility: DBUtil
               where sorted_tags.tags ilike ${sanitizedInput + '%'}
               offset $offset
               limit $pageSize
-                      """.map(rs => rs.string("tags")).runList().get
+                      """.decode(_.required[String]("tags")).runList()
 
-    val tagsCount = tsql"""
+      tagsCount <- tsql"""
               select count(*) from
               (select distinct JSONB_ARRAY_ELEMENTS_TEXT(tagObj->'tags') tags from
               (select JSONB_ARRAY_ELEMENTS(document#>'{tags}') tagObj from ${dbConcept.table}) _
               where tagObj->>'language' like  $langOrAll) all_tags
               where all_tags.tags ilike ${sanitizedInput + '%'};
-           """.map(rs => rs.int("count")).runSingle().map(_.getOrElse(0)).get
-
-    (tags, tagsCount)
-
+           """.decode(_.required[Int]("count")).runSingle().map(_.getOrElse(0))
+    } yield (tags, tagsCount)
   }
 
-  def getByPage(pageSize: Int, offset: Int)(implicit session: DBSession = dbUtility.readOnlySession): Seq[Concept] = {
+  def getByPage(pageSize: Int, offset: Int)(implicit
+      session: DBSession = dbUtility.readOnlySession
+  ): Try[List[Concept]] = {
     val co = dbConcept.syntax("co")
     tsql"""
            select ${co.result.*}, ${co.revision} as revision
@@ -244,6 +242,6 @@ class DraftConceptRepository(using errorHelpers: ErrorHelpers, dbUtility: DBUtil
            order by ${co.id}
            offset $offset
            limit $pageSize
-      """.map(dbConcept.fromResultSet(co)).runList().get
+      """.decode(dbConcept.fromResultSet(co)).runList()
   }
 }

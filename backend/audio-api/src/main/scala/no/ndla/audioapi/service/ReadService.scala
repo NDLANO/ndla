@@ -41,14 +41,14 @@ class ReadService(using
     result.map(searchConverterService.tagSearchResultAsApiResult)
   }
 
-  def withId(id: Long, language: Option[String]): Option[api.AudioMetaInformationDTO] = audioRepository
+  def withId(id: Long, language: Option[String]): Try[Option[api.AudioMetaInformationDTO]] = audioRepository
     .withId(id)
-    .flatMap(audio => converterService.toApiAudioMetaInformation(audio, language).toOption)
+    .map(_.flatMap(audio => converterService.toApiAudioMetaInformation(audio, language).toOption))
 
-  def withExternalId(externalId: String, language: Option[String]): Option[api.AudioMetaInformationDTO] =
+  def withExternalId(externalId: String, language: Option[String]): Try[Option[api.AudioMetaInformationDTO]] =
     audioRepository
       .withExternalId(externalId)
-      .flatMap(audio => converterService.toApiAudioMetaInformation(audio, language).toOption)
+      .map(_.flatMap(audio => converterService.toApiAudioMetaInformation(audio, language).toOption))
 
   def getAudiosByIds(audioIds: List[Long], language: Option[String]): Try[List[api.AudioMetaInformationDTO]] = {
     for {
@@ -60,10 +60,11 @@ class ReadService(using
     } yield api
   }
 
-  def getMetaAudioDomainDump(pageNo: Int, pageSize: Int): api.AudioMetaDomainDumpDTO = {
+  def getMetaAudioDomainDump(pageNo: Int, pageSize: Int): Try[api.AudioMetaDomainDumpDTO] = {
     val (safePageNo, safePageSize) = (math.max(pageNo, 1), math.max(pageSize, 0))
-    val results                    = audioRepository.getByPage(safePageSize, (safePageNo - 1) * safePageSize)
-
-    api.AudioMetaDomainDumpDTO(audioRepository.audioCount, pageNo, pageSize, results)
+    for {
+      results <- audioRepository.getByPage(safePageSize, (safePageNo - 1) * safePageSize)
+      count   <- audioRepository.audioCount
+    } yield api.AudioMetaDomainDumpDTO(count, pageNo, pageSize, results)
   }
 }

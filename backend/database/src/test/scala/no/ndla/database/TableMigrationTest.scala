@@ -8,12 +8,13 @@
 
 package no.ndla.database
 
+import cats.implicits.*
 import no.ndla.scalatestsuite.{DatabaseIntegrationSuite, UnitTestSuite}
-import no.ndla.common.UUIDUtil
 import org.flywaydb.core.Flyway
 import scalikejdbc.*
 
 import java.util.UUID
+import scala.util.Try
 
 class TableMigrationTest extends DatabaseIntegrationSuite, UnitTestSuite, TestEnvironment {
   override lazy val schemaName: String = s"tablemigrationtest_${ProcessHandle.current().nn.pid()}"
@@ -79,7 +80,7 @@ class TableMigrationTest extends DatabaseIntegrationSuite, UnitTestSuite, TestEn
       override lazy val whereClause: SQLSyntax = sqls"true"
       override val chunkSize: Int              = 10
 
-      override def extractRowData(rs: WrappedResultSet): Long = rs.long("id")
+      override def extractRowData(row: Row): Try[Long] = row.required[Long]("id")
 
       override def updateRow(rowData: Long)(implicit session: DBSession): Int = {
         sql"update $intTableNameSql set data = ${"updated_row" + rowData} where id = $rowData".update()
@@ -108,7 +109,7 @@ class TableMigrationTest extends DatabaseIntegrationSuite, UnitTestSuite, TestEn
       override lazy val whereClause: SQLSyntax = sqls"id < $maxIdToUpdate"
       override val chunkSize: Int              = 10
 
-      override def extractRowData(rs: WrappedResultSet): Long = rs.long("id")
+      override def extractRowData(row: Row): Try[Long] = row.required[Long]("id")
 
       override def updateRow(rowData: Long)(implicit session: DBSession): Int = {
         sql"update $intTableNameSql set data = ${"updated_row" + rowData} where id = $rowData".update()
@@ -143,8 +144,8 @@ class TableMigrationTest extends DatabaseIntegrationSuite, UnitTestSuite, TestEn
       override val chunkSize: Int              = 10
       override val tableIdType: TableIdType    = TableIdType.UUID
 
-      override def extractRowData(rs: WrappedResultSet): (UUID, String) =
-        (UUIDUtil.fromString(rs.string("id")), rs.string("data"))
+      override def extractRowData(row: Row): Try[(UUID, String)] =
+        (row.required[UUID]("id"), row.required[String]("data")).tupled
 
       override def updateRow(rowData: (UUID, String))(implicit session: DBSession): Int = {
         sql"update $uuidTableNameSql set data = ${"updated_row " + rowData._2} where id = ${rowData._1}".update()

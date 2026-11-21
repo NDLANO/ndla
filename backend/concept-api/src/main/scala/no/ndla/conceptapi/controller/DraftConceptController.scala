@@ -229,7 +229,7 @@ class DraftConceptController(using
     .out(header(HeaderNames.CacheControl, CacheDirective.Private.toString))
     .errorOut(errorOutputsFor(400, 403, 404))
     .serverLogicPure { case (language, fallback) =>
-      readService.allTagsFromDraftConcepts(language.code, fallback).asRight
+      readService.allTagsFromDraftConcepts(language.code, fallback)
     }
 
   def postSearchConcepts: ServerEndpoint[Any, Eff] = endpoint
@@ -343,7 +343,7 @@ class DraftConceptController(using
     .errorOut(errorOutputsFor(400, 403, 404))
     .serverLogicPure { case (query, pageSize, pageNo, language) =>
       val q = query.getOrElse("")
-      readService.getAllTags(q, pageSize, pageNo, language.code).asRight
+      readService.getAllTags(q, pageSize, pageNo, language.code)
     }
 
   def postNewConcept: ServerEndpoint[Any, Eff] = endpoint
