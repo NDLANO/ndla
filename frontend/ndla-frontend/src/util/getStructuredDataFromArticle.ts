@@ -101,7 +101,9 @@ const AUDIENCE_TYPE = "EducationalAudience";
 
 export const NDLA = {
   "@type": ORGANIZATION_TYPE,
+  "@id": "https://ndla.no#organization",
   name: "NDLA",
+  alternateName: "Nasjonal digital læringsarena",
   legalName: "Nasjonal digital læringsarena",
   url: "https://ndla.no",
   logo: "https://ndla.no/static/logo.png",
