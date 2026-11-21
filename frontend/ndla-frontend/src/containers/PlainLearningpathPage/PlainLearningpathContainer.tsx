@@ -18,10 +18,14 @@ import { LayoutWrapper, ResourceContentContainer, RootPageContent } from "../../
 import { RobotsMeta } from "../../components/RobotsMeta";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import type { GQLPlainLearningpathContainer_LearningpathFragment } from "../../graphqlTypes";
+import { toLearningPath } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 
-const getDocumentTitle = (learningpath: GQLPlainLearningpathContainer_LearningpathFragment, t: TFunction) =>
-  htmlTitle(learningpath.title, [t("htmlTitles.titleTemplate")]);
+const getDocumentTitle = (
+  learningpath: GQLPlainLearningpathContainer_LearningpathFragment,
+  stepTitle: string | undefined,
+  t: TFunction,
+) => htmlTitle(learningpath.title, [stepTitle, t("htmlTitles.titleTemplate")]);
 
 interface Props {
   learningpath: GQLPlainLearningpathContainer_LearningpathFragment | null | undefined;
@@ -46,7 +50,10 @@ export const PlainLearningpathContainer = ({ learningpath, skipToContentId, step
       <RobotsMeta />
       {!!learningpath && (
         <>
-          <PageTitle title={getDocumentTitle(learningpath, t)} useLocationForCustomPath={true} />
+          <PageTitle
+            title={getDocumentTitle(learningpath, currentStep?.title, t)}
+            trackingProps={{ rootId: null, defaultUrl: toLearningPath(learningpath.id, currentStep?.id) }}
+          />
           <SocialMediaMetadata
             title={learningpath.title}
             trackableContent={learningpath}
