@@ -42,9 +42,9 @@ catalog:
   "@pandacss/preset-panda": ^2.5.0
   "@pandacss/types": ^2.5.0
   "@playwright/test": ^1.65.1
-  "@react-router/dev": ^8.5.1
-  "@react-router/express": ^8.5.1
-  "@react-router/node": ^8.5.1
+  "@react-router/dev": ^8.5.2
+  "@react-router/express": ^8.5.2
+  "@react-router/node": ^8.5.2
   "@sentry/react": ^11.14.0
   "@sentry/vite-plugin": ^11.14.0
   "@storybook/addon-a11y": ^10.6.7
@@ -102,7 +102,7 @@ catalog:
   react: ^19.3.1
   react-dom: ^19.3.1
   react-i18next: ^18.0.2
-  react-router: ^8.5.1
+  react-router: ^8.5.2
   serialize-javascript: ^7.1.4
   sirv: ^3.0.2
   slate: ^0.147.4
