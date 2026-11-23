@@ -32,7 +32,7 @@ case class Cachable[T](value: T, canBeCached: Boolean, vary: Vary = Vary.Endpoin
   }
 
   /** Vary on exactly these headers instead of the ones the endpoint's auth reads. */
-  def varyOn(header: String, more: String*): Cachable[T] =
+  def varyOnlyOn(header: String, more: String*): Cachable[T] =
     copy(vary = Vary((header :: more.toList).distinct, includeEndpointDefault = false))
 
   def sameForAllUsers: Cachable[T] = copy(vary = Vary.SameForAllUsers)

@@ -53,7 +53,7 @@ class CachableTest extends UnitSuite {
   }
 
   test("That merging keeps the endpoint default if any part uses it") {
-    val overridden = Cachable.merge(List(Cachable.yes(1).varyOn("A"), Cachable.yes(2).varyOn("B")))
+    val overridden = Cachable.merge(List(Cachable.yes(1).varyOnlyOn("A"), Cachable.yes(2).varyOnlyOn("B")))
     overridden should be(Cachable(List(1, 2), true, Vary(List("A", "B"), includeEndpointDefault = false)))
 
     val withDefault = Cachable.merge(List(Cachable.yes(1).sameForAllUsers, Cachable.yes(2)))
@@ -63,7 +63,7 @@ class CachableTest extends UnitSuite {
   test("That flatMap keeps non-cachable and vary from every step") {
     val x = for {
       a <- Cachable.no(1).sameForAllUsers
-      b <- Cachable.yes(2).varyOn("FeideAuthorization")
+      b <- Cachable.yes(2).varyOnlyOn("FeideAuthorization")
     } yield a + b
 
     x should be(Cachable(3, false, Vary(List("FeideAuthorization"), includeEndpointDefault = false)))
@@ -72,7 +72,7 @@ class CachableTest extends UnitSuite {
   test("That Ok leaves vary to the endpoint default unless overridden") {
     Cachable.yes(1).Ok() should be((1, DynamicHeaders(List.empty)))
 
-    val (_, overridden) = Cachable.no(1).varyOn("FeideAuthorization", "Authorization").Ok()
+    val (_, overridden) = Cachable.no(1).varyOnlyOn("FeideAuthorization", "Authorization").Ok()
     overridden.headers.map(h => h.name -> h.value) should be(
       List("Cache-Control" -> "private", "Vary" -> "FeideAuthorization, Authorization", "Ndla-Vary-Override" -> "true")
     )
