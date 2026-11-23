@@ -14,6 +14,7 @@ import no.ndla.common.configuration.BaseProps
 import no.ndla.database.DatabaseProps
 import no.ndla.imageapi.model.domain.ImageContentType
 import no.ndla.network.Domains
+import no.ndla.search.IndexName
 
 import scala.util.Properties.*
 
@@ -44,9 +45,9 @@ class ImageApiProperties extends BaseProps with DatabaseProps with StrictLogging
 
   val S3NewFileCacheControlHeader: String = propOrElse("IMAGE_FILE_S3_BUCKET_CACHE_CONTROL", "max-age=2592000")
 
-  lazy val SearchIndex: String    = propOrElse("SEARCH_INDEX_NAME", "images")
+  lazy val SearchIndex: String    = propOrElse("SEARCH_INDEX_NAME", IndexName.ImageApiImages.defaultName)
   val SearchDocument              = "image"
-  lazy val TagSearchIndex: String = propOrElse("TAG_SEARCH_INDEX_NAME", "tags")
+  lazy val TagSearchIndex: String = propOrElse("TAG_SEARCH_INDEX_NAME", IndexName.ImageApiTags.defaultName)
   val TagSearchDocument           = "tag"
 
   val DefaultPageSize: Int                       = 10

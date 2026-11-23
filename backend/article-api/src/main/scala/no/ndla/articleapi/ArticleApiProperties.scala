@@ -13,6 +13,7 @@ import no.ndla.common.configuration.{BaseProps, Prop}
 import no.ndla.common.model.EmbedType
 import no.ndla.database.DatabaseProps
 import no.ndla.network.Domains
+import no.ndla.search.IndexName
 
 import scala.util.Properties.*
 
@@ -26,7 +27,7 @@ class ArticleApiProperties extends BaseProps with DatabaseProps {
   def DefaultLanguage: String = propOrElse("DEFAULT_LANGUAGE", "nb")
 
   def SearchServer: String                       = propOrElse("SEARCH_SERVER", "http://search-article-api.ndla-local")
-  def ArticleSearchIndex: String                 = propOrElse("SEARCH_INDEX_NAME", "articles")
+  def ArticleSearchIndex: String                 = propOrElse("SEARCH_INDEX_NAME", IndexName.ArticleApiArticles.defaultName)
   def ArticleSearchDocument                      = "article"
   def DefaultPageSize                            = 10
   def MaxPageSize                                = 10000

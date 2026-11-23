@@ -13,6 +13,7 @@ import no.ndla.common.auth.Permission
 import no.ndla.common.configuration.{BaseProps, Prop}
 import no.ndla.database.DatabaseProps
 import no.ndla.network.Domains
+import no.ndla.search.IndexName
 
 import scala.util.Properties.*
 
@@ -43,11 +44,11 @@ class AudioApiProperties extends BaseProps with DatabaseProps with StrictLogging
 
   val SearchServer: String                 = propOrElse("SEARCH_SERVER", "http://search-audio-api.ndla-local")
   val RunWithSignedSearchRequests: Boolean = propOrElse("RUN_WITH_SIGNED_SEARCH_REQUESTS", "true").toBoolean
-  lazy val SearchIndex: String             = propOrElse("SEARCH_INDEX_NAME", "audios")
+  lazy val SearchIndex: String             = propOrElse("SEARCH_INDEX_NAME", IndexName.AudioApiAudios.defaultName)
   val SearchDocument                       = "audio"
-  lazy val SeriesSearchIndex: String       = propOrElse("SERIES_SEARCH_INDEX_NAME", "series")
+  lazy val SeriesSearchIndex: String       = propOrElse("SERIES_SEARCH_INDEX_NAME", IndexName.AudioApiSeries.defaultName)
   val SeriesSearchDocument                 = "series"
-  lazy val AudioTagSearchIndex: String     = propOrElse("AUDIO_TAG_SEARCH_INDEX_NAME", "tags-audios")
+  lazy val AudioTagSearchIndex: String     = propOrElse("AUDIO_TAG_SEARCH_INDEX_NAME", IndexName.AudioApiTags.defaultName)
   val AudioTagSearchDocument               = "audio-tag"
   val DefaultPageSize                      = 10
   val MaxPageSize                          = 10000

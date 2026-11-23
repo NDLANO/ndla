@@ -13,6 +13,7 @@ import no.ndla.common.auth.Permission
 import no.ndla.common.configuration.BaseProps
 import no.ndla.database.DatabaseProps
 import no.ndla.network.Domains
+import no.ndla.search.IndexName
 
 import scala.util.Properties.*
 
@@ -28,7 +29,7 @@ class LearningpathApiProperties extends BaseProps with DatabaseProps with Strict
 
   def LearningpathControllerPath = "/learningpath-api/v2/learningpaths/"
 
-  def SearchIndex: String = propOrElse("SEARCH_INDEX_NAME", "learningpaths")
+  def SearchIndex: String = propOrElse("SEARCH_INDEX_NAME", IndexName.LearningpathApiLearningPaths.defaultName)
   def SearchDocument      = "learningpath"
   def DefaultPageSize     = 10
   def MaxPageSize         = 10000

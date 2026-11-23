@@ -14,6 +14,7 @@ import no.ndla.common.configuration.{BaseProps, Prop}
 import no.ndla.common.model.EmbedType
 import no.ndla.database.DatabaseProps
 import no.ndla.network.Domains
+import no.ndla.search.IndexName
 
 import scala.util.Properties.*
 
@@ -57,8 +58,8 @@ class DraftApiProperties extends BaseProps with DatabaseProps with StrictLogging
     Seq("//www.nrk.no/serum/latest/js/video_embed.js", "//nrk.no/serum/latest/js/video_embed.js")
 
   def SearchServer: String                       = propOrElse("SEARCH_SERVER", "http://search-draft-api.ndla-local")
-  def DraftSearchIndex: String                   = propOrElse("SEARCH_INDEX_NAME", "draft-articles")
-  def DraftTagSearchIndex: String                = propOrElse("TAG_SEARCH_INDEX_NAME", "draft-tags")
+  def DraftSearchIndex: String                   = propOrElse("SEARCH_INDEX_NAME", IndexName.DraftApiArticles.defaultName)
+  def DraftTagSearchIndex: String                = propOrElse("TAG_SEARCH_INDEX_NAME", IndexName.DraftApiTags.defaultName)
   def DraftSearchDocument                        = "draft"
   def DraftTagSearchDocument                     = "tag"
   def DefaultPageSize                            = 10
