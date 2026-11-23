@@ -7,8 +7,9 @@
  */
 
 import { join } from "node:path";
+import { toolVersionChanged } from "./affected.mts";
 import { env, flag, repoRoot, report, setOutput } from "./github.mts";
-import { asStringArray, runJson, runLines } from "./shell.mts";
+import { asStringArray, runJson, runLines, toLines } from "./shell.mts";
 
 const root = repoRoot();
 const frontend = join(root, "frontend");
@@ -20,21 +21,27 @@ const showProjects = (...args: string[]): string[] => {
 
 /** The images install node and pnpm from mise.toml, which sits outside the nx workspace and is invisible to `--affected`. */
 const toolVersionsChanged = (): boolean =>
-  runLines("git", ["diff", "-U0", env("NX_BASE"), "HEAD", "--", "mise.toml"], { cwd: root }).some((line) =>
-    /^[+-](node|pnpm)\s*=/.test(line),
-  );
+  toolVersionChanged(runLines("git", ["diff", "-U0", env("NX_BASE"), "HEAD", "--", "mise.toml"], { cwd: root }), [
+    "node",
+    "pnpm",
+  ]);
 
-/** Shared image build files that no nx project owns, so `--affected` never selects an app for them. */
-const IMAGE_FILES = [".dockerignore", "frontend/docker", "docker-bake.hcl"];
+/** Pathspecs no nx project owns, so `--affected` never selects anything for them. */
+const forceAllPaths = toLines(env("FORCE_ALL_PATHS"));
 
-const imageFilesChanged = (): boolean =>
-  runLines("git", ["diff", "--name-only", env("NX_BASE"), "HEAD", "--", ...IMAGE_FILES], { cwd: root }).length > 0;
+const forcedPathsChanged = (): boolean =>
+  forceAllPaths.length > 0 &&
+  runLines("git", ["diff", "--name-only", env("NX_BASE"), "HEAD", "--", ...forceAllPaths], { cwd: root }).length > 0;
 
 const only = env("ONLY");
 const all = flag("ALL");
 
 const resolve = (): { projects: string[]; why: string } => {
-  if (only) return { projects: [only], why: `explicitly requested: ${only}` };
+  if (only)
+    return {
+      projects: showProjects().filter((project) => project === only),
+      why: `explicitly requested: ${only}`,
+    };
   if (all)
     return {
       projects: showProjects(),
@@ -46,10 +53,10 @@ const resolve = (): { projects: string[]; why: string } => {
         projects: showProjects(),
         why: `node/pnpm version changed in mise.toml since ${env("NX_BASE")}`,
       };
-    if (imageFilesChanged())
+    if (forcedPathsChanged())
       return {
         projects: showProjects(),
-        why: `shared image build files changed since ${env("NX_BASE")}`,
+        why: `files outside the nx workspace changed since ${env("NX_BASE")}`,
       };
     return {
       projects: showProjects("--affected"),
@@ -77,6 +84,7 @@ const outputs = {
   count: projects.length,
   e2e: restrictTo("--with-target", "e2e:headless"),
   releasable: restrictTo("--projects", "tag:releasable"),
+  vercel: restrictTo("--projects", "tag:vercel"),
 };
 
 const lines = [`${projects.length} project(s) selected, ${why}`];

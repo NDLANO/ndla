@@ -5,8 +5,14 @@ description: |
   job matrix.
 inputs:
   selector:
-    description: "Mill selector to select over, e.g. '__.test' or '__.assembly'."
+    description: "Mill selector to select over, e.g. '__.test' or '{__.test,_.generateTypescript}'."
     required: true
+  base:
+    description: "Commit to compare against. Defaults to the base of the pull request or merge group; without one, everything is selected."
+    default: ""
+  force-all-paths:
+    description: "Newline-separated git pathspecs Mill does not track. A change to any of them selects everything."
+    default: ""
   restrict-to:
     description: >-
       Optional Mill task to `show`, whose value is a JSON array of module names. The result
@@ -23,6 +29,9 @@ outputs:
   modules:
     description: 'JSON array of affected module names, e.g. ["article-api","common"].'
     value: ${{ steps.select.outputs.modules }}
+  types-tasks:
+    description: "The affected 'generateTypescript' tasks as Mill arguments, e.g. 'a.generateTypescript + b.generateTypescript'. Empty when none are."
+    value: ${{ steps.select.outputs.types-tasks }}
 
 runs:
   using: composite
@@ -35,6 +44,7 @@ runs:
         RESTRICT_TO: ${{ inputs.restrict-to }}
         ONLY: ${{ inputs.only }}
         ALL: ${{ inputs.all }}
-        PUSH_BEFORE: ${{ github.event.before }}
+        BASE: ${{ inputs.base }}
+        FORCE_ALL_PATHS: ${{ inputs.force-all-paths }}
         MERGE_GROUP_BASE: ${{ github.event.merge_group.base_sha }}
       run: node "$GITHUB_WORKSPACE/frontend/tools/src/ci/backend-affected.mts"

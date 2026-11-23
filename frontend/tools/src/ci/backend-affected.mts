@@ -8,6 +8,7 @@
 
 import { rmSync } from "node:fs";
 import { join } from "node:path";
+import { splitTasks, toolVersionChanged, typesTasks } from "./affected.mts";
 import { env, flag, repoRoot, report, setOutput, warning } from "./github.mts";
 import { asStringArray, run, runJson, runLines, toLines, tryRun } from "./shell.mts";
 
@@ -15,14 +16,8 @@ const root = repoRoot();
 const backend = join(root, "backend");
 const millBin = join(backend, "mill");
 
-/** Files whose contents Mill's selective execution cannot see, so a change forces a full run. */
-const UNTRACKED_BY_MILL = [
-  "mise.toml", // JDK version
-  "backend/mill", // Mill launcher / version
-  "backend/Dockerfile", // release image
-  "backend/jvm-runtime-options", // release image
-  "docker-bake.hcl", // release packaging
-];
+/** Pathspecs Mill's selective execution cannot see, so a change to any of them forces a full run. */
+const forceAllPaths = toLines(env("FORCE_ALL_PATHS"));
 
 type Mode = "only" | "all" | "selective";
 
@@ -39,15 +34,18 @@ const tryGit = (args: readonly string[], stderr: "inherit" | "ignore" = "inherit
 const mill = (...args: string[]): string[] => runLines(millBin, ["-i", ...args], { cwd: backend });
 
 const fetchCommit = (sha: string): string => {
-  if (sha) tryGit(["fetch", "--no-tags", "--depth=1", "origin", sha]);
+  if (sha && tryGit(["cat-file", "-e", `${sha}^{commit}`], "ignore") === undefined) {
+    tryGit(["fetch", "--no-tags", "--depth=1", "origin", sha]);
+  }
   return sha;
 };
 
 const baseCandidate = (): string => {
+  const explicit = env("BASE");
+  if (explicit) return fetchCommit(explicit);
   const event = env("GITHUB_EVENT_NAME");
   if (event === "pull_request") return tryGit(["rev-parse", "HEAD^1"], "ignore")?.trim() ?? "";
   if (event === "merge_group") return fetchCommit(env("MERGE_GROUP_BASE"));
-  if (event === "push") return fetchCommit(env("PUSH_BEFORE"));
   return "";
 };
 
@@ -57,14 +55,18 @@ const findBase = (): string => {
   return tryGit(["cat-file", "-e", `${candidate}^{commit}`], "ignore") === undefined ? "" : candidate;
 };
 
-const untrackedChanged = (base: string): boolean =>
-  tryGit(["diff", "--quiet", base, "HEAD", "--", ...UNTRACKED_BY_MILL]) === undefined;
+const forcedPathsChanged = (base: string): boolean =>
+  forceAllPaths.length > 0 && tryGit(["diff", "--quiet", base, "HEAD", "--", ...forceAllPaths]) === undefined;
+
+const jdkChanged = (base: string): boolean =>
+  toolVersionChanged(toLines(tryGit(["diff", "-U0", base, "HEAD", "--", "mise.toml"]) ?? "+java ="), ["java"]);
 
 const decide = (base: string): { mode: Mode; why: string } => {
   if (only) return { mode: "only", why: `explicitly requested: ${only}` };
   if (all) return { mode: "all", why: "explicitly requested" };
   if (!base) return { mode: "all", why: "no base commit to compare against" };
-  if (untrackedChanged(base)) return { mode: "all", why: "a file Mill does not track changed" };
+  if (jdkChanged(base)) return { mode: "all", why: "the JDK version in mise.toml changed" };
+  if (forcedPathsChanged(base)) return { mode: "all", why: "a file Mill does not track changed" };
   return { mode: "selective", why: `comparing against ${base}` };
 };
 
@@ -86,17 +88,14 @@ const prepareAtBase = (base: string): void => {
   }
 };
 
-const moduleNames = (tasks: readonly string[]): string[] =>
-  [...new Set(tasks.map((task) => task.split(".")[0] ?? ""))].filter((name) => /^[a-z0-9-]+$/.test(name)).sort();
-
-const resolveAll = (): string[] => moduleNames(mill("resolve", selector));
+const resolveAll = (): string[] => mill("resolve", selector);
 
 const resolveSelectively = (): string[] => {
   const attempt = (): string[] | undefined => {
     const stdout = tryRun(millBin, ["-i", "selective.resolve", selector], {
       cwd: backend,
     });
-    return stdout === undefined ? undefined : moduleNames(toLines(stdout));
+    return stdout === undefined ? undefined : toLines(stdout);
   };
 
   const first = attempt();
@@ -112,8 +111,8 @@ const resolveSelectively = (): string[] => {
 };
 
 /** Intersects with the module names a Mill task lists, e.g. `components` for deployable services. */
-const restrict = (mode: Mode, modules: string[], task: string): string[] => {
-  if (mode === "only" || !restrictTo) return modules;
+const restrict = (modules: string[], task: string): string[] => {
+  if (!task) return modules;
   const label = `mill show ${task}`;
   const allowed = new Set(asStringArray(runJson(millBin, ["-i", "show", task], { cwd: backend }), label));
   return modules.filter((module) => allowed.has(module));
@@ -147,11 +146,15 @@ const select = (mode: Mode, base: string): { selected: string[]; changed: string
 const base = only || all ? "" : findBase();
 const { mode, why } = decide(base);
 const { selected, changed } = select(mode, base);
-const modules = restrict(mode, selected, restrictTo);
+const split = splitTasks(selected);
+const modules = restrict(split.modules, restrictTo);
+const types = typesTasks(split.typesModules);
 
 const json = JSON.stringify(modules);
 setOutput("modules", json);
+setOutput("types-tasks", types);
 
 const lines = [`selector: ${selector}`, `mode:     ${mode} (${why})`, `selected: ${json}`];
+if (types) lines.push(`types:    ${types}`);
 if (changed.length > 0) lines.push(`changed:  ${changed.join(" ")}`);
 report(`Selected ${mode} (${why}): ${json}`, lines);

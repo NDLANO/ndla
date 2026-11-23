@@ -167,7 +167,8 @@
       "lint": {}
     },
     "tags": [
-      "releasable"
+      "releasable",
+      "vercel"
     ]
   }
 }
