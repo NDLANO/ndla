@@ -77,19 +77,21 @@ export const QuizPage = () => {
 
 const QuizList = () => {
   const { t } = useTranslation();
-  const { data } = useSuspenseQuery(quizzesQuery, { variables: { pageSize: 100 }});
+  const { data } = useSuspenseQuery(quizzesQuery, { variables: { pageSize: 100 } });
 
-  if (!data?.quizzes.results.length) {
+  const quizzes = data?.quizzes.results ?? [];
+  if (!quizzes.length) {
     return (
       <Text textStyle="label.medium" fontWeight="light">
         {t("myNdla.quiz.noQuiz")}
       </Text>
     );
   }
+  const sortedQuizzes = quizzes?.toSorted((a, b) => b.created.localeCompare(a.created));
 
   return (
     <StyledOl>
-      {data.quizzes.results.map((quiz) => (
+      {sortedQuizzes.map((quiz) => (
         <QuizListItem quiz={quiz} key={quiz.id} />
       ))}
     </StyledOl>
@@ -100,7 +102,8 @@ const SavedQuizList = () => {
   const { t } = useTranslation();
   const { data } = useSuspenseQuery(savedQuizzesQuery);
 
-  if (!data?.savedQuizzes.length) {
+  const saved = data?.savedQuizzes ?? [];
+  if (!saved.length) {
     return (
       <Text textStyle="label.medium" fontWeight="light">
         {t("myNdla.quiz.savedQuizzes.empty")}
@@ -110,7 +113,7 @@ const SavedQuizList = () => {
 
   return (
     <StyledOl>
-      {data.savedQuizzes.map((quiz) => (
+      {saved.map((quiz) => (
         <SavedQuizListItem quiz={quiz} key={quiz.id} />
       ))}
     </StyledOl>
