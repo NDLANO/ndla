@@ -201,15 +201,7 @@ export const useQuizSave = ({ state, quiz, onQuizSynced, onQuestionSynced }: Pro
       handleError(ensureError(error), { quizId: current?.id });
       return { quiz: current, failed: true };
     }
-  }, [
-    addQuiz,
-    updateQuiz,
-    addQuizQuestion,
-    updateQuizQuestion,
-    deleteQuizQuestion,
-    onQuizSynced,
-    onQuestionSynced,
-  ]);
+  }, [addQuiz, updateQuiz, addQuizQuestion, updateQuizQuestion, deleteQuizQuestion, onQuizSynced, onQuestionSynced]);
 
   const sync = useCallback(async (): Promise<SyncResult> => {
     if (!stateRef.current.title.trim()) return { quiz: quizRef.current, failed: true };
