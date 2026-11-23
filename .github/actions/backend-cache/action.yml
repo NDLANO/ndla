@@ -1,6 +1,6 @@
 name: "Backend cache"
 description: |
-  Restore the coursier and mill caches shared by every backend job. Only the warm-up job on main
+  Restore the coursier and mill caches shared by every backend job. Only the nightly warm-up on main
   saves them, so pull requests reuse main's caches instead of each storing their own copy.
 inputs:
   save:

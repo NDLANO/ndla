@@ -34,16 +34,6 @@ on:
         description: "Ignore selective execution and test everything"
         type: boolean
         default: false
-  push:
-    branches:
-      - main
-    paths:
-      - backend/**
-      - mise.toml
-      - .github/workflows/backend_ci.yaml
-      - .github/actions/backend-affected/**
-      - .github/actions/backend-cache/**
-      - frontend/tools/src/ci/**
   pull_request:
   merge_group:
 concurrency:
@@ -51,7 +41,6 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
   changes:
-    if: github.event_name != 'push'
     uses: ./.github/workflows/changed_paths.yml
     with:
       paths: |
@@ -61,29 +50,6 @@ jobs:
         .github/actions/backend-affected
         .github/actions/backend-cache
         frontend/tools/src/ci
-
-  cache:
-    name: Warm dependency cache
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - id: cache
-        uses: ./.github/actions/backend-cache
-        with:
-          save: "true"
-      - uses: jdx/mise-action@924e7c586e33d7d4bae9c14e26c5d22e2beb6e78 # v5
-        if: steps.cache.outputs.hit != 'true'
-        with:
-          working_directory: backend
-      - name: Fetch dependencies for compiling, testing and formatting
-        if: steps.cache.outputs.hit != 'true'
-        run: |
-          ./mill -i __.prepareOffline
-          ./checkfmt.sh
 
   select:
     name: Select affected modules

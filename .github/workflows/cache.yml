@@ -1,0 +1,107 @@
+name: "Warm caches"
+on:
+  workflow_dispatch:
+    inputs: {}
+  schedule:
+    - cron: "0 2 * * *"
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+jobs:
+  changes:
+    name: Detect changes since the last warm-up
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+    outputs:
+      backend: ${{ steps.diff.outputs.backend }}
+      frontend: ${{ steps.diff.outputs.frontend }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          filter: blob:none
+      - name: "Diff against the last successful warm-up"
+        id: diff
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          last="$(gh run list --workflow cache.yml --branch main --status success --limit 1 --json headSha --jq '.[0].headSha // empty')"
+          changed() {
+            if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ] || [ -z "$last" ] || ! git cat-file -e "$last^{commit}" 2>/dev/null; then
+              echo true
+            elif git diff --quiet "$last" HEAD -- "$@"; then
+              echo false
+            else
+              echo true
+            fi
+          }
+          backend="$(changed backend mise.toml .github/actions/backend-cache .github/workflows/cache.yml)"
+          frontend="$(changed frontend mise.toml .github/actions/frontend-setup .github/workflows/cache.yml)"
+          echo "Compared ${last:-<none>}..HEAD: backend=$backend frontend=$frontend"
+          echo "backend=$backend" >> "$GITHUB_OUTPUT"
+          echo "frontend=$frontend" >> "$GITHUB_OUTPUT"
+
+  backend:
+    name: Backend dependency cache
+    needs: changes
+    if: needs.changes.outputs.backend == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - id: cache
+        uses: ./.github/actions/backend-cache
+        with:
+          save: "true"
+      - uses: jdx/mise-action@924e7c586e33d7d4bae9c14e26c5d22e2beb6e78 # v5
+        if: steps.cache.outputs.hit != 'true'
+        with:
+          working_directory: backend
+      - name: Fetch dependencies
+        if: steps.cache.outputs.hit != 'true'
+        run: ./mill -i __.prepareOffline
+      - name: Fetch formatters
+        if: steps.cache.outputs.hit != 'true'
+        run: |
+          ./mill -i mill.scalalib.scalafmt/reformatAll
+          ./mill -i --meta-level=1 mill.scalalib.scalafmt/reformatAll
+          ./mill -i taxonomy-api.spotless
+      - name: Fetch compiler bridges
+        if: steps.cache.outputs.hit != 'true'
+        continue-on-error: true
+        run: ./mill -i __.compile
+
+  frontend:
+    name: Frontend dependency and nx caches
+    needs: changes
+    if: needs.changes.outputs.frontend == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      NODE_OPTIONS: "--max-old-space-size-percentage=75"
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: ./.github/actions/frontend-setup
+        with:
+          deps-cache: save
+          nx-cache: save
+          cache-scope: checks
+      - name: "Fill the nx cache for PR checks"
+        continue-on-error: true
+        run: pnpm exec nx run-many -t type-check lint:oxlint lint:es format-check test
+      - name: "Fill the nx cache for the graphql-api build"
+        continue-on-error: true
+        run: pnpm exec nx build graphql-api
