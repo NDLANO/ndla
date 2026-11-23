@@ -683,11 +683,11 @@ importers:
         specifier: 'catalog:'
         version: 19.3.1(react@19.3.1)
       swagger-ui-dist:
-        specifier: 5.35.0
-        version: 5.35.0
+        specifier: 5.35.1
+        version: 5.35.1
       swagger-ui-react:
-        specifier: 5.35.0
-        version: 5.35.0(@types/react@19.3.0)(debug@4.4.3(supports-color@10.2.2))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(supports-color@10.2.2)
+        specifier: 5.35.1
+        version: 5.35.1(@types/react@19.3.0)(debug@4.4.3(supports-color@10.2.2))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(supports-color@10.2.2)
       winston:
         specifier: 'catalog:'
         version: 3.19.0
@@ -11397,11 +11397,11 @@ packages:
     resolution: {integrity: sha512-EDpBphskzOCzczUrucX3/FVb7k5gch1GSzB+MTBcdGY3Zew2XKs0ryPPw1J2l1hioojwwKUZXtEg31axbnQvpQ==}
     engines: {node: '>=22'}
 
-  swagger-ui-dist@5.35.0:
-    resolution: {integrity: sha512-U06rpMtW9V3XPGOBeamTUSr0Z09jMX4IJuANpE/EZbAhw0G8CgwrzU4YmXkn/h0wCDNsXdGarTNNHC3sU8yVUQ==}
+  swagger-ui-dist@5.35.1:
+    resolution: {integrity: sha512-XPBzLiPyIvwg2KYyNZIxOVS77pD0SNMbiSIwvpPXbU5bC/F4zvXxGraK3Hpyxug1b89fH5T29gSsW6rBxMmPyg==}
 
-  swagger-ui-react@5.35.0:
-    resolution: {integrity: sha512-r15YewT7DTzIJFgDMseAvq6ddwCkG9DV88g6zJw+FBdfKDaSR8mXM831qEVqT54HxhHrqVjlOSpp7RpsJBd4fw==}
+  swagger-ui-react@5.35.1:
+    resolution: {integrity: sha512-9YvQTF/sRBmJ7NxBffCzEBDWNvqepSBT2LT6d/yaa2DaHIAP4AKVARrgi+9OFDOm8lo9tS8bFngf/UfDm2gaZg==}
     peerDependencies:
       react: '>=16.8.0 <20'
       react-dom: '>=16.8.0 <20'
@@ -22896,11 +22896,11 @@ snapshots:
       - debug
       - supports-color
 
-  swagger-ui-dist@5.35.0:
+  swagger-ui-dist@5.35.1:
     dependencies:
       '@scarf/scarf': 1.4.0
 
-  swagger-ui-react@5.35.0(@types/react@19.3.0)(debug@4.4.3(supports-color@10.2.2))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(supports-color@10.2.2):
+  swagger-ui-react@5.35.1(@types/react@19.3.0)(debug@4.4.3(supports-color@10.2.2))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(supports-color@10.2.2):
     dependencies:
       '@babel/runtime-corejs3': 7.29.13
       '@scarf/scarf': 1.4.0
