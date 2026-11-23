@@ -77,7 +77,7 @@ export const QuizPage = () => {
 
 const QuizList = () => {
   const { t } = useTranslation();
-  const { data } = useSuspenseQuery(quizzesQuery);
+  const { data } = useSuspenseQuery(quizzesQuery, { variables: { pageSize: 100 }});
 
   if (!data?.quizzes.results.length) {
     return (

@@ -13858,7 +13858,9 @@ export type GQLUnsaveQuizMutationVariables = Exact<{
 
 export type GQLUnsaveQuizMutation = { unsaveQuiz: string };
 
-export type GQLQuizzesQueryVariables = Exact<{ [key: string]: never }>;
+export type GQLQuizzesQueryVariables = Exact<{
+  pageSize?: number | null | undefined;
+}>;
 
 export type GQLQuizzesQuery = {
   quizzes: {
