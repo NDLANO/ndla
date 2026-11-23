@@ -107,8 +107,9 @@ export const useQuizSave = ({ state, quiz, onQuizSynced, onQuestionSynced }: Pro
       for (const question of state.questions) {
         if (!question.title.trim()) continue;
         const alternatives = toAlternativesInput(question);
+        const serverId = question.serverId ?? snapshotRef.current[question.id]?.serverId;
 
-        if (!question.serverId) {
+        if (!serverId) {
           const res = await addQuizQuestion({
             variables: {
               quizId: current.id,
@@ -141,7 +142,7 @@ export const useQuizSave = ({ state, quiz, onQuizSynced, onQuestionSynced }: Pro
           const res = await updateQuizQuestion({
             variables: {
               quizId: current.id,
-              questionId: question.serverId,
+              questionId: serverId,
               questionType: question.questionType,
               title: question.title,
               alternatives,
