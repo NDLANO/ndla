@@ -48,9 +48,15 @@ export function createSlotRecipeContext(recipeInput) {
 
   const resolveSlots = (variantProps) => {
     const styles = isConfigRecipe ? slotRecipeFn(variantProps) : slotRecipeFn.raw(variantProps)
-    if (!isConfigRecipe) styles._classNameMap = slotRecipeFn.classNameMap
+    if (!isConfigRecipe) {
+      styles._classNameMap = slotRecipeFn.classNameMap
+      styles._variantProps = variantProps
+    }
     return styles
   }
+
+  const toClassNames = (resolvedSlots) =>
+    (isConfigRecipe ? resolvedSlots : slotRecipeFn(resolvedSlots._variantProps))
 
   const withRootProvider = (Component, options) => {
     const WithRootProvider = (inProps) => {
@@ -114,11 +120,14 @@ export function createSlotRecipeContext(recipeInput) {
     return WithContext
   }
 
+  const useClassNames = () => toClassNames(useSlotStylesContext('', ''))
+
   return {
     withRootProvider,
     withProvider,
     withContext,
     PropsProvider: PropsContext.Provider,
     usePropsContext,
+    useClassNames,
   }
 }

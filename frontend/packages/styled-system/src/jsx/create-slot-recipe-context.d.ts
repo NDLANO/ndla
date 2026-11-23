@@ -45,5 +45,6 @@ export interface SlotRecipeContext<R extends SlotRecipeContextInput> {
   >(Component: T, slot: SlotNameOf<R>, options?: JsxFactoryOptions<ComponentProps<T>, F> | undefined) => SlotRecipeConsumerComponent<T, F>;
   PropsProvider: Provider<Partial<SlotRecipePropsOf<R>> & DataAttrs>;
   usePropsContext: () => SlotRecipePropsOf<R> | undefined;
+  useClassNames: () => Record<SlotNameOf<R>, string>;
 }
 export declare function createSlotRecipeContext<R extends SlotRecipeContextInput>(recipeInput: R): SlotRecipeContext<R>;
