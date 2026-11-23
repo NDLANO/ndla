@@ -17,9 +17,6 @@ spring:
     change-log: classpath:db-master-changelog.xml
     parameters:
       schema: ${spring.datasource.hikari.schema:taxonomy_api}
-  mvc:
-    pathmatch:
-      matching-strategy: ant-path-matcher
 
 hibernate:
   id:
