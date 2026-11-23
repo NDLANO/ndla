@@ -51,7 +51,7 @@ const TopicArticleTaxonomy = ({ article, articleLanguage, hasTaxEntries }: Props
 
   const [validPlacements, invalidPlacements] = useMemo(() => {
     return partition(
-      sortBy(nodesQuery.data ?? [], (n) => n.id),
+      sortBy(nodesQuery.data ?? [], (n) => n.breadcrumbs.join(">")),
       (node) => !!node.breadcrumbs.length,
     );
   }, [nodesQuery.data]);
