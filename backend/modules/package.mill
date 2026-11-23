@@ -19,7 +19,7 @@ trait BaseModule extends ScalaModule, ScalacOptions, AutoEnvLoading, OpenAPITSPl
   private val baseModuleDir                  = super.moduleDir
   override def scalacOptions: T[Seq[String]] = super.scalacOptions() ++ sharedScalacOptions() ++ scalacOptionsOnlyRun()
 
-  override def sources: T[Seq[PathRef]]   = Task.Sources("src/main/scala", "src/main/scala-3")
+  override def sources: T[Seq[PathRef]]   = Task.Sources("src/main/scala")
   override def resources: T[Seq[PathRef]] =
     Task.Sources("src/main/resources", BuildCtx.workspaceRoot / "log4j" / "main")
 
@@ -41,7 +41,7 @@ trait BaseModule extends ScalaModule, ScalacOptions, AutoEnvLoading, OpenAPITSPl
       super.mvnDeps() ++ deps.testing ++ testDependencies(deps)
     }
 
-    override def sources: T[Seq[PathRef]]      = Task.Sources("scala", "scala-3")
+    override def sources: T[Seq[PathRef]]      = Task.Sources("scala")
     override def resources: T[Seq[PathRef]]    = Task.Sources("resources", BuildCtx.workspaceRoot / "log4j" / "test")
     override def scalacOptions: T[Seq[String]] = super.scalacOptions().filterNot(scalacOptionsOnlyRun().contains)
     override def forkArgs: T[Seq[String]]      = super.forkArgs() ++ runtimeJavaOptions() ++ testJavaOptions()
