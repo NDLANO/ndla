@@ -1,0 +1,37 @@
+name: "Changed paths"
+description: "Reports whether any of the given paths changed since the base commit of the event"
+inputs:
+  paths:
+    description: "Newline-separated git pathspecs"
+    required: true
+  base:
+    description: "Base commit for events that are neither a pull request nor a merge group. Empty means everything changed."
+    default: ""
+outputs:
+  changed:
+    description: "'true' if any of the paths changed, or if there is no base to compare against"
+    value: ${{ steps.diff.outputs.changed }}
+runs:
+  using: composite
+  steps:
+    - name: "Diff against base"
+      id: diff
+      shell: bash
+      env:
+        PATHS: ${{ inputs.paths }}
+        BASE: ${{ inputs.base }}
+        MERGE_GROUP_BASE: ${{ github.event.merge_group.base_sha }}
+      run: |
+        case "$GITHUB_EVENT_NAME" in
+          pull_request) base="$(git rev-parse HEAD^1)" ;;
+          merge_group) base="$MERGE_GROUP_BASE" ;;
+          *) base="$BASE" ;;
+        esac
+        changed=true
+        if [ -n "$base" ]; then
+          git cat-file -e "$base^{commit}" 2>/dev/null || git fetch --no-tags --depth=1 --filter=blob:none origin "$base" || true
+          mapfile -t pathspecs < <(grep -v '^[[:space:]]*$' <<< "$PATHS")
+          if git diff --quiet "$base" HEAD -- "${pathspecs[@]}"; then changed=false; fi
+        fi
+        echo "changed=$changed" >> "$GITHUB_OUTPUT"
+        echo "::notice::changed=$changed (base: ${base:-none})"
