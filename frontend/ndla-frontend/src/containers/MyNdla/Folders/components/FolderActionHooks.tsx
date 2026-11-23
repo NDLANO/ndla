@@ -323,7 +323,7 @@ export const useFolderActions = (
     }
 
     if (isStudent(user)) {
-      return [...actions, editFolder, moveFolder, deleteOpt];
+      return [...actions, editFolder, moveFolder, deleteOpt, printFolder];
     }
 
     if (selectedFolder.status === "shared") {
