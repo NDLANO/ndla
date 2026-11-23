@@ -9,20 +9,28 @@ package no.ndla.taxonomy.security
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
+import com.auth0.jwt.exceptions.JWTVerificationException
+import jakarta.servlet.Filter
+import jakarta.servlet.http.HttpServlet
 import java.security.KeyPairGenerator
 import java.security.interfaces.RSAPrivateKey
 import java.util.UUID
 import no.ndla.taxonomy.service.AbstractIntegrationTest
+import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.hasItem
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
 import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.http.HttpHeaders.VARY
 import org.springframework.http.MediaType.APPLICATION_JSON
+import org.springframework.mock.web.MockFilterChain
+import org.springframework.mock.web.MockHttpServletRequest
+import org.springframework.mock.web.MockHttpServletResponse
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.util.ReflectionTestUtils
 import org.springframework.test.web.servlet.MockMvc
@@ -48,6 +56,7 @@ class EvaluationVisibilityIntegrationTest : AbstractIntegrationTest() {
 
   @Autowired private lateinit var mockMvc: MockMvc
   @Autowired private lateinit var authFilter: AuthFilter
+  @Autowired private lateinit var filters: List<Filter>
 
   private val suffix = UUID.randomUUID().toString()
   private val topicId = "urn:topic:$suffix"
@@ -163,6 +172,22 @@ class EvaluationVisibilityIntegrationTest : AbstractIntegrationTest() {
     getNode(resourceId).andExpect(header().stringValues(VARY, hasItem(AUTHORIZATION)))
     getNode(resourceId, "taxonomy:write")
         .andExpect(header().stringValues(VARY, hasItem(AUTHORIZATION)))
+  }
+
+  @Test
+  fun responses_vary_on_authorization_when_token_is_rejected() {
+    val chain =
+        filters.filter { it is AuthFilter || it is VaryOnAuthorizationFilter }.toTypedArray()
+    val request =
+        MockHttpServletRequest("GET", "/v1/nodes/$resourceId").apply {
+          addHeader(AUTHORIZATION, "Bearer invalid")
+        }
+    val response = MockHttpServletResponse()
+
+    assertThrows<JWTVerificationException> {
+      MockFilterChain(object : HttpServlet() {}, *chain).doFilter(request, response)
+    }
+    assertThat(response.getHeaders(VARY), hasItem(AUTHORIZATION))
   }
 
   companion object {
