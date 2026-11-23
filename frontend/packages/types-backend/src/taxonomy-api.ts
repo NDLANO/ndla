@@ -58,13 +58,13 @@ export type paths = {
             cookie?: never;
         };
         /** Gets id of all nodes registered as context */
-        get: operations["getAllContexts"];
+        get: operations["getAllContexts_1"];
         put?: never;
         /**
          * Registers a new node as context
          * @description All subjects are already contexts and may not be added again. The node to register as context must exist already.
          */
-        post: operations["createContext"];
+        post: operations["createContext_1"];
         delete?: never;
         options?: never;
         head?: never;
@@ -79,13 +79,13 @@ export type paths = {
             cookie?: never;
         };
         /** Gets id of all nodes registered as context */
-        get: operations["getAllContexts_1"];
+        get: operations["getAllContexts"];
         put?: never;
         /**
          * Registers a new node as context
          * @description All subjects are already contexts and may not be added again. The node to register as context must exist already.
          */
-        post: operations["createContext_1"];
+        post: operations["createContext"];
         delete?: never;
         options?: never;
         head?: never;
@@ -213,19 +213,19 @@ export type paths = {
             cookie?: never;
         };
         /** @deprecated */
-        get: operations["redirect_189"];
+        get: operations["redirect_196"];
         /** @deprecated */
-        put: operations["redirect_191"];
+        put: operations["redirect_198"];
         /** @deprecated */
-        post: operations["redirect_190"];
+        post: operations["redirect_197"];
         /** @deprecated */
-        delete: operations["redirect_192"];
+        delete: operations["redirect_199"];
         /** @deprecated */
-        options: operations["redirect_195"];
+        options: operations["redirect_202"];
         /** @deprecated */
-        head: operations["redirect_194"];
+        head: operations["redirect_201"];
         /** @deprecated */
-        patch: operations["redirect_193"];
+        patch: operations["redirect_200"];
         trace?: never;
     };
     "/v1/node-resources/": {
@@ -259,19 +259,19 @@ export type paths = {
             cookie?: never;
         };
         /** @deprecated */
-        get: operations["redirect_196"];
+        get: operations["redirect_189"];
         /** @deprecated */
-        put: operations["redirect_198"];
+        put: operations["redirect_191"];
         /** @deprecated */
-        post: operations["redirect_197"];
+        post: operations["redirect_190"];
         /** @deprecated */
-        delete: operations["redirect_199"];
+        delete: operations["redirect_192"];
         /** @deprecated */
-        options: operations["redirect_202"];
+        options: operations["redirect_195"];
         /** @deprecated */
-        head: operations["redirect_201"];
+        head: operations["redirect_194"];
         /** @deprecated */
-        patch: operations["redirect_200"];
+        patch: operations["redirect_193"];
         trace?: never;
     };
     "/v1/nodes": {
@@ -282,10 +282,10 @@ export type paths = {
             cookie?: never;
         };
         /** Gets all nodes */
-        get: operations["getAllNodes"];
+        get: operations["getAllNodes_1"];
         put?: never;
         /** Creates a new node */
-        post: operations["createNode"];
+        post: operations["createNode_1"];
         delete?: never;
         options?: never;
         head?: never;
@@ -300,10 +300,10 @@ export type paths = {
             cookie?: never;
         };
         /** Gets all nodes */
-        get: operations["getAllNodes_1"];
+        get: operations["getAllNodes"];
         put?: never;
         /** Creates a new node */
-        post: operations["createNode_1"];
+        post: operations["createNode"];
         delete?: never;
         options?: never;
         head?: never;
@@ -988,6 +988,29 @@ export type paths = {
             cookie?: never;
         };
         /** @deprecated */
+        get: operations["redirect_175"];
+        /** @deprecated */
+        put: operations["redirect_177"];
+        /** @deprecated */
+        post: operations["redirect_176"];
+        /** @deprecated */
+        delete: operations["redirect_178"];
+        /** @deprecated */
+        options: operations["redirect_181"];
+        /** @deprecated */
+        head: operations["redirect_180"];
+        /** @deprecated */
+        patch: operations["redirect_179"];
+        trace?: never;
+    };
+    "/v1/resources/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @deprecated */
         get: operations["redirect_168"];
         /** @deprecated */
         put: operations["redirect_170"];
@@ -1003,7 +1026,7 @@ export type paths = {
         patch: operations["redirect_172"];
         trace?: never;
     };
-    "/v1/resources/": {
+    "/v1/resources/**": {
         parameters: {
             query?: never;
             header?: never;
@@ -1024,29 +1047,6 @@ export type paths = {
         head: operations["redirect_187"];
         /** @deprecated */
         patch: operations["redirect_186"];
-        trace?: never;
-    };
-    "/v1/resources/**": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @deprecated */
-        get: operations["redirect_175"];
-        /** @deprecated */
-        put: operations["redirect_177"];
-        /** @deprecated */
-        post: operations["redirect_176"];
-        /** @deprecated */
-        delete: operations["redirect_178"];
-        /** @deprecated */
-        options: operations["redirect_181"];
-        /** @deprecated */
-        head: operations["redirect_180"];
-        /** @deprecated */
-        patch: operations["redirect_179"];
         trace?: never;
     };
     "/v1/resources/{id}/translations": {
@@ -1080,29 +1080,6 @@ export type paths = {
             cookie?: never;
         };
         /** @deprecated */
-        get: operations["redirect_161"];
-        /** @deprecated */
-        put: operations["redirect_163"];
-        /** @deprecated */
-        post: operations["redirect_162"];
-        /** @deprecated */
-        delete: operations["redirect_164"];
-        /** @deprecated */
-        options: operations["redirect_167"];
-        /** @deprecated */
-        head: operations["redirect_166"];
-        /** @deprecated */
-        patch: operations["redirect_165"];
-        trace?: never;
-    };
-    "/v1/resources/{id}/translations/**": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @deprecated */
         get: operations["redirect_154"];
         /** @deprecated */
         put: operations["redirect_156"];
@@ -1118,7 +1095,7 @@ export type paths = {
         patch: operations["redirect_158"];
         trace?: never;
     };
-    "/v1/subject-topics": {
+    "/v1/resources/{id}/translations/**": {
         parameters: {
             query?: never;
             header?: never;
@@ -1126,22 +1103,22 @@ export type paths = {
             cookie?: never;
         };
         /** @deprecated */
-        get: operations["redirect_126"];
+        get: operations["redirect_161"];
         /** @deprecated */
-        put: operations["redirect_128"];
+        put: operations["redirect_163"];
         /** @deprecated */
-        post: operations["redirect_127"];
+        post: operations["redirect_162"];
         /** @deprecated */
-        delete: operations["redirect_129"];
+        delete: operations["redirect_164"];
         /** @deprecated */
-        options: operations["redirect_132"];
+        options: operations["redirect_167"];
         /** @deprecated */
-        head: operations["redirect_131"];
+        head: operations["redirect_166"];
         /** @deprecated */
-        patch: operations["redirect_130"];
+        patch: operations["redirect_165"];
         trace?: never;
     };
-    "/v1/subject-topics/": {
+    "/v1/subject-topics": {
         parameters: {
             query?: never;
             header?: never;
@@ -1162,6 +1139,29 @@ export type paths = {
         head: operations["redirect_145"];
         /** @deprecated */
         patch: operations["redirect_144"];
+        trace?: never;
+    };
+    "/v1/subject-topics/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @deprecated */
+        get: operations["redirect_126"];
+        /** @deprecated */
+        put: operations["redirect_128"];
+        /** @deprecated */
+        post: operations["redirect_127"];
+        /** @deprecated */
+        delete: operations["redirect_129"];
+        /** @deprecated */
+        options: operations["redirect_132"];
+        /** @deprecated */
+        head: operations["redirect_131"];
+        /** @deprecated */
+        patch: operations["redirect_130"];
         trace?: never;
     };
     "/v1/subject-topics/**": {
@@ -1287,29 +1287,6 @@ export type paths = {
             cookie?: never;
         };
         /** @deprecated */
-        get: operations["redirect_98"];
-        /** @deprecated */
-        put: operations["redirect_100"];
-        /** @deprecated */
-        post: operations["redirect_99"];
-        /** @deprecated */
-        delete: operations["redirect_101"];
-        /** @deprecated */
-        options: operations["redirect_104"];
-        /** @deprecated */
-        head: operations["redirect_103"];
-        /** @deprecated */
-        patch: operations["redirect_102"];
-        trace?: never;
-    };
-    "/v1/subjects/{id}/translations/**": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @deprecated */
         get: operations["redirect_91"];
         /** @deprecated */
         put: operations["redirect_93"];
@@ -1325,53 +1302,30 @@ export type paths = {
         patch: operations["redirect_95"];
         trace?: never;
     };
+    "/v1/subjects/{id}/translations/**": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @deprecated */
+        get: operations["redirect_98"];
+        /** @deprecated */
+        put: operations["redirect_100"];
+        /** @deprecated */
+        post: operations["redirect_99"];
+        /** @deprecated */
+        delete: operations["redirect_101"];
+        /** @deprecated */
+        options: operations["redirect_104"];
+        /** @deprecated */
+        head: operations["redirect_103"];
+        /** @deprecated */
+        patch: operations["redirect_102"];
+        trace?: never;
+    };
     "/v1/topic-resources": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @deprecated */
-        get: operations["redirect_63"];
-        /** @deprecated */
-        put: operations["redirect_65"];
-        /** @deprecated */
-        post: operations["redirect_64"];
-        /** @deprecated */
-        delete: operations["redirect_66"];
-        /** @deprecated */
-        options: operations["redirect_69"];
-        /** @deprecated */
-        head: operations["redirect_68"];
-        /** @deprecated */
-        patch: operations["redirect_67"];
-        trace?: never;
-    };
-    "/v1/topic-resources/": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @deprecated */
-        get: operations["redirect_77"];
-        /** @deprecated */
-        put: operations["redirect_79"];
-        /** @deprecated */
-        post: operations["redirect_78"];
-        /** @deprecated */
-        delete: operations["redirect_80"];
-        /** @deprecated */
-        options: operations["redirect_83"];
-        /** @deprecated */
-        head: operations["redirect_82"];
-        /** @deprecated */
-        patch: operations["redirect_81"];
-        trace?: never;
-    };
-    "/v1/topic-resources/**": {
         parameters: {
             query?: never;
             header?: never;
@@ -1394,7 +1348,7 @@ export type paths = {
         patch: operations["redirect_74"];
         trace?: never;
     };
-    "/v1/topic-subtopics": {
+    "/v1/topic-resources/": {
         parameters: {
             query?: never;
             header?: never;
@@ -1402,22 +1356,45 @@ export type paths = {
             cookie?: never;
         };
         /** @deprecated */
-        get: operations["redirect_42"];
+        get: operations["redirect_63"];
         /** @deprecated */
-        put: operations["redirect_44"];
+        put: operations["redirect_65"];
         /** @deprecated */
-        post: operations["redirect_43"];
+        post: operations["redirect_64"];
         /** @deprecated */
-        delete: operations["redirect_45"];
+        delete: operations["redirect_66"];
         /** @deprecated */
-        options: operations["redirect_48"];
+        options: operations["redirect_69"];
         /** @deprecated */
-        head: operations["redirect_47"];
+        head: operations["redirect_68"];
         /** @deprecated */
-        patch: operations["redirect_46"];
+        patch: operations["redirect_67"];
         trace?: never;
     };
-    "/v1/topic-subtopics/": {
+    "/v1/topic-resources/**": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @deprecated */
+        get: operations["redirect_77"];
+        /** @deprecated */
+        put: operations["redirect_79"];
+        /** @deprecated */
+        post: operations["redirect_78"];
+        /** @deprecated */
+        delete: operations["redirect_80"];
+        /** @deprecated */
+        options: operations["redirect_83"];
+        /** @deprecated */
+        head: operations["redirect_82"];
+        /** @deprecated */
+        patch: operations["redirect_81"];
+        trace?: never;
+    };
+    "/v1/topic-subtopics": {
         parameters: {
             query?: never;
             header?: never;
@@ -1440,7 +1417,7 @@ export type paths = {
         patch: operations["redirect_60"];
         trace?: never;
     };
-    "/v1/topic-subtopics/**": {
+    "/v1/topic-subtopics/": {
         parameters: {
             query?: never;
             header?: never;
@@ -1463,6 +1440,29 @@ export type paths = {
         patch: operations["redirect_53"];
         trace?: never;
     };
+    "/v1/topic-subtopics/**": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @deprecated */
+        get: operations["redirect_42"];
+        /** @deprecated */
+        put: operations["redirect_44"];
+        /** @deprecated */
+        post: operations["redirect_43"];
+        /** @deprecated */
+        delete: operations["redirect_45"];
+        /** @deprecated */
+        options: operations["redirect_48"];
+        /** @deprecated */
+        head: operations["redirect_47"];
+        /** @deprecated */
+        patch: operations["redirect_46"];
+        trace?: never;
+    };
     "/v1/topics": {
         parameters: {
             query?: never;
@@ -1471,19 +1471,19 @@ export type paths = {
             cookie?: never;
         };
         /** @deprecated */
-        get: operations["redirect_21"];
+        get: operations["redirect_28"];
         /** @deprecated */
-        put: operations["redirect_23"];
+        put: operations["redirect_30"];
         /** @deprecated */
-        post: operations["redirect_22"];
+        post: operations["redirect_29"];
         /** @deprecated */
-        delete: operations["redirect_24"];
+        delete: operations["redirect_31"];
         /** @deprecated */
-        options: operations["redirect_27"];
+        options: operations["redirect_34"];
         /** @deprecated */
-        head: operations["redirect_26"];
+        head: operations["redirect_33"];
         /** @deprecated */
-        patch: operations["redirect_25"];
+        patch: operations["redirect_32"];
         trace?: never;
     };
     "/v1/topics/": {
@@ -1517,19 +1517,19 @@ export type paths = {
             cookie?: never;
         };
         /** @deprecated */
-        get: operations["redirect_28"];
+        get: operations["redirect_21"];
         /** @deprecated */
-        put: operations["redirect_30"];
+        put: operations["redirect_23"];
         /** @deprecated */
-        post: operations["redirect_29"];
+        post: operations["redirect_22"];
         /** @deprecated */
-        delete: operations["redirect_31"];
+        delete: operations["redirect_24"];
         /** @deprecated */
-        options: operations["redirect_34"];
+        options: operations["redirect_27"];
         /** @deprecated */
-        head: operations["redirect_33"];
+        head: operations["redirect_26"];
         /** @deprecated */
-        patch: operations["redirect_32"];
+        patch: operations["redirect_25"];
         trace?: never;
     };
     "/v1/topics/{id}/translations": {
@@ -1563,29 +1563,6 @@ export type paths = {
             cookie?: never;
         };
         /** @deprecated */
-        get: operations["redirect_14"];
-        /** @deprecated */
-        put: operations["redirect_16"];
-        /** @deprecated */
-        post: operations["redirect_15"];
-        /** @deprecated */
-        delete: operations["redirect_17"];
-        /** @deprecated */
-        options: operations["redirect_20"];
-        /** @deprecated */
-        head: operations["redirect_19"];
-        /** @deprecated */
-        patch: operations["redirect_18"];
-        trace?: never;
-    };
-    "/v1/topics/{id}/translations/**": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @deprecated */
         get: operations["redirect_7"];
         /** @deprecated */
         put: operations["redirect_9"];
@@ -1599,6 +1576,29 @@ export type paths = {
         head: operations["redirect_12"];
         /** @deprecated */
         patch: operations["redirect_11"];
+        trace?: never;
+    };
+    "/v1/topics/{id}/translations/**": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @deprecated */
+        get: operations["redirect_14"];
+        /** @deprecated */
+        put: operations["redirect_16"];
+        /** @deprecated */
+        post: operations["redirect_15"];
+        /** @deprecated */
+        delete: operations["redirect_17"];
+        /** @deprecated */
+        options: operations["redirect_20"];
+        /** @deprecated */
+        head: operations["redirect_19"];
+        /** @deprecated */
+        patch: operations["redirect_18"];
         trace?: never;
     };
     "/v1/url/mapping": {
@@ -2767,59 +2767,6 @@ export interface operations {
             };
         };
     };
-    getAllContexts: {
-        parameters: {
-            query?: {
-                /**
-                 * @description ISO-639-1 language code
-                 * @example nb
-                 */
-                language?: string;
-            };
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["Context"][];
-                };
-            };
-        };
-    };
-    createContext: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ContextPOST"];
-            };
-        };
-        responses: {
-            /** @description Created */
-            201: {
-                headers: {
-                    Location?: string;
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
     getAllContexts_1: {
         parameters: {
             query?: {
@@ -2849,6 +2796,59 @@ export interface operations {
         };
     };
     createContext_1: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ContextPOST"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    Location?: string;
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getAllContexts: {
+        parameters: {
+            query?: {
+                /**
+                 * @description ISO-639-1 language code
+                 * @example nb
+                 */
+                language?: string;
+            };
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Context"][];
+                };
+            };
+        };
+    };
+    createContext: {
         parameters: {
             query?: never;
             header?: {
@@ -3140,7 +3140,7 @@ export interface operations {
             };
         };
     };
-    redirect_189: {
+    redirect_196: {
         parameters: {
             query?: never;
             header?: {
@@ -3160,7 +3160,7 @@ export interface operations {
             };
         };
     };
-    redirect_191: {
+    redirect_198: {
         parameters: {
             query?: never;
             header?: {
@@ -3180,7 +3180,7 @@ export interface operations {
             };
         };
     };
-    redirect_190: {
+    redirect_197: {
         parameters: {
             query?: never;
             header?: {
@@ -3200,7 +3200,7 @@ export interface operations {
             };
         };
     };
-    redirect_192: {
+    redirect_199: {
         parameters: {
             query?: never;
             header?: {
@@ -3220,7 +3220,7 @@ export interface operations {
             };
         };
     };
-    redirect_195: {
+    redirect_202: {
         parameters: {
             query?: never;
             header?: {
@@ -3240,7 +3240,7 @@ export interface operations {
             };
         };
     };
-    redirect_194: {
+    redirect_201: {
         parameters: {
             query?: never;
             header?: {
@@ -3260,7 +3260,7 @@ export interface operations {
             };
         };
     };
-    redirect_193: {
+    redirect_200: {
         parameters: {
             query?: never;
             header?: {
@@ -3420,7 +3420,7 @@ export interface operations {
             };
         };
     };
-    redirect_196: {
+    redirect_189: {
         parameters: {
             query?: never;
             header?: {
@@ -3440,7 +3440,7 @@ export interface operations {
             };
         };
     };
-    redirect_198: {
+    redirect_191: {
         parameters: {
             query?: never;
             header?: {
@@ -3460,7 +3460,7 @@ export interface operations {
             };
         };
     };
-    redirect_197: {
+    redirect_190: {
         parameters: {
             query?: never;
             header?: {
@@ -3480,7 +3480,7 @@ export interface operations {
             };
         };
     };
-    redirect_199: {
+    redirect_192: {
         parameters: {
             query?: never;
             header?: {
@@ -3500,7 +3500,7 @@ export interface operations {
             };
         };
     };
-    redirect_202: {
+    redirect_195: {
         parameters: {
             query?: never;
             header?: {
@@ -3520,7 +3520,7 @@ export interface operations {
             };
         };
     };
-    redirect_201: {
+    redirect_194: {
         parameters: {
             query?: never;
             header?: {
@@ -3540,7 +3540,7 @@ export interface operations {
             };
         };
     };
-    redirect_200: {
+    redirect_193: {
         parameters: {
             query?: never;
             header?: {
@@ -3554,90 +3554,6 @@ export interface operations {
             /** @description OK */
             200: {
                 headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getAllNodes: {
-        parameters: {
-            query?: {
-                /** @description Filter by nodeType, could be a comma separated list, defaults to Topics and Subjects (Resources are quite slow). :^) */
-                nodeType?: components["schemas"]["NodeType"][];
-                /**
-                 * @description ISO-639-1 language code
-                 * @example nb
-                 */
-                language?: string;
-                /** @description Filter by contentUri */
-                contentURI?: string;
-                /** @description Ids to filter by */
-                ids?: string[];
-                /**
-                 * @deprecated
-                 * @description Only root level contexts
-                 */
-                isRoot?: boolean;
-                /** @description Only contexts */
-                isContext?: boolean;
-                /** @description Filter by key and value */
-                key?: string;
-                /** @description Filter by key and value */
-                value?: string;
-                /** @description Filter by context id. Beware: handled separately from other parameters! */
-                contextId?: string;
-                /** @description Filter by context ids. Beware: handled separately from other parameters! */
-                contextIds?: string[];
-                /** @description Filter contexts by visibility */
-                isVisible?: boolean;
-                /** @description Include all contexts */
-                includeContexts?: boolean;
-                /** @description Filter out programme contexts */
-                filterProgrammes?: boolean;
-                /** @description Id to root id in context. */
-                rootId?: string;
-                /** @description Id to parent id in context. */
-                parentId?: string;
-            };
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["Node"][];
-                };
-            };
-        };
-    };
-    createNode: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["NodePostPut"];
-            };
-        };
-        responses: {
-            /** @description Created */
-            201: {
-                headers: {
-                    Location?: string;
                     [name: string]: unknown;
                 };
                 content?: never;
@@ -3704,6 +3620,90 @@ export interface operations {
         };
     };
     createNode_1: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NodePostPut"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    Location?: string;
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getAllNodes: {
+        parameters: {
+            query?: {
+                /** @description Filter by nodeType, could be a comma separated list, defaults to Topics and Subjects (Resources are quite slow). :^) */
+                nodeType?: components["schemas"]["NodeType"][];
+                /**
+                 * @description ISO-639-1 language code
+                 * @example nb
+                 */
+                language?: string;
+                /** @description Filter by contentUri */
+                contentURI?: string;
+                /** @description Ids to filter by */
+                ids?: string[];
+                /**
+                 * @deprecated
+                 * @description Only root level contexts
+                 */
+                isRoot?: boolean;
+                /** @description Only contexts */
+                isContext?: boolean;
+                /** @description Filter by key and value */
+                key?: string;
+                /** @description Filter by key and value */
+                value?: string;
+                /** @description Filter by context id. Beware: handled separately from other parameters! */
+                contextId?: string;
+                /** @description Filter by context ids. Beware: handled separately from other parameters! */
+                contextIds?: string[];
+                /** @description Filter contexts by visibility */
+                isVisible?: boolean;
+                /** @description Include all contexts */
+                includeContexts?: boolean;
+                /** @description Filter out programme contexts */
+                filterProgrammes?: boolean;
+                /** @description Id to root id in context. */
+                rootId?: string;
+                /** @description Id to parent id in context. */
+                parentId?: string;
+            };
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Node"][];
+                };
+            };
+        };
+    };
+    createNode: {
         parameters: {
             query?: never;
             header?: {
@@ -4971,6 +4971,146 @@ export interface operations {
             };
         };
     };
+    redirect_175: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_177: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_176: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_178: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_181: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_180: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_179: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     redirect_168: {
         parameters: {
             query?: never;
@@ -5251,146 +5391,6 @@ export interface operations {
             };
         };
     };
-    redirect_175: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_177: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_176: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_178: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_181: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_180: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_179: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
     redirect_147: {
         parameters: {
             query?: never;
@@ -5524,160 +5524,6 @@ export interface operations {
         };
     };
     redirect_151: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_161: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_163: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_162: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_164: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_167: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_166: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_165: {
         parameters: {
             query?: never;
             header?: {
@@ -5853,13 +5699,15 @@ export interface operations {
             };
         };
     };
-    redirect_126: {
+    redirect_161: {
         parameters: {
             query?: never;
             header?: {
                 versionHash?: components["parameters"]["versionHash"];
             };
-            path?: never;
+            path: {
+                id: string;
+            };
             cookie?: never;
         };
         requestBody?: never;
@@ -5873,13 +5721,15 @@ export interface operations {
             };
         };
     };
-    redirect_128: {
+    redirect_163: {
         parameters: {
             query?: never;
             header?: {
                 versionHash?: components["parameters"]["versionHash"];
             };
-            path?: never;
+            path: {
+                id: string;
+            };
             cookie?: never;
         };
         requestBody?: never;
@@ -5893,13 +5743,15 @@ export interface operations {
             };
         };
     };
-    redirect_127: {
+    redirect_162: {
         parameters: {
             query?: never;
             header?: {
                 versionHash?: components["parameters"]["versionHash"];
             };
-            path?: never;
+            path: {
+                id: string;
+            };
             cookie?: never;
         };
         requestBody?: never;
@@ -5913,13 +5765,15 @@ export interface operations {
             };
         };
     };
-    redirect_129: {
+    redirect_164: {
         parameters: {
             query?: never;
             header?: {
                 versionHash?: components["parameters"]["versionHash"];
             };
-            path?: never;
+            path: {
+                id: string;
+            };
             cookie?: never;
         };
         requestBody?: never;
@@ -5933,13 +5787,15 @@ export interface operations {
             };
         };
     };
-    redirect_132: {
+    redirect_167: {
         parameters: {
             query?: never;
             header?: {
                 versionHash?: components["parameters"]["versionHash"];
             };
-            path?: never;
+            path: {
+                id: string;
+            };
             cookie?: never;
         };
         requestBody?: never;
@@ -5953,13 +5809,15 @@ export interface operations {
             };
         };
     };
-    redirect_131: {
+    redirect_166: {
         parameters: {
             query?: never;
             header?: {
                 versionHash?: components["parameters"]["versionHash"];
             };
-            path?: never;
+            path: {
+                id: string;
+            };
             cookie?: never;
         };
         requestBody?: never;
@@ -5973,13 +5831,15 @@ export interface operations {
             };
         };
     };
-    redirect_130: {
+    redirect_165: {
         parameters: {
             query?: never;
             header?: {
                 versionHash?: components["parameters"]["versionHash"];
             };
-            path?: never;
+            path: {
+                id: string;
+            };
             cookie?: never;
         };
         requestBody?: never;
@@ -6114,6 +5974,146 @@ export interface operations {
         };
     };
     redirect_144: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_126: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_128: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_127: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_129: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_132: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_131: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_130: {
         parameters: {
             query?: never;
             header?: {
@@ -6847,6 +6847,160 @@ export interface operations {
             };
         };
     };
+    redirect_91: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_93: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_92: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_94: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_97: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_96: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_95: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     redirect_98: {
         parameters: {
             query?: never;
@@ -7001,15 +7155,13 @@ export interface operations {
             };
         };
     };
-    redirect_91: {
+    redirect_70: {
         parameters: {
             query?: never;
             header?: {
                 versionHash?: components["parameters"]["versionHash"];
             };
-            path: {
-                id: string;
-            };
+            path?: never;
             cookie?: never;
         };
         requestBody?: never;
@@ -7023,15 +7175,13 @@ export interface operations {
             };
         };
     };
-    redirect_93: {
+    redirect_72: {
         parameters: {
             query?: never;
             header?: {
                 versionHash?: components["parameters"]["versionHash"];
             };
-            path: {
-                id: string;
-            };
+            path?: never;
             cookie?: never;
         };
         requestBody?: never;
@@ -7045,15 +7195,13 @@ export interface operations {
             };
         };
     };
-    redirect_92: {
+    redirect_71: {
         parameters: {
             query?: never;
             header?: {
                 versionHash?: components["parameters"]["versionHash"];
             };
-            path: {
-                id: string;
-            };
+            path?: never;
             cookie?: never;
         };
         requestBody?: never;
@@ -7067,15 +7215,13 @@ export interface operations {
             };
         };
     };
-    redirect_94: {
+    redirect_73: {
         parameters: {
             query?: never;
             header?: {
                 versionHash?: components["parameters"]["versionHash"];
             };
-            path: {
-                id: string;
-            };
+            path?: never;
             cookie?: never;
         };
         requestBody?: never;
@@ -7089,15 +7235,13 @@ export interface operations {
             };
         };
     };
-    redirect_97: {
+    redirect_76: {
         parameters: {
             query?: never;
             header?: {
                 versionHash?: components["parameters"]["versionHash"];
             };
-            path: {
-                id: string;
-            };
+            path?: never;
             cookie?: never;
         };
         requestBody?: never;
@@ -7111,15 +7255,13 @@ export interface operations {
             };
         };
     };
-    redirect_96: {
+    redirect_75: {
         parameters: {
             query?: never;
             header?: {
                 versionHash?: components["parameters"]["versionHash"];
             };
-            path: {
-                id: string;
-            };
+            path?: never;
             cookie?: never;
         };
         requestBody?: never;
@@ -7133,15 +7275,13 @@ export interface operations {
             };
         };
     };
-    redirect_95: {
+    redirect_74: {
         parameters: {
             query?: never;
             header?: {
                 versionHash?: components["parameters"]["versionHash"];
             };
-            path: {
-                id: string;
-            };
+            path?: never;
             cookie?: never;
         };
         requestBody?: never;
@@ -7416,286 +7556,6 @@ export interface operations {
         };
     };
     redirect_81: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_70: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_72: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_71: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_73: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_76: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_75: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_74: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_42: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_44: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_43: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_45: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_48: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_47: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_46: {
         parameters: {
             query?: never;
             header?: {
@@ -7995,7 +7855,7 @@ export interface operations {
             };
         };
     };
-    redirect_21: {
+    redirect_42: {
         parameters: {
             query?: never;
             header?: {
@@ -8015,7 +7875,7 @@ export interface operations {
             };
         };
     };
-    redirect_23: {
+    redirect_44: {
         parameters: {
             query?: never;
             header?: {
@@ -8035,7 +7895,7 @@ export interface operations {
             };
         };
     };
-    redirect_22: {
+    redirect_43: {
         parameters: {
             query?: never;
             header?: {
@@ -8055,7 +7915,7 @@ export interface operations {
             };
         };
     };
-    redirect_24: {
+    redirect_45: {
         parameters: {
             query?: never;
             header?: {
@@ -8075,7 +7935,7 @@ export interface operations {
             };
         };
     };
-    redirect_27: {
+    redirect_48: {
         parameters: {
             query?: never;
             header?: {
@@ -8095,7 +7955,7 @@ export interface operations {
             };
         };
     };
-    redirect_26: {
+    redirect_47: {
         parameters: {
             query?: never;
             header?: {
@@ -8115,7 +7975,147 @@ export interface operations {
             };
         };
     };
-    redirect_25: {
+    redirect_46: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_28: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_30: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_29: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_31: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_34: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_33: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_32: {
         parameters: {
             query?: never;
             header?: {
@@ -8275,7 +8275,7 @@ export interface operations {
             };
         };
     };
-    redirect_28: {
+    redirect_21: {
         parameters: {
             query?: never;
             header?: {
@@ -8295,7 +8295,7 @@ export interface operations {
             };
         };
     };
-    redirect_30: {
+    redirect_23: {
         parameters: {
             query?: never;
             header?: {
@@ -8315,7 +8315,7 @@ export interface operations {
             };
         };
     };
-    redirect_29: {
+    redirect_22: {
         parameters: {
             query?: never;
             header?: {
@@ -8335,7 +8335,7 @@ export interface operations {
             };
         };
     };
-    redirect_31: {
+    redirect_24: {
         parameters: {
             query?: never;
             header?: {
@@ -8355,7 +8355,7 @@ export interface operations {
             };
         };
     };
-    redirect_34: {
+    redirect_27: {
         parameters: {
             query?: never;
             header?: {
@@ -8375,7 +8375,7 @@ export interface operations {
             };
         };
     };
-    redirect_33: {
+    redirect_26: {
         parameters: {
             query?: never;
             header?: {
@@ -8395,7 +8395,7 @@ export interface operations {
             };
         };
     };
-    redirect_32: {
+    redirect_25: {
         parameters: {
             query?: never;
             header?: {
@@ -8569,160 +8569,6 @@ export interface operations {
             };
         };
     };
-    redirect_14: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_16: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_15: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_17: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_20: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_19: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    redirect_18: {
-        parameters: {
-            query?: never;
-            header?: {
-                versionHash?: components["parameters"]["versionHash"];
-            };
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
     redirect_7: {
         parameters: {
             query?: never;
@@ -8856,6 +8702,160 @@ export interface operations {
         };
     };
     redirect_11: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_14: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_16: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_15: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_17: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_20: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_19: {
+        parameters: {
+            query?: never;
+            header?: {
+                versionHash?: components["parameters"]["versionHash"];
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    redirect_18: {
         parameters: {
             query?: never;
             header?: {
