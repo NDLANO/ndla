@@ -168,7 +168,7 @@ const FooterSocialMedia = () => {
   const id = useId();
   const { t } = useTranslation();
 
-  const baseLinks = [
+  const links = [
     {
       text: t("footer.socialMediaLinks.facebook"),
       to: "https://www.facebook.com/ndla.no",
@@ -189,15 +189,12 @@ const FooterSocialMedia = () => {
       to: "https://www.youtube.com/channel/UCBlt6T8B0mmvDh3k5q7EhsA",
       icon: <YoutubeLine />,
     },
+    {
+      text: t("footer.socialMediaLinks.github"),
+      to: "https://github.com/NDLANO",
+      icon: <GithubFill />,
+    },
   ];
-
-  const githubLink = {
-    text: t("footer.socialMediaLinks.github"),
-    to: "https://github.com/NDLANO",
-    icon: <GithubFill />,
-  };
-
-  const links = [...baseLinks, ...(config.githubIconEnabled ? [githubLink] : [])];
 
   return (
     <StyledLinkBlock>
