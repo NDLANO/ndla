@@ -52,7 +52,7 @@ jobs:
     outputs:
       changed: ${{ steps.changed.outputs.changed }}
       modules: ${{ steps.select.outputs.modules }}
-      types-tasks: ${{ github.event_name != 'workflow_dispatch' && steps.types.outputs.changed == 'true' &&'_.generateTypescript' || steps.select.outputs.types-tasks }}
+      types-tasks: ${{ github.event_name != 'workflow_dispatch' && steps.types.outputs.changed == 'true' && '_.generateTypescript' || steps.select.outputs.types-tasks }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
