@@ -12,8 +12,8 @@ import no.ndla.testbase.UnitTestSuiteBase
 
 class IndexNameTest extends UnitTestSuiteBase {
   test("That every default index name is unique") {
-    val duplicates = IndexName.values.groupBy(_.defaultName).filter(_._2.length > 1)
-    duplicates shouldBe empty
+    val set = IndexName.values.toSet
+    set.size should be(IndexName.values.length)
   }
 
   test("That every default index name is a valid index name without underscores") {
