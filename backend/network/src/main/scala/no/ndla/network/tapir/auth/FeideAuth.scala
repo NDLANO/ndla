@@ -15,6 +15,7 @@ import no.ndla.network.jwt.{JwsKeySelectorFactory, JwtVerifier}
 import no.ndla.network.model.{FeideIdToken, FeideUserWrapper}
 import no.ndla.network.tapir.AllErrors
 import no.ndla.network.tapir.TapirUtil.errorOutputVariantFor
+import no.ndla.network.tapir.Vary.varyByDefaultOn
 import sttp.model.StatusCode
 import sttp.model.headers.{AuthenticationScheme, WWWAuthenticateChallenge}
 import sttp.tapir.*
@@ -61,6 +62,7 @@ case class FeideAuth()(using
     private def selfWithErrorOut: Endpoint[Unit, INPUT, AllErrors, OUTPUT, R] = self
       .errorOutVariantPrepend(errorOutputVariantFor(StatusCode.Unauthorized.code))
       .errorOutVariantPrepend(errorOutputVariantFor(StatusCode.Forbidden.code))
+      .varyByDefaultOn(FeideAuth.HeaderName)
 
     def withFeideUser[F[_]]: PartialServerEndpoint[FeideUserWrapper, FeideUserWrapper, INPUT, AllErrors, OUTPUT, R, F] =
       selfWithErrorOut.securityIn(feideRequiredAuth).serverSecurityLogicPure(_.asRight)

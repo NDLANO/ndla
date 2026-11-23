@@ -33,7 +33,6 @@ import no.ndla.database.DBUtility
 import no.ndla.language.Language
 import no.ndla.network.model.FeideUserWrapper
 import no.ndla.network.tapir.Cachable
-import no.ndla.network.tapir.auth.FeideAuth
 import no.ndla.validation.HtmlTagRules.{jsoupDocumentToString, stringToJsoupDocument}
 import org.jsoup.nodes.Element
 import scalikejdbc.DBSession
@@ -72,7 +71,7 @@ class ReadService(using
         case None                                                                                            => Failure(NotFoundException(s"The article with id $id was not found"))
         case Some(ArticleRow(_, _, _, _, _, None))                                                           => Failure(ArticleErrorHelpers.ArticleGoneException())
         case Some(ArticleRow(_, _, _, _, _, Some(article))) if article.availability == Availability.everyone =>
-          Cachable.yes(converterService.toApiArticleV2(article, language, fallback))
+          Cachable.yes(converterService.toApiArticleV2(article, language, fallback)).map(_.sameForAllUsers)
         case Some(ArticleRow(_, _, _, _, _, Some(article))) =>
           val feideUser     = feide.map(_.user)
           val userIsTeacher = feideUser.exists(_.isTeacher)
@@ -106,8 +105,9 @@ class ReadService(using
         article         <- getDomainArticleBySlug(slug)
         articleId       <- article.id.toTry(MissingIdException("Article ID was missing"))
         cachableArticle <- article.availability match {
-          case Availability.everyone => Cachable.yes(converterService.toApiArticleV2(article, language, fallback))
-          case _                     => Cachable.no(converterService.toApiArticleV2(article, language, fallback))
+          case Availability.everyone =>
+            Cachable.yes(converterService.toApiArticleV2(article, language, fallback)).map(_.sameForAllUsers)
+          case _ => Cachable.no(converterService.toApiArticleV2(article, language, fallback))
         }
       } yield cachableArticle
     }
@@ -266,9 +266,7 @@ class ReadService(using
     }
 
     val isRestricted = !settings.availability.distinct.forall(_ == Availability.everyone)
-    articleSearchService
-      .matchingQuery(settings)
-      .map(result => Cachable(result, canBeCached = !isRestricted).varyOn(FeideAuth.HeaderName))
+    articleSearchService.matchingQuery(settings).map(result => Cachable(result, canBeCached = !isRestricted))
   }
 
   private def getAvailabilityFilter(feide: Option[FeideUserWrapper]): Option[Availability] = feide match {
@@ -306,8 +304,8 @@ class ReadService(using
         converterService.toApiArticleV2(article, language, fallback)
       }
     } yield
-      if (isFeideNeeded) Cachable(apiArticles, canBeCached = feide.isEmpty).varyOn(FeideAuth.HeaderName)
-      else Cachable.yes(apiArticles)
+      if (isFeideNeeded) Cachable(apiArticles, canBeCached = feide.isEmpty)
+      else Cachable.yes(apiArticles).sameForAllUsers
   }
 
   @tailrec

@@ -52,25 +52,32 @@ class CachableTest extends UnitSuite {
     result2 should be(Cachable(List(1, 2, 3), false))
   }
 
-  test("That merging combines vary headers") {
-    val cachables = List(Cachable.yes(1).varyOn("FeideAuthorization"), Cachable.yes(2).varyOn("FeideAuthorization"))
-    Cachable.merge(cachables) should be(Cachable(List(1, 2), true, List("FeideAuthorization")))
+  test("That merging keeps the endpoint default if any part uses it") {
+    val overridden = Cachable.merge(List(Cachable.yes(1).varyOn("A"), Cachable.yes(2).varyOn("B")))
+    overridden should be(Cachable(List(1, 2), true, Vary(List("A", "B"), includeEndpointDefault = false)))
+
+    val withDefault = Cachable.merge(List(Cachable.yes(1).sameForAllUsers, Cachable.yes(2)))
+    withDefault should be(Cachable(List(1, 2), true, Vary.EndpointDefault))
   }
 
   test("That flatMap keeps non-cachable and vary from every step") {
     val x = for {
-      a <- Cachable.no(1)
+      a <- Cachable.no(1).sameForAllUsers
       b <- Cachable.yes(2).varyOn("FeideAuthorization")
     } yield a + b
 
-    x should be(Cachable(3, false, List("FeideAuthorization")))
+    x should be(Cachable(3, false, Vary(List("FeideAuthorization"), includeEndpointDefault = false)))
   }
 
-  test("That Ok only adds headers that apply") {
+  test("That Ok leaves vary to the endpoint default unless overridden") {
     Cachable.yes(1).Ok() should be((1, DynamicHeaders(List.empty)))
 
-    val (_, headers) = Cachable.no(1).varyOn("FeideAuthorization", "Authorization").Ok()
-    headers.headers.map(h => h.name -> h.value) should
-      be(List("Cache-Control" -> "private", "Vary" -> "FeideAuthorization, Authorization"))
+    val (_, overridden) = Cachable.no(1).varyOn("FeideAuthorization", "Authorization").Ok()
+    overridden.headers.map(h => h.name -> h.value) should be(
+      List("Cache-Control" -> "private", "Vary" -> "FeideAuthorization, Authorization", "Ndla-Vary-Override" -> "true")
+    )
+
+    val (_, sameForAll) = Cachable.yes(1).sameForAllUsers.Ok()
+    sameForAll.headers.map(h => h.name -> h.value) should be(List("Ndla-Vary-Override" -> "true"))
   }
 }

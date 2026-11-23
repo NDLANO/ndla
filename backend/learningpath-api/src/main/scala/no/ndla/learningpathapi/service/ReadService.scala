@@ -19,15 +19,11 @@ import no.ndla.learningpathapi.model.domain.UserInfo.*
 import no.ndla.learningpathapi.repository.LearningPathRepository
 import no.ndla.network.model.{CombinedUser, CombinedUserRequired}
 import no.ndla.network.tapir.Cachable
-import no.ndla.network.tapir.auth.FeideAuth
-import sttp.model.HeaderNames
 
 import scala.math.max
 import scala.util.{Failure, Success, Try}
 
 class ReadService(using learningPathRepository: LearningPathRepository, converterService: ConverterService) {
-  private val userHeaders = Seq(FeideAuth.HeaderName, HeaderNames.Authorization)
-
   def tags: List[LearningPathTagsDTO] = {
     learningPathRepository.allPublishedTags.map(tags => LearningPathTagsDTO(tags.tags, tags.language))
   }
@@ -63,7 +59,7 @@ class ReadService(using learningPathRepository: LearningPathRepository, converte
       learningpaths
         .map(lp => converterService.asApiLearningpathV2(lp, language, fallback, userInfo))
         .sequence
-        .map(Cachable(_, canBeCached).varyOn(userHeaders*))
+        .map(Cachable(_, canBeCached))
     }
   }
 
@@ -74,9 +70,7 @@ class ReadService(using learningPathRepository: LearningPathRepository, converte
       user: CombinedUser,
   ): Try[Cachable[LearningPathV2DTO]] = {
     withIdAndAccessGranted(learningPathId, user).flatMap(lp =>
-      converterService
-        .asApiLearningpathV2(lp, language, fallback, user)
-        .map(Cachable(_, !lp.isPathUserSpecific(user)).varyOn(userHeaders*))
+      converterService.asApiLearningpathV2(lp, language, fallback, user).map(Cachable(_, !lp.isPathUserSpecific(user)))
     )
   }
 
@@ -123,7 +117,7 @@ class ReadService(using learningPathRepository: LearningPathRepository, converte
           .map(ls =>
             converterService
               .asApiLearningStepV2(ls, lp, language, fallback, user)
-              .map(Cachable(_, !(lp.isPrivate || ls.isStepUserSpecific(user))).varyOn(userHeaders*))
+              .map(Cachable(_, !(lp.isPrivate || ls.isStepUserSpecific(user))))
           ) match {
           case Some(value) => value
           case None        => Failure(

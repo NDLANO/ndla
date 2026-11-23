@@ -13,8 +13,9 @@ import no.ndla.common.auth.Permission
 import no.ndla.common.configuration.BaseProps
 import no.ndla.network.jwt.{JwsKeySelectorFactory, JwtVerifier}
 import no.ndla.network.tapir.TapirUtil.errorOutputVariantFor
+import no.ndla.network.tapir.Vary.varyByDefaultOn
 import no.ndla.network.tapir.{AllErrors, ErrorHelpers}
-import sttp.model.StatusCode
+import sttp.model.{HeaderNames, StatusCode}
 import sttp.tapir.*
 import sttp.tapir.EndpointInput.AuthType
 import sttp.tapir.server.PartialServerEndpoint
@@ -63,6 +64,7 @@ case class NdlaAuth()(using
     private def selfWithErrorOut: Endpoint[Unit, INPUT, AllErrors, OUTPUT, R] = self
       .errorOutVariantPrepend(errorOutputVariantFor(StatusCode.Unauthorized.code))
       .errorOutVariantPrepend(errorOutputVariantFor(StatusCode.Forbidden.code))
+      .varyByDefaultOn(HeaderNames.Authorization)
 
     def requirePermission[F[_]](
         requiredPermission: Permission*

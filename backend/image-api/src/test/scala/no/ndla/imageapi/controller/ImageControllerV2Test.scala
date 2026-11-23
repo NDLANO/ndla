@@ -162,6 +162,7 @@ class ImageControllerV2Test extends UnitSuite with TestEnvironment with TapirCon
 
     val res = quickRequest.get(uri"http://localhost:$serverPort/image-api/v2/images/1").send()
     res.code.code should be(200)
+    res.header("Vary") should be(Some("Authorization"))
     val result = CirceUtil.unsafeParseAs[api.ImageMetaInformationV2DTO](res.body)
     result.copy(imageUrl = testUrl, metaUrl = testUrl) should equal(expectedObject)
   }

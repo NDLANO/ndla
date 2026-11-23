@@ -17,6 +17,7 @@ import no.ndla.network.tapir.interceptors.{
   NdlaExceptionHandler,
   NdlaRejectHandler,
   TracingInterceptor,
+  VaryInterceptor,
 }
 import ox.{never, supervised, useInScope}
 import sttp.shared.Identity
@@ -42,6 +43,7 @@ class NdlaServer(using
       .serverLog(None)
       .metricsInterceptor(prometheusMetrics.metricsInterceptor())
       .prependInterceptor(ContextInterceptor)
+      .appendInterceptor(VaryInterceptor)
     val options = TracingInterceptor()
       .fold(interceptors)(interceptors.prependInterceptor)
       .prependInterceptor(LogInterceptor)

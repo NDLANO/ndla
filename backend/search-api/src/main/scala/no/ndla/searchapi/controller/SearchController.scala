@@ -473,7 +473,7 @@ class SearchController(using
     maybeFeide.fold(List.empty)(_.user.availabilities.toList)
 
   private def availabilityCachable[T](value: T, availability: List[Availability]): Cachable[T] =
-    Cachable(value, canBeCached = availability.forall(_ == Availability.everyone)).varyOn(FeideAuth.HeaderName)
+    Cachable(value, canBeCached = availability.forall(_ == Availability.everyone))
 
   private def asSettings(p: Option[SearchParamsDTO], availability: List[Availability]): SearchSettings = {
     p match {

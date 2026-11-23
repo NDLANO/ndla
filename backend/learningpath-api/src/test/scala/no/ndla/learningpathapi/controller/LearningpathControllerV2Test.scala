@@ -310,7 +310,7 @@ class LearningpathControllerV2Test extends UnitSuite with TestEnvironment with T
 
   test("That GET /ids is cacheable when content is not user specific") {
     when(readService.withIdV2List(any, any, any, any, any, any[CombinedUser])).thenReturn(
-      Success(Cachable.yes(List.empty).varyOn("FeideAuthorization", "Authorization"))
+      Success(Cachable.yes(List.empty))
     )
 
     val res = quickRequest.get(uri"http://localhost:$serverPort/learningpath-api/v2/learningpaths/ids?ids=1").send()

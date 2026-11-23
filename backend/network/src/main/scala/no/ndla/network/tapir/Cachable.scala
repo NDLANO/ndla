@@ -8,7 +8,7 @@
 
 package no.ndla.network.tapir
 
-import sttp.model.{Header, HeaderNames}
+import sttp.model.Header
 import sttp.model.headers.CacheDirective
 
 import scala.util.Try
@@ -19,7 +19,7 @@ import scala.util.Try
   * One would use the class by using `Cachable.yes(value)` (Or `Cachable.no(value)`) for values that can be cached and
   * then use `returnValue.Ok()` in the controller to get the resutling type with headers in a tuple.
   */
-case class Cachable[T](value: T, canBeCached: Boolean, vary: List[String] = List.empty) {
+case class Cachable[T](value: T, canBeCached: Boolean, vary: Vary = Vary.EndpointDefault) {
 
   /** Return a tuple of [[T]] and [[DynamicHeaders]] type with the value as jsonbody and correct 'cache-control' and
     * 'vary' headers applied.
@@ -28,11 +28,14 @@ case class Cachable[T](value: T, canBeCached: Boolean, vary: List[String] = List
     val cacheHeaders =
       if (canBeCached) List.empty
       else List(Header.cacheControl(CacheDirective.Private))
-    val varyHeader = Option.when(vary.nonEmpty)(Header(HeaderNames.Vary, vary.mkString(", ")))
-    value -> DynamicHeaders(headers ++ cacheHeaders ++ varyHeader)
+    value -> DynamicHeaders(headers ++ cacheHeaders ++ vary.toHeaders)
   }
 
-  def varyOn(headers: String*): Cachable[T] = copy(vary = (vary ++ headers).distinct)
+  /** Vary on exactly these headers instead of the ones the endpoint's auth reads. */
+  def varyOn(header: String, more: String*): Cachable[T] =
+    copy(vary = Vary((header :: more.toList).distinct, includeEndpointDefault = false))
+
+  def sameForAllUsers: Cachable[T] = copy(vary = Vary.SameForAllUsers)
 
   /** Return a [[Cachable]] object with the function applied to value Example:
     * ```
@@ -49,14 +52,15 @@ case class Cachable[T](value: T, canBeCached: Boolean, vary: List[String] = List
 
   def flatMap[U](f: T => Cachable[U]): Cachable[U] = {
     val next = f(value)
-    next.copy(canBeCached = canBeCached && next.canBeCached, vary = (vary ++ next.vary).distinct)
+    next.copy(canBeCached = canBeCached && next.canBeCached, vary = vary ++ next.vary)
   }
 }
 
 object Cachable {
   def merge[T](cachables: List[Cachable[T]]): Cachable[List[T]] = {
     val canBeCached = cachables.forall(_.canBeCached)
-    Cachable(cachables.map(_.value), canBeCached, cachables.flatMap(_.vary).distinct)
+    val vary        = cachables.map(_.vary).reduceOption(_ ++ _).getOrElse(Vary.EndpointDefault)
+    Cachable(cachables.map(_.value), canBeCached, vary)
   }
 
   def yes[T <: Try[U], U](value: T): Try[Cachable[U]] = value.map(v => Cachable.yes(v))

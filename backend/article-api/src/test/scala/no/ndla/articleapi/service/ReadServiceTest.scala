@@ -21,7 +21,7 @@ import no.ndla.common.model.domain.*
 import no.ndla.common.model.domain.myndla.MyNDLAUser
 import no.ndla.network.clients.FeideExtendedUserInfo
 import no.ndla.network.model.{FeideIdToken, FeideUserWrapper}
-import no.ndla.network.tapir.Cachable
+import no.ndla.network.tapir.{Cachable, Vary}
 import no.ndla.testbase.NullSafeMockito.*
 
 import scala.util.{Failure, Success, Try}
@@ -66,16 +66,18 @@ class ReadServiceTest extends UnitSuite with TestEnvironment {
 
     when(articleRepository.withId(eqTo(1L))(using any)).thenReturn(Success(Some(toArticleRow(article))))
 
-    val expectedResult: Try[Cachable[api.ArticleV2DTO]] = Cachable.yes(
-      converterService.toApiArticleV2(
-        article.copy(
-          content = Seq(expectedArticleContent1),
-          visualElement = Seq(VisualElement(visualElementAfter, "nb")),
-        ),
-        "nb",
-        false,
+    val expectedResult: Try[Cachable[api.ArticleV2DTO]] = Cachable
+      .yes(
+        converterService.toApiArticleV2(
+          article.copy(
+            content = Seq(expectedArticleContent1),
+            visualElement = Seq(VisualElement(visualElementAfter, "nb")),
+          ),
+          "nb",
+          false,
+        )
       )
-    )
+      .map(_.sameForAllUsers)
     readService.withIdV2(1, "nb", fallback = false, None, None) should equal(expectedResult)
   }
 
@@ -177,11 +179,11 @@ class ReadServiceTest extends UnitSuite with TestEnvironment {
 
     val anonymous = searchAs(None)
     anonymous.canBeCached should be(true)
-    anonymous.vary should be(List("FeideAuthorization"))
+    anonymous.vary should be(Vary.EndpointDefault)
 
     val restricted = searchAs(Some(FeideUserWrapper(teacher, mock[FeideIdToken])))
     restricted.canBeCached should be(false)
-    restricted.vary should be(List("FeideAuthorization"))
+    restricted.vary should be(Vary.EndpointDefault)
   }
 
   test("that getArticlesByIds doesn't perform filter when every article has availability status everyone") {
@@ -199,7 +201,7 @@ class ReadServiceTest extends UnitSuite with TestEnvironment {
       .get
     result.value.length should be(3)
     result.canBeCached should be(true)
-    result.vary should be(List.empty)
+    result.vary should be(Vary.SameForAllUsers)
   }
 
   test("that getArticlesByIds performs filter and returns articles that can only be seen by teacher") {
@@ -230,7 +232,7 @@ class ReadServiceTest extends UnitSuite with TestEnvironment {
       .get
     result.value.length should be(3)
     result.canBeCached should be(false)
-    result.vary should be(List("FeideAuthorization"))
+    result.vary should be(Vary.EndpointDefault)
   }
 
   test("that getArticlesByIds performs filter and returns articles that can only be seen by everyone") {
@@ -259,7 +261,7 @@ class ReadServiceTest extends UnitSuite with TestEnvironment {
     result.value.length should be(2)
     result.value.map(res => res.availability).contains("teacher") should be(false)
     result.canBeCached should be(false)
-    result.vary should be(List("FeideAuthorization"))
+    result.vary should be(Vary.EndpointDefault)
   }
 
   test("that getArticlesByIds performs filter if feideAccessToken is not set") {
@@ -279,7 +281,7 @@ class ReadServiceTest extends UnitSuite with TestEnvironment {
     result.value.length should be(2)
     result.value.map(res => res.availability).contains("teacher") should be(false)
     result.canBeCached should be(true)
-    result.vary should be(List("FeideAuthorization"))
+    result.vary should be(Vary.EndpointDefault)
   }
 
   test("that getArticlesByIds fails if no ids were given") {
