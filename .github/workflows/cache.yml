@@ -4,6 +4,21 @@ on:
     inputs: {}
   schedule:
     - cron: "0 2 * * *"
+  push:
+    branches:
+      - main
+    paths:
+      - backend/**/*.mill
+      - backend/mill
+      - backend/mill.bat
+      - backend/versions.json
+      - backend/.scalafmt.conf
+      - backend/**/.spotless-formats.json
+      - frontend/pnpm-lock.yaml
+      - mise.toml
+      - .github/actions/backend-cache/**
+      - .github/actions/frontend-setup/**
+      - .github/workflows/cache.yml
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: false
