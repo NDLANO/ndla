@@ -145,7 +145,7 @@ const YesNoSetting = ({ label, value, onChange }: YesNoSettingProps) => {
 
 interface Props {
   state: QuizBuilderState;
-  onChange: (state: QuizBuilderState) => void;
+  onChange: (changes: Partial<QuizBuilderState>) => void;
 }
 
 export const QuizSettingsTab = ({ state, onChange }: Props) => {
@@ -169,12 +169,12 @@ export const QuizSettingsTab = ({ state, onChange }: Props) => {
           <YesNoSetting
             label={t("myNdla.quiz.form.settingsTab.alternativesRandomOrder")}
             value={alternativesRandomOrder}
-            onChange={(value) => onChange({ ...state, alternativesRandomOrder: value })}
+            onChange={(value) => onChange({ alternativesRandomOrder: value })}
           />
           <YesNoSetting
             label={t("myNdla.quiz.form.settingsTab.randomOrder")}
             value={randomOrder}
-            onChange={(value) => onChange({ ...state, randomOrder: value })}
+            onChange={(value) => onChange({ randomOrder: value })}
           />
         </SettingsGrid>
       </Section>
@@ -194,7 +194,7 @@ export const QuizSettingsTab = ({ state, onChange }: Props) => {
                   return;
                 }
                 setSubsetError(false);
-                onChange({ ...state, randomSubset: wantsSubset });
+                onChange({ randomSubset: wantsSubset });
               }}
             />
             {!!subsetError && (
@@ -210,7 +210,6 @@ export const QuizSettingsTab = ({ state, onChange }: Props) => {
                 value={String(questionCount)}
                 onValueChange={(details) =>
                   onChange({
-                    ...state,
                     questionCount: Number(details.value) as QuestionCountOption,
                   })
                 }

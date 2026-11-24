@@ -55,7 +55,7 @@ export default defineConfig({
     ? {
         command: "node --enable-source-maps build/server/index.js",
         port: 3000,
-        env: { NODE_ENV: "production", ENABLE_DIALOG_API: "false" },
+        env: { NODE_ENV: "production", ENABLE_DIALOG_API: "false", ENABLE_QUIZ: "true" },
       }
     : undefined,
 });

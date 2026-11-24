@@ -159,7 +159,9 @@ export const createApp = ({ build, vite }: AppOptions) => {
     }
     const { basepath: path, basename } = getLocaleInfoFromPath(req.path);
     const isPrivate = privateRoutes.some((r) => matchPath(r, path));
-    res.setHeader("Cache-Control", isPrivate ? "private, no-store" : "public, max-age=300");
+    // Shared quizzes change when the owner saves, so they must never be served from a browser or CDN cache.
+    const isQuizPage = matchPath("/quiz/:quizId", path);
+    res.setHeader("Cache-Control", isPrivate ? "private, no-store" : isQuizPage ? "no-store" : "public, max-age=300");
     const requiresAuth = authenticatedRoutes.some((r) => matchPath(r, path));
     const isValidSession = isActiveSession(getCookie(SESSION_EXPIRY_COOKIE, req.headers.cookie ?? ""));
 
