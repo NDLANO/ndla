@@ -174,6 +174,7 @@ const PlainQuizPageContent = () => {
               answers={answers}
               result={result}
               randomOrder={quiz.displaySettings.randomOrder}
+              wantsSubset={quiz.displaySettings.randomSubset}
               onRetry={onRetry}
             />
           ) : (

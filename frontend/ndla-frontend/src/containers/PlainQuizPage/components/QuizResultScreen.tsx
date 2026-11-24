@@ -236,6 +236,7 @@ interface Props {
   answers: Record<string, string[]>;
   result: GQLCheckQuizMutation["checkQuiz"];
   randomOrder?: boolean;
+  wantsSubset?: boolean;
   onRetry: () => void;
 }
 
@@ -264,7 +265,7 @@ const RESULT_HEADING_KEY = {
   poor: "myNdla.quiz.take.result.headingLow",
 } as const satisfies Record<ScoreTier, string>;
 
-export const QuizResultScreen = ({ session, answers, result, randomOrder, onRetry }: Props) => {
+export const QuizResultScreen = ({ session, answers, result, randomOrder, wantsSubset, onRetry }: Props) => {
   const { t } = useTranslation();
   const correctCount = result.results.filter((questionResult) => questionResult.isCorrect).length;
   const total = result.results.length;
@@ -321,7 +322,9 @@ export const QuizResultScreen = ({ session, answers, result, randomOrder, onRetr
             </h2>
           </Heading>
           <SummaryContent>
-            {!!randomOrder && <MessageBox variant="info">{t("myNdla.quiz.take.result.randomOrderNotice")}</MessageBox>}
+            {(!!randomOrder || !!wantsSubset) && (
+              <MessageBox variant="info">{t("myNdla.quiz.take.result.randomOrderNotice")}</MessageBox>
+            )}
             {session.map((question, index) => {
               const questionResult = result.results.find((r) => r.questionId === question.id);
               if (!questionResult) return null;
