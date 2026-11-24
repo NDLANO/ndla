@@ -165,6 +165,7 @@ const selectableAlternativeStyle = css.raw({
   transitionProperty: "[background-color, border-color]",
   _hover: {
     backgroundColor: "surface.action.brand.1.selected",
+    color: "[inherit]",
   },
   _checked: {
     backgroundColor: "surface.action.brand.1.selected",
@@ -185,6 +186,9 @@ const AlternativeRadioItem = styled(RadioGroupItem, {
 
 const AlternativeRadioControl = styled(RadioGroupItemControl, {
   base: {
+    _hover: {
+      boxShadow: "[none]",
+    },
     _groupActive: {
       background: "surface.action.brand.1.selected",
       outlineColor: "surface.action.brand.1.selected",
@@ -200,6 +204,14 @@ const AlternativeRadioControl = styled(RadioGroupItemControl, {
 
 const AlternativeCheckboxRoot = styled(CheckboxRoot, {
   base: selectableAlternativeStyle,
+});
+
+const AlternativeCheckboxControl = styled(CheckboxControl, {
+  base: {
+    _hover: {
+      boxShadow: "[none]",
+    },
+  },
 });
 
 const AlternativeContent = styled("span", {
@@ -348,11 +360,11 @@ export const QuizQuestionScreen = ({
                   onKeyDown={onAlternativeKeyDown}
                 >
                   <AlternativeLabel index={index} text={alt.text} multiChoice />
-                  <CheckboxControl>
+                  <AlternativeCheckboxControl>
                     <CheckboxIndicator asChild>
                       <CheckLine />
                     </CheckboxIndicator>
-                  </CheckboxControl>
+                  </AlternativeCheckboxControl>
                   <CheckboxHiddenInput />
                 </AlternativeCheckboxRoot>
               ))
