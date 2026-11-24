@@ -133,7 +133,6 @@ export type ConfigType = {
   arenaDomain: string;
   autologinCookieEnabled: boolean;
   loginHint: string | undefined;
-  githubIconEnabled: boolean;
   enableDialogApi: boolean;
   enableQuiz: boolean;
 };
@@ -176,7 +175,6 @@ const getServerSideConfig = (): ConfigType => {
     arenaDomain: getEnvironmentVariable("ARENA_DOMAIN", arenaDomain(ndlaEnvironment)),
     autologinCookieEnabled: getEnvironmentVariable("AUTOLOGIN_COOKIE_ENABLED", false),
     loginHint: loginHint(ndlaEnvironment, getEnvironmentVariable("AUTOLOGIN_COOKIE_ENABLED", false)),
-    githubIconEnabled: getEnvironmentVariable("GITHUB_ICON_ENABLED", false),
     enableDialogApi: getEnvironmentVariable("ENABLE_DIALOG_API", true),
     enableQuiz: getEnvironmentVariable("ENABLE_QUIZ", false),
   };
