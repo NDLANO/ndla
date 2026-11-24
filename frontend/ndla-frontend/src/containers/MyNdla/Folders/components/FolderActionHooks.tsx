@@ -319,7 +319,7 @@ export const useFolderActions = (
     }
 
     if (isFavorited) {
-      return [...actions, deleteLink];
+      return [...actions, deleteLink, printFolder];
     }
 
     if (isStudent(user)) {
