@@ -30,7 +30,7 @@ export const questionEquals = (a: QuestionFormValues, b: QuestionFormValues) =>
     (alt, i) => alt.text === b.alternatives[i]?.text && alt.isCorrect === b.alternatives[i]?.isCorrect,
   );
 
-const MIN_ALTERNATIVES = 2;
+export const MIN_ALTERNATIVES = 2;
 
 export const emptyQuestion = (): QuestionFormValues => ({
   id: crypto.randomUUID(),

@@ -35,6 +35,7 @@ import {
 import { DragHandle } from "../../components/DragHandle";
 import { dndModifiers, makeDndPlugins } from "../../dndUtil";
 import type { AlternativeFormValues, QuestionFormValues } from "./QuestionCard";
+import { MIN_ALTERNATIVES } from "./quizBuilderUtils";
 
 type QuestionType = QuestionFormValues["questionType"];
 
@@ -111,8 +112,8 @@ export const AlternativesList = ({
 }: Props) => {
   const { i18n } = useTranslation();
 
-  const dragDisabled = randomOrder || alternatives.length < 2;
-  const canRemove = alternatives.length > 2;
+  const dragDisabled = randomOrder || alternatives.length < MIN_ALTERNATIVES;
+  const canRemove = alternatives.length > MIN_ALTERNATIVES;
 
   const plugins = useMemo(() => makeDndPlugins("quizalternative", i18n), [i18n]);
 
