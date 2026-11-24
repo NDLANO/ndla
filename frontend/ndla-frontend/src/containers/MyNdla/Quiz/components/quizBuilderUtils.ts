@@ -30,6 +30,8 @@ export const questionEquals = (a: QuestionFormValues, b: QuestionFormValues) =>
     (alt, i) => alt.text === b.alternatives[i]?.text && alt.isCorrect === b.alternatives[i]?.isCorrect,
   );
 
+const MIN_ALTERNATIVES = 2;
+
 export const emptyQuestion = (): QuestionFormValues => ({
   id: crypto.randomUUID(),
   title: "",
@@ -57,6 +59,17 @@ const toQuestionCountOption = (questionCount: number | null | undefined): Questi
   return option ?? 10;
 };
 
+const withMinimumAlternatives = (
+  alternatives: QuestionFormValues["alternatives"],
+): QuestionFormValues["alternatives"] => [
+  ...alternatives,
+  ...Array.from({ length: Math.max(0, MIN_ALTERNATIVES - alternatives.length) }, () => ({
+    id: crypto.randomUUID(),
+    text: "",
+    isCorrect: false,
+  })),
+];
+
 export const quizToState = (quiz: GQLQuizFragment): QuizBuilderState => {
   const questions = quiz.questions.map((question) => ({
     id: crypto.randomUUID(),
@@ -65,11 +78,13 @@ export const quizToState = (quiz: GQLQuizFragment): QuizBuilderState => {
     questionType: question.questionType,
     required: question.required,
     alternativesRandomOrder: question.alternativesRandomOrder,
-    alternatives: question.alternatives.map((alt) => ({
-      id: crypto.randomUUID(),
-      text: alt.text,
-      isCorrect: !!alt.isCorrect,
-    })),
+    alternatives: withMinimumAlternatives(
+      question.alternatives.map((alt) => ({
+        id: crypto.randomUUID(),
+        text: alt.text,
+        isCorrect: !!alt.isCorrect,
+      })),
+    ),
   }));
   return {
     title: quiz.title,
