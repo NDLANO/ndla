@@ -21,7 +21,7 @@ import no.ndla.common.model.domain.*
 import no.ndla.common.model.domain.myndla.MyNDLAUser
 import no.ndla.network.clients.FeideExtendedUserInfo
 import no.ndla.network.model.{FeideIdToken, FeideUserWrapper}
-import no.ndla.network.tapir.Cachable
+import no.ndla.network.tapir.{Cachable, Vary}
 import no.ndla.testbase.NullSafeMockito.*
 
 import scala.util.{Failure, Success, Try}
@@ -66,16 +66,18 @@ class ReadServiceTest extends UnitSuite with TestEnvironment {
 
     when(articleRepository.withId(eqTo(1L))(using any)).thenReturn(Success(Some(toArticleRow(article))))
 
-    val expectedResult: Try[Cachable[api.ArticleV2DTO]] = Cachable.yes(
-      converterService.toApiArticleV2(
-        article.copy(
-          content = Seq(expectedArticleContent1),
-          visualElement = Seq(VisualElement(visualElementAfter, "nb")),
-        ),
-        "nb",
-        false,
+    val expectedResult: Try[Cachable[api.ArticleV2DTO]] = Cachable
+      .yes(
+        converterService.toApiArticleV2(
+          article.copy(
+            content = Seq(expectedArticleContent1),
+            visualElement = Seq(VisualElement(visualElementAfter, "nb")),
+          ),
+          "nb",
+          false,
+        )
       )
-    )
+      .map(_.sameForAllUsers)
     readService.withIdV2(1, "nb", fallback = false, None, None) should equal(expectedResult)
   }
 
@@ -164,6 +166,26 @@ class ReadServiceTest extends UnitSuite with TestEnvironment {
 
   }
 
+  test("search results vary on the feide user and are private when restricted") {
+    val searchMock = mock[SearchResult[ArticleSummaryV2DTO]]
+    when(articleSearchService.matchingQuery(any[SearchSettings])).thenReturn(Success(searchMock))
+
+    val teacher = mock[MyNDLAUser]
+    when(teacher.availabilities).thenReturn(Seq(Availability.everyone, Availability.teacher))
+
+    def searchAs(feide: Option[FeideUserWrapper]) = readService
+      .search(None, None, "nb", None, 1, 10, List.empty, Seq.empty, false, Seq.empty, false, feide)
+      .get
+
+    val anonymous = searchAs(None)
+    anonymous.canBeCached should be(true)
+    anonymous.vary should be(Vary.EndpointDefault)
+
+    val restricted = searchAs(Some(FeideUserWrapper(teacher, mock[FeideIdToken])))
+    restricted.canBeCached should be(false)
+    restricted.vary should be(Vary.EndpointDefault)
+  }
+
   test("that getArticlesByIds doesn't perform filter when every article has availability status everyone") {
     val ids      = List(1L, 2L, 3L)
     val article1 = TestData.sampleDomainArticle.copy(id = Some(1), availability = Availability.everyone)
@@ -177,7 +199,9 @@ class ReadServiceTest extends UnitSuite with TestEnvironment {
     val result = readService
       .getArticlesByIds(articleIds = ids, language = "nb", fallback = true, page = 1, pageSize = 10, feide = None)
       .get
-    result.length should be(3)
+    result.value.length should be(3)
+    result.canBeCached should be(true)
+    result.vary should be(Vary.SameForAllUsers)
   }
 
   test("that getArticlesByIds performs filter and returns articles that can only be seen by teacher") {
@@ -206,8 +230,9 @@ class ReadServiceTest extends UnitSuite with TestEnvironment {
         feide = Some(feideUserInfo),
       )
       .get
-    result.length should be(3)
-
+    result.value.length should be(3)
+    result.canBeCached should be(false)
+    result.vary should be(Vary.EndpointDefault)
   }
 
   test("that getArticlesByIds performs filter and returns articles that can only be seen by everyone") {
@@ -233,8 +258,10 @@ class ReadServiceTest extends UnitSuite with TestEnvironment {
         feide = Some(feideUserInfo),
       )
       .get
-    result.length should be(2)
-    result.map(res => res.availability).contains("teacher") should be(false)
+    result.value.length should be(2)
+    result.value.map(res => res.availability).contains("teacher") should be(false)
+    result.canBeCached should be(false)
+    result.vary should be(Vary.EndpointDefault)
   }
 
   test("that getArticlesByIds performs filter if feideAccessToken is not set") {
@@ -251,8 +278,10 @@ class ReadServiceTest extends UnitSuite with TestEnvironment {
     val result = readService
       .getArticlesByIds(articleIds = ids, language = "nb", fallback = true, page = 1, pageSize = 10, feide = None)
       .get
-    result.length should be(2)
-    result.map(res => res.availability).contains("teacher") should be(false)
+    result.value.length should be(2)
+    result.value.map(res => res.availability).contains("teacher") should be(false)
+    result.canBeCached should be(true)
+    result.vary should be(Vary.EndpointDefault)
   }
 
   test("that getArticlesByIds fails if no ids were given") {

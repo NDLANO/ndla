@@ -16,7 +16,7 @@ import no.ndla.common.model.api.search.{ArticleTrait, LearningResourceType, Mult
 import no.ndla.common.model.domain.Availability
 import no.ndla.language.Language.AllLanguages
 import no.ndla.network.tapir.NoNullJsonPrinter.jsonBody
-import no.ndla.network.tapir.{AllErrors, DynamicHeaders, ErrorHandling, NonEmptyString, TapirController}
+import no.ndla.network.tapir.{AllErrors, Cachable, DynamicHeaders, ErrorHandling, NonEmptyString, TapirController}
 import no.ndla.network.tapir.TapirUtil.errorOutputsFor
 import no.ndla.common.auth.Permission.DRAFT_API_WRITE
 import no.ndla.network.tapir.auth.{FeideAuth, NdlaAuth, TokenUser}
@@ -110,6 +110,7 @@ class SearchController(using
     .in(SearchQueryParams.input)
     .in(includeMissingResourceTypeGroup)
     .out(jsonBody[Seq[GroupSearchResultDTO]])
+    .out(EndpointOutput.derived[DynamicHeaders])
     .errorOut(errorOutputsFor(401, 403))
     .withOptionalFeideUser
     .serverLogicPure { feide =>
@@ -117,7 +118,7 @@ class SearchController(using
         val searchParams = asSearchParamsDTO(q)
         val availability = getAvailability(feide)
         val settings     = asSettings(searchParams.some, availability)
-        groupSearch(settings, includeMissingResourceTypeGroup)
+        groupSearch(settings, includeMissingResourceTypeGroup).map(availabilityCachable(_, availability).Ok())
       }
     }
 
@@ -273,9 +274,9 @@ class SearchController(using
         val settings     = asSettings(searchParams.some, availability)
         multiSearchService.matchingQuery(settings) match {
           case Success(searchResult) =>
-            val result  = searchConverterService.toApiMultiSearchResult(searchResult)
-            val headers = DynamicHeaders.fromMaybeValue("search-context", searchResult.scrollId)
-            Success((result, headers))
+            val result       = searchConverterService.toApiMultiSearchResult(searchResult)
+            val scrollHeader = DynamicHeaders.fromOpt("search-context", searchResult.scrollId).toList
+            Success(availabilityCachable(result, availability).Ok(scrollHeader))
           case Failure(ex) => Failure(ex)
         }
       }
@@ -298,9 +299,9 @@ class SearchController(using
         multiSearchService
           .matchingQuery(settings)
           .map { searchResult =>
-            val result  = searchConverterService.toApiMultiSearchResult(searchResult)
-            val headers = DynamicHeaders.fromMaybeValue("search-context", searchResult.scrollId)
-            (result, headers)
+            val result       = searchConverterService.toApiMultiSearchResult(searchResult)
+            val scrollHeader = DynamicHeaders.fromOpt("search-context", searchResult.scrollId).toList
+            availabilityCachable(result, availability).Ok(scrollHeader)
           }
       }
     }
@@ -470,6 +471,9 @@ class SearchController(using
 
   private def getAvailability(maybeFeide: Option[FeideUserWrapper]): List[Availability] =
     maybeFeide.fold(List.empty)(_.user.availabilities.toList)
+
+  private def availabilityCachable[T](value: T, availability: List[Availability]): Cachable[T] =
+    Cachable(value, canBeCached = availability.forall(_ == Availability.everyone))
 
   private def asSettings(p: Option[SearchParamsDTO], availability: List[Availability]): SearchSettings = {
     p match {

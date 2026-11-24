@@ -9,14 +9,18 @@
 import { performance } from "perf_hooks";
 import { cacheTime, getCache, getCacheKey, setHeaderIfShouldNotCache } from "../cache";
 import { slowLogTimeout as configSlowLogTimeout } from "../config";
+import { type CacheBypassReason, countCacheLookup, countCacheWrite } from "../metrics";
 import getLogger from "../utils/logger";
 
 const invalidCacheOptions: NonNullable<RequestInit["cache"]>[] = ["no-store", "reload"];
 const slowLogTimeout = parseInt(configSlowLogTimeout);
+const apiLabel = "external";
 
-const isCacheable = (requestOptions: RequestInit = {}): boolean => {
-  if (requestOptions.cache && invalidCacheOptions.includes(requestOptions.cache)) return false;
-  return requestOptions.method === undefined || requestOptions.method === "GET";
+const getBypassReason = (ctx: Context, requestOptions: RequestInit = {}): CacheBypassReason | undefined => {
+  if (!ctx.shouldUseCache) return "client_no_cache";
+  if (requestOptions.method !== undefined && requestOptions.method !== "GET") return "method";
+  if (requestOptions.cache && invalidCacheOptions.includes(requestOptions.cache)) return "request_no_cache";
+  return undefined;
 };
 
 function cachedResponse(data: string | undefined): Response | null {
@@ -48,7 +52,9 @@ export async function externalFetch(url: string, ctx: Context, options?: Request
   const cache = getCache();
   if (!cache) throw Error("Failed to retrieve cache.");
 
-  if (!ctx.shouldUseCache || !isCacheable(options)) {
+  const bypassReason = getBypassReason(ctx, options);
+  if (bypassReason) {
+    countCacheLookup(apiLabel, { result: "bypass", reason: bypassReason });
     const response = await pureFetch(url, options);
     setHeaderIfShouldNotCache(response, ctx);
     return response;
@@ -57,15 +63,25 @@ export async function externalFetch(url: string, ctx: Context, options?: Request
   const cacheKey = getCacheKey(url, ctx);
   const data = await cache.get(cacheKey);
   const cached = cachedResponse(data);
-  if (cached) return cached;
+  if (cached) {
+    countCacheLookup(apiLabel, { result: "hit", reason: "fresh" });
+    return cached;
+  }
+  countCacheLookup(apiLabel, { result: "miss", reason: "absent" });
 
   const response = await pureFetch(url, options);
   const shouldCache = setHeaderIfShouldNotCache(response, ctx);
 
-  if (response.status !== 200) return response;
+  if (response.status !== 200) {
+    countCacheWrite(apiLabel, { result: "skipped", reason: "status" });
+    return response;
+  }
   const body = await response.text();
 
-  if (shouldCache) {
+  if (!shouldCache) {
+    countCacheWrite(apiLabel, { result: "skipped", reason: "cache_control" });
+  } else {
+    countCacheWrite(apiLabel, { result: "stored", reason: "cacheable" });
     const cacheKey = getCacheKey(url, ctx);
     await cache.set(
       cacheKey,

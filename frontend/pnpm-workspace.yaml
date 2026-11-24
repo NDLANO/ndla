@@ -42,6 +42,7 @@ catalog:
   "@pandacss/preset-panda": ^2.6.0
   "@pandacss/types": ^2.6.0
   "@playwright/test": ^1.65.1
+  "@prometheus-io/client": ^0.16.1
   "@react-router/dev": ^8.5.2
   "@react-router/express": ^8.5.2
   "@react-router/node": ^8.5.2

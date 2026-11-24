@@ -249,6 +249,9 @@ catalogs:
     '@playwright/test':
       specifier: ^1.65.1
       version: 1.65.1
+    '@prometheus-io/client':
+      specifier: ^0.16.1
+      version: 0.16.1
     '@react-router/dev':
       specifier: ^8.5.2
       version: 8.5.2
@@ -1176,6 +1179,9 @@ importers:
       '@opentelemetry/api':
         specifier: 'catalog:'
         version: 1.10.0
+      '@prometheus-io/client':
+        specifier: 'catalog:'
+        version: 0.16.1
       cheerio:
         specifier: 'catalog:'
         version: 1.2.0
@@ -2272,7 +2278,7 @@ importers:
         specifier: 'catalog:'
         version: 3.1.1(@opentelemetry/api@1.10.0)
       '@prometheus-io/client':
-        specifier: ^0.16.1
+        specifier: 'catalog:'
         version: 0.16.1
       '@react-router/dev':
         specifier: 'catalog:'

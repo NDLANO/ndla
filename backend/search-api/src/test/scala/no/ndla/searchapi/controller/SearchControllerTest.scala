@@ -218,6 +218,8 @@ class SearchControllerTest extends UnitSuite with TestEnvironment with TapirCont
 
     val expectedSettings = baseSettings.copy(availability = List())
     response.code.code should be(200)
+    response.header("Cache-Control") should be(None)
+    response.header("Vary") should be(Some("FeideAuthorization"))
     verify(multiSearchService, times(1)).matchingQuery(eqTo(expectedSettings))
     verify(myndlaApiClient, never).getFeideUserWrapperFromIdToken(any)
   }
@@ -254,8 +256,24 @@ class SearchControllerTest extends UnitSuite with TestEnvironment with TapirCont
       .send()
     val expectedSettings = baseSettings.copy(availability = List(Availability.everyone, Availability.teacher))
     response.code.code should be(200)
+    response.header("Cache-Control") should be(Some("private"))
+    response.header("Vary") should be(Some("FeideAuthorization"))
     verify(multiSearchService, times(1)).matchingQuery(eqTo(expectedSettings))
     verify(myndlaApiClient, times(1)).getFeideUserWrapperFromIdToken(any)
+  }
+
+  test("That /group/ varies on the feide user") {
+    val multiResult =
+      domain.SearchResult(0, Some(1), 10, "nb", Seq.empty, suggestions = Seq.empty, aggregations = Seq.empty)
+    when(multiSearchService.matchingQuery(any[SearchSettings])).thenReturn(Success(multiResult))
+    when(searchConverterService.toApiGroupMultiSearchResult(any, any)).thenCallRealMethod()
+
+    val response = quickRequest
+      .get(uri"http://localhost:$serverPort/search-api/v1/search/group/?resource-types=test")
+      .send()
+    response.code.code should be(200)
+    response.header("Cache-Control") should be(None)
+    response.header("Vary") should be(Some("FeideAuthorization"))
   }
 
   test("That retrieving datetime strings from request works") {

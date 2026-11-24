@@ -7,6 +7,7 @@
  */
 
 import { createServer, type Server } from "node:http";
+import { Counter, Registry } from "@prometheus-io/client";
 import express from "express";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
@@ -80,6 +81,19 @@ describe("createMetricsMiddleware", () => {
 
     expect(await get("/metrics")).toContain(
       'http_request_duration_seconds_count{status_code="200",method="GET",path="/custom"} 1',
+    );
+  });
+
+  it("serves metrics registered on a given registry", async () => {
+    const registry = new Registry();
+    new Counter({ name: "custom_total", help: "custom", registers: [registry] }).inc(3);
+    const { get } = await listen({ registry });
+    await get("/api/article/1");
+
+    const metrics = await get("/metrics");
+    expect(metrics).toContain("custom_total 3");
+    expect(metrics).toContain(
+      'http_request_duration_seconds_count{status_code="200",method="GET",path="/api/article/:id"} 1',
     );
   });
 

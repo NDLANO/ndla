@@ -316,6 +316,7 @@ class LearningpathControllerV2Test extends UnitSuite with TestEnvironment with T
     val res = quickRequest.get(uri"http://localhost:$serverPort/learningpath-api/v2/learningpaths/ids?ids=1").send()
     res.code.code should be(200)
     res.header("Cache-Control") should be(None)
+    res.header("Vary") should be(Some("FeideAuthorization, Authorization"))
   }
 
   test("That GET /ids is private when content is user specific") {

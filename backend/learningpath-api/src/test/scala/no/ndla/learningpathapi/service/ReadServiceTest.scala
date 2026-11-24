@@ -22,7 +22,7 @@ import no.ndla.common.model.domain.learningpath.{
 import no.ndla.common.model.domain.{Author, ContributorType, Title}
 import no.ndla.learningpathapi.{TestData, UnitSuite, UnitTestEnvironment}
 import no.ndla.mapping.License
-import no.ndla.network.tapir.Cachable
+import no.ndla.network.tapir.{Cachable, Vary}
 import no.ndla.network.tapir.auth.TokenUser
 import no.ndla.testbase.NullSafeMockito.{any, eqTo, when}
 import scalikejdbc.DBSession
@@ -174,6 +174,7 @@ class ReadServiceTest extends UnitSuite with UnitTestEnvironment {
     assert(learningPath.get.value.id == PUBLISHED_ID)
     assert(learningPath.get.value.status == LearningPathStatus.PUBLISHED)
     assert(learningPath.get.canBeCached)
+    learningPath.get.vary should be(Vary.EndpointDefault)
   }
 
   test("That withId returns a learningPath when the status is PUBLISHED and user is not the owner") {
@@ -194,6 +195,7 @@ class ReadServiceTest extends UnitSuite with UnitTestEnvironment {
     val learningPath = service.withIdV2(PUBLISHED_ID, "nb", fallback = false, PUBLISHED_OWNER.toCombined)
     assert(learningPath.get.value.canEdit)
     assert(!learningPath.get.canBeCached)
+    learningPath.get.vary should be(Vary.EndpointDefault)
   }
 
   test("That withIdV2 is not cachable when the user can edit one of the learningsteps") {
@@ -406,6 +408,7 @@ class ReadServiceTest extends UnitSuite with UnitTestEnvironment {
       service.learningstepV2For(PUBLISHED_ID, STEP1.id.get, "nb", fallback = false, TokenUser.PublicUser.toCombined)
     learningStep.get.value.id should be(STEP1.id.get)
     learningStep.get.canBeCached should be(true)
+    learningStep.get.vary should be(Vary.EndpointDefault)
   }
 
   test("That learningstepV2For returns the LearningStep when it exists and status is PRIVATE and user is the owner") {

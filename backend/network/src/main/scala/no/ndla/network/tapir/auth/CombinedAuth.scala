@@ -12,8 +12,9 @@ import cats.implicits.*
 import com.typesafe.scalalogging.StrictLogging
 import no.ndla.network.model.*
 import no.ndla.network.tapir.TapirUtil.errorOutputVariantFor
+import no.ndla.network.tapir.Vary.varyByDefaultOn
 import no.ndla.network.tapir.{AllErrors, ErrorHelpers}
-import sttp.model.StatusCode
+import sttp.model.{HeaderNames, StatusCode}
 import sttp.tapir.*
 import sttp.tapir.server.PartialServerEndpoint
 
@@ -24,6 +25,7 @@ case class CombinedAuth()(using ndlaAuth: NdlaAuth, feideAuth: FeideAuth, errorH
     private def selfWithErrorOut: Endpoint[Unit, INPUT, AllErrors, OUTPUT, R] = self
       .errorOutVariantPrepend(errorOutputVariantFor(StatusCode.Unauthorized.code))
       .errorOutVariantPrepend(errorOutputVariantFor(StatusCode.Forbidden.code))
+      .varyByDefaultOn(FeideAuth.HeaderName, HeaderNames.Authorization)
 
     def withOptionalMyNDLAUserOrTokenUser[F[_]]: PartialServerEndpoint[
       (Option[TokenUser], Option[FeideUserWrapper]),

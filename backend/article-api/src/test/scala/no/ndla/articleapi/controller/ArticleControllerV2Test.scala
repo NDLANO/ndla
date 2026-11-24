@@ -200,13 +200,38 @@ class ArticleControllerV2Test extends UnitSuite with TestEnvironment with TapirC
 
   test("that /ids/ works, and isnt a slug") {
     reset(readService)
-    when(readService.getArticlesByIds(any, any, any, any, any, any)).thenReturn(Success(Seq.empty))
+    when(readService.getArticlesByIds(any, any, any, any, any, any)).thenReturn(
+      Success(Cachable.yes(Seq.empty).sameForAllUsers)
+    )
 
     val response = quickRequest.get(uri"http://localhost:$serverPort/article-api/v2/articles/ids/?ids=1,2,3").send()
     verify(readService, times(1)).getArticlesByIds(eqTo(List(1L, 2L, 3L)), any, any, any, any, any)
     verify(readService, never).getArticleBySlug(any, any, any)
     verify(readService, never).withIdV2(any, any, any, any, any)
     response.code.code should be(200)
+    response.header("Cache-Control") should be(None)
+    response.header("Vary") should be(None)
+    response.header("Ndla-Vary-Override") should be(None)
+  }
+
+  test("that /ids/ varies on the feide user unless the read service says otherwise") {
+    reset(readService)
+    when(readService.getArticlesByIds(any, any, any, any, any, any)).thenReturn(Success(Cachable.yes(Seq.empty)))
+
+    val response = quickRequest.get(uri"http://localhost:$serverPort/article-api/v2/articles/ids/?ids=1,2,3").send()
+    response.code.code should be(200)
+    response.header("Cache-Control") should be(None)
+    response.header("Vary") should be(Some("FeideAuthorization"))
+  }
+
+  test("that /ids/ returns cache headers from the read service") {
+    reset(readService)
+    when(readService.getArticlesByIds(any, any, any, any, any, any)).thenReturn(Success(Cachable.no(Seq.empty)))
+
+    val response = quickRequest.get(uri"http://localhost:$serverPort/article-api/v2/articles/ids/?ids=1,2,3").send()
+    response.code.code should be(200)
+    response.header("Cache-Control") should be(Some("private"))
+    response.header("Vary") should be(Some("FeideAuthorization"))
   }
 
 }
