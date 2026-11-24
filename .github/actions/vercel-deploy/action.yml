@@ -5,8 +5,8 @@ inputs:
     description: "nx project, which is also the name of the Vercel project"
     required: true
   alias:
-    description: "Domain to alias the deployment to"
-    required: true
+    description: "Domain to alias the deployment to. Defaults to `deploy.alias` in the project's package.json."
+    default: ""
   token:
     description: "Vercel token"
     required: true
@@ -55,9 +55,15 @@ runs:
       shell: bash
       working-directory: frontend
       env:
+        PROJECT: ${{ inputs.project }}
         ALIAS: ${{ inputs.alias }}
         VERCEL_TOKEN: ${{ inputs.token }}
       run: |
+        if [ -z "$ALIAS" ]; then
+          root="$(pnpm exec nx show project "$PROJECT" --json | jq -er .root)"
+          ALIAS="$(jq -er .deploy.alias "$root/package.json")"
+        fi
+        echo "alias=$ALIAS" >> "$GITHUB_OUTPUT"
         vercel build --token="$VERCEL_TOKEN"
         DEPLOYMENT_URL="$(vercel deploy --prebuilt --archive=tgz --token="$VERCEL_TOKEN")"
         vercel alias --token="$VERCEL_TOKEN" "$DEPLOYMENT_URL" "$ALIAS"
@@ -66,7 +72,7 @@ runs:
       env:
         PROJECT: ${{ inputs.project }}
         SHA: ${{ inputs.sha }}
-        ALIAS: ${{ inputs.alias }}
+        ALIAS: ${{ steps.deploy.outputs.alias }}
       with:
         script: |
           await github.rest.repos.createCommitStatus({
