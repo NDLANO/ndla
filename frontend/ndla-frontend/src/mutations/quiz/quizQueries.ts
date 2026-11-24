@@ -18,8 +18,8 @@ import type {
 import { quizFragment, quizSummaryFragment } from "./quizFragments";
 
 export const quizzesQuery: TypedDocumentNode<GQLQuizzesQuery, GQLQuizzesQueryVariables> = gql`
-  query quizzes {
-    quizzes {
+  query quizzes($pageSize: Int) {
+    quizzes(pageSize: $pageSize) {
       totalCount
       page
       pageSize
