@@ -484,6 +484,7 @@ const translations = {
       description: "Here you can create your own quizzes and share them with your students.",
       newQuiz: "Create new quiz",
       noQuiz: "You haven't created any quizzes yet.",
+      pagination: "Quiz pages",
       savedQuizzes: {
         title: "Quizzes shared by others",
         empty: "You haven't saved any quizzes from others yet.",

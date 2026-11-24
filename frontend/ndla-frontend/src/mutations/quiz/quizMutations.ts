@@ -43,6 +43,14 @@ const addQuizMutation: TypedDocumentNode<GQLAddQuizMutation, GQLAddQuizMutationV
   ${quizFragment}
 `;
 
+// The list is paginated and sorted newest first, so a new quiz belongs at the top of page 1.
+// Every other cached page has shifted by one, so drop them and let them be refetched when visited.
+const prependToFirstPage = (existing: any, ref: string, DELETE: any) => {
+  if (!existing) return existing;
+  if (existing.page !== 1) return DELETE;
+  return { ...existing, totalCount: existing.totalCount + 1, results: [{ __ref: ref }, ...existing.results] };
+};
+
 export const useAddQuizMutation = (options?: useMutation.Options<GQLAddQuizMutation, GQLAddQuizMutationVariables>) => {
   const client = useApolloClient();
   return useMutation(addQuizMutation, {
@@ -55,12 +63,7 @@ export const useAddQuizMutation = (options?: useMutation.Options<GQLAddQuizMutat
       if (!ref) return;
       client.cache.modify({
         fields: {
-          quizzes: (existing) =>
-            existing && {
-              ...existing,
-              totalCount: existing.totalCount + 1,
-              results: [{ __ref: ref }, ...existing.results],
-            },
+          quizzes: (existing, { DELETE }) => prependToFirstPage(existing, ref, DELETE),
         },
       });
     },
@@ -258,12 +261,7 @@ export const useCloneQuizMutation = (
       if (!ref) return;
       client.cache.modify({
         fields: {
-          quizzes: (existing) =>
-            existing && {
-              ...existing,
-              totalCount: existing.totalCount + 1,
-              results: [{ __ref: ref }, ...existing.results],
-            },
+          quizzes: (existing, { DELETE }) => prependToFirstPage(existing, ref, DELETE),
         },
       });
     },
