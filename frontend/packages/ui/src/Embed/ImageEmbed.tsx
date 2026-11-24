@@ -196,7 +196,7 @@ export const ImageEmbed = ({ embed, previewAlt, lang, renderContext = "article",
 
   const aiTail = aiGeneratedTail(embed, t);
   const parsedDescription = useMemo(() => {
-    if (embed.embedData.caption || aiTail || renderContext === "article") {
+    if (embed.embedData.caption || renderContext === "article") {
       return embed.embedData.caption ? parse(`${embed.embedData.caption}${aiTail}`) : aiTail;
     }
     if (embed.status === "success" && (embed.data.caption.caption || aiTail)) {
