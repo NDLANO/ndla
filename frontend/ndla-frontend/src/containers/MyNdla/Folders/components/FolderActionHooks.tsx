@@ -319,11 +319,11 @@ export const useFolderActions = (
     }
 
     if (isFavorited) {
-      return [...actions, deleteLink];
+      return [...actions, deleteLink, printFolder];
     }
 
     if (isStudent(user)) {
-      return [...actions, editFolder, moveFolder, deleteOpt];
+      return [...actions, editFolder, moveFolder, deleteOpt, printFolder];
     }
 
     if (selectedFolder.status === "shared") {
