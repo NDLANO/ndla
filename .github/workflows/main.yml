@@ -32,7 +32,7 @@ on:
       - main
 # Commits reach main through the merge queue, which already ran CI on them. This workflow only ships them.
 concurrency:
-  group: main
+  group: main-${{ github.event_name }}
   cancel-in-progress: false
 permissions:
   contents: read
@@ -239,7 +239,6 @@ jobs:
       - uses: ./.github/actions/vercel-deploy
         with:
           project: ${{ matrix.project }}
-          alias: ${{ fromJson('{"ndla-frontend":"ndla-frontend-master.vercel.app","editorial-frontend":"editorial-frontend-master.vercel.app","design-manual":"designmanual.ndla.no"}')[matrix.project] }}
           token: ${{ secrets.VERCEL_TOKEN }}
           sha: ${{ github.sha }}
 
