@@ -104,7 +104,7 @@ class QuizRepository(using dbQuiz: DBQuiz, dbSavedQuiz: DBSavedQuiz) extends Str
       select ${qz.result.*}
       from ${dbQuiz.as(qz)}
       where qz.owner_id = $ownerId
-      order by qz.document->>'created' desc, qz.id desc
+      order by qz.document->>'created' desc
       limit $pageSize offset $offset
     """.map(dbQuiz.fromResultSet(qz)).runList()
   }
