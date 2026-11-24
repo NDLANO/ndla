@@ -200,7 +200,7 @@ export const ImageEmbed = ({ embed, previewAlt, lang, renderContext = "article",
       return embed.embedData.caption ? parse(`${embed.embedData.caption}${aiTail}`) : aiTail;
     }
     if (embed.status === "success" && (embed.data.caption.caption || aiTail)) {
-      return parse(`${embed.data.caption.caption}${aiTail}.`);
+      return parse(`${embed.data.caption.caption}${aiTail}`);
     }
     return undefined;
   }, [embed, aiTail, renderContext]);
