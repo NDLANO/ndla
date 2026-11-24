@@ -10,14 +10,13 @@ import { arrayMove } from "@dnd-kit/helpers";
 import { DragDropProvider, type DragEndEvent } from "@dnd-kit/react";
 import { isSortable, useSortable } from "@dnd-kit/react/sortable";
 import { ContentEditableFieldLabel } from "@ndla/editor-components";
-import { CheckLine, DeleteBinLine } from "@ndla/icons";
+import { CheckLine } from "@ndla/icons";
 import {
   CheckboxControl,
   CheckboxHiddenInput,
   CheckboxIndicator,
   CheckboxRoot,
   FieldRoot,
-  IconButton,
   RadioGroupItem,
   RadioGroupItemControl,
   RadioGroupItemHiddenInput,
@@ -34,6 +33,7 @@ import {
 } from "../../../../components/RichTextEditor/richTextSerialization";
 import { DragHandle } from "../../components/DragHandle";
 import { dndModifiers, makeDndPlugins } from "../../dndUtil";
+import { AlternativeDeleteDialog } from "./AlternativeDeleteDialog";
 import type { AlternativeFormValues, QuestionFormValues } from "./QuestionCard";
 import { MIN_ALTERNATIVES } from "./quizBuilderUtils";
 
@@ -226,17 +226,7 @@ const AlternativeRow = memo(
             </Stack>
             <AlignedWithInput css={{ paddingInlineStart: "xsmall", gap: "xxsmall" }}>
               <CorrectAnswerMarker questionType={questionType} />
-              {!!canRemove && (
-                <IconButton
-                  aria-label={t("myNdla.quiz.form.removeAlternative")}
-                  title={t("myNdla.quiz.form.removeAlternative")}
-                  variant="tertiary"
-                  size="small"
-                  onClick={() => onRemove(alt.id)}
-                >
-                  <DeleteBinLine />
-                </IconButton>
-              )}
+              {!!canRemove && <AlternativeDeleteDialog onDelete={() => onRemove(alt.id)} />}
             </AlignedWithInput>
           </AlternativeField>
         </CorrectAnswerToggle>

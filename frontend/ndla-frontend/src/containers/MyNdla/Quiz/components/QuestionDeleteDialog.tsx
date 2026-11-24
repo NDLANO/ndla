@@ -34,7 +34,7 @@ export const QuestionDeleteDialog = ({ onDelete }: Props) => {
         </Button>
       </DialogTrigger>
       <DeleteModalContent
-        title={t("myNdla.quiz.form.settings.delete")}
+        title={t("myNdla.quiz.form.settings.deleteTitle")}
         description={t("myNdla.quiz.form.settings.deleteWarning")}
         removeText={t("myNdla.quiz.form.settings.delete")}
         onDelete={deleteAndClose}
