@@ -13,6 +13,7 @@ import io.circe.syntax.EncoderOps
 import io.circe.{Decoder, DecodingFailure, Encoder}
 
 import scala.annotation.unused
+import scala.util.control.ControlThrowable
 import scala.util.{Failure, Success, Try}
 
 package object implicits {
@@ -38,14 +39,14 @@ package object implicits {
 
   case class PermittedTryContext()
 
-  case class ControlFlowException(returnValue: Throwable) extends RuntimeException(returnValue)
+  private case class QuestionMarkOperatorException(returnValue: Throwable) extends ControlThrowable
 
   def permitTry[A](f: PermittedTryContext ?=> Try[A]): Try[A] = {
     try {
       f(using PermittedTryContext())
     } catch {
-      case x: ControlFlowException => Failure(x.returnValue)
-      case throwable               => throw throwable
+      case x: QuestionMarkOperatorException => Failure(x.returnValue)
+      case throwable                        => throw throwable
     }
   }
 
@@ -55,7 +56,7 @@ package object implicits {
         ctx: PermittedTryContext
     ): A = {
       self match {
-        case Failure(ex)    => throw ControlFlowException(ex)
+        case Failure(ex)    => throw QuestionMarkOperatorException(ex)
         case Success(value) => value
       }
     }
@@ -65,7 +66,7 @@ package object implicits {
         ctx: PermittedTryContext
     ): Unit = {
       self match {
-        case Failure(ex) => throw ControlFlowException(ex)
+        case Failure(ex) => throw QuestionMarkOperatorException(ex)
         case Success(_)  => ()
       }
     }
