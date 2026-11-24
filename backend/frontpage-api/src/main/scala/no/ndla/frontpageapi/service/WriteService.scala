@@ -121,7 +121,7 @@ class WriteService(using
 
   def deleteFilmFrontPageLanguage(language: String): Try[api.FilmFrontPageDTO] = {
     filmFrontPageRepository.get match {
-      case Some(page) => page.supportedLanguages.size match {
+      case Success(Some(page)) => page.supportedLanguages.size match {
           case 1 => Failure(OperationNotAllowedException("Only one language left"))
           case _ =>
             val about       = page.about.filter(_.language != language)
@@ -132,7 +132,8 @@ class WriteService(using
               .update(page.copy(about = about, movieThemes = movieThemes))
               .map(converterService.toApiFilmFrontPage(_, None))
         }
-      case None => Failure(NotFoundException("The film front page was not found"))
+      case Success(None) => Failure(NotFoundException("The film front page was not found"))
+      case Failure(ex)   => Failure(ex)
     }
   }
 }

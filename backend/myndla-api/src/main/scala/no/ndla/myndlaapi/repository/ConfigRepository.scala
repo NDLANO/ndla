@@ -16,7 +16,6 @@ import no.ndla.database.implicits.*
 import no.ndla.myndlaapi.model.domain.DBConfigMeta
 import org.postgresql.util.PGobject
 import scalikejdbc.*
-import sqls.count
 
 import scala.util.{Success, Try}
 
@@ -33,12 +32,11 @@ class ConfigRepository(using dbUtility: DBUtility, dbConfigMeta: DBConfigMeta) e
       }
     }
 
-  def configCount(implicit session: DBSession = dbUtility.readOnlySession): Int = {
-    val c = dbConfigMeta.syntax("c")
-    withSQL {
-      select(count(c.column("configkey"))).from(dbConfigMeta as c)
-    }.map(_.int(1)).single().getOrElse(0)
-  }
+  def configCount(implicit session: DBSession = dbUtility.readOnlySession): Try[Long] =
+    tsql"select count(*) as count from ${dbConfigMeta.table}"
+      .decode(_.required[Long]("count"))
+      .runSingle()
+      .map(_.getOrElse(0L))
 
   def updateConfigParam(config: ConfigMeta)(implicit session: DBSession = dbUtility.autoSession): Try[ConfigMeta] = {
     val updatedCount = withSQL {
@@ -72,5 +70,5 @@ class ConfigRepository(using dbUtility: DBUtility, dbConfigMeta: DBConfigMeta) e
            select ${c.result.*}
            from ${dbConfigMeta.as(c)}
            where configkey = $keyName;
-        """.map(ConfigMeta.fromResultSet(c)).runSingleFlat()
+        """.decode(dbConfigMeta.fromResultSet(c)).runSingle()
 }

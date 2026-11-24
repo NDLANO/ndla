@@ -8,11 +8,12 @@
 
 package no.ndla.myndlaapi.db.migrationwithdependencies
 
-import no.ndla.database.{TableIdType, TableMigration}
+import no.ndla.database.{Row, TableIdType, TableMigration}
 import no.ndla.myndlaapi.integration.TaxonomyApiClient
-import scalikejdbc.{DBSession, WrappedResultSet, scalikejdbcSQLInterpolationImplicitDef}
+import scalikejdbc.{DBSession, scalikejdbcSQLInterpolationImplicitDef}
 
 import java.util.UUID
+import scala.util.Try
 
 class V16__MigrateResourcePaths(using taxonomyApiClient: TaxonomyApiClient) extends TableMigration[ResourceRow] {
   override val tableName: String                       = "resources"
@@ -20,8 +21,11 @@ class V16__MigrateResourcePaths(using taxonomyApiClient: TaxonomyApiClient) exte
   override val chunkSize: Int                          = 1000
   override val tableIdType: TableIdType                = TableIdType.UUID
 
-  override def extractRowData(rs: WrappedResultSet): ResourceRow =
-    ResourceRow(UUID.fromString(rs.string("id")).nn, rs.string("resource_type"), rs.string("path"))
+  override def extractRowData(row: Row): Try[ResourceRow] = for {
+    id           <- row.required[UUID]("id")
+    resourceType <- row.required[String]("resource_type")
+    path         <- row.required[String]("path")
+  } yield ResourceRow(id, resourceType, path)
   override def updateRow(rowData: ResourceRow)(implicit session: DBSession): Int = {
     rowData.resourceType match {
       case "article" | "learningpath" | "multidisciplinary" | "topic" => taxonomyApiClient

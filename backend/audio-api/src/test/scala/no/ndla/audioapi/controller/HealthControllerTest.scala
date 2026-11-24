@@ -34,6 +34,7 @@ class HealthControllerTest extends UnitSuite with TestEnvironment with TapirCont
 
   override def beforeEach(): Unit = {
     reset(audioRepository, s3Client)
+    when(audioRepository.audioCount(using any)).thenReturn(Success(0L))
   }
 
   val updated: NDLADate = NDLADate.of(2017, 4, 1, 12, 15, 32)
@@ -87,7 +88,7 @@ class HealthControllerTest extends UnitSuite with TestEnvironment with TapirCont
   }
 
   test("that /health/readiness returns 500 on database failure") {
-    when(audioRepository.audioCount(using any)).thenThrow(new RuntimeException("Boom"))
+    when(audioRepository.audioCount(using any)).thenReturn(Failure(new RuntimeException("Boom")))
 
     val request = quickRequest.get(uri"http://localhost:$serverPort/health/readiness")
 
@@ -103,7 +104,7 @@ class HealthControllerTest extends UnitSuite with TestEnvironment with TapirCont
   }
 
   test("that /health returns 200 on no audios") {
-    when(audioRepository.audioCount(using any)).thenReturn(0L)
+    when(audioRepository.audioCount(using any)).thenReturn(Success(0L))
     when(s3Client.canAccessBucket).thenReturn(Success(()))
 
     val request = quickRequest.get(uri"http://localhost:$serverPort/health/readiness")

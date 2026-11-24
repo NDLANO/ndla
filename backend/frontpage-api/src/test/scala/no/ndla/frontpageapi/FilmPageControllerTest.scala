@@ -16,6 +16,8 @@ import no.ndla.tapirtesting.TapirControllerTest
 import no.ndla.testbase.NullSafeMockito.when
 import sttp.client4.quick.*
 
+import scala.util.{Failure, Success}
+
 class FilmPageControllerTest extends UnitSuite with TestEnvironment with TapirControllerTest {
   override implicit lazy val clock: Clock                 = mock[Clock]
   override implicit lazy val errorHelpers: ErrorHelpers   = new ErrorHelpers
@@ -30,16 +32,23 @@ class FilmPageControllerTest extends UnitSuite with TestEnvironment with TapirCo
   override implicit lazy val services: List[TapirController] = List(controller)
 
   test("Should return 200 when frontpage exist") {
-    when(readService.filmFrontPage(None)).thenReturn(Some(TestData.apiFilmFrontPage))
+    when(readService.filmFrontPage(None)).thenReturn(Success(Some(TestData.apiFilmFrontPage)))
     val response = quickRequest.get(uri"http://localhost:$serverPort/frontpage-api/v1/filmfrontpage").send()
     response.code.code should equal(200)
   }
 
   test("Should return 404 when no frontpage found") {
     when(clock.now()).thenCallRealMethod()
-    when(readService.filmFrontPage(None)).thenReturn(None)
+    when(readService.filmFrontPage(None)).thenReturn(Success(None))
     val response = quickRequest.get(uri"http://localhost:$serverPort/frontpage-api/v1/filmfrontpage").send()
     response.code.code should equal(404)
+  }
+
+  test("Should return 500 when frontpage could not be read") {
+    when(clock.now()).thenCallRealMethod()
+    when(readService.filmFrontPage(None)).thenReturn(Failure(new RuntimeException("Could not decode")))
+    val response = quickRequest.get(uri"http://localhost:$serverPort/frontpage-api/v1/filmfrontpage").send()
+    response.code.code should equal(500)
   }
 
 }

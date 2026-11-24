@@ -70,12 +70,12 @@ class PublishedConceptRepositoryTest extends DatabaseIntegrationSuite with TestE
 
     repository.insertOrUpdate(concept1)
     repository.insertOrUpdate(concept3)
-    repository.withId(10) should be(Some(concept1))
-    repository.withId(11) should be(Some(concept3))
+    repository.withId(10).failIfFailure should be(Some(concept1))
+    repository.withId(11).failIfFailure should be(Some(concept3))
 
     repository.insertOrUpdate(concept2)
-    repository.withId(10) should be(Some(concept2))
-    repository.withId(11) should be(Some(concept3))
+    repository.withId(10).failIfFailure should be(Some(concept2))
+    repository.withId(11).failIfFailure should be(Some(concept3))
   }
 
   test("That deletion works as expected") {
@@ -89,13 +89,13 @@ class PublishedConceptRepositoryTest extends DatabaseIntegrationSuite with TestE
 
     repository.insertOrUpdate(concept1)
     repository.insertOrUpdate(concept2)
-    repository.withId(10) should be(Some(concept1))
-    repository.withId(11) should be(Some(concept2))
+    repository.withId(10).failIfFailure should be(Some(concept1))
+    repository.withId(11).failIfFailure should be(Some(concept2))
 
     repository.delete(10).isSuccess should be(true)
 
-    repository.withId(10) should be(None)
-    repository.withId(11) should be(Some(concept2))
+    repository.withId(10).failIfFailure should be(None)
+    repository.withId(11).failIfFailure should be(Some(concept2))
 
     repository.delete(10).isSuccess should be(false)
   }
@@ -129,7 +129,7 @@ class PublishedConceptRepositoryTest extends DatabaseIntegrationSuite with TestE
     repository.insertOrUpdate(concept2)
     repository.insertOrUpdate(concept3)
 
-    repository.everyTagFromEveryConcept should be(
+    repository.everyTagFromEveryConcept.failIfFailure should be(
       List(
         List(
           common.Tag(Seq("konge", "bror"), "nb"),
@@ -153,19 +153,19 @@ class PublishedConceptRepositoryTest extends DatabaseIntegrationSuite with TestE
     val concept2       = TestData.domainConcept.copy(id = Some(11), created = consistentDate, updated = consistentDate)
     val concept3       = TestData.domainConcept.copy(id = Some(11), created = consistentDate, updated = consistentDate)
     val concept4       = TestData.domainConcept.copy(id = Some(12), created = consistentDate, updated = consistentDate)
-    repository.conceptCount should be(0)
+    repository.conceptCount.failIfFailure should be(0)
 
     repository.insertOrUpdate(concept1)
-    repository.conceptCount should be(1)
+    repository.conceptCount.failIfFailure should be(1)
 
     repository.insertOrUpdate(concept2)
-    repository.conceptCount should be(2)
+    repository.conceptCount.failIfFailure should be(2)
 
     repository.insertOrUpdate(concept3)
-    repository.conceptCount should be(2)
+    repository.conceptCount.failIfFailure should be(2)
 
     repository.insertOrUpdate(concept4)
-    repository.conceptCount should be(3)
+    repository.conceptCount.failIfFailure should be(3)
   }
 
   test("That getByPage returns all concepts in database") {
@@ -199,7 +199,7 @@ class PublishedConceptRepositoryTest extends DatabaseIntegrationSuite with TestE
     val Success(ins2) = repository.insertOrUpdate(con2): @unchecked
     val Success(ins3) = repository.insertOrUpdate(con3): @unchecked
 
-    repository.getByPage(10, 0).sortBy(_.id.get) should be(Seq(ins1, ins2, ins3))
+    repository.getByPage(10, 0).failIfFailure.sortBy(_.id.get) should be(Seq(ins1, ins2, ins3))
   }
 
 }

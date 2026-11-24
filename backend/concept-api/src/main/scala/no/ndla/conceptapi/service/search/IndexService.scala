@@ -72,8 +72,10 @@ abstract class IndexService(using
     for {
       ranges  <- getRanges
       indexed <- ranges.traverse { case (start, end) =>
-        val toIndex = repository.documentsWithIdBetween(start, end)
-        indexDocuments(toIndex, indexName).map(numIndexed => (numIndexed, toIndex.size))
+        for {
+          toIndex    <- repository.documentsWithIdBetween(start, end)
+          numIndexed <- indexDocuments(toIndex, indexName)
+        } yield (numIndexed, toIndex.size)
       }
     } yield countIndexed(indexed)
   }
@@ -81,7 +83,7 @@ abstract class IndexService(using
   private def getRanges: Try[List[(Long, Long)]] = {
     dbUtility
       .readOnly { implicit session =>
-        Try(repository.minMaxId)
+        repository.minMaxId
       }
       .map { case (minId, maxId) =>
         Seq.range(minId, maxId + 1).grouped(props.IndexBulkSize).map(group => (group.head, group.last)).toList

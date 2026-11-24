@@ -71,7 +71,7 @@ class PublishedConceptControllerTest extends UnitSuite with TestEnvironment with
   }
 
   test("GET /tags should return 200 on getting all tags") {
-    when(readService.allTagsFromConcepts(lang, fallback = false)).thenReturn(List("tag1", "tag2"))
+    when(readService.allTagsFromConcepts(lang, fallback = false)).thenReturn(Success(List("tag1", "tag2")))
 
     quickRequest
       .get(uri"http://localhost:$serverPort/concept-api/v1/concepts/tags/?language=$lang")

@@ -236,7 +236,7 @@ class FolderReadServiceTest extends UnitTestSuite with TestEnvironment {
     when(folderRepository.getFolderAndChildrenSubfoldersWithResources(any, any, any)(using any[DBSession])).thenReturn(
       Success(Option(sharedFolderDomain))
     )
-    when(folderRepository.getSharedFolderAndChildrenSubfoldersWithResources(any)(using any[DBSession])).thenReturn(
+    when(folderRepository.getSharedFolderAndChildrenSubfoldersWithResources(any, any)(using any[DBSession])).thenReturn(
       Success(Option(savedFolderDomain))
     )
     when(userRepository.userWithFeideId(any)(using any[DBSession])).thenReturn(Success(None))

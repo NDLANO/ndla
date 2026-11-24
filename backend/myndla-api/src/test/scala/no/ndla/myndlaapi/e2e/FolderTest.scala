@@ -442,6 +442,28 @@ class FolderTest extends DatabaseIntegrationSuite with RedisIntegrationSuite wit
     foldersForU2AfterSort.sharedFolders(1).rank should be(2)
   }
 
+  test("Saved shared folders with subfolders can be fetched by the user that saved them") {
+    when(feideApiClient.getFeideGroupsAndOrganization(any)).thenReturn(Success((Seq.empty, "zxc")))
+    when(myndlaApi.componentRegistry.feideApiClient.getFeideExtendedUser(any)).thenReturn(
+      Success(FeideExtendedUserInfo("", Seq("employee"), Some("employee"), "email@ndla.no", Some(Seq("email@ndla.no"))))
+    )
+
+    val parent = createFolder(feide1, "parent", None)
+    val child  = createFolder(feide1, "child", Some(parent.id.toString))
+
+    saveFolder(feide2, parent.id)
+
+    val folders = getFolders(feide2, includeSubfolders = true)
+    folders.sharedFolders.map(_.id) should be(List(parent.id))
+    folders
+      .sharedFolders
+      .head
+      .subfolders
+      .collect { case f: api.FolderDTO =>
+        f.id
+      } should be(List(child.id))
+  }
+
   test("Inserting and sorting root resources") {
     when(feideApiClient.getFeideGroupsAndOrganization(any)).thenReturn(Success((Seq.empty, "zxc")))
     doNothing().when(searchApiClient).reindexDraft(any);

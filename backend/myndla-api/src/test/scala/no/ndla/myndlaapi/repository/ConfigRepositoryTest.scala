@@ -53,7 +53,7 @@ class ConfigRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
 
     repository.updateConfigParam(newConfig)
 
-    repository.configCount should be(1)
+    repository.configCount should be(Success(1L))
     repository.getConfigWithKey(ConfigKey.MyNDLAWriteRestricted) should be(Success(Some(newConfig)))
   }
 
@@ -66,7 +66,7 @@ class ConfigRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
     )
 
     repository.updateConfigParam(originalConfig)
-    repository.configCount should be(1)
+    repository.configCount should be(Success(1L))
     repository.getConfigWithKey(ConfigKey.MyNDLAWriteRestricted) should be(Success(Some(originalConfig)))
 
     val updatedConfig = ConfigMeta(
@@ -77,7 +77,7 @@ class ConfigRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with 
     )
 
     repository.updateConfigParam(updatedConfig)
-    repository.configCount should be(1)
+    repository.configCount should be(Success(1L))
     repository.getConfigWithKey(ConfigKey.MyNDLAWriteRestricted) should be(Success(Some(updatedConfig)))
   }
 }

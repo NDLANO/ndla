@@ -54,7 +54,7 @@ class SubjectPageRepository(using dBSubjectPage: DBSubjectPage, dbUtility: DBUti
             order by su.id
             offset $offset
             limit $limit
-         """.map(dBSubjectPage.DBSubjectPage.fromDb(su)).runListFlat()
+         """.decode(dBSubjectPage.DBSubjectPage.fromDb(su)).runList()
   }
 
   def withId(subjectId: Long)(implicit session: DBSession = dbUtility.readOnlySession): Try[Option[SubjectPage]] =
@@ -71,23 +71,23 @@ class SubjectPageRepository(using dBSubjectPage: DBSubjectPage, dbUtility: DBUti
           and su.id in ($subjectIds)
           offset $offset
           limit $pageSize
-         """.map(dBSubjectPage.DBSubjectPage.fromDb(su)).runListFlat()
+         """.decode(dBSubjectPage.DBSubjectPage.fromDb(su)).runList()
   }
 
   def getIdFromExternalId(externalId: String)(implicit sesstion: DBSession = dbUtility.autoSession): Try[Option[Long]] =
     tsql"select id from ${dBSubjectPage.DBSubjectPage.table} where external_id=${externalId}"
-      .map(rs => rs.long("id"))
+      .decode(_.required[Long]("id"))
       .runSingle()
 
   def exists(subjectId: Long)(implicit sesstion: DBSession = dbUtility.autoSession): Try[Boolean] =
     tsql"select id from ${dBSubjectPage.DBSubjectPage.table} where id=${subjectId}"
-      .map(rs => rs.long("id"))
+      .decode(_.required[Long]("id"))
       .runSingle()
       .map(_.isDefined)
 
   def totalCount(implicit session: DBSession = dbUtility.readOnlySession): Try[Long] =
     tsql"select count(*) from ${dBSubjectPage.DBSubjectPage.table} where document is not NULL"
-      .map(rs => rs.long("count"))
+      .decode(_.required[Long]("count"))
       .runSingle()
       .map(_.getOrElse(0L))
 
@@ -95,8 +95,8 @@ class SubjectPageRepository(using dBSubjectPage: DBSubjectPage, dbUtility: DBUti
     val su = dBSubjectPage.DBSubjectPage.syntax("su")
 
     tsql"select ${su.result.*} from ${dBSubjectPage.DBSubjectPage.as(su)} where su.document is not NULL and $whereClause"
-      .map(dBSubjectPage.DBSubjectPage.fromDb(su))
-      .runSingleFlat()
+      .decode(dBSubjectPage.DBSubjectPage.fromDb(su))
+      .runSingle()
   }
 
   /** Lazily iterates over every stored [[SubjectPage]], fetching `pageSize` rows from the database at a time.

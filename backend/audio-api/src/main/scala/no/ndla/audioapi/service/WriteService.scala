@@ -44,15 +44,14 @@ class WriteService(using
       case Failure(ex)                   => Failure(ex)
       case Success(None)                 => Failure(NotFoundException(s"Could not find series to update with id: '$id'"))
       case Success(Some(existingSeries)) =>
-        val merged             = converterService.updateSeries(existingSeries, toUpdateSeries)
-        val oldEpisodesIds     = existingSeries.episodes.traverse(_.flatMap(_.id)).flatten.toSet
-        val episodesToDelete   = oldEpisodesIds.diff(toUpdateSeries.episodes)
-        val episodesToAdd      = toUpdateSeries.episodes.diff(oldEpisodesIds)
-        val episodesToValidate = toUpdateSeries.episodes.map(id => id -> audioRepository.withId(id))
+        val merged           = converterService.updateSeries(existingSeries, toUpdateSeries)
+        val oldEpisodesIds   = existingSeries.episodes.traverse(_.flatMap(_.id)).flatten.toSet
+        val episodesToDelete = oldEpisodesIds.diff(toUpdateSeries.episodes)
+        val episodesToAdd    = toUpdateSeries.episodes.diff(oldEpisodesIds)
 
         for {
-          validatedEpisodes <-
-            validationService.validatePodcastEpisodes(episodesToValidate.toSeq, Some(existingSeries.id))
+          episodesToValidate <- toUpdateSeries.episodes.toList.traverse(id => audioRepository.withId(id).map(id -> _))
+          validatedEpisodes  <- validationService.validatePodcastEpisodes(episodesToValidate, Some(existingSeries.id))
           validatedSeries    <- validationService.validate(merged.withoutId)
           updatedSeries      <- seriesRepository.update(merged)
           _                  <- updateSeriesForEpisodes(None, episodesToDelete.toSeq)
@@ -67,10 +66,10 @@ class WriteService(using
 
   def newSeries(newSeries: api.NewSeriesDTO): Try[api.SeriesDTO] = {
     val domainSeries = converterService.toDomainSeries(newSeries)
-    val episodes     = newSeries.episodes.map(id => id -> audioRepository.withId(id))
 
     for {
-      validatedEpisodes   <- validationService.validatePodcastEpisodes(episodes.toSeq, None)
+      episodes            <- newSeries.episodes.toList.traverse(id => audioRepository.withId(id).map(id -> _))
+      validatedEpisodes   <- validationService.validatePodcastEpisodes(episodes, None)
       validatedSeries     <- validationService.validate(domainSeries)
       inserted            <- seriesRepository.insert(validatedSeries)
       _                   <- updateSeriesForEpisodes(Some(inserted.id), newSeries.episodes.toSeq)
@@ -84,11 +83,13 @@ class WriteService(using
   def updateSeriesForEpisodes(seriesId: Option[Long], episodeIds: Seq[Long]): Try[?] = episodeIds.traverse(id =>
     for {
       _       <- audioRepository.setSeriesId(audioMetaId = id, seriesId = seriesId)
-      episode <- audioRepository.withId(id) match {
-        case Some(ep) => Success(ep)
-        case None     =>
-          Failure(NotFoundException(s"Could not find episode with id '$id' when updating series connection."))
-      }
+      episode <- audioRepository
+        .withId(id)
+        .flatMap {
+          case Some(ep) => Success(ep)
+          case None     =>
+            Failure(NotFoundException(s"Could not find episode with id '$id' when updating series connection."))
+        }
       reindexed <- audioIndexService.indexDocument(episode)
     } yield reindexed
   )
@@ -129,7 +130,7 @@ class WriteService(using
 
   def deleteAudioLanguageVersion(audioId: Long, language: String): Try[Option[api.AudioMetaInformationDTO]] =
     audioRepository.withId(audioId) match {
-      case Some(existing) if existing.supportedLanguages.contains(language) =>
+      case Success(Some(existing)) if existing.supportedLanguages.contains(language) =>
         val newAudio = converterService.withoutLanguage(existing, language)
 
         // If last language version delete entire audio
@@ -148,8 +149,11 @@ class WriteService(using
 
         }
 
-      case Some(_) => Failure(NotFoundException(s"Audio with id $audioId does not exist in language '$language'."))
-      case None    => Failure(NotFoundException(s"Audio with id $audioId was not found, and could not be deleted."))
+      case Success(Some(_)) =>
+        Failure(NotFoundException(s"Audio with id $audioId does not exist in language '$language'."))
+      case Success(None) =>
+        Failure(NotFoundException(s"Audio with id $audioId was not found, and could not be deleted."))
+      case Failure(ex) => Failure(ex)
     }
 
   def deleteSeriesLanguageVersion(seriesId: Long, language: String): Try[Option[api.SeriesDTO]] = {
@@ -201,7 +205,7 @@ class WriteService(using
 
           _ <- validationService.validate(domainAudio, None, maybeSeries, Some(newAudioMeta.language))
 
-          audioMetaData <- Try(audioRepository.insert(domainAudio))
+          audioMetaData <- audioRepository.insert(domainAudio)
           insertedId    <- idToTry(audioMetaData.id)
           _             <- audioRepository.setSeriesId(insertedId, newAudioMeta.seriesId)
 
@@ -223,38 +227,44 @@ class WriteService(using
 
   def deleteAudioAndFiles(audioId: Long): Try[Long] = {
     audioRepository.withId(audioId) match {
-      case Some(toDelete) =>
-        val metaDeleted  = audioRepository.deleteAudio(audioId)
-        val filesDeleted = toDelete
-          .filePaths
-          .map(fileToDelete => {
-            deleteFile(fileToDelete) match {
-              case Failure(ex) => Failure(
-                  new AudioStorageException(
-                    s"Deletion of file at '${fileToDelete.filePath}' failed with: ${ex.getMessage}"
-                  )
-                )
-              case ok => ok
+      case Success(Some(toDelete)) => audioRepository
+          .deleteAudio(audioId)
+          .flatMap { metaDeleted =>
+            val filesDeleted = toDelete
+              .filePaths
+              .map(fileToDelete => {
+                deleteFile(fileToDelete) match {
+                  case Failure(ex) => Failure(
+                      new AudioStorageException(
+                        s"Deletion of file at '${fileToDelete.filePath}' failed with: ${ex.getMessage}"
+                      )
+                    )
+                  case ok => ok
+                }
+              })
+            val indexDeleted = audioIndexService.deleteDocument(audioId)
+
+            if (metaDeleted < 1) {
+              Failure(
+                NotFoundException(s"Metadata for audio with id $audioId was not found, and could not be deleted.")
+              )
+            } else if (filesDeleted.exists(_.isFailure)) {
+              val exceptions = filesDeleted.collect { case Failure(ex) =>
+                ex
+              }
+              val msg = exceptions.map(_.getMessage).mkString("\n")
+              Failure(new AudioStorageException(msg))
+            } else {
+              indexDeleted match {
+                case Failure(ex)        => Failure(ex)
+                case Success(deletedId) => Success(deletedId)
+              }
             }
-          })
-        val indexDeleted = audioIndexService.deleteDocument(audioId)
-
-        if (metaDeleted < 1) {
-          Failure(NotFoundException(s"Metadata for audio with id $audioId was not found, and could not be deleted."))
-        } else if (filesDeleted.exists(_.isFailure)) {
-          val exceptions = filesDeleted.collect { case Failure(ex) =>
-            ex
           }
-          val msg = exceptions.map(_.getMessage).mkString("\n")
-          Failure(new AudioStorageException(msg))
-        } else {
-          indexDeleted match {
-            case Failure(ex)        => Failure(ex)
-            case Success(deletedId) => Success(deletedId)
-          }
-        }
 
-      case None => Failure(NotFoundException(s"Audio with id $audioId was not found, and could not be deleted."))
+      case Success(None) =>
+        Failure(NotFoundException(s"Audio with id $audioId was not found, and could not be deleted."))
+      case Failure(ex) => Failure(ex)
     }
   }
 
@@ -265,8 +275,9 @@ class WriteService(using
       user: TokenUser,
   ): Try[api.AudioMetaInformationDTO] = {
     audioRepository.withId(id) match {
-      case None                   => Failure(NotFoundException("Audio not found"))
-      case Some(existingMetadata) =>
+      case Failure(ex)                     => Failure(ex)
+      case Success(None)                   => Failure(NotFoundException("Audio not found"))
+      case Success(Some(existingMetadata)) =>
         val metadataAndFile = fileOpt match {
           case None       => mergeAudioMeta(existingMetadata, metadataToUpdate, None, user)
           case Some(file) =>

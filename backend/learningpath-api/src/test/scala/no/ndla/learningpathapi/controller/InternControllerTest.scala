@@ -29,7 +29,7 @@ class InternControllerTest extends UnitSuite with TestEnvironment with TapirCont
 
   test("that id with value 404 gives OK") {
     resetMocks()
-    when(learningPathRepository.getIdFromExternalId(any[String])(using any[DBSession])).thenReturn(Some(404L))
+    when(learningPathRepository.getIdFromExternalId(any[String])(using any[DBSession])).thenReturn(Success(Some(404L)))
 
     quickRequest.get(uri"http://localhost:$serverPort/intern/id/1234").send().code.code should be(200)
   }
@@ -87,8 +87,8 @@ class InternControllerTest extends UnitSuite with TestEnvironment with TapirCont
   test("That GET /stats returns statistics for learning paths") {
     val count  = 42L
     val owners = 2L
-    when(learningPathRepository.myNdlaLearningPathCount(using any)).thenReturn(count)
-    when(learningPathRepository.myNdlaLearningPathOwnerCount(using any)).thenReturn(owners)
+    when(learningPathRepository.myNdlaLearningPathCount(using any)).thenReturn(Success(count))
+    when(learningPathRepository.myNdlaLearningPathOwnerCount(using any)).thenReturn(Success(owners))
     val res = quickRequest.get(uri"http://localhost:$serverPort/intern/stats").send()
     res.code.code should be(200)
     val convertedBody = CirceUtil.unsafeParseAs[LearningPathStatsDTO](res.body)

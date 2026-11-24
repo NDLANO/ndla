@@ -8,27 +8,26 @@
 
 package no.ndla.myndlaapi.model.domain
 
-import no.ndla.common.CirceUtil
 import no.ndla.common.model.NDLADate
 import no.ndla.common.model.domain.myndla.{MyNDLAUser, MyNDLAUserDocument}
+import no.ndla.database.{ColumnDecoder, Row}
 import no.ndla.myndlaapi.Props
 import scalikejdbc.*
+
+import scala.util.Try
 
 class DBMyNDLAUser(using props: Props) extends SQLSyntaxSupport[MyNDLAUser] {
 
   override def tableName                  = "my_ndla_users"
   override def schemaName: Option[String] = Some(props.MetaSchema)
 
-  def fromResultSet(lp: SyntaxProvider[MyNDLAUser])(rs: WrappedResultSet): MyNDLAUser =
-    fromResultSetWithWrapper((s: String) => lp.resultName.c(s))(rs)
-
-  private def fromResultSetWithWrapper(colNameWrapper: String => String)(rs: WrappedResultSet): MyNDLAUser = {
-    val jsonString = rs.string(colNameWrapper("document"))
-    val metaData   = CirceUtil.unsafeParseAs[MyNDLAUserDocument](jsonString)
-    val id         = rs.long(colNameWrapper("id"))
-    val feideId    = rs.string(colNameWrapper("feide_id"))
-    val lastSeen   = rs.get[NDLADate](colNameWrapper("last_seen"))
-
-    metaData.toFullUser(id = id, feideId = feideId, lastSeen = lastSeen)
+  def fromResultSet(lp: SyntaxProvider[MyNDLAUser])(row: Row): Try[MyNDLAUser] = {
+    val column = (s: String) => lp.resultName.c(s)
+    for {
+      document <- row.required[MyNDLAUserDocument](column("document"))(using ColumnDecoder.json)
+      id       <- row.required[Long](column("id"))
+      feideId  <- row.required[String](column("feide_id"))
+      lastSeen <- row.required[NDLADate](column("last_seen"))
+    } yield document.toFullUser(id = id, feideId = feideId, lastSeen = lastSeen)
   }
 }

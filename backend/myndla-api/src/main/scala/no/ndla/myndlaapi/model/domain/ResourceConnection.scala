@@ -10,6 +10,7 @@ package no.ndla.myndlaapi.model.domain
 
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+import no.ndla.database.{ColumnName, Row}
 import no.ndla.myndlaapi.Props
 import no.ndla.common.model.NDLADate
 import scalikejdbc.*
@@ -27,19 +28,15 @@ object ResourceConnection {
   implicit val encoder: Encoder[ResourceConnection] = deriveEncoder
   implicit val decoder: Decoder[ResourceConnection] = deriveDecoder
 
-  def fromResultSet(lp: SyntaxProvider[ResourceConnection])(rs: WrappedResultSet): Try[ResourceConnection] =
-    fromResultSet(s => lp.resultName.c(s), rs)
+  def fromResultSet(lp: SyntaxProvider[ResourceConnection])(row: Row): Try[ResourceConnection] =
+    fromResultSet((s: String) => lp.resultName.c(s))(row)
 
-  def fromResultSet(colNameWrapper: String => String, rs: WrappedResultSet): Try[ResourceConnection] = {
-    import no.ndla.myndlaapi.{uuidBinder, maybeUuidBinder}
-    val folderId = rs.get[Option[UUID]](colNameWrapper("folder_id"))
-    for {
-      resourceId    <- rs.get[Try[UUID]](colNameWrapper("resource_id"))
-      rank          <- Try(rs.int(colNameWrapper("rank")))
-      favoritedDate <- Try(rs.get[NDLADate](colNameWrapper("favorited_date")))
-    } yield ResourceConnection(folderId = folderId, resourceId = resourceId, rank = rank, favoritedDate = favoritedDate)
-  }
-
+  def fromResultSet(colNameWrapper: String => ColumnName)(row: Row): Try[ResourceConnection] = for {
+    folderId      <- row.optional[UUID](colNameWrapper("folder_id"))
+    resourceId    <- row.required[UUID](colNameWrapper("resource_id"))
+    rank          <- row.required[Int](colNameWrapper("rank"))
+    favoritedDate <- row.required[NDLADate](colNameWrapper("favorited_date"))
+  } yield ResourceConnection(folderId = folderId, resourceId = resourceId, rank = rank, favoritedDate = favoritedDate)
 }
 
 class DBResourceConnection(using props: Props) extends SQLSyntaxSupport[ResourceConnection] {

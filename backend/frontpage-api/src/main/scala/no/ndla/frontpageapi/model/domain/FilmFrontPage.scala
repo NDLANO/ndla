@@ -9,12 +9,12 @@
 package no.ndla.frontpageapi.model.domain
 
 import io.circe.generic.semiauto.*
-import io.circe.parser.*
 import io.circe.{Decoder, Encoder}
 import no.ndla.common.model.domain.frontpage.{AboutSubject, MovieTheme}
+import no.ndla.database.{ColumnDecoder, Row}
 import no.ndla.frontpageapi.Props
 import no.ndla.language.Language.getSupportedLanguages
-import scalikejdbc.{WrappedResultSet, *}
+import scalikejdbc.*
 
 import scala.util.Try
 
@@ -32,10 +32,6 @@ case class FilmFrontPage(
 object FilmFrontPage {
   implicit val decoder: Decoder[FilmFrontPage] = deriveDecoder
   implicit val encoder: Encoder[FilmFrontPage] = deriveEncoder
-
-  private[domain] def decodeJson(json: String): Try[FilmFrontPage] = {
-    parse(json).flatMap(_.as[FilmFrontPage]).toTry
-  }
 }
 
 class DBFilmFrontPage(using props: Props) {
@@ -44,12 +40,10 @@ class DBFilmFrontPage(using props: Props) {
     override def tableName                  = "filmfrontpage"
     override def schemaName: Option[String] = Some(props.MetaSchema)
 
-    def fromDb(lp: SyntaxProvider[FilmFrontPage])(rs: WrappedResultSet): Try[FilmFrontPage] = fromDb(lp.resultName)(rs)
+    def fromDb(lp: SyntaxProvider[FilmFrontPage])(row: Row): Try[FilmFrontPage] = fromDb(lp.resultName)(row)
 
-    private def fromDb(lp: ResultName[FilmFrontPage])(rs: WrappedResultSet): Try[FilmFrontPage] = {
-      val document = rs.string(lp.c("document"))
-      FilmFrontPage.decodeJson(document)
-    }
+    private def fromDb(lp: ResultName[FilmFrontPage])(row: Row): Try[FilmFrontPage] =
+      row.required[FilmFrontPage](lp.c("document"))(using ColumnDecoder.json)
 
   }
 }

@@ -24,7 +24,7 @@ class ImageRepository(using dbUtility: DBUtility, dbImageMetaInformation: DBImag
     extends StrictLogging {
   def imageCount(implicit session: DBSession = dbUtility.readOnlySession): Try[Long] =
     tsql"select count(*) from ${dbImageMetaInformation.table}"
-      .map(rs => rs.long("count"))
+      .decode(_.required[Long]("count"))
       .runSingle()
       .map(_.getOrElse(0))
 
@@ -69,7 +69,7 @@ class ImageRepository(using dbUtility: DBUtility, dbImageMetaInformation: DBImag
   }
 
   def getAllEditors: Try[Seq[String]] = dbUtility.readOnly { implicit session =>
-    tsql"select distinct user_id from image_editors".map(rs => rs.string("user_id")).runList()
+    tsql"select distinct user_id from image_editors".decode(_.required[String]("user_id")).runList()
   }
 
   private def trackEditor(image: ImageMetaInformation)(implicit session: DBSession): Try[ImageMetaInformation] = {
@@ -100,13 +100,10 @@ class ImageRepository(using dbUtility: DBUtility, dbImageMetaInformation: DBImag
   }
 
   def minMaxId: Try[(Long, Long)] = dbUtility.readOnly { implicit session =>
-    Try {
-      tsql"select coalesce(MIN(id),0) as mi, coalesce(MAX(id),0) as ma from imagemetadata"
-        .map(rs => (rs.long("mi"), rs.long("ma")))
-        .runSingle()
-        .map(_.getOrElse((0L, 0L)))
-        .get
-    }
+    tsql"select coalesce(MIN(id),0) as mi, coalesce(MAX(id),0) as ma from imagemetadata"
+      .decode(row => (row.required[Long]("mi"), row.required[Long]("ma")).tupled)
+      .runSingle()
+      .map(_.getOrElse((0L, 0L)))
   }
 
   def documentsWithIdBetween(min: Long, max: Long): Try[List[ImageMetaInformation]] =
@@ -120,7 +117,7 @@ class ImageRepository(using dbUtility: DBUtility, dbImageMetaInformation: DBImag
             SELECT ${im.result.*}
             FROM ${dbImageMetaInformation.as(im)}
             WHERE $whereClause
-         """.map(ImageMetaInformation.fromResultSet(im.resultName)).runSingleFlat()
+         """.decode(ImageMetaInformation.fromResultSet(im.resultName)).runSingle()
   }
 
   private def imageMetaInformationsWhere(
@@ -131,7 +128,7 @@ class ImageRepository(using dbUtility: DBUtility, dbImageMetaInformation: DBImag
             SELECT ${im.result.*}
             FROM ${dbImageMetaInformation.as(im)}
             WHERE $whereClause
-         """.map(ImageMetaInformation.fromResultSet(im.resultName)).runListFlat()
+         """.decode(ImageMetaInformation.fromResultSet(im.resultName)).runList()
   }
 
   private def withAndWithoutPrefixSlash(str: String): (String, String) = {
@@ -156,7 +153,7 @@ class ImageRepository(using dbUtility: DBUtility, dbImageMetaInformation: DBImag
 
   def minMaxId(implicit session: DBSession = dbUtility.autoSession): Try[(Long, Long)] =
     tsql"select coalesce(MIN(id),0) as mi, coalesce(MAX(id),0) as ma from ${dbImageMetaInformation.table}"
-      .map(rs => (rs.long("mi"), rs.long("ma")))
+      .decode(row => (row.required[Long]("mi"), row.required[Long]("ma")).tupled)
       .runSingle()
       .map(_.getOrElse((0L, 0L)))
 
@@ -164,7 +161,7 @@ class ImageRepository(using dbUtility: DBUtility, dbImageMetaInformation: DBImag
     val im = dbImageMetaInformation.syntax("im")
     tsql"""SELECT ${im.result.*}
            FROM ${dbImageMetaInformation.as(im)} TABLESAMPLE public.system_rows(1)
-           LIMIT 1""".map(ImageMetaInformation.fromResultSet(im)).runSingle().map(_.sequence).flatten
+           LIMIT 1""".decode(ImageMetaInformation.fromResultSet(im)).runSingle()
   }
 
   def getByPage(pageSize: Int, offset: Int)(implicit
@@ -178,7 +175,7 @@ class ImageRepository(using dbUtility: DBUtility, dbImageMetaInformation: DBImag
            order by ${im.id}
            offset $offset
            limit $pageSize
-      """.map(ImageMetaInformation.fromResultSet(im)).runListFlat()
+      """.decode(ImageMetaInformation.fromResultSet(im)).runList()
   }
 
   def getImageMetaBatched(batchSize: Long): Try[Iterator[Seq[ImageMetaInformation]]] =
@@ -207,7 +204,7 @@ class ImageRepository(using dbUtility: DBUtility, dbImageMetaInformation: DBImag
             order by ${im.id}
             offset $cursor
             limit $size
-             """.map(ImageMetaInformation.fromResultSet(im.resultName)).runListFlat()
+             """.decode(ImageMetaInformation.fromResultSet(im.resultName)).runList()
         } match {
           case Success(images) =>
             cursor += size
