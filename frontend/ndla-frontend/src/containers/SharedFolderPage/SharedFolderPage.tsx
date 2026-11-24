@@ -9,11 +9,13 @@
 import { skipToken, useSuspenseQuery } from "@apollo/client/react";
 import { FolderUserLine } from "@ndla/icons";
 import { Button, Heading, Text } from "@ndla/primitives";
+import { SafeLinkButton } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { keyBy } from "@ndla/util";
-import { Suspense, useId } from "react";
+import { Suspense, useContext, useId } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
+import { AuthContext } from "../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { BlockWrapper } from "../../components/MyNdla/BlockWrapper";
@@ -103,6 +105,7 @@ const SharedFolderPageContent = () => {
   const { t } = useTranslation();
   const foldersHeadingId = useId();
   const resourcesHeadingId = useId();
+  const { authenticated } = useContext(AuthContext);
 
   const sharedFolderQuery = useSuspenseQuery(sharedFolderQueryDef, {
     variables: { id: folderId },
@@ -178,6 +181,11 @@ const SharedFolderPageContent = () => {
             <Button variant="secondary">{t("myNdla.folder.copy")}</Button>
           </CopyFolderModal>
           <SaveLink folder={folder} />
+          {!!authenticated && (
+            <SafeLinkButton to={routes.folderPrint(folder.id)} variant="secondary">
+              {t("myNdla.folder.sharing.button.print")}
+            </SafeLinkButton>
+          )}
         </HStack>
         {!!folder.subfolders.length && (
           <ListSection>

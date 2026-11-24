@@ -176,7 +176,7 @@ const getServerSideConfig = (): ConfigType => {
     autologinCookieEnabled: getEnvironmentVariable("AUTOLOGIN_COOKIE_ENABLED", false),
     loginHint: loginHint(ndlaEnvironment, getEnvironmentVariable("AUTOLOGIN_COOKIE_ENABLED", false)),
     enableDialogApi: getEnvironmentVariable("ENABLE_DIALOG_API", true),
-    enableQuiz: getEnvironmentVariable("ENABLE_QUIZ", false),
+    enableQuiz: getEnvironmentVariable("ENABLE_QUIZ", true),
   };
 };
 
