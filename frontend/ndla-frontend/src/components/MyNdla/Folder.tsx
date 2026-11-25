@@ -6,7 +6,7 @@
  *
  */
 
-import { FileTextLine, FolderUserLine, ShareFill, FolderLine, LinkMedium } from "@ndla/icons";
+import { FileTextLine, FolderUserLine, LockLine, FolderLine, LinkMedium } from "@ndla/icons";
 import { ListItemContent, ListItemHeading, ListItemRoot, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -140,12 +140,18 @@ export const Folder = ({
         <FolderInfo>
           {!!isShared && (
             <IconTextWrapper textStyle="label.small">
-              <ShareFill size="small" />
+              <LinkMedium size="small" />
               <span aria-hidden={!isFavorited}>
                 {isFavorited
                   ? `${t("myNdla.folder.sharing.sharedBy")}${owner ? owner.name : t("myNdla.folder.sharing.sharedByAnonymous")}`
                   : t("myNdla.folder.sharing.shared")}
               </span>
+            </IconTextWrapper>
+          )}
+          {!isShared && (
+            <IconTextWrapper textStyle="label.small">
+              <LockLine size="small" />
+              {t("myNdla.folder.sharing.private")}
             </IconTextWrapper>
           )}
           {!isFavorited && (
