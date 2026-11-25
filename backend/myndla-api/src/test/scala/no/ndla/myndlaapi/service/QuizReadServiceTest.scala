@@ -53,16 +53,15 @@ class QuizReadServiceTest extends UnitTestSuite with TestEnvironment {
       tokenUser = None,
       feideUser = FeideUserWrapper(TestData.emptyMyNDLAUser.copy(feideId = "viewer-feide-id"), mock[FeideIdToken]),
     )
-    when(quizRepository.getSavedByUser(eqTo("viewer-feide-id"))(using any[DBSession])).thenReturn(
-      Success(List(TestData.publicQuiz(TestData.singleChoiceQuestion)))
-    )
+    when(quizRepository.getSavedByUser(eqTo("viewer-feide-id"), eqTo(QuizSort.ByCreatedDesc))(using any[DBSession]))
+      .thenReturn(Success(List(TestData.publicQuiz(TestData.singleChoiceQuestion))))
     when(quizRepository.canView(any[Quiz], any[CombinedUser])).thenCallRealMethod()
     when(quizRepository.canSeeAnswers(any[Quiz], any[CombinedUser])).thenCallRealMethod()
     when(userRepository.userWithFeideId(eqTo("owner-feide-id"))(using any[DBSession])).thenReturn(
       Success(Some(TestData.emptyMyNDLAUser.copy(id = 42, displayName = "Ola Nordmann")))
     )
 
-    val result = service.savedQuizzes(viewer, "nb")
+    val result = service.savedQuizzes(viewer, "nb", QuizSort.ByCreatedDesc)
     result.get.map(_.owner) should be(Seq(Some(OwnerDTO("Ola Nordmann", 42))))
   }
 

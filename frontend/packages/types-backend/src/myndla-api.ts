@@ -1518,6 +1518,11 @@ export type components = {
             results: components["schemas"]["QuizDTO"][];
         };
         /**
+         * QuizSort
+         * @enum {string}
+         */
+        QuizSort: "-created" | "created";
+        /**
          * QuizStatsDTO
          * @description Stats for quizzes
          */
@@ -1935,6 +1940,7 @@ export type QuestionType = components['schemas']['QuestionType'];
 export type QuizDTO = components['schemas']['QuizDTO'];
 export type QuizResultDTO = components['schemas']['QuizResultDTO'];
 export type QuizSearchResultDTO = components['schemas']['QuizSearchResultDTO'];
+export type QuizSort = components['schemas']['QuizSort'];
 export type QuizStatsDTO = components['schemas']['QuizStatsDTO'];
 export type QuizStatus = components['schemas']['QuizStatus'];
 export type ResourceConnectionDTO = components['schemas']['ResourceConnectionDTO'];
@@ -5021,6 +5027,8 @@ export interface operations {
                 pageSize?: number;
                 /** @description Page number */
                 page?: number;
+                /** @description Sort order of the results. Supported values: -created, created. Defaults to -created. */
+                sort?: components["schemas"]["QuizSort"];
             };
             header?: never;
             path?: never;
@@ -5149,6 +5157,8 @@ export interface operations {
             query?: {
                 /** @description The ISO 639-1 language code for the response. */
                 language?: string;
+                /** @description Sort order of the results, by when the quiz was saved. Supported values: -created, created. Defaults to -created. */
+                sort?: components["schemas"]["QuizSort"];
             };
             header?: never;
             path?: never;
@@ -6003,6 +6013,7 @@ type ReadonlyArray<T> = [
 export const configKeyValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ConfigKey"]> = ["MY_NDLA_WRITE_RESTRICTED"];
 export const folderStatusValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["FolderStatus"]> = ["private", "shared"];
 export const questionTypeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["QuestionType"]> = ["SINGLE_CHOICE", "MULTI_CHOICE", "MATCHING"];
+export const quizSortValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["QuizSort"]> = ["-created", "created"];
 export const quizStatusValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["QuizStatus"]> = ["PRIVATE", "PUBLIC"];
 export const resourceTypeValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["ResourceType"]> = ["article", "audio", "concept", "image", "learningpath", "multidisciplinary", "topic", "video"];
 export const robotStatusValues: ReadonlyArray<FlattenedDeepRequired<components>["schemas"]["RobotStatus"]> = ["PRIVATE", "SHARED", "PUBLIC", "PUBLISHED"];

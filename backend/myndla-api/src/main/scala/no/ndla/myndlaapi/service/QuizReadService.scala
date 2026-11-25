@@ -18,7 +18,7 @@ import no.ndla.myndlaapi.model.api.{
   QuizResultDTO,
   QuizSearchResultDTO,
 }
-import no.ndla.myndlaapi.model.domain.{Question, QuestionType, Quiz, QuizErrors}
+import no.ndla.myndlaapi.model.domain.{Question, QuestionType, Quiz, QuizErrors, QuizSort}
 import no.ndla.myndlaapi.repository.{QuizRepository, UserRepository}
 import no.ndla.network.model.{CombinedUser, CombinedUserRequired}
 
@@ -49,20 +49,25 @@ class QuizReadService(using
       }
   }
 
-  def search(user: CombinedUserRequired, language: String, pageSize: Int, page: Int): Try[QuizSearchResultDTO] = dbUtil
-    .readOnly { implicit session =>
-      val ownerId = user.id
-      for {
-        total   <- quizRepository.countByOwner(ownerId)
-        quizzes <- quizRepository.getByOwner(ownerId, pageSize, page)
-        dtos    <- quizzes.toList.traverse(toApiQuiz(_, language, isOwner = true))
-      } yield QuizSearchResultDTO(totalCount = total, page = page, pageSize = pageSize, results = dtos)
-    }
+  def search(
+      user: CombinedUserRequired,
+      language: String,
+      pageSize: Int,
+      page: Int,
+      sort: QuizSort,
+  ): Try[QuizSearchResultDTO] = dbUtil.readOnly { implicit session =>
+    val ownerId = user.id
+    for {
+      total   <- quizRepository.countByOwner(ownerId)
+      quizzes <- quizRepository.getByOwner(ownerId, pageSize, page, sort)
+      dtos    <- quizzes.toList.traverse(toApiQuiz(_, language, isOwner = true))
+    } yield QuizSearchResultDTO(totalCount = total, page = page, pageSize = pageSize, results = dtos)
+  }
 
-  def savedQuizzes(user: CombinedUserRequired, language: String): Try[Seq[QuizDTO]] = dbUtil.readOnly {
+  def savedQuizzes(user: CombinedUserRequired, language: String, sort: QuizSort): Try[Seq[QuizDTO]] = dbUtil.readOnly {
     implicit session =>
       for {
-        quizzes <- quizRepository.getSavedByUser(user.id)
+        quizzes <- quizRepository.getSavedByUser(user.id, sort)
         dtos    <- quizzes
           .filter(quiz => quizRepository.canView(quiz, user))
           .toList

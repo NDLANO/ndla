@@ -11,7 +11,9 @@ package no.ndla.myndlaapi.repository
 import no.ndla.common.model.NDLADate
 import no.ndla.common.model.domain.myndla.{MyNDLAUserDocument, UserRole}
 import no.ndla.database.{DBMigrator, DBUtility, DataSource}
+import no.ndla.database.implicits.*
 import no.ndla.myndlaapi.model.api.QuizStatsDTO
+import no.ndla.myndlaapi.model.domain.{Quiz, QuizSort}
 import no.ndla.myndlaapi.{TestData, TestEnvironment, UnitSuite}
 import no.ndla.scalatestsuite.DatabaseIntegrationSuite
 import scalikejdbc.*
@@ -81,6 +83,60 @@ class QuizRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with Te
         ),
       )
       .get: Unit
+  }
+
+  test("that getByOwner sorts by created and paginates") {
+    implicit val session: DBSession = DBUtil.autoSession
+
+    def quizCreatedAt(day: Int) = TestData
+      .publicQuiz(TestData.singleChoiceQuestion)
+      .copy(id = UUID.randomUUID().nn, created = NDLADate.of(2024, 1, day, 12, 0, 0))
+
+    val oldest = quizCreatedAt(1)
+    val middle = quizCreatedAt(2)
+    val newest = quizCreatedAt(3)
+    val other  = quizCreatedAt(4)
+
+    repository.insert("owner1", middle).get
+    repository.insert("owner1", newest).get
+    repository.insert("owner1", oldest).get
+    repository.insert("owner2", other).get
+
+    repository.getByOwner("owner1", 10, 1, QuizSort.ByCreatedDesc).get.map(_.id) should
+      be(List(newest.id, middle.id, oldest.id))
+    repository.getByOwner("owner1", 10, 1, QuizSort.ByCreatedAsc).get.map(_.id) should
+      be(List(oldest.id, middle.id, newest.id))
+    repository.getByOwner("owner1", 2, 2, QuizSort.ByCreatedDesc).get.map(_.id) should be(List(oldest.id))
+  }
+
+  test("that getSavedByUser sorts by when the quiz was saved") {
+    implicit val session: DBSession = DBUtil.autoSession
+
+    def newQuiz()                                         = TestData.publicQuiz(TestData.singleChoiceQuestion).copy(id = UUID.randomUUID().nn)
+    def saveQuizAt(quiz: Quiz, feideId: String, day: Int) = {
+      repository.saveQuiz(quiz.id, feideId).get
+      val saved = NDLADate.of(2024, 1, day, 12, 0, 0)
+      tsql"update saved_quizzes set created = $saved where quiz_id = ${quiz.id} and feide_id = $feideId"
+        .update()
+        .get: Unit
+    }
+
+    val first  = newQuiz()
+    val second = newQuiz()
+    val third  = newQuiz()
+    Seq(first, second, third).foreach(repository.insert("owner1", _).get)
+    insertUser("viewer1")
+    insertUser("viewer2")
+
+    saveQuizAt(second, "viewer1", 2)
+    saveQuizAt(third, "viewer1", 3)
+    saveQuizAt(first, "viewer1", 1)
+    saveQuizAt(third, "viewer2", 4)
+
+    repository.getSavedByUser("viewer1", QuizSort.ByCreatedDesc).get.map(_.id) should
+      be(List(third.id, second.id, first.id))
+    repository.getSavedByUser("viewer1", QuizSort.ByCreatedAsc).get.map(_.id) should
+      be(List(first.id, second.id, third.id))
   }
 
   test("that getStats returns zeroes for an empty database") {
