@@ -742,6 +742,7 @@ const translations = {
         sharedBy: "Shared by ",
         sharedByAnonymous: "anonymous teacher",
         sharedFolder: "Shared folder",
+        private: "Private",
         unShare: "Sharing stopped. The folder is no longer shared.",
         unShareFailed: "Failed to stop sharing the folder. The folder is still shared.",
         copyLink: "Copy link to folder",

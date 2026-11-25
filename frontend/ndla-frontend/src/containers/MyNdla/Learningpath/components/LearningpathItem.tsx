@@ -6,7 +6,7 @@
  *
  */
 
-import { PencilLine, UserLine, RouteLine } from "@ndla/icons";
+import { LockLine, LinkMedium, RouteLine } from "@ndla/icons";
 import { ListItemContent, ListItemHeading, ListItemRoot, type ListItemVariantProps, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -88,12 +88,12 @@ export const LearningpathItem = ({ learningpath, context, menu, ...rest }: Props
           </div>
           {learningpath.status === LEARNINGPATH_SHARED ? (
             <StatusText textStyle="label.small">
-              <UserLine size="small" />
+              <LinkMedium size="small" />
               {t("myNdla.learningpath.status.shared")}
             </StatusText>
           ) : learningpath.status === LEARNINGPATH_PRIVATE ? (
             <StatusText textStyle="label.small">
-              <PencilLine size="small" />
+              <LockLine size="small" />
               {t("myNdla.learningpath.status.private")}
             </StatusText>
           ) : null}
