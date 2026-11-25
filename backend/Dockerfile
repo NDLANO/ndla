@@ -5,6 +5,8 @@ ARG MODULE
 WORKDIR /app
 RUN apk add --no-cache curl
 COPY . .
+# Maven Central intermittently answers 404 or 429 for the launcher's download.
+RUN for attempt in 1 2 3 4 5; do ./mill -i --version && break; sleep $((attempt * 5)); done
 RUN ./mill -i ${MODULE}.assembly
 
 FROM eclipse-temurin:${JAVA_MAJOR_VERSION}-jre-alpine

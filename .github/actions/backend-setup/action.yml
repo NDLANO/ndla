@@ -48,3 +48,13 @@ runs:
         path: ${{ steps.key.outputs.paths }}
         key: ${{ steps.key.outputs.key }}
         restore-keys: ${{ steps.key.outputs.restore-keys }}
+    # Maven Central intermittently answers 404 or 429 for the launcher's download.
+    - name: "Fetch Mill"
+      shell: bash
+      working-directory: backend
+      run: |
+        for attempt in 1 2 3 4 5; do
+          ./mill -i --version && exit 0
+          sleep $((attempt * 5))
+        done
+        exit 1
