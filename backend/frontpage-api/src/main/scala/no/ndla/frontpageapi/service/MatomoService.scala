@@ -64,6 +64,12 @@ class MatomoService(using
   private def toPopularArticle(matomoResult: MatomoPageUrlResult): Option[PopularArticle] =
     extractContextId(matomoResult.label).flatMap(contextId => Some(PopularArticle(contextId, matomoResult.nb_hits)))
 
+  def toPopularArticles(topPages: List[MatomoPageUrlResult]): List[PopularArticle] = topPages
+    .flatMap(toPopularArticle)
+    .sortBy(-_.numHits)
+    .distinctBy(_.contextId)
+    .take(TopArticlesLimit)
+
   private def fetchAndStorePopularArticlesForSubject(
       subjectPage: SubjectPage,
       taxNode: Node,
@@ -72,7 +78,7 @@ class MatomoService(using
       dimensionId: String,
   )(implicit session: WriteableDbSession): Try[Int] = for {
     topPages           <- fetchTopMatomoPagesForSubject(taxNode.id, dateRange, subtableIds, dimensionId)
-    popularArticles     = topPages.flatMap(toPopularArticle).take(TopArticlesLimit)
+    popularArticles     = toPopularArticles(topPages)
     subjectPageToUpdate = subjectPage.copy(popularArticles = popularArticles)
     _                  <- subjectPageRepository.updateSubjectPage(subjectPageToUpdate)
   } yield popularArticles.size
@@ -140,7 +146,7 @@ object MatomoService {
   case class MissingMatomoDataEx(message: String) extends RuntimeException(message)
 
   private val MatomoPeriod     = "range"
-  private val PageLimit        = 100
+  private val PageLimit        = 500
   private val TopArticlesLimit = 20
   private val DaysInDateRange  = 7
   private val ContextIdRegex   = "[A-Fa-f0-9]{10}([A-Fa-f0-9]{2})?".r
