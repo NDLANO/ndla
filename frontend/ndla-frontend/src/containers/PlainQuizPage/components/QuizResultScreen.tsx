@@ -430,6 +430,7 @@ const MultiChoiceBreakdown = ({
   const selectedCorrect = answerIds.filter((id) => correctIds.has(id)).length;
   const selectedIncorrect = answerIds.filter((id) => !correctIds.has(id)).length;
   const missing = correctIds.size - selectedCorrect;
+  const rightCount = question.alternatives.filter((alt) => answerIds.includes(alt.id) === correctIds.has(alt.id)).length;
   const isAllCorrect = questionResult.isCorrect;
   const isAllIncorrect = !isAllCorrect && selectedCorrect === 0 && selectedIncorrect > 0;
   const isPartial = !isAllCorrect && !isAllIncorrect && (selectedCorrect > 0 || selectedIncorrect > 0);
@@ -474,8 +475,8 @@ const MultiChoiceBreakdown = ({
       {!!isPartial && !selectedIncorrect && (
         <MessageBox variant="warning">
           {t("myNdla.quiz.take.result.partialNoIncorrectFeedback", {
-            count: selectedCorrect,
-            correct: numberToWord(i18n.language, "neuter", selectedCorrect),
+            count: rightCount,
+            correct: numberToWord(i18n.language, "neuter", rightCount),
             missing: capitalize(numberToWord(i18n.language, "neuter", missing)),
           })}
         </MessageBox>
@@ -483,7 +484,7 @@ const MultiChoiceBreakdown = ({
       {!!isPartial && !!selectedIncorrect && (
         <MessageBox variant="warning">
           {t("myNdla.quiz.take.result.partialFeedback", {
-            correct: numberToWord(i18n.language, "common", selectedCorrect),
+            correct: numberToWord(i18n.language, "neuter", rightCount),
             incorrect: numberToWord(i18n.language, "neuter", selectedIncorrect),
             missing: capitalize(numberToWord(i18n.language, "neuter", missing)),
           })}
