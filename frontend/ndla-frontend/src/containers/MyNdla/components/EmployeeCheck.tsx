@@ -14,7 +14,7 @@ import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import { routes } from "../../../routeHelpers";
 import { ForbiddenPage } from "../../ErrorPage/ForbiddenPage";
 
-export const LearningpathCheck = () => {
+export const EmployeeCheck = () => {
   const { t } = useTranslation();
   const { authContextLoaded, authenticated, user } = useContext(AuthContext);
 
@@ -27,4 +27,4 @@ export const LearningpathCheck = () => {
   return <Outlet />;
 };
 
-export default LearningpathCheck;
+export default EmployeeCheck;

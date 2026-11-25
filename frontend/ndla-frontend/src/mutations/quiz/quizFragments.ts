@@ -53,6 +53,7 @@ export const quizSummaryFragment = gql`
     title
     status
     created
+    isSaved
     owner {
       __typename
       name
