@@ -54,6 +54,7 @@ import { useLocaleHref, useRawLocation } from "../../util/localePath";
 import { toHref } from "../../util/urlHelper";
 import { FavoritesHeart } from "./components/FavoritesHeart";
 import { MenuContainer, type MenuLink, MenuList, MenuListItem } from "./components/MenuContainer";
+import { SantaHatIcon } from "./components/SantaHatIcon";
 
 const StyledIconButton = styled(IconButton, {
   base: {
@@ -258,8 +259,8 @@ const menuLinks = (
     to: routes.myNdla.quiz,
     name: t("myNdla.quiz.title"),
     shortName: t("myNdla.iconMenu.quiz"),
-    icon: <KvissLine />,
-    iconFilled: <KvissFill />,
+    icon: <SantaHatIcon icon={<KvissLine />} />,
+    iconFilled: <SantaHatIcon icon={<KvissFill />} />,
     hiddenForUser: user?.role !== "employee",
     disabled: !config.enableQuiz,
   },
