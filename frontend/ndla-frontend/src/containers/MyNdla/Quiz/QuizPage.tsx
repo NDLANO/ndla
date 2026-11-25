@@ -7,23 +7,12 @@
  */
 
 import { useSuspenseQuery } from "@apollo/client/react";
-import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
-import {
-  Button,
-  Heading,
-  PaginationContext,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationNextTrigger,
-  PaginationPrevTrigger,
-  PaginationRoot,
-  Text,
-} from "@ndla/primitives";
+import { Heading, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { usePaginationTranslations } from "@ndla/ui";
-import { startTransition, Suspense } from "react";
+import { startTransition, Suspense, useContext } from "react";
 import { useTranslation } from "react-i18next";
+import { AuthContext } from "../../../components/AuthenticationContext";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import { PageTitle } from "../../../components/PageTitle";
@@ -36,11 +25,16 @@ import { MyNdlaPageContent, MyNdlaPageSection } from "../components/MyNdlaPageSe
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 import { SettingsMenu } from "../components/SettingsMenu";
 import { QuizItem } from "./components/QuizItem";
+import { QuizPagination } from "./components/QuizPagination";
+import { parseQuizSort, QUIZ_SORT_LAST_ADDED, QuizSortSelect } from "./components/QuizSortSelect";
 import { useQuizActionHooks, useSavedQuizActionHooks } from "./components/useQuizActionHooks";
 
 const Component = () => {
   return <PrivateRoute element={<QuizPage />} />;
 };
+
+const QUIZ_PAGE_SIZE = 10;
+const SAVED_QUIZZES_HEADING_ID = "saved-quizzes-heading";
 
 const StyledOl = styled("ol", {
   base: {
@@ -52,45 +46,38 @@ const StyledOl = styled("ol", {
   },
 });
 
-const StyledPaginationButton = styled(Button, {
-  base: {
-    _disabled: {
-      visibility: "hidden",
-    },
-    tabletDown: {
-      "& span": {
-        display: "none",
-      },
-    },
-  },
-});
-
 const StyledSafeLinkButton = styled(SafeLinkButton, {
   base: {
     alignSelf: "flex-start",
   },
 });
 
+const parsePage = (value: string | null) => Math.max(1, parseInt(value ?? "") || 1);
+
 export const QuizPage = () => {
   const { t } = useTranslation();
+  const { user } = useContext(AuthContext);
+  const isTeacher = user?.role === "employee";
 
   return (
     <MyNdlaPageWrapper>
       <PageTitle title={t("htmlTitles.quizPage")} useLocationForCustomPath={true} />
       <MyNdlaPageContent quiz={true}>
         <MyNdlaTitle title={t("myNdla.quiz.title")} />
-        <Text>{t("myNdla.quiz.description")}</Text>
+        <Text>{isTeacher ? t("myNdla.quiz.description") : t("myNdla.quiz.descriptionStudent")}</Text>
       </MyNdlaPageContent>
+      {!!isTeacher && (
+        <MyNdlaPageSection>
+          <StyledSafeLinkButton to={routes.myNdla.quizNew} variant="secondary" size="small">
+            {t("myNdla.quiz.newQuiz")}
+          </StyledSafeLinkButton>
+          <Suspense fallback={<PageRainbowSpinner />}>
+            <QuizList />
+          </Suspense>
+        </MyNdlaPageSection>
+      )}
       <MyNdlaPageSection>
-        <StyledSafeLinkButton to={routes.myNdla.quizNew} variant="secondary" size="small">
-          {t("myNdla.quiz.newQuiz")}
-        </StyledSafeLinkButton>
-        <Suspense fallback={<PageRainbowSpinner />}>
-          <QuizList />
-        </Suspense>
-      </MyNdlaPageSection>
-      <MyNdlaPageSection>
-        <Heading textStyle="heading.small" asChild consumeCss>
+        <Heading textStyle="heading.small" asChild consumeCss id={SAVED_QUIZZES_HEADING_ID}>
           <h2>{t("myNdla.quiz.savedQuizzes.title")}</h2>
         </Heading>
         <Suspense fallback={<PageRainbowSpinner />}>
@@ -101,14 +88,12 @@ export const QuizPage = () => {
   );
 };
 
-const QUIZ_PAGE_SIZE = 10;
-
 const QuizList = () => {
   const { t } = useTranslation();
-  const paginationTranslations = usePaginationTranslations();
   const [searchParams, setSearchParams] = useStableSearchParams();
-  const page = parseInt(searchParams.get("page") ?? "") || 1;
-  const { data } = useSuspenseQuery(quizzesQuery, { variables: { page, pageSize: QUIZ_PAGE_SIZE } });
+  const page = parsePage(searchParams.get("page"));
+  const sort = parseQuizSort(searchParams.get("sort"));
+  const { data } = useSuspenseQuery(quizzesQuery, { variables: { page, pageSize: QUIZ_PAGE_SIZE, sort } });
 
   const quizzes = data?.quizzes.results ?? [];
   const totalCount = data?.quizzes.totalCount ?? 0;
@@ -121,67 +106,47 @@ const QuizList = () => {
     );
   }
 
-  // Keep the current page on screen while the next one loads instead of suspending to a spinner.
-  const onPageChange = (newPage: number) => startTransition(() => setSearchParams({ page: newPage.toString() }));
+  // Keep the current list on screen while the next one loads instead of suspending to a spinner.
+  const onPageChange = (newPage: number) =>
+    startTransition(() => setSearchParams({ page: newPage.toString() }, { preventScrollReset: true }));
+  const onSortChange = (newSort: string) =>
+    startTransition(() =>
+      setSearchParams(
+        { sort: newSort === QUIZ_SORT_LAST_ADDED ? null : newSort, page: null },
+        { preventScrollReset: true },
+      ),
+    );
 
   return (
     <>
+      <QuizSortSelect value={sort} onChange={onSortChange} />
       <StyledOl>
         {quizzes.map((quiz) => (
           <QuizListItem quiz={quiz} key={quiz.id} />
         ))}
       </StyledOl>
-      {(totalCount > QUIZ_PAGE_SIZE || page > 1) && (
-        <PaginationRoot
-          page={page}
-          onPageChange={(details) => onPageChange(details.page)}
-          count={totalCount}
-          pageSize={QUIZ_PAGE_SIZE}
-          translations={paginationTranslations}
-          siblingCount={1}
-          aria-label={t("myNdla.quiz.pagination")}
-        >
-          <PaginationPrevTrigger asChild>
-            <StyledPaginationButton variant="tertiary" aria-label={t("pagination.prev")} title={t("pagination.prev")}>
-              <ArrowLeftShortLine />
-              <span>{t("pagination.prev")}</span>
-            </StyledPaginationButton>
-          </PaginationPrevTrigger>
-          <PaginationContext>
-            {(pagination) =>
-              pagination.pages.map((p, index) =>
-                p.type === "page" ? (
-                  <PaginationItem key={index} {...p} asChild>
-                    <Button variant={p.value === pagination.page ? "primary" : "tertiary"}>{p.value}</Button>
-                  </PaginationItem>
-                ) : (
-                  <PaginationEllipsis key={index} index={index} asChild>
-                    <Text asChild consumeCss>
-                      <div>&#8230;</div>
-                    </Text>
-                  </PaginationEllipsis>
-                ),
-              )
-            }
-          </PaginationContext>
-          <PaginationNextTrigger asChild>
-            <StyledPaginationButton variant="tertiary" aria-label={t("pagination.next")} title={t("pagination.next")}>
-              <span>{t("pagination.next")}</span>
-              <ArrowRightShortLine />
-            </StyledPaginationButton>
-          </PaginationNextTrigger>
-        </PaginationRoot>
-      )}
+      <QuizPagination
+        page={page}
+        count={totalCount}
+        pageSize={QUIZ_PAGE_SIZE}
+        onPageChange={onPageChange}
+        aria-label={t("myNdla.quiz.pagination")}
+      />
     </>
   );
 };
 
 const SavedQuizList = () => {
   const { t } = useTranslation();
-  const { data } = useSuspenseQuery(savedQuizzesQuery);
+  const [searchParams, setSearchParams] = useStableSearchParams();
+  const page = parsePage(searchParams.get("savedPage"));
+  const sort = parseQuizSort(searchParams.get("savedSort"));
+  const { data } = useSuspenseQuery(savedQuizzesQuery, { variables: { page, pageSize: QUIZ_PAGE_SIZE, sort } });
 
-  const saved = data?.savedQuizzes ?? [];
-  if (!saved.length) {
+  const quizzes = data?.savedQuizzes.results ?? [];
+  const totalCount = data?.savedQuizzes.totalCount ?? 0;
+
+  if (!totalCount) {
     return (
       <Text textStyle="label.medium" fontWeight="light">
         {t("myNdla.quiz.savedQuizzes.empty")}
@@ -189,12 +154,32 @@ const SavedQuizList = () => {
     );
   }
 
+  const onPageChange = (newPage: number) =>
+    startTransition(() => setSearchParams({ savedPage: newPage.toString() }, { preventScrollReset: true }));
+  const onSortChange = (newSort: string) =>
+    startTransition(() =>
+      setSearchParams(
+        { savedSort: newSort === QUIZ_SORT_LAST_ADDED ? null : newSort, savedPage: null },
+        { preventScrollReset: true },
+      ),
+    );
+
   return (
-    <StyledOl>
-      {saved.map((quiz) => (
-        <SavedQuizListItem quiz={quiz} key={quiz.id} />
-      ))}
-    </StyledOl>
+    <>
+      <QuizSortSelect value={sort} onChange={onSortChange} />
+      <StyledOl aria-labelledby={SAVED_QUIZZES_HEADING_ID}>
+        {quizzes.map((quiz) => (
+          <SavedQuizListItem quiz={quiz} key={quiz.id} />
+        ))}
+      </StyledOl>
+      <QuizPagination
+        page={page}
+        count={totalCount}
+        pageSize={QUIZ_PAGE_SIZE}
+        onPageChange={onPageChange}
+        aria-label={t("myNdla.quiz.savedQuizzes.pagination")}
+      />
+    </>
   );
 };
 

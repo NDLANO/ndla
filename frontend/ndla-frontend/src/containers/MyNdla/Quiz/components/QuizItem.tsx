@@ -6,7 +6,7 @@
  *
  */
 
-import { LockLine, QuestionLine, LinkMedium } from "@ndla/icons";
+import { LockLine, LinkMedium } from "@ndla/icons";
 import { ListItemContent, ListItemHeading, ListItemRoot, type ListItemVariantProps, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -16,26 +16,14 @@ import { Fragment, type ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import type { GQLQuizSummaryFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
-
-const IconWrapper = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    flexShrink: "0",
-    marginInlineStart: "xxsmall",
-    width: "xxlarge",
-    height: "xxlarge",
-    borderRadius: "xsmall",
-    backgroundColor: "surface.brand.3",
-  },
-});
+import { QuizTypeIcon } from "./QuizTypeIcon";
 
 const StatusText = styled(Text, {
   base: {
     display: "flex",
-    gap: "xxsmall",
+    gap: "xsmall",
     alignItems: "center",
+    flexShrink: "0",
   },
 });
 
@@ -89,9 +77,7 @@ export const QuizItem = ({ quiz, context, menu, to, showAuthor, ...rest }: Props
   return (
     <ListItemRoot {...rest} asChild={context === "list"} consumeCss={context === "list"} css={{ borderStyle: "none" }}>
       <MaybeWrapper>
-        <IconWrapper>
-          <QuestionLine css={{ width: "xlarge", height: "xlarge" }} />
-        </IconWrapper>
+        <QuizTypeIcon variant="question" />
         <ListItemContent>
           <div>
             <StyledListItemHeading asChild consumeCss css={linkOverlay.raw()}>
@@ -101,7 +87,7 @@ export const QuizItem = ({ quiz, context, menu, to, showAuthor, ...rest }: Props
               {createdString}
             </TimestampText>
           </div>
-          <StatusText textStyle="label.small">
+          <StatusText textStyle="label.xsmall" color="text.subtle">
             {quiz.status === "PUBLIC" ? <LinkMedium size="small" /> : <LockLine size="small" />}
             {quiz.status === "PUBLIC" ? t("myNdla.quiz.status.public") : t("myNdla.quiz.status.private")}
           </StatusText>
