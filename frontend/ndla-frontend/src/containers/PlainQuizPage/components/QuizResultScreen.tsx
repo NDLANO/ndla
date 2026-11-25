@@ -430,7 +430,9 @@ const MultiChoiceBreakdown = ({
   const selectedCorrect = answerIds.filter((id) => correctIds.has(id)).length;
   const selectedIncorrect = answerIds.filter((id) => !correctIds.has(id)).length;
   const missing = correctIds.size - selectedCorrect;
-  const rightCount = question.alternatives.filter((alt) => answerIds.includes(alt.id) === correctIds.has(alt.id)).length;
+  const rightCount = question.alternatives.filter(
+    (alt) => answerIds.includes(alt.id) === correctIds.has(alt.id),
+  ).length;
   const isAllCorrect = questionResult.isCorrect;
   const isAllIncorrect = !isAllCorrect && selectedCorrect === 0 && selectedIncorrect > 0;
   const isPartial = !isAllCorrect && !isAllIncorrect && (selectedCorrect > 0 || selectedIncorrect > 0);
