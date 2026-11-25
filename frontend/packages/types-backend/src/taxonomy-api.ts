@@ -1807,7 +1807,7 @@ export type components = {
             defaultUrl?: string | null;
             /** @description Url safe name for the node in the default language. */
             defaultUrlName?: string | null;
-            /** @description A number representing the average grade of all children nodes recursively. */
+            /** @description A number representing the average grade of all children nodes recursively. Only included for tokens with taxonomy:write, taxonomy:admin, drafts:write, drafts:publish or drafts:admin. */
             gradeAverage?: components["schemas"]["GradeAverage"] | null;
             /**
              * Format: uri
@@ -1839,7 +1839,7 @@ export type components = {
             path?: string | null;
             /** @description List of all paths to this node */
             paths: string[];
-            /** @description Quality evaluation of the article */
+            /** @description Quality evaluation of the article. Only included for tokens with taxonomy:write, taxonomy:admin, drafts:write, drafts:publish or drafts:admin. */
             qualityEvaluation?: components["schemas"]["QualityEvaluationDTO"] | null;
             /**
              * Format: uri
@@ -1859,7 +1859,7 @@ export type components = {
             resourceTypes: components["schemas"]["ResourceTypeWithConnection"][];
             /** @description List of language codes supported by translations */
             supportedLanguages: string[];
-            /** @description The technical evaluation of the node. */
+            /** @description The technical evaluation of the node. Only included for tokens with taxonomy:write, taxonomy:admin, drafts:write, drafts:publish or drafts:admin. */
             technicalEvaluation?: components["schemas"]["TechnicalEvaluationDTO"] | null;
             /** @description All translations of this node */
             translations: components["schemas"]["Translation"][];
@@ -1910,7 +1910,7 @@ export type components = {
             defaultUrl?: string | null;
             /** @description Url safe name for the node in the default language. */
             defaultUrlName?: string | null;
-            /** @description A number representing the average grade of all children nodes recursively. */
+            /** @description A number representing the average grade of all children nodes recursively. Only included for tokens with taxonomy:write, taxonomy:admin, drafts:write, drafts:publish or drafts:admin. */
             gradeAverage?: components["schemas"]["GradeAverage"] | null;
             /**
              * Format: uri
@@ -1948,7 +1948,7 @@ export type components = {
             path?: string | null;
             /** @description List of all paths to this node */
             paths: string[];
-            /** @description Quality evaluation of the article */
+            /** @description Quality evaluation of the article. Only included for tokens with taxonomy:write, taxonomy:admin, drafts:write, drafts:publish or drafts:admin. */
             qualityEvaluation?: components["schemas"]["QualityEvaluationDTO"] | null;
             /**
              * Format: int32
@@ -1974,7 +1974,7 @@ export type components = {
             resourceTypes: components["schemas"]["ResourceTypeWithConnection"][];
             /** @description List of language codes supported by translations */
             supportedLanguages: string[];
-            /** @description The technical evaluation of the node. */
+            /** @description The technical evaluation of the node. Only included for tokens with taxonomy:write, taxonomy:admin, drafts:write, drafts:publish or drafts:admin. */
             technicalEvaluation?: components["schemas"]["TechnicalEvaluationDTO"] | null;
             /** @description All translations of this node */
             translations: components["schemas"]["Translation"][];
@@ -2202,7 +2202,7 @@ export type components = {
             defaultUrl?: string | null;
             /** @description Url safe name for the node in the default language. */
             defaultUrlName?: string | null;
-            /** @description A number representing the average grade of all children nodes recursively. */
+            /** @description A number representing the average grade of all children nodes recursively. Only included for tokens with taxonomy:write, taxonomy:admin, drafts:write, drafts:publish or drafts:admin. */
             gradeAverage?: components["schemas"]["GradeAverage"] | null;
             /**
              * Format: uri
@@ -2247,7 +2247,7 @@ export type components = {
             path?: string | null;
             /** @description List of all paths to this node */
             paths?: string[];
-            /** @description Quality evaluation of the article */
+            /** @description Quality evaluation of the article. Only included for tokens with taxonomy:write, taxonomy:admin, drafts:write, drafts:publish or drafts:admin. */
             qualityEvaluation?: components["schemas"]["QualityEvaluationDTO"] | null;
             /**
              * Format: uri
@@ -2267,7 +2267,7 @@ export type components = {
             resourceTypes?: components["schemas"]["ResourceTypeWithConnection"][];
             /** @description List of language codes supported by translations */
             supportedLanguages?: string[];
-            /** @description The technical evaluation of the node. */
+            /** @description The technical evaluation of the node. Only included for tokens with taxonomy:write, taxonomy:admin, drafts:write, drafts:publish or drafts:admin. */
             technicalEvaluation?: components["schemas"]["TechnicalEvaluationDTO"] | null;
             /** @description All translations of this node */
             translations?: components["schemas"]["Translation"][];

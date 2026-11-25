@@ -38,6 +38,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
 import org.junit.jupiter.api.assertNull
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.context.transaction.TestTransaction
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import tools.jackson.core.type.TypeReference
@@ -2072,6 +2073,7 @@ class NodesTest : RestTest() {
   }
 
   @Test
+  @WithMockUser(authorities = ["TAXONOMY_WRITE"])
   fun that_technical_evaluation_is_included_in_node_response() {
     val command =
         NodePostPut().apply {

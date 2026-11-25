@@ -26,6 +26,7 @@ import no.ndla.taxonomy.rest.v1.dtos.searchapi.LanguageFieldDTO
 import no.ndla.taxonomy.rest.v1.dtos.searchapi.SearchableTaxonomyResourceType
 import no.ndla.taxonomy.rest.v1.dtos.searchapi.TaxonomyContextDTO
 import no.ndla.taxonomy.rest.v1.dtos.searchapi.TaxonomyCrumbDTO
+import no.ndla.taxonomy.security.EvaluationAccess
 import no.ndla.taxonomy.util.PrettyUrlUtil
 
 @Schema(
@@ -181,18 +182,23 @@ open class NodeDTO @JsonCreator constructor() {
     private set
 
   @field:JsonProperty
-  @field:Schema(description = "Quality evaluation of the article")
+  @field:Schema(
+      description =
+          "Quality evaluation of the article. Only included for tokens with taxonomy:write, taxonomy:admin, drafts:write, drafts:publish or drafts:admin.")
   var qualityEvaluation: QualityEvaluationDTO? = null
     private set
 
   @field:JsonProperty
   @field:Schema(
-      description = "A number representing the average grade of all children nodes recursively.")
+      description =
+          "A number representing the average grade of all children nodes recursively. Only included for tokens with taxonomy:write, taxonomy:admin, drafts:write, drafts:publish or drafts:admin.")
   var gradeAverage: GradeAverageDTO? = null
     private set
 
   @field:JsonProperty
-  @field:Schema(description = "The technical evaluation of the node.")
+  @field:Schema(
+      description =
+          "The technical evaluation of the node. Only included for tokens with taxonomy:write, taxonomy:admin, drafts:write, drafts:publish or drafts:admin.")
   var technicalEvaluation: TechnicalEvaluationDTO? = null
     private set
 
@@ -245,9 +251,11 @@ open class NodeDTO @JsonCreator constructor() {
           !filterProgrammes || !ctx.rootId.contains(NodeType.PROGRAMME.typeName)
         }
 
-    this.qualityEvaluation = QualityEvaluationDTO.fromNode(entity)
-    this.gradeAverage = GradeAverageDTO.fromNode(entity)
-    this.technicalEvaluation = TechnicalEvaluationDTO.fromNode(entity)
+    if (EvaluationAccess.canViewEvaluations()) {
+      this.qualityEvaluation = QualityEvaluationDTO.fromNode(entity)
+      this.gradeAverage = GradeAverageDTO.fromNode(entity)
+      this.technicalEvaluation = TechnicalEvaluationDTO.fromNode(entity)
+    }
     this.id = entity.publicId
     this.contentUri = entity.contentUri
 
