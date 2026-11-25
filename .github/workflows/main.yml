@@ -88,7 +88,6 @@ jobs:
     name: "Backend: Warm cache"
     needs: backend-plan
     if: needs.backend-plan.outputs.changed == 'true' && (github.event_name == 'push' || inputs.component == '(affected)')
-    continue-on-error: true
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -180,7 +179,6 @@ jobs:
     if: >-
       needs.frontend-plan.outputs.changed == 'true' && needs.frontend-plan.outputs.projects != '[]'
       && (github.event_name == 'push' || inputs.component == '(affected)')
-    continue-on-error: true
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
