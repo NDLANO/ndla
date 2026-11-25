@@ -43,29 +43,13 @@ const addQuizMutation: TypedDocumentNode<GQLAddQuizMutation, GQLAddQuizMutationV
   ${quizFragment}
 `;
 
-export const useAddQuizMutation = (options?: useMutation.Options<GQLAddQuizMutation, GQLAddQuizMutationVariables>) => {
-  const client = useApolloClient();
-  return useMutation(addQuizMutation, {
+export const useAddQuizMutation = (options?: useMutation.Options<GQLAddQuizMutation, GQLAddQuizMutationVariables>) =>
+  useMutation(addQuizMutation, {
     ...options,
-    // Splice the new quiz straight into the cached list instead of refetching it: the list
-    // endpoint sits behind a CDN cache that can serve a stale response for a while after a
-    // write, which would otherwise make a freshly created quiz vanish again after a refetch.
-    onCompleted: ({ addQuiz }) => {
-      const ref = client.cache.identify(addQuiz);
-      if (!ref) return;
-      client.cache.modify({
-        fields: {
-          quizzes: (existing) =>
-            existing && {
-              ...existing,
-              totalCount: existing.totalCount + 1,
-              results: [{ __ref: ref }, ...existing.results],
-            },
-        },
-      });
+    update: (cache) => {
+      cache.evict({ fieldName: "quizzes" });
     },
   });
-};
 
 const updateQuizMutation: TypedDocumentNode<GQLUpdateQuizMutation, GQLUpdateQuizMutationVariables> = gql`
   mutation updateQuiz(
@@ -211,32 +195,15 @@ const deleteQuizMutation: TypedDocumentNode<GQLDeleteQuizMutation, GQLDeleteQuiz
 
 export const useDeleteQuizMutation = (
   options?: useMutation.Options<GQLDeleteQuizMutation, GQLDeleteQuizMutationVariables>,
-) => {
-  const client = useApolloClient();
-  return useMutation(deleteQuizMutation, {
+) =>
+  useMutation(deleteQuizMutation, {
     ...options,
-    // Remove the quiz from the cached list directly (see useAddQuizMutation for why this
-    // doesn't just refetch: the list endpoint's CDN cache can still serve the deleted quiz for
-    // a while afterwards).
-    onCompleted: (_data, methodOptions) => {
-      const id = methodOptions?.variables?.id;
-      if (!id) return;
-      const normalizedId = client.cache.identify({ __typename: "Quiz", id });
-      client.cache.modify({
-        fields: {
-          quizzes: (existing) =>
-            existing && {
-              ...existing,
-              totalCount: Math.max(0, existing.totalCount - 1),
-              results: existing.results.filter((ref: { __ref: string }) => ref.__ref !== normalizedId),
-            },
-        },
-      });
-      client.cache.evict({ id: normalizedId });
-      client.cache.gc();
+    update: (cache, _result, { variables }) => {
+      cache.evict({ id: cache.identify({ __typename: "Quiz", id: variables.id }) });
+      cache.evict({ fieldName: "quizzes" });
+      cache.gc();
     },
   });
-};
 
 const cloneQuizMutation: TypedDocumentNode<GQLCloneQuizMutation, GQLCloneQuizMutationVariables> = gql`
   mutation cloneQuiz($quizId: String!) {
@@ -249,26 +216,13 @@ const cloneQuizMutation: TypedDocumentNode<GQLCloneQuizMutation, GQLCloneQuizMut
 
 export const useCloneQuizMutation = (
   options?: useMutation.Options<GQLCloneQuizMutation, GQLCloneQuizMutationVariables>,
-) => {
-  const client = useApolloClient();
-  return useMutation(cloneQuizMutation, {
+) =>
+  useMutation(cloneQuizMutation, {
     ...options,
-    onCompleted: ({ cloneQuiz }) => {
-      const ref = client.cache.identify(cloneQuiz);
-      if (!ref) return;
-      client.cache.modify({
-        fields: {
-          quizzes: (existing) =>
-            existing && {
-              ...existing,
-              totalCount: existing.totalCount + 1,
-              results: [{ __ref: ref }, ...existing.results],
-            },
-        },
-      });
+    update: (cache) => {
+      cache.evict({ fieldName: "quizzes" });
     },
   });
-};
 
 const saveQuizMutation: TypedDocumentNode<GQLSaveQuizMutation, GQLSaveQuizMutationVariables> = gql`
   mutation saveQuiz($quizId: String!) {
@@ -282,7 +236,6 @@ export const useSaveQuizMutation = (
   const client = useApolloClient();
   return useMutation(saveQuizMutation, {
     ...options,
-    // Splice the saved quiz into the cached list instead of refetching (see useAddQuizMutation).
     onCompleted: (_data, methodOptions) => {
       const id = methodOptions?.variables?.quizId;
       if (!id) return;

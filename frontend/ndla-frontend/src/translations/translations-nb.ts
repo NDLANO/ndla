@@ -482,6 +482,7 @@ const translations = {
       description: "Her kan du opprette dine egne kvisser og dele dem med elevene dine.",
       newQuiz: "Opprett ny kviss",
       noQuiz: "Du har ikke laget noen kviss ennå.",
+      pagination: "Kvissider",
       savedQuizzes: {
         title: "Kvisser andre har delt",
         empty: "Du har ikke lagret noen kvisser fra andre ennå.",

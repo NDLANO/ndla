@@ -7,10 +7,22 @@
  */
 
 import { useSuspenseQuery } from "@apollo/client/react";
-import { Heading, Text } from "@ndla/primitives";
+import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
+import {
+  Button,
+  Heading,
+  PaginationContext,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationNextTrigger,
+  PaginationPrevTrigger,
+  PaginationRoot,
+  Text,
+} from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { Suspense } from "react";
+import { usePaginationTranslations } from "@ndla/ui";
+import { startTransition, Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageRainbowSpinner } from "../../../components/PageSpinner";
@@ -18,6 +30,7 @@ import { PageTitle } from "../../../components/PageTitle";
 import type { GQLQuizSummaryFragment } from "../../../graphqlTypes";
 import { quizzesQuery, savedQuizzesQuery } from "../../../mutations/quiz/quizQueries";
 import { routes } from "../../../routeHelpers";
+import { useStableSearchParams } from "../../../util/useStableSearchParams";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageContent, MyNdlaPageSection } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
@@ -36,6 +49,19 @@ const StyledOl = styled("ol", {
     gap: "xsmall",
     width: "full",
     listStyle: "none",
+  },
+});
+
+const StyledPaginationButton = styled(Button, {
+  base: {
+    _disabled: {
+      visibility: "hidden",
+    },
+    tabletDown: {
+      "& span": {
+        display: "none",
+      },
+    },
   },
 });
 
@@ -75,26 +101,78 @@ export const QuizPage = () => {
   );
 };
 
+const QUIZ_PAGE_SIZE = 10;
+
 const QuizList = () => {
   const { t } = useTranslation();
-  const { data } = useSuspenseQuery(quizzesQuery, { variables: { pageSize: 100 } });
+  const paginationTranslations = usePaginationTranslations();
+  const [searchParams, setSearchParams] = useStableSearchParams();
+  const page = parseInt(searchParams.get("page") ?? "") || 1;
+  const { data } = useSuspenseQuery(quizzesQuery, { variables: { page, pageSize: QUIZ_PAGE_SIZE } });
 
   const quizzes = data?.quizzes.results ?? [];
-  if (!quizzes.length) {
+  const totalCount = data?.quizzes.totalCount ?? 0;
+
+  if (!totalCount) {
     return (
       <Text textStyle="label.medium" fontWeight="light">
         {t("myNdla.quiz.noQuiz")}
       </Text>
     );
   }
-  const sortedQuizzes = quizzes?.toSorted((a, b) => b.created.localeCompare(a.created));
+
+  // Keep the current page on screen while the next one loads instead of suspending to a spinner.
+  const onPageChange = (newPage: number) => startTransition(() => setSearchParams({ page: newPage.toString() }));
 
   return (
-    <StyledOl>
-      {sortedQuizzes.map((quiz) => (
-        <QuizListItem quiz={quiz} key={quiz.id} />
-      ))}
-    </StyledOl>
+    <>
+      <StyledOl>
+        {quizzes.map((quiz) => (
+          <QuizListItem quiz={quiz} key={quiz.id} />
+        ))}
+      </StyledOl>
+      {(totalCount > QUIZ_PAGE_SIZE || page > 1) && (
+        <PaginationRoot
+          page={page}
+          onPageChange={(details) => onPageChange(details.page)}
+          count={totalCount}
+          pageSize={QUIZ_PAGE_SIZE}
+          translations={paginationTranslations}
+          siblingCount={1}
+          aria-label={t("myNdla.quiz.pagination")}
+        >
+          <PaginationPrevTrigger asChild>
+            <StyledPaginationButton variant="tertiary" aria-label={t("pagination.prev")} title={t("pagination.prev")}>
+              <ArrowLeftShortLine />
+              <span>{t("pagination.prev")}</span>
+            </StyledPaginationButton>
+          </PaginationPrevTrigger>
+          <PaginationContext>
+            {(pagination) =>
+              pagination.pages.map((p, index) =>
+                p.type === "page" ? (
+                  <PaginationItem key={index} {...p} asChild>
+                    <Button variant={p.value === pagination.page ? "primary" : "tertiary"}>{p.value}</Button>
+                  </PaginationItem>
+                ) : (
+                  <PaginationEllipsis key={index} index={index} asChild>
+                    <Text asChild consumeCss>
+                      <div>&#8230;</div>
+                    </Text>
+                  </PaginationEllipsis>
+                ),
+              )
+            }
+          </PaginationContext>
+          <PaginationNextTrigger asChild>
+            <StyledPaginationButton variant="tertiary" aria-label={t("pagination.next")} title={t("pagination.next")}>
+              <span>{t("pagination.next")}</span>
+              <ArrowRightShortLine />
+            </StyledPaginationButton>
+          </PaginationNextTrigger>
+        </PaginationRoot>
+      )}
+    </>
   );
 };
 
