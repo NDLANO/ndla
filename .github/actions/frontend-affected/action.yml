@@ -7,6 +7,9 @@ inputs:
   all:
     description: "Bypass selection and emit every project"
     default: "false"
+  force-all-paths:
+    description: "Newline-separated git pathspecs no nx project owns. A change to any of them selects every project."
+    default: ""
 outputs:
   projects:
     description: "Affected nx projects, as a JSON array"
@@ -20,6 +23,9 @@ outputs:
   releasable:
     description: "Affected projects tagged `releasable`, as a JSON array"
     value: ${{ steps.resolve.outputs.releasable }}
+  vercel:
+    description: "Affected projects tagged `vercel`, as a JSON array"
+    value: ${{ steps.resolve.outputs.vercel }}
 runs:
   using: composite
   steps:
@@ -34,4 +40,5 @@ runs:
       env:
         ONLY: ${{ inputs.only }}
         ALL: ${{ inputs.all }}
+        FORCE_ALL_PATHS: ${{ inputs.force-all-paths }}
       run: node "$GITHUB_WORKSPACE/frontend/tools/src/ci/frontend-affected.mts"

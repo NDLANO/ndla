@@ -131,6 +131,9 @@
   "engines": {
     "node": ">=26.13.0"
   },
+  "deploy": {
+    "alias": "ndla-frontend-master.vercel.app"
+  },
   "nx": {
     "targets": {
       "lint:es": {
@@ -172,7 +175,8 @@
       "lint": {}
     },
     "tags": [
-      "releasable"
+      "releasable",
+      "vercel"
     ]
   }
 }

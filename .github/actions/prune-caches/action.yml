@@ -1,0 +1,20 @@
+name: "Prune caches"
+description: "Deletes all but the newest cache whose key starts with a prefix, on the current ref. Needs `actions: write`."
+inputs:
+  prefix:
+    description: "Cache key prefix"
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: "Delete superseded caches"
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        PREFIX: ${{ inputs.prefix }}
+      run: |
+        gh cache list --repo "$GITHUB_REPOSITORY" --ref "$GITHUB_REF" --key "$PREFIX" \
+          --sort created_at --order desc --limit 100 --json id --jq '.[1:][].id' |
+          while read -r id; do
+            gh cache delete "$id" --repo "$GITHUB_REPOSITORY" || true
+          done

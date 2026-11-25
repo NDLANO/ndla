@@ -1,0 +1,314 @@
+name: "CI"
+on:
+  workflow_dispatch:
+    inputs:
+      module:
+        description: "Run everything, or the tests of just one backend module"
+        type: choice
+        default: "(all)"
+        options:
+          - (all)
+          - article-api
+          - audio-api
+          - common
+          - concept-api
+          - database
+          - draft-api
+          - frontpage-api
+          - image-api
+          - integration-tests
+          - language
+          - learningpath-api
+          - mapping
+          - myndla-api
+          - network
+          - oembed-proxy
+          - scalatestsuite
+          - search
+          - search-api
+          - tapirtesting
+          - taxonomy-api
+          - testbase
+          - validation
+  pull_request:
+  merge_group:
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+permissions:
+  contents: read
+env:
+  NODE_OPTIONS: "--max-old-space-size-percentage=75"
+  # A change to the CI itself has to be exercised by a full run.
+  CI_PATHS: |
+    .github/workflows/ci.yml
+    .github/actions
+    frontend/tools/src/ci
+jobs:
+  backend-plan:
+    name: "Backend: Plan"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      changed: ${{ steps.changed.outputs.changed }}
+      modules: ${{ steps.select.outputs.modules }}
+      types-tasks: ${{ github.event_name != 'workflow_dispatch' && steps.types.outputs.changed == 'true' && '_.generateTypescript' || steps.select.outputs.types-tasks }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 2
+      - id: changed
+        uses: ./.github/actions/changed-paths
+        with:
+          paths: |
+            backend
+            mise.toml
+            frontend/packages/types-backend
+            ${{ env.CI_PATHS }}
+      - id: types
+        if: steps.changed.outputs.changed == 'true'
+        uses: ./.github/actions/changed-paths
+        with:
+          paths: frontend/packages/types-backend
+      - if: steps.changed.outputs.changed == 'true'
+        uses: ./.github/actions/backend-setup
+      - id: select
+        if: steps.changed.outputs.changed == 'true'
+        uses: ./.github/actions/backend-affected
+        with:
+          selector: "{__.test,_.generateTypescript}"
+          only: ${{ github.event_name == 'workflow_dispatch' && inputs.module != '(all)' && inputs.module || '' }}
+          force-all-paths: |
+            backend/mill
+            ${{ env.CI_PATHS }}
+
+  backend-test:
+    name: "Backend: Test"
+    needs: backend-plan
+    if: needs.backend-plan.outputs.changed == 'true' && needs.backend-plan.outputs.modules != '[]'
+    strategy:
+      fail-fast: false
+      matrix:
+        module: ${{ fromJson(needs.backend-plan.outputs.modules) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: ./.github/actions/backend-setup
+      - if: github.event.pull_request.head.repo.fork != true
+        uses: ndlano/reusable-workflows/.github/actions/setup-ndla-login@main
+        with:
+          AWS_CLIENT_ID: ${{ secrets.CI_AWS_CLIENT_ID }}
+          AWS_CLIENT_SECRET: ${{ secrets.CI_AWS_CLIENT_SECRET }}
+          AWS_ECR_REPO: ${{ secrets.NDLA_AWS_ECR_REPO }}
+          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          RELEASE_ROLE: ${{ secrets.CI_RELEASE_ROLE }}
+      - name: "Unit tests"
+        run: ./mill -i ${{ matrix.module }}.test
+
+  backend-lint:
+    name: "Backend: Lint"
+    needs: backend-plan
+    if: needs.backend-plan.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: ./.github/actions/backend-setup
+      - name: "Check all formatting"
+        run: ./checkfmt.sh
+      - name: "Check copyrights"
+        run: ./mill -i _.copyrightCheck
+      - name: "Build required semanticdb files"
+        run: ./mill -i _.semanticDbData
+      - name: "Check dependency cycles"
+        run: ./mill -i dependency-graph.run
+
+  backend-types:
+    name: "Backend: Typescript types"
+    needs: backend-plan
+    if: needs.backend-plan.outputs.changed == 'true' && needs.backend-plan.outputs.types-tasks != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: ./.github/actions/frontend-setup
+        with:
+          nx-cache: none
+      - uses: ./.github/actions/backend-setup
+      - name: "Generate typescript types"
+        working-directory: backend
+        env:
+          TASKS: ${{ needs.backend-plan.outputs.types-tasks }}
+        run: |
+          read -ra tasks <<< "$TASKS"
+          ./mill -i "${tasks[@]}"
+      - name: "Check generated types are committed"
+        env:
+          TYPES_DIR: frontend/packages/types-backend/src
+        run: |
+          if [ -n "$(git status --porcelain "$TYPES_DIR")" ]; then
+            echo "::error::Generated backend types are out of date. Run './mill -i <module>.generateTypescript' in backend/ and commit $TYPES_DIR."
+            git status --short "$TYPES_DIR"
+            git --no-pager diff -- "$TYPES_DIR"
+            exit 1
+          fi
+
+  frontend-plan:
+    name: "Frontend: Plan"
+    if: github.event_name != 'workflow_dispatch' || inputs.module == '(all)'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      actions: read
+    outputs:
+      changed: ${{ steps.changed.outputs.changed }}
+      projects: ${{ steps.affected.outputs.projects }}
+      e2e: ${{ steps.affected.outputs.e2e }}
+      vercel: ${{ steps.affected.outputs.vercel }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          filter: blob:none
+      - id: changed
+        uses: ./.github/actions/changed-paths
+        with:
+          paths: |
+            frontend
+            mise.toml
+            ${{ env.CI_PATHS }}
+      - if: steps.changed.outputs.changed == 'true'
+        uses: ./.github/actions/frontend-setup
+        with:
+          nx-cache: none
+      - id: affected
+        if: steps.changed.outputs.changed == 'true'
+        uses: ./.github/actions/frontend-affected
+        with:
+          all: ${{ github.event_name == 'workflow_dispatch' }}
+          force-all-paths: ${{ env.CI_PATHS }}
+
+  frontend-checks:
+    name: "Frontend: Checks"
+    needs: frontend-plan
+    if: needs.frontend-plan.outputs.changed == 'true' && needs.frontend-plan.outputs.projects != '[]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: ./.github/actions/frontend-setup
+      - name: "Check dependency versions"
+        run: pnpm run deps:check
+      - name: "Check affected projects"
+        env:
+          PROJECTS: ${{ join(fromJson(needs.frontend-plan.outputs.projects), ',') }}
+        run: pnpm exec nx run-many -t type-check lint:oxlint lint:es format-check test --projects="$PROJECTS"
+      - name: "Check generated graphql types are committed"
+        run: |
+          generated=(graphql-api/src/types/schema.d.ts ndla-frontend/src/graphqlTypes.ts)
+          if [ -n "$(git status --porcelain "${generated[@]}")" ]; then
+            echo "::error::Generated graphql types are out of date. Run 'pnpm nx run-many -t generate-schema-types generate-gql' in frontend/ and commit the result."
+            git status --short "${generated[@]}"
+            git --no-pager diff -- "${generated[@]}"
+            exit 1
+          fi
+      - name: "Build graphql-api"
+        if: contains(fromJson(needs.frontend-plan.outputs.projects), 'graphql-api')
+        run: pnpm exec nx build graphql-api
+
+  e2e:
+    name: "E2E"
+    needs: frontend-plan
+    if: needs.frontend-plan.outputs.changed == 'true' && needs.frontend-plan.outputs.e2e != '[]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    container: mcr.microsoft.com/playwright:v1.65.1-noble
+    strategy:
+      fail-fast: false
+      matrix:
+        app: ${{ fromJson(needs.frontend-plan.outputs.e2e) }}
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      # The cache action keys on absolute paths and the compression tool, both of which differ inside the container.
+      - uses: ./.github/actions/frontend-setup
+        with:
+          deps-cache: none
+          nx-cache: none
+      - name: "Build"
+        run: pnpm exec nx build ${{ matrix.app }}
+      - name: "E2E"
+        run: pnpm --fail-if-no-match --filter ${{ matrix.app }} run e2e:headless
+      - name: "Upload report"
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: playwright-report-${{ matrix.app }}
+          path: frontend/${{ matrix.app }}/playwright-report
+          retention-days: 7
+          if-no-files-found: ignore
+
+  deploy-preview:
+    name: "Deploy preview"
+    needs: frontend-plan
+    if: >-
+      github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false
+      && needs.frontend-plan.outputs.changed == 'true' && needs.frontend-plan.outputs.vercel != '[]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      statuses: write
+    strategy:
+      fail-fast: false
+      matrix:
+        project: ${{ fromJson(needs.frontend-plan.outputs.vercel) }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: ./.github/actions/frontend-setup
+      - uses: ./.github/actions/vercel-deploy
+        with:
+          project: ${{ matrix.project }}
+          alias: ${{ matrix.project }}-${{ github.event.number }}.vercel.app
+          token: ${{ secrets.VERCEL_TOKEN }}
+          sha: ${{ github.event.pull_request.head.sha }}
+
+  result:
+    name: "CI"
+    needs: [backend-plan, backend-test, backend-lint, backend-types, frontend-plan, frontend-checks, e2e]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: "Fail if any job failed"
+        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        run: exit 1
+
+  # The ruleset still requires the checks of the workflows this one replaced. Remove once it requires `CI` instead.
+  legacy-result:
+    name: ${{ matrix.name }}
+    needs: result
+    if: always()
+    strategy:
+      matrix:
+        name: ["Backend CI", "Frontend CI", "Backend linting & formatting", "Backend typescript types"]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: "Mirror the CI result"
+        if: needs.result.result != 'success'
+        run: exit 1

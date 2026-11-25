@@ -1,0 +1,60 @@
+name: "Backend setup"
+description: "Set up the JDK and restore the Mill build cache. Only the main branch workflow writes caches."
+inputs:
+  save:
+    description: "'true' in the job that writes the caches back: it saves the mise cache and starts each week from a clean build cache"
+    default: "false"
+outputs:
+  cache-key:
+    description: "Key to save the build cache under"
+    value: ${{ steps.key.outputs.key }}
+  cache-hit:
+    description: "'true' if a build cache with exactly that key already exists"
+    value: ${{ steps.restore.outputs.cache-hit }}
+  cache-paths:
+    description: "Paths that make up the build cache"
+    value: ${{ steps.key.outputs.paths }}
+runs:
+  using: composite
+  steps:
+    - uses: jdx/mise-action@924e7c586e33d7d4bae9c14e26c5d22e2beb6e78 # v5
+      with:
+        install_args: java node
+        cache_save: ${{ inputs.save }}
+    - name: "Resolve build cache"
+      id: key
+      shell: bash
+      env:
+        SAVE: ${{ inputs.save }}
+      run: |
+        week="backend-v1-$(date -u +%G-%V)-"
+        {
+          echo "key=$week$GITHUB_SHA"
+          echo "restore-keys<<EOF"
+          echo "$week"
+          # The job that saves starts every week without the previous one's cache, so stale output cannot pile up.
+          if [ "$SAVE" != "true" ]; then echo "backend-v1-"; fi
+          echo "EOF"
+          echo "paths<<EOF"
+          echo "backend/out"
+          echo "~/.cache/coursier"
+          echo "~/.cache/mill/download"
+          echo "EOF"
+        } >> "$GITHUB_OUTPUT"
+    - name: "Restore build cache"
+      id: restore
+      uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+      with:
+        path: ${{ steps.key.outputs.paths }}
+        key: ${{ steps.key.outputs.key }}
+        restore-keys: ${{ steps.key.outputs.restore-keys }}
+    # Maven Central intermittently answers 404 or 429 for the launcher's download.
+    - name: "Fetch Mill"
+      shell: bash
+      working-directory: backend
+      run: |
+        for attempt in 1 2 3 4 5; do
+          ./mill -i --version && exit 0
+          sleep $((attempt * 5))
+        done
+        exit 1

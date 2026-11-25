@@ -60,6 +60,13 @@
       depNameTemplate: "@playwright/test",
       datasourceTemplate: "npm",
     },
+    {
+      customType: "regex",
+      description: "Vercel CLI installed by the deploy and cleanup jobs",
+      managerFilePatterns: [".github/**"],
+      matchStrings: ["npm install --global (?<depName>vercel)@(?<currentValue>[\\d.]+)"],
+      datasourceTemplate: "npm",
+    },
   ],
 
   packageRules: [
@@ -67,6 +74,9 @@
     { matchDepTypes: ["pnpm.catalog.peers"], enabled: false },
     { matchDepTypes: ["engines"], matchUpdateTypes: ["minor", "patch"], enabled: false },
     { matchPackageNames: ["ndlano/**", "eclipse-temurin"], pinDigests: false },
+    // Any change to the workflows runs the whole of CI, so they are bumped together once a week
+    { matchManagers: ["github-actions"], groupName: "github-actions", schedule: ["* 0-5 * * 1"] },
+    { matchManagers: ["custom.regex"], matchPackageNames: ["vercel"], groupName: "github-actions", schedule: ["* 0-5 * * 1"] },
     // Grouped dependencies that should be updated in a single PR
 
     { matchPackageNames: ["@pandacss/*"], groupName: "pandacss" },

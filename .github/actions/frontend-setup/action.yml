@@ -1,67 +1,78 @@
 name: "Frontend setup"
-description: "Set up mise, restore caches, install frontend dependencies and start the nx cache server"
+description: "Set up node and pnpm, restore caches, install frontend dependencies and start the nx cache server. Only the main branch workflow writes caches."
 inputs:
   deps-cache:
-    description: "'save' writes the dependency cache back, 'restore' reads it, 'none' skips it"
+    description: "'restore' reads the dependency cache, 'none' skips it"
     required: false
     default: "restore"
   nx-cache:
-    description: "'save' writes the nx cache store back, 'restore' reads it, 'none' runs nx without a shared cache"
+    description: "'restore' reads the nx cache store, 'none' runs nx without a shared cache"
     required: false
     default: "restore"
-  cache-scope:
-    description: "Namespace for the nx cache key, so jobs warm their own successor instead of clobbering each other"
-    required: false
-    default: "shared"
+  save:
+    description: "'true' in the job that writes the caches back"
+    default: "false"
+outputs:
+  deps-path:
+    description: "Path of the pnpm store"
+    value: ${{ steps.pnpm-store.outputs.path }}
+  deps-key:
+    description: "Key to save the pnpm store under"
+    value: ${{ steps.pnpm-store.outputs.key }}
+  deps-hit:
+    description: "'true' if a pnpm store with exactly that key already exists"
+    value: ${{ steps.deps.outputs.cache-hit }}
+  nx-path:
+    description: "Path of the nx cache store"
+    value: ${{ steps.nx-store.outputs.path }}
+  nx-key:
+    description: "Key to save the nx cache store under"
+    value: ${{ steps.nx-store.outputs.key }}
+  nx-hit:
+    description: "'true' if an nx cache store with exactly that key already exists"
+    value: ${{ steps.nx.outputs.cache-hit }}
 runs:
   using: composite
   steps:
     - uses: jdx/mise-action@924e7c586e33d7d4bae9c14e26c5d22e2beb6e78 # v5
       with:
-        working_directory: frontend
+        install_args: node pnpm
+        cache_save: ${{ inputs.save }}
     - name: "Resolve pnpm store"
       if: inputs.deps-cache != 'none'
       id: pnpm-store
       shell: bash
       working-directory: frontend
-      run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
-    - name: "Cache dependencies"
-      if: inputs.deps-cache == 'save'
-      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
-      with:
-        path: ${{ steps.pnpm-store.outputs.path }}
-        key: ${{ runner.os }}-frontend-pnpm-v1-${{ hashFiles('frontend/pnpm-lock.yaml') }}
-        restore-keys: |
-          ${{ runner.os }}-frontend-pnpm-v1-
+      env:
+        LOCK_HASH: ${{ hashFiles('frontend/pnpm-lock.yaml') }}
+      run: |
+        echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+        echo "key=pnpm-v1-$LOCK_HASH" >> "$GITHUB_OUTPUT"
     - name: "Restore dependencies"
-      if: inputs.deps-cache == 'restore'
+      if: inputs.deps-cache != 'none'
+      id: deps
       uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
       with:
         path: ${{ steps.pnpm-store.outputs.path }}
-        key: ${{ runner.os }}-frontend-pnpm-v1-${{ hashFiles('frontend/pnpm-lock.yaml') }}
+        key: ${{ steps.pnpm-store.outputs.key }}
         restore-keys: |
-          ${{ runner.os }}-frontend-pnpm-v1-
+          pnpm-v1-
     - name: "Resolve nx cache store"
       if: inputs.nx-cache != 'none'
       id: nx-store
       shell: bash
-      run: echo "path=$HOME/.cache/nx-cache-store" >> "$GITHUB_OUTPUT"
-    - name: "Cache nx"
-      if: inputs.nx-cache == 'save'
-      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
-      with:
-        path: ${{ steps.nx-store.outputs.path }}
-        key: ${{ runner.os }}-nx-store-v1-${{ inputs.cache-scope }}-${{ hashFiles('frontend/pnpm-lock.yaml') }}-${{ github.sha }}
-        restore-keys: |
-          ${{ runner.os }}-nx-store-v1-${{ inputs.cache-scope }}-${{ hashFiles('frontend/pnpm-lock.yaml') }}-
+      run: |
+        echo "path=$HOME/.cache/nx-cache-store" >> "$GITHUB_OUTPUT"
+        echo "key=nx-v1-$GITHUB_SHA" >> "$GITHUB_OUTPUT"
     - name: "Restore nx cache"
-      if: inputs.nx-cache == 'restore'
+      if: inputs.nx-cache != 'none'
+      id: nx
       uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
       with:
         path: ${{ steps.nx-store.outputs.path }}
-        key: ${{ runner.os }}-nx-store-v1-${{ inputs.cache-scope }}-${{ hashFiles('frontend/pnpm-lock.yaml') }}-${{ github.sha }}
+        key: ${{ steps.nx-store.outputs.key }}
         restore-keys: |
-          ${{ runner.os }}-nx-store-v1-${{ inputs.cache-scope }}-${{ hashFiles('frontend/pnpm-lock.yaml') }}-
+          nx-v1-
     - name: "Install"
       shell: bash
       working-directory: frontend
