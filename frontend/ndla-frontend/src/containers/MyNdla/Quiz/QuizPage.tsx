@@ -109,6 +109,7 @@ const QuizList = () => {
 
   const quizzes = data?.quizzes.results ?? [];
   const totalCount = data?.quizzes.totalCount ?? 0;
+  const lastPage = Math.max(1, Math.ceil(totalCount / QUIZ_PAGE_SIZE));
 
   if (!totalCount) {
     return (
@@ -138,12 +139,14 @@ const QuizList = () => {
           siblingCount={1}
           aria-label={t("myNdla.quiz.pagination")}
         >
-          <PaginationPrevTrigger asChild>
-            <StyledPaginationButton variant="tertiary" aria-label={t("pagination.prev")} title={t("pagination.prev")}>
-              <ArrowLeftShortLine />
-              <span>{t("pagination.prev")}</span>
-            </StyledPaginationButton>
-          </PaginationPrevTrigger>
+          {page > 1 && (
+            <PaginationPrevTrigger asChild>
+              <StyledPaginationButton variant="tertiary" aria-label={t("pagination.prev")} title={t("pagination.prev")}>
+                <ArrowLeftShortLine />
+                <span>{t("pagination.prev")}</span>
+              </StyledPaginationButton>
+            </PaginationPrevTrigger>
+          )}
           <PaginationContext>
             {(pagination) =>
               pagination.pages.map((p, index) =>
@@ -161,12 +164,14 @@ const QuizList = () => {
               )
             }
           </PaginationContext>
-          <PaginationNextTrigger asChild>
-            <StyledPaginationButton variant="tertiary" aria-label={t("pagination.next")} title={t("pagination.next")}>
-              <span>{t("pagination.next")}</span>
-              <ArrowRightShortLine />
-            </StyledPaginationButton>
-          </PaginationNextTrigger>
+          {page < lastPage && (
+            <PaginationNextTrigger asChild>
+              <StyledPaginationButton variant="tertiary" aria-label={t("pagination.next")} title={t("pagination.next")}>
+                <span>{t("pagination.next")}</span>
+                <ArrowRightShortLine />
+              </StyledPaginationButton>
+            </PaginationNextTrigger>
+          )}
         </PaginationRoot>
       )}
     </>
