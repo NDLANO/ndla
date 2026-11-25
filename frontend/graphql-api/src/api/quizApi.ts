@@ -7,7 +7,7 @@
  */
 
 import { resolveJsonOATS, resolveOATS } from "@ndla/shared/apiClient";
-import type { paths, QuizDTO, QuizResultDTO, QuizSearchResultDTO } from "@ndla/types-backend/myndla-api";
+import type { paths, QuizDTO, QuizResultDTO, QuizSearchResultDTO, QuizSort } from "@ndla/types-backend/myndla-api";
 import type {
   GQLMutationAddQuizArgs,
   GQLMutationAddQuizQuestionArgs,
@@ -22,13 +22,14 @@ import type {
   GQLMutationUpdateQuizStatusArgs,
   GQLQueryQuizArgs,
   GQLQueryQuizzesArgs,
+  GQLQuerySavedQuizzesArgs,
 } from "../types/schema";
 import { createAuthClient } from "../utils/openapi-fetch/utils";
 
 const client = createAuthClient<paths>({ disableCache: true });
 
 export async function fetchQuizzes(
-  { page, pageSize }: GQLQueryQuizzesArgs,
+  { page, pageSize, sort }: GQLQueryQuizzesArgs,
   _context: Context,
 ): Promise<QuizSearchResultDTO> {
   return client
@@ -37,14 +38,28 @@ export async function fetchQuizzes(
         query: {
           page,
           pageSize,
+          sort: (sort ?? undefined) as QuizSort | undefined,
         },
       },
     })
     .then(resolveJsonOATS);
 }
 
-export async function fetchSavedQuizzes(_context: Context): Promise<QuizDTO[]> {
-  return client.GET("/myndla-api/v1/quiz/saved").then(resolveJsonOATS);
+export async function fetchSavedQuizzes(
+  { page, pageSize, sort }: GQLQuerySavedQuizzesArgs,
+  _context: Context,
+): Promise<QuizSearchResultDTO> {
+  return client
+    .GET("/myndla-api/v1/quiz/saved", {
+      params: {
+        query: {
+          page,
+          pageSize,
+          sort: (sort ?? undefined) as QuizSort | undefined,
+        },
+      },
+    })
+    .then(resolveJsonOATS);
 }
 
 export async function fetchQuiz({ id }: GQLQueryQuizArgs, _context: Context): Promise<QuizDTO> {
