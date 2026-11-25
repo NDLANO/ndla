@@ -10,6 +10,7 @@ package no.ndla.common.errors
 
 import com.typesafe.scalalogging.StrictLogging
 
+import scala.annotation.nowarn
 import scala.util.{Failure, Try}
 
 object ExceptionLogHandler extends StrictLogging {
@@ -18,6 +19,7 @@ object ExceptionLogHandler extends StrictLogging {
     System.exit(1)
   }
 
+  @nowarn("msg=Catching Throwable")
   def default(f: => Try[Unit]): Unit = {
     try {
       f match {

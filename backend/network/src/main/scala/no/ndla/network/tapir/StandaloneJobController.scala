@@ -21,6 +21,7 @@ import sttp.tapir.Schema.annotations.description
 import sttp.tapir.server.ServerEndpoint
 
 import java.util.concurrent.ConcurrentHashMap
+import scala.annotation.nowarn
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future, Promise}
 import scala.util.{Failure, Success, Try}
@@ -89,6 +90,7 @@ class StandaloneJobController(using jobs: Seq[StandaloneJob])(using
     }
 
   /** Runs `job` on its own thread, so that it keeps running if the request that started it is cancelled */
+  @nowarn("msg=Catching Throwable")
   private def start(job: StandaloneJob): Future[Unit] = {
     val promise = Promise[Unit]()
     Thread

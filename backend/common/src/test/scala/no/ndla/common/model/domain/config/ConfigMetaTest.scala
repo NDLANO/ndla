@@ -12,6 +12,8 @@ import no.ndla.common.model.NDLADate
 import no.ndla.common.model.domain.config.{BooleanValue, ConfigKey, ConfigMeta}
 import no.ndla.testbase.UnitTestSuiteBase
 
+import scala.util.control.NonFatal
+
 class ConfigMetaTest extends UnitTestSuiteBase {
 
   test("That validation exists for all configuration parameters") {
@@ -22,7 +24,7 @@ class ConfigMetaTest extends UnitTestSuiteBase {
           ConfigMeta(key = key, value = BooleanValue(true), updatedAt = NDLADate.now(), updatedBy = "OneCoolKid")
             .validate
         } catch {
-          case _: Throwable => fail(
+          case NonFatal(_) => fail(
               s"Every ConfigKey value needs to be validated. '${key.entryName}' threw an exception when attempted validation."
             )
         }

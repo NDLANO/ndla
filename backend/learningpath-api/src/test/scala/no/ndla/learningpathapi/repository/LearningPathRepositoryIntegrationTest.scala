@@ -33,6 +33,8 @@ import no.ndla.scalatestsuite.DatabaseIntegrationSuite
 import no.ndla.testbase.NullSafeMockito.when
 import scalikejdbc.*
 
+import scala.util.control.NonFatal
+
 class LearningPathRepositoryIntegrationTest extends DatabaseIntegrationSuite with UnitSuite with TestEnvironment {
   override lazy val schemaName                      = "learningpathapi_test"
   override implicit lazy val dataSource: DataSource = testDataSource.get
@@ -148,7 +150,7 @@ class LearningPathRepositoryIntegrationTest extends DatabaseIntegrationSuite wit
       }
       fail("Exception should prevent normal execution")
     } catch {
-      case _: Throwable => repository.withOwner(owner).get.length should be(0)
+      case NonFatal(_) => repository.withOwner(owner).get.length should be(0)
     }
   }
 

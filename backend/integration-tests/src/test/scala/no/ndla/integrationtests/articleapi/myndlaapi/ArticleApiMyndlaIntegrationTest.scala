@@ -30,6 +30,7 @@ import sttp.client4.quick.*
 
 import java.util.concurrent.Executors
 import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService, Future}
+import scala.util.control.NonFatal
 import scala.util.{Failure, Success, Try}
 
 class ArticleApiMyndlaIntegrationTest extends DatabaseIntegrationSuite, RedisIntegrationSuite, UnitSuite, MockitoSugar {
@@ -95,13 +96,13 @@ class ArticleApiMyndlaIntegrationTest extends DatabaseIntegrationSuite, RedisInt
     println(s"Article API port: $articleApiPort, MyNDLA API port: $myndlaApiPort")
     try articleApiProperties.throwIfFailedProps()
     catch {
-      case ex: Throwable =>
+      case NonFatal(ex) =>
         println(s"articleApiProperties.throwIfFailedProps failed: ${ex.getMessage}");
         ex.printStackTrace()
     }
     try myndlaApiProperties.throwIfFailedProps()
     catch {
-      case ex: Throwable =>
+      case NonFatal(ex) =>
         println(s"myndlaApiProperties.throwIfFailedProps failed: ${ex.getMessage}");
         ex.printStackTrace()
     }

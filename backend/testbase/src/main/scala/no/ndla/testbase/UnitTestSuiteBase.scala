@@ -17,6 +17,7 @@ import java.io.IOException
 import java.net.ServerSocket
 import scala.collection.mutable
 import scala.concurrent.duration.{Duration, DurationInt}
+import scala.util.control.NonFatal
 import scala.util.{Failure, Success, Try}
 
 trait UnitTestSuiteBase
@@ -35,7 +36,7 @@ trait UnitTestSuiteBase
       try {
         socket.close()
       } catch {
-        case _: Throwable =>
+        case NonFatal(_) =>
       }
     }
     var socket: ServerSocket | Null = null
@@ -65,7 +66,7 @@ trait UnitTestSuiteBase
       try {
         done = predicate()
       } catch {
-        case e: Throwable => println(("problem while testing predicate", e))
+        case NonFatal(e) => println(("problem while testing predicate", e))
       }
     }
 
@@ -88,7 +89,7 @@ trait UnitTestSuiteBase
         val result = predicate()
         resultStack.push(result)
       } catch {
-        case e: Throwable => println(("problem while testing predicate", e))
+        case NonFatal(e) => println(("problem while testing predicate", e))
       }
     }
 
