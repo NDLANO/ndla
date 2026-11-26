@@ -129,7 +129,7 @@ jobs:
       fail-fast: false
       matrix:
         component: ${{ fromJson(needs.backend-plan.outputs.components) }}
-    uses: ndlano/reusable-workflows/.github/workflows/release.yaml@main
+    uses: ./.github/workflows/release.yml
     secrets: inherit
     with:
       component: ${{ matrix.component }}
@@ -257,7 +257,7 @@ jobs:
       fail-fast: false
       matrix:
         component: ${{ fromJson(needs.frontend-plan.outputs.releasable) }}
-    uses: ndlano/reusable-workflows/.github/workflows/release.yaml@main
+    uses: ./.github/workflows/release.yml
     secrets: inherit
     with:
       component: ${{ matrix.component }}

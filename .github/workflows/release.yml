@@ -1,0 +1,109 @@
+name: "Release"
+on:
+  workflow_call:
+    inputs:
+      component:
+        description: "Component to build and push to the registry"
+        required: true
+        type: string
+      single-runner:
+        description: "Build every platform on one runner with QEMU, instead of one runner per platform and a manifest job"
+        type: boolean
+        default: false
+permissions:
+  contents: read
+  packages: read
+# Other repositories call this workflow too. The ndla CLI expects the calling repository and NDLANO/deploy side by side
+# in NDLA_HOME, and the actions are referenced by repository since local paths resolve against the caller.
+env:
+  CI_RELEASE_ROLE: ${{ secrets.CI_RELEASE_ROLE }}
+  CI_GITHUB_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
+  NDLA_RELEASES: ${{ secrets.NDLA_RELEASES }}
+  NDLA_ENVIRONMENT: local
+  NDLA_HOME: ${{ github.workspace }}/ndla
+  NDLA_DEPLOY: ${{ github.workspace }}/ndla/deploy
+  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.CI_AWS_CLIENT_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.CI_AWS_CLIENT_SECRET }}
+  AWS_DEFAULT_REGION: eu-west-1
+  OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+jobs:
+  release:
+    name: ${{ inputs.single-runner && 'Release and push to registry' || format('Release and push to registry ({0})', matrix.platform) }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(inputs.single-runner && '{"include":[{"platform":"linux/amd64","runner":"ubuntu-latest"}]}' || '{"include":[{"platform":"linux/amd64","runner":"ubuntu-latest"},{"platform":"linux/arm64","runner":"ubuntu-24.04-arm"}]}') }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          path: ndla/${{ github.event.repository.name }}
+      - uses: NDLANO/ndla/.github/actions/deploy-setup@main
+        with:
+          token: ${{ secrets.CI_GITHUB_TOKEN }}
+      - uses: NDLANO/ndla/.github/actions/ndla-login@main
+        with:
+          aws-client-id: ${{ secrets.CI_AWS_CLIENT_ID }}
+          aws-client-secret: ${{ secrets.CI_AWS_CLIENT_SECRET }}
+          release-role: ${{ secrets.CI_RELEASE_ROLE }}
+          ecr-repo: ${{ secrets.NDLA_AWS_ECR_REPO }}
+          docker-hub-username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          docker-hub-password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      - name: "Build kubernetes config"
+        run: uv --directory "$NDLA_DEPLOY" run ndla env kubeconfig test
+      - name: "Log in to GHCR"
+        uses: docker/login-action@8aa5831fb8d48d8f76594c7ddde61ae58019f550 # v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.CI_GITHUB_TOKEN }}
+      - name: "Set up QEMU"
+        if: inputs.single-runner
+        uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3
+        with:
+          platforms: linux/arm64
+      - name: "Set up Buildx"
+        id: builder
+        if: inputs.single-runner
+        uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
+        with:
+          driver: docker-container
+      - name: "Release"
+        env:
+          COMPONENT: ${{ inputs.component }}
+          PLATFORM: ${{ matrix.platform }}
+          SINGLE_RUNNER: ${{ inputs.single-runner }}
+          BUILDX_BUILDER: ${{ steps.builder.outputs.name }}
+        run: |
+          if [ "$SINGLE_RUNNER" = "true" ]; then
+            uv --directory "$NDLA_DEPLOY" run ndla release "$COMPONENT"
+          else
+            uv --directory "$NDLA_DEPLOY" run ndla release "$COMPONENT" --platforms "$PLATFORM"
+          fi
+
+  manifest:
+    name: "Publish multi-arch manifest"
+    if: ${{ !inputs.single-runner }}
+    needs: release
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          path: ndla/${{ github.event.repository.name }}
+      - uses: NDLANO/ndla/.github/actions/deploy-setup@main
+        with:
+          token: ${{ secrets.CI_GITHUB_TOKEN }}
+      - uses: NDLANO/ndla/.github/actions/ndla-login@main
+        with:
+          aws-client-id: ${{ secrets.CI_AWS_CLIENT_ID }}
+          aws-client-secret: ${{ secrets.CI_AWS_CLIENT_SECRET }}
+          release-role: ${{ secrets.CI_RELEASE_ROLE }}
+          ecr-repo: ${{ secrets.NDLA_AWS_ECR_REPO }}
+          docker-hub-username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          docker-hub-password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      - name: "Create multi-arch manifest"
+        env:
+          COMPONENT: ${{ inputs.component }}
+        run: uv --directory "$NDLA_DEPLOY" run ndla release "$COMPONENT" --create-manifest --platforms linux/amd64,linux/arm64
