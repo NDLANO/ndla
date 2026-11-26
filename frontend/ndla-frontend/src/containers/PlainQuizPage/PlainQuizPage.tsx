@@ -16,6 +16,8 @@ import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer, PageLayout } from "../../components/Layout/PageContainer";
 import { PageRainbowSpinner } from "../../components/PageSpinner";
 import { PageTitle } from "../../components/PageTitle";
+import { RestrictedBlock } from "../../components/RestrictedBlock";
+import { useRestrictedMode } from "../../components/RestrictedModeContext";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { useToast } from "../../components/ToastContext";
 import type { GQLCheckQuizMutation } from "../../graphqlTypes";
@@ -47,6 +49,7 @@ const PlainQuizPageContent = () => {
   const toast = useToast();
   const { quizId } = useParams();
   const { data, error } = useSuspenseQuery(quizQuery, !quizId ? skipToken : { variables: { id: quizId } });
+  const restrictedInfo = useRestrictedMode();
 
   const quiz = data?.quiz;
   const session = useMemo(() => (quiz ? buildQuizSession(quiz) : []), [quiz]);
@@ -135,6 +138,38 @@ const PlainQuizPageContent = () => {
     setStarted(false);
   };
 
+  const quizContent = !session.length ? (
+    <Text textStyle="label.medium" fontWeight="light">
+      {t("myNdla.quiz.take.noQuestions")}
+    </Text>
+  ) : !started ? (
+    <QuizStartScreen quiz={quiz} questionCount={session.length} onStart={onStart} />
+  ) : result ? (
+    <QuizResultScreen
+      quizTitle={quiz.title}
+      session={session}
+      answers={answers}
+      result={result}
+      randomOrder={quiz.displaySettings.randomOrder}
+      wantsSubset={quiz.displaySettings.randomSubset}
+      onRetry={onRetry}
+    />
+  ) : (
+    <QuizQuestionScreen
+      key={questionIndex}
+      quizTitle={quiz.title}
+      question={session[questionIndex]!}
+      questionNumber={questionIndex + 1}
+      previousQuestionNumber={previousQuestionNumber}
+      questionCount={session.length}
+      initialAnswerIds={answers[session[questionIndex]!.id]}
+      onBack={onPreviousQuestion}
+      onNext={onNextQuestion}
+      isLast={questionIndex === session.length - 1}
+      finishing={checking}
+    />
+  );
+
   return (
     <StyledLayout>
       <FavoritesHeart position="top" desktopOnly />
@@ -161,37 +196,7 @@ const PlainQuizPageContent = () => {
           >
             <meta name="robots" content="noindex, nofollow" />
           </SocialMediaMetadata>
-          {!session.length ? (
-            <Text textStyle="label.medium" fontWeight="light">
-              {t("myNdla.quiz.take.noQuestions")}
-            </Text>
-          ) : !started ? (
-            <QuizStartScreen quiz={quiz} questionCount={session.length} onStart={onStart} />
-          ) : result ? (
-            <QuizResultScreen
-              quizTitle={quiz.title}
-              session={session}
-              answers={answers}
-              result={result}
-              randomOrder={quiz.displaySettings.randomOrder}
-              wantsSubset={quiz.displaySettings.randomSubset}
-              onRetry={onRetry}
-            />
-          ) : (
-            <QuizQuestionScreen
-              key={questionIndex}
-              quizTitle={quiz.title}
-              question={session[questionIndex]!}
-              questionNumber={questionIndex + 1}
-              previousQuestionNumber={previousQuestionNumber}
-              questionCount={session.length}
-              initialAnswerIds={answers[session[questionIndex]!.id]}
-              onBack={onPreviousQuestion}
-              onNext={onNextQuestion}
-              isLast={questionIndex === session.length - 1}
-              finishing={checking}
-            />
-          )}
+          {restrictedInfo.restricted ? <RestrictedBlock /> : quizContent}
         </main>
       </PageContainer>
     </StyledLayout>
