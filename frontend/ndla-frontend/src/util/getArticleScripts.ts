@@ -30,7 +30,6 @@ export function getArticleScripts(requiredLibraries: Library[], transformedConte
   if (transformedContent && transformedContent.indexOf("<math") > -1 && config.isClient) {
     if (!window.MathJax) {
       window.MathJax = {
-        // loader: { load: ["[mml]/mml3"] },
         options: {
           enableMenu: true,
           menuOptions: {
