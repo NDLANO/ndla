@@ -15,6 +15,7 @@ import no.ndla.database.implicits.*
 import no.ndla.myndlaapi.model.api.QuizStatsDTO
 import no.ndla.myndlaapi.model.domain.{Quiz, QuizSort}
 import no.ndla.myndlaapi.{TestData, TestEnvironment, UnitSuite}
+import no.ndla.network.model.{CombinedUserWithMyNDLAUser, FeideIdToken, FeideUserWrapper, OptionalCombinedUser}
 import no.ndla.scalatestsuite.DatabaseIntegrationSuite
 import scalikejdbc.*
 
@@ -133,10 +134,50 @@ class QuizRepositoryTest extends DatabaseIntegrationSuite with UnitSuite with Te
     saveQuizAt(first, "viewer1", 1)
     saveQuizAt(third, "viewer2", 4)
 
-    repository.getSavedByUser("viewer1", QuizSort.ByCreatedDesc).get.map(_.id) should
+    repository.getSavedByUser("viewer1", 10, 1, QuizSort.ByCreatedDesc).get.map(_.id) should
       be(List(third.id, second.id, first.id))
-    repository.getSavedByUser("viewer1", QuizSort.ByCreatedAsc).get.map(_.id) should
+    repository.getSavedByUser("viewer1", 10, 1, QuizSort.ByCreatedAsc).get.map(_.id) should
       be(List(first.id, second.id, third.id))
+    repository.getSavedByUser("viewer1", 2, 2, QuizSort.ByCreatedDesc).get.map(_.id) should be(List(first.id))
+    repository.countSavedByUser("viewer1").get should be(3)
+  }
+
+  test("that saved quizzes are left out when the user can no longer view them") {
+    implicit val session: DBSession = DBUtil.autoSession
+
+    val public        = TestData.publicQuiz(TestData.singleChoiceQuestion).copy(id = UUID.randomUUID().nn)
+    val privateOwn    = TestData.privateQuiz.copy(id = UUID.randomUUID().nn)
+    val privateOthers = TestData.privateQuiz.copy(id = UUID.randomUUID().nn)
+    repository.insert("owner1", public).get
+    repository.insert("viewer1", privateOwn).get
+    repository.insert("owner1", privateOthers).get
+    insertUser("viewer1")
+    Seq(public, privateOwn, privateOthers).foreach(quiz => repository.saveQuiz(quiz.id, "viewer1").get)
+
+    repository.getSavedByUser("viewer1", 10, 1, QuizSort.ByCreatedDesc).get.map(_.id).toSet should
+      be(Set(public.id, privateOwn.id))
+    repository.countSavedByUser("viewer1").get should be(2)
+  }
+
+  test("that savedQuizIds returns the ids of the given quizzes the user has saved") {
+    implicit val session: DBSession = DBUtil.autoSession
+
+    val saved   = TestData.publicQuiz(TestData.singleChoiceQuestion).copy(id = UUID.randomUUID().nn)
+    val unsaved = TestData.publicQuiz(TestData.singleChoiceQuestion).copy(id = UUID.randomUUID().nn)
+    repository.insert("owner1", saved).get
+    repository.insert("owner1", unsaved).get
+    insertUser("viewer1")
+    repository.saveQuiz(saved.id, "viewer1").get
+
+    val viewer = CombinedUserWithMyNDLAUser(
+      tokenUser = None,
+      feideUser = FeideUserWrapper(TestData.emptyMyNDLAUser.copy(feideId = "viewer1"), mock[FeideIdToken]),
+    )
+    val anonymous = OptionalCombinedUser(tokenUser = None, myndlaUser = None)
+
+    repository.savedQuizIds(Seq(saved.id, unsaved.id), viewer).get should be(Set(saved.id))
+    repository.savedQuizIds(Seq.empty, viewer).get should be(Set.empty)
+    repository.savedQuizIds(Seq(saved.id), anonymous).get should be(Set.empty)
   }
 
   test("that getStats returns zeroes for an empty database") {
