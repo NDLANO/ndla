@@ -1,4 +1,5 @@
 //| mill-jvm-version: system
+//| mill-jvm-opts: ["-Dcoursier.exception-retry=8", "-Dcoursier.exception-retry-backoff-initial-delay=1s"]
 //| mvnDeps: [
 //|   "com.lihaoyi::mill-contrib-docker:$MILL_VERSION",
 //|   "io.circe::circe-generic:0.14.17",

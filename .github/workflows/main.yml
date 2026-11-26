@@ -101,9 +101,13 @@ jobs:
         uses: ./.github/actions/backend-setup
         with:
           save: true
-      - name: "Compile"
+      - name: "Compile and fetch dependencies"
         working-directory: backend
-        run: ./mill -i __.compile + _.semanticDbData
+        run: ./mill -i __.compile + _.semanticDbData + __.prepareOffline
+      - name: "Fetch scalafmt"
+        continue-on-error: true
+        working-directory: backend
+        run: ./mill -i mill.scalalib.scalafmt/checkFormatAll
       - name: "Save build cache"
         if: steps.setup.outputs.cache-hit != 'true'
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
