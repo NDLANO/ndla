@@ -45,7 +45,7 @@ const StyledFieldsetRoot = styled(FieldsetRoot, {
 
 const StyledCheckboxRoot = styled(CheckboxRoot, {
   base: {
-    backgroundColor: "surface.brand.1",
+    backgroundColor: "surface.brand.1.moderate",
     borderColor: "transparent",
     outlineColor: "stroke.hover",
   },
@@ -72,12 +72,14 @@ export const TagsFilter = ({ resources }: Props) => {
 
   return (
     <StyledFieldsetRoot>
-      <FieldsetLegend textStyle="label.large" fontWeight="normal">
+      <FieldsetLegend textStyle="label.medium" fontWeight="normal">
         {t("myNdla.folder.filterByTags")}
       </FieldsetLegend>
       <StyledCheckboxGroup
         value={activeTags}
-        onValueChange={(value) => setParams({ tags: value.join(",") }, { replace: false, preventScrollReset: true })}
+        onValueChange={(value) =>
+          setParams({ tags: value.join(","), page: null }, { replace: false, preventScrollReset: true })
+        }
       >
         {tags.map((tag) => (
           <StyledCheckboxRoot variant="chip" key={tag} value={tag}>

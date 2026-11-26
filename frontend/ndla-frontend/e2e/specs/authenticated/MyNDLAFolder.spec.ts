@@ -24,7 +24,7 @@ test("can copy sharable link to folder", async ({ page }) => {
 
   const sharedFolder = folderList
     .getByRole("listitem")
-    .filter({ has: page.getByRole("img", { name: "Delt mappe" }) })
+    .filter({ has: page.getByText("Delt", { exact: true }) })
     .first();
 
   const sharedFolderTitle = await sharedFolder.getByRole("link").textContent();
@@ -48,7 +48,7 @@ test("can add and delete folder", async ({ page, harCheckpoint, waitGraphql }) =
   await expect(folderList).toBeVisible();
   const count = await folderList.getByRole("listitem").count();
   expect(count).toBeGreaterThanOrEqual(2);
-  await page.getByRole("button", { name: "Ny", exact: true }).click();
+  await page.getByRole("button", { name: "Ny mappe", exact: true }).click();
   await page.getByLabel("Navn").click();
   const name = "Vår sterke test mappeeec";
   await page.keyboard.type(name);
@@ -103,7 +103,7 @@ test("can share and unshare folder", async ({ page }) => {
 
   const unSharedFolder = folderList
     .getByRole("listitem")
-    .filter({ hasNot: page.getByRole("img", { name: "Delt mappe" }) })
+    .filter({ hasNot: page.getByText("Delt", { exact: true }) })
     .first();
 
   const sharedFolderTitle = (await unSharedFolder.getByRole("link").textContent()) ?? "";
@@ -116,14 +116,14 @@ test("can share and unshare folder", async ({ page }) => {
   const folderAfterShare = folderList
     .getByRole("listitem")
     .filter({ has: page.getByRole("link", { name: sharedFolderTitle, exact: true }) })
-    .filter({ has: page.getByRole("img", { name: "Delt mappe" }) });
+    .filter({ has: page.getByText("Delt", { exact: true }) });
   await expect(folderAfterShare.getByRole("link", { name: sharedFolderTitle, exact: true })).toBeVisible();
   await folderAfterShare.getByRole("button").click();
 
   await page.getByRole("menuitem", { name: "Avslutt deling", exact: true }).click();
 
   const folderAfterUnshare = folderList.getByRole("listitem").filter({
-    hasNot: page.getByRole("img", { name: "Delt mappe" }),
+    hasNot: page.getByText("Delt", { exact: true }),
     has: page.getByRole("link", { name: sharedFolderTitle, exact: true }),
   });
   await expect(folderAfterUnshare).toBeVisible();
@@ -136,7 +136,7 @@ test("can go to shared folder page", async ({ page }) => {
 
   const sharedFolder = folderList
     .getByRole("listitem")
-    .filter({ has: page.getByRole("img", { name: "Delt mappe" }) })
+    .filter({ has: page.getByText("Delt", { exact: true }) })
     .first();
 
   const sharedFolderTitle = (await sharedFolder.getByRole("link").textContent()) ?? "";

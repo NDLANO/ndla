@@ -157,7 +157,7 @@ export const useFolderActions = (
       type: "dialog",
       value: "newFolder",
       icon: <AddLine />,
-      text: t("myNdla.newFolderShort"),
+      text: t("myNdla.newFolder"),
       modalContent: (close) => (
         <FolderCreateModalContent onClose={close} parentFolder={selectedFolder} onCreate={onFolderAdded} />
       ),

@@ -6,7 +6,7 @@
  *
  */
 
-import { FileTextLine, FolderUserLine, LockLine, FolderLine, LinkMedium } from "@ndla/icons";
+import { FolderLine, LinkMedium, LockLine } from "@ndla/icons";
 import { ListItemContent, ListItemHeading, ListItemRoot, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -15,52 +15,6 @@ import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import type { GQLFolderFragment, GQLSharedFolderFragment } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
-
-interface IconCountProps {
-  type: "resource" | "folder";
-  count?: number;
-}
-
-const IconTextWrapper = styled(Text, {
-  base: {
-    display: "flex",
-    gap: "xxsmall",
-    alignItems: "center",
-    whiteSpace: "nowrap",
-    color: "text.subtle",
-  },
-});
-
-const MobileCount = styled("span", {
-  base: {
-    tablet: {
-      display: "none",
-    },
-  },
-});
-
-const DesktopCount = styled("span", {
-  base: {
-    display: "block",
-    tabletDown: {
-      display: "none",
-    },
-  },
-});
-
-const Count = ({ type, count }: IconCountProps) => {
-  const Icon = type === "resource" ? FileTextLine : FolderLine;
-  const { t } = useTranslation();
-  if (!count) return null;
-
-  return (
-    <IconTextWrapper textStyle="label.small" aria-label={t(`myNdla.${type}s`, { count })}>
-      <Icon size="small" />
-      <MobileCount>{count}</MobileCount>
-      <DesktopCount>{t(`myNdla.${type}s`, { count })}</DesktopCount>
-    </IconTextWrapper>
-  );
-};
 
 interface Props {
   description?: string;
@@ -71,17 +25,25 @@ interface Props {
   nonInteractive?: boolean;
 }
 
-const TitleWrapper = styled("div", {
+const StyledListItemRoot = styled(ListItemRoot, {
   base: {
-    display: "flex",
-    gap: "small",
+    borderStyle: "none",
+    paddingInline: "xsmall",
   },
 });
 
-const FolderInfo = styled("div", {
+const StyledFolderLine = styled(FolderLine, {
+  base: {
+    flexShrink: "0",
+  },
+});
+
+const StatusText = styled(Text, {
   base: {
     display: "flex",
-    gap: "xsmall",
+    gap: "xxsmall",
+    alignItems: "center",
+    flexShrink: "0",
   },
 });
 
@@ -93,6 +55,10 @@ const MenuWrapper = styled("div", {
 
 const StyledListItemHeading = styled(ListItemHeading, {
   base: {
+    textStyle: "label.medium",
+    fontWeight: "normal",
+    color: "text.default",
+    textDecoration: "none",
     lineClamp: "2",
     overflowWrap: "anywhere",
   },
@@ -100,8 +66,6 @@ const StyledListItemHeading = styled(ListItemHeading, {
 
 const StyledListItemContent = styled(ListItemContent, {
   base: {
-    alignItems: "center",
-    flexWrap: "wrap",
     tabletDown: {
       flexDirection: "column",
       alignItems: "flex-start",
@@ -109,60 +73,28 @@ const StyledListItemContent = styled(ListItemContent, {
   },
 });
 
-export const Folder = ({
-  menu,
-  folder: { id, status, name, owner, resources, subfolders },
-  isFavorited,
-  nonInteractive,
-  link,
-}: Props) => {
+export const Folder = ({ menu, folder: { id, status, name }, isFavorited, nonInteractive, link }: Props) => {
   const { t } = useTranslation();
   const isShared = status === "shared";
-  const Icon = isFavorited ? LinkMedium : isShared ? FolderUserLine : FolderLine;
   const defaultLink = isFavorited ? routes.folder(id) : routes.myNdla.folders(id);
 
   return (
-    <ListItemRoot nonInteractive={nonInteractive} id={id}>
+    <StyledListItemRoot nonInteractive={nonInteractive} id={id}>
+      <StyledFolderLine />
       <StyledListItemContent>
-        <TitleWrapper>
-          <Icon
-            aria-hidden={false}
-            aria-label={`${isShared ? `${t("myNdla.folder.sharing.shared")} ` : ""}${t("myNdla.folder.folder")}`}
-          />
-          {nonInteractive ? (
-            <StyledListItemHeading>{name}</StyledListItemHeading>
-          ) : (
-            <StyledListItemHeading asChild consumeCss css={linkOverlay.raw()}>
-              <SafeLink to={link ?? defaultLink}>{name}</SafeLink>
-            </StyledListItemHeading>
-          )}
-        </TitleWrapper>
-        <FolderInfo>
-          {!!isShared && (
-            <IconTextWrapper textStyle="label.small">
-              <LinkMedium size="small" />
-              <span aria-hidden={!isFavorited}>
-                {isFavorited
-                  ? `${t("myNdla.folder.sharing.sharedBy")}${owner ? owner.name : t("myNdla.folder.sharing.sharedByAnonymous")}`
-                  : t("myNdla.folder.sharing.shared")}
-              </span>
-            </IconTextWrapper>
-          )}
-          {!isShared && (
-            <IconTextWrapper textStyle="label.small">
-              <LockLine size="small" />
-              {t("myNdla.folder.sharing.private")}
-            </IconTextWrapper>
-          )}
-          {!isFavorited && (
-            <>
-              <Count type={"folder"} count={subfolders.length} />
-              <Count type={"resource"} count={resources.length} />
-            </>
-          )}
-        </FolderInfo>
+        {nonInteractive ? (
+          <StyledListItemHeading>{name}</StyledListItemHeading>
+        ) : (
+          <StyledListItemHeading asChild consumeCss css={linkOverlay.raw()}>
+            <SafeLink to={link ?? defaultLink}>{name}</SafeLink>
+          </StyledListItemHeading>
+        )}
+        <StatusText textStyle="label.xsmall" color="text.subtle">
+          {isShared ? <LinkMedium size="small" /> : <LockLine size="small" />}
+          {isShared ? t("myNdla.folder.sharing.shared") : t("myNdla.folder.sharing.private")}
+        </StatusText>
       </StyledListItemContent>
-      <MenuWrapper>{menu}</MenuWrapper>
-    </ListItemRoot>
+      {menu ? <MenuWrapper>{menu}</MenuWrapper> : null}
+    </StyledListItemRoot>
   );
 };

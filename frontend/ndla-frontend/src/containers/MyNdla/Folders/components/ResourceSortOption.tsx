@@ -6,87 +6,41 @@
  *
  */
 
-import { createListCollection } from "@ark-ui/react/collection";
-import { ArrowUpDownLine, CheckLine, CloseLine } from "@ndla/icons";
-import {
-  Button,
-  IconButton,
-  SelectClearTrigger,
-  SelectContent,
-  SelectControl,
-  SelectItem,
-  SelectItemIndicator,
-  SelectItemText,
-  SelectLabel,
-  SelectRoot,
-  SelectTrigger,
-  SelectValueText,
-} from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useStableSearchParams } from "../../../../util/useStableSearchParams";
-import { SORT_CONTENT_TYPE, SORT_LAST_ADDED, SORT_NAME_ASC, SORT_NAME_DESC } from "../util";
-
-const sortOptions = [
-  { value: SORT_NAME_ASC, transKey: "nameAsc" },
-  { value: SORT_NAME_DESC, transKey: "nameDesc" },
-  { value: SORT_LAST_ADDED, transKey: "lastAdded" },
-  { value: SORT_CONTENT_TYPE, transKey: "contentType" },
-] as const;
-
-const StyledSelectTrigger = styled(SelectTrigger, {
-  base: {
-    width: "max",
-  },
-});
+import { SortSelect, type SortOption } from "../../components/SortSelect";
+import {
+  parseResourceSort,
+  type ResourceSort,
+  SORT_CONTENT_TYPE,
+  SORT_LAST_ADDED,
+  SORT_NAME_ASC,
+  SORT_NAME_DESC,
+} from "../util";
 
 export const ResourceSortOption = () => {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useStableSearchParams();
-  const selectedSort = searchParams.get("sort");
+  const sort = parseResourceSort(searchParams.get("sort"));
 
-  const collection = useMemo(
-    () =>
-      createListCollection({
-        items: sortOptions,
-        itemToString: (item) => t(`myNdla.folder.sortOption.${item.transKey}`),
-        itemToValue: (item) => item.value,
-      }),
+  const options: SortOption<ResourceSort>[] = useMemo(
+    () => [
+      { value: SORT_LAST_ADDED, label: t("myNdla.sort.lastAdded") },
+      { value: SORT_NAME_ASC, label: t("myNdla.sort.nameAsc") },
+      { value: SORT_NAME_DESC, label: t("myNdla.sort.nameDesc") },
+      { value: SORT_CONTENT_TYPE, label: t("myNdla.sort.contentType") },
+    ],
     [t],
   );
 
   return (
-    <SelectRoot
-      collection={collection}
-      value={selectedSort ? [selectedSort] : []}
-      onValueChange={(value) => setSearchParams({ sort: value.value[0] }, { preventScrollReset: true })}
-      positioning={{ sameWidth: true }}
-    >
-      <SelectLabel srOnly>{t("myNdla.folder.sortList")}</SelectLabel>
-      <SelectControl>
-        <StyledSelectTrigger asChild>
-          <Button variant="secondary">
-            <SelectValueText placeholder={t("myNdla.folder.sortList")} />
-            <ArrowUpDownLine />
-          </Button>
-        </StyledSelectTrigger>
-        <SelectClearTrigger asChild>
-          <IconButton variant="secondary">
-            <CloseLine />
-          </IconButton>
-        </SelectClearTrigger>
-      </SelectControl>
-      <SelectContent>
-        {collection.items.map((option) => (
-          <SelectItem key={option.value} item={option}>
-            <SelectItemText>{t(`myNdla.folder.sortOption.${option.transKey}`)}</SelectItemText>
-            <SelectItemIndicator>
-              <CheckLine />
-            </SelectItemIndicator>
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </SelectRoot>
+    <SortSelect
+      value={sort}
+      options={options}
+      onValueChange={(value) =>
+        setSearchParams({ sort: value === SORT_LAST_ADDED ? null : value, page: null }, { preventScrollReset: true })
+      }
+    />
   );
 };

@@ -7,7 +7,6 @@
  */
 
 import {
-  Badge,
   ListItemContent,
   ListItemHeading,
   ListItemImage,
@@ -19,27 +18,10 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { BadgesContainer } from "@ndla/ui";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { useListItemTraits } from "../../util/listItemTraits";
 import { ContentTypeFallbackIcon } from "../ContentTypeFallbackIcon";
-
-const StyledListItemContent = styled(ListItemContent, {
-  base: {
-    flexDirection: "column",
-    alignItems: "flex-start",
-    justifyContent: "center",
-    gap: "4xsmall",
-    width: "full",
-  },
-});
-
-const StyledBadgesContainer = styled(BadgesContainer, {
-  base: {
-    marginBlockStart: "xsmall",
-  },
-});
 
 export interface ListResourceProps {
   id: string;
@@ -47,7 +29,6 @@ export interface ListResourceProps {
   title: string;
   resourceImage: { src: string | undefined; alt: string };
   resourceTypes?: { id: string; name: string }[];
-  description?: string;
   menu?: ReactNode;
   traits?: string[] | null;
   storedResourceType?: string;
@@ -55,34 +36,27 @@ export interface ListResourceProps {
   isSelected?: boolean;
 }
 
-const StyledDescription = styled(Text, {
+const StyledListItemContent = styled(ListItemContent, {
   base: {
-    width: "full",
-    lineClamp: "2",
-    overflowWrap: "anywhere",
-  },
-});
-
-const ActionWrapper = styled("div", {
-  base: {
-    marginInlineStart: "auto",
-    "& > button, & > a": {
-      position: "relative",
+    tabletDown: {
+      flexDirection: "column",
+      alignItems: "flex-start",
     },
   },
 });
 
-const DescriptionWrapper = styled("div", {
+const MenuWrapper = styled("div", {
   base: {
-    display: "flex",
-    justifyContent: "space-between",
-    gap: "3xsmall",
-    width: "full",
+    position: "relative",
   },
 });
 
 const StyledListItemImage = styled(ListItemImage, {
   base: {
+    minHeight: "[48px]",
+    maxHeight: "[48px]",
+    minWidth: "[64px]",
+    maxWidth: "[64px]",
     tabletDown: {
       display: "none",
     },
@@ -101,14 +75,30 @@ const StyledListItemImage = styled(ListItemImage, {
 
 const StyledListItemHeading = styled(ListItemHeading, {
   base: {
+    textStyle: "label.medium",
+    fontWeight: "normal",
+    color: "text.default",
+    textDecoration: "none",
     lineClamp: "2",
     overflowWrap: "anywhere",
+  },
+});
+
+const TraitsText = styled(Text, {
+  base: {
+    flexShrink: "0",
+    tablet: {
+      maxWidth: "[40%]",
+      textAlign: "end",
+    },
   },
 });
 
 const LoadingListItemRoot = styled(ListItemRoot, {
   base: {
     width: "full",
+    borderStyle: "none",
+    paddingInline: "xsmall",
     pointerEvents: "none",
   },
 });
@@ -116,6 +106,8 @@ const LoadingListItemRoot = styled(ListItemRoot, {
 const StyledListItemRoot = styled(ListItemRoot, {
   base: {
     width: "full",
+    borderStyle: "none",
+    paddingInline: "xsmall",
     tabletDown: {
       "& picture": {
         display: "none",
@@ -146,7 +138,6 @@ export const ListResource = ({
   title,
   resourceImage,
   resourceTypes,
-  description,
   menu,
   traits,
   storedResourceType,
@@ -162,21 +153,17 @@ export const ListResource = ({
     return (
       <LoadingListItemRoot aria-label={t("loading")} aria-busy={true} nonInteractive={nonInteractive}>
         <Skeleton>
-          <ListItemImage alt="" />
+          <StyledListItemImage alt="" />
         </Skeleton>
-        <StyledListItemContent>
-          <Skeleton css={{ width: "2/5" }}>
-            <ListItemHeading>&nbsp;</ListItemHeading>
-          </Skeleton>
-          <Skeleton>{<Badge size="small">{t("contentTypes.missing")}</Badge>}</Skeleton>
-        </StyledListItemContent>
+        <Skeleton css={{ width: "2/5" }}>
+          <StyledListItemHeading>&nbsp;</StyledListItemHeading>
+        </Skeleton>
       </LoadingListItemRoot>
     );
   }
 
   return (
     <StyledListItemRoot id={id} nonInteractive={nonInteractive} isSelected={isSelected}>
-      {/* TODO: Variants */}
       <StyledListItemImage
         src={resourceImage.src}
         alt=""
@@ -196,19 +183,13 @@ export const ListResource = ({
             <SafeLink to={link}>{title}</SafeLink>
           </StyledListItemHeading>
         )}
-
-        <DescriptionWrapper>
-          {!!description && <StyledDescription>{description}</StyledDescription>}
-          <ActionWrapper>{menu}</ActionWrapper>
-        </DescriptionWrapper>
-        <StyledBadgesContainer>
-          {listItemTraits.map((trait) => (
-            <Badge size="small" key={`${id}-${trait}`}>
-              {trait}
-            </Badge>
-          ))}
-        </StyledBadgesContainer>
+        {!!listItemTraits.length && (
+          <TraitsText textStyle="label.xsmall" color="text.subtle">
+            {listItemTraits.join(", ")}
+          </TraitsText>
+        )}
       </StyledListItemContent>
+      {menu ? <MenuWrapper>{menu}</MenuWrapper> : null}
     </StyledListItemRoot>
   );
 };

@@ -23,9 +23,9 @@ import { useStableSearchParams } from "../../../util/useStableSearchParams";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageContent, MyNdlaPageSection } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
+import { MyNdlaPagination, parsePage } from "../components/MyNdlaPagination";
 import { SettingsMenu } from "../components/SettingsMenu";
 import { QuizItem } from "./components/QuizItem";
-import { QuizPagination } from "./components/QuizPagination";
 import { parseQuizSort, QUIZ_SORT_LAST_ADDED, QuizSortSelect } from "./components/QuizSortSelect";
 import { useQuizActionHooks, useSavedQuizActionHooks } from "./components/useQuizActionHooks";
 
@@ -51,8 +51,6 @@ const StyledSafeLinkButton = styled(SafeLinkButton, {
     alignSelf: "flex-start",
   },
 });
-
-const parsePage = (value: string | null) => Math.max(1, parseInt(value ?? "") || 1);
 
 export const QuizPage = () => {
   const { t } = useTranslation();
@@ -125,7 +123,7 @@ const QuizList = () => {
           <QuizListItem quiz={quiz} key={quiz.id} />
         ))}
       </StyledOl>
-      <QuizPagination
+      <MyNdlaPagination
         page={page}
         count={totalCount}
         pageSize={QUIZ_PAGE_SIZE}
@@ -172,7 +170,7 @@ const SavedQuizList = () => {
           <SavedQuizListItem quiz={quiz} key={quiz.id} />
         ))}
       </StyledOl>
-      <QuizPagination
+      <MyNdlaPagination
         page={page}
         count={totalCount}
         pageSize={QUIZ_PAGE_SIZE}
