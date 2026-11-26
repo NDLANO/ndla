@@ -29,10 +29,13 @@ export interface UptimeAlert extends GithubIssue {
 export async function fetchUptimeIssues(context: ContextWithLoaders): Promise<UptimeAlert[]> {
   const path = `${apiUrl}/repos/${uptimeOwner}/${uptimeRepo}/issues?state=open&labels=${ndlaEnvironment}`;
   const githubAuth = uptimeToken ? { Authorization: `Bearer ${uptimeToken}` } : null;
-  const response = await externalFetch(path, context, {
-    headers: { ...githubAuth },
-    signal: AbortSignal.timeout(3000),
-  });
+  // GitHub marks responses to authenticated requests private, but this uses our own token and is the same for everyone.
+  const response = await externalFetch(
+    path,
+    context,
+    { headers: { ...githubAuth }, signal: AbortSignal.timeout(3000) },
+    { ignoreResponseCacheControl: true },
+  );
   const issues: GithubIssue[] = await resolveJson(response);
 
   return issues.map((issue) => {

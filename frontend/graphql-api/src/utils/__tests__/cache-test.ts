@@ -289,6 +289,56 @@ describe("Cache", () => {
       ]);
     });
 
+    it("should not write a response the external service marks private", async () => {
+      const fetchSpy = vi
+        .spyOn(globalThis, "fetch")
+        .mockImplementation(
+          async () => new Response("external", { status: 200, headers: { "cache-control": "private" } }),
+        );
+      const url = "https://example.com/external-fetch-private";
+
+      await externalFetch(url, ctx);
+      await externalFetch(url, ctx);
+
+      expect(fetchSpy).toHaveBeenCalledTimes(2);
+    });
+
+    it("should write a private response and leave the response header alone when ignoring its cache-control", async () => {
+      const fetchSpy = vi
+        .spyOn(globalThis, "fetch")
+        .mockImplementation(
+          async () => new Response("external", { status: 200, headers: { "cache-control": "private" } }),
+        );
+      const setHeader = vi.fn();
+      const spyCtx = { ...ctx, res: { getHeader: () => undefined, setHeader } } as unknown as Context;
+      const url = "https://example.com/external-fetch-ignore-cache-control";
+
+      await externalFetch(url, spyCtx, undefined, { ignoreResponseCacheControl: true });
+      const second = await externalFetch(url, spyCtx, undefined, { ignoreResponseCacheControl: true });
+
+      expect(fetchSpy).toHaveBeenCalledTimes(1);
+      expect(await second.text()).toBe("external");
+      expect(setHeader).not.toHaveBeenCalled();
+    });
+
+    it("should leave the response header alone when ignoring cache-control on a bypassed request", async () => {
+      vi.spyOn(globalThis, "fetch").mockImplementation(
+        async () => new Response("external", { status: 200, headers: { "cache-control": "private" } }),
+      );
+      const setHeader = vi.fn();
+      const spyCtx = {
+        ...ctx,
+        shouldUseCache: false,
+        res: { getHeader: () => undefined, setHeader },
+      } as unknown as Context;
+
+      await externalFetch("https://example.com/external-fetch-bypass", spyCtx, undefined, {
+        ignoreResponseCacheControl: true,
+      });
+
+      expect(setHeader).not.toHaveBeenCalled();
+    });
+
     it("should count HEAD requests as bypassed", async () => {
       vi.spyOn(globalThis, "fetch").mockImplementation(async () => new Response(null, { status: 200 }));
       await externalFetch("https://example.com/file.pdf", ctx, { method: "HEAD" });
