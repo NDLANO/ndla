@@ -4,7 +4,7 @@ FROM frontend-base
 RUN apt-get update \
   && apt-get install -y --no-install-recommends ca-certificates \
   && rm -rf /var/lib/apt/lists/*
-  
+
 COPY --from=mise /usr/local/bin/mise /usr/local/bin/mise
 
 ENV MISE_DATA_DIR=/mise
@@ -21,7 +21,7 @@ RUN pnpm fetch
 
 # Copy the whole frontend workspace so the workspace dependency graph resolves.
 COPY frontend/ .
-RUN pnpm install --offline --frozen-lockfile
+RUN pnpm install --offline --frozen-lockfile --trust-lockfile
 
 ARG COMPONENT_VERSION
 ENV COMPONENT_VERSION=$COMPONENT_VERSION
