@@ -14,6 +14,7 @@ import { memo, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { type RenderElementProps, useSlateStatic } from "slate-react";
 import DeleteButton from "../../../DeleteButton";
+import DuplicateButton from "../../../DuplicateButton";
 import MoveContentButton from "../../../MoveContentButton";
 import { useEditableElement } from "../../utils/useEditableElement";
 
@@ -77,7 +78,7 @@ const Details = ({ children, element, attributes }: RenderElementProps) => {
     setIsOpen((open) => !open);
   }, []);
 
-  const { handleRemove, handleUnwrap } = useEditableElement(element, editor);
+  const { handleRemove, handleUnwrap, handleDuplicate } = useEditableElement(element, editor);
 
   const openAttribute = isOpen ? { "data-open": "" } : {};
   const toggleOpenTitle = isOpen ? t("form.close") : t("form.open");
@@ -96,6 +97,7 @@ const Details = ({ children, element, attributes }: RenderElementProps) => {
         >
           <ArrowDownShortLine />
         </StyledIconButton>
+        <DuplicateButton onClick={handleDuplicate} aria-label={t("form.duplicate")} />
         <MoveContentButton
           onClick={handleUnwrap}
           aria-label={t("form.moveContent")}

@@ -919,6 +919,7 @@ const translations = {
     lowQualityEvaluation:
       "Du har republisert ein ressurs som har ein kvalitetsvurdering mellom 3-5. Vurder om republiseringa medfører ein betre karakter.",
     moveContent: "Flytt innhald inn i teksten",
+    duplicate: "Dupliser",
     open: "Åpne",
     close: "Lukk",
     comment: {

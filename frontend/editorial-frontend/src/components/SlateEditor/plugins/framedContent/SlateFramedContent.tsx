@@ -21,6 +21,7 @@ import type { ReflectionVariables } from "../../../../interfaces";
 import { editorValueToPlainText } from "../../../../util/articleContentConverter";
 import { AiPromptDialog } from "../../../AiPromptDialog";
 import DeleteButton from "../../../DeleteButton";
+import DuplicateButton from "../../../DuplicateButton";
 import MoveContentButton from "../../../MoveContentButton";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { useEditableElement } from "../../utils/useEditableElement";
@@ -48,7 +49,7 @@ const SlateFramedContent = (props: Props) => {
   const language = useArticleLanguage();
   const variant = element.data?.variant ?? "neutral";
   const hasAIAccess = userPermissions?.includes(AI_ACCESS_SCOPE);
-  const { handleRemove, handleUnwrap } = useEditableElement(element, editor);
+  const { handleRemove, handleUnwrap, handleDuplicate } = useEditableElement(element, editor);
 
   const hasSlateCopyright = useMemo(() => {
     return element.children.some((child) => isCopyrightElement(child));
@@ -123,6 +124,7 @@ const SlateFramedContent = (props: Props) => {
         >
           <BrushLine />
         </IconButton>
+        <DuplicateButton onClick={handleDuplicate} aria-label={t("form.duplicate")} />
         <MoveContentButton onMouseDown={handleUnwrap} aria-label={t("form.moveContent")} />
         <DeleteButton
           aria-label={t("form.remove")}
