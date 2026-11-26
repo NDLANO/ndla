@@ -11,7 +11,7 @@ package no.ndla.myndlaapi.controller
 import no.ndla.common.model.api.LanguageCode
 import no.ndla.language.Language
 import no.ndla.myndlaapi.model.api.*
-import no.ndla.myndlaapi.model.domain.QuizStatus
+import no.ndla.myndlaapi.model.domain.{QuizSort, QuizStatus}
 import no.ndla.myndlaapi.service.{QuizReadService, QuizWriteService}
 import no.ndla.network.tapir.NoNullJsonPrinter.jsonBody
 import no.ndla.network.tapir.TapirUtil.errorOutputsFor
@@ -50,6 +50,12 @@ class QuizController(using
   private val pathQuizStatus = path[QuizStatus]("status").description("New status of the quiz")
   private val pageSize       = query[Int]("pageSize").description("Number of results per page").default(10)
   private val page           = query[Int]("page").description("Page number").default(1)
+  private val sort           = query[Option[QuizSort]]("sort").description(
+    s"Sort order of the results. Supported values: ${QuizSort.all.mkString(", ")}. Defaults to ${QuizSort.ByCreatedDesc.entryName}."
+  )
+  private val savedSort = query[Option[QuizSort]]("sort").description(
+    s"Sort order of the results, by when the quiz was saved. Supported values: ${QuizSort.all.mkString(", ")}. Defaults to ${QuizSort.ByCreatedDesc.entryName}."
+  )
 
   override val endpoints: List[ServerEndpoint[Any, Eff]] = List(
     listQuizzes,
@@ -76,12 +82,13 @@ class QuizController(using
     .in(language)
     .in(pageSize)
     .in(page)
+    .in(sort)
     .out(jsonBody[QuizSearchResultDTO])
     .errorOut(errorOutputsFor(400, 401, 403))
     .withRequiredMyNDLAUserOrTokenUser
     .serverLogicPure { feide =>
-      { case (lang, ps, p) =>
-        quizReadService.search(feide, lang.code, ps, p).handleErrorsOrOk
+      { case (lang, ps, p, s) =>
+        quizReadService.search(feide, lang.code, ps, p, s.getOrElse(QuizSort.ByCreatedDesc)).handleErrorsOrOk
       }
     }
 
@@ -91,11 +98,14 @@ class QuizController(using
     .description("List quizzes the authenticated user has saved")
     .in("saved")
     .in(language)
+    .in(savedSort)
     .out(jsonBody[Seq[QuizDTO]])
     .errorOut(errorOutputsFor(400, 401, 403))
     .withFeideUser
-    .serverLogicPure { feide => lang =>
-      quizReadService.savedQuizzes(feide.toCombined, lang.code).handleErrorsOrOk
+    .serverLogicPure { feide =>
+      { case (lang, s) =>
+        quizReadService.savedQuizzes(feide.toCombined, lang.code, s.getOrElse(QuizSort.ByCreatedDesc)).handleErrorsOrOk
+      }
     }
 
   private def getQuiz: ServerEndpoint[Any, Eff] = endpoint

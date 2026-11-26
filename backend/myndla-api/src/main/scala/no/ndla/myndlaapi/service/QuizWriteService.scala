@@ -30,11 +30,17 @@ class QuizWriteService(using
     if (quiz.isOwner(user.id)) Success(quiz)
     else Failure(QuizErrors.notOwner(quiz.id))
 
-  def newQuiz(dto: NewQuizDTO, user: CombinedUserRequired, language: String): Try[QuizDTO] =
-    dbUtil.writeSession { implicit session =>
-      val now  = clock.now()
-      val quiz = quizConverterService.toDomainQuiz(dto, user.id, user.id, now, language)
-      quizRepository.insert(user.id, quiz).map(quizConverterService.toApiQuiz(_, language, isOwner = true))
+  private def requireTeacher(user: CombinedUserRequired): Try[Unit] =
+    if (user.isMyNDLAUser && !user.isEmployee) Failure(QuizErrors.notTeacher)
+    else Success(())
+
+  def newQuiz(dto: NewQuizDTO, user: CombinedUserRequired, language: String): Try[QuizDTO] = requireTeacher(user)
+    .flatMap { _ =>
+      dbUtil.writeSession { implicit session =>
+        val now  = clock.now()
+        val quiz = quizConverterService.toDomainQuiz(dto, user.id, user.id, now, language)
+        quizRepository.insert(user.id, quiz).map(quizConverterService.toApiQuiz(_, language, isOwner = true))
+      }
     }
 
   def updateQuiz(id: UUID, dto: UpdatedQuizDTO, user: CombinedUserRequired, language: String): Try[QuizDTO] = dbUtil
@@ -77,6 +83,7 @@ class QuizWriteService(using
   def cloneQuiz(id: UUID, user: CombinedUserRequired, language: String): Try[QuizDTO] = dbUtil.rollbackOnFailure {
     implicit session =>
       for {
+        _        <- requireTeacher(user)
         existing <- quizRepository.withIdOrError(id)
         _        <-
           if (quizRepository.canView(existing, user)) Success(())

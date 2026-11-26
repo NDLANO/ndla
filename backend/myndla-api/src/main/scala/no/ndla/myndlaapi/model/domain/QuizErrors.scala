@@ -19,4 +19,5 @@ object QuizErrors {
   def revisionMismatch(id: UUID): RuntimeException =
     new RuntimeException(s"Revision mismatch when updating quiz $id – please reload and try again")
   def notOwner(id: UUID): AccessDeniedException = AccessDeniedException(s"You do not have access to quiz $id")
+  def notTeacher: AccessDeniedException         = AccessDeniedException("Only teachers can create quizzes")
 }

@@ -9,8 +9,10 @@
 package no.ndla.myndlaapi.service
 
 import no.ndla.common.model.domain.Title
+import no.ndla.common.model.domain.myndla.UserRole
 import no.ndla.myndlaapi.TestData
 import no.ndla.myndlaapi.TestEnvironment
+import no.ndla.myndlaapi.model.api.NewQuizDTO
 import no.ndla.myndlaapi.model.domain.{Question, QuestionType, Quiz, QuizStatus}
 import no.ndla.network.model.{CombinedUser, CombinedUserWithMyNDLAUser, FeideIdToken, FeideUserWrapper}
 import no.ndla.scalatestsuite.UnitTestSuite
@@ -32,6 +34,14 @@ class QuizWriteServiceTest extends UnitTestSuite with TestEnvironment {
   private val notOwner = CombinedUserWithMyNDLAUser(
     None,
     FeideUserWrapper(TestData.emptyMyNDLAUser.copy(feideId = "someone-else"), mock[FeideIdToken]),
+  )
+
+  private val student = CombinedUserWithMyNDLAUser(
+    None,
+    FeideUserWrapper(
+      TestData.emptyMyNDLAUser.copy(feideId = "student-feide-id", userRole = UserRole.STUDENT),
+      mock[FeideIdToken],
+    ),
   )
 
   override def resetMocks(): Unit = {
@@ -94,6 +104,36 @@ class QuizWriteServiceTest extends UnitTestSuite with TestEnvironment {
 
     result.isFailure should be(true)
     result.failed.get.getMessage should be(s"You do not have access to quiz ${TestData.quizId}")
+  }
+
+  test("cloneQuiz returns Failure when the caller is a student") {
+    stubCloneQuiz(quiz(QuizStatus.PUBLIC))
+
+    val result = service.cloneQuiz(TestData.quizId, student, "nb")
+
+    result.isFailure should be(true)
+    result.failed.get.getMessage should be("Only teachers can create quizzes")
+    verify(quizRepository, never).insert(any[String], any[Quiz])(using any[DBSession])
+  }
+
+  test("newQuiz creates a quiz when the caller is a teacher") {
+    when(clock.now()).thenReturn(TestData.today)
+    when(quizRepository.insert(any[String], any[Quiz])(using any[DBSession])).thenAnswer(invocation =>
+      Success(invocation.nn.getArgument[Quiz](1).nn.copy(revision = Some(1)))
+    )
+
+    val result = service.newQuiz(NewQuizDTO("New quiz", None, None), owner(), "nb")
+
+    result.isSuccess should be(true)
+    result.get.title should be("New quiz")
+  }
+
+  test("newQuiz returns Failure when the caller is a student") {
+    val result = service.newQuiz(NewQuizDTO("New quiz", None, None), student, "nb")
+
+    result.isFailure should be(true)
+    result.failed.get.getMessage should be("Only teachers can create quizzes")
+    verify(quizRepository, never).insert(any[String], any[Quiz])(using any[DBSession])
   }
 
   private def stubSaveQuiz(existing: Quiz, canView: Boolean = true): Unit = {

@@ -12,7 +12,7 @@ import com.typesafe.scalalogging.StrictLogging
 import no.ndla.common.CirceUtil
 import no.ndla.database.implicits.*
 import no.ndla.myndlaapi.model.api.QuizStatsDTO
-import no.ndla.myndlaapi.model.domain.{DBQuiz, DBSavedQuiz, Quiz, QuizErrors, QuizStatus}
+import no.ndla.myndlaapi.model.domain.{DBQuiz, DBSavedQuiz, Quiz, QuizErrors, QuizSort, QuizStatus}
 import no.ndla.network.model.{CombinedUser, FeideID}
 import org.postgresql.util.PGobject
 import scalikejdbc.*
@@ -97,14 +97,20 @@ class QuizRepository(using dbQuiz: DBQuiz, dbSavedQuiz: DBSavedQuiz) extends Str
       }
   }
 
-  def getByOwner(ownerId: String, pageSize: Int, page: Int)(using session: DBSession): Try[List[Quiz]] = {
-    val qz     = dbQuiz.syntax("qz")
-    val offset = (page - 1) * pageSize
+  def getByOwner(
+      ownerId: String,
+      pageSize: Int,
+      page: Int,
+      sort: QuizSort,
+  )(using session: DBSession): Try[List[Quiz]] = {
+    val qz        = dbQuiz.syntax("qz")
+    val offset    = (page - 1) * pageSize
+    val direction = sortDirection(sort)
     tsql"""
       select ${qz.result.*}
       from ${dbQuiz.as(qz)}
       where qz.owner_id = $ownerId
-      order by qz.document->>'created' desc
+      order by qz.document->>'created' $direction, qz.id $direction
       limit $pageSize offset $offset
     """.decode(dbQuiz.fromResultSet(qz)).runList()
   }
@@ -123,16 +129,22 @@ class QuizRepository(using dbQuiz: DBQuiz, dbSavedQuiz: DBSavedQuiz) extends Str
       delete from ${dbSavedQuiz.table} where quiz_id = $quizId and feide_id = $feideId
     """.update().map(_ => ())
 
-  def getSavedByUser(feideId: FeideID)(using session: DBSession): Try[List[Quiz]] = {
-    val qz = dbQuiz.syntax("qz")
-    val sq = dbSavedQuiz.syntax("sq")
+  def getSavedByUser(feideId: FeideID, sort: QuizSort)(using session: DBSession): Try[List[Quiz]] = {
+    val qz        = dbQuiz.syntax("qz")
+    val sq        = dbSavedQuiz.syntax("sq")
+    val direction = sortDirection(sort)
     tsql"""
       select ${qz.result.*}
       from ${dbQuiz.as(qz)}
       join ${dbSavedQuiz.as(sq)} on sq.quiz_id = qz.id
       where sq.feide_id = $feideId
-      order by sq.created desc
+      order by sq.created $direction, qz.id $direction
     """.decode(dbQuiz.fromResultSet(qz)).runList()
+  }
+
+  private def sortDirection(sort: QuizSort): SQLSyntax = sort match {
+    case QuizSort.ByCreatedDesc => sqls"desc"
+    case QuizSort.ByCreatedAsc  => sqls"asc"
   }
 
   def getStats(using session: DBSession): Try[QuizStatsDTO] = tsql"""
