@@ -72,7 +72,7 @@ class QuizConverterServiceTest extends UnitTestSuite with TestEnvironment {
       completedCount = Some(42),
     )
 
-    val result = service.toApiQuiz(quiz, language = "en", isOwner = false)
+    val result = service.toApiQuiz(quiz, language = "en", canSeeAnswers = false, isSaved = false)
 
     result.title should be("Title english")
     result.description should be(Some("Description english"))
@@ -110,7 +110,7 @@ class QuizConverterServiceTest extends UnitTestSuite with TestEnvironment {
       completedCount = None,
     )
 
-    val result = service.toApiQuiz(quiz, language = "en", isOwner = true)
+    val result = service.toApiQuiz(quiz, language = "en", canSeeAnswers = true, isSaved = false)
 
     result.title should be("Norsk tittel")
     result.description should be(None)

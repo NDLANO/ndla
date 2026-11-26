@@ -1475,6 +1475,8 @@ export type components = {
              * @description Number of times this quiz has been completed (checked with check-quiz)
              */
             completedCount: number;
+            /** @description Whether the authenticated user has saved this quiz */
+            isSaved: boolean;
         };
         /**
          * QuizResultDTO
@@ -5157,6 +5159,10 @@ export interface operations {
             query?: {
                 /** @description The ISO 639-1 language code for the response. */
                 language?: string;
+                /** @description Number of results per page */
+                pageSize?: number;
+                /** @description Page number */
+                page?: number;
                 /** @description Sort order of the results, by when the quiz was saved. Supported values: -created, created. Defaults to -created. */
                 sort?: components["schemas"]["QuizSort"];
             };
@@ -5171,7 +5177,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["QuizDTO"][];
+                    "application/json": components["schemas"]["QuizSearchResultDTO"];
                 };
             };
             400: {

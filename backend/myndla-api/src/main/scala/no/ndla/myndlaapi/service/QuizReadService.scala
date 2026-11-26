@@ -34,17 +34,27 @@ class QuizReadService(using
     dbUtil: DBUtility,
 ) {
 
-  private def toApiQuiz(quiz: Quiz, language: String, isOwner: Boolean)(implicit session: DBSession): Try[QuizDTO] =
-    userRepository
-      .userWithFeideId(quiz.ownerId)
-      .map(owner => quizConverterService.toApiQuiz(quiz, language, isOwner, owner))
+  private def toApiQuiz(quiz: Quiz, language: String, canSeeAnswers: Boolean, isSaved: Boolean)(implicit
+      session: DBSession
+  ): Try[QuizDTO] = userRepository
+    .userWithFeideId(quiz.ownerId)
+    .map(owner => quizConverterService.toApiQuiz(quiz, language, canSeeAnswers, isSaved, owner))
 
   def withId(id: UUID, language: String, user: CombinedUser): Try[QuizDTO] = dbUtil.readOnly { implicit session =>
     quizRepository
       .withIdOrError(id)
       .flatMap {
         case quiz if quizRepository.canView(quiz, user) =>
-          toApiQuiz(quiz, language, isOwner = quizRepository.canSeeAnswers(quiz, user))
+          quizRepository
+            .savedQuizIds(Seq(quiz.id), user)
+            .flatMap(saved =>
+              toApiQuiz(
+                quiz,
+                language,
+                canSeeAnswers = quizRepository.canSeeAnswers(quiz, user),
+                isSaved = saved.nonEmpty,
+              )
+            )
         case _ => Failure(QuizErrors.quizNotFound(id))
       }
   }
@@ -60,19 +70,26 @@ class QuizReadService(using
     for {
       total   <- quizRepository.countByOwner(ownerId)
       quizzes <- quizRepository.getByOwner(ownerId, pageSize, page, sort)
-      dtos    <- quizzes.toList.traverse(toApiQuiz(_, language, isOwner = true))
+      saved   <- quizRepository.savedQuizIds(quizzes.map(_.id), user)
+      dtos    <-
+        quizzes.traverse(quiz => toApiQuiz(quiz, language, canSeeAnswers = true, isSaved = saved.contains(quiz.id)))
     } yield QuizSearchResultDTO(totalCount = total, page = page, pageSize = pageSize, results = dtos)
   }
 
-  def savedQuizzes(user: CombinedUserRequired, language: String, sort: QuizSort): Try[Seq[QuizDTO]] = dbUtil.readOnly {
-    implicit session =>
-      for {
-        quizzes <- quizRepository.getSavedByUser(user.id, sort)
-        dtos    <- quizzes
-          .filter(quiz => quizRepository.canView(quiz, user))
-          .toList
-          .traverse(quiz => toApiQuiz(quiz, language, isOwner = quizRepository.canSeeAnswers(quiz, user)))
-      } yield dtos
+  def savedQuizzes(
+      user: CombinedUserRequired,
+      language: String,
+      pageSize: Int,
+      page: Int,
+      sort: QuizSort,
+  ): Try[QuizSearchResultDTO] = dbUtil.readOnly { implicit session =>
+    for {
+      total   <- quizRepository.countSavedByUser(user.id)
+      quizzes <- quizRepository.getSavedByUser(user.id, pageSize, page, sort)
+      dtos    <- quizzes.traverse(quiz =>
+        toApiQuiz(quiz, language, canSeeAnswers = quizRepository.canSeeAnswers(quiz, user), isSaved = true)
+      )
+    } yield QuizSearchResultDTO(totalCount = total, page = page, pageSize = pageSize, results = dtos)
   }
 
   def checkAnswer(quizId: UUID, answer: QuestionAnswerDTO, user: CombinedUser): Try[QuestionResultDTO] = dbUtil
