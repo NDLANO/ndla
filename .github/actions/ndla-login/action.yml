@@ -1,0 +1,44 @@
+name: "NDLA login"
+description: "Log in to NDLA's ECR registry with the release role, and to Docker Hub."
+inputs:
+  aws-client-id:
+    description: "AWS client ID"
+    required: true
+  aws-client-secret:
+    description: "AWS client secret"
+    required: true
+  release-role:
+    description: "ARN of the AWS role to assume for ECR login"
+    required: true
+  ecr-repo:
+    description: "ECR registry to log in to"
+    required: true
+  docker-hub-username:
+    description: "Docker Hub username"
+    required: true
+  docker-hub-password:
+    description: "Docker Hub password or access token"
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: "Log in to ECR"
+      shell: bash
+      env:
+        AWS_ACCESS_KEY_ID: ${{ inputs.aws-client-id }}
+        AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-client-secret }}
+        AWS_DEFAULT_REGION: eu-west-1
+        RELEASE_ROLE: ${{ inputs.release-role }}
+        ECR_REPO: ${{ inputs.ecr-repo }}
+      run: |
+        RES=$(aws sts assume-role --role-arn "$RELEASE_ROLE" --role-session-name github-actions-ecr-login)
+        export AWS_ACCESS_KEY_ID=$(echo "$RES" | jq -r .Credentials.AccessKeyId)
+        export AWS_SECRET_ACCESS_KEY=$(echo "$RES" | jq -r .Credentials.SecretAccessKey)
+        export AWS_SESSION_TOKEN=$(echo "$RES" | jq -r .Credentials.SessionToken)
+        aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin "$ECR_REPO"
+    - name: "Log in to Docker Hub"
+      shell: bash
+      env:
+        DOCKER_HUB_USERNAME: ${{ inputs.docker-hub-username }}
+        DOCKER_HUB_PASSWORD: ${{ inputs.docker-hub-password }}
+      run: echo "$DOCKER_HUB_PASSWORD" | docker login --username "$DOCKER_HUB_USERNAME" --password-stdin

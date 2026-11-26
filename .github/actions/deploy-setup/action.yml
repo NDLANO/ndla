@@ -1,0 +1,25 @@
+name: "Deploy setup"
+description: "Check out NDLANO/deploy at ndla/deploy, next to the calling repository in ndla/, and install the ndla CLI and its tools."
+inputs:
+  token:
+    description: "Token that can read NDLANO/deploy"
+    required: true
+runs:
+  using: composite
+  steps:
+    # An explicit ref skips the REST API lookup of the default branch, so checkout works while the token is rate limited.
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      with:
+        repository: NDLANO/deploy
+        ref: master
+        token: ${{ inputs.token }}
+        path: ndla/deploy
+    - name: "Use the deploy repository's tools"
+      shell: bash
+      run: ln -s "$GITHUB_WORKSPACE/ndla/deploy/mise.toml" "$GITHUB_WORKSPACE/mise.toml"
+    - uses: jdx/mise-action@924e7c586e33d7d4bae9c14e26c5d22e2beb6e78 # v5
+      with:
+        working_directory: ${{ github.workspace }}
+    - name: "Install the ndla CLI"
+      shell: bash
+      run: uv --directory "$GITHUB_WORKSPACE/ndla/deploy" sync --locked
