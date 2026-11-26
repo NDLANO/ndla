@@ -48,7 +48,18 @@ async function pureFetch(url: string, init?: RequestInit): Promise<Response> {
   return response;
 }
 
-export async function externalFetch(url: string, ctx: Context, options?: RequestInit): Promise<Response> {
+interface ExternalFetchOptions {
+  /** Cache the response and leave the graphql response's Cache-Control alone, whatever Cache-Control the external
+   * service sends. For responses that are the same for every user even though the service marks them private. */
+  ignoreResponseCacheControl?: boolean;
+}
+
+export async function externalFetch(
+  url: string,
+  ctx: Context,
+  options?: RequestInit,
+  { ignoreResponseCacheControl = false }: ExternalFetchOptions = {},
+): Promise<Response> {
   const cache = getCache();
   if (!cache) throw Error("Failed to retrieve cache.");
 
@@ -56,7 +67,7 @@ export async function externalFetch(url: string, ctx: Context, options?: Request
   if (bypassReason) {
     countCacheLookup(apiLabel, { result: "bypass", reason: bypassReason });
     const response = await pureFetch(url, options);
-    setHeaderIfShouldNotCache(response, ctx);
+    if (!ignoreResponseCacheControl) setHeaderIfShouldNotCache(response, ctx);
     return response;
   }
 
@@ -70,7 +81,7 @@ export async function externalFetch(url: string, ctx: Context, options?: Request
   countCacheLookup(apiLabel, { result: "miss", reason: "absent" });
 
   const response = await pureFetch(url, options);
-  const shouldCache = setHeaderIfShouldNotCache(response, ctx);
+  const shouldCache = ignoreResponseCacheControl || setHeaderIfShouldNotCache(response, ctx);
 
   if (response.status !== 200) {
     countCacheWrite(apiLabel, { result: "skipped", reason: "status" });
