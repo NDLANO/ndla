@@ -658,11 +658,11 @@ const translations = {
           correctNotSelected: "Rett svar - ikkje valt",
           notSelectedIncorrect: "Ikkje valt",
           partialFeedback:
-            "Du har {{correct}} rette svar og {{incorrect}} feil svar. {{missing}} rett(e) svar manglar.",
+            "Du har {{correct}} rett(e) svar og {{incorrect}} feil svar. {{missing}} rett(e) svar manglar.",
           partialNoIncorrectFeedback_one:
-            "Du har {{correct}} rett svar og ingen feil svar. {{missing}} rett(e) svar manglar.",
+            "Du har {{correct}} rett(e) svar og ingen feil svar. {{missing}} rett(e) svar manglar.",
           partialNoIncorrectFeedback_other:
-            "Du har {{correct}} rette svar og ingen feil svar. {{missing}} rett(e) svar manglar.",
+            "Du har {{correct}} rett(e) svar og ingen feil svar. {{missing}} rett(e) svar manglar.",
           allCorrectFeedback: "Du valde alle dei rette svaralternativa.",
           allIncorrectFeedback: "Ingen av svara du valde var rette.",
         },
