@@ -68,7 +68,7 @@
     "slate-react": "catalog:",
     "storybook": "catalog:",
     "svgo": "catalog:",
-    "syncpack": "^15.3.3",
+    "syncpack": "^15.3.4",
     "tsdown": "catalog:",
     "typescript": "catalog:ts6",
     "typescript-eslint": "catalog:",
