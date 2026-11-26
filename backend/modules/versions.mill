@@ -126,8 +126,6 @@ case class SharedDependencies(private val versions: Map[String, String]) {
     mvn"org.springframework.boot:spring-boot-starter-liquibase".exclude("org.apache.commons" -> "commons-lang3"),
     dep"net.lbruun.springboot:preliquibase-spring-boot-starter",
     dep"io.hypersistence:hypersistence-utils-hibernate-73",
-    mvn"com.fasterxml.jackson.datatype:jackson-datatype-jdk8",
-    mvn"com.fasterxml.jackson.module:jackson-module-kotlin",
     mvn"tools.jackson.module:jackson-module-kotlin",
     dep"com.auth0:java-jwt",
     dep"com.auth0:jwks-rsa",

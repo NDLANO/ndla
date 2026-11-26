@@ -7,7 +7,6 @@
 
 package no.ndla.taxonomy.config
 
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
 import io.swagger.v3.oas.models.Components
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.headers.Header
@@ -22,7 +21,6 @@ import io.swagger.v3.oas.models.security.OAuthFlows
 import io.swagger.v3.oas.models.security.SecurityScheme
 import io.swagger.v3.oas.models.servers.Server
 import org.springdoc.core.customizers.OpenApiCustomizer
-import org.springdoc.core.providers.ObjectMapperProvider
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -43,9 +41,7 @@ class SwaggerConfiguration {
   @Value("\${terms.url:https://om.ndla.no/tos}") private lateinit var termsUrl: String
 
   @Bean
-  fun API(objectMapperProvider: ObjectMapperProvider): OpenAPI {
-    // Need this to support Java 8 types like Optional<> for request parameters
-    objectMapperProvider.jsonMapper().registerModule(Jdk8Module())
+  fun API(): OpenAPI {
     return OpenAPI()
         .components(components())
         .servers(servers())
