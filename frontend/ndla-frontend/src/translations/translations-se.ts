@@ -656,11 +656,11 @@ const translations = {
           correctNotSelected: "Riktig svar - ikke valgt",
           notSelectedIncorrect: "Ikke valgt",
           partialFeedback:
-            "Du har {{correct}} riktig(e) svar og {{incorrect}} feil svar. {{missing}} riktig(e) svar mangler.",
+            "Du har {{correct}} riktig(e) svar og {{incorrect}} feil svar.",
           partialNoIncorrectFeedback_one:
-            "Du har {{correct}} riktig(e) svar og ingen feil svar. {{missing}} riktig(e) svar mangler.",
+            "Du har {{correct}} riktig(e) svar og ingen feil svar.",
           partialNoIncorrectFeedback_other:
-            "Du har {{correct}} riktig(e) svar og ingen feil svar. {{missing}} riktig(e) svar mangler.",
+            "Du har {{correct}} riktig(e) svar og ingen feil svar.",
           allCorrectFeedback: "Du valgte alle de riktige svaralternativene.",
           allIncorrectFeedback: "Ingen av svarene du valgte var riktige.",
         },
