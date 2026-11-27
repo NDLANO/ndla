@@ -46,8 +46,8 @@ catalog:
   "@react-router/dev": ^8.5.2
   "@react-router/express": ^8.5.2
   "@react-router/node": ^8.5.2
-  "@sentry/react": ^11.16.0
-  "@sentry/vite-plugin": ^11.16.0
+  "@sentry/react": ^11.17.0
+  "@sentry/vite-plugin": ^11.17.0
   "@storybook/addon-a11y": ^10.6.8
   "@storybook/addon-docs": ^10.6.8
   "@storybook/addon-links": ^10.6.8
