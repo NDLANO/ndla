@@ -297,18 +297,3 @@ jobs:
       - name: "Fail if any job failed"
         if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
         run: exit 1
-
-  # The ruleset still requires the checks of the workflows this one replaced. Remove once it requires `CI` instead.
-  legacy-result:
-    name: ${{ matrix.name }}
-    needs: result
-    if: always()
-    strategy:
-      matrix:
-        name: ["Backend CI", "Frontend CI", "Backend linting & formatting", "Backend typescript types"]
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: "Mirror the CI result"
-        if: needs.result.result != 'success'
-        run: exit 1
