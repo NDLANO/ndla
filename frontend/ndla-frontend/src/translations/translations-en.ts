@@ -542,8 +542,8 @@ const translations = {
         tabs: {
           questions: "Questions",
         },
-        moveUp: "Move up",
-        moveDown: "Move down",
+        moveUp: "Move question {{index}} up",
+        moveDown: "Move question {{index}} down",
         settingsTab: {
           title: "How should questions and answers be presented in the quiz?",
           alternativesRandomOrder: "Random order of answer alternatives?",

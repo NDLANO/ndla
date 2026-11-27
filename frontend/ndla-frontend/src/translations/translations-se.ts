@@ -540,8 +540,8 @@ const translations = {
         tabs: {
           questions: "Spørsmål",
         },
-        moveUp: "Flytt opp",
-        moveDown: "Flytt ned",
+        moveUp: "Flytt spørsmål {{index}} opp",
+        moveDown: "Flytt spørsmål {{index}} ned",
         settingsTab: {
           title: "Hvordan skal spørsmål og svar i kvissen presenteres?",
           alternativesRandomOrder: "Tilfeldig rekkefølge på svaralternativer?",

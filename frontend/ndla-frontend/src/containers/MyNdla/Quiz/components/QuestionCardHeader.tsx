@@ -35,13 +35,13 @@ export const QuestionCardHeader = ({ index, title, onMoveUp, onMoveDown }: Props
       <HStack gap="xsmall">
         {onMoveDown ? (
           <Button variant="tertiary" onClick={onMoveDown}>
-            {t("myNdla.quiz.form.moveDown")}
+            {t("myNdla.quiz.form.moveDown", { index: index + 1 })}
             <ArrowDownShortLine />
           </Button>
         ) : null}
         {onMoveUp ? (
           <Button variant="tertiary" onClick={onMoveUp}>
-            {t("myNdla.quiz.form.moveUp")}
+            {t("myNdla.quiz.form.moveUp", { index: index + 1 })}
             <ArrowUpShortLine />
           </Button>
         ) : null}
