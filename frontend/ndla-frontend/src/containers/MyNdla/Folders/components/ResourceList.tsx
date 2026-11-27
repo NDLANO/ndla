@@ -22,6 +22,7 @@ import type {
 } from "../../../../graphqlTypes";
 import { myNdlaResourceMetaSearchQuery } from "../../../../mutations/folder/folderQueries";
 import { useStableSearchParams } from "../../../../util/useStableSearchParams";
+import { MyNdlaPagination, parsePage } from "../../components/MyNdlaPagination";
 import { keyId, sortAndFilterResources } from "../util";
 import { CopyResourcesDialogContent, MoveResourcesDialogContent } from "./BatchProcessResources";
 import { CreateLearningpathFromResourcesDialogContent } from "./CreateLearningpathFromResourcesDialogContent";
@@ -41,7 +42,7 @@ const ListContainer = styled("div", {
 const ListOptionsWrapper = styled("div", {
   base: {
     display: "flex",
-    gap: "medium",
+    gap: "xsmall",
     alignItems: "flex-end",
     marginLeft: "auto",
   },
@@ -84,6 +85,8 @@ const StyledButton = styled(Button, {
   },
 });
 
+const RESOURCE_PAGE_SIZE = 10;
+
 interface Props {
   selectedFolder: GQLFolderFragment | undefined;
   resources: GQLMyNdlaResourceFragment[];
@@ -121,7 +124,7 @@ interface ViewProps extends Props {
 
 const ResourceListView = ({ selectedFolder, resources, labelledBy, keyedData, loading }: ViewProps) => {
   const { t } = useTranslation();
-  const [params] = useStableSearchParams();
+  const [params, setParams] = useStableSearchParams();
   const [selectedResourceIds, setSelectedResourceIds] = useState<string[]>([]);
   const [isBatchSelecting, setIsBatchSelecting] = useState(false);
   const { user } = useContext(AuthContext);
@@ -151,6 +154,10 @@ const ResourceListView = ({ selectedFolder, resources, labelledBy, keyedData, lo
     return <Text>{t("myNdla.folder.noResources")}</Text>;
   }
 
+  const pageCount = Math.ceil(sortedAndFilteredResources.length / RESOURCE_PAGE_SIZE);
+  const page = Math.min(parsePage(params.get("page")), pageCount);
+  const pageResources = sortedAndFilteredResources.slice((page - 1) * RESOURCE_PAGE_SIZE, page * RESOURCE_PAGE_SIZE);
+
   return (
     <ListContainer>
       <ListActionsWrapper>
@@ -158,6 +165,7 @@ const ResourceListView = ({ selectedFolder, resources, labelledBy, keyedData, lo
         <ListOptionsWrapper>
           <StyledButton
             variant="secondary"
+            size="small"
             onClick={() => {
               if (isBatchSelecting) {
                 setSelectedResourceIds([]);
@@ -228,7 +236,7 @@ const ResourceListView = ({ selectedFolder, resources, labelledBy, keyedData, lo
       )}
       <CheckboxGroup value={selectedResourceIds} onValueChange={setSelectedResourceIds}>
         <BlockWrapper aria-labelledby={labelledBy}>
-          {sortedAndFilteredResources.map((resource) => (
+          {pageResources.map((resource) => (
             <ResourceWithMenu
               resource={resource}
               key={resource.id}
@@ -241,6 +249,13 @@ const ResourceListView = ({ selectedFolder, resources, labelledBy, keyedData, lo
           ))}
         </BlockWrapper>
       </CheckboxGroup>
+      <MyNdlaPagination
+        page={page}
+        count={sortedAndFilteredResources.length}
+        pageSize={RESOURCE_PAGE_SIZE}
+        onPageChange={(newPage) => setParams({ page: newPage.toString() }, { preventScrollReset: true })}
+        aria-label={t("myNdla.folder.resourcesPagination")}
+      />
     </ListContainer>
   );
 };

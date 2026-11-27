@@ -229,7 +229,6 @@ const SharedFolderPageContent = () => {
                         resourceMeta?.__typename === "MyNdlaArticleResourceMeta" ? resourceMeta.traits : undefined
                       }
                       title={resourceMeta ? resourceMeta.title : t("myNdla.sharedFolder.resourceRemovedTitle")}
-                      description={resourceMeta?.description ?? ""}
                     />
                   </li>
                 ) : null;

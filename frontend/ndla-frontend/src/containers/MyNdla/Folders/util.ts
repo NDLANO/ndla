@@ -33,7 +33,24 @@ export const keyId = (type: string, id: string) => `${type}-${id}`;
 export const SORT_NAME_ASC = "name-asc";
 export const SORT_NAME_DESC = "name-desc";
 export const SORT_LAST_ADDED = "last-added";
+export const SORT_FIRST_ADDED = "first-added";
 export const SORT_CONTENT_TYPE = "content-type";
+
+export type ResourceSort =
+  | typeof SORT_LAST_ADDED
+  | typeof SORT_NAME_ASC
+  | typeof SORT_NAME_DESC
+  | typeof SORT_CONTENT_TYPE;
+
+export type SharedFolderSort = typeof SORT_LAST_ADDED | typeof SORT_FIRST_ADDED;
+
+const resourceSorts: ResourceSort[] = [SORT_LAST_ADDED, SORT_NAME_ASC, SORT_NAME_DESC, SORT_CONTENT_TYPE];
+
+export const parseResourceSort = (value: string | null): ResourceSort =>
+  resourceSorts.find((sort) => sort === value) ?? SORT_LAST_ADDED;
+
+export const parseSharedFolderSort = (value: string | null): SharedFolderSort =>
+  value === SORT_FIRST_ADDED ? SORT_FIRST_ADDED : SORT_LAST_ADDED;
 
 export const sortAndFilterResources = (
   params: URLSearchParams,

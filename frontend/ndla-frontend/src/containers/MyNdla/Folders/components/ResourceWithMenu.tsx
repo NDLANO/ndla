@@ -200,7 +200,6 @@ export const ResourceWithMenu = ({
         resourceTypes={resourceMeta?.resourceTypes}
         traits={resourceMeta?.__typename === "MyNdlaArticleResourceMeta" ? resourceMeta.traits : undefined}
         title={resourceMeta?.title ?? t("myNdla.sharedFolder.resourceRemovedTitle")}
-        description={resourceMeta?.description ?? ""}
         menu={!isBatchSelecting && menu}
         nonInteractive={!resourceMeta}
       />

@@ -34,6 +34,8 @@ const StyledPaginationButton = styled(Button, {
   },
 });
 
+export const parsePage = (value: string | null) => Math.max(1, parseInt(value ?? "") || 1);
+
 interface Props {
   page: number;
   count: number;
@@ -42,7 +44,7 @@ interface Props {
   "aria-label": string;
 }
 
-export const QuizPagination = ({ page, count, pageSize, onPageChange, "aria-label": ariaLabel }: Props) => {
+export const MyNdlaPagination = ({ page, count, pageSize, onPageChange, "aria-label": ariaLabel }: Props) => {
   const { t } = useTranslation();
   const paginationTranslations = usePaginationTranslations();
   if (count <= pageSize && page <= 1) return null;
