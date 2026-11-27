@@ -158,6 +158,12 @@ trait BaseProps extends StrictLogging {
   def SEARCH_INDEX_SHARDS: Int   = intPropOrDefault("SEARCH_INDEX_SHARDS", 1)
   def SEARCH_INDEX_REPLICAS: Int = intPropOrDefault("SEARCH_INDEX_REPLICAS", 1)
 
+  /** Value for `index.auto_expand_replicas` (e.g. `1-all`). When set, it replaces [[SEARCH_INDEX_REPLICAS]] once a new
+    * index is live.
+    */
+  def SEARCH_INDEX_AUTO_EXPAND_REPLICAS: Option[String] =
+    propOrNone("SEARCH_INDEX_AUTO_EXPAND_REPLICAS").filter(_.nonEmpty)
+
   def TAPIR_THREADS: Int = intPropOrDefault("TAPIR_THREADS", 100)
 
   def BrightCoveAuthUri: String                                   = s"https://oauth.brightcove.com/v4/access_token"

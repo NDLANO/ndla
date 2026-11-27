@@ -44,6 +44,8 @@ abstract class BaseIndexService(using e4sClient: NdlaE4sClient, props: BaseProps
   val indexShards: Int   = props.SEARCH_INDEX_SHARDS
   val indexReplicas: Int = props.SEARCH_INDEX_REPLICAS
 
+  val indexAutoExpandReplicas: Option[String] = props.SEARCH_INDEX_AUTO_EXPAND_REPLICAS
+
   def indexWithNameExists(indexName: String): Try[Boolean] = {
     val response = e4sClient.execute {
       indexExists(indexName)
@@ -252,14 +254,18 @@ abstract class BaseIndexService(using e4sClient: NdlaE4sClient, props: BaseProps
       logger.info("Skipping replica change in local environment, since the cluster only has one node.")
       Success(())
     } else {
-      val updateValue = overrideReplicaNumber.getOrElse(indexReplicas).toString
-      val settingsMap = Map("number_of_replicas" -> updateValue)
+      val settingsMap = (overrideReplicaNumber, indexAutoExpandReplicas) match {
+        case (Some(replicas), _)      => Map("number_of_replicas" -> replicas.toString, "auto_expand_replicas" -> "false")
+        case (None, Some(autoExpand)) => Map("auto_expand_replicas" -> autoExpand)
+        case (None, None)             => Map("number_of_replicas" -> indexReplicas.toString)
+      }
+      val description = settingsMap.map((k, v) => s"$k=$v").mkString(", ")
       e4sClient.execute(updateSettings(Indexes(indexName), settingsMap)) match {
         case Failure(ex) =>
-          logger.error(s"Could not update replica number for '$indexName': '${ex.getMessage}'.", ex)
+          logger.error(s"Could not update replica settings for '$indexName': '${ex.getMessage}'.", ex)
           Failure(ex)
         case Success(value) =>
-          logger.info(s"Successfully updated replica number for '$indexName' to '$updateValue'")
+          logger.info(s"Successfully updated replica settings for '$indexName' to '$description'")
           Success(value)
       }
     }
