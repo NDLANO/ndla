@@ -130,7 +130,7 @@ router.post("/csp-reporting", (req, res) => {
   if (body && body["type"] === "csp-violation") {
     const cspReport = body["body"];
     const errorMessage = `Refused to load the resource because it violates the following Content Security Policy directive: ${cspReport["effectiveDirective"]}`;
-    errorLogger.error(errorMessage, cspReport);
+    errorLogger.warn(errorMessage, cspReport);
     res.status(OK).json({ status: OK, text: "CSP Error recieved" });
   } else {
     res.status(NOT_ACCEPTABLE).json({ status: NOT_ACCEPTABLE, text: "CSP Error not recieved" });
@@ -142,7 +142,7 @@ router.post("/csp-report", (req, res) => {
   if (body && body["csp-report"]) {
     const cspReport = body["csp-report"];
     const errorMessage = `Refused to load the resource because it violates the following Content Security Policy directive: ${cspReport["violated-directive"]}`;
-    errorLogger.error(errorMessage, cspReport);
+    errorLogger.warn(errorMessage, cspReport);
     res.status(OK).json({ status: OK, text: "CSP Error recieved" });
   } else {
     res.status(NOT_ACCEPTABLE).json({ status: NOT_ACCEPTABLE, text: "CSP Error not recieved" });

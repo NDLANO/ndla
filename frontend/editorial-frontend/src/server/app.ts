@@ -20,6 +20,7 @@ import { createRequestHandler } from "@react-router/express";
 import compression from "compression";
 import express, { type NextFunction, type Request, type Response } from "express";
 import helmet from "helmet";
+import { ResponseBodyError } from "openid-client";
 import type { ServerBuild } from "react-router";
 import sirv from "sirv";
 import type { ViteDevServer } from "vite";
@@ -128,7 +129,11 @@ export const createApp = ({ build, vite }: AppOptions) => {
       try {
         res.locals.accessToken = await refreshAccessToken(req, res);
       } catch (e) {
-        log.error("Failed to refresh token on SSR request:", e);
+        if (e instanceof ResponseBodyError && e.error === "invalid_grant") {
+          log.info("Failed to refresh token on SSR request:", e);
+        } else {
+          log.error("Failed to refresh token on SSR request:", e);
+        }
       }
     }
     next();
@@ -144,7 +149,7 @@ export const createApp = ({ build, vite }: AppOptions) => {
     if (statusCode >= INTERNAL_SERVER_ERROR) {
       log.error("Unhandled error", err);
     } else {
-      log.warn("Unhandled error", err);
+      log.info("Unhandled error", err);
     }
     if (res.headersSent) {
       res.end();
