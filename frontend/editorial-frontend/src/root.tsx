@@ -94,7 +94,7 @@ export const Layout = ({ children }: LayoutProps) => {
 `,
           }}
         />
-        <script type="text/javascript" defer src="https://cdn.jsdelivr.net/npm/mathjax@4.1.1/mml-chtml.js" />
+        <script type="text/javascript" defer src="https://cdn.jsdelivr.net/npm/mathjax@4.1.3/mml-chtml.js" />
         <Formbricks />
         <div id="root">{children}</div>
         <Scripts />

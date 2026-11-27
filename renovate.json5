@@ -67,6 +67,13 @@
       matchStrings: ["npm install --global (?<depName>vercel)@(?<currentValue>[\\d.]+)"],
       datasourceTemplate: "npm",
     },
+    {
+      customType: "regex",
+      description: "npm packages loaded from jsDelivr at runtime, e.g. MathJax",
+      managerFilePatterns: ["frontend/*/src/**/*.{ts,tsx}"],
+      matchStrings: ["cdn\\.jsdelivr\\.net/npm/(?<depName>(?:@[^/@\"]+/)?[^/@\"]+)@(?<currentValue>\\d[^/\"]*)/"],
+      datasourceTemplate: "npm",
+    },
   ],
 
   packageRules: [
