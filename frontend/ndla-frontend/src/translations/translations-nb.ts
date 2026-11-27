@@ -1008,6 +1008,8 @@ const translations = {
     otherResources: "Andre ressurser",
     programme: "Utdanningsprogram",
     grades: "Trinn",
+    programPrerequisites: "Fullført grunnskole",
+    programType: "Utdanningsprogram i vidaregående opplæring",
   },
   subjectPage: {
     topicsTitle: "Emner i {{topic}}",

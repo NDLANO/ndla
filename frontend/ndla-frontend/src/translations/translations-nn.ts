@@ -1009,6 +1009,8 @@ const translations = {
     otherResources: "Andre ressursar",
     programme: "Utdanningsprogram",
     grades: "Trinn",
+    programPrerequisites: "Fullført grunnskule",
+    programType: "Utdanningsprogram i vidaregåande opplæring",
   },
   aboutPage: {
     menuItems: "Undersidar",
