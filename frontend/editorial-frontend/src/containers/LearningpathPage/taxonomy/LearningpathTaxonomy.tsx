@@ -50,7 +50,7 @@ export const LearningpathTaxonomy = ({ learningpath, resourceLanguage, nodes, ve
   const placements = node?.contexts
     .filter((c) => c.rootId.includes("subject"))
     .map((c) => contextToPlacement(node.nodeType, c, resourceLanguage))
-    .toSorted((a, b) => a.id.localeCompare(b.id));
+    .toSorted((a, b) => a.breadcrumbs.join(">").localeCompare(b.breadcrumbs.join(">")));
 
   return (
     <TaxonomyBlock
