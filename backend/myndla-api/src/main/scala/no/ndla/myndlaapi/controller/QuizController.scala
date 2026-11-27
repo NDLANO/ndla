@@ -98,13 +98,17 @@ class QuizController(using
     .description("List quizzes the authenticated user has saved")
     .in("saved")
     .in(language)
+    .in(pageSize)
+    .in(page)
     .in(savedSort)
-    .out(jsonBody[Seq[QuizDTO]])
+    .out(jsonBody[QuizSearchResultDTO])
     .errorOut(errorOutputsFor(400, 401, 403))
     .withFeideUser
     .serverLogicPure { feide =>
-      { case (lang, s) =>
-        quizReadService.savedQuizzes(feide.toCombined, lang.code, s.getOrElse(QuizSort.ByCreatedDesc)).handleErrorsOrOk
+      { case (lang, ps, p, s) =>
+        quizReadService
+          .savedQuizzes(feide.toCombined, lang.code, ps, p, s.getOrElse(QuizSort.ByCreatedDesc))
+          .handleErrorsOrOk
       }
     }
 

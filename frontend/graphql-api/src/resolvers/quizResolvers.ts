@@ -39,6 +39,7 @@ import type {
   GQLQuery,
   GQLQueryQuizArgs,
   GQLQueryQuizzesArgs,
+  GQLQuerySavedQuizzesArgs,
   GQLQueryResolvers,
 } from "../types/schema";
 
@@ -49,8 +50,12 @@ export const Query: Pick<GQLQueryResolvers, "quizzes" | "quiz" | "savedQuizzes">
   async quiz(_: any, params: GQLQueryQuizArgs, context: ContextWithLoaders): Promise<GQLQuery["quiz"]> {
     return fetchQuiz(params, context);
   },
-  async savedQuizzes(_: any, __: any, context: ContextWithLoaders): Promise<GQLQuery["savedQuizzes"]> {
-    return fetchSavedQuizzes(context);
+  async savedQuizzes(
+    _: any,
+    params: GQLQuerySavedQuizzesArgs,
+    context: ContextWithLoaders,
+  ): Promise<GQLQuery["savedQuizzes"]> {
+    return fetchSavedQuizzes(params, context);
   },
 };
 

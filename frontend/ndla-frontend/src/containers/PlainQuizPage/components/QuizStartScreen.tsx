@@ -8,16 +8,17 @@
 
 import { useSuspenseQuery } from "@apollo/client/react";
 import { KvissLine, QuestionLine, TimeLine } from "@ndla/icons";
-import { Button, Text } from "@ndla/primitives";
+import { Button, DialogRoot, DialogTrigger, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Suspense, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import { LoginModalContent } from "../../../components/MyNdla/LoginModalContent";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { useToast } from "../../../components/ToastContext";
 import type { GQLQuizFragment, GQLQuizQuery } from "../../../graphqlTypes";
 import { useSaveQuizMutation, useUnsaveQuizMutation } from "../../../mutations/quiz/quizMutations";
-import { savedQuizzesQuery } from "../../../mutations/quiz/quizQueries";
+import { quizIsSavedQuery } from "../../../mutations/quiz/quizQueries";
 import { estimateQuizMinutes } from "../../MyNdla/Quiz/utils";
 import { CopyQuiz } from "./CopyQuiz";
 
@@ -176,7 +177,7 @@ interface Props {
 }
 
 export const QuizStartScreen = ({ quiz, questionCount, onStart }: Props) => {
-  const { user } = useContext(AuthContext);
+  const { authenticated, user } = useContext(AuthContext);
   const { t } = useTranslation();
   const estimatedMinutes = estimateQuizMinutes(quiz);
 
@@ -247,9 +248,9 @@ export const QuizStartScreen = ({ quiz, questionCount, onStart }: Props) => {
           <StartButton onClick={onStart}>{t("myNdla.quiz.take.start")}</StartButton>
         </StartButtonRow>
       </Content>
-      {user?.role === "employee" && (
-        <ButtonRow>
-          <CopyQuiz quizId={quiz.id} />
+      <ButtonRow>
+        {user?.role === "employee" && <CopyQuiz quizId={quiz.id} />}
+        {authenticated ? (
           <Suspense
             fallback={
               <Button variant="tertiary" loading>
@@ -259,8 +260,15 @@ export const QuizStartScreen = ({ quiz, questionCount, onStart }: Props) => {
           >
             <SaveQuizButton quiz={quiz} />
           </Suspense>
-        </ButtonRow>
-      )}
+        ) : (
+          <DialogRoot>
+            <DialogTrigger asChild>
+              <Button variant="tertiary">{t("myNdla.quiz.take.saveQuizLink")}</Button>
+            </DialogTrigger>
+            <LoginModalContent title={t("myNdla.quiz.take.loginSaveQuizPitch")} />
+          </DialogRoot>
+        )}
+      </ButtonRow>
     </Wrapper>
   );
 };
@@ -272,13 +280,11 @@ interface SaveQuizButtonProps {
 const SaveQuizButton = ({ quiz }: SaveQuizButtonProps) => {
   const { t } = useTranslation();
   const toast = useToast();
-  const { data: savedData } = useSuspenseQuery(savedQuizzesQuery);
+  const { data } = useSuspenseQuery(quizIsSavedQuery, { variables: { id: quiz.id } });
   const [saveQuiz, { loading: saving }] = useSaveQuizMutation();
   const [unsaveQuiz, { loading: unsaving }] = useUnsaveQuizMutation();
 
-  if (!savedData?.savedQuizzes) return null;
-
-  const isSaved = savedData.savedQuizzes.some((saved) => saved.id === quiz.id);
+  const isSaved = !!data?.quiz.isSaved;
 
   const onToggleSaved = async () => {
     if (isSaved) {

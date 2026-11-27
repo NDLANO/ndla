@@ -485,9 +485,17 @@ const translations = {
       newQuiz: "Create new quiz",
       noQuiz: "You haven't created any quizzes yet.",
       pagination: "Quiz pages",
+      descriptionStudent:
+        "Here you can see quizzes you have saved. Unfortunately, you cannot create your own quizzes, only teachers have access to that.",
+      sort: {
+        label: "Sort:",
+        lastAdded: "Last added",
+        firstAdded: "First added",
+      },
       savedQuizzes: {
         title: "Quizzes shared by others",
         empty: "You haven't saved any quizzes from others yet.",
+        pagination: "Pages of quizzes shared by others",
       },
       estimatedTime_one: "Estimated time: ~{{count}} minute",
       estimatedTime_other: "Estimated time: ~{{count}} minutes",
@@ -626,6 +634,7 @@ const translations = {
         estimatedMinutes_other: "{{count}} minutes",
         copyQuiz: "Copy quiz",
         saveQuizLink: "Save quiz link",
+        loginSaveQuizPitch: "Do you want to save the link to this quiz?",
         unsaveQuizLink: "Remove saved quiz link",
         sharedBy: "Shared by: {{sharedBy}}",
         sharedByFallback: "NDLA user",

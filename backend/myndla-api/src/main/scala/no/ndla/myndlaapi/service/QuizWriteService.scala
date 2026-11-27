@@ -16,6 +16,8 @@ import no.ndla.myndlaapi.model.domain.*
 import no.ndla.myndlaapi.repository.QuizRepository
 import no.ndla.network.model.CombinedUserRequired
 
+import scalikejdbc.DBSession
+
 import java.util.UUID
 import scala.util.{Failure, Success, Try}
 
@@ -34,12 +36,19 @@ class QuizWriteService(using
     if (user.isMyNDLAUser && !user.isEmployee) Failure(QuizErrors.notTeacher)
     else Success(())
 
+  private def toApiQuiz(quiz: Quiz, user: CombinedUserRequired, language: String)(using DBSession): Try[QuizDTO] =
+    quizRepository
+      .savedQuizIds(Seq(quiz.id), user)
+      .map(saved => quizConverterService.toApiQuiz(quiz, language, canSeeAnswers = true, isSaved = saved.nonEmpty))
+
   def newQuiz(dto: NewQuizDTO, user: CombinedUserRequired, language: String): Try[QuizDTO] = requireTeacher(user)
     .flatMap { _ =>
       dbUtil.writeSession { implicit session =>
         val now  = clock.now()
         val quiz = quizConverterService.toDomainQuiz(dto, user.id, user.id, now, language)
-        quizRepository.insert(user.id, quiz).map(quizConverterService.toApiQuiz(_, language, isOwner = true))
+        quizRepository
+          .insert(user.id, quiz)
+          .map(quizConverterService.toApiQuiz(_, language, canSeeAnswers = true, isSaved = false))
       }
     }
 
@@ -50,7 +59,8 @@ class QuizWriteService(using
         _        <- requireOwner(existing, user)
         merged    = quizConverterService.mergeQuiz(existing, dto, user.id, clock.now(), language)
         updated  <- quizRepository.update(merged)
-      } yield quizConverterService.toApiQuiz(updated, language, isOwner = true)
+        apiQuiz  <- toApiQuiz(updated, user, language)
+      } yield apiQuiz
     }
 
   def updateStatus(id: UUID, newStatus: QuizStatus, user: CombinedUserRequired, language: String): Try[QuizDTO] = dbUtil
@@ -69,7 +79,8 @@ class QuizWriteService(using
             updatedBy = user.id,
           )
         )
-      } yield quizConverterService.toApiQuiz(updated, language, isOwner = true)
+        apiQuiz <- toApiQuiz(updated, user, language)
+      } yield apiQuiz
     }
 
   def deleteQuiz(id: UUID, user: CombinedUserRequired): Try[Unit] = dbUtil.rollbackOnFailure { implicit session =>
@@ -112,7 +123,7 @@ class QuizWriteService(using
             ),
         )
         inserted <- quizRepository.insert(user.id, cloned)
-      } yield quizConverterService.toApiQuiz(inserted, language, isOwner = true)
+      } yield quizConverterService.toApiQuiz(inserted, language, canSeeAnswers = true, isSaved = false)
   }
 
   def saveQuiz(id: UUID, user: CombinedUserRequired): Try[Unit] = dbUtil.rollbackOnFailure { implicit session =>
@@ -139,7 +150,8 @@ class QuizWriteService(using
         updated  <- quizRepository.update(
           existing.copy(questions = existing.questions :+ question, updated = now, updatedBy = user.id)
         )
-      } yield quizConverterService.toApiQuiz(updated, language, isOwner = true)
+        apiQuiz <- toApiQuiz(updated, user, language)
+      } yield apiQuiz
     }
 
   def updateQuestion(
@@ -169,7 +181,8 @@ class QuizWriteService(using
         case None           => merged
       }
       updated <- quizRepository.update(existing.copy(questions = reordered, updated = now, updatedBy = user.id))
-    } yield quizConverterService.toApiQuiz(updated, language, isOwner = true)
+      apiQuiz <- toApiQuiz(updated, user, language)
+    } yield apiQuiz
   }
 
   def deleteQuestion(quizId: UUID, questionId: UUID, user: CombinedUserRequired, language: String): Try[QuizDTO] =
@@ -187,7 +200,8 @@ class QuizWriteService(using
             updatedBy = user.id,
           )
         )
-      } yield quizConverterService.toApiQuiz(updated, language, isOwner = true)
+        apiQuiz <- toApiQuiz(updated, user, language)
+      } yield apiQuiz
     }
 
   def moveQuestion(questions: Seq[Question], questionId: UUID, position: Int): Seq[Question] =

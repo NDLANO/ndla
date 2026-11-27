@@ -1605,7 +1605,7 @@ export type GQLQuery = {
   resourceTypes?: Maybe<Array<GQLResourceTypeDefinition>>;
   revisionHistory?: Maybe<GQLArticleRevisionHistory>;
   revisions: Array<Scalars['Int']['output']>;
-  savedQuizzes: Array<GQLQuiz>;
+  savedQuizzes: GQLQuizSearchResult;
   search?: Maybe<GQLSearch>;
   searchWithoutPagination?: Maybe<GQLSearchWithoutPagination>;
   sharedFolder: GQLSharedFolder;
@@ -1815,6 +1815,7 @@ export type GQLQueryQuizArgs = {
 export type GQLQueryQuizzesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -1848,6 +1849,13 @@ export type GQLQueryRevisionHistoryArgs = {
 
 export type GQLQueryRevisionsArgs = {
   articleId: Scalars['Int']['input'];
+};
+
+
+export type GQLQuerySavedQuizzesArgs = {
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -1957,6 +1965,7 @@ export type GQLQuiz = {
   description?: Maybe<Scalars['String']['output']>;
   displaySettings: GQLQuizDisplaySettings;
   id: Scalars['String']['output'];
+  isSaved: Scalars['Boolean']['output'];
   owner?: Maybe<GQLOwner>;
   questions: Array<GQLQuizQuestion>;
   revision: Scalars['Int']['output'];
@@ -3969,7 +3978,7 @@ export type GQLQueryResolvers<ContextType = any, ParentType extends GQLResolvers
   resourceTypes?: Resolver<Maybe<Array<GQLResolversTypes['ResourceTypeDefinition']>>, ParentType, ContextType>;
   revisionHistory?: Resolver<Maybe<GQLResolversTypes['ArticleRevisionHistory']>, ParentType, ContextType, RequireFields<GQLQueryRevisionHistoryArgs, 'id'>>;
   revisions?: Resolver<Array<GQLResolversTypes['Int']>, ParentType, ContextType, RequireFields<GQLQueryRevisionsArgs, 'articleId'>>;
-  savedQuizzes?: Resolver<Array<GQLResolversTypes['Quiz']>, ParentType, ContextType>;
+  savedQuizzes?: Resolver<GQLResolversTypes['QuizSearchResult'], ParentType, ContextType, Partial<GQLQuerySavedQuizzesArgs>>;
   search?: Resolver<Maybe<GQLResolversTypes['Search']>, ParentType, ContextType, Partial<GQLQuerySearchArgs>>;
   searchWithoutPagination?: Resolver<Maybe<GQLResolversTypes['SearchWithoutPagination']>, ParentType, ContextType, Partial<GQLQuerySearchWithoutPaginationArgs>>;
   sharedFolder?: Resolver<GQLResolversTypes['SharedFolder'], ParentType, ContextType, RequireFields<GQLQuerySharedFolderArgs, 'id'>>;
@@ -3994,6 +4003,7 @@ export type GQLQuizResolvers<ContextType = any, ParentType extends GQLResolversP
   description?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
   displaySettings?: Resolver<GQLResolversTypes['QuizDisplaySettings'], ParentType, ContextType>;
   id?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  isSaved?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
   owner?: Resolver<Maybe<GQLResolversTypes['Owner']>, ParentType, ContextType>;
   questions?: Resolver<Array<GQLResolversTypes['QuizQuestion']>, ParentType, ContextType>;
   revision?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;

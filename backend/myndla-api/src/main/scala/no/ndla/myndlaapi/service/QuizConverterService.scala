@@ -18,20 +18,20 @@ import no.ndla.network.model.FeideID
 
 class QuizConverterService {
 
-  def toApiAlternative(a: Alternative, isOwner: Boolean): AlternativeDTO = AlternativeDTO(
+  def toApiAlternative(a: Alternative, canSeeAnswers: Boolean): AlternativeDTO = AlternativeDTO(
     id = a.id,
     text = a.text,
     isCorrect =
-      if (isOwner) Some(a.isCorrect)
+      if (canSeeAnswers) Some(a.isCorrect)
       else None,
   )
 
-  def toApiQuestion(q: Question, isOwner: Boolean, sortOrder: Int): QuestionDTO = QuestionDTO(
+  def toApiQuestion(q: Question, canSeeAnswers: Boolean, sortOrder: Int): QuestionDTO = QuestionDTO(
     id = q.id,
     questionType = q.questionType,
     language = q.language,
     title = q.title,
-    alternatives = q.alternatives.map(toApiAlternative(_, isOwner)),
+    alternatives = q.alternatives.map(toApiAlternative(_, canSeeAnswers)),
     glossaryPairs = q.glossaryPairs.map(p => GlossaryPairDTO(p.word, p.definition)),
     required = q.required,
     alternativesRandomOrder = q.alternativesRandomOrder,
@@ -40,7 +40,13 @@ class QuizConverterService {
     updated = q.updated,
   )
 
-  def toApiQuiz(quiz: Quiz, language: String, isOwner: Boolean, owner: Option[MyNDLAUser] = None): QuizDTO = {
+  def toApiQuiz(
+      quiz: Quiz,
+      language: String,
+      canSeeAnswers: Boolean,
+      isSaved: Boolean,
+      owner: Option[MyNDLAUser] = None,
+  ): QuizDTO = {
     val titleMatch       = quiz.title.find(_.language == language).orElse(quiz.title.headOption)
     val resolvedLanguage = titleMatch.map(_.language).getOrElse(language)
     val title            = titleMatch.map(_.title).getOrElse("")
@@ -59,7 +65,7 @@ class QuizConverterService {
         .questions
         .zipWithIndex
         .map { case (q, idx) =>
-          toApiQuestion(q, isOwner, idx)
+          toApiQuestion(q, canSeeAnswers, idx)
         },
       status = quiz.status,
       created = quiz.created,
@@ -69,6 +75,7 @@ class QuizConverterService {
       supportedLanguages = quiz.supportedLanguages,
       owner = owner.map(user => OwnerDTO(user.displayName, user.id)),
       completedCount = quiz.completedCount.getOrElse(0L),
+      isSaved = isSaved,
     )
   }
 
