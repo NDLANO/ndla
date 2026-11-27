@@ -6,13 +6,13 @@
  *
  */
 
-import type { SectionElement } from "@ndla/editor";
+import { PARAGRAPH_ELEMENT_TYPE, SECTION_ELEMENT_TYPE, type SectionElement } from "@ndla/editor";
 import { DeleteBinLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { type Editor, Transforms } from "slate";
+import { Editor, Transforms } from "slate";
 import { ReactEditor, type RenderElementProps } from "slate-react";
 
 const ButtonWrapper = styled("div", {
@@ -58,7 +58,19 @@ const Section = ({ attributes, children, element, editor }: Props) => {
             size="small"
             onClick={() => {
               const path = ReactEditor.findPath(editor, element);
-              Transforms.removeNodes(editor, { at: path });
+              Editor.withoutNormalizing(editor, () => {
+                Transforms.removeNodes(editor, { at: path });
+                if (!editor.children.length) {
+                  Transforms.insertNodes(
+                    editor,
+                    {
+                      type: SECTION_ELEMENT_TYPE,
+                      children: [{ type: PARAGRAPH_ELEMENT_TYPE, children: [{ text: "" }] }],
+                    },
+                    { at: [0] },
+                  );
+                }
+              });
             }}
             title={t("form.section.remove")}
           >
