@@ -659,11 +659,9 @@ const translations = {
           yourAnswerIncorrect: "Ditt svar - feil",
           correctNotSelected: "Riktig svar - ikke valgt",
           notSelectedIncorrect: "Ikke valgt",
-          partialFeedback: "Du valgte {{correct}} riktige og {{incorrect}} feil svar. {{missing}} riktig svar mangler.",
-          partialNoIncorrectFeedback_one:
-            "Du valgte {{correct}} riktig og ingen feil svar. {{missing}} riktig svar mangler.",
-          partialNoIncorrectFeedback_other:
-            "Du valgte {{correct}} riktige og ingen feil svar. {{missing}} riktig svar mangler.",
+          partialFeedback: "Du har {{correct}} riktig(e) svar og {{incorrect}} feil svar.",
+          partialNoIncorrectFeedback_one: "Du har {{correct}} riktig svar og ingen feil svar.",
+          partialNoIncorrectFeedback_other: "Du har {{correct}} riktige svar og ingen feil svar.",
           allCorrectFeedback: "Du valgte alle de riktige svaralternativene.",
           allIncorrectFeedback: "Ingen av svarene du valgte var riktige.",
         },

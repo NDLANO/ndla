@@ -661,12 +661,9 @@ const translations = {
           yourAnswerIncorrect: "Your answer - incorrect",
           correctNotSelected: "Correct answer - not selected",
           notSelectedIncorrect: "Not selected",
-          partialFeedback:
-            "You selected {{correct}} correct and {{incorrect}} incorrect answers. {{missing}} correct answer(s) missing.",
-          partialNoIncorrectFeedback_one:
-            "You selected {{correct}} correct and no incorrect answers. {{missing}} correct answer(s) missing.",
-          partialNoIncorrectFeedback_other:
-            "You selected {{correct}} correct and no incorrect answers. {{missing}} correct answer(s) missing.",
+          partialFeedback: "You have {{correct}} correct answer(s) and {{incorrect}} incorrect answers.",
+          partialNoIncorrectFeedback_one: "You have {{correct}} correct answer and no incorrect answers.",
+          partialNoIncorrectFeedback_other: "You have {{correct}} correct answers and no incorrect answers.",
           allCorrectFeedback: "You selected all the correct answer options.",
           allIncorrectFeedback: "None of the answers you selected were correct.",
         },

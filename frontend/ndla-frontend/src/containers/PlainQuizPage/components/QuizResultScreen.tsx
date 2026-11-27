@@ -23,6 +23,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { partition } from "@ndla/util";
 import { type ReactElement, useEffect, useId, useRef } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { parseSimpleRichText } from "../../../components/RichTextEditor/parseSimpleRichText";
@@ -433,6 +434,12 @@ const MultiChoiceBreakdown = ({
   const selectedCorrect = answerIds.filter((id) => correctIds.has(id)).length;
   const selectedIncorrect = answerIds.filter((id) => !correctIds.has(id)).length;
   const missing = correctIds.size - selectedCorrect;
+  const [rightAlternatives, wrongAlternatives] = partition(
+    question.alternatives,
+    (alt) => selectedIds.has(alt.id) === correctIds.has(alt.id),
+  );
+  const rightCount = rightAlternatives.length;
+  const wrongCount = wrongAlternatives.length;
   const isAllCorrect = questionResult.isCorrect;
   const isAllIncorrect = !isAllCorrect && selectedCorrect === 0 && selectedIncorrect > 0;
   const isPartial = !isAllCorrect && !isAllIncorrect && (selectedCorrect > 0 || selectedIncorrect > 0);
@@ -477,8 +484,8 @@ const MultiChoiceBreakdown = ({
       {!!isPartial && !selectedIncorrect && (
         <MessageBox variant="warning">
           {t("myNdla.quiz.take.result.partialNoIncorrectFeedback", {
-            count: selectedCorrect,
-            correct: numberToWord(i18n.language, "neuter", selectedCorrect),
+            count: rightCount,
+            correct: numberToWord(i18n.language, "neuter", rightCount),
             missing: capitalize(numberToWord(i18n.language, "neuter", missing)),
           })}
         </MessageBox>
@@ -486,8 +493,8 @@ const MultiChoiceBreakdown = ({
       {!!isPartial && !!selectedIncorrect && (
         <MessageBox variant="warning">
           {t("myNdla.quiz.take.result.partialFeedback", {
-            correct: numberToWord(i18n.language, "common", selectedCorrect),
-            incorrect: numberToWord(i18n.language, "neuter", selectedIncorrect),
+            correct: numberToWord(i18n.language, "neuter", rightCount),
+            incorrect: numberToWord(i18n.language, "neuter", wrongCount),
             missing: capitalize(numberToWord(i18n.language, "neuter", missing)),
           })}
         </MessageBox>
