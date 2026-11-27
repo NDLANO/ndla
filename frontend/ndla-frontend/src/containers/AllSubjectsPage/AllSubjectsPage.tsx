@@ -121,7 +121,7 @@ const AllSubjectsPageContent = () => {
 
   const letters = useMemo(() => groupedSubjects.map((group) => group.label), [groupedSubjects]);
 
-  if (subjectsQuery.error) return <DefaultErrorMessagePage />;
+  if (subjectsQuery.error) return <DefaultErrorMessagePage error={subjectsQuery.error} />;
 
   return (
     <StyledPageContainer asChild consumeCss>

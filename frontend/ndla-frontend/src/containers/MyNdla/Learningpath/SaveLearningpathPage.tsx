@@ -21,6 +21,7 @@ import { PageTitle } from "../../../components/PageTitle";
 import { useToast } from "../../../components/ToastContext";
 import { useUpdateLearningpathStatus } from "../../../mutations/learningpathMutations";
 import { routes } from "../../../routeHelpers";
+import { NDLAError } from "../../../util/error/NDLAError";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
@@ -107,7 +108,11 @@ const SaveLearningpathPageContent = () => {
   };
 
   if (!learningpathQuery.data?.myNdlaLearningpath) {
-    return <DefaultErrorMessagePage />;
+    return (
+      <DefaultErrorMessagePage
+        error={learningpathQuery.error ?? new NDLAError("Missing myNdlaLearningpath in learningpath response")}
+      />
+    );
   }
 
   if (!learningpathQuery.data.myNdlaLearningpath.canEdit) {

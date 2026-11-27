@@ -1,0 +1,203 @@
+/**
+ * Copyright (c) 2026-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { CombinedGraphQLErrors, type ErrorLike } from "@apollo/client";
+import { act, render, screen } from "@testing-library/react";
+import type { ReactElement } from "react";
+import { renderToString } from "react-dom/server";
+import { I18nextProvider } from "react-i18next";
+import { createMemoryRouter, MemoryRouter, RouterProvider } from "react-router";
+import { initializeI18n } from "../../server/locales/locales";
+import { NDLAError } from "../../util/error/NDLAError";
+import { NotFoundError, StatusError } from "../../util/error/StatusError";
+import { handleError } from "../../util/handleError";
+import { log } from "../../util/logger/logger";
+import { DefaultErrorMessagePage } from "../DefaultErrorMessage";
+import { ErrorPageContext } from "../ErrorPageContext";
+import { type RedirectInfo, RedirectContext } from "../RedirectContext";
+
+vi.mock("../../util/handleError", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../util/handleError")>()),
+  handleError: vi.fn(),
+}));
+
+vi.mock("../../util/logger/logger", () => ({
+  log: { info: vi.fn(), warn: vi.fn(), error: vi.fn() },
+}));
+
+const i18n = initializeI18n("nb");
+
+const ErrorPageWithProviders = ({ error, redirect }: { error: ErrorLike; redirect: RedirectInfo }) => (
+  <RedirectContext value={(info) => Object.assign(redirect, info)}>
+    <I18nextProvider i18n={i18n}>
+      <MemoryRouter>
+        <DefaultErrorMessagePage error={error} />
+      </MemoryRouter>
+    </I18nextProvider>
+  </RedirectContext>
+);
+
+const renderErrorPage = (error: ErrorLike) => {
+  const redirect: RedirectInfo = {};
+  render(<ErrorPageWithProviders error={error} redirect={redirect} />);
+  return redirect.status;
+};
+
+const hydrate = (ui: ReactElement) => {
+  const container = document.createElement("div");
+  container.innerHTML = renderToString(ui);
+  document.body.appendChild(container);
+  return render(ui, { container, hydrate: true });
+};
+
+beforeEach(() => {
+  vi.mocked(handleError).mockClear();
+  vi.mocked(log.info).mockClear();
+  vi.mocked(log.warn).mockClear();
+});
+
+test("a not found error renders the not found page and is logged as info", () => {
+  const error = new NotFoundError("Quiz not found");
+  const status = renderErrorPage(error);
+
+  expect(status).toBe(404);
+  expect(screen.getByText("404")).toBeTruthy();
+  expect(log.info).toHaveBeenCalledWith(error, { errorPage: "notFound" });
+  expect(handleError).not.toHaveBeenCalled();
+});
+
+test("a graphql error with not found status renders the not found page", () => {
+  const error = new CombinedGraphQLErrors({ errors: [{ message: "Not found", extensions: { status: 404 } }] });
+  const status = renderErrorPage(error);
+
+  expect(status).toBe(404);
+  expect(log.info).toHaveBeenCalledWith(error, { errorPage: "notFound" });
+});
+
+test("an access denied error renders the access denied page", () => {
+  const error = new StatusError("Forbidden", 403);
+  const status = renderErrorPage(error);
+
+  expect(status).toBe(401);
+  expect(log.info).toHaveBeenCalledWith(error, { errorPage: "accessDenied" });
+  expect(handleError).not.toHaveBeenCalled();
+});
+
+test("a gone error renders the unpublished page", () => {
+  const error = new StatusError("Gone", 410);
+  const status = renderErrorPage(error);
+
+  expect(status).toBe(410);
+  expect(screen.getByText("410")).toBeTruthy();
+  expect(log.info).toHaveBeenCalledWith(error, { errorPage: "gone" });
+});
+
+test("an NDLAError renders the internal error page and is reported", () => {
+  const error = new NDLAError("Missing quiz in quiz response");
+  const status = renderErrorPage(error);
+
+  expect(status).toBe(500);
+  expect(screen.getByText("500")).toBeTruthy();
+  expect(handleError).toHaveBeenCalledTimes(1);
+  expect(handleError).toHaveBeenCalledWith(error, { errorPage: "internal" });
+  expect(log.info).not.toHaveBeenCalled();
+});
+
+test("an NDLAError is reported with its own log context", () => {
+  const error = new NDLAError("Missing quiz in quiz response");
+  error.logContext = { quizId: "1" };
+  renderErrorPage(error);
+
+  expect(handleError).toHaveBeenCalledWith(error, { quizId: "1", errorPage: "internal" });
+});
+
+test("an NDLAError below error level is logged at its own level instead of reported", () => {
+  const error = new NDLAError("Unexpected but harmless");
+  error.logLevel = "warn";
+  renderErrorPage(error);
+
+  expect(log.warn).toHaveBeenCalledWith(error, { errorPage: "internal" });
+  expect(handleError).not.toHaveBeenCalled();
+});
+
+test("an apollo error renders the internal error page without reporting it again", () => {
+  const error = new CombinedGraphQLErrors({ errors: [{ message: "Bad request", extensions: { status: 400 } }] });
+  const status = renderErrorPage(error);
+
+  expect(status).toBe(500);
+  expect(handleError).not.toHaveBeenCalled();
+  expect(log.info).toHaveBeenCalledWith(error, { errorPage: "internal" });
+});
+
+test("a network error from apollo renders the internal error page without reporting it again", () => {
+  const error = new TypeError("fetch failed");
+  const status = renderErrorPage(error);
+
+  expect(status).toBe(500);
+  expect(handleError).not.toHaveBeenCalled();
+});
+
+test("re-rendering with an equivalent newly constructed error is only reported once", () => {
+  const redirect: RedirectInfo = {};
+  const { rerender } = render(
+    <ErrorPageWithProviders error={new NDLAError("Missing quiz in quiz response")} redirect={redirect} />,
+  );
+  rerender(<ErrorPageWithProviders error={new NDLAError("Missing quiz in quiz response")} redirect={redirect} />);
+
+  expect(handleError).toHaveBeenCalledTimes(1);
+});
+
+test("the rendered error page is handed to ErrorPageContext", () => {
+  const error = new NDLAError("Missing quiz in quiz response");
+  const setErrorPage = vi.fn();
+  render(
+    <ErrorPageContext value={setErrorPage}>
+      <ErrorPageWithProviders error={error} redirect={{}} />
+    </ErrorPageContext>,
+  );
+
+  expect(setErrorPage).toHaveBeenCalledWith({ error, kind: "internal" });
+});
+
+test("the same error on a new path is reported again", async () => {
+  const error = new NDLAError("Missing quiz in quiz response");
+  const router = createMemoryRouter([{ path: "*", element: <DefaultErrorMessagePage error={error} /> }], {
+    initialEntries: ["/quiz/1"],
+  });
+  render(
+    <I18nextProvider i18n={i18n}>
+      <RouterProvider router={router} />
+    </I18nextProvider>,
+  );
+  await act(() => router.navigate("/quiz/2"));
+
+  expect(handleError).toHaveBeenCalledTimes(2);
+});
+
+test("an error page hydrated from the server is not reported again", () => {
+  hydrate(<ErrorPageWithProviders error={new NDLAError("Missing quiz in quiz response")} redirect={{}} />);
+
+  expect(handleError).not.toHaveBeenCalled();
+});
+
+test("a hydrated error page is reported when the error shows up on a new path", async () => {
+  const error = new NDLAError("Missing quiz in quiz response");
+  const router = createMemoryRouter([{ path: "*", element: <DefaultErrorMessagePage error={error} /> }], {
+    initialEntries: ["/quiz/1"],
+  });
+  hydrate(
+    <I18nextProvider i18n={i18n}>
+      <RouterProvider router={router} />
+    </I18nextProvider>,
+  );
+  expect(handleError).not.toHaveBeenCalled();
+
+  await act(() => router.navigate("/quiz/2"));
+
+  expect(handleError).toHaveBeenCalledTimes(1);
+});

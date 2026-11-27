@@ -96,7 +96,7 @@ const MovedResourcePageContent = ({ resource }: Props) => {
   });
 
   if (error) {
-    return <DefaultErrorMessagePage />;
+    return <DefaultErrorMessagePage error={error} />;
   }
 
   const resourceId = resource.learningpath?.id ?? resource.article?.id;

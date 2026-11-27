@@ -25,6 +25,7 @@ import { MobileLaunchpadMenu } from "../../../components/Resource/Launchpad";
 import { ResourceContentContainer } from "../../../components/Resource/ResourceLayout";
 import type { GQLPreviewLearningpathQuery, GQLPreviewLearningpathQueryVariables } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
+import { NDLAError } from "../../../util/error/NDLAError";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageSection, MyNdlaPageContent } from "../components/MyNdlaPageSection";
@@ -91,8 +92,16 @@ const PreviewLearningpathPageContent = () => {
     !learningpathId ? skipToken : { variables: { pathId: learningpathId }, fetchPolicy: "network-only" },
   );
 
-  if (!learningpathQuery.data?.myNdlaLearningpath || (stepId && isNaN(Number(stepId)))) {
-    return <DefaultErrorMessagePage />;
+  if (stepId && isNaN(Number(stepId))) {
+    return <NotFoundPage />;
+  }
+
+  if (!learningpathQuery.data?.myNdlaLearningpath) {
+    return (
+      <DefaultErrorMessagePage
+        error={learningpathQuery.error ?? new NDLAError("Missing myNdlaLearningpath in previewLearningpath response")}
+      />
+    );
   }
 
   const learningpath = learningpathQuery.data.myNdlaLearningpath;

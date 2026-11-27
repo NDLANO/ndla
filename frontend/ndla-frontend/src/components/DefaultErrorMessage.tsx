@@ -6,6 +6,7 @@
  *
  */
 
+import type { ErrorLike } from "@apollo/client";
 import {
   ErrorMessageDescription,
   ErrorMessageRoot,
@@ -14,11 +15,20 @@ import {
   ErrorMessageActions,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
+import { useContext, useEffect, useRef, useSyncExternalStore } from "react";
 import { useTranslation } from "react-i18next";
 import { Status } from "../components/Status";
 import { SKIP_TO_CONTENT_ID } from "../constants";
+import { AccessDeniedPage } from "../containers/AccessDeniedPage/AccessDeniedPage";
+import { NotFoundPage } from "../containers/NotFoundPage/NotFoundPage";
+import { UnpublishedResourcePage } from "../containers/UnpublishedResourcePage/UnpublishedResourcePage";
 import { INTERNAL_SERVER_ERROR } from "../statusCodes";
+import { NDLAError } from "../util/error/NDLAError";
+import { handleError, hasAccessDeniedStatus, hasGoneStatus, hasNotFoundStatus } from "../util/handleError";
+import { useRawLocation } from "../util/localePath";
+import { log } from "../util/logger/logger";
 import { ErrorNotice, ErrorNoticeMain } from "./ErrorNotice";
+import { ErrorPageContext, type ErrorPageInfo, type ErrorPageKind } from "./ErrorPageContext";
 import { PageTitle } from "./PageTitle";
 
 interface MessageRootProps {
@@ -53,8 +63,70 @@ export const InternalServerError = ({ applySkipToContentId }: MessageRootProps) 
   </Status>
 );
 
-export const DefaultErrorMessagePage = () => {
+const getErrorPageKind = (error: ErrorLike): ErrorPageKind => {
+  if (hasGoneStatus(error)) return "gone";
+  if (hasAccessDeniedStatus(error)) return "accessDenied";
+  if (hasNotFoundStatus(error)) return "notFound";
+  return "internal";
+};
+
+export const logErrorPage = ({ error, kind }: ErrorPageInfo) => {
+  const ndlaError = error instanceof NDLAError ? error : undefined;
+  const context = { ...ndlaError?.logContext, errorPage: kind };
+  const logLevel = kind === "internal" && ndlaError ? ndlaError.logLevel : "info";
+  if (logLevel === "error") {
+    handleError(error, context);
+  } else {
+    log[logLevel](error, context);
+  }
+};
+
+const subscribeNoop = () => () => {};
+
+const useIsHydrating = () =>
+  useSyncExternalStore(
+    subscribeNoop,
+    () => false,
+    () => true,
+  );
+
+const useLogErrorPage = (error: ErrorLike, kind: ErrorPageKind) => {
+  const { pathname } = useRawLocation();
+  const setErrorPage = useContext(ErrorPageContext);
+  const isHydrating = useIsHydrating();
+  const loggedKeyRef = useRef<string>(undefined);
+  // The server may render the tree several times per request, so it logs the rendered error page once afterwards
+  setErrorPage?.({ error, kind });
+  useEffect(() => {
+    // Callers may construct a new error on every render, so dedupe on content rather than identity
+    const key = `${kind}:${error.message}:${pathname}`;
+    if (loggedKeyRef.current === key) return;
+    loggedKeyRef.current = key;
+    // An error page hydrated from server HTML was already logged by the server
+    if (isHydrating) return;
+    logErrorPage({ error, kind });
+  }, [error, kind, pathname, isHydrating]);
+};
+
+interface DefaultErrorMessagePageProps {
+  /**
+   * The error from an Apollo query, or an NDLAError describing what went wrong. Apollo errors are already reported by
+   * the ErrorLink in createApolloLinks, so they are logged as info. An NDLAError that renders the internal error page
+   * is logged at its own level, and only reported through handleError at error level. Every other error is logged as
+   * info.
+   */
+  error: ErrorLike;
+}
+
+export const DefaultErrorMessagePage = ({ error }: DefaultErrorMessagePageProps) => {
   const { t } = useTranslation();
+  const kind = getErrorPageKind(error);
+  useLogErrorPage(error, kind);
+
+  if (kind === "gone") return <UnpublishedResourcePage />;
+  if (kind === "accessDenied") return <AccessDeniedPage />;
+  if (kind === "notFound") return <NotFoundPage />;
+
   return (
     <ErrorNoticeMain>
       <PageTitle title={t("htmlTitles.errorPage")} useLocationForCustomPath={true} />

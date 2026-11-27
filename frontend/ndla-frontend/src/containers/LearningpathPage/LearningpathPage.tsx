@@ -23,6 +23,7 @@ import { SubjectMessageBox } from "../../components/SubjectMessageBox";
 import type { GQLLearningpathPage_NodeFragment } from "../../graphqlTypes";
 import type { Breadcrumb } from "../../interfaces";
 import { toLearningPath } from "../../routeHelpers";
+import { NDLAError } from "../../util/error/NDLAError";
 import { htmlTitle } from "../../util/titleHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
@@ -66,7 +67,7 @@ export const LearningpathPage = ({ node, skipToContentId, stepId, loading }: Pro
   }, [node.context?.defaultUrl, node.context?.rootId, learningpathStep?.id]);
 
   if (!learningpath) {
-    return <DefaultErrorMessagePage />;
+    return <DefaultErrorMessagePage error={new NDLAError("Learningpath node has no learningpath")} />;
   }
 
   if (!learningpath.learningsteps.length && (stepId || !learningpath.introduction?.length)) {
