@@ -9,7 +9,13 @@
 import { PassThrough } from "node:stream";
 import { createReadableStreamFromReadable } from "@react-router/node";
 import { renderToPipeableStream } from "react-dom/server";
-import { type EntryContext, type HandleErrorFunction, type RouterContextProvider, ServerRouter } from "react-router";
+import {
+  type EntryContext,
+  type HandleErrorFunction,
+  isRouteErrorResponse,
+  type RouterContextProvider,
+  ServerRouter,
+} from "react-router";
 import serialize from "serialize-javascript";
 import { AppShell } from "./AppShell";
 import { ConfigScriptContext } from "./components/ConfigScript";
@@ -91,7 +97,20 @@ export default function handleRequest(
   });
 }
 
+// React Router rejects actions failing its CSRF origin check with a 400. Document requests report a plain error ending in
+// "Aborting the action.", while data requests report a plain "Bad Request".
+const isRejectedAction = (error: unknown, { method }: Request) =>
+  error instanceof Error &&
+  (error.message.endsWith("Aborting the action.") ||
+    (error.message === "Bad Request" && ["POST", "PUT", "PATCH", "DELETE"].includes(method)));
+
 export const handleError: HandleErrorFunction = (error, { request }) => {
   if (request.signal.aborted) return;
-  log.error("Error while rendering", error);
+  if (isRouteErrorResponse(error) && error.status < 500) {
+    log.info("Error while rendering", error);
+  } else if (isRejectedAction(error, request)) {
+    log.warn("Error while rendering", error);
+  } else {
+    log.error("Error while rendering", error);
+  }
 };
