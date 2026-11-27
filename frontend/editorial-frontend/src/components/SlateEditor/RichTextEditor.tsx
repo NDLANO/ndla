@@ -10,7 +10,7 @@ import { LoggerManager, type SlatePlugin, useCreateSlate } from "@ndla/editor";
 import { styled } from "@ndla/styled-system/jsx";
 import { useFormikContext } from "formik";
 import { useCallback, useEffect, useRef, type JSX, type DragEvent, type KeyboardEvent, type ReactNode } from "react";
-import { type Descendant, type Editor, Transforms } from "slate";
+import type { Descendant, Editor } from "slate";
 import { Slate, type RenderElementProps, type RenderLeafProps, ReactEditor } from "slate-react";
 import type { EditableProps } from "slate-react/dist/components/editable";
 import "../DisplayEmbed/helpers/h5pResizer";
@@ -21,6 +21,7 @@ import { FieldEditable } from "./FieldEditable";
 import { nativeOnDragOver, nativeOnDragStart, nativeOnDrop } from "./plugins/DND/nativeDnd";
 import { SlateDndContext } from "./plugins/DND/SlateDndContext";
 import { onBlockShortcutKeyDown, SlateToolbar } from "./plugins/toolbar";
+import { reinitializeWithSelection } from "./utils/reinitializeWithSelection";
 
 const StyledSlateWrapper = styled("div", {
   base: {
@@ -92,13 +93,8 @@ const RichTextEditor = ({
       status?.status === "revertVersion" ||
       (editorId && status?.status === editorId)
     ) {
-      const rangeRef = editor.selection ? editor.rangeRef(editor.selection) : null;
-      Transforms.deselect(editor);
-      editor.reinitialize({ value, shouldNormalize: true, onInitialNormalized });
-      if (rangeRef?.current && ReactEditor.hasRange(editor, rangeRef.current)) {
+      if (reinitializeWithSelection(editor, { value, shouldNormalize: true, onInitialNormalized })) {
         ReactEditor.focus(editor);
-        Transforms.select(editor, rangeRef.current);
-        rangeRef.unref();
       }
       if (status?.status === "revertVersion") {
         setStatus((prevStatus: FormikStatus) => ({
