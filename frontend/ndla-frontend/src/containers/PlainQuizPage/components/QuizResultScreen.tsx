@@ -433,6 +433,9 @@ const MultiChoiceBreakdown = ({
   const rightCount = question.alternatives.filter(
     (alt) => answerIds.includes(alt.id) === correctIds.has(alt.id),
   ).length;
+  const wrongCount = question.alternatives.filter(
+    (alt) => answerIds.includes(alt.id) !== correctIds.has(alt.id),
+  ).length;
   const isAllCorrect = questionResult.isCorrect;
   const isAllIncorrect = !isAllCorrect && selectedCorrect === 0 && selectedIncorrect > 0;
   const isPartial = !isAllCorrect && !isAllIncorrect && (selectedCorrect > 0 || selectedIncorrect > 0);
@@ -487,7 +490,7 @@ const MultiChoiceBreakdown = ({
         <MessageBox variant="warning">
           {t("myNdla.quiz.take.result.partialFeedback", {
             correct: numberToWord(i18n.language, "neuter", rightCount),
-            incorrect: numberToWord(i18n.language, "neuter", selectedIncorrect),
+            incorrect: numberToWord(i18n.language, "neuter", wrongCount),
             missing: capitalize(numberToWord(i18n.language, "neuter", missing)),
           })}
         </MessageBox>
