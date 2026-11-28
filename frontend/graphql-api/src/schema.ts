@@ -1316,6 +1316,7 @@ export const typeDefs = gql`
     created: String!
     updated: String!
     owner: Owner
+    isSaved: Boolean!
   }
 
   type QuizSearchResult {
@@ -1666,9 +1667,9 @@ export const typeDefs = gql`
     podcastSeriesSearch(page: Int!, pageSize: Int!, fallback: Boolean): PodcastSeriesSearch
     alerts: [UptimeAlert!]
     folders(includeSubfolders: Boolean, includeResources: Boolean): UserFolder!
-    quizzes(page: Int, pageSize: Int): QuizSearchResult!
+    quizzes(page: Int, pageSize: Int, sort: String): QuizSearchResult!
     quiz(id: String!): Quiz!
-    savedQuizzes: [Quiz!]!
+    savedQuizzes(page: Int, pageSize: Int, sort: String): QuizSearchResult!
     myNdlaResourceTags: [String!]!
     myNdlaResource(path: String!): MyNdlaResource
     myNdlaResourceMeta(resource: MyNdlaResourceMetaSearchInput!): MyNdlaResourceMeta

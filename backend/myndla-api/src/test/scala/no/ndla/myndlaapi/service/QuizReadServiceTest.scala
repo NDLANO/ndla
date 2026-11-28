@@ -29,6 +29,10 @@ class QuizReadServiceTest extends UnitTestSuite with TestEnvironment {
   val service = new QuizReadService
 
   private val anonymous = OptionalCombinedUser(tokenUser = None, myndlaUser = None)
+  private val viewer    = CombinedUserWithMyNDLAUser(
+    tokenUser = None,
+    feideUser = FeideUserWrapper(TestData.emptyMyNDLAUser.copy(feideId = "viewer-feide-id"), mock[FeideIdToken]),
+  )
 
   override def beforeEach(): Unit = {
     super.beforeEach()
@@ -40,6 +44,9 @@ class QuizReadServiceTest extends UnitTestSuite with TestEnvironment {
       Success(TestData.publicQuiz(TestData.singleChoiceQuestion))
     )
     when(quizRepository.canView(any[Quiz], any[OptionalCombinedUser])).thenCallRealMethod()
+    when(quizRepository.savedQuizIds(any[Seq[UUID]], any[CombinedUser])(using any[DBSession])).thenReturn(
+      Success(Set.empty)
+    )
     when(userRepository.userWithFeideId(eqTo("owner-feide-id"))(using any[DBSession])).thenReturn(
       Success(Some(TestData.emptyMyNDLAUser.copy(id = 42, displayName = "Ola Nordmann")))
     )
@@ -48,21 +55,36 @@ class QuizReadServiceTest extends UnitTestSuite with TestEnvironment {
     result.get.owner should be(Some(OwnerDTO("Ola Nordmann", 42)))
   }
 
-  test("savedQuizzes includes display name of quiz owner") {
-    val viewer = CombinedUserWithMyNDLAUser(
-      tokenUser = None,
-      feideUser = FeideUserWrapper(TestData.emptyMyNDLAUser.copy(feideId = "viewer-feide-id"), mock[FeideIdToken]),
+  test("withId marks the quiz as saved when the user has saved it") {
+    when(quizRepository.withIdOrError(eqTo(TestData.quizId))(using any[DBSession])).thenReturn(
+      Success(TestData.publicQuiz(TestData.singleChoiceQuestion))
     )
-    when(quizRepository.getSavedByUser(eqTo("viewer-feide-id"), eqTo(QuizSort.ByCreatedDesc))(using any[DBSession]))
-      .thenReturn(Success(List(TestData.publicQuiz(TestData.singleChoiceQuestion))))
     when(quizRepository.canView(any[Quiz], any[CombinedUser])).thenCallRealMethod()
+    when(quizRepository.canSeeAnswers(any[Quiz], any[CombinedUser])).thenCallRealMethod()
+    when(quizRepository.savedQuizIds(eqTo(Seq(TestData.quizId)), eqTo(viewer))(using any[DBSession])).thenReturn(
+      Success(Set(TestData.quizId))
+    )
+    when(userRepository.userWithFeideId(any[String])(using any[DBSession])).thenReturn(Success(None))
+
+    service.withId(TestData.quizId, "nb", viewer).get.isSaved should be(true)
+  }
+
+  test("savedQuizzes includes display name of quiz owner") {
+    when(
+      quizRepository.getSavedByUser(eqTo("viewer-feide-id"), eqTo(10), eqTo(1), eqTo(QuizSort.ByCreatedDesc))(using
+        any[DBSession]
+      )
+    ).thenReturn(Success(List(TestData.publicQuiz(TestData.singleChoiceQuestion))))
+    when(quizRepository.countSavedByUser(eqTo("viewer-feide-id"))(using any[DBSession])).thenReturn(Success(1L))
     when(quizRepository.canSeeAnswers(any[Quiz], any[CombinedUser])).thenCallRealMethod()
     when(userRepository.userWithFeideId(eqTo("owner-feide-id"))(using any[DBSession])).thenReturn(
       Success(Some(TestData.emptyMyNDLAUser.copy(id = 42, displayName = "Ola Nordmann")))
     )
 
-    val result = service.savedQuizzes(viewer, "nb", QuizSort.ByCreatedDesc)
-    result.get.map(_.owner) should be(Seq(Some(OwnerDTO("Ola Nordmann", 42))))
+    val result = service.savedQuizzes(viewer, "nb", 10, 1, QuizSort.ByCreatedDesc).get
+    result.totalCount should be(1)
+    result.results.map(_.owner) should be(Seq(Some(OwnerDTO("Ola Nordmann", 42))))
+    result.results.map(_.isSaved) should be(Seq(true))
   }
 
   test("checkAnswer returns correct result for correct SINGLE_CHOICE answer") {

@@ -8,6 +8,8 @@
 
 import { gql, type TypedDocumentNode } from "@apollo/client";
 import type {
+  GQLQuizIsSavedQuery,
+  GQLQuizIsSavedQueryVariables,
   GQLQuizQuery,
   GQLQuizQueryVariables,
   GQLQuizzesQuery,
@@ -18,8 +20,8 @@ import type {
 import { quizFragment, quizSummaryFragment } from "./quizFragments";
 
 export const quizzesQuery: TypedDocumentNode<GQLQuizzesQuery, GQLQuizzesQueryVariables> = gql`
-  query quizzes($page: Int, $pageSize: Int) {
-    quizzes(page: $page, pageSize: $pageSize) {
+  query quizzes($page: Int, $pageSize: Int, $sort: String) {
+    quizzes(page: $page, pageSize: $pageSize, sort: $sort) {
       totalCount
       page
       pageSize
@@ -43,10 +45,24 @@ export const quizQuery: TypedDocumentNode<GQLQuizQuery, GQLQuizQueryVariables> =
   ${quizFragment}
 `;
 
+export const quizIsSavedQuery: TypedDocumentNode<GQLQuizIsSavedQuery, GQLQuizIsSavedQueryVariables> = gql`
+  query quizIsSaved($id: String!) {
+    quiz(id: $id) {
+      id
+      isSaved
+    }
+  }
+`;
+
 export const savedQuizzesQuery: TypedDocumentNode<GQLSavedQuizzesQuery, GQLSavedQuizzesQueryVariables> = gql`
-  query savedQuizzes {
-    savedQuizzes {
-      ...QuizSummary
+  query savedQuizzes($page: Int, $pageSize: Int, $sort: String) {
+    savedQuizzes(page: $page, pageSize: $pageSize, sort: $sort) {
+      totalCount
+      page
+      pageSize
+      results {
+        ...QuizSummary
+      }
     }
   }
   ${quizSummaryFragment}

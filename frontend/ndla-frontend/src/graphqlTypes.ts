@@ -13551,6 +13551,7 @@ export type GQLQuizSummaryFragment = {
   title: string;
   status: GQLQuizStatus;
   created: string;
+  isSaved: boolean;
   owner: { __typename: "Owner"; name: string } | null;
 };
 
@@ -13861,6 +13862,7 @@ export type GQLUnsaveQuizMutation = { unsaveQuiz: string };
 export type GQLQuizzesQueryVariables = Exact<{
   page?: number | null | undefined;
   pageSize?: number | null | undefined;
+  sort?: string | null | undefined;
 }>;
 
 export type GQLQuizzesQuery = {
@@ -13875,6 +13877,7 @@ export type GQLQuizzesQuery = {
       title: string;
       status: GQLQuizStatus;
       created: string;
+      isSaved: boolean;
       owner: { __typename: "Owner"; name: string } | null;
     }>;
   };
@@ -13915,17 +13918,34 @@ export type GQLQuizQuery = {
   };
 };
 
-export type GQLSavedQuizzesQueryVariables = Exact<{ [key: string]: never }>;
+export type GQLQuizIsSavedQueryVariables = Exact<{
+  id: string;
+}>;
+
+export type GQLQuizIsSavedQuery = { quiz: { __typename: "Quiz"; id: string; isSaved: boolean } };
+
+export type GQLSavedQuizzesQueryVariables = Exact<{
+  page?: number | null | undefined;
+  pageSize?: number | null | undefined;
+  sort?: string | null | undefined;
+}>;
 
 export type GQLSavedQuizzesQuery = {
-  savedQuizzes: Array<{
-    __typename: "Quiz";
-    id: string;
-    title: string;
-    status: GQLQuizStatus;
-    created: string;
-    owner: { __typename: "Owner"; name: string } | null;
-  }>;
+  savedQuizzes: {
+    __typename: "QuizSearchResult";
+    totalCount: number;
+    page: number;
+    pageSize: number;
+    results: Array<{
+      __typename: "Quiz";
+      id: string;
+      title: string;
+      status: GQLQuizStatus;
+      created: string;
+      isSaved: boolean;
+      owner: { __typename: "Owner"; name: string } | null;
+    }>;
+  };
 };
 
 export type GQLDeletePersonalDataMutationVariables = Exact<{ [key: string]: never }>;

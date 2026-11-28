@@ -48,9 +48,12 @@ class QuizController(using
   private val pathQuizId     = path[UUID]("quiz-id").description("The UUID of the quiz")
   private val pathQuestionId = path[UUID]("question-id").description("Id of the question")
   private val pathQuizStatus = path[QuizStatus]("status").description("New status of the quiz")
-  private val pageSize       = query[Int]("pageSize").description("Number of results per page").default(10)
-  private val page           = query[Int]("page").description("Page number").default(1)
-  private val sort           = query[Option[QuizSort]]("sort").description(
+  private val pageSize       = query[Int]("pageSize")
+    .description("Number of results per page")
+    .default(10)
+    .validate(Validator.min(0))
+  private val page = query[Int]("page").description("Page number").default(1).validate(Validator.min(1))
+  private val sort = query[Option[QuizSort]]("sort").description(
     s"Sort order of the results. Supported values: ${QuizSort.all.mkString(", ")}. Defaults to ${QuizSort.ByCreatedDesc.entryName}."
   )
   private val savedSort = query[Option[QuizSort]]("sort").description(
@@ -98,13 +101,17 @@ class QuizController(using
     .description("List quizzes the authenticated user has saved")
     .in("saved")
     .in(language)
+    .in(pageSize)
+    .in(page)
     .in(savedSort)
-    .out(jsonBody[Seq[QuizDTO]])
+    .out(jsonBody[QuizSearchResultDTO])
     .errorOut(errorOutputsFor(400, 401, 403))
     .withFeideUser
     .serverLogicPure { feide =>
-      { case (lang, s) =>
-        quizReadService.savedQuizzes(feide.toCombined, lang.code, s.getOrElse(QuizSort.ByCreatedDesc)).handleErrorsOrOk
+      { case (lang, ps, p, s) =>
+        quizReadService
+          .savedQuizzes(feide.toCombined, lang.code, ps, p, s.getOrElse(QuizSort.ByCreatedDesc))
+          .handleErrorsOrOk
       }
     }
 

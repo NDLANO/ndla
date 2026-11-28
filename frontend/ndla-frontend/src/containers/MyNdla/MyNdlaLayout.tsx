@@ -261,7 +261,6 @@ const menuLinks = (
     shortName: t("myNdla.iconMenu.quiz"),
     icon: <SantaHatIcon icon={<KvissLine />} />,
     iconFilled: <SantaHatIcon icon={<KvissFill />} />,
-    hiddenForUser: user?.role !== "employee",
     disabled: !config.enableQuiz,
   },
   {

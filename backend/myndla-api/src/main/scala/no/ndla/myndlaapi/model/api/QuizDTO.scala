@@ -46,6 +46,8 @@ case class QuizDTO(
     owner: Option[OwnerDTO],
     @description("Number of times this quiz has been completed (checked with check-quiz)")
     completedCount: Long,
+    @description("Whether the authenticated user has saved this quiz")
+    isSaved: Boolean,
 )
 object QuizDTO {
   implicit val encoder: Encoder[QuizDTO] = deriveEncoder

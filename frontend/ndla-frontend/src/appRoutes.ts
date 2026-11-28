@@ -91,7 +91,7 @@ export const routes: AppRoute[] = [
           },
           {
             path: "learningpaths",
-            file: "containers/MyNdla/Learningpath/LearningpathCheck.tsx",
+            file: "containers/MyNdla/components/EmployeeCheck.tsx",
             children: [
               { index: true, file: "containers/MyNdla/Learningpath/LearningpathPage.tsx" },
               { path: "new", file: "containers/MyNdla/Learningpath/NewLearningpathPage.tsx" },
@@ -125,8 +125,13 @@ export const routes: AppRoute[] = [
             file: "containers/MyNdla/Quiz/QuizFeatureGate.tsx",
             children: [
               { index: true, file: "containers/MyNdla/Quiz/QuizPage.tsx" },
-              { path: "new", file: "containers/MyNdla/Quiz/NewQuizPage.tsx" },
-              { path: ":quizId/edit", file: "containers/MyNdla/Quiz/EditQuizPage.tsx" },
+              {
+                file: "containers/MyNdla/components/EmployeeCheck.tsx",
+                children: [
+                  { path: "new", file: "containers/MyNdla/Quiz/NewQuizPage.tsx" },
+                  { path: ":quizId/edit", file: "containers/MyNdla/Quiz/EditQuizPage.tsx" },
+                ],
+              },
             ],
           },
           { path: "subjects", file: "containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage.tsx" },

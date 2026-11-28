@@ -483,9 +483,17 @@ const translations = {
       newQuiz: "Opprett ny kviss",
       noQuiz: "Du har ikke laget noen kviss ennå.",
       pagination: "Kvissider",
+      descriptionStudent:
+        "Her kan du se kvisser du har lagret. Du kan dessverre ikke lage dine egne kvisser, det er det bare lærere som har tilgang til.",
+      sort: {
+        label: "Sorter:",
+        lastAdded: "Sist lagt til",
+        firstAdded: "Først lagt til",
+      },
       savedQuizzes: {
         title: "Kvisser andre har delt",
         empty: "Du har ikke lagret noen kvisser fra andre ennå.",
+        pagination: "Sider med kvisser andre har delt",
       },
       questionCount_one: "{{count}} spørsmål",
       questionCount_other: "{{count}} spørsmål",
@@ -624,6 +632,7 @@ const translations = {
         estimatedMinutes_other: "{{count}} minutter",
         copyQuiz: "Kopier kviss",
         saveQuizLink: "Lagre lenke til kviss",
+        loginSaveQuizPitch: "Ønsker du å lagre lenken til denne kvissen?",
         unsaveQuizLink: "Fjern lagret lenke til kviss",
         sharedBy: "Delt av: {{sharedBy}}",
         sharedByFallback: "NDLA-bruker",

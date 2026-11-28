@@ -129,18 +129,46 @@ class QuizRepository(using dbQuiz: DBQuiz, dbSavedQuiz: DBSavedQuiz) extends Str
       delete from ${dbSavedQuiz.table} where quiz_id = $quizId and feide_id = $feideId
     """.update().map(_ => ())
 
-  def getSavedByUser(feideId: FeideID, sort: QuizSort)(using session: DBSession): Try[List[Quiz]] = {
+  def getSavedByUser(feideId: FeideID, pageSize: Int, page: Int, sort: QuizSort)(using
+      session: DBSession
+  ): Try[List[Quiz]] = {
     val qz        = dbQuiz.syntax("qz")
     val sq        = dbSavedQuiz.syntax("sq")
+    val offset    = (page - 1) * pageSize
     val direction = sortDirection(sort)
     tsql"""
       select ${qz.result.*}
       from ${dbQuiz.as(qz)}
       join ${dbSavedQuiz.as(sq)} on sq.quiz_id = qz.id
-      where sq.feide_id = $feideId
+      where ${savedAndVisibleTo(feideId)}
       order by sq.created $direction, qz.id $direction
+      limit $pageSize offset $offset
     """.decode(dbQuiz.fromResultSet(qz)).runList()
   }
+
+  def countSavedByUser(feideId: FeideID)(using session: DBSession): Try[Long] = {
+    val qz = dbQuiz.syntax("qz")
+    val sq = dbSavedQuiz.syntax("sq")
+    tsql"""
+      select count(*) as count
+      from ${dbQuiz.as(qz)}
+      join ${dbSavedQuiz.as(sq)} on sq.quiz_id = qz.id
+      where ${savedAndVisibleTo(feideId)}
+    """.decode(_.required[Long]("count")).runSingle().map(_.getOrElse(0L))
+  }
+
+  // Same rule as `canView`, so quizzes made private after being saved are left out
+  private def savedAndVisibleTo(feideId: FeideID): SQLSyntax =
+    sqls"sq.feide_id = $feideId and (qz.owner_id = $feideId or qz.document->>'status' = ${QuizStatus.PUBLIC.entryName})"
+
+  def savedQuizIds(quizIds: Seq[UUID], user: CombinedUser)(using session: DBSession): Try[Set[UUID]] =
+    user.myndlaUser match {
+      case Some(feideUser) if quizIds.nonEmpty => tsql"""
+          select quiz_id from ${dbSavedQuiz.table}
+          where feide_id = ${feideUser.user.feideId} and quiz_id in ($quizIds)
+        """.decode(_.required[UUID]("quiz_id")).runList().map(_.toSet)
+      case _ => Success(Set.empty)
+    }
 
   private def sortDirection(sort: QuizSort): SQLSyntax = sort match {
     case QuizSort.ByCreatedDesc => sqls"desc"
