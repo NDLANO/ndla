@@ -43,9 +43,9 @@ catalog:
   "@pandacss/types": ^2.6.0
   "@playwright/test": ^1.65.1
   "@prometheus-io/client": ^0.16.1
-  "@react-router/dev": ^8.5.2
-  "@react-router/express": ^8.5.2
-  "@react-router/node": ^8.5.2
+  "@react-router/dev": ^8.5.3
+  "@react-router/express": ^8.5.3
+  "@react-router/node": ^8.5.3
   "@sentry/react": ^11.17.0
   "@sentry/vite-plugin": ^11.17.0
   "@storybook/addon-a11y": ^10.6.8
@@ -103,7 +103,7 @@ catalog:
   react: ^19.3.1
   react-dom: ^19.3.1
   react-i18next: ^18.0.3
-  react-router: ^8.5.2
+  react-router: ^8.5.3
   serialize-javascript: ^7.1.4
   sirv: ^3.0.2
   slate: ^0.147.4
